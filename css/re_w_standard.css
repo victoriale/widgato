@@ -12,6 +12,14 @@ html, body {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
   }
+
+  .CNNiframe{
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    height:600px;
+  }
+
   .re_w_list-content-image,
   .re_w_list-listbutton-icon{
   background-repeat:no-repeat;
