@@ -24,6 +24,7 @@ html, body {
   margin:0 auto;
   z-index:20;
   padding-top:100px;
+  position:relative;
   }
   .ad_location{
   width:300px;

@@ -7,8 +7,10 @@ var city = '';
 var state = '';
 var loc = '';
 var max = 10;
+var bord = false;
+
 $(function () {
-	
+
   var temp = location.search;
   var query = {};
 
@@ -30,6 +32,8 @@ $(function () {
 
 	state = query['loc']['loc_id']['state'];
 
+	bord = query.bord;
+
 	//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
 	for(var i = 0; i < query['loc']['loc']['city'].length; i++){
 		var c = query['loc']['loc']['city'][i].city;
@@ -41,13 +45,13 @@ $(function () {
 	}
 
   }
- 
+
 	var script_tag = document.createElement('script');
 	script_tag.setAttribute('src','//static.getclicky.com/js');
 	document.head.appendChild(script_tag);
 	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
 	document.head.appendChild(clicks[0]);
-	
+
   $.get("http://apireal.synapsys.us/listhuv/?action=list_of_lists", function(lists){
     offset = Math.floor((Math.random() * 9) + 1);
     var method = lists['available_lists'];;

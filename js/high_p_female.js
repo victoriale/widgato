@@ -1,7 +1,40 @@
 //js to call api data for Who is Gaining Today? Top 100 Most Actively Traded Public Stocks in US today.
+var offset=0;
+var domain = '';
+var clickyId = 0;
+var remnant = '';
+var locName = '';
+var city = '';
+var state = '';
+var loc = '';
+var max = 10;
+var bord = false;
 
 var CUR_OFFSET=0;
 $(function () {
+	var temp = location.search;
+  var query = {};
+
+  if(temp != null){
+	query = JSON.parse(decodeURIComponent(temp.substr(1)));
+
+	//set the query data from database to global variable to use
+	domain = query.dom;
+
+	remnant = query.remn;
+
+	clickyId = query.c_id;
+
+	locName = query['loc']['loc_name'];
+
+	locName = locName.replace('+',' ');
+
+	city = query['loc']['loc_id']['city'];
+
+	state = query['loc']['loc_id']['state'];
+
+	border
+	}
 	pf_center_piece(CUR_OFFSET);
 	id = __PF.widget.locationId;
 $('.high_p_female-content-buttonright').on('click', function() {
