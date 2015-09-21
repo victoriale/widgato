@@ -34,7 +34,6 @@ function pf_center_piece(offset) {
 	$.ajax({
 	 	url: 'http://quu.nu/services/?service=passfail&data={"service":"profiles.Card.get","params":["executive"],"filters":{"type":"location","id":236,"gender":"F","title":"ceo"},"limits":{"count":1,"offset":'+offset+'},"options":{"order":"compensation-desc"}}',
 	  	success: function(data) {
-				console.log(data);
 				$('.high_p_female-content-textarea-t1').html(data[0]['name']);
 				$('.high_p_female-content-textarea-t2').html(data[0]['companyName']);
 				$('.high_p_female-total-price').html("$"+nFormatter(data[0]['totalCompensation']));

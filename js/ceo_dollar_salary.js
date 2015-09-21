@@ -35,7 +35,6 @@ function pf_center_piece(offset) {
 	$.ajax({
 	 	url: 'http://quu.nu/services/?service=passfail&data={"service":"profiles.Card.get","params":["executive"],"filters":{"type":"location","id":236,"title":"ceo","salary-high":"1"},"limits":{"count":1,"offset":'+offset+'},"options":{"order":"name-a-z"}}',
 	  	success: function(data) {
-				console.log(data);
 				$('.ceo_d_salary-content-textarea-t1').html(data[0]['name']);
 				$('.ceo_d_salary-content-textarea-t2').html(data[0]['companyName']);
 				$('.ceo_d_salary-total-price').html("$"+nFormatter(data[0]['salary']));

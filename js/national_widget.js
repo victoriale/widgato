@@ -192,28 +192,21 @@ function stock_graph(graph_exchange){
 			            text : null
 			        },
 					xAxis:{
+						tickPixelInterval: 50,
+						type: 'datetime',
+						showLastLabel: true,
+    				endOnTick: true,
 						title: {
 							text:'',
 						},
-						type: 'datetime',
 						dateTimeLabelFormats: {
-							day: '%e'
-						},
-						tickPixelInterval: 60,
-						//max tick for x axix is calculated and dynamically set
-						tickPositioner: function () {
-							var positions = [],
-								tick = Math.floor(this.dataMin),
-								increment = Math.ceil((this.dataMax - this.dataMin) / 6);
-
-							for (tick; tick - increment <= this.dataMax; tick += increment) {
-								positions.push(tick);
-							}
-							return positions * 1000;
+							day: '%b'
 						},
 						labels:{
 							autoRotation:false,
-							step: 1
+							style:{
+								fontSize:'7px'
+							}
 						},
 					},
 					yAxis:{
