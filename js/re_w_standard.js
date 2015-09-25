@@ -15,43 +15,40 @@ $(function () {
   var query = {};
 
   if(temp != null){
-	query = JSON.parse(decodeURIComponent(temp.substr(1)));
+  	query = JSON.parse(decodeURIComponent(temp.substr(1)));
 
-	//set the query data from database to global variable to use
-	domain = query.dom;
-  console.log(domain);
-  //returns string true or false
-	remnant = query.remn;
-console.log(remnant);
-	clickyId = query.c_id;
+  	//set the query data from database to global variable to use
+  	domain = query.dom;
 
-	locName = query['loc']['loc_name'];
+  	remnant = query.remn;
 
-	locName = locName.replace('+',' ');
+  	clickyId = query.c_id;
 
-	city = query['loc']['loc_id']['city'];
-console.log(city);
-	state = query['loc']['loc_id']['state'];
-console.log(state);
-  //returns string true or false
-	bord = query.bord;
-console.log(bord);
-	//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
-	for(var i = 0; i < query['loc']['loc']['city'].length; i++){
-		var c = query['loc']['loc']['city'][i].city;
-		var s = query['loc']['loc']['city'][i].state;
-		loc = loc + c + "," + s;
-		if (typeof query['loc']['loc']['city'][i+1] != 'undefined'){
-			loc += '|';
-		}
-	}
+  	locName = query['loc']['loc_name'];
 
+  	locName = locName.replace('+',' ');
+
+  	city = query['loc']['loc_id']['city'];
+
+  	state = query['loc']['loc_id']['state'];
+
+    //returns string true or false
+  	bord = query.bord;
+
+  	//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
+  	for(var i = 0; i < query['loc']['loc']['city'].length; i++){
+  		var c = query['loc']['loc']['city'][i].city;
+  		var s = query['loc']['loc']['city'][i].state;
+  		loc = loc + c + "," + s;
+  		if (typeof query['loc']['loc']['city'][i+1] != 'undefined'){
+  			loc += '|';
+  		}
+  	}
   }
 
   if(bord == 'true'){
     $(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   }
-
 
 	var script_tag = document.createElement('script');
 	script_tag.setAttribute('src','//static.getclicky.com/js');
