@@ -45,6 +45,11 @@ $(function () {
 	}
 
   }
+  /*
+  if(bord){
+    $(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
+  }
+  */
 
 	var script_tag = document.createElement('script');
 	script_tag.setAttribute('src','//static.getclicky.com/js');

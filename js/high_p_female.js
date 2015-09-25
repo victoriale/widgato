@@ -14,7 +14,7 @@ var CUR_OFFSET=0;
 $(function () {
 	var temp = location.search;
   var query = {};
-
+/*
   if(temp != null){
 	query = JSON.parse(decodeURIComponent(temp.substr(1)));
 
@@ -33,11 +33,13 @@ $(function () {
 
 	state = query['loc']['loc_id']['state'];
 
-	border
 	}
+	*/
 	pf_center_piece(CUR_OFFSET);
 	id = __PF.widget.locationId;
-$('.high_p_female-content-buttonright').on('click', function() {
+
+	//detects whether a button is click on and if so then change offset to ++ or -- to change the currently viewed data
+	$('.high_p_female-content-buttonright').on('click', function() {
 		if ($(this).data('dir') === 'next') {
 			pf_center_piece(++CUR_OFFSET);
 		}
@@ -48,7 +50,14 @@ $('.high_p_female-content-buttonright').on('click', function() {
 		}
 	});
 	//$('.pfwidget_wrapper').css("display","block");
-	var windowURL = document.referrer.split('/')[2];
+	//var windowURL = document.referrer.split('/')[2];
+
+	/*
+	if(domain == 'businessinsider.com'){
+		$(".high_p_female").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
+	}
+	*/
+
 	/*
 	$.get("http://apis.quu.nu/lovebrigpf-execs/?domain="+windowURL+"", function(domain){
 		var str = domain["link"].replace(/\?order=compensation\-desc/, '');
