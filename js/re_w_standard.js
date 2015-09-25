@@ -19,10 +19,10 @@ $(function () {
 
 	//set the query data from database to global variable to use
 	domain = query.dom;
-
+  console.log(domain);
   //returns string true or false
 	remnant = query.remn;
-
+console.log(remnant);
 	clickyId = query.c_id;
 
 	locName = query['loc']['loc_name'];
@@ -30,12 +30,12 @@ $(function () {
 	locName = locName.replace('+',' ');
 
 	city = query['loc']['loc_id']['city'];
-
+console.log(city);
 	state = query['loc']['loc_id']['state'];
-
+console.log(state);
   //returns string true or false
 	bord = query.bord;
-
+console.log(bord);
 	//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
 	for(var i = 0; i < query['loc']['loc']['city'].length; i++){
 		var c = query['loc']['loc']['city'][i].city;
@@ -47,11 +47,11 @@ $(function () {
 	}
 
   }
-  /*
+
   if(bord == 'true'){
     $(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   }
-  */
+
 
 	var script_tag = document.createElement('script');
 	script_tag.setAttribute('src','//static.getclicky.com/js');
@@ -91,7 +91,8 @@ function listCall(method, count){
   			var r_city = r_data[0]['city'];
   			var r_locName = r_city + ', ' + r_state;
   			var r_link = method[offset]['method'];
-  			$(".re_w_list-location-text").html(locName);
+        r_locName = r_locName.replace('+',' ');
+  			$(".re_w_list-location-text").html(r_locName);
   			$(".re_w_list-listbutton-link").attr('href',"http://www.joyfulhome.com/list/"+r_link+"/"+r_state+"/"+r_city);
   			//go to location page for remnant site
   			$("#location_link").attr('href',"http://www.joyfulhome.com/location/"+r_city + "_" +r_state +"");
@@ -106,13 +107,13 @@ function listCall(method, count){
       var r_city = city;
       var r_locName = r_city + ', ' + r_state;
       var r_link = method[offset]['method'];
-      $(".re_w_list-location-text").html(locName);
+      r_locName = r_locName.replace('+',' ');
+      $(".re_w_list-location-text").html(r_locName);
       $(".re_w_list-listbutton-link").attr('href',"http://www.joyfulhome.com/list/"+r_link+"/"+r_state+"/"+r_city);
       //go to location page for remnant site
       $("#location_link").attr('href',"http://www.joyfulhome.com/location/"+r_city + "_" +r_state +"");
       $(".re_w_list-listbutton-icon").css("background-image","url('http://www.myhousekit.com/public/myhousekit_house_clear.png')");
       //displays information on the widget
-      console.log(method[count]['method']);
       $.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+r_city+','+r_state, function(r_data){
         $(".re_w_list-content-textarea-t1").html(r_data[0]['total_count']);
       });

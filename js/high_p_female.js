@@ -56,8 +56,7 @@ $(function () {
 	//$('.pfwidget_wrapper').css("display","block");
 	var windowURL = document.referrer.split('/')[2];
 
-
-	if(windowURL == 'businessinsider.com'){
+	if(windowURL == 'www.businessinsider.com'){
 		$(".high_p_female").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
 	}
 
