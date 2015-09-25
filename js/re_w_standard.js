@@ -20,6 +20,7 @@ $(function () {
 	//set the query data from database to global variable to use
 	domain = query.dom;
 
+  //returns string true or false
 	remnant = query.remn;
 
 	clickyId = query.c_id;
@@ -32,6 +33,7 @@ $(function () {
 
 	state = query['loc']['loc_id']['state'];
 
+  //returns string true or false
 	bord = query.bord;
 
 	//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
@@ -46,7 +48,7 @@ $(function () {
 
   }
   /*
-  if(bord){
+  if(bord == 'true'){
     $(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   }
   */
@@ -80,22 +82,41 @@ $(function () {
 function listCall(method, count){
 	offset = count;
 
-	if(city == '' || city == null || state == '' || state == null){
-		$.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
-			var r_state = r_data[0]['state'];
-			var r_city = r_data[0]['city'];
-			var r_locName = r_city + ', ' + r_state;
-			var r_link = method[offset]['method'];
-			$(".re_w_list-location-text").html(locName);
-			$(".re_w_list-listbutton-link").attr('href',"http://www.joyfulhome.com/list/"+r_link+"/"+r_state+"/"+r_city);
-			//go to location page for remnant site
-			$("#location_link").attr('href',"http://www.joyfulhome.com/location/"+r_city + "_" +r_state +"");
-			$(".re_w_list-listbutton-icon").css("background-image","url('http://www.myhousekit.com/public/myhousekit_house_clear.png')");
-			//displays information on the widget
-			$.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+r_city+','+r_state, function(r_data){
-				$(".re_w_list-content-textarea-t1").html(r_data[0]['total_count']);
-			});
-		});
+  //determine if the site is a remnant or not
+	if(remnant == 'true'){
+    //even if remnant possibility of no city or state detected and will run get remote address.
+    if(remnant && (city == '' || city == null || state == '' || state == null)){
+  		$.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+  			var r_state = r_data[0]['state'];
+  			var r_city = r_data[0]['city'];
+  			var r_locName = r_city + ', ' + r_state;
+  			var r_link = method[offset]['method'];
+  			$(".re_w_list-location-text").html(locName);
+  			$(".re_w_list-listbutton-link").attr('href',"http://www.joyfulhome.com/list/"+r_link+"/"+r_state+"/"+r_city);
+  			//go to location page for remnant site
+  			$("#location_link").attr('href',"http://www.joyfulhome.com/location/"+r_city + "_" +r_state +"");
+  			$(".re_w_list-listbutton-icon").css("background-image","url('http://www.myhousekit.com/public/myhousekit_house_clear.png')");
+  			//displays information on the widget
+  			$.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+r_city+','+r_state, function(r_data){
+  				$(".re_w_list-content-textarea-t1").html(r_data[0]['total_count']);
+  			});
+  		});
+    }else{
+      var r_state = state;
+      var r_city = city;
+      var r_locName = r_city + ', ' + r_state;
+      var r_link = method[offset]['method'];
+      $(".re_w_list-location-text").html(locName);
+      $(".re_w_list-listbutton-link").attr('href',"http://www.joyfulhome.com/list/"+r_link+"/"+r_state+"/"+r_city);
+      //go to location page for remnant site
+      $("#location_link").attr('href',"http://www.joyfulhome.com/location/"+r_city + "_" +r_state +"");
+      $(".re_w_list-listbutton-icon").css("background-image","url('http://www.myhousekit.com/public/myhousekit_house_clear.png')");
+      //displays information on the widget
+      console.log(method[count]['method']);
+      $.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+r_city+','+r_state, function(r_data){
+        $(".re_w_list-content-textarea-t1").html(r_data[0]['total_count']);
+      });
+    }//end if
 	} else{
 		$.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&partner_domain="+ domain, function(data){
 		//checks if the list exist or has reach its max and restarts the list at 0

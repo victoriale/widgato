@@ -12,15 +12,16 @@ var bord = false;
 
 var CUR_OFFSET=0;
 $(function () {
+/*
 	var temp = location.search;
   var query = {};
-/*
   if(temp != null){
 	query = JSON.parse(decodeURIComponent(temp.substr(1)));
 
 	//set the query data from database to global variable to use
 	domain = query.dom;
 
+	//returns string true or false
 	remnant = query.remn;
 
 	clickyId = query.c_id;
@@ -33,8 +34,11 @@ $(function () {
 
 	state = query['loc']['loc_id']['state'];
 
+	//returns string true or false
+	bord = query.bord;
 	}
 	*/
+
 	pf_center_piece(CUR_OFFSET);
 	id = __PF.widget.locationId;
 
@@ -50,13 +54,12 @@ $(function () {
 		}
 	});
 	//$('.pfwidget_wrapper').css("display","block");
-	//var windowURL = document.referrer.split('/')[2];
+	var windowURL = document.referrer.split('/')[2];
 
-	/*
-	if(domain == 'businessinsider.com'){
+
+	if(windowURL == 'businessinsider.com'){
 		$(".high_p_female").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
 	}
-	*/
 
 	/*
 	$.get("http://apis.quu.nu/lovebrigpf-execs/?domain="+windowURL+"", function(domain){
