@@ -29,8 +29,11 @@ div{
   overflow:hidden;
   margin:0 auto;
   z-index:20;
-  border-bottom: 5px solid #000;
-  padding-top: 100px;
+  border-bottom: 3px solid #000;
+  padding-top: 97px;
+}
+.f_w_container:hover{
+border-bottom:3px solid #3098ff;
 }
   .ad_location{
   width:300px;
@@ -45,12 +48,12 @@ div{
   }
   .high_p_female{
   width:100%;
-  height:245px;
+  height:250px;
   background-color:#fff;
-  border-top:5px solid #666
+  border-top:3px solid #666
   }
   .high_p_female:hover{
-  border-top:5px solid #3098ff
+  border-top:3px solid #3098ff
   }
   .high_p_female-title{
   font-size:24px;
