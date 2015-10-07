@@ -5,8 +5,8 @@
 <title>local widget</title>
 
 <meta charset='utf-8'>
-<?php echo $coreENV['passfail']['ui']['tracking']['widget']; ?>
 <base href="<?php echo $coreENV['path'];?>" target="_blank">
+<link href="../css/font-awesome.css" media="all" rel="stylesheet" type="text/css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="http://code.highcharts.com/stock/highstock.js"></script>
 
@@ -55,7 +55,7 @@ $(function () {
 
 function paint_center_piece(offset) {
 
-	$.post('services/', {
+	$.post('http://quu.nu/services/', {
 		service: "passfail",
 		action:  "batchService",
 		data: '[{"service":"passfail","data":{"service":"profiles.card.get","params":["public"],"filters":{"id":"<?php echo $coreENV['passfail']['ui']['locationId'];?>","type":"location","price-low":"1.00"},"limits":{"count":'+(offset+1)+',"offset":'+offset+'},"flags":[],"options":{"order":"sv-desc"}}}]'
@@ -78,7 +78,7 @@ function paint_center_piece(offset) {
 		$('.shares').html(nFormatter(num));//sends decimal converted number
 
 		// this is going to pull data for chart
-		$.post('services/', {
+		$.post('http://quu.nu/services/', {
 				service: "passfail",
 				action:  "batchService",
 				data: '[{"service":"passfail","data":{"service":"financials.chart.getStockData","params":[{"range":"1","dataType":"company","series":[{"name":"'+result[0][0].shortName+'","source":"company","dataType":"stock","value":"'+result[0][0].id+'"}]}]}}]'
@@ -151,46 +151,6 @@ function nFormatter(num) {
 </script>
 
 <style type="text/css">
-@font-face {
-	font-family: 'icomoon';
-	src:url('<?php echo $coreENV['cssDir'];?>latimes-standalone/fonts/icomoon.eot?-kxdq76');
-	src:url('<?php echo $coreENV['cssDir'];?>latimes-standalone/fonts/icomoon.eot?#iefix-kxdq76') format('embedded-opentype'),
-		url('<?php echo $coreENV['cssDir'];?>latimes-standalone/fonts/icomoon.woff?-kxdq76') format('woff'),
-		url('<?php echo $coreENV['cssDir'];?>latimes-standalone/fonts/icomoon.ttf?-kxdq76') format('truetype'),
-		url('<?php echo $coreENV['cssDir'];?>latimes-standalone/fonts/icomoon.svg?-kxdq76#icomoon') format('svg');
-	font-weight: normal;
-	font-style: normal;
-}
-
-[class^="fa-"], [class*=" fa-"] {
-	font-family: 'icomoon';
-	speak: none;
-	font-style: normal;
-	font-weight: normal;
-	font-variant: normal;
-	text-transform: none;
-	line-height: 1;
-
-	/* Better Font Rendering =========== */
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-.fa-arrow-circle-o-up:before {
-	content: "\f01b";
-}
-
-.fa-map-marker:before {
-	content: "\f041";
-}
-
-.fa-mail-forward:before {
-	content: "\f064";
-}
-
-.fa-area-chart:before {
-	content: "\f1fe";
-}
 
 html, body {
 	margin: auto;
@@ -471,4 +431,3 @@ html, body {
 </div>
 </body>
 </html>
-<?php exit;

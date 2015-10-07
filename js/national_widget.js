@@ -51,7 +51,7 @@ function mw_center_piece(offset,exchange){
 			break;
 	}
 
-	$.post('/services/', {
+	$.post('http://quu.nu/services/', {
 		service: "passfail",
 		action:  "batchService",
 		data: '[{"service":"passfail","data":{"service":"profiles.card.get","params":["public"],"filters":{' + exchange + ',"market-cap-low":"1","investmentTypeId":"EQ","today":"1"},"limits":{"count":1,"offset":' + offset + '},"flags":[],"options":{"order":"sp-pct-desc"}}}]'
@@ -146,7 +146,7 @@ mw_center_piece(CUR_OFFSET,cur_exchange);
 
 //stock graph of exchange will display based off of what is selected
 function stock_graph(graph_exchange){
-		$.post('/services/', {
+		$.post('http://quu.nu/services/', {
 			service: "passfail",
 			action:  "batchService",
 			data: '[{"service":"passfail","data":{"service":"financials.chart.getStockData","params":[{"range":"2","dataType":"market","series":[{"name":"'+graph_exchange+'","market-recap-low":"1","source":"market","dataType":"stock","value":"'+graph_exchange+'"}]}]}}]'
@@ -253,7 +253,7 @@ function stock_graph(graph_exchange){
 function stock_data(cur_exch){
 	switch(cur_exch){
 		case 'nasdaq':
-			$.post('/services/', {
+			$.post('http://quu.nu/services/', {
 				service: "passfail",
 				action:  "batchService",
 				data: '[{"service":"passfail","data":{"service":"profiles.card.get","params":["public"],"filters":{"exchange":"nasdaq","investmentTypeId":"EQ","today":1},"options":{"order":"sp-pct-desc"},"limits":{"count":1,"offset":0}}},{"service":"passfail","action":"CompanyTopLists::getMeta","data":{"serviceOpts":{"service":"profiles.card.get","params":["public"],"filters":{"exchange":"nasdaq","investmentTypeId":"EQ","today":1},"options":{"order":"sp-pct-desc"},"limits":{"count":1,"offset":0}}}},{"service":"passfail","data":{"service":"company.getMarketTicker"}}]'

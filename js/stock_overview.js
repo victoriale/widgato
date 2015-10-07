@@ -8,13 +8,13 @@ $(function (){
 function grabURL()
 {
 	var windowURL = document.referrer;
+	windowURL = "www.powerPAUNCH.com/google";
 	var URLLength = windowURL.length - 1;
 	for(var i=0;i<=URLLength;i++)
 	{
 		if(windowURL.charAt(URLLength-i) == '/')
 		{
 			var reqdString = windowURL.substring((URLLength-i)+1, URLLength+1);
-
 			switch(reqdString){
 				case 'juniper':
 				//points to juniper pharm which is not right
