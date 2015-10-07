@@ -53,25 +53,25 @@ button:focus {
 }
 
 .universe_scw{
+  border-top: 3px solid #000;
+  border-bottom: 3px solid #000;
   overflow: hidden;
   width:300px;
   height:auto;
-  padding-top: 100px;
+  margin: 100px auto 0 auto;
+}
 
-  margin: 0 auto;
+.universe_scw:hover{
+  border-top: 3px solid #f26f26;
+  border-bottom: 3px solid #f26f26;
 }
 
 .scw{
-  border-top: 3px solid #000;
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
   width:100%;
-  height:240px;
+  height:244px;
   position: relative;
-}
-
-.scw:hover{
-  border-top: 3px solid #f26f26;
 }
 
 /*top text*/
@@ -82,7 +82,6 @@ button:focus {
   background-image: url("public/NFL_Widget_Icon.png");
   background-position: center center !important;
   background-repeat: no-repeat;
-  background-size:contain;
   border-radius: 50%;
   margin: 7px 5px;
   position: absolute;
@@ -106,6 +105,7 @@ button:focus {
   font-size:20px;
   text-align: left;
   line-height: 1.2em;
+  white-space: nowrap;
 }
 .scw-t2{
   position: absolute;
@@ -144,7 +144,7 @@ button:focus {
   -webkit-border-radius: 0 90px 90px 0;
   border:none;
   left: 0;
-  top:25%;
+  top:20%;
   background-color: #000;
   color:#fff;
   font-size: 25px;
@@ -161,7 +161,7 @@ button:focus {
   border:none;
   position: absolute;
   right: 0;
-  top:25%;
+  top:20%;
   background-color: #000;
   color:#fff;
   font-size: 25px;
