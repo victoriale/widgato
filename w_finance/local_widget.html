@@ -92,7 +92,7 @@ function paint_center_piece(offset) {
 					xyMerge = [val.x * 1000, parseFloat(val.y)];
 					newDataArray.push(xyMerge);
 				});
-
+				console.log(newDataArray);
 				//renders data gathered into a simple chart
 			    $('#stockchart').highcharts({
 			        title : {
@@ -125,12 +125,12 @@ function paint_center_piece(offset) {
 					credits: {
 						enabled: false
 					},
-			        series : [{
-						showInLegend: false,
-			            name : comp_name,
-			            data : newDataArray
-			        }]
-			    });
+	        series : [{
+							showInLegend: false,
+	            name : comp_name,
+	            data : newDataArray
+	        }]
+		    });
 		}, 'json');
 	}, 'json');
 }

@@ -1,6 +1,7 @@
-
 var CUR_OFFSET = 0;
 var cur_exchange = 'SV150';
+var dataCall = {};
+var curData;
 
 //run js code onn startup
 $(function(){
@@ -8,7 +9,7 @@ $(function(){
 	$('.mrwidget_right-button').on('click', function() {
 		//when clicking on right button will change offset of data call and pull correct data based off of SEE THE WHOLE LIST
 		if ($(this).data('dir') === 'next') {
-			mr_center_piece(++CUR_OFFSET,cur_exchange);
+			mr_center_piece(++CUR_OFFSET,curData);
 		}
 		//makes sure arrow on left appear if offset is greater than 0
 		if(CUR_OFFSET > 0){
@@ -27,7 +28,7 @@ $(function(){
 	//change left arrow css to disappear if offset is 0
 	$('.mrwidget_left-button').on('click', function() {
 		if (CUR_OFFSET > 0 && $(this).data('dir') === 'prev') {
-			mr_center_piece(--CUR_OFFSET,cur_exchange);
+			mr_center_piece(--CUR_OFFSET,curData);
 		}
 		if (CUR_OFFSET == 0){
 			$('.mrwidget_left-button').css("opacity","0");
@@ -35,10 +36,8 @@ $(function(){
 		}
 	});//END OF FUNCTION
 
-
-
-//by clicking on each tab it will return correct data and reinitialize a new data api call
-$('.mtabs').on('click', function(){
+	//by clicking on each tab it will return correct data and reinitialize a new data api call
+	$('.mtabs').on('click', function(){
 		//reset the css background
 		$('.mtabs').css({"background-color":"#f2f2f2","border-bottom":"1px solid #cccccc"});
 
@@ -53,9 +52,9 @@ $('.mtabs').on('click', function(){
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
 				$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=8&market-cap-low=1&order=sp-pct-desc&today=1");
-				stock_data(cur_exchange);
-				stock_graph(cur_exchange);
-				mr_center_piece(CUR_OFFSET,cur_exchange);
+				mr_center_piece(CUR_OFFSET, dataCall.sv150_widget);
+				stock_data(cur_exchange, dataCall.sv150_widget);
+				//stock_graph(cur_exchange);
 				break;
 			case 's&p 500':
 				CUR_OFFSET = 0;
@@ -65,9 +64,9 @@ $('.mtabs').on('click', function(){
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
 				$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=5&market-cap-low=1&order=sp-pct-desc&today=1");
-				stock_data(cur_exchange);
-				stock_graph(cur_exchange);
-				mr_center_piece(CUR_OFFSET,cur_exchange);
+				mr_center_piece(CUR_OFFSET, dataCall.sv150_widget);
+				stock_data(cur_exchange, dataCall.sv150_widget);
+				//stock_graph(cur_exchange);
 				break;
 			case 'nyse':
 				CUR_OFFSET = 0;
@@ -77,9 +76,9 @@ $('.mtabs').on('click', function(){
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
 				$(".link").attr("href", "list-companies?exchange=nyse&market-cap-low=1&investmentTypeId=EQ&order=sp-pct-desc&today=1");
-				stock_data(cur_exchange);
-				stock_graph(cur_exchange);
-				mr_center_piece(CUR_OFFSET,cur_exchange);
+				mr_center_piece(CUR_OFFSET, dataCall.sv150_widget);
+				stock_data(dataCall. sv150_widget[CUR_OFFSET]);
+				//stock_graph(cur_exchange);
 				break;
 			case 'find':
 				$('.searchtab').css({"display":"block"});
@@ -92,50 +91,60 @@ $('.mtabs').on('click', function(){
 		}
 	})//END OF FUNCTION
 
-//double clicking will not highlight buttons
-$('.mrwidget_right-button').mousedown(function(){ return false; });
-$('.mrwidget_left-button').mousedown(function(){ return false; });
-$('.mtabs').mousedown(function(){ return false; });
+	//double clicking will not highlight buttons
+	$('.mrwidget_right-button').mousedown(function(){ return false; });
+	$('.mrwidget_left-button').mousedown(function(){ return false; });
+	$('.mtabs').mousedown(function(){ return false; });
 
-//run function  initial calls incase nothing else runs this will be default call on page load
-stock_data($('.mtabs').data('dir'));
-stock_graph(cur_exchange);
-mr_center_piece(CUR_OFFSET,cur_exchange);
+	//run function  initial calls incase nothing else runs this will be default call on page load
+
+	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_widget', function(data){
+		//set data to global variable
+		dataCall = data;
+		curData = dataCall.sv150_widget;
+
+		mr_center_piece(CUR_OFFSET,curData);
+		stock_data($('.mtabs').data('dir'), dataCall.sv150_widget);
+		//stock_graph(cur_exchange, dataCall.sv150_widget);
+	}, 'json')
+
 })//END OF FUNCTION
 
+//data api call for list
+function mr_center_piece(offset, data){
+
+	console.log("mr_center_piece", offset, data);
+	//service called time to set div classes to given results
+	$('.name').html(data[offset].c_name);
+	$('.logo-image').css('background','url(http:'+data[offset].c_name+') no-repeat');
+	$('.mrwidget_counter').html('#' + (offset+1));
+
+	// link to profile URL
+	$(".profile-link").attr("href", data[offset].c_name);
+
+}//END OF FUNCTION
+
 // data api returned based on which exchange is selected
-function stock_data(cur_exch){
+function stock_data(cur_exch, stockData){
+	console.log("exchange stock data:",stockData);
 	switch(cur_exch){
 		case 'SV150':
-			$.post('http://quu.nu/services/', {
-				service: "passfail",
-				action:  "batchService",
-				data: '[{"service":"passfail","data":{"service":"company.getMarketTicker"}},{"service":"passfail","data":{"service":"Sv150.getIntradayQuote"}}]'
-			}, function(data_result){
-			//replace called data into fields
- 			$('.price').html(data_result[1].price);
-			convert_num(data_result[1].priceChange, data_result[1].pricePctChange);
-			},'json')
+
+ 			$('.price').html(Number(stockData[0].csi_price).toFixed(2));
+			convert_num(Number(stockData[0].stock_gain).toFixed(2),Number(stockData[0].csi_percent_change_since_last).toFixed(2));
+
 			break;
 		case 's&p 500':
-			$.post('http://quu.nu/services/', {
-				service: "passfail",
-				action:  "batchService",
-				data: '[{"service":"passfail","data":{"service":"company.getMarketTicker"}},{"service":"passfail","data":{"service":"profiles.card.get","params":["public"],"filters":{"marketId":5,"investmentTypeId":"EQ","today":1},"options":{"order":"sp-pct-desc"},"limits":{"count":1,"offset":0}}},{"service":"passfail","action":"CompanyTopLists::getMeta","data":{"serviceOpts":{"service":"profiles.card.get","params":["public"],"filters":{"marketId":5,"investmentTypeId":"EQ","today":1},"options":{"order":"sp-pct-desc"},"limits":{"count":1,"offset":0}}}}]'
-			}, function(data_result){
-			$('.price').html(data_result[0]['data']['s&p-500'].price);
-			convert_num(data_result[0]['data']['s&p-500'].change, data_result[0]['data']['s&p-500'].changePercent);
-			},'json')
+
+			$('.price').html(Number(stockData[0].csi_price).toFixed(2));
+			convert_num(Number(stockData[0].stock_gain).toFixed(2),Number(stockData[0].csi_percent_change_since_last).toFixed(2));
+
 			break;
 		case 'nyse':
-			$.post('http://quu.nu/services/', {
-				service: "passfail",
-				action:  "batchService",
-				data: '[{"service":"passfail","data":{"service":"company.getMarketTicker"}},{"service":"passfail","data":{"service":"profiles.card.get","params":["public"],"filters":{"exchange":"nyse","investmentTypeId":"EQ","today":1},"options":{"order":"sp-pct-desc"},"limits":{"count":1,"offset":0}}},{"service":"passfail","action":"CompanyTopLists::getMeta","data":{"serviceOpts":{"service":"profiles.card.get","params":["public"],"filters":{"exchange":"nyse","investmentTypeId":"EQ","today":1},"options":{"order":"sp-pct-desc"},"limits":{"count":1,"offset":0}}}}]'
-			}, function(data_result){
-			$('.price').html(data_result[0]['data']['nyse'].price);
-			convert_num(data_result[0]['data']['nyse'].change, data_result[0]['data']['nyse'].changePercent);
-			},'json')
+
+			$('.price').html(Number(stockData[0].csi_price).toFixed(2));
+			convert_num(Number(stockData[0].stock_gain).toFixed(2),Number(stockData[0].csi_percent_change_since_last).toFixed(2));
+
 			break;
 		default:
 			break;
@@ -143,207 +152,94 @@ function stock_data(cur_exch){
 }//END OF FUNCTION
 
 
-//stock graph of exchange will display based off of what is selected
-function stock_graph(graph_exchange){
-	if(graph_exchange == 'SV150'){
-			var postData = [
-			{
-				"service":"passfail",
-				"data":{
-					"service":"Sv150.getChartTicks",
-					"params":[{
-						"params":{
-							"range":"1"
-						}
-					}]
+function stock_graph(dataArray, exchange){
+	console.log("stock graph:", dataArray);
+	//renders data gathered into a simple chart
+	$('#sv_stockchart').highcharts({
+		chart: {
+			defaultSeriesType: 'line',
+			zoomType: 'x',
+			resetZoomButton: {
+				theme: {
+				display: 'none'
+				}
+			}
+		},
+		tooltip: {
+			positioner: function () {
+				return { x: -5, y: 38 };
+			},
+			style:{
+				fontSize:'8px'
+			},
+			shadow: false,
+			borderWidth: 0,
+			backgroundColor: 'rgba(255,255,255,0.8)'
+		},
+		title : {
+			text : null
+		},
+		xAxis:{
+			title: {
+				text:'',
+			},
+			type: 'datetime',
+			dateTimeLabelFormats: {
+				day: '%e'
+			},
+			tickPixelInterval: 50,
+			//max tick for x axix is calculated and dynamically set
+			tickPositioner: function () {
+				var positions = [],
+				tick = Math.floor(this.dataMin),
+				increment = Math.ceil((this.dataMax - this.dataMin) / 6);
+
+				for (tick; tick - increment <= this.dataMax; tick += increment) {
+					positions.push(tick);
+				}
+				return positions * 1000;
+			},
+			labels:{
+				autoRotation:false,
+				step: 1
+			},
+		},
+		yAxis:{
+			opposite:true,
+			title: {
+				text:null
+			},
+			allowDecimals: true,
+			labels: {
+				formatter: function() {
+					return this.value;
 				}
 			},
-		];
-	}
-	else{
-		var postData = [
-			{
-				"service":"passfail",
-				"data":{
-					"service":"financials.chart.getStockData",
-					"params":[{
-						"range":"2",
-						"dataType":"market",
-						"series":[{
-							"name":graph_exchange,
-							"source":"market",
-							"dataType":"stock",
-							"value":graph_exchange
-						}]
-					}],
+			tickPixelInterval: 25,
+			//max tick for y axix is calculated and dynamically set
+			tickPositioner: function () {
+				var positions = [],
+				tick = Math.floor(this.dataMin),
+				increment = Math.ceil((this.dataMax - this.dataMin) / 6);
+
+				for (tick; tick - increment <= this.dataMax; tick += increment) {
+					positions.push(tick);
 				}
+				return positions * 1000;
 			},
-		];
-	}
-
-		$.post('http://quu.nu/services/', {
-			service: "passfail",
-			action:  "batchService",
-			data: JSON.stringify(postData)
-		}, function(data_result){
-				// the following is the result of service call.
-				// use the data to create highcharts
-				if(graph_exchange == 'SV150'){
-					var series = data_result[0];
-					var ename = 'SV150';
-				}
-				else{
-					var series = data_result[0].series[0];
-					var ename = series.name.toUpperCase();
-				}
-
-				newDataArray = [];
-				//JSON array is converted into usable code for Highcharts also does not push NULL values
-				$.each(series.data, function(i, val) {
-					var yVal = parseFloat(val.y);
-
-					if (!isNaN(yVal)) {
-						newDataArray.push([val.x * 1000, yVal]);
-					}
-				});
-				//renders data gathered into a simple chart
-			     $('#sv_stockchart').highcharts({
-					chart: {
-						defaultSeriesType: 'line',
-						zoomType: 'x',
-						resetZoomButton: {
-							theme: {
-								display: 'none'
-							}
-						}
-					},
-					tooltip: {
-						positioner: function () {
-							return { x: -5, y: 38 };
-						},
-						style:{
-							fontSize:'8px'
-						},
-						shadow: false,
-						borderWidth: 0,
-						backgroundColor: 'rgba(255,255,255,0.8)'
-
-					},
-			        title : {
-			            text : null
-			        },
-					xAxis:{
-						title: {
-							text:'',
-						},
-						type: 'datetime',
-						dateTimeLabelFormats: {
-							day: '%e'
-						},
-						tickPixelInterval: 50,
-						//max tick for x axix is calculated and dynamically set
-						tickPositioner: function () {
-							var positions = [],
-								tick = Math.floor(this.dataMin),
-								increment = Math.ceil((this.dataMax - this.dataMin) / 6);
-
-							for (tick; tick - increment <= this.dataMax; tick += increment) {
-								positions.push(tick);
-							}
-							return positions * 1000;
-						},
-						labels:{
-							autoRotation:false,
-							step: 1
-						},
-					},
-					yAxis:{
-						opposite:true,
-						title: {
-							text:null
-						},
-						allowDecimals: true,
-						labels: {
-							formatter: function() {
-								return this.value;
-							}
-						},
-						tickPixelInterval: 25,
-						//max tick for y axix is calculated and dynamically set
-						tickPositioner: function () {
-							var positions = [],
-								tick = Math.floor(this.dataMin),
-								increment = Math.ceil((this.dataMax - this.dataMin) / 6);
-
-							for (tick; tick - increment <= this.dataMax; tick += increment) {
-								positions.push(tick);
-							}
-							return positions * 1000;
-						},
-					},
-					credits: {
-						enabled: false
-					},
-			        series : [{
-						showInLegend: false,
-			            name : ename,
-			            data : newDataArray,
-						lineWidth: 2,
-						connectNulls: true,
-			        }]
-			    });//END OF HIGHCHARTS FUNCTION
-
-
-		},'json');//END OF POST FUNCTION
-	}//END OF FUNCTION
-
-
-
-//data api call with filters for list
-
-function mr_center_piece(offset,exchange){
-			flag = '[]';
-	switch(exchange){
-		case 'SV150':
-			exchange = '"marketId":"8"';
-			flag = '{"ignoreCeo":true}';
-			break;
-		case 's&p 500':
-			exchange = '"marketId":"5"';
-			break;
-		case 'nyse':
-			exchange = '"exchange":"nyse"';
-			break;
-	}
-	//data call to get list
-	$.post('http://quu.nu/services/', {
-		service: "passfail",
-		action:  "batchService",
-		data: '[{"service":"passfail","data":{"service":"profiles.card.get","params":["public"],"filters":{' + exchange + ',"market-recap-low":"1","investmentTypeId":"EQ","today":"1"},"limits":{"count":1,"offset":' + offset + '},"flags":'+flag+',"options":{"order":"sp-pct-desc"}}}]'
-		}, function(result){
-			//due to difference in exchanges SV150 will need a small if statement to return a var for highcharts to understand what chart to grab
-		if (exchange === '"marketId":"8"'){
-			var exch = 'SV150';
-			result[0][0].exchange = exch;
-		}
-		//due to difference in exchanges S&P 500 will need a small if statement to return a var for highcharts to understand what chart to grab
-		if (exchange === '"marketId":"5"'){
-			var exch = 's&p 500';
-			result[0][0].exchange = exch;
-		}
-
-		//service called time to set div classes to given results
-		$('.name').html(result[0][0].name);
-		$('.logo-image').css('background','url(http:'+result[0][0].image+') no-repeat');
-		$('.mrwidget_counter').html('#' + (offset+1));
-
-		// link to profile URL
-		$(".profile-link").attr("href", result[0][0].profileUrl);
-	},'json');
-
-}//END OF FUNCTION
-
-
+		},
+		credits: {
+			enabled: false
+		},
+		series : [{
+			showInLegend: false,
+			name : exchange,
+			data : dataArray,
+			lineWidth: 2,
+			connectNulls: true,
+		}]
+	});//END OF HIGHCHARTS FUNCTION
+}
 
 //convert value into decimal and decide if change is up or down
 function convert_num(change_num, changePercent_num){
