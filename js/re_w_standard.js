@@ -35,6 +35,8 @@ $(function () {
     //returns string true or false
   	bord = query.bord;
 
+    /*
+    //Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
   	//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
   	for(var i = 0; i < query['loc']['loc']['city'].length; i++){
   		var c = query['loc']['loc']['city'][i].city;
@@ -44,6 +46,7 @@ $(function () {
   			loc += '|';
   		}
   	}
+    */
   }
 
   if(bord == 'true'){
@@ -56,10 +59,11 @@ $(function () {
 	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
 	document.head.appendChild(clicks[0]);
 
+  //make an inital api call to get lists of all the list for real estate
   $.get("http://apireal.synapsys.us/listhuv/?action=list_of_lists", function(lists){
     offset = Math.floor((Math.random() * 9) + 1);
     var method = lists['available_lists'];;
-	var name = method[offset]['name'];
+	  var name = method[offset]['name'];
     $("#title_text").html(name);
     resizetext();
     listCall(method, offset);
@@ -82,24 +86,37 @@ function listCall(method, count){
   //determine if the site is a remnant or not
 	if(remnant == 'true'){
     //even if remnant possibility of no city or state detected and will run get remote address.
+    //should only happen if new partners and no city and/or state has been entered into collection
     if(remnant && (city == '' || city == null || state == '' || state == null)){
   		$.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
-  			var r_state = r_data[0]['state'];
-  			var r_city = r_data[0]['city'];
-  			var r_locName = r_city + ', ' + r_state;
+        //will change the title text and resize using resizetext() function
+        var name = method[offset]['name'];
+				$("#title_text").html(name);
+        resizetext();
+
+        //remnant without a city or state provided
+  			state = r_data[0]['state'];
+  			city = r_data[0]['city'];
+  			var r_locName = city + ', ' + state;
   			var r_link = method[offset]['method'];
         r_locName = r_locName.replace('+',' ');
   			$(".re_w_list-location-text").html(r_locName);
-  			$(".re_w_list-listbutton-link").attr('href',"http://www.joyfulhome.com/list/"+r_link+"/"+r_state+"/"+r_city);
+  			$(".re_w_list-listbutton-link").attr('href',"http://www.joyfulhome.com/list/"+r_link+"/"+state+"/"+city);
   			//go to location page for remnant site
-  			$("#location_link").attr('href',"http://www.joyfulhome.com/location/"+r_city + "_" +r_state +"");
+  			$("#location_link").attr('href',"http://www.joyfulhome.com/location/"+city + "_" +state +"");
   			$(".re_w_list-listbutton-icon").css("background-image","url('http://www.myhousekit.com/public/myhousekit_house_clear.png')");
   			//displays information on the widget
-  			$.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+r_city+','+r_state, function(r_data){
+  			$.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+city+','+state, function(r_data){
   				$(".re_w_list-content-textarea-t1").html(r_data[0]['total_count']);
   			});
   		});
     }else{
+      //will change the title text and resize using resizetext() function
+      var name = method[offset]['name'];
+      $("#title_text").html(name);
+      resizetext();
+
+      //remnant stuff
       var r_state = state;
       var r_city = city;
       var r_locName = r_city + ', ' + r_state;
@@ -127,11 +144,13 @@ function listCall(method, count){
 				listCall(method, offset);
 			}
 		}else{
+        //will change the title text and resize using resizetext() function
+        var name = method[offset]['name'];
+        $("#title_text").html(name);
+        resizetext();
+        var p_domain = domain+"/";
+
 				var link = method[offset]['method'];
-				var name = method[offset]['name'];
-				$("#title_text").html(name);
-				resizetext();
-				var p_domain = domain+"/";
 				//displays information on the widget
 				$(".re_w_list-content-textarea-t1").html(data[0]['total_count']);
 				var random = randomimage();
