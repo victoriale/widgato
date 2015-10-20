@@ -46,39 +46,42 @@ $(function(){
 		switch($(this).data('dir')){
 			case 'SV150':
 				CUR_OFFSET = 0;
+				curData = dataCall.sv150_list_data;
 				cur_exchange = 'SV150';
 				$(this).css({"background-color":"#fff","border-bottom":"0"});
 				$('.stock-container').css({"display":"block"});
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
 				$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=8&market-cap-low=1&order=sp-pct-desc&today=1");
-				mr_center_piece(CUR_OFFSET, dataCall.sv150_widget);
-				stock_data(cur_exchange, dataCall.sv150_widget);
-				//stock_graph(cur_exchange);
+				mr_center_piece(CUR_OFFSET, curData);
+				stock_data(cur_exchange, dataCall);
+				stock_graph(dataCall.sv_150_graph_data, cur_exchange);
 				break;
-			case 's&p 500':
+			case 'NASDAQ':
 				CUR_OFFSET = 0;
-				cur_exchange = 's&p 500';
+				cur_exchange = 'NASDAQ';
+				curData = dataCall.nasdaq_list_data;
 				$(this).css({"background-color":"#fff","border-bottom":"0"});
 				$('.stock-container').css({"display":"block"});
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
 				$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=5&market-cap-low=1&order=sp-pct-desc&today=1");
-				mr_center_piece(CUR_OFFSET, dataCall.sv150_widget);
-				stock_data(cur_exchange, dataCall.sv150_widget);
-				//stock_graph(cur_exchange);
+				mr_center_piece(CUR_OFFSET, curData);
+				stock_data(cur_exchange, dataCall);
+				stock_graph(dataCall.nasdaq_graph_data, cur_exchange);
 				break;
 			case 'nyse':
 				CUR_OFFSET = 0;
 				cur_exchange = 'nyse';
+				curData = dataCall.nyse_list_data;
 				$(this).css({"background-color":"#fff","border-bottom":"0"});
 				$('.stock-container').css({"display":"block"});
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
 				$(".link").attr("href", "list-companies?exchange=nyse&market-cap-low=1&investmentTypeId=EQ&order=sp-pct-desc&today=1");
-				mr_center_piece(CUR_OFFSET, dataCall.sv150_widget);
-				stock_data(dataCall. sv150_widget[CUR_OFFSET]);
-				//stock_graph(cur_exchange);
+				mr_center_piece(CUR_OFFSET, curData);
+				stock_data(cur_exchange, dataCall);
+				stock_graph(dataCall.nyse_graph_data, cur_exchange);
 				break;
 			case 'find':
 				$('.searchtab').css({"display":"block"});
@@ -100,12 +103,12 @@ $(function(){
 
 	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_widget', function(data){
 		//set data to global variable
-		dataCall = data;
-		curData = dataCall.sv150_widget;
+		dataCall = data.sv150_widget;
+		curData = dataCall.sv150_list_data;
 
-		mr_center_piece(CUR_OFFSET,curData);
-		stock_data($('.mtabs').data('dir'), dataCall.sv150_widget);
-		//stock_graph(cur_exchange, dataCall.sv150_widget);
+		mr_center_piece(CUR_OFFSET, curData);
+		stock_data($('.mtabs').data('dir'), dataCall);
+		stock_graph(dataCall.sv_150_graph_data, cur_exchange);
 	}, 'json')
 
 })//END OF FUNCTION
@@ -113,10 +116,9 @@ $(function(){
 //data api call for list
 function mr_center_piece(offset, data){
 
-	console.log("mr_center_piece", offset, data);
 	//service called time to set div classes to given results
 	$('.name').html(data[offset].c_name);
-	$('.logo-image').css('background','url(http:'+data[offset].c_name+') no-repeat');
+	$('.logo-image').css('background','url(http:'+data.c_logo+') no-repeat');
 	$('.mrwidget_counter').html('#' + (offset+1));
 
 	// link to profile URL
@@ -126,25 +128,27 @@ function mr_center_piece(offset, data){
 
 // data api returned based on which exchange is selected
 function stock_data(cur_exch, stockData){
-	console.log("exchange stock data:",stockData);
 	switch(cur_exch){
 		case 'SV150':
-
- 			$('.price').html(Number(stockData[0].csi_price).toFixed(2));
-			convert_num(Number(stockData[0].stock_gain).toFixed(2),Number(stockData[0].csi_percent_change_since_last).toFixed(2));
-
+			var price = stockData.sv_150_graph_data[0].sh_open;
+			var priceChng = stockData.sv150_price_change;
+			var pctChng = stockData.sv150_percent_change;
+ 			$('.price').html(Number(price).toFixed(2));
+			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
 			break;
-		case 's&p 500':
-
-			$('.price').html(Number(stockData[0].csi_price).toFixed(2));
-			convert_num(Number(stockData[0].stock_gain).toFixed(2),Number(stockData[0].csi_percent_change_since_last).toFixed(2));
-
+		case 'NASDAQ':
+			var price = stockData.nasdaq_graph_data[0].sh_open;
+			var priceChng = stockData.nasdaq_price_change;
+			var pctChng = stockData.nasdaq_percent_change;
+			$('.price').html(Number(price).toFixed(2));
+			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
 			break;
 		case 'nyse':
-
-			$('.price').html(Number(stockData[0].csi_price).toFixed(2));
-			convert_num(Number(stockData[0].stock_gain).toFixed(2),Number(stockData[0].csi_percent_change_since_last).toFixed(2));
-
+			var price = stockData.nyse_graph_data[0].sh_open;
+			var priceChng = stockData.nyse_price_change;
+			var pctChng = stockData.nyse_percent_change;
+			$('.price').html(Number(price).toFixed(2));
+			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
 			break;
 		default:
 			break;
@@ -154,6 +158,18 @@ function stock_data(cur_exch, stockData){
 
 function stock_graph(dataArray, exchange){
 	console.log("stock graph:", dataArray);
+
+	newDataArray = [];
+
+	//JSON array is converted into usable code for Highcharts also does not push NULL values
+	$.each(dataArray, function(i, val) {
+		var yVal = parseFloat(val.sh_open);
+
+		if (!isNaN(yVal)) {
+			newDataArray.push([val.sh_date * 1000, yVal]);
+		}
+	});
+
 	//renders data gathered into a simple chart
 	$('#sv_stockchart').highcharts({
 		chart: {
@@ -167,7 +183,7 @@ function stock_graph(dataArray, exchange){
 		},
 		tooltip: {
 			positioner: function () {
-				return { x: -5, y: 38 };
+				return { x: -5, y: 38 };32.
 			},
 			style:{
 				fontSize:'8px'
@@ -184,10 +200,12 @@ function stock_graph(dataArray, exchange){
 				text:'',
 			},
 			type: 'datetime',
+			showLastLabel: true,
+			endOnTick: true,
 			dateTimeLabelFormats: {
 				day: '%e'
 			},
-			tickPixelInterval: 50,
+			tickPixelInterval: 60,
 			//max tick for x axix is calculated and dynamically set
 			tickPositioner: function () {
 				var positions = [],
@@ -234,7 +252,7 @@ function stock_graph(dataArray, exchange){
 		series : [{
 			showInLegend: false,
 			name : exchange,
-			data : dataArray,
+			data : newDataArray,
 			lineWidth: 2,
 			connectNulls: true,
 		}]

@@ -188,9 +188,9 @@ function stock_graph(graph_exchange){
 						backgroundColor: 'rgba(255,255,255,0.8)'
 
 					},
-			        title : {
-			            text : null
-			        },
+	        title : {
+	            text : null
+	        },
 					xAxis:{
 						tickPixelInterval: 50,
 						type: 'datetime',
