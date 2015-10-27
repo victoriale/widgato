@@ -1,8 +1,7 @@
 $(function(){
-
 //create a search function to pass into graph
 	$('.market_search_box').bind("enterKey",function(e){
-		
+
 		search = $('input').val();
 		company(search);
 	});//END OF FUNCTION
@@ -10,7 +9,6 @@ $(function(){
 	//by pressing enter in this field it will activate
 	$('.market_search_box').keyup(function(e){
 			if(e.keyCode == 13){
-
 		  $(this).trigger("enterKey");
 		}
 	});//END OF FUNCTION
@@ -19,45 +17,78 @@ $(function(){
 		search = $('input').val();
 		company(search);
 	})//END OF FUNCTION
-
 //data call to gather info on exchange prices
-$.post('http://quu.nu/services/', {
-				service: "passfail",
-				action:  "batchService",
-				data: '[{"service":"passfail","data":{"service":"company.getMarketTicker"}},{"service":"passfail","data":{"service":"Sv150.getIntradayQuote"}},{"service":"passfail","data":{"service":"profiles.card.get","params":["public"],"filters":{"marketId":"8","investmentTypeId":"EQ","today":"1"},"limits":{"count":1,"offset":0},"flags":[],"options":{"order":"sp-pct-desc"}}}]'
-			}, function(data_result){
+	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_markets_slim', function(data){
+				console.log(data);
 				//sets a number to allow different ID's to be called since data calls are different
+				data_result = data.sv150_markets_slim;
+				console.log(data_result);
+				data_exchange = data_result.exchange_stock_data;
+				data_gainer = data_result.sv150_list_gainer;
 				var num = 1;
 				//plug in data call for SV150
-				$('#SV').html(data_result[1].price);
-				$('#SVchange').html(lossGainCheck(data_result[1].priceChange, num));
-				$('#SVcent').html(data_result[1].pricePctChange+"%");
+				var SV150_price = Number(data_result.sv150_comp_index).toFixed(2);
+				var SV150_priceChange = Number(data_result.sv150_price_change).toFixed(2);
+				var SV150_pctChange = Number(data_result.sv150_percent_change).toFixed(2);
+				console.log(SV150_priceChange);
+				$('#SV').html(SV150_price);
+				$('#SVchange').html(lossGainCheck(SV150_priceChange, num));
+				$('#SVcent').html(lossGainCheck(SV150_pctChange, num)+'%');
 				$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=8&order=sp-pct-desc&today=1");
 				num = 2;
 				//plug in data call for Nasdaq
-				$('#nq').html(data_result[0]['data']['nasdaq'].price);
-				$('#Nqchange').html(lossGainCheck(data_result[0]['data']['nasdaq'].change, num));
-				$('#Nqcent').html(data_result[0]['data']['nasdaq'].changePercent+"%");
+				var NQ_price = Number(data_exchange[0].csi_price).toFixed(2);
+				var NQ_priceChange = Number(data_exchange[0].csi_price_change_since_last).toFixed(2);
+				var NQ_pctChange = Number(data_exchange[0].csi_percent_change_since_last).toFixed(2);
+				if(data_exchange[0].csi_price_last_operator == 0){
+					NQ_priceChange *= -1;
+					NQ_pctChange *= -1;
+				}
+				$('#nq').html(NQ_price);
+				$('#Nqchange').html(lossGainCheck(NQ_priceChange, num));
+				$('#Nqcent').html(lossGainCheck(NQ_pctChange, num)+"%");
 				$(".link").attr("href", "list-companies?investmentTypeId=EQ&exchange=nasdaq&order=sp-pct-desc&today=1");
 				num = 3;
-				//plug in data call for S&P500
-				$('#SP').html(data_result[0]['data']['s&p-500'].price);
-				$('#SPchange').html(lossGainCheck(data_result[0]['data']['s&p-500'].change, num));
-				$('#SPcent').html(data_result[0]['data']['s&p-500'].changePercent+"%");
+				//plug in data call for AMEX
+				var AMEX_price = Number(data_exchange[2].csi_price).toFixed(2);
+				var AMEX_priceChange = Number(data_exchange[2].csi_price_change_since_last).toFixed(2);
+				var AMEX_pctChange = Number(data_exchange[2].csi_percent_change_since_last).toFixed(2);
+				if(data_exchange[2].csi_price_last_operator == 0){
+					AMEX_priceChange *= -1;
+					AMEX_pctChange *= -1;
+				}
+				$('#SP').html(AMEX_price);
+				$('#SPchange').html(lossGainCheck(AMEX_priceChange, num));
+				$('#SPcent').html(lossGainCheck(AMEX_pctChange, num)+"%");
 				$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=5&order=sp-pct-desc&today=1");
 				num = 4;
 				//plug in data call for NYSE
-				$('#ny').html(data_result[0]['data']['nyse'].price);
-				$('#Nychange').html(lossGainCheck(data_result[0]['data']['nyse'].change, num));
-				$('#Nycent').html(data_result[0]['data']['nyse'].changePercent+"%");
+				var NYSE_price = Number(data_exchange[1].csi_price).toFixed(2);
+				var NYSE_priceChange = Number(data_exchange[1].csi_price_change_since_last).toFixed(2);
+				var NYSE_pctChange = Number(data_exchange[1].csi_percent_change_since_last).toFixed(2);
+				if(data_exchange[1].csi_price_last_operator == 0){
+					NYSE_priceChange *= -1;
+					NYSE_pctChange *= -1;
+				}
+				$('#ny').html(NYSE_price);
+				$('#Nychange').html(lossGainCheck(NYSE_priceChange, num));
+				$('#Nycent').html(lossGainCheck(NYSE_pctChange, num)+"%");
 				$(".link").attr("href", "list-companies?investmentTypeId=EQ&exchange=nyse&order=sp-pct-desc&today=1");
 				//plug in data for the top sv150 company
-				$('.sv_top_profile').attr("href",data_result[2][0].profileUrl);
-				$('.sv_top_image').css("background-image","url(https:"+data_result[2][0].image+")");
-				$('.sv-pd-name').html(data_result[2][0].symbol);
-				$('.sv-pd-name').attr('title', data_result[2][0].symbol);
-				$('.sv-pd-price').html('$'+data_result[2][0].price);
-				$('.sv-pd-change').html(data_result[2][0].change+'('+data_result[2][0].percentChange+'%)');
+				var SV150_topTck = data_gainer.c_ticker;
+				var SV150_top_price = Number(data_gainer.csi_price).toFixed(2);
+				var SV150_top_priceChange = Number(data_gainer.csi_price_change_since_last).toFixed(2);
+				var SV150_top_pctChange = Number(data_gainer.csi_percent_change_since_last).toFixed(2);
+				if(data_gainer.csi_price_last_operator == 0){
+					SV150_top_priceChange *= -1;
+					SV150_top_pctChange *= -1;
+				}
+			  //$('.sv_top_profile').attr("href",data_result[2][0].profileUrl);
+				$('.sv_top_image').css('background','url(http://apifin2.synapsys.us/images/'+data_gainer.c_logo+') no-repeat');
+				$('.sv-pd-name').html(SV150_topTck);
+				$('.sv-pd-name').attr('title', SV150_topTck);
+				$('.sv-pd-price').html('$'+SV150_top_price);
+				$('.sv-pd-change').html(SV150_top_priceChange+'('+SV150_top_pctChange+'%)');
 			}, 'json')
 })
 
@@ -65,7 +96,7 @@ function company(search){
 //data call for company api
 var newWindow = window.open();
 $.when($.post('http://quu.nu/services/',{
-		
+
 		service: "passfail",
 		action:  "batchService",
 		data: '[{"service":"passfail","data":{"service":"profiles.Card.get","params":["public",{"search":"'+search+' "}]}}]'
@@ -75,11 +106,6 @@ $.when($.post('http://quu.nu/services/',{
 });
 }
 
-/*
-, function(result){
-			
-		 window.open(result[0][0].profileUrl,'newwin');
-			}*/
 function lossGainCheck(change, count){
 	//determines whether the price change is pos or neg and change colors accordingly
 	if (!isNaN(change)){
