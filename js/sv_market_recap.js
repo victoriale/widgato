@@ -15,7 +15,7 @@ $(function(){
 		if(CUR_OFFSET > 0){
 		$('.mrwidget_left-button').css("opacity","1");
 		$('.mrwidget_left-button').hover(function(){
-			$('.mrwidget_left-button').css("cursor","pointer");
+		$('.mrwidget_left-button').css("cursor","pointer");
 		})
 	}
 	else{
@@ -70,9 +70,9 @@ $(function(){
 				stock_data(cur_exchange, dataCall);
 				stock_graph(dataCall.nasdaq_graph_data, cur_exchange);
 				break;
-			case 'nyse':
+			case 'NYSE':
 				CUR_OFFSET = 0;
-				cur_exchange = 'nyse';
+				cur_exchange = 'NYSE';
 				curData = dataCall.nyse_list_data;
 				$(this).css({"background-color":"#fff","border-bottom":"0"});
 				$('.stock-container').css({"display":"block"});
@@ -105,7 +105,6 @@ $(function(){
 		//set data to global variable
 		dataCall = data.sv150_widget;
 		curData = dataCall.sv150_list_data;
-
 		mr_center_piece(CUR_OFFSET, curData);
 		stock_data($('.mtabs').data('dir'), dataCall);
 		stock_graph(dataCall.sv_150_graph_data, cur_exchange);
@@ -115,10 +114,11 @@ $(function(){
 
 //data api call for list
 function mr_center_piece(offset, data){
-
+	//console.log(data[offset].c_name);
+	//console.log(data[offset]);
 	//service called time to set div classes to given results
 	$('.name').html(data[offset].c_name);
-	$('.logo-image').css('background','url(http:'+data.c_logo+') no-repeat');
+	$('.logo-image').css('background','url(http://apifin2.synapsys.us/images/'+data[offset].c_logo+') no-repeat');
 	$('.mrwidget_counter').html('#' + (offset+1));
 
 	// link to profile URL
@@ -143,7 +143,7 @@ function stock_data(cur_exch, stockData){
 			$('.price').html(Number(price).toFixed(2));
 			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
 			break;
-		case 'nyse':
+		case 'NYSE':
 			var price = stockData.nyse_graph_data[0].sh_open;
 			var priceChng = stockData.nyse_price_change;
 			var pctChng = stockData.nyse_percent_change;
@@ -157,19 +157,15 @@ function stock_data(cur_exch, stockData){
 
 
 function stock_graph(dataArray, exchange){
-	console.log("stock graph:", dataArray);
-
+	//console.log("stock graph:", dataArray);
 	newDataArray = [];
-
 	//JSON array is converted into usable code for Highcharts also does not push NULL values
 	$.each(dataArray, function(i, val) {
 		var yVal = parseFloat(val.sh_open);
-
 		if (!isNaN(yVal)) {
 			newDataArray.push([val.sh_date * 1000, yVal]);
 		}
 	});
-
 	//renders data gathered into a simple chart
 	$('#sv_stockchart').highcharts({
 		chart: {
@@ -239,7 +235,6 @@ function stock_graph(dataArray, exchange){
 				var positions = [],
 				tick = Math.floor(this.dataMin),
 				increment = Math.ceil((this.dataMax - this.dataMin) / 6);
-
 				for (tick; tick - increment <= this.dataMax; tick += increment) {
 					positions.push(tick);
 				}

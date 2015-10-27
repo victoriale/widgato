@@ -133,16 +133,17 @@ div{
   }
 
   .national_widget-title{
-  font-size:18px;
+  font-size:16px;
   font-weight:700;
   text-align:center;
   color:#000;
   width:100%;
-  margin:-5px auto 0;
+  margin:1px auto 0;
   line-height: 1em;
   }
   .national_widget-title #title_text{
     font-family:Cabin!important;
+    font-size:16px;
     font-weight: 700;
     position: relative;
   }
