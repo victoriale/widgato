@@ -103,18 +103,11 @@ $(function(){
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
 	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=national_market_movers', function(data){
-		//console.log(data);
-		//set data to global variable
 		dataCall = data.national_market_movers;
-		//exData = dataCall.exchange_stock_data;
 		exList = dataCall.exchange_list;
-		//console.log(exList);
 		curData = exList[0].top_list_list;
-		//console.log( 'curData: ',curData);
 		mr_center_piece(CUR_OFFSET, curData);
-		//console.log('stockdata:',dataCall.exchange_stock_data[0]);
 		stock_data($('.mtabs').data('dir'), dataCall);
-		//console.log(dataCall.exchange_stock_data[0].graph_data);
 		stock_graph(dataCall.exchange_stock_data[0].graph_data, cur_exchange);
 	}, 'json')
 
@@ -128,7 +121,6 @@ function mr_center_piece(offset, data){
 	$('.national_widget-content-image').css('background','url(http://apifin2.synapsys.us/images/'+data[offset].c_logo+') no-repeat');
 	//$('.mrwidget_counter').html('#' + (offset+1));
 
-	// link to profile URL
 	$(".profile-link").attr("href", data[offset].c_name);
 }//END OF FUNCTION
 

@@ -19,10 +19,8 @@ $(function(){
 	})//END OF FUNCTION
 //data call to gather info on exchange prices
 	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_markets_slim', function(data){
-				console.log(data);
 				//sets a number to allow different ID's to be called since data calls are different
 				data_result = data.sv150_markets_slim;
-				console.log(data_result);
 				data_exchange = data_result.exchange_stock_data;
 				data_gainer = data_result.sv150_list_gainer;
 				var num = 1;
@@ -30,7 +28,6 @@ $(function(){
 				var SV150_price = Number(data_result.sv150_comp_index).toFixed(2);
 				var SV150_priceChange = Number(data_result.sv150_price_change).toFixed(2);
 				var SV150_pctChange = Number(data_result.sv150_percent_change).toFixed(2);
-				console.log(SV150_priceChange);
 				$('#SV').html(SV150_price);
 				$('#SVchange').html(lossGainCheck(SV150_priceChange, num));
 				$('#SVcent').html(lossGainCheck(SV150_pctChange, num)+'%');

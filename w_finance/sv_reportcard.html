@@ -29,42 +29,41 @@
 			</div>
 		</div>
 		<!--AD PLACEMENT HERE END-->
-		<a data-dir="SV150" href="list-companies?investmentTypeId=EQ&marketId=8&order=sp-pct-desc&today=1">
+		<a data-dir="SV150" id="sv_link" href="">
 		<div class="rc_stock_container">
 			<div class="rc_report">
 
-				<span class="rc_exchange">SV150</span>
+				<span class="rc_exchange" id="sv_link">SV150</span>
 				<span class="rc_price" id="SV"></span>
 			</div>
-			<div class="rc_stock_color" id="rc1">
-				<span class="rcfont" id="1">
+			<span class="rc_stock_color">
 					<i class="fa-arrow-circle-o-down"></i>
-				</span>
+					<i class="fa-arrow-circle-o-up"></i>
 				<span class="rc_change" id="svchange"></span>
 				<span class="rc_pct" id="svpct"></span>
-			</div>
+			</span>
 		</div>
 		</a>
 
-		<a data-dir="nasdaq" href="list-companies?investmentTypeId=EQ&exchange=nasdaq&order=sp-pct-desc&today=1">
+		<a data-dir="NASDAQ"  id="nq_link" href="">
 		<div class="rc_stock_container">
-			<div class="rc_report">
-				<span class="rc_exchange">Nasdaq</span>
-				<span class="rc_price" id="nq"></span>
-			</div>
-			<div class="rc_stock_color" id="rc2">
-				<span class="rcfont" id="2">
-					<i class="fa-arrow-circle-o-down"></i>
-				</span>
-				<span class="rc_change" id="nqchange"></span>
-				<span class="rc_pct" id="napct"></span>
-			</div>
+				<div class="rc_report">
+					<span class="rc_exchange">NASDAQ</span>
+					<span class="rc_price" id="nq"></span>
+				</div>
+				<div class="rc_stock_color" id="rc2">
+					<span class="rcfont" id="2">
+						<i class="fa-arrow-circle-o-down"></i>
+					</span>
+					<span class="rc_change" id="nqchange"></span>
+					<span class="rc_pct" id="napct"></span>
+				</div>
 		</div>
 		</a>
-		<a data-dir="S&P500" href="list-companies?investmentTypeId=EQ&marketId=5&order=sp-pct-desc&today=1">
+		<a data-dir="AMEX"  id="amex_link" href="">
 		<div class="rc_stock_container">
 			<div class="rc_report">
-				<span class="rc_exchange">S&P 500</span>
+				<span class="rc_exchange" id="amex_link" href="">AMEX</span>
 				<span class="rc_price" id="SP"></span>
 			</div>
 			<div class="rc_stock_color" id="rc3">
@@ -77,7 +76,7 @@
 		</div>
 	</a>
 
-	<a data-dir="nyse" href="list-companies?investmentTypeId=EQ&exchange=nyse&order=sp-pct-desc&today=1">
+	<a data-dir="NYSE" id="nyse_link" href="">
 		<div class="rc_stock_container">
 			<div class="rc_report">
 				<span class="rc_exchange">NYSE</span>
@@ -225,7 +224,7 @@
 				<!--<span class="header-company_text"></span>
 				<i class="fa fa-angle-double-right title-icon"></i>
 				<span class="header-company_location"></span> !-->
-				<a class="header-company_text">
+				<a class="header-company_text" href="">
 					<span class="header-company_text"></span>
 				</a>
 				<i class="fa fa-angle-double-right title-icon"></i>
