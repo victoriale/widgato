@@ -19,11 +19,13 @@ $(function(){
 	})//END OF FUNCTION
 //data call to gather info on exchange prices
 	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_markets_slim', function(data){
+				console.log(data);
 				//sets a number to allow different ID's to be called since data calls are different
 				data_result = data.sv150_markets_slim;
 				data_exchange = data_result.exchange_stock_data;
 				data_gainer = data_result.sv150_list_gainer;
 				var num = 1;
+				var link = 'http://localhost:3000';
 				//plug in data call for SV150
 				var SV150_price = Number(data_result.sv150_comp_index).toFixed(2);
 				var SV150_priceChange = Number(data_result.sv150_price_change).toFixed(2);
@@ -31,7 +33,7 @@ $(function(){
 				$('#SV').html(SV150_price);
 				$('#SVchange').html(lossGainCheck(SV150_priceChange, num));
 				$('#SVcent').html(lossGainCheck(SV150_pctChange, num)+'%');
-				$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=8&order=sp-pct-desc&today=1");
+				$(".link").attr("href",link+'/'+data_gainer.c_ticker+'/'+compUrlName(data_gainer.c_name)+'/company/'+data_gainer.c_id);
 				num = 2;
 				//plug in data call for Nasdaq
 				var NQ_price = Number(data_exchange[0].csi_price).toFixed(2);
@@ -41,10 +43,11 @@ $(function(){
 					NQ_priceChange *= -1;
 					NQ_pctChange *= -1;
 				}
+
 				$('#nq').html(NQ_price);
 				$('#Nqchange').html(lossGainCheck(NQ_priceChange, num));
 				$('#Nqcent').html(lossGainCheck(NQ_pctChange, num)+"%");
-				$(".link").attr("href", "list-companies?investmentTypeId=EQ&exchange=nasdaq&order=sp-pct-desc&today=1");
+				$('#Nqtxt').attr("href",link+'/Top-companies-on-NASDAQ-with-stock-percent-loss/'+data_exchange[0].c_id+'/list');
 				num = 3;
 				//plug in data call for AMEX
 				var AMEX_price = Number(data_exchange[2].csi_price).toFixed(2);
@@ -57,7 +60,7 @@ $(function(){
 				$('#SP').html(AMEX_price);
 				$('#SPchange').html(lossGainCheck(AMEX_priceChange, num));
 				$('#SPcent').html(lossGainCheck(AMEX_pctChange, num)+"%");
-				$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=5&order=sp-pct-desc&today=1");
+				$("#SPtxt").attr("href",link+'/Top-companies-on-AMEX-with-stock-percent-loss/'+data_exchange[1].c_id+'/list');
 				num = 4;
 				//plug in data call for NYSE
 				var NYSE_price = Number(data_exchange[1].csi_price).toFixed(2);
@@ -70,7 +73,7 @@ $(function(){
 				$('#ny').html(NYSE_price);
 				$('#Nychange').html(lossGainCheck(NYSE_priceChange, num));
 				$('#Nycent').html(lossGainCheck(NYSE_pctChange, num)+"%");
-				$(".link").attr("href", "list-companies?investmentTypeId=EQ&exchange=nyse&order=sp-pct-desc&today=1");
+				$("#Nytxt").attr("href",link+'/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list');
 				//plug in data for the top sv150 company
 				var SV150_topTck = data_gainer.c_ticker;
 				var SV150_top_price = Number(data_gainer.csi_price).toFixed(2);
@@ -121,4 +124,10 @@ function lossGainCheck(change, count){
 		$('.fa-arrow-circle-o-up').hide();
 	}
 	return change;
+}
+function compUrlName(company) {
+  if ( typeof company == "undefined" || company == null ) {
+    return '';
+  }
+  return company.replace(/(,|\.|&)/g,'').replace(/ /g,'-');
 }
