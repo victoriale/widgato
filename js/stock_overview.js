@@ -16,10 +16,11 @@ $(function so_leftdata(id){
 
 		//graph_data(stockData.c_name, stockData.c_id);
 
+		console.log(stockData);
 		$('.header-company_text').html(stockData.c_name);
 		//$('.header-company_location').html(stockData.c_city+', '+stockData.c_state);
 		$('#company').css('background','url(http://apifin2.synapsys.us/images/'+stockData.c_logo+') no-repeat');
-		$('#company-profile').attr("href", "list-companies?investmentTypeId=EQ&exchange=nyse&order=sp-pct-desc&today=1");
+		$('#company-profile').attr("href", "list-companies?investmentTypeId=EQ&exchange=nyse&order=sp-pct-desc&today=1"); // http://investkit.com/  /:loc_id?/:l_name/:list_id/list',
 		$('.tp_company-text').html(stockData.c_name);
 		$('.tp_company-price').html(price);
 		$('.tp_company-change').html(lossGainCheck(priceChange)+'('+lossGainCheck(pctChange)+'%)');

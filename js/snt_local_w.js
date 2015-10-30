@@ -16,7 +16,7 @@ var graph = {};
 var w_info = {};
 var dataLength;
 $(function(){
-  /*
+/*
   var temp = location.search;
   var query = {};
 
@@ -36,18 +36,26 @@ $(function(){
 
   	state = query['loc']['loc_id']['state'];
 
-    location = query['loc']['location']['state'];
-    location = query['loc']['location']['DMA'];
+    if(query['loc']['location']['DMA'].length == 0){
+      location = query['loc']['location']['state'];
+    }else{
+      for(var i = 0; i < query['loc']['location']['DMA'].length-1; i++){
+        location += query['loc']['location']['DMA'][i]+" ";
+      }
+      location = location.replace(/ /g, ",");
+      location = removeLastComma(location);
+      console.log(location);
+    }
     //returns string true or false
   	bord = query.bord;
   }
-
+*/
   var script_tag = document.createElement('script');
   script_tag.setAttribute('src','//static.getclicky.com/js');
   document.head.appendChild(script_tag);
   var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
   document.head.appendChild(clicks[0]);
-  */
+
 
   $('.fgw-rightnav').on('click', function() {
 		if (offset < dataLength-1 && $(this).data('dir') === 'next') {
@@ -68,7 +76,7 @@ $(function(){
 
   console.log("Grabbing data call");
 
-  $.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=local_market_movers&param=KS', function(data){
+  $.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=local_market_movers&param=807', function(data){
     console.log(data);
     dataCall = data.local_market_movers;
     w_info = dataCall.top_list_list[0].top_list_info;
@@ -85,10 +93,14 @@ $(function(){
 
 function compData(offset){
   var curItem = list[offset];
+  console.log(curItem);
   $(".fgw-t2-title").html(curItem.c_ticker);
   $(".fgw-t2-loc").html(curItem.c_hq_city + ", " + curItem.c_hq_state);
   $(".fgw-image").css({"background-image":"url('http://apifin2.synapsys.us/images/"+curItem.c_logo+"')"});
   $(".fgw-content1").html(convert_num(Number(curItem.stock_percent).toFixed(2)));
+  $(".fgw-link").attr('href',"http://www.investkit.com/"+curItem.c_ticker+"/"+compUrlName(curItem.c_name)+"/company/"+curItem.c_id);
+  stockGraph(curItem.c_id, graph, curItem.c_ticker);
+  $(".fgw-loc-link").attr('href',"http://www.investkit.com/"+curItem.c_hq_state+"/location");
   stockGraph(curItem.c_id, graph, curItem.c_ticker);
 }
 
@@ -132,7 +144,8 @@ function stockGraph(comp_id, graph, ticker){
         }
         return positions * 1000;
       },
-      tickPixelInterval: 60,
+      tickPixelInterval: 70,
+      endOnTick:true,
       title: '',
       labels:{
         autoRotation:false,
@@ -170,6 +183,13 @@ function stockGraph(comp_id, graph, ticker){
     }]
   });
 
+}
+
+function compUrlName(company) {
+  if ( typeof company == "undefined" || company == null ) {
+    return '';
+  }
+  return company.replace(/(,|\.|&)/g,'').replace(/ /g,'-').replace(/\//g,'_');
 }
 
 function convert_num(change_num){

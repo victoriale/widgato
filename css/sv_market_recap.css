@@ -218,7 +218,7 @@ a{
 	display: block;
 	height: 27px;
 	width: 27px;
-	background: URL(img/pass_40x40.png);
+	background: URL(public/pass_40x40.png);
 }
 
 .mrwidget_counter{

@@ -96,6 +96,7 @@ button:focus {
   padding-top: 2px;
   padding-left: 35px;
   position:relative;
+  overflow: hidden;
 }
 
 .fgw-t1{
