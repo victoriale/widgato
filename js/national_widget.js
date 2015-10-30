@@ -49,11 +49,12 @@ $(function(){
 					CUR_OFFSET = 0;
 					cur_exchange = 'NASDAQ';
 					curData = exList[0].top_list_list;
+					console.log(exList[0]);
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=5&market-cap-low=1&order=sp-pct-desc&today=1");
+					$(".nwlink").attr("href", "http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/5420/list");
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[0].graph_data, cur_exchange);
@@ -66,7 +67,7 @@ $(function(){
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=8&market-cap-low=1&order=sp-pct-desc&today=1");
+					$(".nwlink").attr("href", "http://www.investkit.com/Top-companies-on-AMEX-with-stock-percent-loss/5421/list");
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[1].graph_data, cur_exchange);
@@ -79,7 +80,7 @@ $(function(){
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".link").attr("href", "list-companies?exchange=nyse&market-cap-low=1&investmentTypeId=EQ&order=sp-pct-desc&today=1");
+					$(".nwlink").attr('href',"http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/5422/list");
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[2].graph_data, cur_exchange);
@@ -116,12 +117,9 @@ $(function(){
 //data api call for list
 function mr_center_piece(offset, data){
 	//service called time to set div classes to given results
-	//console.log(data[offset]);
 	$('.national_widget-content-textarea-t1').html(data[offset].c_name);
 	$('.national_widget-content-image').css('background','url(http://apifin2.synapsys.us/images/'+data[offset].c_logo+') no-repeat');
-	//$('.mrwidget_counter').html('#' + (offset+1));
-
-	$(".profile-link").attr("href", data[offset].c_name);
+	$(".nwprofile-link").attr("href", "http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
 }//END OF FUNCTION
 
 // data api returned based on which exchange is selected
@@ -156,7 +154,6 @@ function stock_data(cur_exch, stockData){
 
 
 function stock_graph(dataArray, exchange){
-	console.log("stock graph:", dataArray);
 
 	newDataArray = [];
 
@@ -258,6 +255,14 @@ function stock_graph(dataArray, exchange){
 		}]
 	});//END OF HIGHCHARTS FUNCTION
 }
+
+function compUrlName(company) {
+  if ( typeof company == "undefined" || company == null ) {
+    return '';
+  }
+  return company.replace(/(,|\.|&)/g,'').replace(/ /g,'-').replace(/\//g,'_');
+}
+
 
 //convert value into decimal and decide if change is up or down
 function convert_num(change_num, changePercent_num){

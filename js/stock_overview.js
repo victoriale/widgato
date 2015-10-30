@@ -1,3 +1,4 @@
+var c_name;
 $(function so_leftdata(id){
 	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=stock_overview&param=3330', function(data){
     dataCall = data.stock_overview;
@@ -14,13 +15,9 @@ $(function so_leftdata(id){
 		var last_year = Number(stockData.stock_hist[365].sh_close).toFixed(2);
 		var today = Number(stockData.stock_hist[0].sh_close).toFixed(2);
 
-		//graph_data(stockData.c_name, stockData.c_id);
-
-		console.log(stockData);
 		$('.header-company_text').html(stockData.c_name);
 		//$('.header-company_location').html(stockData.c_city+', '+stockData.c_state);
 		$('#company').css('background','url(http://apifin2.synapsys.us/images/'+stockData.c_logo+') no-repeat');
-		$('#company-profile').attr("href", "list-companies?investmentTypeId=EQ&exchange=nyse&order=sp-pct-desc&today=1"); // http://investkit.com/  /:loc_id?/:l_name/:list_id/list',
 		$('.tp_company-text').html(stockData.c_name);
 		$('.tp_company-price').html(price);
 		$('.tp_company-change').html(lossGainCheck(priceChange)+'('+lossGainCheck(pctChange)+'%)');
@@ -31,7 +28,8 @@ $(function so_leftdata(id){
 		$('#averagevolume').html(nFormatter(stockData.csi_trading_vol));
 		$('#52weeks').html(last_year+' - '+today);
 		$('#open').html(nFormatter(stockData.csi_opening_price));
-		$('#company-profile').attr("href", '/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
+		$('#company-profile').attr("href", 'http://www.investkit.com/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
+		graph_data(stockData.stock_hist, stockData.c_name);
   }, 'json')
 });
 
@@ -55,21 +53,20 @@ $(function so_rightdata(id){
 	}, 'json')
 })
 
-function graph_data(name, id){
-		series = stock[0].series[0];
+function graph_data(graph_data, name){
+		c_name = name;
 		newDataArray = [];
-		newDataArray1 = [];
 		//JSON array is converted into usable code for Highcharts also does not push NULL values
-		$.each(series.data, function(i, val) {
-			var yVal = parseFloat(val.y);
+		$.each(graph_data, function(i, val) {
+			var yVal = parseFloat(val.sh_close);
 			//makes sure any value passed is null
 			if (!isNaN(yVal)) {
-				newDataArray.push([val.x * 1000, yVal]);
+				newDataArray.push([val.sh_date * 1000, yVal]);
 			}
 		});
 
 		//test if there is even data otherwise send back error
-		if (!newDataArray.length || !newDataArray1.length)
+		if (!newDataArray.length)
 		{
 			$('#stockchart').html('INVALID');
 			return;
@@ -82,8 +79,9 @@ function graph_data(name, id){
 			});
 			$(chart.rangeSelector.divRelative).hide();
 		};
+		newDataArray.reverse();
 		//CALL HIGHCHARTS
-		callChart(newDataArray1);
+		callChart(newDataArray);
 
 		hideZoomBar(chart);
 		//Click function to allow custom button tabs to change highcharts.
@@ -94,7 +92,7 @@ function graph_data(name, id){
 		//each selection represents Unix time in years
 			switch($(this).data('dir')){
 				case '1D':
-					callChart(newDataArray1);
+					callChart(newDataArray);
 					selection = 86400 * 1000;
 					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
 				break;
@@ -219,7 +217,7 @@ function callChart(array_data, max, min)
 				},
 				series: [{
 					showInLegend: false,
-			        name : series.name.toUpperCase(),
+			        name : c_name.toUpperCase(),
 			        data : array_data,
 					turboThreshold: 1
 				}]

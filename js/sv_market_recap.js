@@ -65,7 +65,7 @@ $(function(){
 				$('.stock-container').css({"display":"block"});
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-				$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=5&market-cap-low=1&order=sp-pct-desc&today=1");
+				$(".link").attr("href", "http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/5420/list");
 				mr_center_piece(CUR_OFFSET, curData);
 				stock_data(cur_exchange, dataCall);
 				stock_graph(dataCall.nasdaq_graph_data, cur_exchange);
@@ -78,7 +78,7 @@ $(function(){
 				$('.stock-container').css({"display":"block"});
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-				$(".link").attr("href", "list-companies?exchange=nyse&market-cap-low=1&investmentTypeId=EQ&order=sp-pct-desc&today=1");
+				$(".link").attr("href", "http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/5422/list");
 				mr_center_piece(CUR_OFFSET, curData);
 				stock_data(cur_exchange, dataCall);
 				stock_graph(dataCall.nyse_graph_data, cur_exchange);
