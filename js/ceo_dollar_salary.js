@@ -33,7 +33,7 @@ function dataCall(index){
   $('#paid').html(nFormatter(curData[index].TotalComp));
   $('.cds-image').css('background','url(http://apifin2.synapsys.us/images/'+curData[index].o_pic+') no-repeat');
   $('#exec-link').attr('href',"http://www.investkit.com/"+curData[index].o_first_name+'-'+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
-  $('.cds-href').attr('href', "http://www.investkit.com/"+compUrlName(data_result.list_title)+"/dollar_ceo/list");//'/:loc_id?/:l_name/:list_id/list',
+  $('.cds-href').attr('href', "http://www.investkit.com/"+compUrlName(data_result.list_title)+"/dollar_ceo/executive-list");//'/:loc_id?/:l_name/:list_id/list',
 }
 
 function compUrlName(company) {

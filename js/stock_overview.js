@@ -1,57 +1,94 @@
 var c_name;
+
+
 $(function so_leftdata(id){
-	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=stock_overview&param=3330', function(data){
-    dataCall = data.stock_overview;
-		stockData= dataCall.stock_data[0];
-		exeData = dataCall.executive_data[0];
-		//var stockHist = stockData.stock_hist.slice(1, 365);
-		var price = '$'+Number(stockData.csi_price).toFixed(2);
-		var priceChange = Number(stockData.csi_price_change_since_last).toFixed(2);
-		var pctChange = Number(stockData.csi_percent_change_since_last).toFixed(2);
-		if(stockData.csi_price_last_operator == 0){
-			priceChange *= -1;
-			pctChange *= -1;
+	var windowURL = document.referrer;
+	windowURL = "www.powerPAUNCH.com/apple";
+	var URLLength = windowURL.length - 1;
+	for(var i=0;i<=URLLength;i++)
+	{
+		if(windowURL.charAt(URLLength-i) == '/')
+		{
+			var reqdString = windowURL.substring((URLLength-i)+1, URLLength+1);
+			switch(reqdString){
+				case 'juniper':
+				//points to juniper pharm which is not right
+				reqdString = "juniper network";
+				break;
+				case 'intel':
+				//points to intellicheck for some reason
+				reqdString = "intel corp";
+				break;
+				case 'google':
+				//points to intellicheck for some reason
+				reqdString = "GOOGL";
+				break;
+				default:
+				break;
+			}
 		}
-		var last_year = Number(stockData.stock_hist[365].sh_close).toFixed(2);
-		var today = Number(stockData.stock_hist[0].sh_close).toFixed(2);
+	}
+	$.get('http://apifin.investkit.com/call_controller.php?action=search&option=widget_search&wild=1&param='+reqdString, function(data){
+		var search = data.company_name.func_data.search_data[0].c_id;
+		$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=stock_overview&param='+search, function(data){
 
-		$('.header-company_text').html(stockData.c_name);
-		//$('.header-company_location').html(stockData.c_city+', '+stockData.c_state);
-		$('#company').css('background','url(http://apifin2.synapsys.us/images/'+stockData.c_logo+') no-repeat');
-		$('.tp_company-text').html(stockData.c_name);
-		$('.tp_company-price').html(price);
-		$('.tp_company-change').html(lossGainCheck(priceChange)+'('+lossGainCheck(pctChange)+'%)');
+	    dataCall = data.stock_overview;
+			stockData= dataCall.stock_data[0];
+			exeData = dataCall.executive_data[0];
+			//var stockHist = stockData.stock_hist.slice(1, 365);
+			var price = '$'+Number(stockData.csi_price).toFixed(2);
+			var priceChange = Number(stockData.csi_price_change_since_last).toFixed(2);
+			var pctChange = Number(stockData.csi_percent_change_since_last).toFixed(2);
+			if(stockData.csi_price_last_operator == 0){
+				priceChange *= -1;
+				pctChange *= -1;
+			}
+			var last_year = Number(stockData.stock_hist[365].sh_close).toFixed(2);
+			var today = Number(stockData.stock_hist[0].sh_close).toFixed(2);
 
-		$('#marketcap').html(nFormatter(stockData.csi_market_cap));
-		$('#peratio').html(nFormatter(stockData.csi_pe_ratio));
-		$('#totalshares').html(nFormatter(stockData.csi_total_shares));
-		$('#averagevolume').html(nFormatter(stockData.csi_trading_vol));
-		$('#52weeks').html(last_year+' - '+today);
-		$('#open').html(nFormatter(stockData.csi_opening_price));
-		$('#company-profile').attr("href", 'http://www.investkit.com/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
-		graph_data(stockData.stock_hist, stockData.c_name);
-  }, 'json')
-});
+			$('.header-company_text').html(stockData.c_name);
+			//$('.header-company_location').html(stockData.c_city+', '+stockData.c_state);
+			$('#company').css('background','url(http://apifin2.synapsys.us/images/'+stockData.c_logo+') no-repeat');
+			$('.tp_company-text').html(stockData.c_name);
+			$('.tp_company-price').html(price);
+			$('.tp_company-change').html(lossGainCheck(priceChange)+'('+lossGainCheck(pctChange)+'%)');
+			console.log(data);
+			console.log(stockData);
+			$('.executive-list').attr('href',"http://www.investkit.com/"+exeData[0].c_ticker+"/"+compUrlName(stockData.c_name)+"/executives/"+stockData.c_id);
 
-$(function so_rightdata(id){
-	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=stock_overview&param=3330', function(data){
-    dataCall = data.stock_overview;
-		exeData = dataCall.executive_data[0];
-		/*
-		$('#eimage1').css('background','url(http://apifin2.synapsys.us/images/'+exeData[0].o_pic+') no-repeat');
-		$('#eimage2').css('background','url(http://apifin2.synapsys.us/images/'+exeData[1].o_pic+') no-repeat');
-		$('#eimage3').css('background','url(http://apifin2.synapsys.us/images/'+exeData[2].o_pic+') no-repeat');
-		*/
-		$('#eprof1').attr("href",'/'+exeData[0].o_last_name+'-'+exeData[0].o_first_name+'/'+exeData[0].c_ticker+'/executive/'+exeData[0].o_id);
-		$('#eprof2').attr("href",'/'+exeData[1].o_last_name+'-'+exeData[1].o_first_name+'/'+exeData[1].c_ticker+'/executive/'+exeData[1].o_id);
-		$('#eprof3').attr("href",'/'+exeData[2].o_last_name+'-'+exeData[2].o_first_name+'/'+exeData[2].c_ticker+'/executive/'+exeData[2].o_id);
-		//$('.executive-list').attr("href",'/';
+			$('#marketcap').html(nFormatter(stockData.csi_market_cap));
+			$('#peratio').html(nFormatter(stockData.csi_pe_ratio));
+			$('#totalshares').html(nFormatter(stockData.csi_total_shares));
+			$('#averagevolume').html(nFormatter(stockData.csi_trading_vol));
+			$('#52weeks').html(last_year+' - '+today);
+			$('#open').html(nFormatter(stockData.csi_opening_price));
+			$('#company-profile').attr("href", 'http://www.investkit.com/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
 
-		$('#ename1').html(exeData[0].o_first_name+' '+exeData[0].o_last_name);
-		$('#ename2').html(exeData[1].o_first_name+' '+exeData[1].o_last_name);
-		$('#ename3').html(exeData[2].o_first_name+' '+exeData[2].o_last_name);
+
+			$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=stock_overview&param='+reqdString, function(data){
+		    dataCall = data.stock_overview;
+				exeData = dataCall.executive_data[0];
+
+				$('#eimage1').css('background','url(http://apifin2.synapsys.us/images/'+exeData[0].o_pic+') no-repeat');
+				$('#eimage2').css('background','url(http://apifin2.synapsys.us/images/'+exeData[1].o_pic+') no-repeat');
+				$('#eimage3').css('background','url(http://apifin2.synapsys.us/images/'+exeData[2].o_pic+') no-repeat');
+
+				$('#eprof1').attr("href",'http://www.investkit.com/'+exeData[0].o_last_name+'-'+exeData[0].o_first_name+'/'+exeData[0].c_ticker+'/executive/'+exeData[0].o_id);
+				$('#eprof2').attr("href",'http://www.investkit.com//'+exeData[1].o_last_name+'-'+exeData[1].o_first_name+'/'+exeData[1].c_ticker+'/executive/'+exeData[1].o_id);
+				$('#eprof3').attr("href",'http://www.investkit.com/'+exeData[2].o_last_name+'-'+exeData[2].o_first_name+'/'+exeData[2].c_ticker+'/executive/'+exeData[2].o_id);
+				//$('.executive-list').attr("href",'/';
+
+				$('#ename1').html(exeData[0].o_first_name+' '+exeData[0].o_last_name);
+				$('#ename2').html(exeData[1].o_first_name+' '+exeData[1].o_last_name);
+				$('#ename3').html(exeData[2].o_first_name+' '+exeData[2].o_last_name);
+			}, 'json')
+
+
+			graph_data(stockData.stock_hist, stockData.c_name);
+	  }, 'json')
 	}, 'json')
-})
+
+});
 
 function graph_data(graph_data, name){
 		c_name = name;

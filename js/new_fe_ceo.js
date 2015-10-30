@@ -27,11 +27,23 @@ $(function(){
   }, 'json')
 })//END OF FUNCTION
 function dataCall(index){
+  console.log(curData);
+
+  $('.exec-link').attr('href',"http://www.investkit.com/"+curData[index].o_first_name+"-"+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
+  $('.fcw-href').attr('href',"http://www.investkit.com/"+compUrlName(data_result.list_title)+"/female_ceo/executive-list");
   $('.fcw-t2-title').html(curData[index].c_name);
   $('.fcw-content1').html(curData[index].o_first_name+' '+curData[index].o_last_name);
   $('#paid').html(nFormatter(curData[index].TotalComp));
   $('.fcw-image').css('background','url(http://apifin2.synapsys.us/images/'+curData[index].o_pic+') no-repeat');
 }
+
+function compUrlName(company) {
+  if ( typeof company == "undefined" || company == null ) {
+    return '';
+  }
+  return company.replace(/(,|\.|&)/g,'').replace(/ /g,'-').replace(/\//g,'_');
+}
+
 //number converter to decimal with correct format
 function nFormatter(num) {
 	if (num >= 1000000000) {
