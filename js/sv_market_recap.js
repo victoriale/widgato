@@ -52,7 +52,8 @@ $(function(){
 				$('.stock-container').css({"display":"block"});
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-				$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=8&market-cap-low=1&order=sp-pct-desc&today=1");
+				$(".link").attr("href",link+'/'+data_gainer.c_ticker+'/'+compUrlName(data_gainer.c_name)+'/company/'+data_gainer.c_id);
+				num = 2;
 				mr_center_piece(CUR_OFFSET, curData);
 				stock_data(cur_exchange, dataCall);
 				stock_graph(dataCall.sv_150_graph_data, cur_exchange);
@@ -104,6 +105,7 @@ $(function(){
 	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_widget', function(data){
 		//set data to global variable
 		dataCall = data.sv150_widget;
+		console.log(dataCall);
 		curData = dataCall.sv150_list_data;
 		mr_center_piece(CUR_OFFSET, curData);
 		stock_data($('.mtabs').data('dir'), dataCall);

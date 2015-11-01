@@ -213,7 +213,7 @@ a{
 	left: 70px;
 	position: relative;
 	color: #FFF;
-	box-shadow: 0px 0px 0px 2px #FFF;
+	/*box-shadow: 0px 0px 0px 2px #FFF;*/
 	background-color: #44B244;
 	display: block;
 	height: 27px;

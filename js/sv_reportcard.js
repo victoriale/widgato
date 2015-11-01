@@ -15,7 +15,6 @@ $(function(){
 
 	$('.rc_pillbtn').on('click', function(){
 		search = $('input').val();
-		console.log(search);
 		company(search);
 	})//END OF FUNCTION
 
@@ -26,16 +25,25 @@ $(function(){
 		$('.rc_search_input').val("");
 	});
 	//data call for exchange and lists
-
 })
 
 function company(search){
 //data call for company api
 $.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=stock_overview&param=3330', function(data){
 		dataCall = data.stock_overview;
-		console.log(dataCall);
+		console.log(dataCall)
 		stockData= dataCall.stock_data[0];
 		exeData = dataCall.executive_data[0];
+		$('.rc_today_container').css("display","none");
+		$('.so_header').css("display","block");
+		$('.so_widget-wrapper').css("display","block");
+		//graph data put data_result name and id of company needed to graph data.
+		//graph_data(result[0][0].name, result[0][0].id);
+		$('.header-company_text').html(stockData.c_name);
+		$('.header-company_text').attr("href", "list-companies?investmentTypeId=EQ&exchange=nyse&order=sp-pct-desc&today=1");
+		$('.tp_company-text').html(stockData.c_name);
+		//Get financial and exec links
+		$("#Day").css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
 		var price = '$'+Number(stockData.csi_price).toFixed(2);
 		var priceChange = Number(stockData.csi_price_change_since_last).toFixed(2);
 		var pctChange = Number(stockData.csi_percent_change_since_last).toFixed(2);
@@ -45,39 +53,23 @@ $.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=stock_
 		}
 		var last_year = Number(stockData.stock_hist[365].sh_close).toFixed(2);
 		var today = Number(stockData.stock_hist[0].sh_close).toFixed(2);
-		$('.rc_today_container').css("display","none");
-		$('.so_header').css("display","block");
-		$('.so_widget-wrapper').css("display","block");
-		//graph data put data_result name and id of company needed to graph data.
-		//graph_data(result[0][0].name, result[0][0].id);
-
-		$('.header-company_text').html(stockData.c_name);
-		$('.header-company_text').attr("href", '/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
-		$('.tp_company-text').html(result[0][0].name);
-
-		//Get financial and exec links
-		getLinkDetails(result[0][0].profileUrl);
-		$("#Day").css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
-		$('.header-company_location').html(result[0][0].location);
-		$('.tp_company-price').html('$'+result[0][0].price);
-
-		$('.tp_company-change').html(lossGainCheck(result[0][0].change)+'('+result[0][0].percentChange+'%)');
-
-		$('#company').css("background-image","url(https:"+result[0][0].image+")");
-		$('#company-profile').attr("href",result[0][0].profileUrl)
-
-		//6 data points
-		$('#marketcap').html(nFormatter(result[0][0].marketCap));
-		$('#peratio').html(result[0][0].peRatio);
-		$('#totalshares').html(nFormatter(result[0][0].sharesOutstanding));
-		$('#averagevolume').html(nFormatter(result[0][0].avgVolumeYearly));
-		$('#52weeks').html(result[0][0].range52WeekLow+' - '+result[0][0].range52WeekHigh);
+		//graph_data(stockData.c_name, stockData.c_id);
+		//$('.header-company_location').html(stockData.c_city+', '+stockData.c_state);
+		$('#company').css('background','url(http://apifin2.synapsys.us/images/'+stockData.c_logo+') no-repeat');
+		$('.tp_company-price').html(price);
+		$('.tp_company-change').html(lossGainCheck(priceChange)+'('+lossGainCheck(pctChange)+'%)');
+		$('#marketcap').html(nFormatter(stockData.csi_market_cap));
+		$('#peratio').html(nFormatter(stockData.csi_pe_ratio));
+		$('#totalshares').html(nFormatter(stockData.csi_total_shares));
+		$('#averagevolume').html(nFormatter(stockData.csi_trading_vol));
+		$('#52weeks').html(last_year+' - '+today);
+		$('#open').html(nFormatter(stockData.csi_opening_price));
+		$('#company-profile').attr("href", '/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
 		$('#open').html(result[0][0].open);
 		}, 'json')
 }
 $(function top(id){
 	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_report_card', function(data){
-				console.log(data);
 				data_result = data.sv150_report_card;
 				data_exchange = data_result.exchange_stock_data;
 				data_gainer = data_result.sv150_list_gainers;
@@ -90,7 +82,6 @@ $(function top(id){
 				$('#SV').html(SV150_price);
 				$('#svchange').html(lossGainCheck(SV150_priceChange));
 				$('#svpct').html(lossGainCheck(SV150_pctChange)+'%');
-				$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=8&order=sp-pct-desc&today=1");
 
 				var NQ_price = Number(data_exchange[0].csi_price).toFixed(2);
 				var NQ_priceChange = Number(data_exchange[0].csi_price_change_since_last).toFixed(2);
@@ -102,7 +93,6 @@ $(function top(id){
 				$('#nq').html(NQ_price);
 				$('#nqchange').html(lossGainCheck(NQ_priceChange));
 				$('#napct').html(lossGainCheck(NQ_pctChange)+"%");
-				$(".link").attr("href", "list-companies?investmentTypeId=EQ&exchange=nasdaq&order=sp-pct-desc&today=1");
 				//plug in data call for AMEX
 				var AMEX_price = Number(data_exchange[2].csi_price).toFixed(2);
 				var AMEX_priceChange = Number(data_exchange[2].csi_price_change_since_last).toFixed(2);
@@ -114,7 +104,6 @@ $(function top(id){
 				$('#SP').html(AMEX_price);
 				$('#spchange').html(lossGainCheck(AMEX_priceChange));
 				$('#sppct').html(lossGainCheck(AMEX_pctChange)+"%");
-				$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=5&order=sp-pct-desc&today=1");
 
 				//plug in data call for NYSE
 				var NYSE_price = Number(data_exchange[1].csi_price).toFixed(2);
@@ -127,7 +116,6 @@ $(function top(id){
 				$('#ny').html(NYSE_price);
 				$('#nychange').html(lossGainCheck(NYSE_priceChange));
 				$('#nypct').html(lossGainCheck(NYSE_pctChange)+"%");
-				$(".link").attr("href", "list-companies?investmentTypeId=EQ&exchange=nyse&order=sp-pct-desc&today=1");
 
 				var link = 'http://localhost:3000';
 				//$('#sv_link').attr("href",link+'/Top-companies-on-NYSE-with-stock-percent-loss/'+data1.c_id+'/list');
@@ -141,7 +129,8 @@ $(function top(id){
 				$('#rc_lose1').css('background','url(http://apifin2.synapsys.us/images/'+data_loser[0].c_logo+') no-repeat');
 				$('#rc_lose2').css('background','url(http://apifin2.synapsys.us/images/'+data_loser[1].c_logo+') no-repeat');
 				$('#rc_lose3').css('background','url(http://apifin2.synapsys.us/images/'+data_loser[2].c_logo+') no-repeat');
-				//var link =' http://localhost:3000';
+
+				var link =' http://localhost:3000';
 				$('#gain_profile1').attr("href",link+'/'+data_gainer[0].c_ticker+'/'+compUrlName(data_gainer[0].c_name)+'/company/'+data_gainer[0].c_id);
 				$('#gain_profile2').attr("href",link+'/'+data_gainer[1].c_ticker+'/'+compUrlName(data_gainer[1].c_name)+'/company/'+data_gainer[1].c_id);
 				$('#gain_profile3').attr("href",link+'/'+data_gainer[2].c_ticker+'/'+compUrlName(data_gainer[2].c_name)+'/company/'+data_gainer[2].c_id);
@@ -172,42 +161,7 @@ $(function top(id){
 
 			}, 'json')
 })
-/*NEED MODIFICATION
-function company(search){
-//data call for company api
-	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=stock_overview&param=3330', function(result){
-			$('.rc_today_container').css("display","none");
-			$('.so_header').css("display","block");
-			$('.so_widget-wrapper').css("display","block");
-		//graph data put data_result name and id of company needed to graph data.
-		graph_data(result[0][0].name, result[0][0].id);
 
-		$('.header-company_text').html(result[0][0].name);
-		$('.header-company_text').attr("href",result[0][0].profileUrl);
-		$('.tp_company-text').html(result[0][0].name);
-
-		//Get financial and exec links
-		getLinkDetails(result[0][0].profileUrl);
-		$("#Day").css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
-		$('.header-company_location').html(result[0][0].location);
-		$('.tp_company-price').html('$'+result[0][0].price);
-
-		$('.tp_company-change').html(lossGainCheck(result[0][0].change)+'('+result[0][0].percentChange+'%)');
-
-		$('#company').css("background-image","url(https:"+result[0][0].image+")");
-		$('#company-profile').attr("href",result[0][0].profileUrl)
-
-		//6 data points
-		$('#marketcap').html(nFormatter(result[0][0].marketCap));
-		$('#peratio').html(result[0][0].peRatio);
-		$('#totalshares').html(nFormatter(result[0][0].sharesOutstanding));
-		$('#averagevolume').html(nFormatter(result[0][0].avgVolumeYearly));
-		$('#52weeks').html(result[0][0].range52WeekLow+' - '+result[0][0].range52WeekHigh);
-		$('#open').html(result[0][0].open);
-  }, 'json')
-
-}
-*/
 function lossGainCheck(change)
 {
 	//determines whether the price change is pos or neg and change colors accordingly

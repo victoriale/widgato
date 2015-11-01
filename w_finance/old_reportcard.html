@@ -6,11 +6,11 @@
 
 <base href="<?php echo $coreENV['path'];?>" target="_blank">
 <link href="../css/font-awesome.css" media="all" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" type="text/css" href="../css/sv_reportcard.css">
+	<link rel="stylesheet" type="text/css" href="reportcard_og.css">
 
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="http://code.highcharts.com/stock/highstock.js"></script>
-	<script src="../js/sv_reportcard.js"></script>
+	<script src="reportcard_og.js"></script>
 </head>
 <body>
 	<div class="rc_whole_container">
@@ -76,10 +76,10 @@
 		</div>
 	</a>
 
-	<a data-dir="NYSE" id="nyse_link" href="">
+	<a data-dir="NYSE" href="list-companies?investmentTypeId=EQ&exchange=nyse&order=sp-pct-desc&today=1">
 		<div class="rc_stock_container">
 			<div class="rc_report">
-				<span class="rc_exchange">NYSE</span>
+				<span class="rc_exchange" id="nyse_link" href="">NYSE</span>
 				<span class="rc_price" id="ny"></span>
 			</div>
 			<div class="rc_stock_color" id="rc4">
@@ -108,26 +108,26 @@
 		<div class="rc_today_container">
 			<div class="rc_sv150_gain">
 				<i class="fa-arrow-circle-o-up green"></i>
-				<a href="">
+				<a href="http://finance.siliconvalley.com/what-are-all-the-company-profiles/locale/usa/usa-236.htm?marketId=8&order=sp-pct-desc">
 				<span class="rc_today_gain">Today's SV150 Gainers</span><span class="sv_see-all">see all</span>
 				</a>
 			</div>
 
 			<!--today's gainers for sv150 END-->
 			<!--today's gainers for sv150 TOP LIST-->
-		<div class="rc_gain_list1">
+			<div class="rc_gain_list1">
 				<a class="rc_profile" id="gain_profile1" href="">
 					<div class="rc_image" id="rc_gain1"></div>
 
-					<div class="rc_company_info">
-						<span class="rc_company_name" id="gain_name1"></span>
-						<span class="rc_company_price" id="gain_price1"></span>
-						<span class="rc_company_change green">
-							<i class="fa-arrow-circle-o-up"></i>
-							<span class="rc_company" id="gain_change1"></span>
-						</span>
-					</div>
-				 </a>
+				<div class="rc_company_info">
+					<span class="rc_company_name" id="gain_name1"></span>
+					<span class="rc_company_price" id="gain_price1"></span>
+					<span class="rc_company_change green">
+						<i class="fa-arrow-circle-o-up"></i>
+						<span class="rc_company" id="gain_change1"></span>
+					</span>
+				</div>
+				</a>
 			</div>
 			<div class="rc_gain_list2">
 				<a class="rc_profile" id="gain_profile2" href="">
@@ -137,7 +137,7 @@
 					<span class="rc_company_name" id="gain_name2"></span>
 					<span class="rc_company_price" id="gain_price2"></span>
 					<span class="rc_company_change green">
-						<i class="fa-arrow-circle-o-up" style="display:inline-block;"></i>
+						<i class="fa-arrow-circle-o-up"></i>
 						<span class="rc_company" id="gain_change2"></span>
 					</span>
 				</div>
@@ -224,7 +224,7 @@
 				<!--<span class="header-company_text"></span>
 				<i class="fa fa-angle-double-right title-icon"></i>
 				<span class="header-company_location"></span> !-->
-				<a class="header-company_text" href="" style="color:#fff;">
+				<a class="header-company_text">
 					<span class="header-company_text"></span>
 				</a>
 				<i class="fa fa-angle-double-right title-icon"></i>
