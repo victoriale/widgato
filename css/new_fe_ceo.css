@@ -130,7 +130,9 @@ button:focus {
   margin:5px auto;
   border-radius: 50%;
   box-shadow: 0 0 0 3px #cccccc;
-
+  background-size: contain !important;
+  background-position: center center !important;
+  background-repeat: no-repeat;
   /*remove below cause its funny*/
   text-align: center;
   line-height: 100px;
@@ -234,4 +236,17 @@ button:focus {
 
 .swc-space{
   margin:0 2px;
+}
+
+.fcw-t2-title{
+  color: #000;
+}
+.fcw-t2-title:hover{
+  color:#39abff;
+}
+.cds-loc{
+  color: #000;
+}
+.cds-loc:hover{
+  color:#39abff;
 }
