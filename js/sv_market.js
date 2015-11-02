@@ -20,10 +20,8 @@ $(function(){
 	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=sv150_markets_slim', function(data){
 				//sets a number to allow different ID's to be called since data calls are different
 				data_result = data.sv150_markets_slim;
-				console.log(data_result);
 				data_exchange = data_result.exchange_stock_data;
 				data_gainer = data_result.sv150_list_gainer;
-				console.log(data_gainer);
 				var num = 1;
 				var link = 'http://www.investkit.com';
 				//plug in data call for SV150
@@ -33,7 +31,7 @@ $(function(){
 				$('#SV').html(SV150_price);
 				$('#SVchange').html(lossGainCheck(SV150_priceChange, num));
 				$('#SVcent').html(lossGainCheck(SV150_pctChange, num)+'%');
-				$("#SVtxt").attr("href", "http://www.investkit.com/sv150-top-gainers/sv150_losers/list");
+				$("#SVtxt").attr("href", link+"/sv150-top-gainers/sv150_gainers/list");
 
 				num = 2;
 				//plug in data call for Nasdaq
@@ -77,10 +75,10 @@ $(function(){
 				$("#Nytxt").attr("href",link+'/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list');
 				//plug in data for the top sv150 company
 				var SV150_topTck = data_gainer.c_ticker;
-				var SV150_top_price = Number(data_gainer.csi_price).toFixed(2);
-				var SV150_top_priceChange = Number(data_gainer.csi_price_change_since_last).toFixed(2);
-				var SV150_top_pctChange = Number(data_gainer.csi_percent_change_since_last).toFixed(2);
-				if(data_gainer.csi_price_last_operator == 0){
+				var SV150_top_price = Number(data_gainer.lcsi_price).toFixed(2);
+				var SV150_top_priceChange = Number(data_gainer.lcsi_price_change_since_last).toFixed(2);
+				var SV150_top_pctChange = Number(data_gainer.lcsi_percent_change_since_last).toFixed(2);
+				if(data_gainer.lcsi_price_last_operator == 0){
 					SV150_top_priceChange *= -1;
 					SV150_top_pctChange *= -1;
 				}
