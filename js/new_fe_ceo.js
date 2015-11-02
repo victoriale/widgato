@@ -36,7 +36,6 @@ function dataCall(index){
   $('#paid').html(nFormatter(curData[index].TotalComp));
   $('.fcw-image').css('background','url(http://apifin2.synapsys.us/images/'+curData[index].o_pic+') no-repeat');
   $('#title_link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
-
   $('#loc_link').attr('href',"http://www.investkit.com/"+curData[index].c_hq_state+"/location");
 }
 
