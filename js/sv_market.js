@@ -1,9 +1,8 @@
 $(function(){
 //create a search function to pass into graph
 	$('.market_search_box').bind("enterKey",function(e){
-
 		search = $('input').val();
-		company(search);
+		window.open('http://www.investkit.com/search/r='+search);
 	});//END OF FUNCTION
 
 	//by pressing enter in this field it will activate
@@ -15,17 +14,18 @@ $(function(){
 
 	$('.market_search_iconbg').on('click', function(){
 		search = $('input').val();
-		company(search);
+		window.open('http://www.investkit.com/search/r='+search);
 	})//END OF FUNCTION
 //data call to gather info on exchange prices
-	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_markets_slim', function(data){
-				console.log(data);
+	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=sv150_markets_slim', function(data){
 				//sets a number to allow different ID's to be called since data calls are different
 				data_result = data.sv150_markets_slim;
+				console.log(data_result);
 				data_exchange = data_result.exchange_stock_data;
 				data_gainer = data_result.sv150_list_gainer;
+				console.log(data_gainer);
 				var num = 1;
-				var link = 'http://localhost:3000';
+				var link = 'http://www.investkit.com';
 				//plug in data call for SV150
 				var SV150_price = Number(data_result.sv150_comp_index).toFixed(2);
 				var SV150_priceChange = Number(data_result.sv150_price_change).toFixed(2);
@@ -33,7 +33,8 @@ $(function(){
 				$('#SV').html(SV150_price);
 				$('#SVchange').html(lossGainCheck(SV150_priceChange, num));
 				$('#SVcent').html(lossGainCheck(SV150_pctChange, num)+'%');
-				$(".link").attr("href",link+'/'+data_gainer.c_ticker+'/'+compUrlName(data_gainer.c_name)+'/company/'+data_gainer.c_id);
+				$("#SVtxt").attr("href", "http://www.investkit.com/sv150-top-gainers/sv150_losers/list");
+
 				num = 2;
 				//plug in data call for Nasdaq
 				var NQ_price = Number(data_exchange[0].csi_price).toFixed(2);
@@ -83,7 +84,7 @@ $(function(){
 					SV150_top_priceChange *= -1;
 					SV150_top_pctChange *= -1;
 				}
-			  //$('.sv_top_profile').attr("href",data_result[2][0].profileUrl);
+			  $('.sv_top_profile').attr("href",link+"/"+data_gainer.c_ticker+"/"+compUrlName(data_gainer.c_name)+"/company/"+data_gainer.c_id);
 				$('.sv_top_image').css('background','url(http://apifin2.synapsys.us/images/'+data_gainer.c_logo+') no-repeat');
 				$('.sv-pd-name').html(SV150_topTck);
 				$('.sv-pd-name').attr('title', SV150_topTck);
@@ -92,19 +93,6 @@ $(function(){
 			}, 'json')
 })
 
-function company(search){
-//data call for company api
-var newWindow = window.open();
-$.when($.post('http://quu.nu/services/',{
-
-		service: "passfail",
-		action:  "batchService",
-		data: '[{"service":"passfail","data":{"service":"profiles.Card.get","params":["public",{"search":"'+search+' "}]}}]'
-    })).done(function(result) {
-
-	newWindow.location = result[0][0].profileUrl;
-});
-}
 
 function lossGainCheck(change, count){
 	//determines whether the price change is pos or neg and change colors accordingly

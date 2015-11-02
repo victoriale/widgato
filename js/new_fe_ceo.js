@@ -31,10 +31,12 @@ function dataCall(index){
   $('.exec-link').attr('href',"http://www.investkit.com/"+curData[index].o_first_name+"-"+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
   $('.fcw-href').attr('href',"http://www.investkit.com/"+compUrlName(data_result.list_title)+"/female_ceo/executive-list");
   $('.fcw-t2-title').html(curData[index].c_ticker);
+  $('.fcw-loc').html(curData[index].c_hq_city+' '+curData[index].c_hq_state);
   $('.fcw-content1').html(curData[index].o_first_name+' '+curData[index].o_last_name);
   $('#paid').html(nFormatter(curData[index].TotalComp));
   $('.fcw-image').css('background','url(http://apifin2.synapsys.us/images/'+curData[index].o_pic+') no-repeat');
   $('#title_link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
+
   $('#loc_link').attr('href',"http://www.investkit.com/"+curData[index].c_hq_state+"/location");
 }
 

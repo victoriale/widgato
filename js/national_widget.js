@@ -49,12 +49,12 @@ $(function(){
 					CUR_OFFSET = 0;
 					cur_exchange = 'NASDAQ';
 					curData = exList[0].top_list_list;
-					console.log(exList[0]);
+					//console.log(exList[0]);
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".nwlink").attr("href", "http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/5420/list");
+					$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap/5180/list");
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[0].graph_data, cur_exchange);
@@ -67,7 +67,7 @@ $(function(){
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".nwlink").attr("href", "http://www.investkit.com/Top-companies-on-AMEX-with-stock-percent-loss/5421/list");
+					$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-AMEX-with-highest-percent-market-cap/5208/list");
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[1].graph_data, cur_exchange);
@@ -80,7 +80,7 @@ $(function(){
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".nwlink").attr('href',"http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/5422/list");
+					$(".nwlink").attr('href',"http://www.investkit.com/Top-companies-on-NYSE-with-highest-percent-market-cap/5194/list");
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[2].graph_data, cur_exchange);
@@ -105,8 +105,10 @@ $(function(){
 
 	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=national_market_movers', function(data){
 		dataCall = data.national_market_movers;
+		console.log(dataCall);
 		exList = dataCall.exchange_list;
 		curData = exList[0].top_list_list;
+		console.log(curData);
 		mr_center_piece(CUR_OFFSET, curData);
 		stock_data($('.mtabs').data('dir'), dataCall);
 		stock_graph(dataCall.exchange_stock_data[0].graph_data, cur_exchange);
