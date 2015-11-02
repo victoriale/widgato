@@ -27,7 +27,7 @@ $(function(){
 	//data call for exchange and lists
 })
 
-function company(search){
+$(function company(search){
 //data call for company api
 $.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=stock_overview&param=3330', function(data){
 		dataCall = data.stock_overview;
@@ -53,21 +53,197 @@ $.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=stock_
 		}
 		var last_year = Number(stockData.stock_hist[365].sh_close).toFixed(2);
 		var today = Number(stockData.stock_hist[0].sh_close).toFixed(2);
-		//graph_data(stockData.c_name, stockData.c_id);
+
+		$('.header-company_text').html(stockData.c_name);
 		//$('.header-company_location').html(stockData.c_city+', '+stockData.c_state);
 		$('#company').css('background','url(http://apifin2.synapsys.us/images/'+stockData.c_logo+') no-repeat');
+		$('.tp_company-text').html(stockData.c_name);
 		$('.tp_company-price').html(price);
 		$('.tp_company-change').html(lossGainCheck(priceChange)+'('+lossGainCheck(pctChange)+'%)');
+
 		$('#marketcap').html(nFormatter(stockData.csi_market_cap));
 		$('#peratio').html(nFormatter(stockData.csi_pe_ratio));
 		$('#totalshares').html(nFormatter(stockData.csi_total_shares));
 		$('#averagevolume').html(nFormatter(stockData.csi_trading_vol));
 		$('#52weeks').html(last_year+' - '+today);
 		$('#open').html(nFormatter(stockData.csi_opening_price));
-		$('#company-profile').attr("href", '/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
-		$('#open').html(result[0][0].open);
+		$('#company-profile').attr("href", 'http://www.investkit.com/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
+		graph_data(stockData.stock_hist, stockData.c_name);
 		}, 'json')
+});
+function graph_data(graph_data, name){
+		c_name = name;
+		newDataArray = [];
+		//JSON array is converted into usable code for Highcharts also does not push NULL values
+		$.each(graph_data, function(i, val) {
+			var yVal = parseFloat(val.sh_close);
+			//makes sure any value passed is null
+			if (!isNaN(yVal)) {
+				newDataArray.push([val.sh_date * 1000, yVal]);
+			}
+		});
+
+		//test if there is even data otherwise send back error
+		if (!newDataArray.length)
+		{
+			$('#stockchart').html('INVALID');
+			return;
+		}
+		//remove zoombar
+		function hideZoomBar(chart) {
+			chart.rangeSelector.zoomText.hide();
+			$.each(chart.rangeSelector.buttons, function () {
+				this.hide();
+			});
+			$(chart.rangeSelector.divRelative).hide();
+		};
+		newDataArray.reverse();
+		//CALL HIGHCHARTS
+		callChart(newDataArray);
+
+		hideZoomBar(chart);
+		//Click function to allow custom button tabs to change highcharts.
+		$('.tabs').on('click',function(){
+
+			$('.tabs').css({"border-top":"3px solid #ebebeb","background-color":"#ebebeb"});
+		if (!chart) return;
+		//each selection represents Unix time in years
+			switch($(this).data('dir')){
+				case '1D':
+					callChart(newDataArray);
+					selection = 86400 * 1000;
+					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+				break;
+				case '1W':
+					callChart(newDataArray);
+					selection = 604800 * 1000;
+					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+				break;
+				case '1M':
+					callChart(newDataArray);
+					selection = 2629743 * 1000;
+					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+				break;
+				case '3M':
+					callChart(newDataArray);
+					selection = 2629743 * 3 * 1000;
+					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+				break;
+				case '6M':
+					callChart(newDataArray);
+					selection = 2629743 * 6 * 1000;
+					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+				break;
+				case '1Y':
+					callChart(newDataArray);
+					selection = 31556926  * 1 * 1000;
+					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+				break;
+				case '2Y':
+					callChart(newDataArray);
+					selection = 31556926  * 2 * 1000;
+					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+				break;
+				default:
+					selection = 0;
+				break;
+			}
+		//grabs the data max and min to start determining zoom feature
+		max = chart.xAxis[0].max;
+		min = max - selection;
+		chart.xAxis[0].setExtremes(min, max);
+		//shows reset zoom
+		chart.showResetZoom();
+	});
 }
+
+function callChart(array_data, max, min)
+{
+		//remove zoombar
+		function hideZoomBar(chart) {
+			chart.rangeSelector.zoomText.hide();
+			$.each(chart.rangeSelector.buttons, function () {
+						this.hide();
+			});
+			$(chart.rangeSelector.divRelative).hide();
+		};
+
+	chart = new Highcharts.StockChart({
+				rangeSelector : {
+					allButtonsEnabled: false,
+					buttonSpacing: 0,
+					selected: 0,
+					labelStyle: {
+						fontSize: 0,
+						color: '#fff',
+					},
+				},
+				chart: {
+					renderTo: so_graph,
+					animation: false,
+					height:145,
+					spacingRight:20,
+					backgroundColor: "#fbfbfb",
+					zoomType: 'x',
+					resetZoomButton: {
+						position: {
+							x: 0,
+							y: -30
+						}
+					}
+				},
+				tooltip: {
+					//round 2 decimals
+					valueDecimals: 2,
+					style:{
+						fontSize:'10px',
+					},
+					shadow: false,
+					borderWidth: 0,
+					backgroundColor: 'rgba(255,255,255,0.8)'
+
+				},
+				navigator:{
+						enabled: false,
+					},
+
+				scrollbar: {
+						enabled: false,
+					},
+				title: {
+					text: '',
+				},
+				xAxis: {
+					type:'datetime',
+					maxPadding: 0.22, //Prevent chart going off the screen on the right
+					minPadding: 0.22,
+					tickPosition: 'outside',
+					title: '',
+					labels:{
+							autoRotation:false,
+							step: null,
+							overflow:'false'
+					},
+				},
+				yAxis: {
+					tickPixelInterval: 30,
+					opposite:false,
+					title: '',
+				},
+				credits:{
+					enabled: false
+				},
+				series: [{
+					showInLegend: false,
+			        name : c_name.toUpperCase(),
+			        data : array_data,
+					turboThreshold: 1
+				}]
+			});
+		chart.showResetZoom();
+		hideZoomBar(chart);
+}
+
 $(function top(id){
 	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_report_card', function(data){
 				data_result = data.sv150_report_card;

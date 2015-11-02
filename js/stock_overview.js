@@ -42,11 +42,12 @@ $(function so_rightdata(id){
 		$('#eimage2').css('background','url(http://apifin2.synapsys.us/images/'+exeData[1].o_pic+') no-repeat');
 		$('#eimage3').css('background','url(http://apifin2.synapsys.us/images/'+exeData[2].o_pic+') no-repeat');
 		*/
-		$('#eprof1').attr("href",'/'+exeData[0].o_last_name+'-'+exeData[0].o_first_name+'/'+exeData[0].c_ticker+'/executive/'+exeData[0].o_id);
-		$('#eprof2').attr("href",'/'+exeData[1].o_last_name+'-'+exeData[1].o_first_name+'/'+exeData[1].c_ticker+'/executive/'+exeData[1].o_id);
-		$('#eprof3').attr("href",'/'+exeData[2].o_last_name+'-'+exeData[2].o_first_name+'/'+exeData[2].c_ticker+'/executive/'+exeData[2].o_id);
-		//$('.executive-list').attr("href",'/';
 
+		var site = 'http://www.investkit.com';
+		$('#eprof1').attr("href",site+'/'+exeData[0].o_first_name+'-'+exeData[0].o_last_name+'/'+exeData[0].c_ticker+'/executive/'+exeData[0].o_id);
+		$('#eprof2').attr("href",site+'/'+exeData[1].o_first_name+'-'+exeData[1].o_last_name+'/'+exeData[1].c_ticker+'/executive/'+exeData[1].o_id);
+		$('#eprof3').attr("href",site+'/'+exeData[2].o_first_name+'-'+exeData[2].o_last_name+'/'+exeData[2].c_ticker+'/executive/'+exeData[2].o_id);
+		//$('.executive-list').attr("href",'/');
 		$('#ename1').html(exeData[0].o_first_name+' '+exeData[0].o_last_name);
 		$('#ename2').html(exeData[1].o_first_name+' '+exeData[1].o_last_name);
 		$('#ename3').html(exeData[2].o_first_name+' '+exeData[2].o_last_name);
