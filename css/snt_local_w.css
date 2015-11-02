@@ -247,3 +247,15 @@ button:focus {
 .swc-space{
   margin:0 2px;
 }
+.fgw-t2-title{
+  color: #000;
+}
+.fgw-t2-title:hover{
+  color:#39abff;
+}
+.fgw-t2-loc{
+  color: #000;
+}
+.fgw-t2-loc:hover{
+  color:#39abff;
+}

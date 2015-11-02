@@ -79,6 +79,7 @@ $(function(){
     dataCall = data.local_market_movers;
     w_info = dataCall.top_list_list[0].top_list_info;
     list = dataCall.top_list_list[0].top_list_list;
+    console.log(list);
     dataLength = list.length;
     graph = dataCall.top_list_graph_data;
     compData(offset, list);
@@ -87,6 +88,7 @@ $(function(){
 
 function compData(offset){
   var curItem = list[offset];
+  console.log(curItem);
   $(".fgw-t2-title").html(curItem.c_ticker);
   $(".fgw-t2-loc").html(curItem.c_hq_city + ", " + curItem.c_hq_state);
   $(".fgw-image").css({"background-image":"url('http://apifin2.synapsys.us/images/"+curItem.c_logo+"')"});
