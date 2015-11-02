@@ -19,8 +19,7 @@ $(function(){
       }
   });
 
-	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=ceo_make_one_dollar', function(data){
-		console.log(data);
+	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=ceo_make_one_dollar', function(data){
     data_result = data.ceo_make_one_dollar;
     curData = data_result.list_data;
     dataLength = curData.length;
@@ -33,7 +32,8 @@ function dataCall(index){
   $('#paid').html(nFormatter(curData[index].TotalComp));
   $('.cds-image').css('background','url(http://apifin2.synapsys.us/images/'+curData[index].o_pic+') no-repeat');
   $('#exec-link').attr('href',"http://www.investkit.com/"+curData[index].o_first_name+'-'+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
-  $('.cds-href').attr('href', "http://www.investkit.com/"+compUrlName(data_result.list_title)+"/dollar_ceo/executive-list");//'/:loc_id?/:l_name/:list_id/list',
+  $('.cds-href').attr('href', "http://www.investkit.com/"+compUrlName(data_result.list_title)+"/dollar_ceo/executive-list");
+  $('#title_link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
 }
 
 function compUrlName(company) {
