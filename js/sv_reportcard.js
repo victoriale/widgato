@@ -3,7 +3,7 @@ $(function(){
 //create a search function to pass into graph
 	$('.rc_search_input').bind("enterKey",function(e){
 		search = $('input').val();
-
+		window.open('http://www.investkit.com/search/r='+search);
 	});//END OF FUNCTION
 
 	//by pressing enter in this field it will activate
@@ -15,7 +15,7 @@ $(function(){
 
 	$('.rc_pillbtn').on('click', function(){
 		search = $('input').val();
-		company(search);
+		window.open('http://www.investkit.com/search/r='+search);
 	})//END OF FUNCTION
 
 	$('.so_exit').on('click',function(){
@@ -28,7 +28,7 @@ $(function(){
 })
 
 $(function top(id){
-	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_report_card', function(data){
+	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=sv150_report_card', function(data){
 				data_result = data.sv150_report_card;
 				data_exchange = data_result.exchange_stock_data;
 				data_gainer = data_result.sv150_list_gainers;
@@ -76,8 +76,8 @@ $(function top(id){
 				$('#nychange').html(lossGainCheck(NYSE_priceChange));
 				$('#nypct').html(lossGainCheck(NYSE_pctChange)+"%");
 
-				var link = 'http://localhost:3000';
-				//$('#sv_link').attr("href",link+'/Top-companies-on-NYSE-with-stock-percent-loss/'+data1.c_id+'/list');
+				var link = 'http://www.investkit.com';
+				$('#sv_link').attr("href",link+"/sv150-top-gainers/sv150_gainers/list");
 				$('#nq_link').attr("href",link+'/Top-companies-on-NASDAQ-with-stock-percent-loss/'+data_exchange[0].c_id+'/list');
 				$('#amex_link').attr("href",link+'/Top-companies-on-AMEX-with-stock-percent-loss/'+data_exchange[1].c_id+'/list');
 				$('#nyse_link').attr("href",link+'/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list');
@@ -89,7 +89,6 @@ $(function top(id){
 				$('#rc_lose2').css('background','url(http://apifin2.synapsys.us/images/'+data_loser[1].c_logo+') no-repeat');
 				$('#rc_lose3').css('background','url(http://apifin2.synapsys.us/images/'+data_loser[2].c_logo+') no-repeat');
 
-				var link =' http://localhost:3000';
 				$('#gain_profile1').attr("href",link+'/'+data_gainer[0].c_ticker+'/'+compUrlName(data_gainer[0].c_name)+'/company/'+data_gainer[0].c_id);
 				$('#gain_profile2').attr("href",link+'/'+data_gainer[1].c_ticker+'/'+compUrlName(data_gainer[1].c_name)+'/company/'+data_gainer[1].c_id);
 				$('#gain_profile3').attr("href",link+'/'+data_gainer[2].c_ticker+'/'+compUrlName(data_gainer[2].c_name)+'/company/'+data_gainer[2].c_id);

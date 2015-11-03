@@ -5,6 +5,22 @@ var curData;
 
 //run js code onn startup
 $(function(){
+	$('.search-input').bind("enterKey",function(e){
+		search = $('input').val();
+		window.open('http://www.investkit.com/search/r='+search);
+	});//END OF FUNCTION
+
+	//by pressing enter in this field it will activate
+	$('.search-input').keyup(function(e){
+			if(e.keyCode == 13){
+			$(this).trigger("enterKey");
+		}
+	});//END OF FUNCTION
+
+	$('.input-pill_btn').on('click', function(){
+		search = $('input').val();
+		window.open('http://www.investkit.com/search/r='+search);
+	})//END OF FUNCTION
 	//script to allow widgets to change to next item on list(same as 'see the whole list' button link)
 	$('.mrwidget_right-button').on('click', function() {
 		//when clicking on right button will change offset of data call and pull correct data based off of SEE THE WHOLE LIST
@@ -40,7 +56,6 @@ $(function(){
 	$('.mtabs').on('click', function(){
 		//reset the css background
 		$('.mtabs').css({"background-color":"#f2f2f2","border-bottom":"1px solid #cccccc"});
-
 		//switch statement to swap out tabs and recall data api depending on which tab/exchange is chosen
 		//change title as well
 		switch($(this).data('dir')){
@@ -52,7 +67,7 @@ $(function(){
 				$('.stock-container').css({"display":"block"});
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-				$(".link").attr("href",link+'/'+data_gainer.c_ticker+'/'+compUrlName(data_gainer.c_name)+'/company/'+data_gainer.c_id);
+				$('.link').attr("href",link+'/'+data_gainer.c_ticker+'/'+compUrlName(data_gainer.c_name)+'/company/'+data_gainer.c_id);
 				num = 2;
 				mr_center_piece(CUR_OFFSET, curData);
 				stock_data(cur_exchange, dataCall);
@@ -105,7 +120,6 @@ $(function(){
 	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_widget', function(data){
 		//set data to global variable
 		dataCall = data.sv150_widget;
-		console.log(dataCall);
 		curData = dataCall.sv150_list_data;
 		mr_center_piece(CUR_OFFSET, curData);
 		stock_data($('.mtabs').data('dir'), dataCall);
@@ -113,26 +127,26 @@ $(function(){
 	}, 'json')
 
 })//END OF FUNCTION
-
 //data api call for list
 function mr_center_piece(offset, data){
-	//console.log(data[offset].c_name);
-	//console.log(data[offset]);
 	//service called time to set div classes to given results
 	$('.name').html(data[offset].c_name);
 	$('.logo-image').css('background','url(http://apifin2.synapsys.us/images/'+data[offset].c_logo+') no-repeat');
 	$('.mrwidget_counter').html('#' + (offset+1));
-
-	// link to profile URL
-	$(".profile-link").attr("href", data[offset].c_name);
-
+	$('.profile-link').attr("href","http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
+	$('.trending-1').html(curData[0].c_ticker);
+	$('.trending-2').html(curData[1].c_ticker);
+	$('.trending-3').html(curData[2].c_ticker);
+	$('#trending_1').attr("href", "http://www.investkit.com/"+curData[0].c_ticker+"/"+compUrlName(curData[0].c_name)+"/company/"+curData[0].c_id);
+	$('#trending_1').attr("href", "http://www.investkit.com/"+curData[1].c_ticker+"/"+compUrlName(curData[1].c_name)+"/company/"+curData[1].c_id);
+	$('#trending_1').attr("href", "http://www.investkit.com/"+curData[2].c_ticker+"/"+compUrlName(curData[2].c_name)+"/company/"+curData[2].c_id);
 }//END OF FUNCTION
 
 // data api returned based on which exchange is selected
 function stock_data(cur_exch, stockData){
 	switch(cur_exch){
 		case 'SV150':
-			var price = stockData.sv_150_graph_data[0].sh_open;
+			var price = stockData.sv150_graph_data[0].sh_open;
 			var priceChng = stockData.sv150_price_change;
 			var pctChng = stockData.sv150_percent_change;
  			$('.price').html(Number(price).toFixed(2));
@@ -156,7 +170,6 @@ function stock_data(cur_exch, stockData){
 			break;
 	}//END OF FUNCTION
 }//END OF FUNCTION
-
 
 function stock_graph(dataArray, exchange){
 	//console.log("stock graph:", dataArray);
@@ -275,3 +288,9 @@ function convert_num(change_num, changePercent_num){
 		$('.change').html(change_num+'('+changePercent_num+'%)');
 	}
 }//END OF FUNCTION
+function compUrlName(company) {
+  if ( typeof company == "undefined" || company == null ) {
+    return '';
+  }
+  return company.replace(/(,|\.|&)/g,'').replace(/ /g,'-').replace(/\//g,'_');
+}
