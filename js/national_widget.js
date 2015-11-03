@@ -5,6 +5,22 @@ var curData;
 
 //run js code onn startup
 $(function(){
+	$('.search-input').bind("enterKey",function(e){
+		search = $('input').val();
+		window.open('http://www.investkit.com/search/r='+search);
+	});//END OF FUNCTION
+	//by pressing enter in this field it will activate
+	$('.search-input').keyup(function(e){
+		if(e.keyCode == 13){
+			$(this).trigger("enterKey");
+		}
+	});//END OF FUNCTION
+
+	$('.input-pill_btn').on('click', function(){
+		search = $('input').val();
+		window.open('http://www.investkit.com/search/r='+search);
+	})//END OF FUNCTION
+
 	//script to allow widgets to change to next item on list(same as 'see the whole list' button link)
 	$('.national_widget-content-buttonright').on('click', function() {
 		//when clicking on right button will change offset of data call and pull correct data based off of SEE THE WHOLE LIST

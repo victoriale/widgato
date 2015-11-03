@@ -5,7 +5,6 @@ $(function(){
 		search = $('input').val();
 		window.open('http://www.investkit.com/search/r='+search);
 	});//END OF FUNCTION
-
 	//by pressing enter in this field it will activate
 	$('.rc_search_input').keyup(function(e){
 		if(e.keyCode == 13){
@@ -126,11 +125,19 @@ function lossGainCheck(change)
 	if (!isNaN(change)){
 		if(change > 0){
 			$('.tp_company-color').css({"color":"#44b224"});
+			$('#rc4').css({"color":"#44b224"});
+			$('#rc3').css({"color":"#44b224"});
+			$('#rc2').css({"color":"#44b224"});
+			$('#rc1').css({"color":"#44b224"});
 			$('.fa-arrow-circle-o-up').show();
 			$('.fa-arrow-circle-o-down').hide();
 		}
 		else{
 			$('.tp_company-color').css({"color":"#ca1010"});
+			$('#rc4').css({"color":"#ca1010"});
+			$('#rc3').css({"color":"#ca1010"});
+			$('#rc2').css({"color":"#ca1010"});
+			$('#rc1').css({"color":"#ca1010"});
 			$('.fa-arrow-circle-o-down').show();
 			$('.fa-arrow-circle-o-up').hide();
 		}
