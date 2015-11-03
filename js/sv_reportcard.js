@@ -29,6 +29,7 @@ $(function(){
 $(function top(id){
 	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=sv150_report_card', function(data){
 				data_result = data.sv150_report_card;
+				console.log(data_result);
 				data_exchange = data_result.exchange_stock_data;
 				data_gainer = data_result.sv150_list_gainers;
 				data_loser = data_result.sv150_list_losers;
@@ -41,9 +42,9 @@ $(function top(id){
 				$('#svchange').html(lossGainCheck(SV150_priceChange));
 				$('#svpct').html(lossGainCheck(SV150_pctChange)+'%');
 
-				var NQ_price = Number(data_exchange[0].csi_price).toFixed(2);
-				var NQ_priceChange = Number(data_exchange[0].csi_price_change_since_last).toFixed(2);
-				var NQ_pctChange = Number(data_exchange[0].csi_percent_change_since_last).toFixed(2);
+				var NQ_price = Number(data_exchange[1].csi_price).toFixed(2);
+				var NQ_priceChange = Number(data_exchange[1].csi_price_change_since_last).toFixed(2);
+				var NQ_pctChange = Number(data_exchange[1].csi_percent_change_since_last).toFixed(2);
 				if(data_exchange[0].csi_price_last_operator == 0){
 					NQ_priceChange *= -1;
 					NQ_pctChange *= -1;
@@ -52,9 +53,9 @@ $(function top(id){
 				$('#nqchange').html(lossGainCheck(NQ_priceChange));
 				$('#napct').html(lossGainCheck(NQ_pctChange)+"%");
 				//plug in data call for AMEX
-				var AMEX_price = Number(data_exchange[2].csi_price).toFixed(2);
-				var AMEX_priceChange = Number(data_exchange[2].csi_price_change_since_last).toFixed(2);
-				var AMEX_pctChange = Number(data_exchange[2].csi_percent_change_since_last).toFixed(2);
+				var AMEX_price = Number(data_exchange[0].csi_price).toFixed(2);
+				var AMEX_priceChange = Number(data_exchange[0].csi_price_change_since_last).toFixed(2);
+				var AMEX_pctChange = Number(data_exchange[0].csi_percent_change_since_last).toFixed(2);
 				if(data_exchange[2].csi_price_last_operator == 0){
 					AMEX_priceChange *= -1;
 					AMEX_pctChange *= -1;
@@ -64,9 +65,9 @@ $(function top(id){
 				$('#sppct').html(lossGainCheck(AMEX_pctChange)+"%");
 
 				//plug in data call for NYSE
-				var NYSE_price = Number(data_exchange[1].csi_price).toFixed(2);
-				var NYSE_priceChange = Number(data_exchange[1].csi_price_change_since_last).toFixed(2);
-				var NYSE_pctChange = Number(data_exchange[1].csi_percent_change_since_last).toFixed(2);
+				var NYSE_price = Number(data_exchange[2].csi_price).toFixed(2);
+				var NYSE_priceChange = Number(data_exchange[2].csi_price_change_since_last).toFixed(2);
+				var NYSE_pctChange = Number(data_exchange[2].csi_percent_change_since_last).toFixed(2);
 				if(data_exchange[1].csi_price_last_operator == 0){
 					NYSE_priceChange *= -1;
 					NYSE_pctChange *= -1;
@@ -138,8 +139,8 @@ function lossGainCheck(change)
 			$('#rc3').css({"color":"#ca1010"});
 			$('#rc2').css({"color":"#ca1010"});
 			$('#rc1').css({"color":"#ca1010"});
-			$('.fa-arrow-circle-o-down').show();
 			$('.fa-arrow-circle-o-up').hide();
+			$('.fa-arrow-circle-o-down').show();
 		}
 	}
 	else if(isNaN(change)){

@@ -64,26 +64,27 @@ $(function(){
 			  case 'NASDAQ':
 					CUR_OFFSET = 0;
 					cur_exchange = 'NASDAQ';
-					curData = exList[0].top_list_list;
+					curData = exList[1].top_list_list;
+					console.log(curData);
 					//console.log(exList[0]);
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap/5180/list");
+					$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list");
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[0].graph_data, cur_exchange);
 					break;
 				case 'AMEX':
 					CUR_OFFSET = 0;
-					curData = exList[1].top_list_list;
+					curData = exList[0].top_list_list;
 					cur_exchange = 'AMEX';
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-AMEX-with-highest-percent-market-cap/5208/list");
+					$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list");
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[1].graph_data, cur_exchange);
@@ -91,12 +92,12 @@ $(function(){
 				case 'NYSE':
 					CUR_OFFSET = 0;
 					cur_exchange = 'NYSE';
-					curData = exList[2].top_list_list;
+					curData = exList[1].top_list_list;
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".nwlink").attr('href',"http://www.investkit.com/Top-companies-on-NYSE-with-highest-percent-market-cap/5194/list");
+					$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list");
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[2].graph_data, cur_exchange);
@@ -119,12 +120,10 @@ $(function(){
 
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
-	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=national_market_movers', function(data){
+	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=national_market_movers', function(data){
 		dataCall = data.national_market_movers;
-		console.log(dataCall);
 		exList = dataCall.exchange_list;
 		curData = exList[0].top_list_list;
-		console.log(curData);
 		mr_center_piece(CUR_OFFSET, curData);
 		stock_data($('.mtabs').data('dir'), dataCall);
 		stock_graph(dataCall.exchange_stock_data[0].graph_data, cur_exchange);

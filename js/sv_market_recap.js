@@ -119,8 +119,10 @@ $(function(){
 
 	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_widget', function(data){
 		//set data to global variable
+		console.log(data);
 		dataCall = data.sv150_widget;
 		curData = dataCall.sv150_list_data;
+		console.log(curData);
 		mr_center_piece(CUR_OFFSET, curData);
 		stock_data($('.mtabs').data('dir'), dataCall);
 		stock_graph(dataCall.sv_150_graph_data, cur_exchange);
