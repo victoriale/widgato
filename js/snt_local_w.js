@@ -5,9 +5,13 @@ var remnant = '';
 var locName = '';
 var city = '';
 var state = '';
+var dma = '';
 var loc = '';
 var max = 10;
 var bord = false;
+var dma = '';
+var listid = '';
+var listTitle = '';
 
 var offset=0;
 var dataCall = {};
@@ -16,7 +20,7 @@ var graph = {};
 var w_info = {};
 var dataLength;
 $(function(){
-/*
+
   var temp = location.search;
   var query = {};
 
@@ -30,26 +34,63 @@ $(function(){
 
   	clickyId = query.c_id;
 
-  	locName = query['loc']['location_name'];
+  	locName = query['loc']['loc_name'];
 
-  	city = query['loc']['loc_id']['city'];
+    dma = query['loc']['loc']['DMA'];
 
-  	state = query['loc']['loc_id']['state'];
-
-    if(query['loc']['location']['DMA'].length == 0){
-      location = query['loc']['location']['state'];
-    }else{
-      for(var i = 0; i < query['loc']['location']['DMA'].length-1; i++){
-        location += query['loc']['location']['DMA'][i]+" ";
+    //checks if it is a remnant and runs through an api
+    if(remnant == 'true' || remnant == true){
+      $.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2", function(result){
+        loc = result[0].state;
+        //console.log("Grabbing data call");
+        $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
+          dataCall = data.local_market_movers;
+          w_info = dataCall.top_list_list[0].top_list_info;
+          list = dataCall.top_list_list[0].top_list_list;
+          listid = w_info.top_list_id;
+          listTitle = w_info.top_list_title;
+          //console.log(list);
+          dataLength = list.length;
+          graph = dataCall.top_list_graph_data;
+          compData(offset, list);
+        }, 'json')
+      })
+    }else{//if not a remnant then grab all data for datacall
+      if(dma.length == 0 || typeof dma == 'undefined'){
+        city = query['loc']['loc']['city'];
+        state = query['loc']['loc']['state'];
+        if(typeof city == 'undefined'){
+          loc = state;
+        }
+      }else{
+        for(var i = 0; i < dma.length; i++)
+        {
+          loc += dma[i]+" ";
+        }
+        loc = loc.replace(/ /g, ",");
+        loc = removeLastComma(loc);
       }
-      location = location.replace(/ /g, ",");
-      location = removeLastComma(location);
-      console.log(location);
+
+      //console.log("Grabbing data call");
+      $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
+        dataCall = data.local_market_movers;
+        w_info = dataCall.top_list_list[0].top_list_info;
+        list = dataCall.top_list_list[0].top_list_list;
+        listid = w_info.top_list_id;
+        listTitle = w_info.top_list_title;
+        //console.log(list);
+        dataLength = list.length;
+        graph = dataCall.top_list_graph_data;
+        compData(offset, list);
+      }, 'json')
+
+
     }
-    //returns string true or false
   	bord = query.bord;
+
+
   }
-*/
+
   var script_tag = document.createElement('script');
   script_tag.setAttribute('src','//static.getclicky.com/js');
   document.head.appendChild(script_tag);
@@ -73,17 +114,6 @@ $(function(){
       compData(offset);
     }
 	});
-
-  //console.log("Grabbing data call");
-  $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param=807', function(data){
-    dataCall = data.local_market_movers;
-    w_info = dataCall.top_list_list[0].top_list_info;
-    list = dataCall.top_list_list[0].top_list_list;
-    //console.log(list);
-    dataLength = list.length;
-    graph = dataCall.top_list_graph_data;
-    compData(offset, list);
-  }, 'json')
 });
 
 function compData(offset){
@@ -93,9 +123,19 @@ function compData(offset){
   $(".fgw-t2-loc").html(curItem.c_hq_city + ", " + curItem.c_hq_state);
   $(".fgw-image").css({"background-image":"url('http://apifin2.synapsys.us/images/"+curItem.c_logo+"')"});
   $(".fgw-content1").html(convert_num(Number(curItem.stock_percent).toFixed(2)));
-  $(".fgw-link").attr('href',"http://www.investkit.com/"+curItem.c_ticker+"/"+compUrlName(curItem.c_name)+"/company/"+curItem.c_id);
-  stockGraph(curItem.c_id, graph, curItem.c_ticker);
-  $(".fgw-loc-link").attr('href',"http://www.investkit.com/"+curItem.c_hq_state+"/location");
+  listTitle = listTitle.replace(/ /g, '-');
+  if(remnant == 'true' || remnant == true){
+    $(".fgw-t1").html("Local Market Movers");
+    $(".fgw-href").attr('href',"http://www.investkit.com/"+listTitle+"/"+listid+"/list/"+loc);
+    $(".fgw-link").attr('href',"http://www.investkit.com/"+curItem.c_ticker+"/"+compUrlName(curItem.c_name)+"/company/"+curItem.c_id);
+    $(".fgw-loc-link").attr('href',"http://www.investkit.com/"+curItem.c_hq_state+"/location");
+  }else{
+    locName = locName.replace(/\+/g,' ');
+    $(".fgw-t1").html(locName);
+    $(".fgw-href").attr('href',"http://www.myinvestkit.com/"+domain+"/"+listTitle+"/"+loc+"/"+listid+"/list");
+    $(".fgw-link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curItem.c_name)+"/"+curItem.c_ticker+"/c/"+curItem.c_id);
+    $(".fgw-loc-link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+curItem.c_hq_state+"/loc");
+  }
   stockGraph(curItem.c_id, graph, curItem.c_ticker);
 }
 
@@ -197,3 +237,9 @@ function convert_num(change_num){
 		$('.fgw-content1').html(change_num+'%');
 	}
 }//END OF FUNCTION
+
+function removeLastComma(strng){
+    var n=strng.lastIndexOf(",");
+    var a=strng.substring(0,n)
+    return a;
+}
