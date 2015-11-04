@@ -59,7 +59,7 @@ $(function(){
 	$('.market_search_box').bind("enterKey",function(e){
 		search = $('input').val();
 		if(remnant == 'true' || remnant == true){
-		window.open('http://www.investkit.com/search/r='+search);
+			window.open('http://www.investkit.com/search/r='+search);
 		}else{
 			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
 		}
@@ -75,7 +75,7 @@ $(function(){
 	$('.market_search_iconbg').on('click', function(){
 		search = $('input').val();
 		if(remnant == 'true' || remnant == true){
-		window.open('http://www.investkit.com/search/r='+search);
+			window.open('http://www.investkit.com/search/r='+search);
 		}else{
 			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
 		}
@@ -116,7 +116,7 @@ $(function(){
 				$('#Nqchange').html(lossGainCheck(NQ_priceChange, num));
 				$('#Nqcent').html(lossGainCheck(NQ_pctChange, num)+"%");
 				if(remnant == 'true' || remnant == true){
-				$('#Nqtxt').attr("href",'http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/'+data_exchange[0].c_id+'/list');
+					$('#Nqtxt').attr("href",'http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/'+data_exchange[0].c_id+'/list');
 				}else{
 					$('#Nqtxt').attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NASDAQ-with-stock-percent-loss/'+data_exchange[0].c_id+'/list');
 				}
@@ -152,9 +152,9 @@ $(function(){
 				$('#Nychange').html(lossGainCheck(NYSE_priceChange, num));
 				$('#Nycent').html(lossGainCheck(NYSE_pctChange, num)+"%");
 				if(remnant == 'true' || remnant == true){
-				$("#Nytxt").attr("href",'http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list');
+					$("#Nytxt").attr("href",'http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list');
 				}else{
-				$("#Nytxt").attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list');
+					$("#Nytxt").attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list');
 				}
 
 				//plug in data for the top sv150 company
@@ -167,9 +167,9 @@ $(function(){
 					SV150_top_pctChange *= -1;
 				}
 				if(remnant == 'true' || remnant == true){
-			  $('.sv_top_profile').attr("href","http://www.investkit.com/"+data_gainer.c_ticker+"/"+compUrlName(data_gainer.c_name)+"/company/"+data_gainer.c_id);
+			  	$('.sv_top_profile').attr("href","http://www.investkit.com/"+data_gainer.c_ticker+"/"+compUrlName(data_gainer.c_name)+"/company/"+data_gainer.c_id);
 				}else{
-			  $('.sv_top_profile').attr("href","http://www.myinvestkit.com/"+domain+"/"+compUrlName(data_gainer.c_name)+"/"+data_gainer.c_ticker+"/c/"+data_gainer.c_id);
+			  	$('.sv_top_profile').attr("href","http://www.myinvestkit.com/"+domain+"/"+compUrlName(data_gainer.c_name)+"/"+data_gainer.c_ticker+"/c/"+data_gainer.c_id);
 				}
 
 				$('.sv_top_image').css('background','url(http://apifin2.synapsys.us/images/'+data_gainer.c_logo+') no-repeat');

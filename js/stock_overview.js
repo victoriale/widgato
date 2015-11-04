@@ -1,58 +1,183 @@
 var c_name;
+var comp = '';
+var domain = '';
+var clickyId = 0;
+var remnant = '';
+var locName = '';
+var city = '';
+var state = '';
+var loc = '';
+var max = 10;
+var bord = false;
 $(function location(loc){
+  var temp = location.search;
+  var query = {};
+
+  if(temp != null){
+    query = JSON.parse(decodeURIComponent(temp.substr(1)));
+
+    //set the query data from database to global variable to use
+    domain = query.dom;
+
+    remnant = query.remn;
+
+    clickyId = query.c_id;
+
+    locName = query['loc']['loc_name'];
+
+    locName = locName.replace('+',' ');
+    //returns string true or false
+    bord = query.bord;
+		/*
+		//Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
+		//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
+		for(var i = 0; i < query['loc']['loc']['city'].length; i++){
+			var c = query['loc']['loc']['city'][i].city;
+			var s = query['loc']['loc']['city'][i].state;
+			loc = loc + c + "," + s;
+			if (typeof query['loc']['loc']['city'][i+1] != 'undefined'){
+				loc += '|';
+			}
+		}
+		*/
+  	}
+  	if(bord == 'true'){
+  		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
+  	}
+
+  	var script_tag = document.createElement('script');
+  	script_tag.setAttribute('src','//static.getclicky.com/js');
+  	document.head.appendChild(script_tag);
+  	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
+  	document.head.appendChild(clicks[0]);
+
+    var windowURL = document.referrer;
+  	var URLLength = windowURL.length - 1;
+  	for(var i=0;i<=URLLength;i++)
+  	{
+  		if(windowURL.charAt(URLLength-i) == '/')
+  		{
+  			var reqdString = windowURL.substring((URLLength-i)+1, URLLength+1);
+  			switch(reqdString){
+  				case 'juniper':
+  				//points to juniper pharm which is not right
+  				reqdString = "juniper network";
+  				break;
+  				case 'intel':
+  				//points to intellicheck for some reason
+  				reqdString = "intel corp";
+  				break;
+  				case 'google':
+  				//points to intellicheck for some reason
+  				reqdString = "GOOGL";
+  				break;
+  				default:
+  				break;
+  			}
+        comp = reqdString;
+  			break;
+  		}
+  	}
+
   $.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=local_market_movers&param=807', function(data){
 		dataCall = data.local_market_movers;
 		list = dataCall.top_list_list[0].top_list_list;
 		var curItem = list[0];
 		$(".header-company_location").html(curItem.c_hq_city + ", " + curItem.c_hq_state);
-  	$(".header-company_link").attr('href',"http://www.investkit.com/"+curItem.c_hq_state+"/location");
-}, 'json')
+    if(remnant == 'true' || remnant == true){
+    	  $(".header-company_link").attr('href',"http://www.investkit.com/"+curItem.c_hq_state+"/location");
+    }else{
+        $(".header-company_link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+curItem.c_hq_state+"/loc");
+    }
+  }, 'json')
 });
 
 $(function so_leftdata(id){
-	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=stock_overview&param=3330', function(data){
-    dataCall = data.stock_overview;
-		stockData= dataCall.stock_data[0];
-		exeData = dataCall.executive_data[0];
-		//var stockHist = stockData.stock_hist.slice(1, 365);
-		var price = '$'+Number(stockData.csi_price).toFixed(2);
-		var priceChange = Number(stockData.csi_price_change_since_last).toFixed(2);
-		var pctChange = Number(stockData.csi_percent_change_since_last).toFixed(2);
-		if(stockData.csi_price_last_operator == 0){
-			priceChange *= -1;
-			pctChange *= -1;
-		}
-		var last_year = Number(stockData.stock_hist[365].sh_close).toFixed(2);
-		var today = Number(stockData.stock_hist[0].sh_close).toFixed(2);
+  var temp = location.search;
+  var query = {};
 
-		$('.header-company_text').html(stockData.c_name);
-		//$('.header-company_location').html(stockData.c_city+', '+stockData.c_state);
-		$('#company').css('background','url(http://apifin2.synapsys.us/images/'+stockData.c_logo+') no-repeat');
-		$('.tp_company-text').html(stockData.c_name);
-		$('.tp_company-price').html(price);
-		$('.tp_company-change').html(lossGainCheck(priceChange)+'('+lossGainCheck(pctChange)+'%)');
+  if(temp != null){
+    query = JSON.parse(decodeURIComponent(temp.substr(1)));
 
-		$('#marketcap').html(nFormatter(stockData.csi_market_cap));
-		$('#peratio').html(nFormatter(stockData.csi_pe_ratio));
-		$('#totalshares').html(nFormatter(stockData.csi_total_shares));
-		$('#averagevolume').html(nFormatter(stockData.csi_trading_vol));
-		$('#52weeks').html(last_year+' - '+today);
-		$('#open').html(nFormatter(stockData.csi_opening_price));
-		$('#company-profile').attr("href", 'http://www.investkit.com/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
-		graph_data(stockData.stock_hist, stockData.c_name);
+    //set the query data from database to global variable to use
+    domain = query.dom;
 
-		$('#eimage1').css('background','url(http://apifin2.synapsys.us/images/'+exeData[0].o_pic+') no-repeat');
-		$('#eimage2').css('background','url(http://apifin2.synapsys.us/images/'+exeData[1].o_pic+') no-repeat');
-		$('#eimage3').css('background','url(http://apifin2.synapsys.us/images/'+exeData[2].o_pic+') no-repeat');
+    remnant = query.remn;
 
-		var site = 'http://www.investkit.com';
-		$('#eprof1').attr("href",site+'/'+exeData[0].o_first_name+'-'+exeData[0].o_last_name+'/'+exeData[0].c_ticker+'/executive/'+exeData[0].o_id);
-		$('#eprof2').attr("href",site+'/'+exeData[1].o_first_name+'-'+exeData[1].o_last_name+'/'+exeData[1].c_ticker+'/executive/'+exeData[1].o_id);
-		$('#eprof3').attr("href",site+'/'+exeData[2].o_first_name+'-'+exeData[2].o_last_name+'/'+exeData[2].c_ticker+'/executive/'+exeData[2].o_id);
-		$('.executive-list').attr("href",site+'/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/executives/'+exeData[0].c_id);
-		$('#ename1').html(exeData[0].o_first_name+' '+exeData[0].o_last_name);
-		$('#ename2').html(exeData[1].o_first_name+' '+exeData[1].o_last_name);
-		$('#ename3').html(exeData[2].o_first_name+' '+exeData[2].o_last_name);
+    clickyId = query.c_id;
+
+    locName = query['loc']['loc_name'];
+
+    locName = locName.replace('+',' ');
+    //returns string true or false
+    bord = query.bord;
+  }
+  if(bord == 'true'){
+    $(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
+  }
+
+  var script_tag = document.createElement('script');
+  script_tag.setAttribute('src','//static.getclicky.com/js');
+  document.head.appendChild(script_tag);
+  var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
+  document.head.appendChild(clicks[0]);
+
+  $.get('http://apifin.investkit.com/call_controller.php?action=search&option=widget_search&wild=1&param='+comp, function(result){
+    	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=stock_overview&param='+result.company_name.func_data.search_data[0].c_id, function(data){
+        dataCall = data.stock_overview;
+    		stockData= dataCall.stock_data[0];
+    		exeData = dataCall.executive_data[0];
+    		//var stockHist = stockData.stock_hist.slice(1, 365);
+    		var price = '$'+Number(stockData.csi_price).toFixed(2);
+    		var priceChange = Number(stockData.csi_price_change_since_last).toFixed(2);
+    		var pctChange = Number(stockData.csi_percent_change_since_last).toFixed(2);
+    		if(stockData.csi_price_last_operator == 0){
+    			priceChange *= -1;
+    			pctChange *= -1;
+    		}
+    		var last_year = Number(stockData.stock_hist[365].sh_close).toFixed(2);
+    		var today = Number(stockData.stock_hist[0].sh_close).toFixed(2);
+
+    		$('.header-company_text').html(stockData.c_name);
+    		//$('.header-company_location').html(stockData.c_city+', '+stockData.c_state);
+    		$('#company').css('background','url('+imageUrl(stockData.c_logo)+') no-repeat');
+    		$('.tp_company-text').html(stockData.c_name);
+    		$('.tp_company-price').html(price);
+    		$('.tp_company-change').html(lossGainCheck(priceChange)+'('+lossGainCheck(pctChange)+'%)');
+
+    		$('#marketcap').html(nFormatter(stockData.csi_market_cap));
+    		$('#peratio').html(nFormatter(stockData.csi_pe_ratio));
+    		$('#totalshares').html(nFormatter(stockData.csi_total_shares));
+    		$('#averagevolume').html(nFormatter(stockData.csi_trading_vol));
+    		$('#52weeks').html(last_year+' - '+today);
+    		$('#open').html(nFormatter(stockData.csi_opening_price));
+    		graph_data(stockData.stock_hist, stockData.c_name);
+
+    		$('#eimage1').css('background','url('+imageUrl(exeData[0].o_pic)+') no-repeat');
+    		$('#eimage2').css('background','url('+imageUrl(exeData[1].o_pic)+') no-repeat');
+    		$('#eimage3').css('background','url('+imageUrl(exeData[2].o_pic)+') no-repeat');
+				if(remnant == 'true' || remnant == true){
+      		$('#company-profile').attr("href", 'http://www.investkit.com/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
+      		$('.sv_company-link').attr("href", 'http://www.investkit.com/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
+      		$('#eprof1').attr("href",'http://www.investkit.com/'+exeData[0].o_first_name+'-'+exeData[0].o_last_name+'/'+exeData[0].c_ticker+'/executive/'+exeData[0].o_id);
+      		$('#eprof2').attr("href",'http://www.investkit.com/'+exeData[1].o_first_name+'-'+exeData[1].o_last_name+'/'+exeData[1].c_ticker+'/executive/'+exeData[1].o_id);
+      		$('#eprof3').attr("href",'http://www.investkit.com/'+exeData[2].o_first_name+'-'+exeData[2].o_last_name+'/'+exeData[2].c_ticker+'/executive/'+exeData[2].o_id);
+      		$('.executive-list').attr("href",'http://www.investkit.com/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/executives/'+exeData[0].c_id);
+        }else{
+          $('#company-profile').attr("href", 'http://www.myinvestkit.com/'+domain+'/'+compUrlName(stockData.c_name)+'/'+exeData[0].c_ticker+'/c/'+stockData.c_id);
+          $('.sv_company-link').attr("href", 'http://www.myinvestkit.com/'+domain+'/'+compUrlName(stockData.c_name)+'/'+exeData[0].c_ticker+'/c/'+stockData.c_id);
+          $('#eprof1').attr("href",'http://www.myinvestkit.com/'+domain+'/'+exeData[0].c_ticker+'/'+exeData[0].o_last_name+'-'+exeData[0].o_first_name+'/e/'+exeData[0].o_id);
+
+          $('#eprof2').attr("href",'http://www.myinvestkit.com/'+domain+'/'+exeData[1].c_ticker+'/'+exeData[1].o_last_name+'-'+exeData[1].o_first_name+'/e/'+exeData[1].o_id);
+
+          $('#eprof3').attr("href",'http://www.myinvestkit.com/'+domain+'/'+exeData[2].c_ticker+'/'+exeData[2].o_last_name+'-'+exeData[2].o_first_name+'/e/'+exeData[2].o_id);
+
+          $('.executive-list').attr("href",'http://www.myinvestkit.com/'+domain+'/'+compUrlName(stockData.c_name)+'/'+exeData[0].c_ticker+'/execs/'+exeData[0].c_id);
+        }
+    		$('#ename1').html(exeData[0].o_first_name+' '+exeData[0].o_last_name);
+    		$('#ename2').html(exeData[1].o_first_name+' '+exeData[1].o_last_name);
+    		$('#ename3').html(exeData[2].o_first_name+' '+exeData[2].o_last_name);
+      }, 'json')
   }, 'json')
 });
 
@@ -270,4 +395,10 @@ function compUrlName(company) {
     return '';
   }
   return company.replace(/(,|\.|&)/g,'').replace(/ /g,'-');
+}
+function imageUrl(path){
+  if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
+    return '../css/public/no_image.jpg';
+  }
+  return 'http://images.investkit.com/images/' + path;
 }

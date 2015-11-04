@@ -2,12 +2,65 @@ var CUR_OFFSET = 0;
 var cur_exchange = 'SV150';
 var dataCall = {};
 var curData;
-
+var domain = '';
+var clickyId = 0;
+var remnant = '';
+var locName = '';
+var city = '';
+var state = '';
+var loc = '';
+var max = 10;
+var bord = false;
 //run js code onn startup
 $(function(){
+	var temp = location.search;
+	var query = {};
+
+	if(temp != null){
+		query = JSON.parse(decodeURIComponent(temp.substr(1)));
+
+		//set the query data from database to global variable to use
+		domain = query.dom;
+
+		remnant = query.remn;
+
+		clickyId = query.c_id;
+
+		locName = query['loc']['loc_name'];
+
+		locName = locName.replace('+',' ');
+		//returns string true or false
+		bord = query.bord;
+		/*
+		//Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
+		//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
+		for(var i = 0; i < query['loc']['loc']['city'].length; i++){
+			var c = query['loc']['loc']['city'][i].city;
+			var s = query['loc']['loc']['city'][i].state;
+			loc = loc + c + "," + s;
+			if (typeof query['loc']['loc']['city'][i+1] != 'undefined'){
+				loc += '|';
+			}
+		}
+		*/
+		}
+		if(bord == 'true'){
+			$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
+		}
+
+		var script_tag = document.createElement('script');
+		script_tag.setAttribute('src','//static.getclicky.com/js');
+		document.head.appendChild(script_tag);
+		var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
+		document.head.appendChild(clicks[0]);
+
 	$('.search-input').bind("enterKey",function(e){
 		search = $('input').val();
-		window.open('http://www.investkit.com/search/r='+search);
+		if(remnant == 'true' || remnant == true){
+			window.open('http://www.investkit.com/search/r='+search);
+		}else{
+			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
+		}
 	});//END OF FUNCTION
 	//by pressing enter in this field it will activate
 	$('.search-input').keyup(function(e){
@@ -18,7 +71,11 @@ $(function(){
 
 	$('.input-pill_btn').on('click', function(){
 		search = $('input').val();
-		window.open('http://www.investkit.com/search/r='+search);
+		if(remnant == 'true' || remnant == true){
+			window.open('http://www.investkit.com/search/r='+search);
+		}else{
+			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
+		}
 	})//END OF FUNCTION
 	//script to allow widgets to change to next item on list(same as 'see the whole list' button link)
 	$('.mrwidget_right-button').on('click', function() {
@@ -66,11 +123,14 @@ $(function(){
 				$('.stock-container').css({"display":"block"});
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-				$('.link').attr("href",'http://www.investkit.com/topcompaniesonthesv150withthehighestpercentagegaininstockprice/sv150_gainers/list');
+				if(remnant == 'true' || remnant == true){
+					$('.link').attr("href",'http://www.investkit.com/topcompaniesonthesv150withthehighestpercentagegaininstockprice/sv150_gainers/list');
+				}else{
+					$('.link').attr("href",'http://www.myinvestkit.com/'+domain+'/topcompaniesonthesv150withthehighestpercentagegaininstockprice/sv150_gainers/list');
+				}
 				//num = 2;
 				mr_center_piece(CUR_OFFSET, curData);
 				stock_data(cur_exchange, dataCall);
-
 				stock_graph(dataCall.sv_150_graph_data, cur_exchange);
 				break;
 			case 'NASDAQ':
@@ -81,7 +141,11 @@ $(function(){
 				$('.stock-container').css({"display":"block"});
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-				$(".link").attr("href", "http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/5420/list");
+				if(remnant == 'true' || remnant == true){
+					$(".link").attr("href", "http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/5420/list");
+				}else{
+					$(".link").attr("href", "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-stock-percent-loss/5420/list");
+				}
 				mr_center_piece(CUR_OFFSET, curData);
 				stock_data(cur_exchange, dataCall);
 				stock_graph(dataCall.nasdaq_graph_data, cur_exchange);
@@ -94,7 +158,12 @@ $(function(){
 				$('.stock-container').css({"display":"block"});
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-				$(".link").attr("href", "http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/5422/list");
+				if(remnant == 'true' || remnant == true){
+					$(".link").attr("href", "http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/5422/list");
+				}else{
+					$(".link").attr("href", "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NYSE-with-stock-percent-loss/5422/list");
+				}
+
 				mr_center_piece(CUR_OFFSET, curData);
 				stock_data(cur_exchange, dataCall);
 				stock_graph(dataCall.nyse_graph_data, cur_exchange);
@@ -130,15 +199,23 @@ $(function(){
 function mr_center_piece(offset, data){
 	//service called time to set div classes to given results
 	$('.name').html(data[offset].c_name);
-	$('.logo-image').css('background','url(http://images.investkit.com/images/'+data[offset].c_logo+') no-repeat');
+	$('.logo-image').css('background','url('+imageUrl(data[offset].c_logo)+') no-repeat');
 	$('.mrwidget_counter').html('#' + (offset+1));
-	$('.profile-link').attr("href","http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
 	$('.trending-1').html(curData[0].c_ticker);
 	$('.trending-2').html(curData[1].c_ticker);
 	$('.trending-3').html(curData[2].c_ticker);
-	$('#trending_1').attr("href", "http://www.investkit.com/"+curData[0].c_ticker+"/"+compUrlName(curData[0].c_name)+"/company/"+curData[0].c_id);
-	$('#trending_1').attr("href", "http://www.investkit.com/"+curData[1].c_ticker+"/"+compUrlName(curData[1].c_name)+"/company/"+curData[1].c_id);
-	$('#trending_1').attr("href", "http://www.investkit.com/"+curData[2].c_ticker+"/"+compUrlName(curData[2].c_name)+"/company/"+curData[2].c_id);
+
+	if(remnant == 'true' || remnant == true){
+		$('.profile-link').attr("href","http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
+		$('#trending_1').attr("href", "http://www.investkit.com/"+curData[0].c_ticker+"/"+compUrlName(curData[0].c_name)+"/company/"+curData[0].c_id);
+		$('#trending_1').attr("href", "http://www.investkit.com/"+curData[1].c_ticker+"/"+compUrlName(curData[1].c_name)+"/company/"+curData[1].c_id);
+		$('#trending_1').attr("href", "http://www.investkit.com/"+curData[2].c_ticker+"/"+compUrlName(curData[2].c_name)+"/company/"+curData[2].c_id);
+	}else{
+		$('.profile-link').attr("href","http://www.myinvestkit.com/"+domain+"/"+compUrlName(data[offset].c_name)+"/"+data[offset].c_ticker+"/c/"+data[offset].c_id);
+		$('#trending_1').attr("href", "http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[0].c_name)+"/"+curData[0].c_ticker+"/c/"+curData[0].c_id);
+		$('#trending_1').attr("href", "http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[1].c_name)+"/"+curData[1].c_ticker+"/c/"+curData[1].c_id);
+		$('#trending_1').attr("href", "http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[2].c_name)+"/"+curData[2].c_ticker+"/c/"+curData[2].c_id);
+	}
 }//END OF FUNCTION
 
 // data api returned based on which exchange is selected
@@ -171,7 +248,6 @@ function stock_data(cur_exch, stockData){
 }//END OF FUNCTION
 
 function stock_graph(dataArray, exchange){
-	//console.log("stock graph:", dataArray);
 	newDataArray = [];
 	//JSON array is converted into usable code for Highcharts also does not push NULL values
 	$.each(dataArray, function(i, val) {
@@ -292,4 +368,10 @@ function compUrlName(company) {
     return '';
   }
   return company.replace(/(,|\.|&)/g,'').replace(/ /g,'-').replace(/\//g,'_');
+}
+function imageUrl(path){
+  if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
+    return '../css/public/no_image.jpg';
+  }
+  return 'http://images.investkit.com/images/' + path;
 }
