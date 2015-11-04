@@ -5,22 +5,6 @@ var curData;
 
 //run js code onn startup
 $(function(){
-	$('.search-input').bind("enterKey",function(e){
-		search = $('input').val();
-		window.open('http://www.investkit.com/search/r='+search);
-	});//END OF FUNCTION
-	//by pressing enter in this field it will activate
-	$('.search-input').keyup(function(e){
-		if(e.keyCode == 13){
-			$(this).trigger("enterKey");
-		}
-	});//END OF FUNCTION
-
-	$('.input-pill_btn').on('click', function(){
-		search = $('input').val();
-		window.open('http://www.investkit.com/search/r='+search);
-	})//END OF FUNCTION
-
 	//script to allow widgets to change to next item on list(same as 'see the whole list' button link)
 	$('.national_widget-content-buttonright').on('click', function() {
 		//when clicking on right button will change offset of data call and pull correct data based off of SEE THE WHOLE LIST
@@ -64,25 +48,25 @@ $(function(){
 			  case 'NASDAQ':
 					CUR_OFFSET = 0;
 					cur_exchange = 'NASDAQ';
-					curData = exList[1].top_list_list;
+					curData = exList[0].top_list_list;
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list");
+					$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=5&market-cap-low=1&order=sp-pct-desc&today=1");
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[0].graph_data, cur_exchange);
 					break;
 				case 'AMEX':
 					CUR_OFFSET = 0;
-					curData = exList[0].top_list_list;
+					curData = exList[1].top_list_list;
 					cur_exchange = 'AMEX';
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list");
+					$(".link").attr("href", "list-companies?investmentTypeId=EQ&marketId=8&market-cap-low=1&order=sp-pct-desc&today=1");
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[1].graph_data, cur_exchange);
@@ -90,12 +74,12 @@ $(function(){
 				case 'NYSE':
 					CUR_OFFSET = 0;
 					cur_exchange = 'NYSE';
-					curData = exList[1].top_list_list;
+					curData = exList[2].top_list_list;
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list");
+					$(".link").attr("href", "list-companies?exchange=nyse&market-cap-low=1&investmentTypeId=EQ&order=sp-pct-desc&today=1");
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[2].graph_data, cur_exchange);
@@ -118,12 +102,19 @@ $(function(){
 
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
-	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=national_market_movers', function(data){
+	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=national_market_movers', function(data){
+		//console.log(data);
+		//set data to global variable
 		dataCall = data.national_market_movers;
+		//exData = dataCall.exchange_stock_data;
 		exList = dataCall.exchange_list;
+		//console.log(exList);
 		curData = exList[0].top_list_list;
+		//console.log( 'curData: ',curData);
 		mr_center_piece(CUR_OFFSET, curData);
+		//console.log('stockdata:',dataCall.exchange_stock_data[0]);
 		stock_data($('.mtabs').data('dir'), dataCall);
+		//console.log(dataCall.exchange_stock_data[0].graph_data);
 		stock_graph(dataCall.exchange_stock_data[0].graph_data, cur_exchange);
 	}, 'json')
 
@@ -132,9 +123,13 @@ $(function(){
 //data api call for list
 function mr_center_piece(offset, data){
 	//service called time to set div classes to given results
+	//console.log(data[offset]);
 	$('.national_widget-content-textarea-t1').html(data[offset].c_name);
-	$('.national_widget-content-image').css('background','url(http://images.investkit.com/images/'+data[offset].c_logo+') no-repeat');
-	$(".nwprofile-link").attr("href", "http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
+	$('.national_widget-content-image').css('background','url(http://apifin2.synapsys.us/images/'+data[offset].c_logo+') no-repeat');
+	//$('.mrwidget_counter').html('#' + (offset+1));
+
+	// link to profile URL
+	$(".profile-link").attr("href", data[offset].c_name);
 }//END OF FUNCTION
 
 // data api returned based on which exchange is selected
@@ -169,6 +164,7 @@ function stock_data(cur_exch, stockData){
 
 
 function stock_graph(dataArray, exchange){
+	console.log("stock graph:", dataArray);
 
 	newDataArray = [];
 
@@ -270,14 +266,6 @@ function stock_graph(dataArray, exchange){
 		}]
 	});//END OF HIGHCHARTS FUNCTION
 }
-
-function compUrlName(company) {
-  if ( typeof company == "undefined" || company == null ) {
-    return '';
-  }
-  return company.replace(/(,|\.|&)/g,'').replace(/ /g,'-').replace(/\//g,'_');
-}
-
 
 //convert value into decimal and decide if change is up or down
 function convert_num(change_num, changePercent_num){

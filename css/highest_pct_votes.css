@@ -52,7 +52,7 @@ button:focus {
   background-color: #ccc;
 }
 
-.universe_recw{
+.universe_fcw{
   border-top: 3px solid #000;
   border-bottom: 3px solid #000;
   overflow: hidden;
@@ -61,12 +61,12 @@ button:focus {
   margin: 100px auto 0 auto;
 }
 
-.universe_recw:hover{
-  border-top: 3px solid #50bc55;
-  border-bottom: 3px solid #50bc55;
+.universe_fcw:hover{
+  border-top: 3px solid #39abff;
+  border-bottom: 3px solid #39abff;
 }
 
-.recw{
+.fcw{
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
@@ -76,11 +76,11 @@ button:focus {
 }
 
 /*top text*/
-.recw-logo{
+.fcw-logo{
   width:25px;
   height:25px;
-  background-color: #50bc55;
-  background-image: url("public/RE_Widget_Icon.png");
+  background-color: #39abff;
+  background-image: url("public/FIN_Widget_Icon.png");
   background-position: center center !important;
   background-repeat: no-repeat;
   border-radius: 50%;
@@ -90,7 +90,7 @@ button:focus {
   left:0;
 }
 
-.recw-text{
+.fcw-text{
   width:100%;
   height:50px;
   padding-top: 2px;
@@ -98,7 +98,7 @@ button:focus {
   position:relative;
 }
 
-.recw-t1{
+.fcw-t1{
   position: absolute;
   top: 0;
   margin-top: 2px;
@@ -108,7 +108,7 @@ button:focus {
   line-height: 1.2em;
   white-space: nowrap;
 }
-.recw-t2{
+.fcw-t2{
   position: absolute;
   bottom: 0;
   margin-bottom: 2px;
@@ -119,12 +119,12 @@ button:focus {
 /*top text END*/
 
 /*image && button*/
-.recw-middle{
+.fcw-middle{
   position: relative;
   width:100%;
   height:105px;
 }
-.recw-image{
+.fcw-image{
   width:100px;
   height:100px;
   margin:5px auto;
@@ -136,7 +136,7 @@ button:focus {
   line-height: 100px;
 }
 
-.recw-leftnav{
+.fcw-leftnav{
   position: absolute;
   height:60px;
   width:30px;
@@ -153,7 +153,7 @@ button:focus {
   cursor: pointer;
 }
 
-.recw-rightnav{
+.fcw-rightnav{
   height:60px;
   width:30px;
   border-radius: 90px 0 0 90px;
@@ -172,19 +172,19 @@ button:focus {
 /*image && button END*/
 
 /*bottom text*/
-.recw-content{
+.fcw-content{
   width:100%;
   height:45px;
 }
 
-.recw-content1{
+.fcw-content1{
   font-size: 24px;
   color:#50bc55;
   font-family: HN-B;
   text-align: center;
 }
 
-.recw-content2{
+.fcw-content2{
   font-size: 18px;
   color:#000000;
   text-align: center;
@@ -192,7 +192,7 @@ button:focus {
 }
 /*bottom text END*/
 
-.recw-list{
+.fcw-list{
   width:100%;
   height: 20px;
   text-align: center;
@@ -201,13 +201,13 @@ button:focus {
   margin-bottom: 16px;
 }
 
-.recw-list-link{
+.fcw-list-link{
   color:#000;
   font-size: 10px;
   font-family: HN-B;
 }
 
-.recw-presentedby{
+.fcw-presentedby{
     position: absolute;
     bottom: 0px;
     left: 2px;
@@ -216,16 +216,16 @@ button:focus {
     font-size: 12px;
 }
 
-.recw-list-link:hover{
-  color:#50bc55;
+.fcw-list-link:hover{
+  color:#39abff;
 }
 
-.recw-rightnav:active{
-  background-color: #50bc55;
+.fcw-rightnav:active{
+  background-color: #39abff;
 }
 
-.recw-leftnav:active{
-  background-color: #50bc55;
+.fcw-leftnav:active{
+  background-color: #39abff;
 }
 
 #swc-blue{

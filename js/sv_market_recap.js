@@ -9,7 +9,6 @@ $(function(){
 		search = $('input').val();
 		window.open('http://www.investkit.com/search/r='+search);
 	});//END OF FUNCTION
-
 	//by pressing enter in this field it will activate
 	$('.search-input').keyup(function(e){
 			if(e.keyCode == 13){
@@ -67,10 +66,11 @@ $(function(){
 				$('.stock-container').css({"display":"block"});
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-				$('.link').attr("href",link+'/'+data_gainer.c_ticker+'/'+compUrlName(data_gainer.c_name)+'/company/'+data_gainer.c_id);
-				num = 2;
+				$('.link').attr("href",'http://www.investkit.com/topcompaniesonthesv150withthehighestpercentagegaininstockprice/sv150_gainers/list');
+				//num = 2;
 				mr_center_piece(CUR_OFFSET, curData);
 				stock_data(cur_exchange, dataCall);
+
 				stock_graph(dataCall.sv_150_graph_data, cur_exchange);
 				break;
 			case 'NASDAQ':
@@ -114,18 +114,15 @@ $(function(){
 	$('.mrwidget_right-button').mousedown(function(){ return false; });
 	$('.mrwidget_left-button').mousedown(function(){ return false; });
 	$('.mtabs').mousedown(function(){ return false; });
-
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
 	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_widget', function(data){
 		//set data to global variable
-		console.log(data);
 		dataCall = data.sv150_widget;
 		curData = dataCall.sv150_list_data;
-		console.log(curData);
 		mr_center_piece(CUR_OFFSET, curData);
 		stock_data($('.mtabs').data('dir'), dataCall);
-		stock_graph(dataCall.sv_150_graph_data, cur_exchange);
+		stock_graph(dataCall.sv150_graph_data, cur_exchange);
 	}, 'json')
 
 })//END OF FUNCTION
@@ -133,7 +130,7 @@ $(function(){
 function mr_center_piece(offset, data){
 	//service called time to set div classes to given results
 	$('.name').html(data[offset].c_name);
-	$('.logo-image').css('background','url(http://apifin2.synapsys.us/images/'+data[offset].c_logo+') no-repeat');
+	$('.logo-image').css('background','url(http://images.investkit.com/images/'+data[offset].c_logo+') no-repeat');
 	$('.mrwidget_counter').html('#' + (offset+1));
 	$('.profile-link').attr("href","http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
 	$('.trending-1').html(curData[0].c_ticker);
