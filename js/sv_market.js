@@ -1,8 +1,68 @@
+//var offset=0;
+var domain = '';
+var clickyId = 0;
+var remnant = '';
+var locName = '';
+var city = '';
+var state = '';
+var loc = '';
+var max = 10;
+var bord = false;
+
+
 $(function(){
+	var temp = location.search;
+	var query = {};
+
+	if(temp != null){
+		query = JSON.parse(decodeURIComponent(temp.substr(1)));
+		console.log(query);
+		//set the query data from database to global variable to use
+		domain = query.dom;
+		console.log(domain);
+		remnant = query.remn;
+		console.log(remnant);
+		clickyId = query.c_id;
+		console.log(clickyId);
+		locName = query['loc']['loc_name'];
+		console.log(locName);
+		locName = locName.replace('+',' ');
+		//returns string true or false
+		bord = query.bord;
+		console.log(bord);
+		/*
+		//Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
+		//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
+		for(var i = 0; i < query['loc']['loc']['city'].length; i++){
+			var c = query['loc']['loc']['city'][i].city;
+			var s = query['loc']['loc']['city'][i].state;
+			loc = loc + c + "," + s;
+			if (typeof query['loc']['loc']['city'][i+1] != 'undefined'){
+				loc += '|';
+			}
+		}
+		*/
+	}
+
+	if(bord == 'true'){
+		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
+	}
+
+	var script_tag = document.createElement('script');
+	script_tag.setAttribute('src','//static.getclicky.com/js');
+	document.head.appendChild(script_tag);
+	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
+	document.head.appendChild(clicks[0]);
+
+
 //create a search function to pass into graph
 	$('.market_search_box').bind("enterKey",function(e){
 		search = $('input').val();
+		if(remnant == 'true' || remnant == true){
 		window.open('http://www.investkit.com/search/r='+search);
+		}else{
+			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
+		}
 	});//END OF FUNCTION
 
 	//by pressing enter in this field it will activate
@@ -14,7 +74,11 @@ $(function(){
 
 	$('.market_search_iconbg').on('click', function(){
 		search = $('input').val();
+		if(remnant == 'true' || remnant == true){
 		window.open('http://www.investkit.com/search/r='+search);
+		}else{
+			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
+		}
 	})//END OF FUNCTION
 //data call to gather info on exchange prices
 	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=sv150_markets_slim', function(data){
@@ -31,7 +95,12 @@ $(function(){
 				$('#SV').html(SV150_price);
 				$('#SVchange').html(lossGainCheck(SV150_priceChange, num));
 				$('#SVcent').html(lossGainCheck(SV150_pctChange, num)+'%');
-				$("#SVtxt").attr("href", link+"/sv150-top-gainers/sv150_gainers/list");
+				if(remnant == 'true' || remnant == true){
+						$("#SVtxt").attr("href","http://www.investkit.com/sv150-top-gainers/sv150_gainers/list");
+				}else{
+						$("#SVtxt").attr("href", "http://www.myinvestkit.com/"+domain+"/sv150-top-gainers/sv150_gainers/list");
+				}
+
 
 				num = 2;
 				//plug in data call for Nasdaq
@@ -46,7 +115,12 @@ $(function(){
 				$('#nq').html(NQ_price);
 				$('#Nqchange').html(lossGainCheck(NQ_priceChange, num));
 				$('#Nqcent').html(lossGainCheck(NQ_pctChange, num)+"%");
-				$('#Nqtxt').attr("href",link+'/Top-companies-on-NASDAQ-with-stock-percent-loss/'+data_exchange[0].c_id+'/list');
+				if(remnant == 'true' || remnant == true){
+				$('#Nqtxt').attr("href",'http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/'+data_exchange[0].c_id+'/list');
+				}else{
+					$('#Nqtxt').attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NASDAQ-with-stock-percent-loss/'+data_exchange[0].c_id+'/list');
+				}
+
 				num = 3;
 				//plug in data call for AMEX
 				var AMEX_price = Number(data_exchange[2].csi_price).toFixed(2);
@@ -59,7 +133,12 @@ $(function(){
 				$('#SP').html(AMEX_price);
 				$('#SPchange').html(lossGainCheck(AMEX_priceChange, num));
 				$('#SPcent').html(lossGainCheck(AMEX_pctChange, num)+"%");
-				$("#SPtxt").attr("href",link+'/Top-companies-on-AMEX-with-stock-percent-loss/'+data_exchange[1].c_id+'/list');
+				if(remnant == 'true' || remnant == true){
+					$("#SPtxt").attr("href",'http://www.investkit.com/Top-companies-on-AMEX-with-stock-percent-loss/'+data_exchange[1].c_id+'/list');
+				}else{
+					$("#SPtxt").attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-AMEX-with-stock-percent-loss/'+data_exchange[1].c_id+'/list');
+				}
+
 				num = 4;
 				//plug in data call for NYSE
 				var NYSE_price = Number(data_exchange[1].csi_price).toFixed(2);
@@ -72,7 +151,12 @@ $(function(){
 				$('#ny').html(NYSE_price);
 				$('#Nychange').html(lossGainCheck(NYSE_priceChange, num));
 				$('#Nycent').html(lossGainCheck(NYSE_pctChange, num)+"%");
-				$("#Nytxt").attr("href",link+'/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list');
+				if(remnant == 'true' || remnant == true){
+				$("#Nytxt").attr("href",'http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list');
+				}else{
+				$("#Nytxt").attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list');
+				}
+
 				//plug in data for the top sv150 company
 				var SV150_topTck = data_gainer.c_ticker;
 				var SV150_top_price = Number(data_gainer.lcsi_price).toFixed(2);
@@ -82,7 +166,12 @@ $(function(){
 					SV150_top_priceChange *= -1;
 					SV150_top_pctChange *= -1;
 				}
-			  $('.sv_top_profile').attr("href",link+"/"+data_gainer.c_ticker+"/"+compUrlName(data_gainer.c_name)+"/company/"+data_gainer.c_id);
+				if(remnant == 'true' || remnant == true){
+			  $('.sv_top_profile').attr("href","http://www.investkit.com/"+data_gainer.c_ticker+"/"+compUrlName(data_gainer.c_name)+"/company/"+data_gainer.c_id);
+				}else{
+			  $('.sv_top_profile').attr("href","http://www.myinvestkit.com/"+domain+"/"+compUrlName(data_gainer.c_name)+"/"+data_gainer.c_ticker+"/c/"+data_gainer.c_id);
+				}
+
 				$('.sv_top_image').css('background','url(http://apifin2.synapsys.us/images/'+data_gainer.c_logo+') no-repeat');
 				$('.sv-pd-name').html(SV150_topTck);
 				$('.sv-pd-name').attr('title', SV150_topTck);

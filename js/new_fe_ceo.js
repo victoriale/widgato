@@ -34,7 +34,7 @@ function dataCall(index){
   $('.fcw-loc').html(curData[index].c_hq_city+' '+curData[index].c_hq_state);
   $('.fcw-content1').html(curData[index].o_first_name+' '+curData[index].o_last_name);
   $('#paid').html(nFormatter(curData[index].TotalComp));
-  $('.fcw-image').css('background','url(http://apifin2.synapsys.us/images/'+curData[index].o_pic+') no-repeat');
+  $('.fcw-image').css('background','url('+imageUrl(curData[index].o_pic)+') no-repeat');
   $('#title_link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
   $('#loc_link').attr('href',"http://www.investkit.com/"+curData[index].c_hq_state+"/location");
 }
@@ -58,4 +58,10 @@ function nFormatter(num) {
 		return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
 	}
 	return num;
+}
+function imageUrl(path){
+  if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
+    return '../css/public/no_image.jpg';
+  }
+  return 'http://images.investkit.com/images/' + path;
 }
