@@ -22,7 +22,6 @@ $(function(){
 
   if(temp != null){
   	query = JSON.parse(decodeURIComponent(temp.substr(1)));
-		console.log(query);
   	//set the query data from database to global variable to use
   	domain = query.dom;
 
@@ -37,7 +36,6 @@ $(function(){
     //returns string true or false
   	bord = query.bord;
 
-		console.log(domain, remnant, clickyId, locName, bord);
 
     /*
     //Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable

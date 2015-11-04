@@ -21,7 +21,6 @@ $(function(){
 
     if(temp != null){
     	query = JSON.parse(decodeURIComponent(temp.substr(1)));
-  		console.log(query);
     	//set the query data from database to global variable to use
     	domain = query.dom;
 
@@ -35,8 +34,6 @@ $(function(){
 
       //returns string true or false
     	bord = query.bord;
-
-  		console.log(domain, remnant, clickyId, locName, bord);
 
       /*
       //Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
@@ -100,7 +97,7 @@ function dataCall(index){
     $('.fcw-href').attr('href',"http://www.investkit.com/"+compUrlName(data_result.list_title)+"/female_ceo/executive-list");
 
     $('#title_link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
-    
+
     $('#loc_link').attr('href',"http://www.investkit.com/"+curData[index].c_hq_state+"/location");
   }else{
     $('.exec-link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+curData[index].c_ticker+"/"+curData[index].o_last_name+"-"+curData[index].o_first_name+"/e/"+curData[index].o_id);
