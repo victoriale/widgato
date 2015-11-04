@@ -80,6 +80,7 @@ $(function(){
 	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=highest_paid_female_ceo', function(data){
     data_result = data.highest_paid_female_ceo;
     curData = data_result.list_data;
+    console.log(curData);
     dataLength = curData.length;
     dataCall(offset);
   }, 'json')
@@ -90,7 +91,6 @@ function dataCall(index){
   $('.fcw-content1').html(curData[index].o_first_name+' '+curData[index].o_last_name);
   $('#paid').html(nFormatter(curData[index].TotalComp));
   $('.fcw-image').css('background','url('+imageUrl(curData[index].o_pic)+') no-repeat');
-
   if(remnant == 'true' || remnant == true){
     $('.exec-link').attr('href',"http://www.investkit.com/"+curData[index].o_first_name+"-"+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
 
@@ -134,5 +134,5 @@ function imageUrl(path){
   if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
     return '../css/public/no_image.jpg';
   }
-  return 'http://images.investkit.com/images/' + path;
+  return 'http://images.investkit.com/images/'+path;
 }
