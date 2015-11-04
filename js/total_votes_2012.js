@@ -21,7 +21,7 @@ $(function(){
         }
     });
 
-  	$.get('http://api.synapsys.us/rt/index.php?widget=politics&wid=3&county=Sedgwick&state=KS', function(data){
+  	$.get('http://api.synapsys.us/rt/index.php?widget=politics&wid=1&city=Wichita&state=KS', function(data){
       console.log(data);
       curData = data.widget;
       dataLength = curData.length;
@@ -30,9 +30,9 @@ $(function(){
   })//END OF FUNCTION
   function dataCall(index){
     $('.fcw-t2-loc').html(curData[index].county+' County, '+curData[index].state);
-    $('.fcw-content1').html(Number(curData[index].percent).toFixed()+'% of Voters');
-    //$('.fcw-image').css('background', 'url('+imageUrl(/)+') no-repeat');
-    //$('.fcw-list-link').attr('href',"/");
+    $('.fcw-content1').html(dNumberToCommaNumber(curData[index].votes)+' Votes');
+		//$('.fcw-image').css('background', 'url('+imageUrl(/)+') no-repeat');
+		//$('.fcw-list-link').attr('href',"/");
   }
   //number converter to decimal with correct format
   function nFormatter(num) {
@@ -47,9 +47,15 @@ $(function(){
   	}
   	return num;
   }
+	/*
   function imageUrl(path){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
       return '../css/public/no_image.jpg';
     }
-    return 'http://images.investkit.com/images/' + path;
+    return 'http://#/images/' + path;
   }
+	*/
+	//puts comma on every thousand number
+function dNumberToCommaNumber(Number) {
+	  return Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}

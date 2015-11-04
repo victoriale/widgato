@@ -142,9 +142,9 @@ $(function(){
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
 				if(remnant == 'true' || remnant == true){
-					$(".link").attr("href", "http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/5420/list");
+					$(".link").attr("href", "http://www.investkit.com/Top-companies-on-NASDAQ-with-the-highest-percentage-change-in-market-cap/5182/list");
 				}else{
-					$(".link").attr("href", "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-stock-percent-loss/5420/list");
+					$(".link").attr("href", "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-the-highest-percentage-change-in-market-cap/5182/list");
 				}
 				mr_center_piece(CUR_OFFSET, curData);
 				stock_data(cur_exchange, dataCall);
@@ -159,9 +159,9 @@ $(function(){
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
 				if(remnant == 'true' || remnant == true){
-					$(".link").attr("href", "http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/5422/list");
+					$(".link").attr("href", "http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/5196/list");
 				}else{
-					$(".link").attr("href", "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NYSE-with-stock-percent-loss/5422/list");
+					$(".link").attr("href", "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NYSE-with-stock-percent-loss/5196/list");
 				}
 
 				mr_center_piece(CUR_OFFSET, curData);
@@ -185,7 +185,7 @@ $(function(){
 	$('.mtabs').mousedown(function(){ return false; });
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
-	$.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=sv150_widget', function(data){
+	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=sv150_widget', function(data){
 		//set data to global variable
 		dataCall = data.sv150_widget;
 		curData = dataCall.sv150_list_data;

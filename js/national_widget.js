@@ -85,7 +85,6 @@ $(function(){
 
 	$('.input-pill_btn').on('click', function(){
 		search = $('input').val();
-		console.log(remnant);
 		if(remnant == 'true' || remnant == true){
 			window.open('http://www.investkit.com/search/r='+search);
 		}else{
@@ -170,7 +169,7 @@ $(function(){
 				case 'NYSE':
 					CUR_OFFSET = 0;
 					cur_exchange = 'NYSE';
-					curData = exList[1].top_list_list;
+					curData = exList[2].top_list_list;
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
@@ -203,6 +202,7 @@ $(function(){
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
 	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=national_market_movers', function(data){
+		console.log(data);
 		dataCall = data.national_market_movers;
 		exList = dataCall.exchange_list;
 		curData = exList[0].top_list_list;
@@ -231,16 +231,17 @@ function stock_data(cur_exch, stockData){
 	//console.log(stockData);
 	switch(cur_exch){
 		case 'NASDAQ':
-			var price = stockData.exchange_stock_data[0].csi_price;
-			var priceChng = stockData.exchange_stock_data[0].graph_data.price_change;
-			var pctChng = stockData.exchange_stock_data[0].graph_data.percent_change;
-			$('.price').html(Number(price).toFixed(2));
-			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
-			break;
-		case 'AMEX':
 			var price = stockData.exchange_stock_data[1].csi_price;
 			var priceChng = stockData.exchange_stock_data[1].graph_data.price_change;
 			var pctChng = stockData.exchange_stock_data[1].graph_data.percent_change;
+			$('.price').html(Number(price).toFixed(2));
+			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
+			convert_num(Number(pctChng).toFixed(2),Number(pctChng).toFixed(2));
+			break;
+		case 'AMEX':
+			var price = stockData.exchange_stock_data[0].csi_price;
+			var priceChng = stockData.exchange_stock_data[0].graph_data.price_change;
+			var pctChng = stockData.exchange_stock_data[0].graph_data.percent_change;
 			$('.price').html(Number(price).toFixed(2));
 			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
 			break;
