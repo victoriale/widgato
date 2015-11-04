@@ -16,20 +16,20 @@ $(function(){
 
 	if(temp != null){
 		query = JSON.parse(decodeURIComponent(temp.substr(1)));
-		console.log(query);
+
 		//set the query data from database to global variable to use
 		domain = query.dom;
-		console.log(domain);
+
 		remnant = query.remn;
-		console.log(remnant);
+
 		clickyId = query.c_id;
-		console.log(clickyId);
+
 		locName = query['loc']['loc_name'];
-		console.log(locName);
+
 		locName = locName.replace('+',' ');
 		//returns string true or false
 		bord = query.bord;
-		console.log(bord);
+
 		/*
 		//Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
 		//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
