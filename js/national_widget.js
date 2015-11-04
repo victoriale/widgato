@@ -3,11 +3,80 @@ var cur_exchange = 'NASDAQ';
 var dataCall = {};
 var curData;
 
+
+var domain = '';
+var clickyId = 0;
+var remnant = '';
+var locName = '';
+var city = '';
+var state = '';
+var loc = '';
+var max = 10;
+var bord = false;
+
 //run js code onn startup
 $(function(){
+
+	var temp = location.search;
+  var query = {};
+
+  if(temp != null){
+  	query = JSON.parse(decodeURIComponent(temp.substr(1)));
+		console.log(query);
+  	//set the query data from database to global variable to use
+  	domain = query.dom;
+
+  	remnant = query.remn;
+
+  	clickyId = query.c_id;
+
+  	locName = query['loc']['loc_name'];
+
+  	locName = locName.replace('+',' ');
+
+    //returns string true or false
+  	bord = query.bord;
+
+		console.log(domain, remnant, clickyId, locName, bord);
+
+    /*
+    //Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
+  	//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
+  	for(var i = 0; i < query['loc']['loc']['city'].length; i++){
+  		var c = query['loc']['loc']['city'][i].city;
+  		var s = query['loc']['loc']['city'][i].state;
+  		loc = loc + c + "," + s;
+  		if (typeof query['loc']['loc']['city'][i+1] != 'undefined'){
+  			loc += '|';
+  		}
+  	}
+    */
+  }
+
+  if(bord == 'true'){
+    $(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
+  }
+
+	var script_tag = document.createElement('script');
+	script_tag.setAttribute('src','//static.getclicky.com/js');
+	document.head.appendChild(script_tag);
+	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
+	document.head.appendChild(clicks[0]);
+
+	//run initiall to make sure link works on load
+	if(remnant == 'true' || remnant == true){
+		$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list");
+	}else{
+		$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list");
+	}
+
 	$('.search-input').bind("enterKey",function(e){
 		search = $('input').val();
-		window.open('http://www.investkit.com/search/r='+search);
+		if(remnant == 'true' || remnant == true){
+			window.open('http://www.investkit.com/search/r='+search);
+		}else{
+			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
+		}
 	});//END OF FUNCTION
 	//by pressing enter in this field it will activate
 	$('.search-input').keyup(function(e){
@@ -18,7 +87,12 @@ $(function(){
 
 	$('.input-pill_btn').on('click', function(){
 		search = $('input').val();
-		window.open('http://www.investkit.com/search/r='+search);
+		console.log(remnant);
+		if(remnant == 'true' || remnant == true){
+			window.open('http://www.investkit.com/search/r='+search);
+		}else{
+			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
+		}
 	})//END OF FUNCTION
 
 	//script to allow widgets to change to next item on list(same as 'see the whole list' button link)
@@ -69,7 +143,11 @@ $(function(){
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list");
+					if(remnant == 'true' || remnant == true){
+						$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list");
+					}else{
+						$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list");
+					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[0].graph_data, cur_exchange);
@@ -82,7 +160,11 @@ $(function(){
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list");
+					if(remnant == 'true' || remnant == true){
+						$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list");
+					}else{
+						$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list");
+					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[1].graph_data, cur_exchange);
@@ -95,7 +177,11 @@ $(function(){
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
-					$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list");
+					if(remnant == 'true' || remnant == true){
+						$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list");
+					}else{
+						$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list");
+					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
 					stock_graph(dataCall.exchange_stock_data[2].graph_data, cur_exchange);
@@ -135,6 +221,11 @@ function mr_center_piece(offset, data){
 	$('.national_widget-content-textarea-t1').html(data[offset].c_name);
 	$('.national_widget-content-image').css('background','url(http://images.investkit.com/images/'+data[offset].c_logo+') no-repeat');
 	$(".nwprofile-link").attr("href", "http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
+	if(remnant == 'true' || remnant == true){
+		$(".nwprofile-link").attr("href", "http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
+	}else{
+		$(".nwprofile-link").attr("href", "http://www.myinvestkit.com/"+domain+"/"+compUrlName(data[offset].c_name)+"/"+data[offset].c_ticker+"/c/"+data[offset].c_id);
+	}
 }//END OF FUNCTION
 
 // data api returned based on which exchange is selected
