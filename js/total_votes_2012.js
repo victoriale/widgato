@@ -4,7 +4,7 @@ var curData;
 
 $(function(){
 
-    $('.fcw-rightnav').on('click', function() {
+    $('.tv-rightnav').on('click', function() {
         if (offset < dataLength-1 && $(this).data('dir') === 'next') {
             dataCall(++offset);
         }else if(offset >= dataLength-1){
@@ -12,7 +12,7 @@ $(function(){
           dataCall(offset);
         }
     });
-    $('.fcw-leftnav').on('click', function() {
+    $('.tv-leftnav').on('click', function() {
         if (offset > 0 && $(this).data('dir') === 'prev') {
               dataCall(--offset);
         }else if(offset <= 0){
@@ -29,10 +29,14 @@ $(function(){
     }, 'json')
   })//END OF FUNCTION
   function dataCall(index){
-    $('.fcw-t2-loc').html(curData[index].county+' County, '+curData[index].state);
-    $('.fcw-content1').html(dNumberToCommaNumber(curData[index].votes)+' Votes');
-		//$('.fcw-image').css('background', 'url('+imageUrl(/)+') no-repeat');
-		//$('.fcw-list-link').attr('href',"/");
+    var link ="http://localhost:3000/";
+    $('.tv-t2-loc').html(curData[index].county+' County, '+curData[index].state);
+    $('.tv-content1').html(dNumberToCommaNumber(curData[index].votes)+' Votes');
+		$('.tv-image').css('background', 'url('+curData[index].image+') no-repeat');
+		$('.tv-href').attr('href',link+"Politics/"+curData[index].state);
+		$('#loc').attr('href',link+"Politics/"+curData[index].state);
+
+    //$('#loc').attr('href',link+"location/"+toUpperCase(curData[index].county)+"_"+toUpperCase(curData[index].state));
   }
   //number converter to decimal with correct format
   function nFormatter(num) {

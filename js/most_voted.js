@@ -29,10 +29,14 @@ $(function(){
     }, 'json')
   })//END OF FUNCTION
   function dataCall(index){
+    var link ="http://localhost:3000/";
     $('.fcw-t2-loc').html(curData[index].county+' County, '+curData[index].state);
     $('.fcw-content1').html(dNumberToCommaNumber(curData[index].votes)+' Votes');
-    //$('.fcw-image').css('background', 'url('+imageUrl(/)+') no-repeat');
-    //$('.fcw-list-link').attr('href',"/");
+    $('.fcw-image').css('background', 'url('+curData[index].image+') no-repeat');
+    $('.fcw-href').attr('href',link+"Politics/"+curData[index].state);
+    $('#loc').attr('href',link+"Politics/"+curData[index].state);
+    $('#county').attr('href',link+"Politics/"+curData[index].state);
+
   }
   //number converter to decimal with correct format
   function nFormatter(num) {

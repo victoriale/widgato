@@ -52,7 +52,7 @@ button:focus {
   background-color: #ccc;
 }
 
-.universe_fcw{
+.universe_tv{
   border-top: 3px solid #000;
   border-bottom: 3px solid #000;
   overflow: hidden;
@@ -61,12 +61,12 @@ button:focus {
   margin: 100px auto 0 auto;
 }
 
-.universe_fcw:hover{
+.universe_tv:hover{
   border-top: 3px solid #39abff;
   border-bottom: 3px solid #39abff;
 }
 
-.fcw{
+.tv{
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
@@ -76,7 +76,7 @@ button:focus {
 }
 
 /*top text*/
-.fcw-logo{
+.tv-logo{
   width:25px;
   height:25px;
   background-color: #3B5998;
@@ -90,7 +90,7 @@ button:focus {
   left:0;
 }
 
-.fcw-text{
+.tv-text{
   width:100%;
   height:50px;
   padding-top: 2px;
@@ -98,7 +98,7 @@ button:focus {
   position:relative;
 }
 
-.fcw-t1{
+.tv-t1{
   position: absolute;
   top: 0;
   margin-top: 2px;
@@ -108,7 +108,7 @@ button:focus {
   line-height: 1.2em;
   /*white-space: nowrap;*/
 }
-.fcw-t2{
+.tv-t2{
   position: absolute;
   bottom: -10px;
   margin-bottom: 2px;
@@ -119,12 +119,12 @@ button:focus {
 /*top text END*/
 
 /*image && button*/
-.fcw-middle{
+.tv-middle{
   position: relative;
   width:100%;
   height:100px;
 }
-.fcw-image{
+.tv-image{
   background-position: center center!important;
   background-size: contain!important;
   width:90px;
@@ -137,7 +137,7 @@ button:focus {
   line-height: 100px;
 }
 
-.fcw-leftnav{
+.tv-leftnav{
   position: absolute;
   height:60px;
   width:30px;
@@ -154,7 +154,7 @@ button:focus {
   cursor: pointer;
 }
 
-.fcw-rightnav{
+.tv-rightnav{
   height:60px;
   width:30px;
   border-radius: 90px 0 0 90px;
@@ -173,19 +173,19 @@ button:focus {
 /*image && button END*/
 
 /*bottom text*/
-.fcw-content{
+.tv-content{
   width:100%;
   height:45px;
 }
 
-.fcw-content1{
+.tv-content1{
   font-size: 24px;
   color:#3b5998;
   font-family: HN-B;
   text-align: center;
 }
 
-.fcw-content2{
+.tv-content2{
   font-family: HN-L;
   font-size: 18px;
   color:#000;
@@ -194,7 +194,7 @@ button:focus {
 }
 /*bottom text END*/
 
-.fcw-list{
+.tv-list{
   width:100%;
   height: 20px;
   text-align: center;
@@ -203,13 +203,13 @@ button:focus {
   margin-bottom: 16px;
 }
 
-.fcw-list-link{
+.tv-list-link{
   color:#000;
   font-size: 10px;
   font-family: HN-B;
 }
 
-.fcw-presentedby{
+.tv-presentedby{
     position: absolute;
     bottom: 0px;
     left: 2px;
@@ -218,15 +218,15 @@ button:focus {
     font-size: 12px;
 }
 
-.fcw-list-link:hover{
+.tv-list-link:hover{
   color:#39abff;
 }
 
-.fcw-rightnav:active{
+.tv-rightnav:active{
   background-color: #39abff;
 }
 
-.fcw-leftnav:active{
+.tv-leftnav:active{
   background-color: #39abff;
 }
 
@@ -237,6 +237,6 @@ button:focus {
 .swc-space{
   margin:0 2px;
 }
-.fcw-t2-loc:hover{
+.tv-t2-loc:hover{
   color: #39abff;
 }
