@@ -29,6 +29,7 @@ $(function(){
     }, 'json')
   })//END OF FUNCTION
   function dataCall(index){
+    //var link="http://www.joyfulhome.com/";
     var link ="http://localhost:3000/";
     $('.fcw-t2-loc').html(curData[index].county+' County, '+curData[index].state);
     $('.fcw-content1').html(dNumberToCommaNumber(curData[index].votes)+' Votes');

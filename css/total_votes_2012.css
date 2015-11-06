@@ -15,6 +15,7 @@ div{
 }
 a {
   text-decoration: none;
+  color: #000;
 }
 
 button:focus {
