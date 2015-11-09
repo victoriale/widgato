@@ -55,43 +55,41 @@ $(function(){
   	document.head.appendChild(clicks[0]);
 
     $('.fcw-rightnav').on('click', function() {
-        if (offset < dataLength-1 && $(this).data('dir') === 'next') {
+        if ($(this).data('dir') === 'next') {
             dataCall(++offset);
-        }else if(offset >= dataLength-1){
-          offset = 0;
-          dataCall(offset);
         }
     });
     $('.fcw-leftnav').on('click', function() {
         if (offset > 0 && $(this).data('dir') === 'prev') {
               dataCall(--offset);
         }else if(offset <= 0){
-          offset = dataLength-1;
+          offset = 0;
           dataCall(offset);
         }
     });
 
-  	$.get('http://api.synapsys.us/rt/index.php?widget=politics&wid=5&county=Sedgwick&state=KS', function(data){
-      curData = data.widget;
-      dataLength = curData.length;
-      dataCall(offset);
-    }, 'json')
+  	dataCall(offset);
   })//END OF FUNCTION
-  function dataCall(index){
-    var title = "counties-with-the-most-democratic-voters";
-    $('.fcw-t2-loc').html(curData[index].county+' County, '+curData[index].state);
-    $('.fcw-content1').html(dNumberToCommaNumber(curData[index].votes)+' Votes');
-    $('.fcw-image').css('background', 'url('+curData[index].image+') no-repeat');
-    if(remnant == 'true' || remnant == true){
-      $('.fcw-href').attr('href',"http://www.joyfulhome.com/"+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
-      $('#loc').attr('href',"http://www.joyfulhome.com/"+curData[index].state+"/"+curData[index].county+"/county");
-      $('#county').attr('href',"http://www.joyfulhome.com/"+curData[index].state+"/"+curData[index].county+"/county");
-    } else {
-      $('.fcw-href').attr('href',"http://www.myhousekit.com/"+domain+"/"+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
-      $('#loc').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[index].state+"/"+curData[index].county+"/county");
-      $('#county').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[index].state+"/"+curData[index].county+"/county");
-    }
 
+  function dataCall(index){
+    $.get('http://api.synapsys.us/rt/index.php?widget=politics&wid=5&county=Sedgwick&state=KS&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+      curData = data.widget;
+      console.log(curData);
+      dataLength = curData.length;
+      var title = "counties-with-the-most-democratic-voters";
+      $('.fcw-t2-loc').html(curData[0].county+' County, '+curData[0].state);
+      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].votes)+' Votes');
+      $('.fcw-image').css('background', 'url('+curData[0].image+') no-repeat');
+      if(remnant == 'true' || remnant == true){
+        $('.fcw-href').attr('href',"http://www.joyfulhome.com/"+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
+        $('#loc').attr('href',"http://www.joyfulhome.com/"+curData[0].state+"/"+curData[0].county+"/county");
+        $('#county').attr('href',"http://www.joyfulhome.com/"+curData[0].state+"/"+curData[0].county+"/county");
+      } else {
+        $('.fcw-href').attr('href',"http://www.myhousekit.com/"+domain+"/"+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
+        $('#loc').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[0].state+"/"+curData[0].county+"/county");
+        $('#county').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[0].state+"/"+curData[0].county+"/county");
+      }
+    }, 'json')
   }
   //number converter to decimal with correct format
   function nFormatter(num) {

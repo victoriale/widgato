@@ -55,45 +55,38 @@ $(function(){
   	document.head.appendChild(clicks[0]);
 
     $('.tv-rightnav').on('click', function() {
-        if (offset < dataLength-1 && $(this).data('dir') === 'next') {
+        if ($(this).data('dir') === 'next') {
             dataCall(++offset);
-        }else if(offset >= dataLength-1){
-          offset = 0;
-          dataCall(offset);
         }
     });
     $('.tv-leftnav').on('click', function() {
         if (offset > 0 && $(this).data('dir') === 'prev') {
               dataCall(--offset);
-        }else if(offset <= 0){
-          offset = dataLength-1;
+        }else if(offset < 0){
+          offset = 0;
           dataCall(offset);
         }
     });
-
-  	$.get('http://api.synapsys.us/rt/index.php?widget=politics&wid=1&city=Wichita&state=KS', function(data){
-      curData = data.widget;
-      dataLength = curData.length;
-      dataCall(offset);
-    }, 'json')
+  dataCall(offset);
   })//END OF FUNCTION
   function dataCall(index){
-    var link ="http://www.myhousekit.com/";
-    var title = "counties-with-the-most-number-of-total-votes-in-the-2012-election";
-    $('.tv-t2-loc').html(curData[index].county+' County, '+curData[index].state);
-    $('.tv-content1').html(dNumberToCommaNumber(curData[index].votes)+' Votes');
-		$('.tv-image').css('background', 'url('+curData[index].image+') no-repeat');
-    if(remnant == 'true' || remnant == true){
-      $('.tv-href').attr('href',"http://www.joyfulhome.com/"+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
-      $('#loc').attr('href',"http://www.joyfulhome.com/"+curData[index].state+"/"+curData[index].county+"/county");
-      $('#county').attr('href',"http://www.joyfulhome.com/"+curData[index].state+"/"+curData[index].county+"/county");
-    } else {
-      $('.tv-href').attr('href',"http://www.myhousekit.com/"+domain+"/"+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
-      $('#loc').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[index].state+"/"+curData[index].county+"/county");
-      $('#county').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[index].state+"/"+curData[index].county+"/county");
-    }
-
-    //$('#loc').attr('href',link+"location/"+toUpperCase(curData[index].county)+"_"+toUpperCase(curData[index].state));
+  	$.get('http://api.synapsys.us/rt/index.php?widget=politics&wid=1&county=Sedgwick&state=KS&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+      curData = data.widget;
+      dataLength = curData.length;
+      var title = "counties-with-the-most-number-of-total-votes-in-the-2012-election";
+      $('.tv-t2-loc').html(curData[0].county+' County, '+curData[0].state);
+      $('.tv-content1').html(dNumberToCommaNumber(curData[0].votes)+' Votes');
+      $('.tv-image').css('background', 'url('+curData[0].image+') no-repeat');
+      if(remnant == 'true' || remnant == true){
+        $('.tv-href').attr('href',"http://www.joyfulhome.com/"+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
+        $('#loc').attr('href',"http://www.joyfulhome.com/"+curData[0].state+"/"+curData[0].county+"/county");
+        $('#county').attr('href',"http://www.joyfulhome.com/"+curData[0].state+"/"+curData[0].county+"/county");
+      } else {
+        $('.tv-href').attr('href',"http://www.myhousekit.com/"+domain+"/"+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
+        $('#loc').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[0].state+"/"+curData[0].county+"/county");
+        $('#county').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[0].state+"/"+curData[0].county+"/county");
+      }
+    }, 'json')
   }
   //number converter to decimal with correct format
   function nFormatter(num) {
