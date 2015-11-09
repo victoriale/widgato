@@ -87,16 +87,13 @@ function dataCall(index){
   //$('.cds-image').css('background','url(http://images.investkit.com/images/'+curData[index].o_pic+') no-repeat');
   if(remnant == 'true' || remnant == true){
     $('#exec-link').attr('href',"http://www.investkit.com/"+curData[index].o_first_name+'-'+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
-    $('.cds-href').attr('href', "http://www.investkit.com/"+compUrlName(data_result.list_title)+"/dollar_ceo/executive-list");
+    $('.cds-href').attr('href', "http://www.investkit.com/"+compUrlName(data_result.list_title)+"/dollar_ceo/executive-list/1");
     $('#title_link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
     $('#loc_link').attr('href',"http://www.investkit.com/"+curData[index].c_hq_state+"/location");
   }else{
     $('#exec-link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+curData[index].c_ticker+"/"+curData[index].o_last_name+'-'+curData[index].o_first_name+"/e/"+curData[index].o_id);
-
-    $('.cds-href').attr('href', "http://www.myinvestkit.com/"+domain+"/"+compUrlName(data_result.list_title)+"/dollar_ceo/list-executives");
-
+    $('.cds-href').attr('href', "http://www.myinvestkit.com/"+domain+"/"+compUrlName(data_result.list_title)+"/dollar_ceo/list-executives/1");
     $('#title_link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
-
     $('#loc_link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+curData[index].c_hq_state+"/loc");
   }
 }

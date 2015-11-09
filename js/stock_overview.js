@@ -167,11 +167,8 @@ $(function so_leftdata(id){
           $('#company-profile').attr("href", 'http://www.myinvestkit.com/'+domain+'/'+compUrlName(stockData.c_name)+'/'+exeData[0].c_ticker+'/c/'+stockData.c_id);
           $('.sv_company-link').attr("href", 'http://www.myinvestkit.com/'+domain+'/'+compUrlName(stockData.c_name)+'/'+exeData[0].c_ticker+'/c/'+stockData.c_id);
           $('#eprof1').attr("href",'http://www.myinvestkit.com/'+domain+'/'+exeData[0].c_ticker+'/'+exeData[0].o_last_name+'-'+exeData[0].o_first_name+'/e/'+exeData[0].o_id);
-
           $('#eprof2').attr("href",'http://www.myinvestkit.com/'+domain+'/'+exeData[1].c_ticker+'/'+exeData[1].o_last_name+'-'+exeData[1].o_first_name+'/e/'+exeData[1].o_id);
-
           $('#eprof3').attr("href",'http://www.myinvestkit.com/'+domain+'/'+exeData[2].c_ticker+'/'+exeData[2].o_last_name+'-'+exeData[2].o_first_name+'/e/'+exeData[2].o_id);
-
           $('.executive-list').attr("href",'http://www.myinvestkit.com/'+domain+'/'+compUrlName(stockData.c_name)+'/'+exeData[0].c_ticker+'/execs/'+exeData[0].c_id);
         }
     		$('#ename1').html(exeData[0].o_first_name+' '+exeData[0].o_last_name);

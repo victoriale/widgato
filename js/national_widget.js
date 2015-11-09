@@ -63,9 +63,9 @@ $(function(){
 
 	//run initiall to make sure link works on load
 	if(remnant == 'true' || remnant == true){
-		$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list");
+		$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
 	}else{
-		$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list");
+		$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
 	}
 
 	$('.search-input').bind("enterKey",function(e){
@@ -141,9 +141,9 @@ $(function(){
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list");
+						$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
 					}else{
-						$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list");
+						$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
@@ -158,9 +158,9 @@ $(function(){
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list");
+						$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list/1");
 					}else{
-						$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list");
+						$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
@@ -175,9 +175,9 @@ $(function(){
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list");
+						$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list/1");
 					}else{
-						$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list");
+						$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
