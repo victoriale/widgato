@@ -30,11 +30,13 @@ $(function(){
   })//END OF FUNCTION
   function dataCall(index){
     var link ="http://localhost:3000/";
+    var title = "counties-with-the-most-number-of-total-votes-in-the-2012-election";
     $('.tv-t2-loc').html(curData[index].county+' County, '+curData[index].state);
     $('.tv-content1').html(dNumberToCommaNumber(curData[index].votes)+' Votes');
 		$('.tv-image').css('background', 'url('+curData[index].image+') no-repeat');
-		$('.tv-href').attr('href',link+"Politics/"+curData[index].state);
-		$('#loc').attr('href',link+"Politics/"+curData[index].state);
+    $('#county').attr('href',link+curData[index].state+"/"+curData[index].county+"/county");
+		$('.tv-href').attr('href',link+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
+		$('#loc').attr('href',link+curData[index].state+"/"+curData[index].county+"/county");
 
     //$('#loc').attr('href',link+"location/"+toUpperCase(curData[index].county)+"_"+toUpperCase(curData[index].state));
   }

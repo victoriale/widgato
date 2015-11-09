@@ -31,12 +31,13 @@ $(function(){
   function dataCall(index){
     //var link="http://www.joyfulhome.com/";
     var link ="http://localhost:3000/";
+    var title = "counties-with-the-most-democratic-voters";
     $('.fcw-t2-loc').html(curData[index].county+' County, '+curData[index].state);
     $('.fcw-content1').html(dNumberToCommaNumber(curData[index].votes)+' Votes');
     $('.fcw-image').css('background', 'url('+curData[index].image+') no-repeat');
-    $('.fcw-href').attr('href',link+"Politics/"+curData[index].state);
-    $('#loc').attr('href',link+"Politics/"+curData[index].state);
-    $('#county').attr('href',link+"Politics/"+curData[index].state);
+    $('.fcw-href').attr('href',link+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
+    $('#loc').attr('href',link+curData[index].state+"/"+curData[index].county+"/county");;
+    $('#county').attr('href',link+curData[index].state+"/"+curData[index].county+"/county");
 
   }
   //number converter to decimal with correct format
