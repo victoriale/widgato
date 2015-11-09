@@ -78,19 +78,18 @@ $(function(){
     }, 'json')
   })//END OF FUNCTION
   function dataCall(index){
-    var link ="http://www.myhousekit.com/";
     var title = "counties-with-the-most-democratic-voters";
     $('.fcw-t2-loc').html(curData[index].county+' County, '+curData[index].state);
     $('.fcw-content1').html(dNumberToCommaNumber(curData[index].votes)+' Votes');
     $('.fcw-image').css('background', 'url('+curData[index].image+') no-repeat');
     if(remnant == 'true' || remnant == true){
-      $('.fcw-href').attr('href',link+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
-      $('#loc').attr('href',link+curData[index].state+"/"+curData[index].county+"/county");
-      $('#county').attr('href',link+curData[index].state+"/"+curData[index].county+"/county");
+      $('.fcw-href').attr('href',"http://www.joyfulhome.com/"+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
+      $('#loc').attr('href',"http://www.joyfulhome.com/"+curData[index].state+"/"+curData[index].county+"/county");
+      $('#county').attr('href',"http://www.joyfulhome.com/"+curData[index].state+"/"+curData[index].county+"/county");
     } else {
-      $('.fcw-href').attr('href',link+domain+"/"+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
-      $('#loc').attr('href',link+domain+"/"+curData[index].state+"/"+curData[index].county+"/county");
-      $('#county').attr('href',link+domain+"/"+curData[index].state+"/"+curData[index].county+"/county");
+      $('.fcw-href').attr('href',"http://www.myhousekit.com/"+domain+"/"+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
+      $('#loc').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[index].state+"/"+curData[index].county+"/county");
+      $('#county').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[index].state+"/"+curData[index].county+"/county");
     }
 
   }

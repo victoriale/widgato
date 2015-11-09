@@ -84,13 +84,13 @@ $(function(){
     $('.tv-content1').html(dNumberToCommaNumber(curData[index].votes)+' Votes');
 		$('.tv-image').css('background', 'url('+curData[index].image+') no-repeat');
     if(remnant == 'true' || remnant == true){
-      $('.tv-href').attr('href',link+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
-      $('#loc').attr('href',link+curData[index].state+"/"+curData[index].county+"/county");
-      $('#county').attr('href',link+curData[index].state+"/"+curData[index].county+"/county");
+      $('.tv-href').attr('href',"http://www.joyfulhome.com/"+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
+      $('#loc').attr('href',"http://www.joyfulhome.com/"+curData[index].state+"/"+curData[index].county+"/county");
+      $('#county').attr('href',"http://www.joyfulhome.com/"+curData[index].state+"/"+curData[index].county+"/county");
     } else {
-      $('.tv-href').attr('href',link+domain+"/"+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
-      $('#loc').attr('href',link+domain+"/"+curData[index].state+"/"+curData[index].county+"/county");
-      $('#county').attr('href',link+domain+"/"+curData[index].state+"/"+curData[index].county+"/county");
+      $('.tv-href').attr('href',"http://www.myhousekit.com/"+domain+"/"+title+"/"+curData[index].state+"/"+curData[index].county+"/politics");
+      $('#loc').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[index].state+"/"+curData[index].county+"/county");
+      $('#county').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[index].state+"/"+curData[index].county+"/county");
     }
 
     //$('#loc').attr('href',link+"location/"+toUpperCase(curData[index].county)+"_"+toUpperCase(curData[index].state));
