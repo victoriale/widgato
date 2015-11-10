@@ -1,4 +1,4 @@
-var offset = '';
+var offset = 0;
 var dataLength;
 var curData;
 
@@ -28,6 +28,10 @@ $(function(){
     locName = query['loc']['loc_name'];
 
     locName = locName.replace('+',' ');
+
+    city = query['loc']['loc_id']['city'];
+
+  	state = query['loc']['loc_id']['state'];
     //returns string true or false
     bord = query.bord;
 		/*
@@ -67,14 +71,25 @@ $(function(){
           dataCall(offset);
         }
     });
-    dataCall(offset);
+
+    if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
+      if(remnant == 'true' || remnant === true){
+        $.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+          city = r_data[0].city;
+          state = r_data[0].state;
+          dataCall(offset);
+        });
+      }
+    }else{
+      dataCall(offset);
+    }
   })//END OF FUNCTION
 
   function dataCall(index){
-  	$.get('http://apirt.synapsys.us/index.php?widget=politics&wid=3&county=Sedgwick&state=KS&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
-      var link = "http://localhost:3000/";
+  	$.get('http://apirt.synapsys.us/index.php?widget=politics&wid=3&city='+city+'&state='+state+'&page-list=1&city-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+      var link = "http://www.joyfulhome.com/";
+      var county = data.county;
       curData = data.widget;
-      console.log(curData);
       dataLength = curData.length;
       var title = "counties-with-the-highest-percent-of-republican-voters";
       $('.fcw-t2-loc').html(curData[0].county+' County, '+curData[0].state);
