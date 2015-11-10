@@ -1,8 +1,6 @@
 var offset = '';
 var dataLength;
 var curData;
-var limit = 2;
-var skip = 0;
 
 var domain = '';
 var clickyId = 0;
@@ -73,25 +71,25 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-
-  	$.get('http://api.synapsys.us/rt/index.php?widget=politics&wid=3&county=Sedgwick&state=KS&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://apirt.synapsys.us/index.php?widget=politics&wid=3&county=Sedgwick&state=KS&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+      var link = "http://localhost:3000/";
       curData = data.widget;
+      console.log(curData);
       dataLength = curData.length;
       var title = "counties-with-the-highest-percent-of-republican-voters";
       $('.fcw-t2-loc').html(curData[0].county+' County, '+curData[0].state);
       $('.fcw-content1').html(Number(curData[0].percent).toFixed()+'% of Voters');
       $('.fcw-image').css('background', 'url('+curData[0].image+') no-repeat');
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',"http://www.joyfulhome.com/"+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
-        $('#loc').attr('href',"http://www.joyfulhome.com/"+curData[0].state+"/"+curData[0].county+"/county");
-        $('#county').attr('href',"http://www.joyfulhome.com/"+curData[0].state+"/"+curData[0].county+"/county");
+        $('.fcw-href').attr('href',link+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
+        $('#loc').attr('href',link+curData[0].state+"/"+curData[0].county+"/county");
+        $('#county').attr('href',link+curData[0].state+"/"+curData[0].county+"/county");
       } else {
-        $('.fcw-href').attr('href',"http://www.myhousekit.com/"+domain+"/"+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
-        $('#loc').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[0].state+"/"+curData[0].county+"/county");
-        $('#county').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[0].state+"/"+curData[0].county+"/county");
+        $('.fcw-href').attr('href',"http://www.myhousekit.com/"+domain+"/politics/"+title+"/"+curData[0].state+"/"+curData[0].county);
+        $('#loc').attr('href',"http://www.myhousekit.com/"+domain+"/county/"+curData[0].state+"/"+curData[0].county);
+        $('#county').attr('href',"http://www.myhousekit.com/"+domain+"/county/"+curData[0].state+"/"+curData[0].county);
       }
     }, 'json')
-
   }
   //number converter to decimal with correct format
   function nFormatter(num) {

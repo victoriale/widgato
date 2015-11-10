@@ -70,7 +70,7 @@ $(function(){
   dataCall(offset);
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://api.synapsys.us/rt/index.php?widget=politics&wid=1&county=Sedgwick&state=KS&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://apirt.synapsys.us/index.php?widget=politics&wid=1&county=Sedgwick&state=KS&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       curData = data.widget;
       dataLength = curData.length;
       var title = "counties-with-the-most-number-of-total-votes-in-the-2012-election";
@@ -82,9 +82,9 @@ $(function(){
         $('#loc').attr('href',"http://www.joyfulhome.com/"+curData[0].state+"/"+curData[0].county+"/county");
         $('#county').attr('href',"http://www.joyfulhome.com/"+curData[0].state+"/"+curData[0].county+"/county");
       } else {
-        $('.tv-href').attr('href',"http://www.myhousekit.com/"+domain+"/"+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
-        $('#loc').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[0].state+"/"+curData[0].county+"/county");
-        $('#county').attr('href',"http://www.myhousekit.com/"+domain+"/"+curData[0].state+"/"+curData[0].county+"/county");
+        $('.tv-href').attr('href',"http://www.myhousekit.com/"+domain+"/politics/"+title+"/"+curData[0].state+"/"+curData[0].county);
+        $('#loc').attr('href',"http://www.myhousekit.com/"+domain+"/county/"+curData[0].state+"/"+curData[0].county);
+        $('#county').attr('href',"http://www.myhousekit.com/"+domain+"/county/"+curData[0].state+"/"+curData[0].county);
       }
     }, 'json')
   }
