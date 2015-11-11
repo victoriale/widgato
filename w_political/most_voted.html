@@ -8,7 +8,7 @@
 <meta charset='utf-8'>
 <!--ATTENTION css/fontawesome.css is being called locally the cdn link site was not working-->
 <link href="../css/font-awesome.css" media="all" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="../css/most_voted.css">
+<link rel="stylesheet" type="text/css" href="../css/most_voted_t.css">
 <script src="http://code.highcharts.com/stock/highstock.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script type="text/javascript" src="../js/most_voted.js"></script>
@@ -33,7 +33,12 @@
       </div><!--top text END-->
         <!--image && button-->
       <div class="fcw-middle">
-        <a id="county" href=""><div class="fcw-image"></div></a>
+        <a id="county" href=""><div class="fcw-image">
+          <div class="hover">
+            <div class="hover-txt1">View</div>
+            <div class="hover-txt2">Profile</div>
+          </div>
+        </div></a>
         <button class="fcw-leftnav" data-dir='prev'><i class="fa fa-angle-left"></i></button>
         <button class="fcw-rightnav" data-dir='next'><i class="fa fa-angle-right"></i></button>
       </div><!--image && button END-->
@@ -44,11 +49,11 @@
       </div>
       <div class="fcw-list">
         <a class="fcw-href"  href="">
-          <span class="fcw-list-link">SEE THE LIST <i class="fa fa-mail-forward swc-space"></i></span>
+          <div class="fcw-list-link">SEE THE LIST <i class="fa fa-mail-forward swc-space"></i></div>
         </a>
       </div>
       <div class="fcw-presentedby">
-        PRESENTED BY
+        COUNTIES WITH THE MOST REPUBLICANS - PRESENTED BY
       </div>
       <!--bottom text END-->
     </div><!--wrapper END-->
