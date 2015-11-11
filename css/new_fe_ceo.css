@@ -59,15 +59,11 @@ button:focus {
   margin: 100px auto 0 auto;
 }
 
-.new_fe_ceo:hover{
-  border-top: 3px solid #39abff;
-  border-bottom: 3px solid #39abff;
-}
-
 .fcw{
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
   width:300px;
   height:350px;
   position: relative;

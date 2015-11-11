@@ -57,19 +57,13 @@ button:focus {
   width:300px;
   height:auto;
   margin:0 auto;
-  border-top:1px solid #ffffff;
-  border-bottom:1px solid #ffffff;
-}
-
-.snt_local_w:hover{
-  border-top:1px solid #3098ff;
-  border-bottom:1px solid #3098ff;
 }
 
 .fgw{
   border-left: 1px solid #ccc;
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
   width:100%;
   height:350px;
   position: relative;
