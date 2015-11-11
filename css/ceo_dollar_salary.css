@@ -103,7 +103,7 @@ button:focus {
 .cds-t1{
   position: absolute;
   top: 0;
-  margin-top: 2px;
+  margin-top: 7px;
   font-family:HN-B;
   font-size:18px;
   font-weight: 700;
@@ -222,6 +222,10 @@ button:focus {
   font-size: 25px;
 }
 
+.fontcolor{
+  color: #000;
+}
+
 .cds-leftnav{
   position: absolute;
   height:60px;
@@ -321,7 +325,8 @@ button:focus {
     left: 2px;
     color:#aaaaaa;
     text-align: left;
-    font-size: 12px;
+    font-size: 10px;
+    font-weight: 400;
 }
 
 .cds-list-link:hover{
