@@ -56,14 +56,14 @@ button:focus {
   overflow: hidden;
   width:300px;
   height:auto;
-  border-top: 3px solid #000;
-  border-bottom: 3px solid #000;
-  margin: 100px auto 0 auto;
+  margin:0 auto;
+  border-top:1px solid #ffffff;
+  border-bottom:1px solid #ffffff;
 }
 
 .snt_local_w:hover{
-  border-top: 3px solid #39abff;
-  border-bottom: 3px solid #39abff;
+  border-top:1px solid #3098ff;
+  border-bottom:1px solid #3098ff;
 }
 
 .fgw{
@@ -71,7 +71,7 @@ button:focus {
   border-right: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   width:100%;
-  height:244px;
+  height:350px;
   position: relative;
 }
 
@@ -89,12 +89,16 @@ button:focus {
   top:0;
   left:0;
 }
+.fgw-logo:hover{
+  background-color: #000000;
+  z-index: 3;
+}
 
 .fgw-text{
   width:100%;
-  height:50px;
+  height:90px;
   padding-top: 2px;
-  padding-left: 35px;
+  padding-left: 40px;
   position:relative;
   overflow: hidden;
 }
@@ -107,15 +111,20 @@ button:focus {
   font-size:20px;
   text-align: left;
   line-height: 1.2em;
-  white-space: nowrap;
+  overflow: hidden;
+  text-align: left;
 }
 .fgw-t2{
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
   margin-bottom: 2px;
   font-size:14px;
   text-align: left;
   line-height: 1.7em;
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 /*top text END*/
 
@@ -134,7 +143,6 @@ button:focus {
   float:left;
   /*remove below cause its funny*/
   text-align: center;
-  line-height: 100px;
   background-position: center center;
   background-size: contain;
   background-repeat: no-repeat;
@@ -143,12 +151,12 @@ button:focus {
 .fgw-content{
   width:50%;
   height:45px;
-  margin-top:20px;
+  margin-top:10px;
   float:right
 }
 
 .fgw-content1{
-  font-size: 22px;
+  font-size: 24px;
   color:#50bc55;
   font-family: HN-B;
   text-align: left;
@@ -156,7 +164,7 @@ button:focus {
 
 .fgw-content2{
   font-size: 16px;
-  font-family: HN-B;
+  font-family: HN;
   color:#000000;
   text-align: left;
   line-height: 1em;
@@ -179,6 +187,10 @@ button:focus {
   cursor: pointer;
 }
 
+.fgw-leftnav:hover{
+  background-color: #39abff;
+}
+
 .fgw-rightnav{
   height:60px;
   width:30px;
@@ -195,6 +207,10 @@ button:focus {
   padding-left: 10px;
   cursor: pointer;
 }
+.fgw-rightnav:hover{
+  background-color: #39abff;
+}
+
 /*image && button END*/
 
 .fgw-list{
@@ -217,19 +233,41 @@ button:focus {
 
 #fgw-graph{
   width:100%;
-  height:60px;
-  margin-top: 3px;
-  padding: 0 25px;
+  height:100px;
+  margin-top: 25px;
+  padding: 0 10px;
 }
 
 .fgw-list-link{
   color:#000;
   font-size: 10px;
   font-family: HN-B;
+  width:100px;
+  height:30px;
+  border: 1px solid #3098ff;
+  border-radius: 5px;
+  text-align: center;
+  line-height: 26px;
+  margin-top: 10px;
 }
 
 .fgw-list-link:hover{
-  color:#39abff;
+  color:#ffffff;
+  background-color: #3098ff
+}
+
+.fgw-list-link:hover #swc-blue{
+  color:#ffffff;
+}
+
+.fgw-list-link:active{
+  color:#ffffff;
+  background-color: #000000;
+  border:1px solid #000000;
+}
+
+.fgw-list-link:active #swc-blue{
+  color:#ffffff;
 }
 
 .fgw-rightnav:active{
@@ -241,21 +279,121 @@ button:focus {
 }
 
 #swc-blue{
-  color:#3aaefe;
+  color:#3098ff;
 }
 
 .swc-space{
   margin:0 2px;
+  font-family: HN-B;
+  font-size: 14px;
 }
 .fgw-t2-title{
   color: #000;
+  font-size: 14px;
 }
 .fgw-t2-title:hover{
   color:#39abff;
 }
 .fgw-t2-loc{
   color: #000;
+  font-size: 14px;
 }
 .fgw-t2-loc:hover{
   color:#39abff;
 }
+
+/*
+<div class="hover">
+  <div class="hover-txt1">View</div>
+  <div class="hover-txt2">Profile</div>
+</div>
+*/
+.hover{
+  width:100%;
+  height:100%;
+  border-radius: 50%;
+  opacity: 0;
+  text-align: center;
+}
+.hover-txt1{
+  width:100%;
+  height:50px;
+  padding-top:20px;
+  font-size: 32px;
+  font-family: HN-L;
+  color:white;
+}
+.hover-txt2{
+  width:100%;
+  height:50px;
+  font-size: 18px;
+  line-height: 24px;
+  font-family: HN;
+  color:white;
+}
+.hover:hover{
+  width:100%;
+  height:100%;
+  border-radius: 50%;
+  opacity: 1;
+  background:rgba(48,152,255,0.75);
+}
+
+/* Begin required CSS. */
+.line-clamp
+{
+	display            : block;
+	display            : -webkit-box;
+	-webkit-box-orient : vertical;
+	position           : relative;
+
+	line-height        : 1.2;
+	overflow           : hidden;
+	text-overflow      : ellipsis;
+	padding            : 0 !important;
+}
+.line-clamp:after
+{
+	content    : '...';
+	text-align : right;
+	bottom     : 0;
+	right      : 0;
+	width      : 25%;
+	display    : block;
+	position   : absolute;
+	height     : calc(1em * 1.2);
+	background : linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 75%);
+}
+@supports (-webkit-line-clamp: 1)
+{
+	.line-clamp:after
+	{
+		display : none !important;
+	}
+}
+.line-clamp-1
+{
+	-webkit-line-clamp : 1;
+	height             : calc(1em * 1.2 * 1);
+}
+.line-clamp-2
+{
+	-webkit-line-clamp : 2;
+	height             : calc(1em * 1.2 * 2);
+}
+.line-clamp-3
+{
+	-webkit-line-clamp : 3;
+	height             : calc(1em * 1.2 * 3);
+}
+.line-clamp-4
+{
+	-webkit-line-clamp : 4;
+	height             : calc(1em * 1.2 * 4);
+}
+.line-clamp-5
+{
+	-webkit-line-clamp : 5;
+	height             : calc(1em * 1.2 * 5);
+}
+/* End required CSS. */

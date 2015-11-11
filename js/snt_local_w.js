@@ -118,8 +118,8 @@ $(function(){
 
 function compData(offset){
   var curItem = list[offset];
-  //console.log(curItem);
-  $(".fgw-t2-title").html(curItem.c_ticker);
+  console.log(curItem);
+  $(".fgw-t2-title").html(curItem.c_name);
   $(".fgw-t2-loc").html(curItem.c_hq_city + ", " + curItem.c_hq_state);
   $(".fgw-image").css({"background-image":"url('http://apifin2.synapsys.us/images/"+curItem.c_logo+"')"});
   $(".fgw-content1").html(convert_num(Number(curItem.stock_percent).toFixed(2)));
@@ -128,13 +128,16 @@ function compData(offset){
     if(typeof loc != 'undefined' || loc != '' || loc != null){
       loc = "/"+loc+"/1";
     }
+
+    $(".swc-space").html((offset+1) + ".");
     $(".fgw-t1").html("Local Market Movers");
     $(".fgw-href").attr('href',"http://www.investkit.com/"+listTitle+"/"+listid+"/list"+loc);
     $(".fgw-link").attr('href',"http://www.investkit.com/"+curItem.c_ticker+"/"+compUrlName(curItem.c_name)+"/company/"+curItem.c_id);
     $(".fgw-loc-link").attr('href',"http://www.investkit.com/"+curItem.c_hq_state+"/location");
   }else{
+    $(".swc-space").html((offset+1) + ".");
     locName = locName.replace(/\+/g,' ');
-    $(".fgw-t1").html("Local Market Movers");
+    $(".fgw-t1").html("Today's Market Movers in "+locName);
     $(".fgw-href").attr('href',"http://www.myinvestkit.com/"+domain+"/"+listTitle+"/"+loc+"/"+listid+"/list/1");
     $(".fgw-link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curItem.c_name)+"/"+curItem.c_ticker+"/c/"+curItem.c_id);
     $(".fgw-loc-link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+curItem.c_hq_state+"/loc");
@@ -166,8 +169,8 @@ function stockGraph(comp_id, graph, ticker){
     },
 
     chart:{
-      width:250,
-      height:85,
+      width:280,
+      height:100,
     },
 
     xAxis:{
@@ -182,7 +185,7 @@ function stockGraph(comp_id, graph, ticker){
         }
         return positions * 1000;
       },
-      tickPixelInterval: 70,
+      tickPixelInterval: 80,
       endOnTick:true,
       title: '',
       labels:{
@@ -194,6 +197,11 @@ function stockGraph(comp_id, graph, ticker){
     yAxis:{
       opposite:true,
       title:'',
+      labels: {
+          formatter: function() {
+              return '$' + this.value
+          }
+      },
     },
     scrollbar:{
       enabled:false
