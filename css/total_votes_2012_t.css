@@ -53,7 +53,7 @@ button:focus {
   background-color: #ccc;
 }
 
-.universe_fcw{
+.universe_tv{
   border-top: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
   overflow: hidden;
@@ -62,8 +62,7 @@ button:focus {
   margin: 100px auto 0 auto;
 }
 
-
-.fcw{
+.tv{
   border-left: 1px solid #ebebeb;
   border-right: 1px solid #ebebeb;
   border-bottom: 1px solid #ebebeb;
@@ -73,34 +72,33 @@ button:focus {
 }
 
 /*top text*/
-.fcw-logo{
+.tv-logo{
   width:25px;
   height:25px;
-  background-color: #ff0101;
-  background-image: url("public/Logo_Political_Republican.png");
+  background-color: #3B5998;
+  background-image: url("public/White_House_Icon.png");
   background-position: center center !important;
   background-repeat: no-repeat;
   border-radius: 50%;
-  margin: 7px 10px;
+  margin: 7px 5px;
   position: absolute;
   top:0;
   left:0;
 }
 
-.fcw-text{
+.tv-text{
   width:100%;
   height:50px;
   margin-left: 10px;
   padding-top: 2px;
-  padding-left: 35px;
+  padding-left: 25px;
   position:relative;
 }
 
-.fcw-t1{
+.tv-t1{
   position: absolute;
   top: 0;
-  padding-right: 40px;
-  padding-left: 5px;
+  padding-right: 10px;
   margin-top: 2px;
   font-family:HN-B;
   font-size:16px;
@@ -108,7 +106,7 @@ button:focus {
   line-height: 1.2em;
   /*white-space: nowrap;*/
 }
-.fcw-t2{
+.tv-t2{
   position: absolute;
   bottom: -10px;
   margin-bottom: 2px;
@@ -119,12 +117,12 @@ button:focus {
 /*top text END*/
 
 /*image && button*/
-.fcw-middle{
+.tv-middle{
   position: relative;
   width:100%;
   height:160px;
 }
-.fcw-image{
+.tv-image{
   background-position: center center!important;
   background-size: cover!important;
   width:150px;
@@ -136,7 +134,7 @@ button:focus {
   text-align: center;
 }
 
-.fcw-leftnav{
+.tv-leftnav{
   position: absolute;
   height:60px;
   width:30px;
@@ -153,7 +151,7 @@ button:focus {
   cursor: pointer;
 }
 
-.fcw-rightnav{
+.tv-rightnav{
   height:60px;
   width:30px;
   border-radius: 90px 0 0 90px;
@@ -172,19 +170,19 @@ button:focus {
 /*image && button END*/
 
 /*bottom text*/
-.fcw-content{
+.tv-content{
   width:100%;
   height:45px;
 }
 
-.fcw-content1{
+.tv-content1{
   font-size: 24px;
   color:#000000;
   font-family: HN-B;
   text-align: center;
 }
 
-.fcw-content2{
+.tv-content2{
   font-family: HN-L;
   font-size: 18px;
   color:#000;
@@ -193,7 +191,7 @@ button:focus {
 }
 /*bottom text END*/
 
-.fcw-list{
+.tv-list{
   width:100%;
   height: 20px;
   text-align: center;
@@ -202,13 +200,13 @@ button:focus {
   margin-bottom: 35px;
 }
 
-.fcw-list-link{
+.tv-list-link{
   margin:-15px auto;
   border-radius: 3px;
   border-width: 1px;
   width: 120px;
   height: 30px;
-  border-color: #ff0101;
+  border-color: #3098ff;
   border-style: solid;
   background-color: #ffffff;
   color:#000;
@@ -218,33 +216,33 @@ button:focus {
   line-height: 26px;
 }
 
-.fcw-presentedby{
-    position: absolute;
-    bottom: 0px;
-    left: 2px;
-    color:#aaaaaa;
-    text-align: left;
-    font-size: 10px;
+.tv-presentedby{
+  position: absolute;
+  bottom: 0px;
+  left: 2px;
+  color:#aaaaaa;
+  text-align: left;
+  font-size: 10px;
 }
 
-.fcw-list-link:hover{
+.tv-list-link:hover{
   color:#FFFFFF;
   border-radius: 3px;
   border-width: 1px;
   width: 120px;
   height: 30px;
-  border-color: #ff0101;
+  border-color: #3098ff;
   border-style: solid;
-  background-color: #ff0101;
+  background-color: #3098ff;
   text-align:center;
 }
 
-.fcw-rightnav:active{
-  background-color: #ff0101;
+.tv-rightnav:active{
+  background-color: #39abff;
 }
 
-.fcw-leftnav:active{
-  background-color: #ff0101;
+.tv-leftnav:active{
+  background-color: #39abff;
 }
 
 #swc-blue{
@@ -254,7 +252,7 @@ button:focus {
 .swc-space{
   margin:0 2px;
 }
-.fcw-t2-loc:hover{
+.tv-t2-loc:hover{
   color: #39abff;
 }
 .hover{
@@ -283,5 +281,5 @@ button:focus {
   height:100%;
   border-radius: 50%;
   opacity: 1;
-  background:rgba(255,1,1,0.75);
+  background:rgba(48,147,255,0.75);
 }
