@@ -231,7 +231,10 @@ button:focus {
   background-color: #ffffff;
   width: 118px;
   height: 28px;
-  padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 18px;
+  padding-right: 18px;
 }
 .fcw-list-link:hover{
   background-color: #3098ff;
@@ -250,15 +253,11 @@ button:focus {
     font-size: 12px;
 }
 
-.fcw-list-link:hover{
-  color:#39abff;
-}
-
-.fcw-rightnav:active{
+.fcw-rightnav:hover{
   background-color: #39abff;
 }
 
-.fcw-leftnav:active{
+.fcw-leftnav:hover{
   background-color: #39abff;
 }
 
