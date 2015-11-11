@@ -2,7 +2,6 @@ var offset = 0;
 var dataLength;
 var curData;
 
-
 var domain = '';
 var clickyId = 0;
 var remnant = '';
@@ -85,12 +84,16 @@ $(function(){
   }, 'json')
 })//END OF FUNCTION
 function dataCall(index){
+  $('.fcw-t2-num').html(curData.indexOf(curData[index])+1+'. ');
   $('.fcw-t2-title').html(curData[index].c_ticker);
+  $('.fcw-logo').css('background','url('+imageUrl(curData[index].c_logo)+') no-repeat');
   $('.fcw-loc').html(curData[index].c_hq_city+' '+curData[index].c_hq_state);
   $('.fcw-content1').html(curData[index].o_first_name+' '+curData[index].o_last_name);
   $('#paid').html(nFormatter(curData[index].TotalComp));
   $('.fcw-image').css('background','url('+imageUrl(curData[index].o_pic)+') no-repeat');
   if(remnant == 'true' || remnant == true){
+    $('.comp-link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
+
     $('.exec-link').attr('href',"http://www.investkit.com/"+curData[index].o_first_name+"-"+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
 
     $('.fcw-href').attr('href',"http://www.investkit.com/"+compUrlName(data_result.list_title)+"/female_ceo/executive-list/1");
@@ -99,6 +102,8 @@ function dataCall(index){
 
     $('#loc_link').attr('href',"http://www.investkit.com/"+curData[index].c_hq_state+"/location");
   }else{
+    $('.comp-link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
+
     $('.exec-link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+curData[index].c_ticker+"/"+curData[index].o_last_name+"-"+curData[index].o_first_name+"/e/"+curData[index].o_id);
 
     $('.fcw-href').attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(data_result.list_title)+"/female_ceo/list-executives/1");
