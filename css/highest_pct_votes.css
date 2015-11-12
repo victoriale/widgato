@@ -229,7 +229,7 @@ button:focus {
     left: 2px;
     color:#aaaaaa;
     text-align: left;
-    font-size: 10px;
+    font-size: 9px;
 }
 
 .fcw-list-link:hover{
@@ -243,7 +243,10 @@ button:focus {
   background-color: #ff0101;
   text-align:center;
 }
-
+.fcw-list-link:active{
+  color: #FFFFFF;
+  background-color: #000000;
+}
 .fcw-rightnav:active{
   background-color: #ff0101;
 }
@@ -251,7 +254,13 @@ button:focus {
 .fcw-leftnav:active{
   background-color: #ff0101;
 }
+.fcw-rightnav:hover{
+  background-color: #ff0101;
+}
 
+.fcw-leftnav:hover{
+  background-color: #ff0101;
+}
 #swc-blue{
   color:#3aaefe;
 }

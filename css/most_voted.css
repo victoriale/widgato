@@ -238,6 +238,17 @@ button:focus {
   background-color: #ff0101;
   text-align:center;
 }
+.fcw-list-link:hover{
+  color:#FFFFFF;
+  background-color: #000000;
+}
+.fcw-rightnav:hover{
+  background-color: #ff0101;
+}
+
+.fcw-leftnav:hover{
+  background-color: #ff0101;
+}
 
 .fcw-rightnav:active{
   background-color: #ff0101;
