@@ -87,7 +87,7 @@ $(function(){
   	$.get('http://apirt.synapsys.us/index.php?widget=politics&wid=1&city='+city+'&state='+state+'&page-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       curData = data.widget;
       dataLength = curData.length;
-      var title = "counties-with-the-most-number-of-total-votes-in-the-2012-election";
+      var title = "counties-with-the-most-total-votes-in-the-2012-election";
       $('.tv-img2').html('#'+(index+1));
       $('.tv-t2-loc').html(curData[0].county+' County, '+curData[0].state);
       $('.tv-content1').html(dNumberToCommaNumber(curData[0].votes)+' Votes');
