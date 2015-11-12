@@ -90,6 +90,7 @@ $(function(){
       curData = data.widget;
       dataLength = curData.length;
       var title = "counties-with-the-most-republican-voters";
+      $('.fcw-img2').html('#'+(index+1));
       $('.fcw-t2-loc').html(curData[0].county+' County, '+curData[0].state);
       $('.fcw-content1').html(dNumberToCommaNumber(curData[0].votes)+' Votes');
       $('.fcw-image').css('background', 'url('+curData[0].image+') no-repeat');

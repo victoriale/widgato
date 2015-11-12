@@ -57,7 +57,6 @@ $(function(){
   	document.head.appendChild(script_tag);
   	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
   	document.head.appendChild(clicks[0]);
-
     $('.fcw-rightnav').on('click', function() {
         if ($(this).data('dir') === 'next') {
             dataCall(++offset);
@@ -93,6 +92,7 @@ $(function(){
       dataLength = curData.length;
       var title = "counties-with-the-highest-percent-of-republican-voters";
       $('.fcw-t2-loc').html(curData[0].county+' County, '+curData[0].state);
+      $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(Number(curData[0].percent).toFixed()+'% of Voters');
       $('.fcw-image').css('background', 'url('+curData[0].image+') no-repeat');
       if(remnant == 'true' || remnant == true){

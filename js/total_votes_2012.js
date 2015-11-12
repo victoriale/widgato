@@ -88,6 +88,7 @@ $(function(){
       curData = data.widget;
       dataLength = curData.length;
       var title = "counties-with-the-most-number-of-total-votes-in-the-2012-election";
+      $('.tv-img2').html('#'+(index+1));
       $('.tv-t2-loc').html(curData[0].county+' County, '+curData[0].state);
       $('.tv-content1').html(dNumberToCommaNumber(curData[0].votes)+' Votes');
       $('.tv-image').css('background', 'url('+curData[0].image+') no-repeat');
