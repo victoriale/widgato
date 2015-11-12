@@ -64,8 +64,18 @@ $(function(){
 	//run initiall to make sure link works on load
 	if(remnant == 'true' || remnant == true){
 		$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
+		$("#fb").attr('href', "http://www.investkit.com/FB/Facebook-Inc/company/3330");
+		$("#apl").attr('href', "http://www.investkit.com/AAPL/Apple-Inc/company/2636");
+		$("#tm").attr('href', "http://www.investkit.com/TSLA/Tesla-Motors-Inc/company/4762");
+		$("#mc").attr('href', "http://www.investkit.com/MSFT/Microsoft-Corporation/company/4004");
+		$("#wd").attr('href', "http://www.investkit.com/DIS/Walt-Disney-Co/company/624");
 	}else{
 		$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
+		$("#fb").attr('href', "http://www.myinvestkit.com/"+domain+"/Facebook-Inc/FB/c/3330");
+		$("#apl").attr('href', "http://www.myinvestkit.com/"+domain+"/Apple-Inc/AAPL/c/2636");
+		$("#tm").attr('href', "http://www.myinvestkit.com/"+domain+"/Tesla-Motors-Inc/TSLA/c/4762");
+		$("#mc").attr('href', "http://www.myinvestkit.com/"+domain+"/Microsoft-Corporation/MSFT/c/4004");
+		$("#wd").attr('href', "http://www.myinvestkit.com/"+domain+"/Walt-Disney-Co/DIS/c/624");
 	}
 
 	$('.search-input').bind("enterKey",function(e){

@@ -340,9 +340,13 @@ div{
   }
 
   .search-title{
+    color: #272727;
   	font-size:18px;
-  	text-align:center;
-  	margin-bottom:12px;
+    font-weight: 700;
+    line-height: 24px;
+    text-align: center;
+    transform: scaleX(1.0004);
+  	margin:17px 0;
   }
 
   .input-pill{
@@ -353,60 +357,79 @@ div{
   	margin-bottom:12px;
   }
   .search_box{
-  	height:30px;
-  	width:100%;
-  	display:table;
-  	/*border: 3px solid #cccccc;*/
-  	margin: 5px auto;
+  	height: 30px;
+  	width: 260px;
+  	display: table;
+  	margin: 15px auto;
   	position:relative;
-  	top:11px;
+    margin-left: 15px;
   }
   .search-input{
     /*display: table-cell;*/
-    width: 113%;
-    height: 90%;
+    width: 210px;
+    height: 30px;
     padding-left: 5px;
     margin: 0;
-    /*border-color: #7bbf65;*/
-    border-radius: 20px;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+    border-style: solid;
+    border-width: 1px;
+    border-color:  #cccccc;
+    box-sizing: border-box;
+    background-color:  #ffffff;
     vertical-align: middle;
     outline: none;
+    font-size: 12px;
+    text-align: left;
   }
 
   .search-button{
-  	padding: 0 0 0 10px;
-  	width:12%;
+  	width: 50px;
   	height:100%;
+    border: none;
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+  	background-color: #3098ff;
   	font-size:12px;
   	line-height:2em;
   	font-family:HN;
   	display:table-cell;
+    text-align:center;
   }
 
   .input-pill_btn{
   	border: none;
   	background: none;
-  	color: #7bbf65;
+  	color: #fff;
   	vertical-align:middle;
   	font-weight:bold;
-  	text-align:center;
   }
 
   .search-text{
-  	font-size: 12px;
-  	line-height: 1.4;
+    color: #272727;
+  	font-size: 14px;
+  	line-height: 24px;
+    font-weight: 700;
   	font-family: sans-serif;
-  	margin-bottom:12px;
+    text-align: center;
   }
 
   .search-border{
-  	width:90%;
-  	border-bottom: 1px solid #ededed;
+    margin-left: 13px;
+  	width:260px;
+    height: 1px;
+    background-color:  rgba(0, 0, 0, 0.18);
   	margin-bottom:12px;
   }
 
-  .gap{
-  	margin-right:4px;
+  .fire-style{
+    margin: 0 0 5px 13px;
+    font-family: FontAwesome;
+    color:  #2f9cfd;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
   }
 
   .search-trending{
@@ -416,11 +439,15 @@ div{
   }
 
   .trending{
-  	font-size:12px;
-  	line-height:1.6;
-  	font-family: sans-serif;
-    display:table-cell;
+    margin-left: 13px;
+    width: 260px;
+    color: #000;
+    font-size: 12px;
+    font-weight: 400;
+    text-align: left;
+
   }
   .trending a{
-    color:#000;
+    color:#3098ff;
+    font-weight: 700;
   }
