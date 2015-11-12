@@ -29,12 +29,8 @@ div{
   overflow:hidden;
   margin:0 auto;
   z-index:20;
-  border-bottom: 3px solid #000;
-  padding-top: 97px;
 }
-.f_w_container:hover{
-border-bottom:3px solid #3098ff;
-}
+
   .ad_location{
   width:300px;
   height:250px;

@@ -118,7 +118,6 @@ $(function(){
 
 function compData(offset){
   var curItem = list[offset];
-  console.log(curItem);
   $(".fgw-t2-title").html(curItem.c_name);
   $(".fgw-t2-loc").html(curItem.c_hq_city + ", " + curItem.c_hq_state);
   $(".fgw-image").css({"background-image":"url('http://apifin2.synapsys.us/images/"+curItem.c_logo+"')"});
@@ -128,7 +127,6 @@ function compData(offset){
     if(typeof loc != 'undefined' || loc != '' || loc != null){
       loc = "/"+loc+"/1";
     }
-
     $(".swc-space").html((offset+1) + ".");
     $(".fgw-t1").html("Local Market Movers");
     $(".fgw-href").attr('href',"http://www.investkit.com/"+listTitle+"/"+listid+"/list"+loc);
@@ -142,6 +140,7 @@ function compData(offset){
     $(".fgw-link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curItem.c_name)+"/"+curItem.c_ticker+"/c/"+curItem.c_id);
     $(".fgw-loc-link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+curItem.c_hq_state+"/loc");
   }
+  console.log(graph);
   stockGraph(curItem.c_id, graph, curItem.c_ticker);
 }
 
@@ -155,9 +154,11 @@ function stockGraph(comp_id, graph, ticker){
 			seriesOptions.push([val.sh_date * 1000, yVal]);
 		}
 	});
-  seriesOptions.reverse();
-
-
+  //seriesOptions.reverse();
+  seriesOptions.sort(function(a,b){
+    return parseFloat(a[0]) - parseFloat(b[0]);
+  });
+  console.log(seriesOptions);
   //renders data gathered into a simple chart
   $('#fgw-graph').highcharts({
     exporting:{

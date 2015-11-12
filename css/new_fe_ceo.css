@@ -56,7 +56,7 @@ button:focus {
   overflow: hidden;
   width:300px;
   height:auto;
-  margin: 100px auto 0 auto;
+  margin:0 auto;
 }
 
 .fcw{
@@ -132,11 +132,9 @@ button:focus {
   background-repeat: no-repeat;
   /*remove below cause its funny*/
   text-align: center;
+  position: relative;
 }
-.fcw-image:hover{
-  background-color: #39abff;
-  opacity: .5;
-}
+
 .fcw-logo{
   border-radius: 50%;
   border-width: 1px;
@@ -148,8 +146,9 @@ button:focus {
   background-size: contain !important;
   background-position: center center !important;
   background-repeat: no-repeat;
-  margin-left: 170px;
-  margin-top: -43px;
+  position: absolute;
+  right:0;
+  margin-top: 90px;
 }
 .fcw-logo:hover{
   background-color: #39abff;
@@ -300,7 +299,7 @@ button:focus {
   color:#ffffff;
 }
 .hover1:hover{
-  opacity: 1;
+  opacity: .85;
   padding-top: 10px;
   background: #39abff;
   font-size: 20px;
