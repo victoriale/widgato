@@ -140,7 +140,6 @@ function compData(offset){
     $(".fgw-link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curItem.c_name)+"/"+curItem.c_ticker+"/c/"+curItem.c_id);
     $(".fgw-loc-link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+curItem.c_hq_state+"/loc");
   }
-  console.log(graph);
   stockGraph(curItem.c_id, graph, curItem.c_ticker);
 }
 
@@ -158,7 +157,6 @@ function stockGraph(comp_id, graph, ticker){
   seriesOptions.sort(function(a,b){
     return parseFloat(a[0]) - parseFloat(b[0]);
   });
-  console.log(seriesOptions);
   //renders data gathered into a simple chart
   $('#fgw-graph').highcharts({
     exporting:{
