@@ -86,7 +86,7 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-    $.get('http://apirt.synapsys.us/index.php?widget=politics&wid=7&city='+city+'&state='+state+'&page-list=1&city-list=1&skip='+index+'&limit=1', function(data){
+    $.get('//apirt.synapsys.us/index.php?widget=politics&wid=7&city='+city+'&state='+state+'&page-list=1&city-list=1&skip='+index+'&limit=1', function(data){
       console.log(data);
       curData = data.widget;
       dataLength = curData.length;
