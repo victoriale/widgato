@@ -90,7 +90,7 @@ $(function(){
       var county = data.county;
       curData = data.widget;
       dataLength = curData.length;
-      var title = "counties-with-the-highest-percent-of-democratic-voters";
+      var title = "counties-with-the-highest-percent-of-democrat-voters";
       $('.fcw-t2-loc').html(curData[0].county+' County, '+curData[0].state);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(Number(curData[0].percent).toFixed()+'% of Voters');

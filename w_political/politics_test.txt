@@ -1,0 +1,130 @@
+q1 = $('div.ad_stack_wrapper');
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/standard/joyful.js";
+q1[0].appendChild(q2);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/standard/remnant.js";
+q1.appendChild(q2);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/l/index-g2.php?PF_WIDGET_URL=http%3A%2F%2Ffinance.tampabay.com%2Fwidgets%2Fnew%2Fstandalone%2Fnational_widget.html&PF_WIDGET_WIDTH=300&PF_WIDGET_HEIGHT=350&AD_STACK_WIDTH=300&AD_STACK_HEIGHT=250&REALVU_CONFIG=%7B%22s%22%3A%22300x250%22%2C%22c%22%3A%22E115%22%2C%22p%22%3A%221739%22%7D&WEB_SPEC_UNIT_ID=11524&INVCHAN_SCRIPT_URL=PassFail.TampaBayTimes2%2Fequities%2F300x250&OPENX_AUID=537983285&OPENX_CS=b4d0b63b07&IMS_SITEPAGE=PassFail%2Ftampabay_com_home_financial_national_300x250&BREAL_ID=5132330&CONVERSANT_SID=101470&CONVERSANT_MEDIA_ID=6&CONVERSANT_MEDIA_TYPE=8&CRITEO_ZONEID=265323&RUBICON_KW=tampabay_com_finance_widget_300x250&RUBICON_RPSITE=70478&RUBICON_RPZONESIZE=334942-15&NATIVE_PIXELID=&NATIVE_ZONEID=";
+q1.appendChild(q2);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/l/n/index-mdb.php?dom=denverpost.com&type=finance_high_p_female&subd=false&remn=true&src=http%3A%2F%2Fcontent.synapsys.us%2Fembeds%2Ffinance%2Fhigh_p_female%2Fremnant.js&name=denverpost_com_remnant_300x250&widU=http%3A%2F%2Fwww.passfail.com%2Fwidgets%2Fnew%2Fstandalone%2Fhigh_p_female.html&widW=300&widH=600&ofx=0&ofy=-3";
+q1.appendChild(q2);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/l/n/index-g2.php?dom=tampabay.com&type=realestate_standard&subd=false&remn=false&src=http%3A%2F%2Fcontent.synapsys.us%2Fembeds%2Frealestate%2Fstandard%2Fpartner.js&name=tampabay_com_realestate_widget_300x250&widU=http%3A%2F%2Fcontent.synapsys.us%2Fwidgets%2Frealestate%2Fre_w_standard.html&widW=300&widH=600";
+q1.appendChild(q2);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/standard/partner.js";
+q1.appendChild(q2);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/finance/ceo_dollar_salary/remnant.js";
+q1.appendChild(q2);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/finance/high_p_female/remnant.js";
+q1.appendChild(q2);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/finance/high_p_female/remnant.js";
+q1.insertBefore(q2, q1.firstElementChild);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/finance/snt_local_w/remnant.js";
+q1.insertBefore(q2, q1.firstElementChild);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/highest_pct_dem/remnant.js";
+q1.insertBefore(q2, q1.firstElementChild);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/highest_pct_other/remnant.js";
+q1.insertBefore(q2, q1.firstElementChild);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/most_voted_dem/remnant.js";
+q1.insertBefore(q2, q1.firstElementChild);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/most_voted_other/remnant.js";
+q1.insertBefore(q2, q1.firstElementChild);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/rand_politics_7/remnant.js";
+q1.insertBefore(q2, q1.firstElementChild);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/finance/stock_overview/partner.js";
+q1.insertBefore(q2, q1.firstElementChild);
+
+q1 = $("body > div.trb_allContentWrapper > article > div")[0];
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/finance/sv_reportcard/partner.js";
+q1.insertBefore(q2, q1.firstElementChild);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://w1.synapsys.us/embeds/finance/new_fe_ceo/remnant.js";
+q1.insertBefore(q2, q1.firstElementChild);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/finance/snt_local_w/partner.js";
+q1.insertBefore(q2, q1.firstElementChild);
+
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/highest_pct_votes/remnant.js";
+q1.insertBefore(q2, q1.firstElementChild);
+
+q1 = $('#content > div.clear-both')[0];
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/finance/high_p_female/remnant.js";
+q1.appendChild(q2);
+
+q1 = $("script[src='//finance.tampabay.com/widgets/market-movers-embed/']")[0].parentNode;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/standard/partner.js";
+q1.appendChild(q2);
+
+q1 = $("script[src='//finance.oaoa.com/widgets/market-movers-embed/']")[0].parentNode;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/standard/partner.js";
+q1.appendChild(q2);
+
+q1 = $("a[href='http://finance.limaohio.com']")[1].parentNode;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/standard/partner.js";
+q1.appendChild(q2);
+
+q1 = $("iframe[src='http://finance.mercurynews.com/widgets/market-movers-test/']")[0].parentNode;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/standard/partner.js";
+q1.appendChild(q2);
+
+q1 = $("script[src='//finance.latimes.com/widgets/news/embed']")[0].parentNode;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/l/?PF_WIDGET_URL=http%3A%2F%2Ffinance.latimes.com%2Fwidgets%2Flatimes-standalone&PF_WIDGET_WIDTH=300&PF_WIDGET_HEIGHT=250&AD_STACK_WIDTH=300&AD_STACK_HEIGHT=250&REALVU_CONFIG=%7B%22s%22%3A%22300x250%22%2C%22c%22%3A%22E115%22%2C%22p%22%3A%223034%22%7D&WEB_SPEC_UNIT_ID=0&INVCHAN_SCRIPT_URL=PassFail.LATimes%2Fequities%2F300x250&OPENX_AUID=537984664&OPENX_CS=ce11c75ac1&IMS_SITEPAGE=PassFail%2Flatimes_com_business_financial_local_300x250&BREAL_ID=5223404&CONVERSANT_SID=101546&CONVERSANT_MEDIA_ID=6&CONVERSANT_MEDIA_TYPE=8&CRITEO_ZONEID=266766";
+q1.appendChild(q2);
+
