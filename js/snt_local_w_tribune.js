@@ -132,6 +132,14 @@ function compData(offset){
     $(".fgw-link").attr('href',"http://www.investkit.com/"+curItem.c_ticker+"/"+compUrlName(curItem.c_name)+"/company/"+curItem.c_id);
     $(".fgw-loc-link").attr('href',"http://www.investkit.com/"+curItem.c_hq_state+"/location");
   }else{
+		var latimes = top.location.host.split('/')[2];
+    console.log(latimes);
+		if (latimes == 'www.latimes.com'){
+			$('.heading').html('<i class="fa-area-chart"></i>  California Movers');
+		}
+		else{
+			$('.heading').html('<i class="fa-area-chart"></i>  Local Market Movers');
+		}
     $(".swc-space").html((offset+1) + ".");
     locName = locName.replace(/\+/g,' ');
     $(".fgw-href").attr('href',"http://www.myinvestkit.com/"+domain+"/"+listTitle+"/"+loc+"/"+listid+"/list/1");
