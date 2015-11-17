@@ -127,20 +127,16 @@ function compData(offset){
     if(typeof loc != 'undefined' || loc != '' || loc != null){
       loc = "/"+loc+"/1";
     }
-    $(".swc-space").html((offset+1) + ".");
     $(".fgw-href").attr('href',"http://www.investkit.com/"+listTitle+"/"+listid+"/list"+loc);
     $(".fgw-link").attr('href',"http://www.investkit.com/"+curItem.c_ticker+"/"+compUrlName(curItem.c_name)+"/company/"+curItem.c_id);
     $(".fgw-loc-link").attr('href',"http://www.investkit.com/"+curItem.c_hq_state+"/location");
   }else{
-		var latimes = top.location.host.split('/')[2];
-    console.log(latimes);
-		if (latimes == 'www.latimes.com'){
-			$('.heading').html('<i class="fa-area-chart"></i>  California Movers');
+		if (domain == 'latimes.com'){
+			$('.fgw-t1').html('<i class="fa-area-chart"></i>  California Movers');
 		}
 		else{
-			$('.heading').html('<i class="fa-area-chart"></i>  Local Market Movers');
+			$('.fgw-t1').html('<i class="fa-area-chart"></i>  Local Market Movers');
 		}
-    $(".swc-space").html((offset+1) + ".");
     locName = locName.replace(/\+/g,' ');
     $(".fgw-href").attr('href',"http://www.myinvestkit.com/"+domain+"/"+listTitle+"/"+loc+"/"+listid+"/list/1");
     $(".fgw-link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curItem.c_name)+"/"+curItem.c_ticker+"/c/"+curItem.c_id);
