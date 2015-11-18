@@ -92,14 +92,11 @@ button:focus {
   width:100%;
   height:90px;
   padding-top: 2px;
-  padding-left: 40px;
   position:relative;
   overflow: hidden;
 }
 
 .fgw-t1{
-  position: absolute;
-  top: 0;
   margin-top: 2px;
   font-family:HN-B;
   font-size:20px;
@@ -107,18 +104,18 @@ button:focus {
   line-height: 1.2em;
   overflow: hidden;
   text-align: left;
+  padding-left: 40px;
 }
 .fgw-t2{
-  position: absolute;
-  bottom: 10px;
   margin-bottom: 2px;
   font-size:14px;
-  text-align: left;
+  text-align: center;
   line-height: 1.7em;
-  max-width: 250px;
+  max-width: 290px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  padding-left: 15px;
 }
 /*top text END*/
 
@@ -284,13 +281,26 @@ button:focus {
 .fgw-t2-title{
   color: #000;
   font-size: 14px;
+  text-transform: uppercase;
+  display:inline-block;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 20px;
+  padding-top: 3px;
 }
 .fgw-t2-title:hover{
   color:#39abff;
 }
 .fgw-t2-loc{
   color: #000;
-  font-size: 14px;
+  font-size: 12px;
+  text-transform: uppercase;
+  display:inline-block;
+  max-width: 140px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 12px;
 }
 .fgw-t2-loc:hover{
   color:#39abff;

@@ -91,11 +91,11 @@ $(function(){
 
   }
 
-  var script_tag = document.createElement('script');
-  script_tag.setAttribute('src','//static.getclicky.com/js');
-  document.head.appendChild(script_tag);
-  var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  document.head.appendChild(clicks[0]);
+  // var script_tag = document.createElement('script');
+  // script_tag.setAttribute('src','//static.getclicky.com/js');
+  // document.head.appendChild(script_tag);
+  // var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
+  // document.head.appendChild(clicks[0]);
 
 
   $('.fgw-rightnav').on('click', function() {
@@ -119,7 +119,7 @@ $(function(){
 function compData(offset){
   var curItem = list[offset];
   $(".fgw-t2-title").html(curItem.c_name);
-  $(".fgw-t2-loc").html(curItem.c_hq_city + ", " + curItem.c_hq_state);
+  $(".fgw-t2-loc").html(curItem.c_hq_state + ", " + curItem.c_hq_city);
   $(".fgw-image").css({"background-image":"url('http://apifin2.synapsys.us/images/"+curItem.c_logo+"')"});
   $(".fgw-content1").html(convert_num(Number(curItem.stock_percent).toFixed(2)));
   listTitle = listTitle.replace(/ /g, '-');
