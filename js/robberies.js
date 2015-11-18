@@ -67,16 +67,17 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-  	$.get('http://api.synapsys.us/rt/index.php?widget=crime&wid=2&city='+city+'&state='+state, function(data){
+  	$.get('http://api.synapsys.us/rt/index.php?widget=crime&wid=3&city='+city+'&state='+state, function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
+      console.log(curData);
       dataLength = curData.length;
-      var title = "vehicle-theft-by-city";
-      $('.fcw-t1').html(curData[0].CrimeState+' Cities with the Least Car Thefts in 2014')
+      var title = "burgleries-by-city";
+      $('.fcw-t1').html(curData[0].CrimeState+' Cities with the Worse Property Damage Chances');
       $('.fcw-t2-loc').html(curData[index].CrimeCity+' ,'+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(dNumberToCommaNumber(curData[index].CrimeMotorVehicleTheftNumber)+' Car Thefts');
+      $('.fcw-content1').html(dNumberToCommaNumber(curData[index].CrimeLarcenyNumber)+' Burgleries');
       $('.fcw-content2').html('in 2014');
       $('.fcw-image').css('background', 'url('+curData[index].image+') no-repeat');
 

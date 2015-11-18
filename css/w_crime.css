@@ -15,6 +15,7 @@ div{
 }
 a {
   text-decoration: none;
+  color: #000;
 }
 
 button:focus {
@@ -53,25 +54,25 @@ button:focus {
 }
 
 .universe_fcw{
-  border-top: 3px solid #000;
-  border-bottom: 3px solid #000;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
   overflow: hidden;
   width:300px;
   height:auto;
-  margin: 100px auto 0 auto;
+  margin:0 auto;
 }
 
 .universe_fcw:hover{
-  border-top: 3px solid #39abff;
-  border-bottom: 3px solid #39abff;
+  border-top: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
 }
 
 .fcw{
-  border-left: 1px solid #ccc;
-  border-right: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
+  border-left: 1px solid #ebebeb;
+  border-right: 1px solid #ebebeb;
+  border-bottom: 1px solid #ebebeb;
   width:100%;
-  height:244px;
+  height:350px;
   position: relative;
 }
 
@@ -79,66 +80,89 @@ button:focus {
 .fcw-logo{
   width:25px;
   height:25px;
-  background-color: #3B5998;
-  background-image: url("public/White_House_Icon.png");
+  background-color: #000;
+  background-image: url("public/Crime_Icon.png");
   background-position: center center !important;
   background-repeat: no-repeat;
   border-radius: 50%;
-  margin: 7px 5px;
+  margin: 5px 10px;
   position: absolute;
   top:0;
   left:0;
 }
 
 .fcw-text{
-  width:100%;
-  height:50px;
+  font-family: HN-B;
+  height: 65px;
   padding-top: 2px;
-  padding-left: 35px;
-  position:relative;
+  padding-left: 43px;
+  position: relative;
+  overflow: hidden;
 }
 
 .fcw-t1{
   position: absolute;
   top: 0;
   padding-right: 40px;
+  padding-left: 5px;
   margin-top: 2px;
-  font-family:HN-B;
-  font-size:16px;
+  font-family: HN-B;
+  font-size: 16px;
   text-align: left;
   line-height: 1.2em;
-  /*white-space: nowrap;*/
+  height: 40px;
+  overflow: hidden;
+  width: 280px;
 }
 .fcw-t2{
-    position: absolute;
-    bottom: -10px;
-    margin-bottom: 2px;
-    font-size:14px;
-    text-align: center;
-    width: 200px;
+  position: absolute;
+  bottom: 0px;
+  margin-bottom: 2px;
+  font-size: 14px;
+  text-align: center;
+  width: 205px;
+  overflow: hidden;
+  max-height: 20px;
 }
-
+.fcw-t2-local{
+  position: absolute;
+  font-size: 14px;
+}
 /*top text END*/
 
 /*image && button*/
 .fcw-middle{
   position: relative;
   width:100%;
-  height:100px;
+  height:165px;
 }
 .fcw-image{
   background-position: center center!important;
-  background-size: contain!important;
-  width:90px;
-  height:90px;
+  background-size: cover!important;
+  width:150px;
+  height:150px;
   margin:16px auto;
   border-radius: 50%;
-  box-shadow: 0 0 0 3px #cccccc;
-  /*remove below cause its funny*/
+  box-shadow: 0 0 0 3px #ccc;
   text-align: center;
-  line-height: 100px;
+  position: relative;
 }
-
+.fcw-img2{
+  position: absolute;
+  color: #000;
+  font-size: 18px;
+  font-family: HN;
+  text-align: center;
+  border-radius: 50%;
+  border-width: 1px;
+  border-color: #acacac;
+  border-style: solid;
+  background-color: #fff;
+  width: 38px;
+  height: 38px;
+  padding-top:5px;
+  z-index: 1;
+}
 .fcw-leftnav{
   position: absolute;
   height:60px;
@@ -155,6 +179,7 @@ button:focus {
   padding-right: 10px;
   cursor: pointer;
 }
+
 
 .fcw-rightnav{
   height:60px;
@@ -176,20 +201,21 @@ button:focus {
 
 /*bottom text*/
 .fcw-content{
-  width:100%;
-  height:45px;
+  width: 250px;
+  height: 60px;
+  margin: 0 auto;
 }
 
 .fcw-content1{
   font-size: 24px;
-  color:#3b5998;
+  color: #000;
   font-family: HN-B;
   text-align: center;
 }
 
 .fcw-content2{
-  font-size: 18px;
   font-family: HN-L;
+  font-size: 18px;
   color:#000;
   text-align: center;
   line-height: 1em;
@@ -201,37 +227,64 @@ button:focus {
   height: 20px;
   text-align: center;
   position: absolute;
-  bottom:-5px;
-  margin-bottom: 16px;
+  bottom:15px;
 }
 
 .fcw-list-link{
+  margin:-15px auto;
+  border-radius: 3px;
+  border-width: 1px;
+  width: 120px;
+  height: 30px;
+  border-color: #000;
+  border-style: solid;
+  background-color: #fff;
   color:#000;
   font-size: 10px;
+  text-align: center;
   font-family: HN-B;
+  line-height: 26px;
 }
 
+.fcw-list-link:hover{
+  color:#fff;
+  border-radius: 3px;
+  border-width: 1px;
+  width: 120px;
+  height: 30px;
+  border-color: #000;
+  border-style: solid;
+  background-color: #000;
+  text-align:center;;
+}
+.fcw-list-link:active{
+  color: #fff;
+  background-color: #000;
+  border-color: #000;
+}
 .fcw-presentedby{
     position: absolute;
     bottom: 0px;
     left: 2px;
     color:#aaaaaa;
     text-align: left;
-    font-size: 12px;
-}
-
-.fcw-list-link:hover{
-  color:#39abff;
+    font-size: 10px;
 }
 
 .fcw-rightnav:active{
-  background-color: #39abff;
+  background-color: #f6af05;
 }
 
 .fcw-leftnav:active{
-  background-color: #39abff;
+  background-color: #f6af05;
+}
+.fcw-rightnav:hover{
+  background-color: #f6af05;
 }
 
+.fcw-leftnav:hover{
+  background-color: #f6af05;
+}
 #swc-blue{
   color:#3aaefe;
 }
@@ -240,5 +293,33 @@ button:focus {
   margin:0 2px;
 }
 .fcw-t2-loc:hover{
-  color: #39abff;
+  color: #f6af05;
+}
+.hover{
+  width:100%;
+  height:100%;
+  border-radius: 50%;
+  opacity: 0;
+  text-align: center;
+}
+.hover-txt1{
+  padding-top:2.5em;
+  font-size: 20px;
+  font-color: #fff;
+  line-height: inherit;
+  font-family: HN-B;
+  color:#fff;
+}
+.hover-txt2{
+  font-color: #fff;
+  font-size: 20px;
+  font-family: HN;
+  color:#fff;
+}
+.hover:hover{
+  width:100%;
+  height:100%;
+  border-radius: 50%;
+  opacity: .8;
+  background-color: #f6af05;
 }

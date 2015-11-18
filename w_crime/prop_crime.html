@@ -2,19 +2,17 @@
 <!doctype html>
 <html lang="en">
 <head>
-
-<title>Finance Carousel Widget</title>
+<title>Property Crime Widget</title>
 
 <meta charset='utf-8'>
 <!--ATTENTION css/fontawesome.css is being called locally the cdn link site was not working-->
 <link href="../css/font-awesome.css" media="all" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="../css/universe_fcw.css">
-<script src="http://code.highcharts.com/stock/highstock.js"></script>
+<link rel="stylesheet" type="text/css" href="../css/w_crime.css">
+<script src="//code.highcharts.com/stock/highstock.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script type="text/javascript" src="../js/universe_fcw.js"></script>
-
-<base href="http://www.touchdownloyal.com/" target="_blank">
-
+<script type="text/javascript" src="../js/prop_crime.js"></script>
+<base target="_blank">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/3.2.1/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
 </head>
 <body>
   <!--container of widget-->
@@ -24,31 +22,40 @@
       <!--top text-->
       <div class="fcw-logo"></div>
       <div class="fcw-text">
-        <div class="fcw-t1">Today's Market Movers</div>
+        <div class="fcw-t1">[Title]</div>
         <div class="fcw-t2">
-          <span class="fcw-t2-title">Apple, Inc</span>
-          <i class="fa fa-angle-right swc-space"></i> <i class="fa fa-map-marker swc-space" id="swc-blue"></i>
-          <span class="fcw-t2-loc">Cupertino, CA</span>
+          <i class="fa fa-map-marker swc-space" id="swc-blue"></i>
+          <a id="loc" href="">
+            <span class="fcw-t2-loc">[city], [ST]</span>
+          </a>
         </div>
       </div><!--top text END-->
         <!--image && button-->
       <div class="fcw-middle">
-        <div class="fcw-image">tehe</div>
-        <button class="fcw-leftnav"><i class="fa fa-angle-left"></i></button>
-        <button class="fcw-rightnav"><i class="fa fa-angle-right"></i></button>
+        <div class="fcw-image">
+          <div class="fcw-img2"></div>
+            <div class="hover" style="position:relative;">
+              <a id="county" href="">
+                <div class="hover-txt1">View</div>
+                <div class="hover-txt2">Profile</div>
+              </a>
+          </div>
+        </div>
+        <button class="fcw-leftnav" data-dir='prev'><i class="fa fa-angle-left"></i></button>
+        <button class="fcw-rightnav" data-dir='next'><i class="fa fa-angle-right"></i></button>
       </div><!--image && button END-->
       <!--bottom text-->
       <div class="fcw-content">
-        <div class="fcw-content1">DataPoint</div>
-        <div class="fcw-content2">List Identifier</div>
+        <div class="fcw-content1" style="font-size: 22px;"></div>
+        <div class="fcw-content2"></div>
       </div>
       <div class="fcw-list">
-        <a class="fcw-href"  href="#">
-          <span class="fcw-list-link">SEE THE LIST <i class="fa fa-mail-forward swc-space"></i></span>
+        <a class="fcw-href" href="">
+          <div class="fcw-list-link">SEE THE LIST <i class="fa fa-mail-forward swc-space"></i></div>
         </a>
       </div>
       <div class="fcw-presentedby">
-        PRESENTED BY
+        PROPERTY CRIME BY CITY - PRESENTED BY
       </div>
       <!--bottom text END-->
     </div><!--wrapper END-->
