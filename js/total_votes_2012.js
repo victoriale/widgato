@@ -92,6 +92,13 @@ $(function(){
       $('.tv-t2-loc').html(curData[0].county+' County, '+curData[0].state);
       $('.tv-content1').html(dNumberToCommaNumber(curData[0].votes)+' Votes');
       $('.tv-image').css('background', 'url('+curData[0].image+') no-repeat');
+
+      //transforms title to add in state
+      var title = $('.fcw-t1').html();
+      title = title.split(' ');
+      title.splice(1,0,state);
+      $('.fcw-t1').html(title.join(' '));
+      
       if(remnant == 'true' || remnant == true){
         $('.tv-href').attr('href',"http://www.joyfulhome.com/"+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
         $('#loc').attr('href',"http://www.joyfulhome.com/"+curData[0].state+"/"+curData[0].county+"/county");

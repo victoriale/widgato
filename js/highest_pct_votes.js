@@ -95,6 +95,13 @@ $(function(){
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(Number(curData[0].percent).toFixed()+'% of Voters');
       $('.fcw-image').css('background', 'url('+curData[0].image+') no-repeat');
+
+      //transforms title to add in state
+      var title = $('.fcw-t1').html();
+      title = title.split(' ');
+      title.splice(1,0,state);
+      $('.fcw-t1').html(title.join(' '));
+      
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
         $('#loc').attr('href',link+curData[0].state+"/"+curData[0].county+"/county");

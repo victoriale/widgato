@@ -87,7 +87,6 @@ $(function(){
 
   function dataCall(index){
     $.get('//apirt.synapsys.us/index.php?widget=politics&wid=7&city='+city+'&state='+state+'&page-list=1&city-list=1&skip='+index+'&limit=1', function(data){
-      console.log(data);
       curData = data.widget;
       dataLength = curData.length;
       var title = "counties-with-the-most-independent-voters";
@@ -95,6 +94,13 @@ $(function(){
       $('.fcw-t2-loc').html(curData[0].county+' County, '+curData[0].state);
       $('.fcw-content1').html(dNumberToCommaNumber(curData[0].votes)+' Votes');
       $('.fcw-image').css('background', 'url('+curData[0].image+') no-repeat');
+
+      //transforms title to add in state
+      var title = $('.fcw-t1').html();
+      title = title.split(' ');
+      title.splice(1,0,state);
+      $('.fcw-t1').html(title.join(' '));
+      
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',"http://www.joyfulhome.com/"+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
         $('#loc').attr('href',"http://www.joyfulhome.com/"+curData[0].state+"/"+curData[0].county+"/county");
