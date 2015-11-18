@@ -73,8 +73,8 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "vehicle-theft-by-city";
-      $('.fcw-t1').html(curData[0].CrimeState+' Cities with the Least Car Thefts in 2014')
-      $('.fcw-t2-loc').html(curData[index].CrimeCity+' ,'+curData[0].CrimeState);
+      $('.fcw-t1').html('Cities in '+curData[0].CrimeState+' with the Most Car Thefts in 2014')
+      $('.fcw-t2-loc').html(curData[index].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(dNumberToCommaNumber(curData[index].CrimeMotorVehicleTheftNumber)+' Car Thefts');
       $('.fcw-content2').html('in 2014');
