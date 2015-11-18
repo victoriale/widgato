@@ -90,7 +90,6 @@ function dataCall(index){
   $('.fcw-loc').html(curData[index].c_name);
   $('#paid').html("$"+nFormatter(curData[index].TotalComp));
   $('.fcw-image').css('background','url('+imageUrl(curData[index].o_pic)+') no-repeat');
-  console.log(curData);
   if(remnant == 'true' || remnant == true){
     $('.comp-link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
 
@@ -99,7 +98,7 @@ function dataCall(index){
     $('.fcw-href').attr('href',"http://www.investkit.com/"+compUrlName(data_result.list_title)+"/female_ceo/executive-list/1");
 
     $('#title_link').attr('href',"http://www.investkit.com/"+curData[index].o_first_name+"-"+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
-    //http://www.investkit.com/Marillyn-Hewson/LMT/executive/39803
+
     $('#loc_link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
   }else{
     $('.comp-link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
