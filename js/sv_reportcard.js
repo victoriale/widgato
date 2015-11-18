@@ -135,9 +135,9 @@ $(function top(id){
 					$('#loselist').attr('href',"http://www.investkit.com/sv150-top-losers/sv150_losers/list/1")
 
 					$('#sv_link').attr("href","http://www.investkit.com/sv150-top-gainers/sv150_gainers/list/1");
-					$('#nq_link').attr("href",'http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/'+data_exchange[0].c_id+'/list/1');
-					$('#amex_link').attr("href",'http://www.investkit.com/Top-companies-on-AMEX-with-stock-percent-loss/'+data_exchange[1].c_id+'/list/1');
-					$('#nyse_link').attr("href",'http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list/1');
+					$('#nq_link').attr("href",'http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/5182/list/1');
+					$('#amex_link').attr("href",'http://www.investkit.com/Top-companies-on-AMEX-with-stock-percent-loss/5210/list/1');
+					$('#nyse_link').attr("href",'http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/5196/list/1');
 
 					$('#gain_profile1').attr("href",'http://www.investkit.com/'+data_gainer[0].c_ticker+'/'+compUrlName(data_gainer[0].c_name)+'/company/'+data_gainer[0].c_id);
 					$('#gain_profile2').attr("href",'http://www.investkit.com/'+data_gainer[1].c_ticker+'/'+compUrlName(data_gainer[1].c_name)+'/company/'+data_gainer[1].c_id);
@@ -150,9 +150,9 @@ $(function top(id){
 					$('#loselist').attr('href',"http://www.myinvestkit.com/sv150-top-losers/sv150_losers/list/1")
 
 					$('#sv_link').attr("href","http://www.myinvestkit.com/"+domain+"/sv150-top-gainers/sv150_gainers/list/1");
-					$('#nq_link').attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NASDAQ-with-stock-percent-loss/'+data_exchange[0].c_id+'/list/1');
-					$('#amex_link').attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-AMEX-with-stock-percent-loss/'+data_exchange[1].c_id+'/list/1');
-					$('#nyse_link').attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list/1');
+					$('#nq_link').attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NASDAQ-with-stock-percent-loss/5182/list/1');
+					$('#amex_link').attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-AMEX-with-stock-percent-loss/5210/list/1');
+					$('#nyse_link').attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NYSE-with-stock-percent-loss/5196/list/1');
 
 					$('#gain_profile1').attr("href",'http://www.myinvestkit.com/'+domain+'/'+compUrlName(data_gainer[0].c_name)+'/'+data_gainer[0].c_ticker+'/c/'+data_gainer[0].c_id);
 					$('#gain_profile2').attr("href",'http://www.myinvestkit.com/'+domain+'/'+compUrlName(data_gainer[1].c_name)+'/'+data_gainer[1].c_ticker+'/c/'+data_gainer[1].c_id);

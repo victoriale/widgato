@@ -84,7 +84,7 @@ $(function(){
   }, 'json')
 })//END OF FUNCTION
 function dataCall(index){
-  console.log(curData);
+  $('.fcw-t2-num').html((index+1) + ".");
   $('.fcw-t2-title').html(curData[index].o_first_name+' '+curData[index].o_last_name);
   $('.fcw-logo').css('background','url('+imageUrl(curData[index].c_logo)+') no-repeat');
   $('.fcw-loc').html(curData[index].c_name);

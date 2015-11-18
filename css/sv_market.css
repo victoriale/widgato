@@ -50,15 +50,9 @@ a{
 
 }
 
-.color_blue{
-
-font-family: HN;
+#color_blue{
 color: #3098ff;
 font-size: 14px;
-font-weight: 400;
-
-text-align:left;
-
 }
 
 .market_search_layout{
