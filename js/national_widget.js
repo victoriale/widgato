@@ -138,7 +138,6 @@ $(function(){
 	$('.mtabs').on('click', function(){
 		//reset the css background
 		$('.mtabs').css({"background-color":"#f2f2f2","border-bottom":"1px solid #cccccc"});
-
 		//switch statement to swap out tabs and recall data api depending on which tab/exchange is chosen
 		//change title as well
 		switch($(this).data('dir')){
@@ -157,7 +156,7 @@ $(function(){
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
-					stock_graph(dataCall.exchange_stock_data[0].graph_data, cur_exchange);
+					stock_graph(dataCall.exchange_stock_data[2].graph_data, cur_exchange);
 					break;
 				case 'AMEX':
 					CUR_OFFSET = 0;
@@ -174,7 +173,7 @@ $(function(){
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
-					stock_graph(dataCall.exchange_stock_data[1].graph_data, cur_exchange);
+					stock_graph(dataCall.exchange_stock_data[0].graph_data, cur_exchange);
 					break;
 				case 'NYSE':
 					CUR_OFFSET = 0;
@@ -191,7 +190,7 @@ $(function(){
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
-					stock_graph(dataCall.exchange_stock_data[2].graph_data, cur_exchange);
+					stock_graph(dataCall.exchange_stock_data[1].graph_data, cur_exchange);
 					break;
 				case 'find':
 					$('.searchtab').css({"display":"block"});
@@ -215,10 +214,10 @@ $(function(){
 
 		dataCall = data.national_market_movers;
 		exList = dataCall.exchange_list;
-		curData = exList[0].top_list_list;
+		curData = exList[2].top_list_list;
 		mr_center_piece(CUR_OFFSET, curData);
 		stock_data($('.mtabs').data('dir'), dataCall);
-		stock_graph(dataCall.exchange_stock_data[0].graph_data, cur_exchange);
+		stock_graph(dataCall.exchange_stock_data[2].graph_data, cur_exchange);
 	}, 'json')
 
 })//END OF FUNCTION
@@ -241,9 +240,9 @@ function stock_data(cur_exch, stockData){
 	//console.log(stockData);
 	switch(cur_exch){
 		case 'NASDAQ':
-			var price = stockData.exchange_stock_data[1].csi_price;
-			var priceChng = stockData.exchange_stock_data[1].graph_data.price_change;
-			var pctChng = stockData.exchange_stock_data[1].graph_data.percent_change;
+			var price = stockData.exchange_stock_data[2].csi_price;
+			var priceChng = stockData.exchange_stock_data[2].graph_data.price_change;
+			var pctChng = stockData.exchange_stock_data[2].graph_data.percent_change;
 			$('.price').html(Number(price).toFixed(2));
 			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
 			convert_num(Number(pctChng).toFixed(2),Number(pctChng).toFixed(2));
@@ -256,9 +255,9 @@ function stock_data(cur_exch, stockData){
 			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
 			break;
 		case 'NYSE':
-			var price = stockData.exchange_stock_data[2].csi_price;
-			var priceChng = stockData.exchange_stock_data[2].graph_data.price_change;
-			var pctChng = stockData.exchange_stock_data[2].graph_data.percent_change;
+			var price = stockData.exchange_stock_data[1].csi_price;
+			var priceChng = stockData.exchange_stock_data[1].graph_data.price_change;
+			var pctChng = stockData.exchange_stock_data[1].graph_data.percent_change;
 			$('.price').html(Number(price).toFixed(2));
 			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
 			break;
@@ -318,20 +317,13 @@ function stock_graph(dataArray, exchange){
 				day: '%e'
 			},
 			tickPixelInterval: 60,
-			//max tick for x axix is calculated and dynamically set
-			tickPositioner: function () {
-				var positions = [],
-				tick = Math.floor(this.dataMin),
-				increment = Math.ceil((this.dataMax - this.dataMin) / 6);
 
-				for (tick; tick - increment <= this.dataMax; tick += increment) {
-					positions.push(tick);
-				}
-				return positions * 1000;
-			},
 			labels:{
 				autoRotation:false,
-				step: 1
+				step: 1,
+				style:{
+					fontSize:'8px'
+				}
 			},
 		},
 		yAxis:{
