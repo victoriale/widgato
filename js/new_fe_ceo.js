@@ -99,7 +99,7 @@ function dataCall(index){
 
     $('#title_link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
 
-    $('#loc_link').attr('href',"http://www.investkit.com/"+curData[index].c_hq_state+"/location");
+    $('#loc_link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
   }else{
     $('.comp-link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
 
@@ -109,7 +109,7 @@ function dataCall(index){
 
     $('#title_link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
 
-    $('#loc_link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+curData[index].c_hq_state+"/loc");
+    $('#loc_link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
   }
 }
 

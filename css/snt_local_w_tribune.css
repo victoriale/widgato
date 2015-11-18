@@ -117,6 +117,7 @@ button:focus {
   text-overflow: ellipsis;
   white-space: nowrap;
   padding-left: 5px;
+  text-align: center;
 }
 /*top text END*/
 

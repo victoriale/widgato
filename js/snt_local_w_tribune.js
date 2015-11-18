@@ -135,7 +135,7 @@ function compData(offset){
 			$('.fgw-t1').html('<i class="fa-area-chart"></i>  California Movers');
 		}
 		else{
-			$('.fgw-t1').html('<i class="fa-area-chart"></i>  Local Market Movers');
+			$('.fgw-t1').html('<i class="fa-area-chart"></i>  Most Traded Local Stocks');
 		}
     locName = locName.replace(/\+/g,' ');
     $(".fgw-href").attr('href',"http://www.myinvestkit.com/"+domain+"/"+listTitle+"/"+loc+"/"+listid+"/list/1");
