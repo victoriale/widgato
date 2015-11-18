@@ -355,7 +355,16 @@ button:focus {
   margin:0 2px;
 }
 .cds-counter{
-  float:left;
+  width:45px;
+  height:45px;
+  border-radius: 50%;
+  border:1px solid #ccc;
+  position: absolute;
+  top:0;
+  left:0;
+  background-color: #ffffff;
+  text-align: center;
+  line-height: 45px;
 }
 .cds-t2-title{
   color: #000;

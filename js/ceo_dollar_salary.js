@@ -79,7 +79,7 @@ $(function(){
   }, 'json')
 })//END OF FUNCTION
 function dataCall(index){
-  $('.cds-counter').html(index + 1 + '. ');
+  $('.cds-counter').html("#"+(index + 1));
   $('.cds-t2-title').html(curData[index].o_first_name+' '+curData[index].o_last_name);
   $('.cds-content1').html(curData[index].o_first_name+' '+curData[index].o_last_name);
   $('.cds-loc').html(curData[index].c_name);
