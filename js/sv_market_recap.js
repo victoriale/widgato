@@ -54,6 +54,26 @@ $(function(){
 		var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
 		document.head.appendChild(clicks[0]);
 
+		//FOR TRENDING TAB
+		//run initiall to make sure link works on load
+		//INITIALLY SET LINKS TO INITIALLY link correct
+		if(remnant == 'true' || remnant == true){
+			$('.link').attr("href","http://www.investkit.com/sv150-top-gainers/sv150_gainers/list/1");
+			$("#fb").attr('href', "http://www.investkit.com/FB/Facebook-Inc/company/3330");
+			$("#apl").attr('href', "http://www.investkit.com/AAPL/Apple-Inc/company/2636");
+			$("#tm").attr('href', "http://www.investkit.com/TSLA/Tesla-Motors-Inc/company/4762");
+			$("#mc").attr('href', "http://www.investkit.com/MSFT/Microsoft-Corporation/company/4004");
+			$("#wd").attr('href', "http://www.investkit.com/DIS/Walt-Disney-Co/company/624");
+		}else{
+			$('.link').attr("href",'http://www.myinvestkit.com/'+domain+'/sv150-top-gainers/sv150_gainers/list/1');
+			$("#fb").attr('href', "http://www.myinvestkit.com/"+domain+"/Facebook-Inc/FB/c/3330");
+			$("#apl").attr('href', "http://www.myinvestkit.com/"+domain+"/Apple-Inc/AAPL/c/2636");
+			$("#tm").attr('href', "http://www.myinvestkit.com/"+domain+"/Tesla-Motors-Inc/TSLA/c/4762");
+			$("#mc").attr('href', "http://www.myinvestkit.com/"+domain+"/Microsoft-Corporation/MSFT/c/4004");
+			$("#wd").attr('href', "http://www.myinvestkit.com/"+domain+"/Walt-Disney-Co/DIS/c/624");
+		}
+
+
 	$('.search-input').bind("enterKey",function(e){
 		search = $('input').val();
 		if(remnant == 'true' || remnant == true){
@@ -124,7 +144,7 @@ $(function(){
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
 				if(remnant == 'true' || remnant == true){
-					$('.link').attr("href",'http://www.investkit.com/sv150-top-gainers/sv150_gainers/list/1');
+					$('.link').attr("href","http://www.investkit.com/sv150-top-gainers/sv150_gainers/list/1");
 				}else{
 					$('.link').attr("href",'http://www.myinvestkit.com/'+domain+'/sv150-top-gainers/sv150_gainers/list/1');
 				}
@@ -204,17 +224,20 @@ function mr_center_piece(offset, data){
 	$('.trending-1').html(curData[0].c_ticker);
 	$('.trending-2').html(curData[1].c_ticker);
 	$('.trending-3').html(curData[2].c_ticker);
+	$('.trending-1a').html(curData[0].c_name);
+	$('.trending-2a').html(curData[1].c_name);
+	$('.trending-3a').html(curData[2].c_name);
 
 	if(remnant == 'true' || remnant == true){
 		$('.profile-link').attr("href","http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
 		$('#trending_1').attr("href", "http://www.investkit.com/"+curData[0].c_ticker+"/"+compUrlName(curData[0].c_name)+"/company/"+curData[0].c_id);
-		$('#trending_1').attr("href", "http://www.investkit.com/"+curData[1].c_ticker+"/"+compUrlName(curData[1].c_name)+"/company/"+curData[1].c_id);
-		$('#trending_1').attr("href", "http://www.investkit.com/"+curData[2].c_ticker+"/"+compUrlName(curData[2].c_name)+"/company/"+curData[2].c_id);
+		$('#trending_2').attr("href", "http://www.investkit.com/"+curData[1].c_ticker+"/"+compUrlName(curData[1].c_name)+"/company/"+curData[1].c_id);
+		$('#trending_3').attr("href", "http://www.investkit.com/"+curData[2].c_ticker+"/"+compUrlName(curData[2].c_name)+"/company/"+curData[2].c_id);
 	}else{
 		$('.profile-link').attr("href","http://www.myinvestkit.com/"+domain+"/"+compUrlName(data[offset].c_name)+"/"+data[offset].c_ticker+"/c/"+data[offset].c_id);
 		$('#trending_1').attr("href", "http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[0].c_name)+"/"+curData[0].c_ticker+"/c/"+curData[0].c_id);
-		$('#trending_1').attr("href", "http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[1].c_name)+"/"+curData[1].c_ticker+"/c/"+curData[1].c_id);
-		$('#trending_1').attr("href", "http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[2].c_name)+"/"+curData[2].c_ticker+"/c/"+curData[2].c_id);
+		$('#trending_2').attr("href", "http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[1].c_name)+"/"+curData[1].c_ticker+"/c/"+curData[1].c_id);
+		$('#trending_3').attr("href", "http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[2].c_name)+"/"+curData[2].c_ticker+"/c/"+curData[2].c_id);
 	}
 }//END OF FUNCTION
 
