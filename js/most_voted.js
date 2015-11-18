@@ -77,10 +77,21 @@ $(function(){
         $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
+
+          //transforms title to add in state
+          var title = $('.fcw-t1').html();
+          title = title.split(' ');
+          title.splice(1,0,state);
+          $('.fcw-t1').html(title.join(' '));
           dataCall(offset);
         });
       }
     }else{
+      //transforms title to add in state
+      var title = $('.fcw-t1').html();
+      title = title.split(' ');
+      title.splice(1,0,state);
+      $('.fcw-t1').html(title.join(' '));
       dataCall(offset);
     }
   })//END OF FUNCTION
@@ -95,12 +106,6 @@ $(function(){
       $('.fcw-content1').html(dNumberToCommaNumber(curData[0].votes)+' Votes');
       $('.fcw-image').css('background', 'url('+curData[0].image+') no-repeat');
 
-      //transforms title to add in state
-      var title = $('.fcw-t1').html();
-      title = title.split(' ');
-      title.splice(1,0,state);
-      $('.fcw-t1').html(title.join(' '));
-      
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',"http://www.joyfulhome.com/"+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
         $('#loc').attr('href',"http://www.joyfulhome.com/"+curData[0].state+"/"+curData[0].county+"/county");
