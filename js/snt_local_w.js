@@ -91,11 +91,11 @@ $(function(){
 
   }
 
-  // var script_tag = document.createElement('script');
-  // script_tag.setAttribute('src','//static.getclicky.com/js');
-  // document.head.appendChild(script_tag);
-  // var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  // document.head.appendChild(clicks[0]);
+  var script_tag = document.createElement('script');
+  script_tag.setAttribute('src','//static.getclicky.com/js');
+  document.head.appendChild(script_tag);
+  var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
+  document.head.appendChild(clicks[0]);
 
 
   $('.fgw-rightnav').on('click', function() {
