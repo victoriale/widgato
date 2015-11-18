@@ -121,7 +121,7 @@ button:focus {
   line-height: 16px;
   width:280px;
   height:24px;
-  padding-left: 15px;
+  padding-left: 25px;
 }
 
 /*top text END*/
@@ -355,16 +355,17 @@ button:focus {
   margin:0 2px;
 }
 .cds-counter{
-  width:45px;
-  height:45px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
-  border:1px solid #ccc;
+  border: 1px solid #ccc;
   position: absolute;
-  top:0;
-  left:0;
+  top: 0px;
+  left: 0;
   background-color: #ffffff;
   text-align: center;
-  line-height: 45px;
+  line-height: 37px;
+  font-size: 19px;
 }
 .cds-t2-title{
   color: #000;
