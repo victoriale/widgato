@@ -84,12 +84,11 @@ $(function(){
   }, 'json')
 })//END OF FUNCTION
 function dataCall(index){
-  $('.fcw-t2-num').html(curData.indexOf(curData[index])+1+'. ');
-  $('.fcw-t2-title').html(curData[index].c_ticker);
+  console.log(curData);
+  $('.fcw-t2-title').html(curData[index].o_first_name+' '+curData[index].o_last_name);
   $('.fcw-logo').css('background','url('+imageUrl(curData[index].c_logo)+') no-repeat');
-  $('.fcw-loc').html(curData[index].c_hq_city+' '+curData[index].c_hq_state);
-  $('.fcw-content1').html(curData[index].o_first_name+' '+curData[index].o_last_name);
-  $('#paid').html(nFormatter(curData[index].TotalComp));
+  $('.fcw-loc').html(curData[index].c_name);
+  $('#paid').html("$"+nFormatter(curData[index].TotalComp));
   $('.fcw-image').css('background','url('+imageUrl(curData[index].o_pic)+') no-repeat');
   if(remnant == 'true' || remnant == true){
     $('.comp-link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);

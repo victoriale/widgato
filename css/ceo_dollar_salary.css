@@ -102,13 +102,11 @@ button:focus {
 }
 
 .cds-t1{
-  position: absolute;
-  top: 0;
   margin-top: 7px;
   font-family:HN-B;
   font-size:18px;
   font-weight: 700;
-  text-align: right;
+  text-align: left;
   line-height: 16px;
   white-space: nowrap;
   transform: scaleX(1.0002);
@@ -116,13 +114,13 @@ button:focus {
 
 .cds-t2{
   color:  #3098ff;
-  position: absolute;
-  bottom: 0;
   margin-bottom: 2px;
   font-size:14px;
   font-weight: 700;
-  text-align: right;
+  text-align: left;
   line-height: 1.7em;
+  width:250px;
+
 }
 
 /*top text END*/
@@ -358,6 +356,12 @@ button:focus {
 .cds-t2-title{
   color: #000;
   font-weight: 400;
+  max-width: 130px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 10px;
 }
 .cds-t2-title:hover{
   color:#39abff;
@@ -365,6 +369,12 @@ button:focus {
 .cds-loc{
   color: #000;
   font-weight: 400;
+  max-width: 120px;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 10px;
 }
 .cds-loc:hover{
   color:#39abff;

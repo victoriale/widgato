@@ -124,9 +124,9 @@ $(function(){
 				$('.searchtab').css({"display":"none"});
 				$('.title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
 				if(remnant == 'true' || remnant == true){
-					$('.link').attr("href",'http://www.investkit.com/topcompaniesonthesv150withthehighestpercentagegaininstockprice/sv150_gainers/list/1');
+					$('.link').attr("href",'http://www.investkit.com/sv150-top-gainers/sv150_gainers/list/1');
 				}else{
-					$('.link').attr("href",'http://www.myinvestkit.com/'+domain+'/topcompaniesonthesv150withthehighestpercentagegaininstockprice/sv150_gainers/list/1');
+					$('.link').attr("href",'http://www.myinvestkit.com/'+domain+'/sv150-top-gainers/sv150_gainers/list/1');
 				}
 				//num = 2;
 				mr_center_piece(CUR_OFFSET, curData);

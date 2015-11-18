@@ -116,9 +116,9 @@ $(function(){
 				$('#Nqchange').html(lossGainCheck(NQ_priceChange, num));
 				$('#Nqcent').html(lossGainCheck(NQ_pctChange, num)+"%");
 				if(remnant == 'true' || remnant == true){
-					$('#Nqtxt').attr("href",'http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/'+data_exchange[0].c_id+'/list/1');
+					$('#Nqtxt').attr("href",'http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/5182/list/1');
 				}else{
-					$('#Nqtxt').attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NASDAQ-with-stock-percent-loss/'+data_exchange[0].c_id+'/list/1');
+					$('#Nqtxt').attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NASDAQ-with-stock-percent-loss/5182/list/1');
 				}
 
 				num = 3;
@@ -134,9 +134,9 @@ $(function(){
 				$('#SPchange').html(lossGainCheck(AMEX_priceChange, num));
 				$('#SPcent').html(lossGainCheck(AMEX_pctChange, num)+"%");
 				if(remnant == 'true' || remnant == true){
-					$("#SPtxt").attr("href",'http://www.investkit.com/Top-companies-on-AMEX-with-stock-percent-loss/'+data_exchange[1].c_id+'/list/1');
+					$("#SPtxt").attr("href",'http://www.investkit.com/Top-companies-on-AMEX-with-stock-percent-loss/5210/list/1');
 				}else{
-					$("#SPtxt").attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-AMEX-with-stock-percent-loss/'+data_exchange[1].c_id+'/list/1');
+					$("#SPtxt").attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-AMEX-with-stock-percent-loss/5210/list/1');
 				}
 
 				num = 4;
@@ -152,9 +152,9 @@ $(function(){
 				$('#Nychange').html(lossGainCheck(NYSE_priceChange, num));
 				$('#Nycent').html(lossGainCheck(NYSE_pctChange, num)+"%");
 				if(remnant == 'true' || remnant == true){
-					$("#Nytxt").attr("href",'http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list/1');
+					$("#Nytxt").attr("href",'http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/5196/list/1');
 				}else{
-					$("#Nytxt").attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NYSE-with-stock-percent-loss/'+data_exchange[2].c_id+'/list/1');
+					$("#Nytxt").attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NYSE-with-stock-percent-loss/5196/list/1');
 				}
 
 				//plug in data for the top sv150 company
