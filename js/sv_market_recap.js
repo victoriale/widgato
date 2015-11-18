@@ -295,7 +295,7 @@ function stock_graph(dataArray, exchange){
 				return { x: -5, y: 38 };32.
 			},
 			style:{
-				fontSize:'8px'
+				fontSize:'7px'
 			},
 			shadow: false,
 			borderWidth: 0,
