@@ -166,6 +166,7 @@ button:focus {
   background-size: contain !important;
   background-position: center center !important;
   background-repeat: no-repeat;
+  background-color: #ffffff;
 }
 
 /*.cds-share:hover{
