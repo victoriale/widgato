@@ -65,13 +65,15 @@ div{
   text-align:left;
   color:#999;
   font-size:10px;
-  padding:0 5px
+  padding:0 5px 3px 5px;
   }
   .national_widget{
   width:100%;
   height:350px;
   background-color:#fff;
-  border:1px solid #cccccc;
+  border-top:1px solid #cccccc;
+  border-right:1px solid #cccccc;
+  border-left:1px solid #cccccc;
   }
   .mwwidget_mtabs{
   	width: 100%;
