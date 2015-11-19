@@ -150,7 +150,7 @@ button:focus {
 .fcw-img2{
   position: absolute;
   color: #000;
-  font-size: 18px;
+  font-size: 17px;
   font-family: HN;
   text-align: center;
   border-radius: 50%;
@@ -201,13 +201,13 @@ button:focus {
 
 /*bottom text*/
 .fcw-content{
-  width: 250px;
+  width: 270px;
   height: 60px;
   margin: 0 auto;
 }
 
 .fcw-content1{
-  font-size: 24px;
+  font-size: 23px;
   color: #000;
   font-family: HN-B;
   text-align: center;
@@ -269,6 +269,7 @@ button:focus {
     color:#aaaaaa;
     text-align: left;
     font-size: 10px;
+    margin-bottom: 5px;
 }
 
 .fcw-rightnav:active{

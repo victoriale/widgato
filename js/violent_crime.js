@@ -85,34 +85,95 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-    $.get('http://api.synapsys.us/rt/index.php?widget=crime&wid=1&city='+city+'&state='+state, function(data){
+    $.get('http://apirt.synapsys.us/index.php?widget=crime&wid=1&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var dataLength = curData.length;
       var title = "violent-crime-by-city";
-      $('.fcw-t1').html('U.S. Cities with the Least Violent Crimes');
+      $('.fcw-t1').html(fullstate(curData[0].CrimeState)+' Cities with the Most Amount Violent Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html((curData[0].CrimeViolentNumber) + '% Residents');
-      $('.fcw-content2').html('Experience Violent Crime');
-      $('.fcw-image').css('background', 'url('+curData[0].image+') no-repeat');
+      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].CrimeViolentNumber) + ' Violent Crimes');
+      $('.fcw-content2').html('in ' + curData[0].CrimeYear);
+      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");
-        $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+(curData[0].CrimeStat)).toUpperCase();
-        $('#link_vw_prof').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+(curData[0].CrimeStat)).toUpperCase();
+        $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+(curData[0].CrimeState)).toUpperCase();
+        $('#imgUrl').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+(curData[0].CrimeState)).toUpperCase();
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");
-        $('#loc').attr('href',link_partner+domain+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+(curData[0].CrimeStat)).toUpperCase();
-        $('#link_vw_prof').attr('href',link_partner+domai+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+(curData[0].CrimeStat)).toUpperCase();
+        $('.fcw-href').attr('href',link_partner+domain+"/crimes/"+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity);
+        $('#loc').attr('href',link_partner+domain+"/loc/"+(curData[0].CrimeState)).toUpperCase()+"/"+(curData[0].CrimeCity);
+        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+(curData[0].CrimeState)).toUpperCase()+"/"+(curData[0].CrimeCity);
       }
     }, 'json')
   }
-
+  //number converter to decimal with correct format
+  function dNumberToCommaNumber(Number) {
+    return Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
   function imageUrl(path){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
       return '../css/public/no_image.jpg';
     }
     return 'http://images.investkit.com/images/' + path;
+  }
+  function fullstate(state){
+    var stateName = {
+      AL: 'Alabama',
+      AK: 'Alaska',
+      AZ: 'Arizona',
+      AR: 'Arkansas',
+      CA: 'California',
+      CO: 'Colorado',
+      CT: 'Connecticut',
+      DC: 'District of Columbia',
+      DE: 'Delaware',
+      FL: 'Florida',
+      GA: 'Georgia',
+      HI: 'Hawaii',
+      ID: 'Idaho',
+      IL: 'Illinois',
+      IN: 'Indiana',
+      IA: 'Iowa',
+      KS: 'Kansas',
+      KY: 'Kentucky',
+      LA: 'Lousiana',
+      ME: 'Maine',
+      MD: 'Maryland',
+      MA: 'Massachusetts',
+      MI: 'Michigan',
+      MN: 'Minnesota',
+      MS: 'Mississippi',
+      MO: 'Missouri',
+      MT: 'Montana',
+      NE: 'Nebraska',
+      NV: 'Nevada',
+      NH: 'New Hampshire',
+      NJ: 'New Jersey',
+      NM: 'New Mexico',
+      NY: 'New York',
+      NC: 'North Carolina',
+      ND: 'North Dakota',
+      OH: 'Ohio',
+      OK: 'Oklahoma',
+      ON: 'Ontario',
+      OR: 'Oregon',
+      PA: 'Pennsylvania',
+      PR: 'Puerto Rico',
+      RI: 'Rhode Island',
+      SC: 'South Carolina',
+      SD: 'South Dakota',
+      TN: 'Tennessee',
+      TX: 'Texas',
+      UT: 'Utah',
+      VT: 'Vermont',
+      VA: 'Virginia',
+      WA: 'Washington',
+      WV: 'West Virginia',
+      WI: 'Wisconsin',
+      WY: 'Wyoming'
+    };
+    return stateName[state];
   }
