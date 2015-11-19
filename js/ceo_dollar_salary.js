@@ -49,7 +49,7 @@ $(function(){
   	}
 
   	var script_tag = document.createElement('script');
-  	script_tag.setAttribute('src','//static.getclicky.com/js');
+  	script_tag.setAttribute('src','http://static.getclicky.com/js');
   	document.head.appendChild(script_tag);
   	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
   	document.head.appendChild(clicks[0]);
@@ -71,8 +71,9 @@ $(function(){
       }
   });
 
-	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=ceo_make_one_dollar', function(data){
-    data_result = data.ceo_make_one_dollar;
+	$.get('http://apifin.investkit.com/call_controller.php?action=top_list&option=dollar_ceo', function(data){
+    console.log(data);
+    data_result = data.dollar_ceo;
     curData = data_result.list_data;
     dataLength = curData.length;
     dataCall(offset);

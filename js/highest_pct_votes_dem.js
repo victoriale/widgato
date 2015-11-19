@@ -73,7 +73,7 @@ $(function(){
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
-        $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
 
@@ -96,7 +96,7 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-  	$.get('//apirt.synapsys.us/index.php?widget=politics&wid=2&city='+city+'&state='+state+'&page-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://apirt.synapsys.us/index.php?widget=politics&wid=2&city='+city+'&state='+state+'&page-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var county = data.county;
       curData = data.widget;

@@ -8,6 +8,7 @@ html, body {
 
 a{
 	text-decoration:none;
+	outline:0;
 }
 
 .market_body{

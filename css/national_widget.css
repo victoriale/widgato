@@ -17,6 +17,7 @@ div{
   }
   a{
     text-decoration: none;
+    outline:0;
   }
   .national_widget-content-image,
   .national_widget-listbutton-icon{
