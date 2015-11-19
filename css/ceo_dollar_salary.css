@@ -145,7 +145,7 @@ button:focus {
   background-color:  #ffffff;
   background-size: contain !important;
   background-position: center center !important;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat !important;
   position: relative;
 }
 
@@ -165,8 +165,8 @@ button:focus {
   text-align: center;
   background-size: contain !important;
   background-position: center center !important;
-  background-repeat: no-repeat;
-  background-color: #ffffff;
+  background-repeat: no-repeat !important;
+  background-color: #ffffff !important;
 }
 
 /*.cds-share:hover{
