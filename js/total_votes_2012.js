@@ -78,19 +78,19 @@ $(function(){
           state = r_data[0].state;
 
           //transforms title to add in state
-          var title = $('.fcw-t1').html();
+          var title = $('.tv-t1').html();
           title = title.split(' ');
           title.splice(1,0,state);
-          $('.fcw-t1').html(title.join(' '));
+          $('.tv-t1').html(title.join(' '));
           dataCall(offset);
         });
       }
     }else{
       //transforms title to add in state
-      var title = $('.fcw-t1').html();
+      var title = $('.tv-t1').html();
       title = title.split(' ');
       title.splice(1,0,state);
-      $('.fcw-t1').html(title.join(' '));
+      $('.tv-t1').html(title.join(' '));
       dataCall(offset);
     }
   })//END OF FUNCTION
