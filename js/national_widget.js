@@ -63,14 +63,14 @@ $(function(){
 
 	//run initiall to make sure link works on load
 	if(remnant == 'true' || remnant == true){
-		$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
+		$(".nwlink_list").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
 		$("#fb").attr('href', "http://www.investkit.com/FB/Facebook-Inc/company/3330");
 		$("#apl").attr('href', "http://www.investkit.com/AAPL/Apple-Inc/company/2636");
 		$("#tm").attr('href', "http://www.investkit.com/TSLA/Tesla-Motors-Inc/company/4762");
 		$("#mc").attr('href', "http://www.investkit.com/MSFT/Microsoft-Corporation/company/4004");
 		$("#wd").attr('href', "http://www.investkit.com/DIS/Walt-Disney-Co/company/624");
 	}else{
-		$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
+		$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
 		$("#fb").attr('href', "http://www.myinvestkit.com/"+domain+"/Facebook-Inc/FB/c/3330");
 		$("#apl").attr('href', "http://www.myinvestkit.com/"+domain+"/Apple-Inc/AAPL/c/2636");
 		$("#tm").attr('href', "http://www.myinvestkit.com/"+domain+"/Tesla-Motors-Inc/TSLA/c/4762");
@@ -148,11 +148,11 @@ $(function(){
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
-					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
+					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
+						$(".nwlink_list").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
 					}else{
-						$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
+						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
@@ -165,11 +165,11 @@ $(function(){
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
-					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
+					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list/1");
+						$(".nwlink_list").attr('href', "http://www.investkit.com/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list/1");
 					}else{
-						$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list/1");
+						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
@@ -182,11 +182,11 @@ $(function(){
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
-					$('.national_widget-title').html("TODAY'S "+cur_exchange+" MARKET MOVERS");
+					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink").attr('href', "http://www.investkit.com/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list/1");
+						$(".nwlink_list").attr('href', "http://www.investkit.com/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list/1");
 					}else{
-						$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list/1");
+						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
@@ -226,11 +226,15 @@ $(function(){
 function mr_center_piece(offset, data){
 	//service called time to set div classes to given results
 	$('.national_widget-content-textarea-t1').html(data[offset].c_name);
+	$('.national_widget-content-textarea-t2').html(fullstate(data[offset].c_hq_state));
+	$('.national_widget-total-price').html(lossGainCheck(offset,data));
 	$('.national_widget-content-image').css('background','url(http://images.investkit.com/images/'+data[offset].c_logo+') no-repeat');
 	$(".nwprofile-link").attr("href", "http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
 	if(remnant == 'true' || remnant == true){
+		$(".nwlink").attr('href', "http://www.investkit.com/"+data[offset].c_hq_state+"/location");
 		$(".nwprofile-link").attr("href", "http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
 	}else{
+		$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/"+data[offset].c_hq_state+"/loc");
 		$(".nwprofile-link").attr("href", "http://www.myinvestkit.com/"+domain+"/"+compUrlName(data[offset].c_name)+"/"+data[offset].c_ticker+"/c/"+data[offset].c_id);
 	}
 }//END OF FUNCTION
@@ -311,12 +315,11 @@ function stock_graph(dataArray, exchange){
 				text:'',
 			},
 			type: 'datetime',
-			showLastLabel: true,
-			endOnTick: true,
+
 			dateTimeLabelFormats: {
 				day: '%e'
 			},
-			tickPixelInterval: 60,
+			tickPixelInterval: 40,
 
 			labels:{
 				autoRotation:false,
@@ -390,3 +393,75 @@ function convert_num(change_num, changePercent_num){
 		$('.change').html(change_num+'('+changePercent_num+'%)');
 	}
 }//END OF FUNCTION
+
+//convert value into decimal and decide if change is up or down
+function lossGainCheck(operator, data){
+	if (data[operator].lcsi_price_last_operator > 0){
+		$('.national_widget-total-price').css({"color":"#44b224"});
+		$('.national_widget-total-price').html("<i class='fa fa-arrow-up' style='margin-right:5px;'></i>"+Number(data[operator].stock_percent).toFixed(2)+"%");
+	}
+	else{
+		$('.national_widget-total-price').css({"color":"#ca1010"});
+		$('.national_widget-total-price').html("<i class='fa fa-down-up' style='margin-right:5px;'></i>"+Number(data[operator].stock_percent).toFixed(2)+"%");
+	}
+}//END OF FUNCTION
+
+//convert all state abbr to full  PROB DONT NEED THIS BUT KEEPING HERE JUST IN CASE
+fullstate = function(state){
+  var stateName = {
+    AL: 'Alabama',
+    AK: 'Alaska',
+    AZ: 'Arizona',
+    AR: 'Arkansas',
+    CA: 'California',
+    CO: 'Colorado',
+    CT: 'Connecticut',
+    DC: 'District of Columbia',
+    DE: 'Delaware',
+    FL: 'Florida',
+    GA: 'Georgia',
+    HI: 'Hawaii',
+    ID: 'Idaho',
+    IL: 'Illinois',
+    IN: 'Indiana',
+    IA: 'Iowa',
+    KS: 'Kansas',
+    KY: 'Kentucky',
+    LA: 'Lousiana',
+    ME: 'Maine',
+    MD: 'Maryland',
+    MA: 'Massachusetts',
+    MI: 'Michigan',
+    MN: 'Minnesota',
+    MS: 'Mississippi',
+    MO: 'Missouri',
+    MT: 'Montana',
+    NE: 'Nebraska',
+    NV: 'Nevada',
+    NH: 'New Hampshire',
+    NJ: 'New Jersey',
+    NM: 'New Mexico',
+    NY: 'New York',
+    NC: 'North Carolina',
+    ND: 'North Dakota',
+    OH: 'Ohio',
+    OK: 'Oklahoma',
+    ON: 'Ontario',
+    OR: 'Oregon',
+    PA: 'Pennsylvania',
+    PR: 'Puerto Rico',
+    RI: 'Rhode Island',
+    SC: 'South Carolina',
+    SD: 'South Dakota',
+    TN: 'Tennessee',
+    TX: 'Texas',
+    UT: 'Utah',
+    VT: 'Vermont',
+    VA: 'Virginia',
+    WA: 'Washington',
+    WV: 'West Virginia',
+    WI: 'Wisconsin',
+    WY: 'Wyoming'
+  };
+  return stateName[state];
+}

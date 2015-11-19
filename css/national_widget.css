@@ -1,14 +1,13 @@
-@import url(http://fonts.googleapis.com/css?family=Cabin:400,500,700);
 
 html, body {
   margin: 0 !important;
-  font-family: HelveticaNeue-Light,"Helvetica Neue Light","Helvetica Neue",Helvetica,sans-serif;
+  font-family: HN;
   width: 100%;
   height: auto;
   background-color: @white;
 }
 div{
-  font-family: HelveticaNeue-Light,"Helvetica Neue Light","Helvetica Neue",Helvetica,sans-serif;
+  font-family: HN;
 }
   * {
   -webkit-box-sizing: border-box;
@@ -19,6 +18,32 @@ div{
     text-decoration: none;
     outline:0;
   }
+
+  @font-face{
+    font-family: 'HN';
+    src: url('public/fonts/HelveticaNeue.otf');
+  }
+
+  @font-face{
+    font-family: 'HN-B';
+    src: url('public/fonts/HelveticaNeue-Bold.otf');
+  }
+
+  @font-face{
+    font-family: 'HN-L';
+    src: url('public/fonts/HelveticaNeue-Light.otf');
+  }
+
+  @font-face{
+    font-family: 'HN-T';
+    src: url('public/fonts/HelveticaNeue-Thin.otf');
+  }
+
+  @font-face{
+    font-family: 'HN-UL';
+    src: url('public/fonts/HelveticaNeue-UltraLight.otf');
+  }
+
   .national_widget-content-image,
   .national_widget-listbutton-icon{
   background-repeat:no-repeat;
@@ -30,8 +55,6 @@ div{
   overflow:hidden;
   margin:0 auto;
   z-index:20;
-
-  padding-top: 100px;
 }
   .ad_location{
   width:300px;
@@ -46,12 +69,9 @@ div{
   }
   .national_widget{
   width:100%;
-  height:250px;
+  height:350px;
   background-color:#fff;
-  border-top:5px solid #666
-  }
-  .national_widget:hover{
-  border-top:5px solid #3098ff
+  border:1px solid #cccccc;
   }
   .mwwidget_mtabs{
   	width: 100%;
@@ -90,11 +110,10 @@ div{
   }
   .national_widget_wrapper{
     width:100%;
-    height:225px;
+    height:325px;
   }
   .top-profile{
   	width:100%;
-  	height:55px;
   	display:table;
   	position:relative;
   }
@@ -133,20 +152,41 @@ div{
     right: 5px;
   }
 
+  #border-line{
+    height:1px;
+    width:100%;
+    border-top: 1px solid #ccc;
+    position: relative;
+    bottom:10px;
+  }
+  .national_widget_t{
+    height:45px;
+    width:100%;
+    position: relative;
+  }
+  .fin_icon{
+    width:25px;
+    height:25px;
+    border-radius: 50%;
+    background-color: #3098ff;
+    background-image: url("public/Fin_Widget_Icon.png");
+    background-repeat:no-repeat;
+    background-size: 14px;
+    background-position: center;
+    position: absolute;
+    top:0;
+    left:6px;
+  }
   .national_widget-title{
   font-size:16px;
   font-weight:700;
   text-align:center;
   color:#000;
   width:100%;
-  margin:1px auto 0;
+  margin:0 auto;
   line-height: 1em;
-  }
-  .national_widget-title #title_text{
-    font-family:Cabin!important;
-    font-size:16px;
-    font-weight: 700;
-    position: relative;
+  font-family:HN-B;
+  padding-left: 30px;
   }
   .national_widget-location{
   height:15px;
@@ -170,18 +210,17 @@ div{
   font-size:14px;
   padding-left:5px
   }
-  .national_widget-content{width:100%;
-  height:50px;
-  margin-top:10px;
+  .national_widget-content{
+  width:100%;
+  height:auto;
+  position: relative;
   }
   .national_widget-content-image{
-  width:45px;
-  height:45px;
+  width:100px;
+  height:100px;
   border-radius:50%;
-  float:left;
-  border:2px solid #ccc;
-  margin-left: 35px;
-  margin-right:10px;
+  border:3px solid #ccc;
+  margin:0 auto;
   background-size:contain !important;
   background-position: center center !important;
   background-repeat: no-repeat;
@@ -195,117 +234,143 @@ div{
   opacity:0;
   color:#fff;
   background-color:rgba(48,152,255,.75);
-  padding-top:12px
+  padding-top:24px
   }
   .national_widget-content-hover-text1{
-  font-size:10px;
+  font-size:18px;
   line-height:1em;
   text-align:center
   }
   .national_widget-content-hover-text2{
-  font-size:8px;
+  font-size:16px;
   line-height:1em;
   text-align:center;
-  font-weight:700
+  font-weight:700;
   }
   .national_widget-content :hover{
   opacity:1
   }
   .national_widget-content-textarea{
-  height:45px;
-  width:155px;
-  float:left;
-  vertical-align:middle;
-  text-align:left;
-  position:relative;
-  top:12%}
+    text-align:center;
+  width:100%;
+  height:18px;
+  margin-top:7px;
+  margin-bottom: 5px;
+  padding-left: 30px;
+  }
   .national_widget-content-textarea-t1{
   color:#000;
   font-size:14px;
   font-weight:700;
+  line-height: 1em;
   width:100%;
-  line-height: 1.3em;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
+  float:right;
+  text-align: right;
   }
   .national_widget-content-textarea-t2{
-  color:#3098ff;
-  font-size:12px;
+  text-align: left;
+  color:#000;
+  font-size:14px;
   font-weight:bold;
   line-height:1em;
   width:100%;
+  float:left;
   }
   .national_widget-content-buttonright{
   width:30px;
-  height:30px;
+  height:60px;
   border:2px solid #000;
-  border-radius:50%;
-  top:0%;
-  position:relative;
+  border-radius: 90px 0 0 90px;
+  -moz-border-radius: 90px 0 0 90px;
+  -webkit-border-radius: 90px 0 0 90px;
+  top:17%;
+  right:0;
+  position:absolute;
   cursor:pointer;
-  color:#000;
-  font-size:20px;
+  color:#fff;
+  font-size:25px;
   font-weight:700 !important;
-  line-height:25px;
+  line-height:2.2em;
   text-align:center;
-  margin-right:5px;
   float:right;
+  background-color: #000;
   }
   .national_widget-content-buttonright:hover{
+  border:2px solid #3098ff;
   color:#fff;
-  background-color:#000
+  background-color:#3098ff;
   }
   .national_widget-content-buttonleft{
     width:30px;
-    height:30px;
+    height:60px;
     border:2px solid #000;
-    border-radius:50%;
-    top:5%;
-    position:relative;
+    border-radius: 0 90px 90px 0;
+    -moz-border-radius: 0 90px 90px 0;
+    -webkit-border-radius: 0 90px 90px 0;
+    top:17%;
+    left:0;
+    position:absolute;
     cursor:pointer;
-    color:#000;
-    font-size:20px;
+    color:#fff;
+    font-size:25px;
     font-weight:700 !important;
-    line-height:25px;
+    line-height:2.2em;
     text-align:center;
-    margin-right:5px;
     float:right;
+    background-color: #000;
   }
   .national_widget-content-buttonleft:hover{
+  border:2px solid #3098ff;
   color:#fff;
-  background-color:#000
+  background-color:#3098ff;
   }
   .national_widget-total{
     color:#000;
     font-size:14px;
-    height:20px;
-    margin:5px 0;
+    height:22px;
+    margin:3px 0;
     text-align: center;
   }
   .national_widget-total-price{
-    color:#000;
-    font-size:1em;
-    font-weight: bold;
+    font-size:22px;
+    font-family: HN;
+    color:#44b244;
+  }
+  .national_widget-total-type{
+    text-align: center;
+    font-size: 18px;
+    line-height: 20px;
   }
   .national_widget-listbutton{
-  height:35px;
-  width:180px;
-  margin:10px auto 8px;
+  height:28px;
+  width:118px;
+  margin:5px auto;
   box-sizing:border-box;
   border-radius:5px;
+  cursor: pointer;
   }
   .national_widget-listbutton-button{
   width:100%;
   height:100%;
   border-radius:5px;
-  border:none;
+  border:1px solid #3098ff;
   padding:5px 10px;
-  background-color:#3098ff
+  background-color:#ffffff;
+
   }
   .national_widget-listbutton-button:hover{
-  background-color:#000;
-  border-radius:5px
+  background-color:#3098ff;
+  border-radius:5px;
+  cursor: pointer;
+  }
+  .national_widget-listbutton-button:hover .national_widget-listbutton-t1{
+  color:#fff;
+  }
+  .national_widget-listbutton-button:hover #fonta-color{
+  color:#ffffff;
   }
   .national_widget-listbutton-icon{
   width:25px;
@@ -320,13 +385,18 @@ div{
   font-size: 10px;
   }
   .national_widget-listbutton-text{
-  float:left;
-  font-size:15px;
+  text-align: center;
+  font-size:10px;
   color:#fff;
-  padding-left:20px;
-  line-height:24px}
+  }
   .national_widget-listbutton-t1{
-  padding-right:5px
+  padding-right:5px;
+  font-size: 1em;
+  font-family: HN;
+  color:#636363;
+  }
+  #fonta-color{
+    color:#3098ff;
   }
   .searchtab{
   	display:block;

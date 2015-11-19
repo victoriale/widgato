@@ -37,14 +37,23 @@
   				<div id="stockchart">
   				</div>
   			</div>
-        <div class="national_widget-title">
-          <span id="title_text">TODAY'S NASDAQ MARKET MOVERS</span>
-        </div>
-        <!--<div class="national_widget-location">
-          <i class="national_widget-location-icon"></i>
-          <span class="national_widget-location-text">{{location}}</span>
-        </div>-->
+        <div id="border-line"></div>
         <!--top of widget wrapper END-->
+        <div class="national_widget_t">
+          <div class="fin_icon"></div>
+          <div class="national_widget-title">
+            <span id="title_text">Today's NASDAQ Market Movers</span>
+          </div>
+          <div class="national_widget-content-textarea">
+            <div style="width:47%;float:left">
+              <a class="nwprofile-link" href=''><div class="national_widget-content-textarea-t1"></div></a>
+            </div>
+            <i class="fa fa-angle-right" style="margin:0 5px;float:left"></i>
+            <div style="width:47%;float:right">
+              <a class="nwlink" href=""><div class="national_widget-content-textarea-t2"></div></a>
+            </div>
+          </div>
+        </div>
         <!-- middle of widget wrapper-->
         <div class="national_widget-content">
           <a class="nwprofile-link" target="_blank">
@@ -55,24 +64,24 @@
               </div>
             </div>
           </a>
-          <div class="national_widget-content-textarea">
-            <a class="nwprofile-link" href=''><div class="national_widget-content-textarea-t1"></div></a>
-            <a class="nwlink" href=""><div class="national_widget-content-textarea-t2">Find Out Why?</div></a>
-          </div>
+
           <!--Button on the right of middle wrapper-->
           <div class="national_widget-content-buttonright" data-dir="next"><i class="fa fa-angle-right"></i></div>
           <div class="national_widget-content-buttonleft" data-dir="prev"><i class="fa fa-angle-left"></i></div>
         <!--Button on the right of middle wrapper END-->
         </div>
         <!-- middle of widget wrapper END-->
+        <div class="national_widget-total"><span class="national_widget-total-price">
+          <i class="fa fa-arrow-up" style="margin-right:5px;"></i></span>
+        </div>
+        <div class="national_widget-total-type">Stock Percent Gain Today</div>
         <!--bottom of widget wrapper-->
-        <a class ="nwlink" href="">
+        <a class ="nwlink_list" href="">
           <div class="national_widget-listbutton">
             <button class="national_widget-listbutton-button">
-              <div class="national_widget-listbutton-icon fa-line-chart"></div>
               <div class="national_widget-listbutton-text">
-                <span class="national_widget-listbutton-t1">View the list</span>
-                <i class="fa fa-angle-right"></i>
+                <span class="national_widget-listbutton-t1">SEE THE LIST</span>
+                <i class="fa fa-mail-forward" id="fonta-color"></i>
               </div>
             </button>
           </div>
