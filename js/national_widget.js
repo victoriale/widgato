@@ -61,23 +61,6 @@ $(function(){
 	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
 	document.head.appendChild(clicks[0]);
 
-	//run initiall to make sure link works on load
-	if(remnant == 'true' || remnant == true){
-		$(".nwlink_list").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
-		$("#fb").attr('href', "http://www.investkit.com/FB/Facebook-Inc/company/3330");
-		$("#apl").attr('href', "http://www.investkit.com/AAPL/Apple-Inc/company/2636");
-		$("#tm").attr('href', "http://www.investkit.com/TSLA/Tesla-Motors-Inc/company/4762");
-		$("#mc").attr('href', "http://www.investkit.com/MSFT/Microsoft-Corporation/company/4004");
-		$("#wd").attr('href', "http://www.investkit.com/DIS/Walt-Disney-Co/company/624");
-	}else{
-		$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
-		$("#fb").attr('href', "http://www.myinvestkit.com/"+domain+"/Facebook-Inc/FB/c/3330");
-		$("#apl").attr('href', "http://www.myinvestkit.com/"+domain+"/Apple-Inc/AAPL/c/2636");
-		$("#tm").attr('href', "http://www.myinvestkit.com/"+domain+"/Tesla-Motors-Inc/TSLA/c/4762");
-		$("#mc").attr('href', "http://www.myinvestkit.com/"+domain+"/Microsoft-Corporation/MSFT/c/4004");
-		$("#wd").attr('href', "http://www.myinvestkit.com/"+domain+"/Walt-Disney-Co/DIS/c/624");
-	}
-
 	$('.search-input').bind("enterKey",function(e){
 		search = $('input').val();
 		if(remnant == 'true' || remnant == true){
@@ -144,15 +127,15 @@ $(function(){
 			  case 'NASDAQ':
 					CUR_OFFSET = 0;
 					cur_exchange = 'NASDAQ';
-					curData = exList[1].top_list_list;
+					curData = exList[2].top_list_list;
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink_list").attr('href', "http://www.investkit.com/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
+						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList[2].top_list_info.top_list_title+"/"+exList[2].top_list_info.top_list_id+"/list/1");
 					}else{
-						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NASDAQ-with-highest-percent-market-cap-change/5182/list/1");
+						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList[2].top_list_info.top_list_title+"/"+exList[2].top_list_info.top_list_id+"/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
@@ -167,9 +150,9 @@ $(function(){
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink_list").attr('href', "http://www.investkit.com/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list/1");
+						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList[0].top_list_info.top_list_title+"/"+exList[0].top_list_info.top_list_id+"/list/1");
 					}else{
-						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-AMEX-with-highest-percent-market-cap-change/5210/list/1");
+						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList[0].top_list_info.top_list_title+"/"+exList[0].top_list_info.top_list_id+"/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
@@ -178,15 +161,15 @@ $(function(){
 				case 'NYSE':
 					CUR_OFFSET = 0;
 					cur_exchange = 'NYSE';
-					curData = exList[2].top_list_list;
+					curData = exList[1].top_list_list;
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink_list").attr('href', "http://www.investkit.com/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list/1");
+						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList[1].top_list_info.top_list_title+"/"+exList[1].top_list_info.top_list_id+"/list/1");
 					}else{
-						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/Top-companies-on-NYSE-with-highest-percent-market-cap-change/5196/list/1");
+						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList[1].top_list_info.top_list_title+"/"+exList[1].top_list_info.top_list_id+"/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
@@ -211,13 +194,29 @@ $(function(){
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
 	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=national_market_movers', function(data){
-
 		dataCall = data.national_market_movers;
 		exList = dataCall.exchange_list;
 		curData = exList[2].top_list_list;
 		mr_center_piece(CUR_OFFSET, curData);
 		stock_data($('.mtabs').data('dir'), dataCall);
 		stock_graph(dataCall.exchange_stock_data[2].graph_data, cur_exchange);
+
+		//run initiall to make sure link works on load
+		if(remnant == 'true' || remnant == true){
+			$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList[2].top_list_info.top_list_title+"/"+exList[2].top_list_info.top_list_id+"/list/1");
+			$("#fb").attr('href', "http://www.investkit.com/FB/Facebook-Inc/company/3330");
+			$("#apl").attr('href', "http://www.investkit.com/AAPL/Apple-Inc/company/2636");
+			$("#tm").attr('href', "http://www.investkit.com/TSLA/Tesla-Motors-Inc/company/4762");
+			$("#mc").attr('href', "http://www.investkit.com/MSFT/Microsoft-Corporation/company/4004");
+			$("#wd").attr('href', "http://www.investkit.com/DIS/Walt-Disney-Co/company/624");
+		}else{
+			$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList[2].top_list_info.top_list_title+"/"+exList[2].top_list_info.top_list_id+"/list/1");
+			$("#fb").attr('href', "http://www.myinvestkit.com/"+domain+"/Facebook-Inc/FB/c/3330");
+			$("#apl").attr('href', "http://www.myinvestkit.com/"+domain+"/Apple-Inc/AAPL/c/2636");
+			$("#tm").attr('href', "http://www.myinvestkit.com/"+domain+"/Tesla-Motors-Inc/TSLA/c/4762");
+			$("#mc").attr('href', "http://www.myinvestkit.com/"+domain+"/Microsoft-Corporation/MSFT/c/4004");
+			$("#wd").attr('href', "http://www.myinvestkit.com/"+domain+"/Walt-Disney-Co/DIS/c/624");
+		}
 	}, 'json')
 
 })//END OF FUNCTION
