@@ -4,7 +4,8 @@ html, body {
   font-family: HN;
   width: 100%;
   height: auto;
-  background-color: @white;
+  background-color: #fff;
+  outline:none;
 }
 div{
   font-family: HN;
@@ -81,8 +82,6 @@ div{
   	display:table;
   	color: #fff;
   	font-size:12px;
-  	font-weight:bold;
-
   }
 
   .mtabs{
@@ -187,8 +186,9 @@ div{
   width:100%;
   margin:0 auto;
   line-height: 1em;
-  font-family:HN-B;
+  font-family:HN;
   padding-left: 30px;
+  white-space: nowrap;
   }
   .national_widget-location{
   height:15px;

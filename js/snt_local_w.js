@@ -73,12 +73,12 @@ $(function(){
 
       //console.log("Grabbing data call");
       $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
+        console.log(data);
         dataCall = data.local_market_movers;
         w_info = dataCall.top_list_list[0].top_list_info;
         list = dataCall.top_list_list[0].top_list_list;
         listid = w_info.top_list_id;
         listTitle = w_info.top_list_title;
-        //console.log(list);
         dataLength = list.length;
         graph = dataCall.top_list_graph_data;
         compData(offset, list);
@@ -145,10 +145,8 @@ function compData(offset){
 
 function stockGraph(comp_id, graph, ticker){
   var seriesOptions = [];
-
   $.each(graph[comp_id], function(i, val) {
 		var yVal = parseFloat(val.sh_open);
-
 		if (!isNaN(yVal)) {
 			seriesOptions.push([val.sh_date * 1000, yVal]);
 		}
@@ -157,6 +155,8 @@ function stockGraph(comp_id, graph, ticker){
   seriesOptions.sort(function(a,b){
     return parseFloat(a[0]) - parseFloat(b[0]);
   });
+  //so graph does not cut off from first point
+  var min = seriesOptions[1][0];
   //renders data gathered into a simple chart
   $('#fgw-graph').highcharts({
     exporting:{
@@ -173,23 +173,16 @@ function stockGraph(comp_id, graph, ticker){
     },
 
     xAxis:{
+      min: min,
       type:'datetime',
-      tickPositioner: function () {
-        var positions = [],
-        tick = Math.floor(this.dataMin),
-        increment = Math.ceil((this.dataMax - this.dataMin) / 6);
-
-        for (tick; tick - increment <= this.dataMax; tick += increment) {
-          positions.push(tick);
-        }
-        return positions * 1000;
-      },
-      tickPixelInterval: 80,
-      endOnTick:true,
+      tickPixelInterval: 50,
       title: '',
       labels:{
         autoRotation:false,
-        step: 1
+				step: 1,
+				style:{
+					fontSize:'8px'
+				}
       },
     },
 

@@ -187,8 +187,8 @@ $(function(){
 	})//END OF FUNCTION
 
 	//double clicking will not highlight buttons
-	$('.mrwidget_right-button').mousedown(function(){ return false; });
-	$('.mrwidget_left-button').mousedown(function(){ return false; });
+	$('.national_widget-content-buttonright').mousedown(function(){ return false; });
+	$('.national_widget-content-buttonleft').mousedown(function(){ return false; });
 	$('.mtabs').mousedown(function(){ return false; });
 
 	//run function  initial calls incase nothing else runs this will be default call on page load
