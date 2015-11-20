@@ -296,7 +296,7 @@ function stock_graph(dataArray, exchange){
 		},
 		tooltip: {
 			positioner: function () {
-				return { x: -5, y: 38 };32.
+				return { x: -5, y: 38 };
 			},
 			style:{
 

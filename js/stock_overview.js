@@ -305,6 +305,10 @@ function callChart(array_data, max, min)
           },
 				},
 				tooltip: {
+          positioner: function () {
+    				return { x: 20, y: 10 };
+    			},
+
 					//round 2 decimals
 					valueDecimals: 2,
 					style:{
@@ -313,7 +317,6 @@ function callChart(array_data, max, min)
 					shadow: false,
 					borderWidth: 0,
 					backgroundColor: 'rgba(255,255,255,0.8)'
-
 				},
 				navigator:{
 						enabled: false,
@@ -336,6 +339,10 @@ function callChart(array_data, max, min)
 							step: null,
 							overflow:'false'
 					},
+          dateTimeLabelFormats: {
+    				day: '%e. %b',
+            hour: '%l %P'
+    			},
 				},
 				yAxis: {
 					tickPixelInterval: 30,
