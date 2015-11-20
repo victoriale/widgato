@@ -111,8 +111,8 @@ button:focus {
   margin-bottom: 2px;
   font-size:14px;
   text-align: center;
-  line-height: 1.7em;
-  max-width: 290px;
+  line-height: 16px;
+  max-width: 285px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -278,17 +278,19 @@ button:focus {
   margin:0 2px;
   font-family: HN-B;
   font-size: 14px;
+  float:left;
+  line-height: 16px
 }
 .fgw-t2-title{
   color: #000;
   font-size: 14px;
   text-transform: uppercase;
   display:inline-block;
-  max-width: 150px;
+  max-width: 120px;
   overflow: hidden;
   text-overflow: ellipsis;
   height: 20px;
-  padding-top: 3px;
+  float:left;
 }
 .fgw-t2-title:hover{
   color:#39abff;
@@ -298,10 +300,10 @@ button:focus {
   font-size: 14px;
   text-transform: uppercase;
   display:inline-block;
-  max-width: 140px;
+  max-width: 100px;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 12px;
+  line-height: 16px;
 }
 .fgw-t2-loc:hover{
   color:#39abff;

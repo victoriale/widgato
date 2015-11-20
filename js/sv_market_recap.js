@@ -292,7 +292,7 @@ function stock_graph(dataArray, exchange){
 		},
 		tooltip: {
 			positioner: function () {
-				return { x: -5, y: 38 };32.
+				return { x: -5, y: 38 };
 			},
 			style:{
 				fontSize:'7px'
@@ -309,26 +309,18 @@ function stock_graph(dataArray, exchange){
 				text:'',
 			},
 			type: 'datetime',
-			showLastLabel: true,
-			endOnTick: true,
+
 			dateTimeLabelFormats: {
 				day: '%e'
 			},
-			tickPixelInterval: 60,
-			//max tick for x axix is calculated and dynamically set
-			tickPositioner: function () {
-				var positions = [],
-				tick = Math.floor(this.dataMin),
-				increment = Math.ceil((this.dataMax - this.dataMin) / 6);
+			tickPixelInterval: 40,
 
-				for (tick; tick - increment <= this.dataMax; tick += increment) {
-					positions.push(tick);
-				}
-				return positions * 1000;
-			},
 			labels:{
 				autoRotation:false,
-				step: 1
+				step: 1,
+				style:{
+					fontSize:'8px'
+				}
 			},
 		},
 		yAxis:{
