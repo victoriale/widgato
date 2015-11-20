@@ -84,6 +84,19 @@ $(function(){
           $('.fcw-t1').html(title.join(' '));
           dataCall(offset);
         });
+      }else{
+        //partner with no data same thing as if statement but doing this just in case
+        $.get("https://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+          city = r_data[0].city;
+          state = r_data[0].state;
+
+          //transforms title to add in state
+          var title = $('.fcw-t1').html();
+          title = title.split(' ');
+          title.splice(1,0,state);
+          $('.fcw-t1').html(title.join(' '));
+          dataCall(offset);
+        });
       }
     }else{
       //transforms title to add in state
