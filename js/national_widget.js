@@ -131,7 +131,7 @@ $(function(){
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
-					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
+					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
 						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList[2].top_list_info.top_list_title+"/"+exList[2].top_list_info.top_list_id+"/list/1");
 					}else{
@@ -148,7 +148,7 @@ $(function(){
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
-					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
+					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
 						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList[0].top_list_info.top_list_title+"/"+exList[0].top_list_info.top_list_id+"/list/1");
 					}else{
@@ -165,7 +165,7 @@ $(function(){
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
-					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
+					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
 						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList[1].top_list_info.top_list_title+"/"+exList[1].top_list_info.top_list_id+"/list/1");
 					}else{
