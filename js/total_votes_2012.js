@@ -34,6 +34,7 @@ $(function(){
   	state = query['loc']['loc_id']['state'];
     //returns string true or false
     bord = query.bord;
+    console.log(city, state, remnant, domain);
 		/*
 		//Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
 		//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
@@ -71,7 +72,8 @@ $(function(){
           dataCall(offset);
         }
     });
-    if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
+    console.log(city == '');
+    if(city == '' || city == null || typeof city == 'undefined' || state == '' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
         $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
           city = r_data[0].city;
@@ -108,7 +110,7 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//apirt.synapsys.us/index.php?widget=politics&wid=1&city='+city+'&state='+state+'&page-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://apirt.synapsys.us/index.php?widget=politics&wid=1&city='+city+'&state='+state+'&page-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       curData = data.widget;
       dataLength = curData.length;
       var title = "counties-with-the-most-total-votes-in-the-2012-election";
