@@ -71,7 +71,7 @@ $(function(){
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       dataLength = curData.length;
-      var title = "vehicle-theft-by-city";
+      var title = "most-vehicle-theft-by-city";
       $('.fcw-t1').html('Cities in '+fullstate(curData[0].CrimeState)+' with the Most Car Thefts in '+ curData[0].CrimeYear)
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
@@ -81,12 +81,12 @@ $(function(){
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");
-        $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+(curData[0].CrimeState)).toUpperCase();
-        $('#imgUrl').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+(curData[0].CrimeState)).toUpperCase();
+        $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
+        $('#imgUrl').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
       } else {
         $('.fcw-href').attr('href',link_partner+domain+"/crimes/"+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity);
-        $('#loc').attr('href',link_partner+domain+"/loc/"+(curData[0].CrimeState)).toUpperCase()+"/"+(curData[0].CrimeCity);
-        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+(curData[0].CrimeState)).toUpperCase()+"/"+(curData[0].CrimeCity);
+        $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
+        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
       }
 
     }, 'json')

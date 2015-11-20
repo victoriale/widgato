@@ -90,14 +90,13 @@ $(function(){
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var dataLength = curData.length;
-      var title = "most-violent-crime-by-city";
+      var title = "least-violent-crime-by-city";
       $('.fcw-t1').html(fullstate(curData[0].CrimeState) + ' Cities with the Most Property Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(dNumberToCommaNumber(curData[0].CrimePropertyCrimeNumber) + ' out of ' + dNumberToCommaNumber(Number(curData[0].population.population).toFixed(0)));
       $('.fcw-content2').html('in ' + curData[0].CrimeYear);
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
-
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");
         $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
