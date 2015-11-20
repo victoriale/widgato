@@ -297,7 +297,12 @@ function callChart(array_data, max, min)
 							x: 0,
 							y: -30
 						}
-					}
+					},
+          events: {
+              selection: function(event) {
+                  $('.tabs').css({"border-top":"3px solid #ebebeb","background-color":"#ebebeb"});
+              }
+          },
 				},
 				tooltip: {
 					//round 2 decimals
