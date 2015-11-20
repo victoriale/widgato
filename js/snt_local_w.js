@@ -73,7 +73,6 @@ $(function(){
 
       //console.log("Grabbing data call");
       $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
-        console.log(data);
         dataCall = data.local_market_movers;
         w_info = dataCall.top_list_list[0].top_list_info;
         list = dataCall.top_list_list[0].top_list_list;
