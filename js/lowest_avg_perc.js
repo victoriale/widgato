@@ -71,20 +71,20 @@ $(function(){
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       dataLength = curData.length;
-      var title = "most-vehicle-theft-by-city";
-      $('.fcw-t1').html('Cities in '+fullstate(curData[0].CrimeState)+' with the Most Car Thefts in '+ curData[0].CrimeYear)
+      var title = "lowest-avg-perc-by-city";
+      $('.fcw-t1').html('Cities with the Lowest Average Percipitation Annually')
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].CrimeMotorVehicleTheftNumber)+' Car Thefts');
-      $('.fcw-content2').html('in ' + curData[0].CrimeYear);
-      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
+      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].CrimeMotorVehicleTheftNumber)+' Inches');
+      $('.fcw-content2').html('Annual Percipitation');
+      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");
+        $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/weather");
         $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
         $('#imgUrl').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/crimes/"+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity);
+        $('.fcw-href').attr('href',link_partner+domain+"/weather/"+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity);
         $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
         $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
       }
@@ -99,7 +99,7 @@ $(function(){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
       return '../css/public/no_image.jpg';
     }
-    return path;
+    return 'http://images.investkit.com/images/' + path;
   }
   function fullstate(state){
     var stateName = {
