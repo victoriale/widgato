@@ -159,6 +159,8 @@ function stockGraph(comp_id, graph, ticker){
   seriesOptions.sort(function(a,b){
     return parseFloat(a[0]) - parseFloat(b[0]);
   });
+  //so graph does not cut off from first point
+  var min = seriesOptions[1][0];
   //renders data gathered into a simple chart
   $('#fgw-graph').highcharts({
     exporting:{
@@ -176,22 +178,15 @@ function stockGraph(comp_id, graph, ticker){
 
     xAxis:{
       type:'datetime',
-      tickPositioner: function () {
-        var positions = [],
-        tick = Math.floor(this.dataMin),
-        increment = Math.ceil((this.dataMax - this.dataMin) / 6);
-
-        for (tick; tick - increment <= this.dataMax; tick += increment) {
-          positions.push(tick);
-        }
-        return positions * 1000;
-      },
-      tickPixelInterval: 80,
-      endOnTick:true,
+      min:min,
+      tickPixelInterval: 50,
       title: '',
       labels:{
         autoRotation:false,
-        step: 1
+        step: 1,
+        style:{
+					fontSize:'8px'
+				}
       },
     },
 
