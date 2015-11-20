@@ -50,7 +50,10 @@ button:focus {
 .ad_location{
   width:300px;
   height:250px;
-  background-color: #ccc;
+  background-image: url("public/Joyfulhome_Ad.jpg");
+  background-size: contain !important;
+  background-position: center center !important;
+  background-repeat: no-repeat;
 }
 
 .new_fe_ceo{
@@ -257,6 +260,7 @@ button:focus {
     color:#aaaaaa;
     text-align: left;
     font-size: 10px;
+    margin-bottom: 4px;
 }
 
 .fcw-rightnav:hover{
