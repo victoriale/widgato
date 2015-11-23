@@ -131,7 +131,7 @@ $(function(){
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
-					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
+					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
 						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
 					}else{
@@ -148,7 +148,7 @@ $(function(){
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
-					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
+					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
 						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.NYA'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList[0].top_list_info.top_list_id+"/list/1");
 					}else{
@@ -165,7 +165,7 @@ $(function(){
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
-					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
+					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
 						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.NYA'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.NYA'].top_list_info.top_list_id+"/list/1");
 					}else{
@@ -194,6 +194,7 @@ $(function(){
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
 	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=national_market_movers', function(data){
+		//console.log(data);
 		dataCall = data.national_market_movers;
 		exList = dataCall.exchange_list;
 		curData = exList['.IXIC'].top_list_list;
@@ -224,7 +225,7 @@ $(function(){
 function mr_center_piece(offset, data){
 	//service called time to set div classes to given results
 	$('.national_widget-content-textarea-t1').html(data[offset].c_name);
-	$('.national_widget-content-textarea-t2').html(fullstate(data[offset].c_hq_state));
+	$('.national_widget-content-textarea-t2').html(data[offset].c_hq_state + ', ' + (data[offset].c_hq_city).capitalize());
 	$('.national_widget-total-price').html(lossGainCheck(offset,data));
 	$('.national_widget-content-image').css('background','url(http://images.investkit.com/images/'+data[offset].c_logo+') no-repeat');
 	$(".nwprofile-link").attr("href", "http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
@@ -396,6 +397,12 @@ function lossGainCheck(operator, data){
 		$('.national_widget-total-price').html("<i class='fa fa-down-up' style='margin-right:5px;'></i>"+Number(data[operator].stock_percent).toFixed(2)+"%");
 	}
 }//END OF FUNCTION
+
+String.prototype.capitalize = function(){
+        return this.toLowerCase().replace( /\b\w/g, function (m) {
+            return m.toUpperCase();
+        });
+    };
 
 //convert all state abbr to full  PROB DONT NEED THIS BUT KEEPING HERE JUST IN CASE
 fullstate = function(state){

@@ -278,6 +278,9 @@ div{
   line-height:1em;
   width:100%;
   float:left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   }
   .national_widget-content-buttonright{
   width:30px;
