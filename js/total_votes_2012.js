@@ -34,7 +34,6 @@ $(function(){
   	state = query['loc']['loc_id']['state'];
     //returns string true or false
     bord = query.bord;
-    console.log(city, state, remnant, domain);
 		/*
 		//Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
 		//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
@@ -72,7 +71,6 @@ $(function(){
           dataCall(offset);
         }
     });
-    console.log(city == '');
     if(city == '' || city == null || typeof city == 'undefined' || state == '' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
         $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
@@ -88,7 +86,7 @@ $(function(){
         });
       }else{
         //partner with no data same thing as if statement but doing this just in case
-        $.get("https://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
 
