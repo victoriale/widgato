@@ -127,53 +127,53 @@ $(function(){
 			  case 'NASDAQ':
 					CUR_OFFSET = 0;
 					cur_exchange = 'NASDAQ';
-					curData = exList[2].top_list_list;
+					curData = exList['.IXIC'].top_list_list;
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
-					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
+					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList[2].top_list_info.top_list_title+"/"+exList[2].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
 					}else{
-						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList[2].top_list_info.top_list_title+"/"+exList[2].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
-					stock_graph(dataCall.exchange_stock_data[2].graph_data, cur_exchange);
+					stock_graph(dataCall.exchange_stock_data['.IXIC'].graph_data, cur_exchange);
 					break;
 				case 'AMEX':
 					CUR_OFFSET = 0;
-					curData = exList[0].top_list_list;
+					curData = exList['.NYA'].top_list_list;
 					cur_exchange = 'AMEX';
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
-					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
+					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList[0].top_list_info.top_list_title+"/"+exList[0].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.NYA'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList[0].top_list_info.top_list_id+"/list/1");
 					}else{
-						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList[0].top_list_info.top_list_title+"/"+exList[0].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList['.NYA'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.NYA'].top_list_info.top_list_id+"/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
-					stock_graph(dataCall.exchange_stock_data[0].graph_data, cur_exchange);
+					stock_graph(dataCall.exchange_stock_data['.NYA'].graph_data, cur_exchange);
 					break;
 				case 'NYSE':
 					CUR_OFFSET = 0;
 					cur_exchange = 'NYSE';
-					curData = exList[1].top_list_list;
+					curData = exList['.NYA'].top_list_list;
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
-					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
+					$('.national_widget-title').html("Today'S "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList[1].top_list_info.top_list_title+"/"+exList[1].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.NYA'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.NYA'].top_list_info.top_list_id+"/list/1");
 					}else{
-						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList[1].top_list_info.top_list_title+"/"+exList[1].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList['.NYA'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.NYA'].top_list_info.top_list_id+"/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
-					stock_graph(dataCall.exchange_stock_data[1].graph_data, cur_exchange);
+					stock_graph(dataCall.exchange_stock_data['.NYA'].graph_data, cur_exchange);
 					break;
 				case 'find':
 					$('.searchtab').css({"display":"block"});
@@ -196,21 +196,20 @@ $(function(){
 	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=national_market_movers', function(data){
 		dataCall = data.national_market_movers;
 		exList = dataCall.exchange_list;
-		curData = exList[2].top_list_list;
+		curData = exList['.IXIC'].top_list_list;
 		mr_center_piece(CUR_OFFSET, curData);
 		stock_data($('.mtabs').data('dir'), dataCall);
-		stock_graph(dataCall.exchange_stock_data[2].graph_data, cur_exchange);
-
+		stock_graph(dataCall.exchange_stock_data['.IXIC'].graph_data, cur_exchange);
 		//run initiall to make sure link works on load
 		if(remnant == 'true' || remnant == true){
-			$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList[2].top_list_info.top_list_title+"/"+exList[2].top_list_info.top_list_id+"/list/1");
+			$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
 			$("#fb").attr('href', "http://www.investkit.com/FB/Facebook-Inc/company/3330");
 			$("#apl").attr('href', "http://www.investkit.com/AAPL/Apple-Inc/company/2636");
 			$("#tm").attr('href', "http://www.investkit.com/TSLA/Tesla-Motors-Inc/company/4762");
 			$("#mc").attr('href', "http://www.investkit.com/MSFT/Microsoft-Corporation/company/4004");
 			$("#wd").attr('href', "http://www.investkit.com/DIS/Walt-Disney-Co/company/624");
 		}else{
-			$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList[2].top_list_info.top_list_title+"/"+exList[2].top_list_info.top_list_id+"/list/1");
+			$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
 			$("#fb").attr('href', "http://www.myinvestkit.com/"+domain+"/Facebook-Inc/FB/c/3330");
 			$("#apl").attr('href', "http://www.myinvestkit.com/"+domain+"/Apple-Inc/AAPL/c/2636");
 			$("#tm").attr('href', "http://www.myinvestkit.com/"+domain+"/Tesla-Motors-Inc/TSLA/c/4762");
@@ -240,29 +239,30 @@ function mr_center_piece(offset, data){
 
 // data api returned based on which exchange is selected
 function stock_data(cur_exch, stockData){
-	//console.log(stockData);
 	switch(cur_exch){
 		case 'NASDAQ':
-			var price = stockData.exchange_stock_data[2].csi_price;
-			var priceChng = stockData.exchange_stock_data[2].graph_data.price_change;
-			var pctChng = stockData.exchange_stock_data[2].graph_data.percent_change;
+			var price = stockData.exchange_stock_data['.IXIC'].csi_price;
+			var priceChng = stockData.exchange_stock_data['.IXIC'].graph_data.price_change;
+			var pctChng = stockData.exchange_stock_data['.IXIC'].graph_data.percent_change;
+			var operator = stockData.exchange_stock_data['.IXIC'].csi_price_last_operator;
 			$('.price').html(Number(price).toFixed(2));
-			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
-			convert_num(Number(pctChng).toFixed(2),Number(pctChng).toFixed(2));
+			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2),operator);
 			break;
 		case 'AMEX':
-			var price = stockData.exchange_stock_data[0].csi_price;
-			var priceChng = stockData.exchange_stock_data[0].graph_data.price_change;
-			var pctChng = stockData.exchange_stock_data[0].graph_data.percent_change;
+			var price = stockData.exchange_stock_data['.XAX'].csi_price;
+			var priceChng = stockData.exchange_stock_data['.XAX'].graph_data.price_change;
+			var pctChng = stockData.exchange_stock_data['.XAX'].graph_data.percent_change;
+			var operator = stockData.exchange_stock_data['.XAX'].csi_price_last_operator;
 			$('.price').html(Number(price).toFixed(2));
-			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
+			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2),operator);
 			break;
 		case 'NYSE':
-			var price = stockData.exchange_stock_data[1].csi_price;
-			var priceChng = stockData.exchange_stock_data[1].graph_data.price_change;
-			var pctChng = stockData.exchange_stock_data[1].graph_data.percent_change;
+			var price = stockData.exchange_stock_data['.NYA'].csi_price;
+			var priceChng = stockData.exchange_stock_data['.NYA'].graph_data.price_change;
+			var pctChng = stockData.exchange_stock_data['.NYA'].graph_data.percent_change;
+			var operator = stockData.exchange_stock_data['.NYA'].csi_price_last_operator;
 			$('.price').html(Number(price).toFixed(2));
-			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
+			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2),operator);
 			break;
 		default:
 			break;
@@ -374,16 +374,8 @@ function compUrlName(company) {
 
 
 //convert value into decimal and decide if change is up or down
-function convert_num(change_num, changePercent_num){
-	if (change_num > 0){
-		$('.change').css({"color":"#44b224"});
-		$('.change').html(change_num+'('+changePercent_num+'%)');
-	}
-	else{
-		$('.change').css({"color":"#ca1010"});
-		$('.change').html(change_num+'('+changePercent_num+'%)');
-	}
-	if (changePercent_num > 0){
+function convert_num(change_num, changePercent_num, operator){
+	if (operator > 0){
 		$('.change').css({"color":"#44b224"});
 		$('.change').html(change_num+'('+changePercent_num+'%)');
 	}

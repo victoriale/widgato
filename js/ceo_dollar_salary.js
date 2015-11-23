@@ -17,7 +17,7 @@ $(function(){
 
   if(temp != null){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
+    console.log(query);
     //set the query data from database to global variable to use
     domain = query.dom;
 
@@ -87,11 +87,13 @@ function dataCall(index){
   $('.cds-image').css('background', 'url('+imageUrl(curData[index].o_pic)+') no-repeat');
   $('.cds-share').css('background', 'url('+imageUrl(curData[index].c_logo)+') no-repeat');
   //$('.cds-image').css('background','url(http://images.investkit.com/images/'+curData[index].o_pic+') no-repeat');
+  console.log(curData);
+  console.log(remnant);
   if(remnant == 'true' || remnant == true){
     $('#exec-link').attr('href',"http://www.investkit.com/"+curData[index].o_first_name+'-'+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
     $('.cds-href').attr('href', "http://www.investkit.com/"+compUrlName(data_result.list_title)+"/dollar_ceo/executive-list/1");
-    $('#title_link').attr('href',"http://www.investkit.com/"+curData[index].o_first_name+'-'+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
-    $('#title_link2').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
+    $('.title_link').attr('href',"http://www.investkit.com/"+curData[index].o_first_name+'-'+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
+    $('.title_link2').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
     $('#loc_link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
   }else{
     $('#exec-link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+curData[index].c_ticker+"/"+curData[index].o_last_name+'-'+curData[index].o_first_name+"/e/"+curData[index].o_id);
