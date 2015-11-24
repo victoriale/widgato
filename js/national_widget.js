@@ -123,6 +123,7 @@ $(function(){
 		$('.mtabs').css({"background-color":"#f2f2f2","border-bottom":"1px solid #cccccc"});
 		//switch statement to swap out tabs and recall data api depending on which tab/exchange is chosen
 		//change title as well
+
 		switch($(this).data('dir')){
 			  case 'NASDAQ':
 					CUR_OFFSET = 0;
@@ -143,16 +144,17 @@ $(function(){
 					break;
 				case 'AMEX':
 					CUR_OFFSET = 0;
-					curData = exList['.NYA'].top_list_list;
+					console.log(dataCall);
+					curData = exList['.XAX'].top_list_list;
 					cur_exchange = 'AMEX';
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
 					$('.national_widget_wrapper').css({"display":"block"});
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.NYA'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList[0].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.XAX'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList[0].top_list_info.top_list_id+"/list/1");
 					}else{
-						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList['.NYA'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.NYA'].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList['.XAX'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.XAX'].top_list_info.top_list_id+"/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
@@ -193,7 +195,7 @@ $(function(){
 
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
-	$.get('http://apifin.investkit.com:90/call_controller.php?action=widget&option=national_market_movers', function(data){
+	$.get('http://testapi.investkit.com:90/call_controller.php?action=widget&option=national_market_movers', function(data){
 		dataCall = data.national_market_movers;
 		exList = dataCall.exchange_list;
 		curData = exList['.IXIC'].top_list_list;
@@ -317,7 +319,7 @@ function stock_graph(dataArray, exchange){
 			dateTimeLabelFormats: {
 				day: '%e'
 			},
-			tickPixelInterval: 40,
+			tickPixelInterval: 50,
 
 			labels:{
 				autoRotation:false,
