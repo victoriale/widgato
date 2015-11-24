@@ -72,8 +72,8 @@ $(function(){
       }
 
       //console.log("Grabbing data call");
-      $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
-        dataCall = data.local_market_movers;
+      $.get('http://testapi.investkit.com:90/call_controller.php?action=widget&option=shares_locally_traded&param='+loc, function(data){
+        dataCall = data.shares_locally_traded;
         w_info = dataCall.top_list_list[0].top_list_info;
         list = dataCall.top_list_list[0].top_list_list;
         listid = w_info.top_list_id;
@@ -120,8 +120,8 @@ function compData(offset){
   var curItem = list[offset];
   $(".fgw-t2-title").html(curItem.c_name);
   $(".fgw-t2-loc").html(curItem.c_hq_state + ", " + curItem.c_hq_city);
-  $(".fgw-image").css({"background-image":"url('http://apifin2.synapsys.us/images/"+curItem.c_logo+"')"});
-  $(".fgw-content1").html(convert_num(Number(curItem.stock_percent).toFixed(2)));
+  $(".fgw-image").css({"background-image":"url('http://images.investkit.com/images/"+curItem.c_logo+"')"});
+  $(".fgw-content1").html(nFormatter(Number(curItem.trading_volume).toFixed(2)));
   listTitle = listTitle.replace(/ /g, '-');
   if(remnant == 'true' || remnant == true){
     if(typeof loc != 'undefined' || loc != '' || loc != null){
@@ -244,7 +244,19 @@ function convert_num(change_num){
 		$('.fgw-content1').html(change_num+'%');
 	}
 }//END OF FUNCTION
-
+//number converter to decimal with correct format
+function nFormatter(num) {
+	if (num >= 1000000000) {
+		return (num / 1000000000).toFixed(1).replace(/\.0$/, '') + ' B';
+	}
+	if (num >= 1000000) {
+		return (num / 1000000).toFixed(1).replace(/\.0$/, '') + ' M';
+	}
+	if (num >= 1000) {
+		return (num / 1000).toFixed(1).replace(/\.0$/, '') + ' K';
+	}
+	return num;
+}
 function removeLastComma(strng){
     var n=strng.lastIndexOf(",");
     var a=strng.substring(0,n)

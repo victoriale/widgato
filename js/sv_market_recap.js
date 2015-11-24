@@ -199,7 +199,8 @@ $(function(){
 	$('.mtabs').mousedown(function(){ return false; });
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
-	$.get('http://apifin.investkit.com:90/call_controller.php?action=widget&option=sv150_widget', function(data){
+	$.get('http://testapi.investkit.com:90/call_controller.php?action=widget&option=sv150_widget', function(data){
+		console.log(data);
 		//set data to global variable
 		dataCall = data.sv150_widget;
 		curData = dataCall.sv150_list_data;
@@ -251,14 +252,14 @@ function stock_data(cur_exch, stockData){
 			var priceChng = stockData.nasdaq_price_change;
 			var pctChng = stockData.nasdaq_percent_change;
 			$('.price').html(Number(price).toFixed(2));
-			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
+			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2),stockData.nasdaq_price_operator);
 			break;
 		case 'NYSE':
 			var price = stockData.nyse_graph_data[0].sh_open;
 			var priceChng = stockData.nyse_price_change;
 			var pctChng = stockData.nyse_percent_change;
 			$('.price').html(Number(price).toFixed(2));
-			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2));
+			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2),stockData.nyse_price_operator);
 			break;
 		default:
 			break;
@@ -355,15 +356,27 @@ function stock_graph(dataArray, exchange){
 }
 
 //convert value into decimal and decide if change is up or down
-function convert_num(change_num, changePercent_num){
-	if (change_num > 0){
-		$('.change').css({"color":"#44b224"});
-		$('.change').html(change_num+'('+changePercent_num+'%)');
+function convert_num(change_num, changePercent_num, operator){
+	if(typeof operator == 'undefined' || operator == null){
+		if (change_num > 0){
+			$('.change').css({"color":"#44b224"});
+			$('.change').html(change_num+'('+changePercent_num+'%)');
+		}
+		else{
+			$('.change').css({"color":"#ca1010"});
+			$('.change').html(change_num+'('+changePercent_num+'%)');
+		}
+	}else{
+		if (operator > 0){
+			$('.change').css({"color":"#44b224"});
+			$('.change').html(change_num+'('+changePercent_num+'%)');
+		}
+		else{
+			$('.change').css({"color":"#ca1010"});
+			$('.change').html(change_num+'('+changePercent_num+'%)');
+		}
 	}
-	else{
-		$('.change').css({"color":"#ca1010"});
-		$('.change').html(change_num+'('+changePercent_num+'%)');
-	}
+
 }//END OF FUNCTION
 
 function compUrlName(company) {

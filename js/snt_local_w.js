@@ -72,7 +72,7 @@ $(function(){
       }
 
       //console.log("Grabbing data call");
-      $.get('http://apifin.investkit.com:90/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
+      $.get('http://testapi.investkit.com:90/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
         dataCall = data.local_market_movers;
         w_info = dataCall.top_list_list[0].top_list_info;
         list = dataCall.top_list_list[0].top_list_list;
@@ -116,7 +116,7 @@ function compData(offset){
   var curItem = list[offset];
   $(".fgw-t2-title").html(curItem.c_name);
   $(".fgw-t2-loc").html(curItem.c_hq_state + ", " + curItem.c_hq_city);
-  $(".fgw-image").css({"background-image":"url('http://apifin2.synapsys.us/images/"+curItem.c_logo+"')"});
+  $(".fgw-image").css({"background-image":"url('http://images.investkit.com/images/"+curItem.c_logo+"')"});
   $(".fgw-content1").html(convert_num(Number(curItem.stock_percent).toFixed(2)));
   listTitle = listTitle.replace(/ /g, '-');
   if(remnant == 'true' || remnant == true){

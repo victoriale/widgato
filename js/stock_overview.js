@@ -86,7 +86,7 @@ $(function location(loc){
 
 $(function so_leftdata(id){
   $.get('http://apifin.investkit.com/call_controller.php?action=search&option=widget_search&wild=1&param='+comp, function(result){
-    	$.get('http://apifin.investkit.com:90/call_controller.php?action=widget&option=stock_overview&param='+result.company_name.func_data.search_data[0].c_id, function(data){
+    	$.get('http://testapi.investkit.com:90/call_controller.php?action=widget&option=stock_overview&param='+result.company_name.func_data.search_data[0].c_id, function(data){
         dataCall = data.stock_overview;
     		stockData= dataCall.stock_data;
         dailyData = dataCall.daily_update;
@@ -113,7 +113,7 @@ $(function so_leftdata(id){
     		$('#peratio').html(nFormatter(Number(stockData.csi_pe_ratio).toFixed(2)));
     		$('#totalshares').html(nFormatter(stockData.csi_total_shares));
     		$('#averagevolume').html(nFormatter(stockData.csi_trading_vol));
-    		$('#52weeks').html(last_year+' - '+today);
+    		$('#52weeks').html(Number(stockData.csi_52week_low).toFixed(2)+' - '+Number(stockData.csi_52week_high).toFixed(2));
     		$('#open').html(nFormatter(Number(stockData.csi_opening_price).toFixed(2)));
     		graph_data(dailyData, stockData.stock_hist, stockData.c_name);
 
@@ -183,7 +183,7 @@ function graph_data(daily, graph_data, name){
     });
 
 		//CALL HIGHCHARTS
-		callChart(newDataArray);
+		callChart(newDataArray1);
 
 		hideZoomBar(chart);
 		//Click function to allow custom button tabs to change highcharts.

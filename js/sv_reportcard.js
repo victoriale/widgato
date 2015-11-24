@@ -78,7 +78,7 @@ $(function(){
 })
 
 $(function top(id){
-	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=sv150_report_card', function(data){
+	$.get('http://testapi.investkit.com:90/call_controller.php?action=widget&option=sv150_report_card', function(data){
 				data_result = data.sv150_report_card;
 				data_exchange = data_result.exchange_stock_data;
 				data_gainer = data_result.sv150_list_gainers;
@@ -159,12 +159,12 @@ $(function top(id){
 				}
 
 
-				$('#rc_gain1').css('background','url(http://apifin2.synapsys.us/images/'+data_gainer[0].c_logo+') no-repeat');
-				$('#rc_gain2').css('background','url(http://apifin2.synapsys.us/images/'+data_gainer[1].c_logo+') no-repeat');
-				$('#rc_gain3').css('background','url(http://apifin2.synapsys.us/images/'+data_gainer[2].c_logo+') no-repeat');
-				$('#rc_lose1').css('background','url(http://apifin2.synapsys.us/images/'+data_loser[0].c_logo+') no-repeat');
-				$('#rc_lose2').css('background','url(http://apifin2.synapsys.us/images/'+data_loser[1].c_logo+') no-repeat');
-				$('#rc_lose3').css('background','url(http://apifin2.synapsys.us/images/'+data_loser[2].c_logo+') no-repeat');
+				$('#rc_gain1').css('background','url(http://images.investkit.com/images/'+data_gainer[0].c_logo+') no-repeat');
+				$('#rc_gain2').css('background','url(http://images.investkit.com/images/'+data_gainer[1].c_logo+') no-repeat');
+				$('#rc_gain3').css('background','url(http://images.investkit.com/images/'+data_gainer[2].c_logo+') no-repeat');
+				$('#rc_lose1').css('background','url(http://images.investkit.com/images/'+data_loser[0].c_logo+') no-repeat');
+				$('#rc_lose2').css('background','url(http://images.investkit.com/images/'+data_loser[1].c_logo+') no-repeat');
+				$('#rc_lose3').css('background','url(http://images.investkit.com/images/'+data_loser[2].c_logo+') no-repeat');
 
 				$('#gain_name1').html(data_gainer[0].c_ticker);
 				$('#gain_name2').html(data_gainer[1].c_ticker);
