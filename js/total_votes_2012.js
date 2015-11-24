@@ -17,21 +17,19 @@ $(function(){
 
   if(temp != null){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
     //set the query data from database to global variable to use
     domain = query.dom;
-
     remnant = query.remn;
-
     clickyId = query.c_id;
-
-    locName = query['loc']['loc_name'];
-
-    locName = locName.replace('+',' ');
-
-    city = query['loc']['loc_id']['city'];
-
-  	state = query['loc']['loc_id']['state'];
+    switch (domain){
+      case ('att.yahoo.com'):
+        break;
+      default:
+        locName = query['loc']['loc_name'];
+        locName = locName.replace('+',' ');
+        city = query['loc']['loc_id']['city'];
+        state = query['loc']['loc_id']['state'];
+    }
     //returns string true or false
     bord = query.bord;
 		/*
@@ -108,7 +106,7 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//apirt.synapsys.us/index.php?widget=politics&wid=1&city='+city+'&state='+state+'&page-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://apirt.synapsys.us/index.php?widget=politics&wid=1&city='+city+'&state='+state+'&page-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       curData = data.widget;
       dataLength = curData.length;
       var title = "counties-with-the-most-total-votes-in-the-2012-election";
