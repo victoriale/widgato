@@ -275,6 +275,7 @@ function stock_graph(dataArray, exchange){
 			newDataArray.push([val.sh_date * 1000, yVal]);
 		}
 	});
+	max = newDataArray[0][0];
 	//renders data gathered into a simple chart
 	$('#sv_stockchart').highcharts({
 		chart: {
@@ -305,11 +306,10 @@ function stock_graph(dataArray, exchange){
 				text:'',
 			},
 			type: 'datetime',
-
 			dateTimeLabelFormats: {
 				day: '%e'
 			},
-			tickPixelInterval: 40,
+			tickPixelInterval: 60,
 
 			labels:{
 				autoRotation:false,
