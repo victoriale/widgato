@@ -13,46 +13,40 @@ var max = 10;
 var bord = false;
 //run js code onn startup
 $(function(){
-	var temp = location.search;
-	var query = {};
+	// var temp = location.search;
+	// var query = {};
 
-	if(temp != null){
-		query = JSON.parse(decodeURIComponent(temp.substr(1)));
+	// if(temp != null){
+	// 	query = JSON.parse(decodeURIComponent(temp.substr(1)));
 
 		//set the query data from database to global variable to use
-		domain = query.dom;
+		// domain = query.dom;
+		domain = 'siliconvalley.com';//Will be always non-remnant but keeping code just in case
 
-		remnant = query.remn;
+		// remnant = query.remn;
+		//digital first widgets are not ever REMNANTS but just in case keep code there and set remnant to false
+		remnant = false;
 
-		clickyId = query.c_id;
+		// clickyId = query.c_id;
 
-		locName = query['loc']['loc_name'];
+		// locName = query['loc']['loc_name'];
+		// locName = locName.replace('+',' ');
 
-		locName = locName.replace('+',' ');
 		//returns string true or false
-		bord = query.bord;
-		/*
-		//Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
-		//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
-		for(var i = 0; i < query['loc']['loc']['city'].length; i++){
-			var c = query['loc']['loc']['city'][i].city;
-			var s = query['loc']['loc']['city'][i].state;
-			loc = loc + c + "," + s;
-			if (typeof query['loc']['loc']['city'][i+1] != 'undefined'){
-				loc += '|';
-			}
-		}
-		*/
-		}
-		if(bord == 'true'){
-			$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
-		}
+		// bord = query.bord;
 
-		var script_tag = document.createElement('script');
-		script_tag.setAttribute('src','//static.getclicky.com/js');
-		document.head.appendChild(script_tag);
-		var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-		document.head.appendChild(clicks[0]);
+		// }
+
+		// if(bord == 'true'){
+		// 	$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
+		// }
+
+		//get click tag from query embed.
+		// var script_tag = document.createElement('script');
+		// script_tag.setAttribute('src','//static.getclicky.com/js');
+		// document.head.appendChild(script_tag);
+		// var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
+		// document.head.appendChild(clicks[0]);
 
 		//FOR TRENDING TAB
 		//run initiall to make sure link works on load
@@ -205,7 +199,7 @@ $(function(){
 	$('.mtabs').mousedown(function(){ return false; });
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
-	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=sv150_widget', function(data){
+	$.get('http://apifin.investkit.com:90/call_controller.php?action=widget&option=sv150_widget', function(data){
 		//set data to global variable
 		dataCall = data.sv150_widget;
 		curData = dataCall.sv150_list_data;
@@ -243,6 +237,7 @@ function mr_center_piece(offset, data){
 
 // data api returned based on which exchange is selected
 function stock_data(cur_exch, stockData){
+	//console.log(stockData);
 	switch(cur_exch){
 		case 'SV150':
 			var price = stockData.sv150_graph_data[0].sh_open;
@@ -369,15 +364,8 @@ function convert_num(change_num, changePercent_num){
 		$('.change').css({"color":"#ca1010"});
 		$('.change').html(change_num+'('+changePercent_num+'%)');
 	}
-	if (changePercent_num > 0){
-		$('.change').css({"color":"#44b224"});
-		$('.change').html(change_num+'('+changePercent_num+'%)');
-	}
-	else{
-		$('.change').css({"color":"#ca1010"});
-		$('.change').html(change_num+'('+changePercent_num+'%)');
-	}
 }//END OF FUNCTION
+
 function compUrlName(company) {
   if ( typeof company == "undefined" || company == null ) {
     return '';

@@ -10,46 +10,39 @@ var loc = '';
 var max = 10;
 var bord = false;
 $(function location(loc){
-  var temp = location.search;
-  var query = {};
+  // var temp = location.search;
+  // var query = {};
 
-  if(temp != null){
-    query = JSON.parse(decodeURIComponent(temp.substr(1)));
+  // if(temp != null){
+  //   query = JSON.parse(decodeURIComponent(temp.substr(1)));
 
     //set the query data from database to global variable to use
-    domain = query.dom;
+    // domain = query.dom;
+    domain = 'siliconvalley.com';//Will be always non-remnant but keeping code just in case
 
-    remnant = query.remn;
+    // remnant = query.remn;
+    //digital first widgets are not ever REMNANTS but just in case keep code there and set remnant to false
+    remnant = false;
 
-    clickyId = query.c_id;
+    // clickyId = query.c_id;
 
-    locName = query['loc']['loc_name'];
+    // locName = query['loc']['loc_name'];
+    // locName = locName.replace('+',' ');
 
-    locName = locName.replace('+',' ');
     //returns string true or false
-    bord = query.bord;
-		/*
-		//Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
-		//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
-		for(var i = 0; i < query['loc']['loc']['city'].length; i++){
-			var c = query['loc']['loc']['city'][i].city;
-			var s = query['loc']['loc']['city'][i].state;
-			loc = loc + c + "," + s;
-			if (typeof query['loc']['loc']['city'][i+1] != 'undefined'){
-				loc += '|';
-			}
-		}
-		*/
-  	}
-  	if(bord == 'true'){
-  		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
-  	}
+  //   bord = query.bord;
+  // }
 
-  	var script_tag = document.createElement('script');
-  	script_tag.setAttribute('src','//static.getclicky.com/js');
-  	document.head.appendChild(script_tag);
-  	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  	document.head.appendChild(clicks[0]);
+  	// if(bord == 'true'){
+  	// 	$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
+  	// }
+
+    //get click tag from query embed.
+  	// var script_tag = document.createElement('script');
+  	// script_tag.setAttribute('src','//static.getclicky.com/js');
+  	// document.head.appendChild(script_tag);
+  	// var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
+  	// document.head.appendChild(clicks[0]);
 
     var windowURL = document.referrer;
   	var URLLength = windowURL.length - 1;
@@ -78,8 +71,7 @@ $(function location(loc){
   			break;
   		}
   	}
-
-  $.get('http://apifin.synapsys.us/call_controller.php?action=widget&option=local_market_movers&param=807', function(data){
+  $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param=CA', function(data){
 		dataCall = data.local_market_movers;
 		list = dataCall.top_list_list[0].top_list_list;
 		var curItem = list[0];
@@ -93,39 +85,11 @@ $(function location(loc){
 });
 
 $(function so_leftdata(id){
-  var temp = location.search;
-  var query = {};
-
-  if(temp != null){
-    query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
-    //set the query data from database to global variable to use
-    domain = query.dom;
-
-    remnant = query.remn;
-
-    clickyId = query.c_id;
-
-    locName = query['loc']['loc_name'];
-
-    locName = locName.replace('+',' ');
-    //returns string true or false
-    bord = query.bord;
-  }
-  if(bord == 'true'){
-    $(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
-  }
-
-  var script_tag = document.createElement('script');
-  script_tag.setAttribute('src','//static.getclicky.com/js');
-  document.head.appendChild(script_tag);
-  var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  document.head.appendChild(clicks[0]);
-
   $.get('http://apifin.investkit.com/call_controller.php?action=search&option=widget_search&wild=1&param='+comp, function(result){
-    	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=stock_overview&param='+result.company_name.func_data.search_data[0].c_id, function(data){
+    	$.get('http://apifin.investkit.com:90/call_controller.php?action=widget&option=stock_overview&param='+result.company_name.func_data.search_data[0].c_id, function(data){
         dataCall = data.stock_overview;
-    		stockData= dataCall.stock_data[0];
+    		stockData= dataCall.stock_data;
+        dailyData = dataCall.daily_update;
     		exeData = dataCall.executive_data[0];
     		//var stockHist = stockData.stock_hist.slice(1, 365);
     		var price = '$'+Number(stockData.csi_price).toFixed(2);
@@ -146,12 +110,12 @@ $(function so_leftdata(id){
     		$('.tp_company-change').html(lossGainCheck(priceChange)+'('+lossGainCheck(pctChange)+'%)');
 
     		$('#marketcap').html(nFormatter(stockData.csi_market_cap));
-    		$('#peratio').html(nFormatter(stockData.csi_pe_ratio));
+    		$('#peratio').html(nFormatter(Number(stockData.csi_pe_ratio).toFixed(2)));
     		$('#totalshares').html(nFormatter(stockData.csi_total_shares));
     		$('#averagevolume').html(nFormatter(stockData.csi_trading_vol));
     		$('#52weeks').html(last_year+' - '+today);
-    		$('#open').html(nFormatter(stockData.csi_opening_price));
-    		graph_data(stockData.stock_hist, stockData.c_name);
+    		$('#open').html(nFormatter(Number(stockData.csi_opening_price).toFixed(2)));
+    		graph_data(dailyData, stockData.stock_hist, stockData.c_name);
 
     		$('#eimage1').css('background','url('+imageUrl(exeData[0].o_pic)+') no-repeat');
     		$('#eimage2').css('background','url('+imageUrl(exeData[1].o_pic)+') no-repeat');
@@ -178,15 +142,22 @@ $(function so_leftdata(id){
   }, 'json')
 });
 
-function graph_data(graph_data, name){
+function graph_data(daily, graph_data, name){
 		c_name = name;
-		newDataArray = [];
+    newDataArray = [];
+    newDataArray1 = [];
 		//JSON array is converted into usable code for Highcharts also does not push NULL values
-		$.each(graph_data, function(i, val) {
+    $.each(graph_data, function(i, val) {
 			var yVal = parseFloat(val.sh_close);
 			//makes sure any value passed is null
 			if (!isNaN(yVal)) {
 				newDataArray.push([val.sh_date * 1000, yVal]);
+			}
+		});$.each(daily, function(i, val) {
+			var yVal = parseFloat(val.sh_close);
+			//makes sure any value passed is null
+			if (!isNaN(yVal)) {
+				newDataArray1.push([val.sh_date * 1000, yVal]);
 			}
 		});
 
@@ -204,7 +175,13 @@ function graph_data(graph_data, name){
 			});
 			$(chart.rangeSelector.divRelative).hide();
 		};
-		newDataArray.reverse();
+    newDataArray.sort(function(a,b){
+      return parseFloat(a[0]) - parseFloat(b[0]);
+    });
+    newDataArray1.sort(function(a,b){
+      return parseFloat(a[0]) - parseFloat(b[0]);
+    });
+
 		//CALL HIGHCHARTS
 		callChart(newDataArray);
 
@@ -217,50 +194,72 @@ function graph_data(graph_data, name){
 		//each selection represents Unix time in years
 			switch($(this).data('dir')){
 				case '1D':
-					callChart(newDataArray);
-					selection = 86400 * 1000;
+					callChart(newDataArray1);
 					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+          var d = new Date(newDataArray1[0][0]);
+          var day = d.getUTCDate();
+          var month = d.getUTCMonth();
+          var year = d.getUTCFullYear();
+          min = Date.UTC(year, month, day, 14, 30, 0, 0);
+          //grabs the data max and min to start determining zoom feature
+      		max = min + (23400 * 1000);
 				break;
 				case '1W':
 					callChart(newDataArray);
 					selection = 604800 * 1000;
 					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+          //grabs the data max and min to start determining zoom feature
+      		max = chart.xAxis[0].max;
+      		min = max - selection;
 				break;
 				case '1M':
 					callChart(newDataArray);
 					selection = 2629743 * 1000;
 					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+          //grabs the data max and min to start determining zoom feature
+      		max = chart.xAxis[0].max;
+      		min = max - selection;
 				break;
 				case '3M':
 					callChart(newDataArray);
 					selection = 2629743 * 3 * 1000;
 					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+          //grabs the data max and min to start determining zoom feature
+      		max = chart.xAxis[0].max;
+      		min = max - selection;
 				break;
 				case '6M':
 					callChart(newDataArray);
 					selection = 2629743 * 6 * 1000;
 					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+          //grabs the data max and min to start determining zoom feature
+      		max = chart.xAxis[0].max;
+      		min = max - selection;
 				break;
 				case '1Y':
 					callChart(newDataArray);
 					selection = 31556926  * 1 * 1000;
 					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+          //grabs the data max and min to start determining zoom feature
+      		max = chart.xAxis[0].max;
+      		min = max - selection;
 				break;
 				case '2Y':
 					callChart(newDataArray);
 					selection = 31556926  * 2 * 1000;
 					$(this).css({"border-top":"3px solid #309fff", "background-color":"#fbfbfb"});
+          //grabs the data max and min to start determining zoom feature
+      		max = chart.xAxis[0].max;
+      		min = max - selection;
 				break;
 				default:
 					selection = 0;
 				break;
 			}
-		//grabs the data max and min to start determining zoom feature
-		max = chart.xAxis[0].max;
-		min = max - selection;
-		chart.xAxis[0].setExtremes(min, max);
-		//shows reset zoom
-		chart.showResetZoom();
+
+  		chart.xAxis[0].setExtremes(min, max);
+  		//shows reset zoom
+  		chart.showResetZoom();
 	});
 }
 
@@ -274,7 +273,12 @@ function callChart(array_data, max, min)
 			});
 			$(chart.rangeSelector.divRelative).hide();
 		};
-
+    //Offset highchart graphs by -5 hours (UTC to EST)
+   Highcharts.setOptions({
+     global: {
+       timezoneOffset: (5 * 60) + 15
+     }
+   });
 	chart = new Highcharts.StockChart({
 				rangeSelector : {
 					allButtonsEnabled: false,

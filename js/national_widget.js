@@ -193,8 +193,7 @@ $(function(){
 
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
-	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=national_market_movers', function(data){
-		//console.log(data);
+	$.get('http://apifin.investkit.com:90/call_controller.php?action=widget&option=national_market_movers', function(data){
 		dataCall = data.national_market_movers;
 		exList = dataCall.exchange_list;
 		curData = exList['.IXIC'].top_list_list;
@@ -243,24 +242,24 @@ function stock_data(cur_exch, stockData){
 	switch(cur_exch){
 		case 'NASDAQ':
 			var price = stockData.exchange_stock_data['.IXIC'].csi_price;
-			var priceChng = stockData.exchange_stock_data['.IXIC'].graph_data.price_change;
-			var pctChng = stockData.exchange_stock_data['.IXIC'].graph_data.percent_change;
+			var priceChng = stockData.exchange_stock_data['.IXIC'].csi_price_change_since_last;
+			var pctChng = stockData.exchange_stock_data['.IXIC'].csi_percent_change_since_last;
 			var operator = stockData.exchange_stock_data['.IXIC'].csi_price_last_operator;
 			$('.price').html(Number(price).toFixed(2));
 			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2),operator);
 			break;
 		case 'AMEX':
 			var price = stockData.exchange_stock_data['.XAX'].csi_price;
-			var priceChng = stockData.exchange_stock_data['.XAX'].graph_data.price_change;
-			var pctChng = stockData.exchange_stock_data['.XAX'].graph_data.percent_change;
+			var priceChng = stockData.exchange_stock_data['.XAX'].csi_price_change_since_last;
+			var pctChng = stockData.exchange_stock_data['.XAX'].csi_percent_change_since_last;
 			var operator = stockData.exchange_stock_data['.XAX'].csi_price_last_operator;
 			$('.price').html(Number(price).toFixed(2));
 			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2),operator);
 			break;
 		case 'NYSE':
 			var price = stockData.exchange_stock_data['.NYA'].csi_price;
-			var priceChng = stockData.exchange_stock_data['.NYA'].graph_data.price_change;
-			var pctChng = stockData.exchange_stock_data['.NYA'].graph_data.percent_change;
+			var priceChng = stockData.exchange_stock_data['.NYA'].csi_price_change_since_last;
+			var pctChng = stockData.exchange_stock_data['.NYA'].csi_percent_change_since_last;
 			var operator = stockData.exchange_stock_data['.NYA'].csi_price_last_operator;
 			$('.price').html(Number(price).toFixed(2));
 			convert_num(Number(priceChng).toFixed(2),Number(pctChng).toFixed(2),operator);
@@ -272,11 +271,10 @@ function stock_data(cur_exch, stockData){
 
 
 function stock_graph(dataArray, exchange){
-
 	newDataArray = [];
 
 	//JSON array is converted into usable code for Highcharts also does not push NULL values
-	$.each(dataArray.graph_data, function(i, val) {
+	$.each(dataArray, function(i, val) {
 		var yVal = parseFloat(val.sh_open);
 
 		if (!isNaN(yVal)) {
