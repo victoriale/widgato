@@ -144,7 +144,6 @@ $(function(){
 					break;
 				case 'AMEX':
 					CUR_OFFSET = 0;
-					console.log(dataCall);
 					curData = exList['.XAX'].top_list_list;
 					cur_exchange = 'AMEX';
 					$(this).css({"background-color":"#fff","border-bottom":"0"});
