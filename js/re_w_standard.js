@@ -104,7 +104,7 @@ function listCall(method, count){
   			$(".re_w_list-listbutton-link").attr('href',"//www.joyfulhome.com/list/"+r_link+"/"+state+"/"+city);
   			//go to location page for remnant site
   			$("#location_link").attr('href',"//www.joyfulhome.com/location/"+city + "_" +state +"");
-  			$(".re_w_list-listbutton-icon").css("background-image","url('public/myhousekit_house_clear.png')");
+  			$(".re_w_list-listbutton-icon").css("background-image","url('../css/public/myhousekit_house_clear.png')");
   			//displays information on the widget
   			$.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+city+','+state, function(r_data){
   				$(".re_w_list-content-textarea-t1").html(r_data[0]['total_count']);
@@ -126,7 +126,7 @@ function listCall(method, count){
       $(".re_w_list-listbutton-link").attr('href',"//www.joyfulhome.com/list/"+r_link+"/"+r_state+"/"+r_city);
       //go to location page for remnant site
       $("#location_link").attr('href',"//www.joyfulhome.com/location/"+r_city + "_" +r_state +"");
-      $(".re_w_list-listbutton-icon").css("background-image","url('public/myhousekit_house_clear.png')");
+      $(".re_w_list-listbutton-icon").css("background-image","url('../css/public/myhousekit_house_clear.png')");
       //displays information on the widget
       $.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+r_city+','+r_state, function(r_data){
         $(".re_w_list-content-textarea-t1").html(r_data[0]['total_count']);
@@ -159,7 +159,7 @@ function listCall(method, count){
 				//some reason had to run below again
 				locName = locName.replace('+',' ');
 				$(".re_w_list-location-text").html(locName);
-				$(".re_w_list-listbutton-icon").css("background-image","url('public/myhousekit_house_clear.png')");
+				$(".re_w_list-listbutton-icon").css("background-image","url('../css/public/myhousekit_house_clear.png')");
 				$(".re_w_list-listbutton-link").attr('href',"//www.myhousekit.com/"+p_domain+"view_list/"+link);
 				//go to location page go to myhousekit for partner non remnant
 				$("#location_link").attr('href',"//www.myhousekit.com/"+p_domain+"loc/");
@@ -196,25 +196,25 @@ function resizetext(){
 //random images to display list of lists
 function randomimage(){
   var image_array = new Array();
-  image_array['0'] = 'public/re_w_list_stock/Mosaic_Grid.png';
-  image_array['1'] = 'public/re_w_list_stock/Mosaic_Grid2.png';
-  image_array['2'] = 'public/re_w_list_stock/Mosaic_Grid3.png';
-  image_array['3'] = 'public/re_w_list_stock/Mosaic_Grid4.png';
-  image_array['4'] = 'public/re_w_list_stock/Mosaic_Grid5.png';
-  image_array['5'] = 'public/re_w_list_stock/Mosaic_Grid6.png';
-  image_array['6'] = 'public/re_w_list_stock/Mosaic_Grid7.png';
-  image_array['7'] = 'public/re_w_list_stock/Mosaic_Grid8.png';
-  image_array['8'] = 'public/re_w_list_stock/Mosaic_Grid9.png';
-  image_array['9'] = 'public/re_w_list_stock/Mosaic_Grid10.png';
+  image_array['0'] = '../css/public/re_w_list_stock/Mosaic_Grid.png';
+  image_array['1'] = '../css/public/re_w_list_stock/Mosaic_Grid2.png';
+  image_array['2'] = '../css/public/re_w_list_stock/Mosaic_Grid3.png';
+  image_array['3'] = '../css/public/re_w_list_stock/Mosaic_Grid4.png';
+  image_array['4'] = '../css/public/re_w_list_stock/Mosaic_Grid5.png';
+  image_array['5'] = '../css/public/re_w_list_stock/Mosaic_Grid6.png';
+  image_array['6'] = '../css/public/re_w_list_stock/Mosaic_Grid7.png';
+  image_array['7'] = '../css/public/re_w_list_stock/Mosaic_Grid8.png';
+  image_array['8'] = '../css/public/re_w_list_stock/Mosaic_Grid9.png';
+  image_array['9'] = '../css/public/re_w_list_stock/Mosaic_Grid10.png';
   return image_array;
 }
 
 //return ads PROB DONT NEED THIS BUT KEEPING HERE JUST IN CASE
 function ad(){
   var ad_array = new Array();
-  ad_array['0'] = 'public/re_w_list_stock/AudiAd.png';
-  ad_array['1'] = 'public/re_w_list_stock/AudiAd#2.png';
-  ad_array['2'] = 'public/re_w_list_stock/RolexAd.png';
+  ad_array['0'] = '../css/public/re_w_list_stock/AudiAd.png';
+  ad_array['1'] = '../css/public/re_w_list_stock/AudiAd#2.png';
+  ad_array['2'] = '../css/public/re_w_list_stock/RolexAd.png';
   return ad_array;
 }
 
