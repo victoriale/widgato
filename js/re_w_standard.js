@@ -104,7 +104,7 @@ function listCall(method, count){
   			$(".re_w_list-listbutton-link").attr('href',"//www.joyfulhome.com/list/"+r_link+"/"+state+"/"+city);
   			//go to location page for remnant site
   			$("#location_link").attr('href',"//www.joyfulhome.com/location/"+city + "_" +state +"");
-  			$(".re_w_list-listbutton-icon").css("background-image","url('//www.myhousekit.com/public/myhousekit_house_clear.png')");
+  			$(".re_w_list-listbutton-icon").css("background-image","url('../css/public/myhousekit_house_clear.png')");
   			//displays information on the widget
   			$.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+city+','+state, function(r_data){
   				$(".re_w_list-content-textarea-t1").html(r_data[0]['total_count']);
@@ -126,7 +126,7 @@ function listCall(method, count){
       $(".re_w_list-listbutton-link").attr('href',"//www.joyfulhome.com/list/"+r_link+"/"+r_state+"/"+r_city);
       //go to location page for remnant site
       $("#location_link").attr('href',"//www.joyfulhome.com/location/"+r_city + "_" +r_state +"");
-      $(".re_w_list-listbutton-icon").css("background-image","url('//www.myhousekit.com/public/myhousekit_house_clear.png')");
+      $(".re_w_list-listbutton-icon").css("background-image","url('../css/public/myhousekit_house_clear.png')");
       //displays information on the widget
       $.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+r_city+','+r_state, function(r_data){
         $(".re_w_list-content-textarea-t1").html(r_data[0]['total_count']);
@@ -159,7 +159,7 @@ function listCall(method, count){
 				//some reason had to run below again
 				locName = locName.replace('+',' ');
 				$(".re_w_list-location-text").html(locName);
-				$(".re_w_list-listbutton-icon").css("background-image","url('//cdn.joyfulhome.com/joyfulhome_house_clear.png')");
+				$(".re_w_list-listbutton-icon").css("background-image","url('../css/public/myhousekit_house_clear.png')");
 				$(".re_w_list-listbutton-link").attr('href',"//www.myhousekit.com/"+p_domain+"view_list/"+link);
 				//go to location page go to myhousekit for partner non remnant
 				$("#location_link").attr('href',"//www.myhousekit.com/"+p_domain+"loc/");
