@@ -60,7 +60,7 @@ $(function () {
 	document.head.appendChild(clicks[0]);
 
   //make an inital api call to get lists of all the list for real estate
-  $.get("http://apireal.synapsys.us/listhuv/?action=list_of_lists", function(lists){
+  $.get("//apireal.synapsys.us/listhuv/?action=list_of_lists", function(lists){
     offset = Math.floor((Math.random() * 9) + 1);
     var method = lists['available_lists'];;
 	  var name = method[offset]['name'];
@@ -88,7 +88,7 @@ function listCall(method, count){
     //even if remnant possibility of no city or state detected and will run get remote address.
     //should only happen if new partners and no city and/or state has been entered into collection
     if(remnant && (city == '' || city == null || state == '' || state == null)){
-  		$.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+  		$.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
         //will change the title text and resize using resizetext() function
         var name = method[offset]['name'];
 				$("#title_text").html(name);
@@ -101,12 +101,12 @@ function listCall(method, count){
   			var r_link = method[offset]['method'];
         r_locName = r_locName.replace('+',' ');
   			$(".re_w_list-location-text").html(r_locName);
-  			$(".re_w_list-listbutton-link").attr('href',"http://www.joyfulhome.com/list/"+r_link+"/"+state+"/"+city);
+  			$(".re_w_list-listbutton-link").attr('href',"//www.joyfulhome.com/list/"+r_link+"/"+state+"/"+city);
   			//go to location page for remnant site
-  			$("#location_link").attr('href',"http://www.joyfulhome.com/location/"+city + "_" +state +"");
-  			$(".re_w_list-listbutton-icon").css("background-image","url('http://www.myhousekit.com/public/myhousekit_house_clear.png')");
+  			$("#location_link").attr('href',"//www.joyfulhome.com/location/"+city + "_" +state +"");
+  			$(".re_w_list-listbutton-icon").css("background-image","url('//www.myhousekit.com/public/myhousekit_house_clear.png')");
   			//displays information on the widget
-  			$.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+city+','+state, function(r_data){
+  			$.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+city+','+state, function(r_data){
   				$(".re_w_list-content-textarea-t1").html(r_data[0]['total_count']);
   			});
   		});
@@ -123,17 +123,17 @@ function listCall(method, count){
       var r_link = method[offset]['method'];
       r_locName = r_locName.replace('+',' ');
       $(".re_w_list-location-text").html(r_locName);
-      $(".re_w_list-listbutton-link").attr('href',"http://www.joyfulhome.com/list/"+r_link+"/"+r_state+"/"+r_city);
+      $(".re_w_list-listbutton-link").attr('href',"//www.joyfulhome.com/list/"+r_link+"/"+r_state+"/"+r_city);
       //go to location page for remnant site
-      $("#location_link").attr('href',"http://www.joyfulhome.com/location/"+r_city + "_" +r_state +"");
-      $(".re_w_list-listbutton-icon").css("background-image","url('http://www.myhousekit.com/public/myhousekit_house_clear.png')");
+      $("#location_link").attr('href',"//www.joyfulhome.com/location/"+r_city + "_" +r_state +"");
+      $(".re_w_list-listbutton-icon").css("background-image","url('//www.myhousekit.com/public/myhousekit_house_clear.png')");
       //displays information on the widget
-      $.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+r_city+','+r_state, function(r_data){
+      $.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+r_city+','+r_state, function(r_data){
         $(".re_w_list-content-textarea-t1").html(r_data[0]['total_count']);
       });
     }//end if
 	} else{
-		$.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&partner_domain="+ domain, function(data){
+		$.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&partner_domain="+ domain, function(data){
 		//checks if the list exist or has reach its max and restarts the list at 0
 		if(typeof data[0] == 'undefined'){
 			offset++;
@@ -159,10 +159,10 @@ function listCall(method, count){
 				//some reason had to run below again
 				locName = locName.replace('+',' ');
 				$(".re_w_list-location-text").html(locName);
-				$(".re_w_list-listbutton-icon").css("background-image","url('http://cdn.joyfulhome.com/joyfulhome_house_clear.png')");
-				$(".re_w_list-listbutton-link").attr('href',"http://www.myhousekit.com/"+p_domain+"view_list/"+link);
+				$(".re_w_list-listbutton-icon").css("background-image","url('//cdn.joyfulhome.com/joyfulhome_house_clear.png')");
+				$(".re_w_list-listbutton-link").attr('href',"//www.myhousekit.com/"+p_domain+"view_list/"+link);
 				//go to location page go to myhousekit for partner non remnant
-				$("#location_link").attr('href',"http://www.myhousekit.com/"+p_domain+"loc/");
+				$("#location_link").attr('href',"//www.myhousekit.com/"+p_domain+"loc/");
 		}
 	});
 	}

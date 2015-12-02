@@ -1,6 +1,6 @@
 var offset=0;
 $(function () {
-  $.get("http://apireal.synapsys.us/listhuv/?action=list_of_lists", function(lists){
+  $.get("//apireal.synapsys.us/listhuv/?action=list_of_lists", function(lists){
 
     var offset = Math.floor((Math.random() * 9) + 1);
     //var method = lists['available_lists'][offset]['method'];
@@ -13,7 +13,7 @@ $(function () {
 });
 
 function listCall(method, offset){
-  $.get("http://apireal.synapsys.us/listhuv/?action="+method+"&populationOver=25000&dir=-1", function(data){
+  $.get("//apireal.synapsys.us/listhuv/?action="+method+"&populationOver=25000&dir=-1", function(data){
 
     var random = randomimage();
 
