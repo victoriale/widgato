@@ -66,28 +66,27 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://apirt.synapsys.us/index.php?widget=weathers&wid=10&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://apirt.synapsys.us/index.php?widget=demographics&wid=4&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
-      var popData = curData[0].population;
       dataLength = curData.length;
-      var title = "lowest-avg-thunder-by-city";
-      $('.fcw-t1').html('Cities with the Lowest Average Number of Thunderstorms Annually')
-      $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
+      var title = "highest-home-value";
+      $('.fcw-t1').html('Best Home Value in the U.S.');
+      $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].WeatherAvgThunder)+' Thunderstorms');
-      $('.fcw-content2').html('Pop. of ' + popData.population);
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
+      $('.fcw-content1').html('$' + dNumberToCommaNumber(curData[0].DemoHomeValue));
+      $('.fcw-content2').html('Median Home Value');
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");
-        $('#loc').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
-        $('#imgUrl').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
+        $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/"+curData[0].DemoCity+"/weather");
+        $('#loc').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
+        $('#imgUrl').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/weather/"+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity);
-        $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
-        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
+        $('.fcw-href').attr('href',link_partner+domain+"/weather/"+title+"/"+curData[0].DemoState+"/"+curData[0].DemoCity);
+        $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
+        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
       }
 
     }, 'json')

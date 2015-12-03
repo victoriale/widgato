@@ -66,27 +66,27 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://apirt.synapsys.us/index.php?widget=crime&wid=2&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://apirt.synapsys.us/index.php?widget=demographics&wid=1&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       dataLength = curData.length;
-      var title = "highest-avg-temp-by-city";
-      $('.fcw-t1').html('Cities with the Highest Average Temperature Annually')
-      $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
+      var title = "cheapest-rent";
+      $('.fcw-t1').html('Cities with the Cheapest Rent')
+      $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].CrimeMotorVehicleTheftNumber)+' Inches');
-      $('.fcw-content2').html('Annual Temperature');
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
+      $('.fcw-content1').html('$' + dNumberToCommaNumber(curData[0].DemoAvgRent));
+      $('.fcw-content2').html('Per Month');
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/weather");
-        $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
-        $('#imgUrl').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
+        $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/"+curData[0].DemoCity+"/weather");
+        $('#loc').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
+        $('#imgUrl').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/weather/"+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity);
-        $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
-        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
+        $('.fcw-href').attr('href',link_partner+domain+"/weather/"+title+"/"+curData[0].DemoState+"/"+curData[0].DemoCity);
+        $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
+        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
       }
 
     }, 'json')

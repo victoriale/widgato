@@ -66,27 +66,28 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://apirt.synapsys.us/index.php?widget=crime&wid=2&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://apirt.synapsys.us/index.php?widget=weathers&wid=4&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
+      var popData = curData[0].population;
       dataLength = curData.length;
       var title = "highest-clear-day-by-city";
       $('.fcw-t1').html('Cities with the Highest Average Clear Days Annually')
-      $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
+      $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].CrimeMotorVehicleTheftNumber)+' Days');
-      $('.fcw-content2').html('Pop. ');
+      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].WeatherClearDays)+' Days');
+      $('.fcw-content2').html('Pop. of ' + popData.population);
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/weather");
-        $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
-        $('#imgUrl').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
+        $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");
+        $('#loc').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
+        $('#imgUrl').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/weather/"+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity);
-        $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
-        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
+        $('.fcw-href').attr('href',link_partner+domain+"/weather/"+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity);
+        $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
+        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
       }
 
     }, 'json')

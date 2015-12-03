@@ -66,13 +66,13 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://apirt.synapsys.us/index.php?widget=crime&wid=2&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://apirt.synapsys.us/index.php?widget=crime&wid=6&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       dataLength = curData.length;
       var title = "least-vehicle-theft-by-city";
-      $('.fcw-t1').html('Cities in '+fullstate(curData[0].CrimeState)+' with the Most Car Thefts in '+ curData[0].CrimeYear)
+      $('.fcw-t1').html('Cities in '+fullstate(curData[0].CrimeState)+' with the Least Car Thefts in '+ curData[0].CrimeYear)
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(dNumberToCommaNumber(curData[0].CrimeMotorVehicleTheftNumber)+' Car Thefts');
@@ -99,7 +99,7 @@ $(function(){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
       return '../css/public/no_image.jpg';
     }
-    return 'http://images.investkit.com/images/' + path;
+    return path;
   }
   function fullstate(state){
     var stateName = {

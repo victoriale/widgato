@@ -53,7 +53,7 @@ $(function(){
   	}
 
   	var script_tag = document.createElement('script');
-  	script_tag.setAttribute('src','//static.getclicky.com/js');
+  	script_tag.setAttribute('src','http://static.getclicky.com/js');
   	document.head.appendChild(script_tag);
   	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
   	document.head.appendChild(clicks[0]);
@@ -73,7 +73,7 @@ $(function(){
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
-        $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
           dataCall(offset);
@@ -96,7 +96,7 @@ $(function(){
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(dNumberToCommaNumber(curData[0].CrimeViolentNumber) + ' Violent Crimes');
       $('.fcw-content2').html('in ' + curData[0].CrimeYear);
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");
@@ -117,7 +117,7 @@ $(function(){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
       return '../css/public/no_image.jpg';
     }
-    return 'http://images.investkit.com/images/' + path;
+    return  path;
   }
   function fullstate(state){
     var stateName = {
