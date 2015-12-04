@@ -77,7 +77,7 @@ $(function(){
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(dNumberToCommaNumber(curData[0].WeatherAvgTemp)+' Degree');
       $('.fcw-content2').html('Annual Temperature');
-      $('.fcw-image').css('background', 'url('+curData[0].image+') no-repeat');
+      $('.fcw-image').css('background', 'url('+curData[0].imgUrl+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");

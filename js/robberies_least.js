@@ -55,7 +55,7 @@ $(function(){
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
-        $.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
           dataCall(offset);
@@ -67,11 +67,10 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-  	$.get('http://devapirt.synapsys.us/index.php?widget=crime&wid=7&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=crime&wid=7&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
-      console.log(curData);
       dataLength = curData.length;
       var title = "least-robberies-by-city";
       $('.fcw-t1').html('Cities in' + fullstate(curData[0].CrimeState) + ' with the Least Reported Robberies');

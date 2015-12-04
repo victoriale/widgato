@@ -53,7 +53,7 @@ $(function(){
   	}
 
   	var script_tag = document.createElement('script');
-  	script_tag.setAttribute('src','http://static.getclicky.com/js');
+  	script_tag.setAttribute('src','//static.getclicky.com/js');
   	document.head.appendChild(script_tag);
   	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
   	document.head.appendChild(clicks[0]);
@@ -73,7 +73,7 @@ $(function(){
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
-        $.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
           dataCall(offset);
@@ -85,7 +85,7 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-    $.get('http://devapirt.synapsys.us/index.php?widget=crime&wid=5&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+    $.get('//devapirt.synapsys.us/index.php?widget=crime&wid=5&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -94,7 +94,7 @@ $(function(){
       $('.fcw-t1').html(fullstate(curData[0].CrimeState)+' Cities with the Least Violent Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].CrimeViolentNumber) + ' Violent Crimes');
+      $('.fcw-content1').html((curData[0].CrimeViolentNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Violent Crimes');
       $('.fcw-content2').html('in ' + curData[0].CrimeYear);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
@@ -109,10 +109,7 @@ $(function(){
       }
     }, 'json')
   }
-  //number converter to decimal with correct format
-  function dNumberToCommaNumber(Number) {
-    return Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+
   function imageUrl(path){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
       return '../css/public/no_image.jpg';

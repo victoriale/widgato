@@ -66,7 +66,7 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://devapirt.synapsys.us/index.php?widget=weathers&wid=1&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://devapirt.synapsys.us/index.php?widget=weathers&wid=1&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -77,7 +77,7 @@ $(function(){
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(curData[0].WeatherPercipication +' Inches');
       $('.fcw-content2').html('Annual Percipitation');
-      $('.fcw-image').css('background', 'url('+curData[0].image+') no-repeat');
+      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");
