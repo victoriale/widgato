@@ -52,7 +52,6 @@ $(function () {
   if(bord == 'true'){
     $(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   }
-
 	var script_tag = document.createElement('script');
 	script_tag.setAttribute('src','//static.getclicky.com/js');
 	document.head.appendChild(script_tag);
@@ -133,6 +132,42 @@ function listCall(method, count){
       });
     }//end if
 	} else{
+    if(city == '' || city == null || state == '' || state == null){
+      $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&city="+ r_data[0].city+"&state="+r_data[0].state, function(data){
+    		//checks if the list exist or has reach its max and restarts the list at 0
+    		if(typeof data[0] == 'undefined'){
+    			offset++;
+    			if(offset >= max){
+    				offset = 0;
+    				listCall(method, offset);
+    			}else{
+    				listCall(method, offset);
+    			}
+    		}else{
+            //will change the title text and resize using resizetext() function
+            var name = method[offset]['name'];
+            $("#title_text").html(name);
+            resizetext();
+            var p_domain = domain+"/";
+
+    				var link = method[offset]['method'];
+    				//displays information on the widget
+    				$(".re_w_list-content-textarea-t1").html(data[0]['total_count']);
+    				var random = randomimage();
+    				$(".re_w_list-content-image").css("background-image","url('"+random[offset]+"')");
+    				//replace widget location name with name given name from database
+    				//some reason had to run below again
+    				locName = r_data[0].city+", "+r_data[0].state;
+    				$(".re_w_list-location-text").html(locName);
+    				$(".re_w_list-listbutton-icon").css("background-image","url('../css/public/myhousekit_house_clear.png')");
+    				$(".re_w_list-listbutton-link").attr('href',"//www.myhousekit.com/"+p_domain+"view_list/"+link);
+    				//go to location page go to myhousekit for partner non remnant
+    				$("#location_link").attr('href',"//www.myhousekit.com/"+p_domain+"loc/"+r_data[0].state+"/"+r_data[0].city);
+      		}
+      	});
+      })
+    }else{
 		$.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&partner_domain="+ domain, function(data){
 		//checks if the list exist or has reach its max and restarts the list at 0
 		if(typeof data[0] == 'undefined'){
@@ -163,9 +198,10 @@ function listCall(method, count){
 				$(".re_w_list-listbutton-link").attr('href',"//www.myhousekit.com/"+p_domain+"view_list/"+link);
 				//go to location page go to myhousekit for partner non remnant
 				$("#location_link").attr('href',"//www.myhousekit.com/"+p_domain+"loc/");
-		}
-	});
-	}
+  		}
+  	});
+  }
+ }
 }
 
 //add commas to numbers to look readable PROB DONT NEED THIS BUT KEEPING HERE JUST IN CASE
