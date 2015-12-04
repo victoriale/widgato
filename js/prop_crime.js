@@ -85,7 +85,7 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-    $.get('http://apirt.synapsys.us/index.php?widget=crime&wid=4&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+    $.get('http://devapirt.synapsys.us/index.php?widget=crime&wid=4&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;

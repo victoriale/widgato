@@ -85,13 +85,13 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-    $.get('http://apirt.synapsys.us/index.php?widget=crime&wid=1&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+    $.get('http://devapirt.synapsys.us/index.php?widget=crime&wid=1&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var dataLength = curData.length;
       var title = "most-violent-crime-by-city";
-      $('.fcw-t1').html(fullstate(curData[0].CrimeState)+' Cities with the Most Amount Violent Crimes');
+      $('.fcw-t1').html(fullstate(curData[0].CrimeState)+' Cities with the Most Violent Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(dNumberToCommaNumber(curData[0].CrimeViolentNumber) + ' Violent Crimes');
