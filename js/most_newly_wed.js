@@ -66,7 +66,7 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://apirt.synapsys.us/index.php?widget=demographics&wid=8&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://devapirt.synapsys.us/index.php?widget=demographics&wid=8&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -75,7 +75,7 @@ $(function(){
       $('.fcw-t1').html('Cities with the Most Weddings');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].DemoHomeValue) + 'Weddings');
+      $('.fcw-content1').html((curData[0].DemoNewlyWed) + 'Weddings');
       $('.fcw-content2').html('Each Year');
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 

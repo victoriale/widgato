@@ -287,7 +287,7 @@ button:focus {
   font-size: 14px;
   text-transform: uppercase;
   display:inline-block;
-  max-width: 120px;
+  max-width: 115px;
   overflow: hidden;
   text-overflow: ellipsis;
   height: 20px;

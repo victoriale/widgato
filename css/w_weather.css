@@ -98,13 +98,14 @@ button:focus {
   font-family: HN-B;
   height: 65px;
   padding-top: 2px;
-  padding-left: 43px;
+  /*padding-left: 43px;*/
   position: relative;
   overflow: hidden;
 }
 
 .fcw-t1{
   position: absolute;
+  padding-left: 43px;
   top: 0;
   margin-top: 2px;
   font-family: HN-B;
@@ -113,17 +114,17 @@ button:focus {
   line-height: 1.2em;
   height: 40px;
   overflow: hidden;
-  width: 250px;
+  width: 295px;
 }
 .fcw-t2{
   position: absolute;
+  width:100%;
   bottom: 0px;
   margin-bottom: 2px;
   font-size: 14px;
   text-align: center;
-  width: 205px;
   overflow: hidden;
-  max-height: 20px;
+  max-height: 18px;
 }
 .fcw-t2-local{
   position: absolute;

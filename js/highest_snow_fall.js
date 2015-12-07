@@ -66,7 +66,7 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://apirt.synapsys.us/index.php?widget=weathers&wid=6&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://devapirt.synapsys.us/index.php?widget=weathers&wid=6&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -75,7 +75,7 @@ $(function(){
       $('.fcw-t1').html('Cities with the Highest Average Snow Fall Annually')
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].WeatherAvgSnowfall)+' Inches');
+      $('.fcw-content1').html(curData[0].WeatherAvgSnowFall + ' Inches');
       $('.fcw-content2').html('Annual Snow Fall');
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
@@ -91,10 +91,7 @@ $(function(){
 
     }, 'json')
   }
-  //number converter to decimal with correct format
-  function dNumberToCommaNumber(Number) {
-    return Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+
   function imageUrl(path){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
       return '../css/public/no_image.jpg';

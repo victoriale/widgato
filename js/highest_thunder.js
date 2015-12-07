@@ -34,7 +34,7 @@ $(function(){
   	}
 
   	var script_tag = document.createElement('script');
-  	script_tag.setAttribute('src','http://static.getclicky.com/js');
+  	script_tag.setAttribute('src','//static.getclicky.com/js');
   	document.head.appendChild(script_tag);
   	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
   	document.head.appendChild(clicks[0]);
@@ -55,7 +55,7 @@ $(function(){
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
-        $.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
           dataCall(offset);
@@ -66,18 +66,19 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://apirt.synapsys.us/index.php?widget=weathers&wid=3&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://devapirt.synapsys.us/index.php?widget=weathers&wid=3&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var popData = curData[0].population;
       dataLength = curData.length;
-      var title = "highest-avg-thunder-by-city";
+      var title = "highest-avg-thunder-by-c ity";
       $('.fcw-t1').html('Cities with the Highest Average Number of Thunderstorms Annually')
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].WeatherAvgThunder)+' Thunderstorms');
-      $('.fcw-content2').html('Pop. of ' + popData.population);
+      $('.fcw-content1').html(curData[0].WeatherAvgThunder + ' Thunderstorms');
+      var population = Number(popData.population).toFixed(0);
+      $('.fcw-content2').html('Pop. of ' + population.replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
@@ -92,10 +93,7 @@ $(function(){
 
     }, 'json')
   }
-  //number converter to decimal with correct format
-  function dNumberToCommaNumber(Number) {
-    return Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+
   function imageUrl(path){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
       return '../css/public/no_image.jpg';

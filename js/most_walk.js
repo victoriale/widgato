@@ -66,7 +66,7 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://apirt.synapsys.us/index.php?widget=demographics&wid=10&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://devapirt.synapsys.us/index.ph?widget=demographics&wid=10&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -76,7 +76,7 @@ $(function(){
       $('.fcw-t1').html('Cities with Most Residents that Walk to Work');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].DemoWalkToWork) + '% of Residents');
+      $('.fcw-content1').html((curData[0].DemoWalkToWork).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '% of Residents');
       $('.fcw-content2').html('Walk to Work');
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
@@ -92,10 +92,7 @@ $(function(){
 
     }, 'json')
   }
-  //number converter to decimal with correct format
-  function dNumberToCommaNumber(Number) {
-    return Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  }
+
   function imageUrl(path){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
       return '../css/public/no_image.jpg';
