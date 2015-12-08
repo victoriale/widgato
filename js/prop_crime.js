@@ -94,7 +94,7 @@ $(function(){
       $('.fcw-t1').html(fullstate(curData[0].CrimeState) + ' Cities with the Most Property Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html((curData[0].CrimePropertyCrimeNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' out of ' + dNumberToCommaNumber(Number(curData[0].population.population).toFixed(0)));
+      $('.fcw-content1').html((curData[0].CrimePropertyCrimeNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' out of ' + Number(curData[0].population.population).toFixed(0));
       $('.fcw-content2').html('in ' + curData[0].CrimeYear);
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 

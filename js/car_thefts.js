@@ -34,7 +34,7 @@ $(function(){
   	}
 
   	var script_tag = document.createElement('script');
-  	script_tag.setAttribute('src','http://static.getclicky.com/js');
+  	script_tag.setAttribute('src','//static.getclicky.com/js');
   	document.head.appendChild(script_tag);
   	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
   	document.head.appendChild(clicks[0]);
@@ -55,7 +55,7 @@ $(function(){
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
-        $.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
           dataCall(offset);
@@ -66,7 +66,7 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://devapirt.synapsys.us/index.php?widget=crime&wid=2&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=crime&wid=2&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
