@@ -66,17 +66,17 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://devapirt.synapsys.us/index.php?widget=weathers&wid=2&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=2', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=2&city='+city+'&state='+state+'&skip='+index+'&limit=2', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       dataLength = curData.length;
       var title = "highest-avg-temp-by-city";
-      $('.fcw-t1').html('Cities with the Highest Average Temperature Annually')
+      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Highest Temperature')
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(curData[0].WeatherAvgTemp+' Degree');
-      $('.fcw-content2').html('Annual Temperature');
+      $('.fcw-content1').html(curData[0].WeatherAvgTemp+' Fahrenheit');
+      $('.fcw-content2').html('Average Temperature');
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){

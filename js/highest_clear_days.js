@@ -33,11 +33,11 @@ $(function(){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   	}
 
-  	var script_tag = document.createElement('script');
-  	script_tag.setAttribute('src','//static.getclicky.com/js');
-  	document.head.appendChild(script_tag);
-  	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  	document.head.appendChild(clicks[0]);
+  	// var script_tag = document.createElement('script');
+  	// script_tag.setAttribute('src','//static.getclicky.com/js');
+  	// document.head.appendChild(script_tag);
+  	// var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
+  	// document.head.appendChild(clicks[0]);
     $('.fcw-rightnav').on('click', function() {
         if ($(this).data('dir') === 'next') {
             dataCall(++offset);
@@ -66,19 +66,19 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=4&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=2', function(data){
+  	$.get('http://devapirt.synapsys.us/index.php?widget=weathers&wid=4&city='+city+'&state='+state+'&skip='+index+'&limit=2', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "highest-clear-day-by-city";
-      $('.fcw-t1').html('Cities with the Highest Average Clear Days Annually')
+      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Highest Clear Days Annually')
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(curData[0].WeatherClearDay+' Days');
       var population = Number(popData.population).toFixed(0);
-      $('.fcw-content2').html('Pop. of ' + population.replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
+      $('.fcw-content2').html('Pop. of ' + population.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");

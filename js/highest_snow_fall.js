@@ -32,7 +32,7 @@ $(function(){
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   	}
-
+    
   	var script_tag = document.createElement('script');
   	script_tag.setAttribute('src','//static.getclicky.com/js');
   	document.head.appendChild(script_tag);
@@ -66,14 +66,14 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://devapirt.synapsys.us/index.php?widget=weathers&wid=6&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       dataLength = curData.length;
       var title = "highest-snow-fall-by-city";
-      $('.fcw-t1').html('Cities with the Highest Average Snow Fall Annually')
-      $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
+      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Highest Snow Fall Annually')
+      $('.fcw-t2-loc').html(curData[0].WeatherCity + ', ' + curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(curData[0].WeatherAvgSnowFall + ' Inches');
       $('.fcw-content2').html('Annual Snow Fall');
@@ -88,7 +88,6 @@ $(function(){
         $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
         $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
       }
-
     }, 'json')
   }
 

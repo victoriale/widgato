@@ -66,19 +66,18 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://devapirt.synapsys.us/index.php?widget=weathers&wid=7&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=7&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "highest-wind-spd-by-city";
-      $('.fcw-t1').html('Cities with the Highest Average Wind Speed Annually')
-      $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
+      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Highest Average Wind Speed')
+      $('.fcw-t2-loc').html(curData[0].WeatherCity + ', ' + curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(curData[0].WeatherWindSpeed+' Miles Per Hour');
-      var population = Number(popData.population).toFixed(0);
-      $('.fcw-content2').html('Pop. of ' + population.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $('.fcw-content1').html(curData[0].WeatherWindSpeed + ' Miles Per Hour');
+      $('.fcw-content2').html('Pop. of ' + (Number(popData.population).toFixed(0)).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
