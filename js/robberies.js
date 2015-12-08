@@ -74,7 +74,7 @@ $(function(){
       dataLength = curData.length;
       var title = "most-robberies-by-city";
       $('.fcw-t1').html('Cities in' + fullstate(curData[0].CrimeState) + ' with the Most Property Crimes');
-      $('.fcw-t2-loc').html(curData[0].CrimeCity+' ,'+curData[0].CrimeState);
+      $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html((curData[0].CrimeLarcenyNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +' Robberies');
       $('.fcw-content2').html('in ' + curData[0].CrimeYear);
