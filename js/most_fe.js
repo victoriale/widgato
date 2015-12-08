@@ -66,19 +66,18 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://devapirt.synapsys.us/index.php?widget=demographics&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=demographics&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "most-female";
-      $('.fcw-t1').html('Cities With the Most Females');
+      $('.fcw-t1').html('Cities in '+ fullstate(curData[0].DemoState) +' With the Most Females');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(curData[0].DemoPctFemale + '% of Residents');
-      var population = Number(popData.population).toFixed(0);
-      $('.fcw-content2').html('Pop. of ' + population.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $('.fcw-content2').html('Are Females');
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){

@@ -55,7 +55,7 @@ $(function(){
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
-        $.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
           dataCall(offset);
@@ -66,21 +66,20 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://devapirt.synapsys.us/index.php?widget=demographics&wid=12&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=demographics&wid=12&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "start-family";
-      $('.fcw-t1').html('Top Cities to Start a Family');
-      $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
+      $('.fcw-t1').html('Top Cities in ' + fullstate(curData[0].DemoState) + ' to Start a Family');
+      $('.fcw-t2-loc').html(curData[0].DemoCity + ', ' + curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
-      var value = (curData[0].DemoStartFamily).toFixed(0);
-      $('.fcw-content1').html((value.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Residents');
+      var startFam = Number(curData[0].DemoStartFamily).toFixed(0);
+      $('.fcw-content1').html(startFam.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Residents');
       $('.fcw-content2').html('Children Under 5');
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
-
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/"+curData[0].DemoCity+"/weather");
         $('#loc').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
