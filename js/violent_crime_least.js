@@ -94,7 +94,11 @@ $(function(){
       $('.fcw-t1').html(fullstate(curData[0].CrimeState)+' Cities with the Least Violent Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html((curData[0].CrimeViolentNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Violent Crimes');
+      if(curData[0].CrimeViolentNumber <= 1){
+        $('.fcw-content1').html((curData[0].CrimeViolentNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Violent Crime');
+      } else {
+        $('.fcw-content1').html((curData[0].CrimeViolentNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Violent Crimes');
+      }
       $('.fcw-content2').html('in ' + curData[0].CrimeYear);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 

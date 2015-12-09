@@ -73,10 +73,14 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "least-robberies-by-city";
-      $('.fcw-t1').html('Cities in' + fullstate(curData[0].CrimeState) + ' with the Least Reported Robberies');
+      $('.fcw-t1').html('Cities in ' + fullstate(curData[0].CrimeState) + ' with the Least Robberies');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(curData[0].CrimeLarcenyNumber +' Robberies');
+      if(curData[0].CrimeLarcenyNumber <= 1){
+        $('.fcw-content1').html(curData[0].CrimeLarcenyNumber +' Robbery');
+      } else {
+        $('.fcw-content1').html(curData[0].CrimeLarcenyNumber +' Robberies');
+      }
       $('.fcw-content2').html('in ' + curData[0].CrimeYear);
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
