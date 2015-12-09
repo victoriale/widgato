@@ -73,12 +73,12 @@ $(function(){
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "highest-avg-thunder-by-c ity";
-      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Most Thunderstorms')
+      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Most Thunderstorms');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(Number(curData[0].WeatherAvgThunder).toFixed(0) + ' Avg Per Year');
       var population = Number(popData.population).toFixed(0);
-      $('.fcw-content2').html('Annually');
+      $('.fcw-content2').html('Annual Thunderstorms');
       //$('.fcw-content2').html('Pop. of ' + population.replace(/\B(?=(\d{3})+(?!\d))/g, ",") );
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 

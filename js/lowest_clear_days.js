@@ -76,7 +76,7 @@ $(function(){
       $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with Lowest Clear Days Annually');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(curData[0].WeatherClearDays + ' Days');
+      $('.fcw-content1').html(curData[0].WeatherClearDay + ' Days');
       $('.fcw-content2').html('Pop. of ' + popData.population);
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 

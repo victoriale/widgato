@@ -72,7 +72,7 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "cheapest-rent";
-      $('.fcw-t1').html('Cities with the Cheapest Rent');
+      $('.fcw-t1').html(fullstate(curData[0].DemoState) + ' Cities with the Cheapest Rent');
       $('.fcw-t2-loc').html(curData[0].DemoCity + ', ' + curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html('$' + (curData[0].DemoAvgRent).replace(/\B(?=(\d{3})+(?!\d))/g, ","));

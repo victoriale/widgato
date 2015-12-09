@@ -73,7 +73,7 @@ $(function(){
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "lowest-wind-spd-by-city";
-      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Lowest Wind Speed Annually')
+      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Lowest Wind Speed Annually');
       $('.fcw-t2-loc').html(curData[0].WeatherCity + ', ' + curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(curData[0].WeatherWindSpeed+' Miles Per Hour');
