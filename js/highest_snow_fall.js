@@ -32,7 +32,7 @@ $(function(){
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   	}
-    
+
   	var script_tag = document.createElement('script');
   	script_tag.setAttribute('src','//static.getclicky.com/js');
   	document.head.appendChild(script_tag);
@@ -72,11 +72,11 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "highest-snow-fall-by-city";
-      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Highest Snow Fall Annually')
+      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Most Snowfall Annually')
       $('.fcw-t2-loc').html(curData[0].WeatherCity + ', ' + curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(curData[0].WeatherAvgSnowFall + ' Inches');
-      $('.fcw-content2').html('Annual Snow Fall');
+      $('.fcw-content2').html('Annual Snowfall');
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
@@ -106,7 +106,7 @@ $(function(){
       CA: 'California',
       CO: 'Colorado',
       CT: 'Connecticut',
-      DC: 'District of Columbia',
+      DC: 'DC',
       DE: 'Delaware',
       FL: 'Florida',
       GA: 'Georgia',

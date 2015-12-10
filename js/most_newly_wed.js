@@ -76,7 +76,11 @@ $(function(){
       $('.fcw-t2-loc').html(curData[0].DemoCity + ', ' + curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html((curData[0].DemoNewlyWed).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Weddings');
-      $('.fcw-content2').html('In ' + curData[0].DemoYear);
+      if(curData[0].DemoYear == null || typeof curData[0].DemoYear == 'undefined'){
+        $('.fcw-content2').html('In 2012');
+      } else {
+        $('.fcw-content2').html('In ' + curData[0].DemoYear);
+      }
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){

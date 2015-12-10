@@ -72,7 +72,7 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "greenest-cities";
-      $('.fcw-t1').html('Cities with Best Solar PV');
+      $('.fcw-t1').html(fullstate(curData[0].DemoState) + ' Cities with Best Solar PV');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(Number(curData[0].DemoSolarPv).toFixed(0) + ' Solar PV');

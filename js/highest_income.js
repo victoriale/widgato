@@ -66,13 +66,13 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=demographics&wid=5&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=demographics&wid=5&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       dataLength = curData.length;
       var title = "highest-income";
-      $('.fcw-t1').html('Cities with the highest annual income');
+      $('.fcw-t1').html(fullstate(curData[0].DemoState) + ' Cities with the Highest Annual Income');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html('$' + (Number(curData[0].DemoAvgHighestIncome).toFixed(0)).replace(/\B(?=(\d{3})+(?!\d))/g, ","));

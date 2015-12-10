@@ -73,10 +73,14 @@ $(function(){
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "lowest-avg-thunder-by-city";
-      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Least Thunderstorms');
+      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Least Annual Thunderstorms');
       $('.fcw-t2-loc').html(curData[0].WeatherCity +', '+ curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(Number(curData[0].WeatherAvgThunder).toFixed(0) + ' Avg Per Year');
+      if((curData[0].WeatherAvgThunder) == 1){
+        $('.fcw-content1').html(Number(curData[0].WeatherAvgThunder).toFixed(0) + ' Thunderstorm');
+      } else {
+        $('.fcw-content1').html(Number(curData[0].WeatherAvgThunder).toFixed(0) + ' Thunderstorms');
+      }
       var population = Number(popData.population).toFixed(0);
       $('.fcw-content2').html('Annual Thunderstorms');
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');

@@ -73,7 +73,7 @@ $(function(){
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "highest-clear-day-by-city";
-      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Highest Clear Days Annually')
+      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Most Clear Days Annually')
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(curData[0].WeatherClearDay + ' Days');
@@ -108,7 +108,7 @@ $(function(){
       CA: 'California',
       CO: 'Colorado',
       CT: 'Connecticut',
-      DC: 'District of Columbia',
+      DC: 'DC',
       DE: 'Delaware',
       FL: 'Florida',
       GA: 'Georgia',
