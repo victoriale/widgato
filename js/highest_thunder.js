@@ -72,7 +72,7 @@ $(function(){
       var curData = data.widget;
       var popData = curData[0].population;
       dataLength = curData.length;
-      var title = "highest-avg-thunder-by-c ity";
+      var title = "highest-avg-thunder-by-city";
       $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Most Annual Thunderstorms');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
