@@ -26,12 +26,25 @@ $(function () {
 
   	locName = query['loc']['loc_name'];
 
-  	locName = locName.replace('+',' ');
+    if(locName != null && typeof locName != 'undefined' && locName != ''){
+      locName = locName.replace('+',' ');
+    }
 
-  	city = query['loc']['loc_id']['city'];
+    //makes a check to see if data is being returned from parter
+    if(city != null && city != '' && typeof city != 'undefined' && state != null && state != '' && typeof state != 'undefined'){
+      city = query['loc']['loc_id']['city'];
 
-  	state = query['loc']['loc_id']['state'];
+      state = query['loc']['loc_id']['state'];
+    }
 
+    //if partner database has absolutely nothing and it is a brand new partner
+    if(query['loc']['loc_id'] == null || typeof query['loc']['loc_id'] == undefined || query['loc']['loc_id'] == ''){
+      query['loc']['loc_id'] = {};
+      query['loc']['loc_id']['city'] = null;
+      query['loc']['loc_id']['state'] = null;
+      city = query['loc']['loc_id']['city'];
+      state = query['loc']['loc_id']['state'];
+    }
     //returns string true or false
   	bord = query.bord;
 
@@ -52,6 +65,8 @@ $(function () {
   if(bord == 'true'){
     $(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   }
+
+  //getclicky script
 	var script_tag = document.createElement('script');
 	script_tag.setAttribute('src','//static.getclicky.com/js');
 	document.head.appendChild(script_tag);
