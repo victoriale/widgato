@@ -72,11 +72,11 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "highest-bilingual";
-      $('.fcw-t1').html('Cities in '+ fullstate(curData[0].DemoState) +' with Most Bilingual Residents');
+      $('.fcw-t1').html('Cities in '+ fullstate(curData[0].DemoState) +' with the Most Bilingual Residents');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(Number(curData[0].DemonPctBilingual).toFixed(0) + '% of Residents');
-      $('.fcw-content2').html('Speak 2 Languages Fluently');
+      $('.fcw-content2').html('Are Bilingual');
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){

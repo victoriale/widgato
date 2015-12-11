@@ -76,10 +76,17 @@ $(function(){
       $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Most Annual Thunderstorms');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(Number(curData[0].WeatherAvgThunder).toFixed(0) + ' Thunderstorms');
-      $('.fcw-content2').html('In ' + curData[0].WeatherYear);
+      if(curData[0].WeatherAvgThunder == 1){
+        $('.fcw-content1').html(Number(curData[0].WeatherAvgThunder).toFixed(0) + ' Thunderstorm');
+      } else {
+        $('.fcw-content1').html(Number(curData[0].WeatherAvgThunder).toFixed(0) + ' Thunderstorms');
+      }
+      if(curData[0].WeatherYear == null || typeof curData[0].WeatherYear == 'undefined' || curData[0].WeatherYear == ''){
+        $('.fcw-content2').html('In 2012');
+      } else {
+        $('.fcw-content2').html('In ' + curData[0].WeatherYear);
+      }
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
-
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");
         $('#loc').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);

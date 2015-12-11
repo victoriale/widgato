@@ -72,7 +72,7 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "highest-avg-temp-by-city";
-      $('.fcw-t1').html(curData[0].WeatherState + ' Cities with the Highest Average Temperature')
+      $('.fcw-t1').html(curData[0].WeatherState + ' Cities with the Highest Average Temperature');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(curData[0].WeatherAvgTemp+' Fahrenheit');

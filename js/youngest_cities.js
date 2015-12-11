@@ -73,7 +73,7 @@ $(function(){
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "youngest-cities";
-      $('.fcw-t1').html('Cities in ' + (fullstate(curData[0].DemoState)) + ' with Youngest Median Age');
+      $('.fcw-t1').html('Cities in ' + (fullstate(curData[0].DemoState)) + ' with the Youngest Median Age');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(Number(curData[0].DemoAvgAge).toFixed(0) + ' Years Old');

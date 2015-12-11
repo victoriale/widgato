@@ -19,6 +19,7 @@ $(function(){
 
   if(temp != null){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
+    console.log(query);
     domain = query.dom;
     remnant = query.remn;
     clickyId = query.c_id;
@@ -75,11 +76,9 @@ $(function(){
       $('.fcw-t1').html(fullstate(curData[0].DemoState) + ' Cities that Carpool the Most');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(Number(curData[0].DemoCarPool).toFixed(0) + '% of Residents');
-      var pop = popData.population;
-      $('.fcw-content2').html('Pop. of ' + pop.toFixed(0));
+      $('.fcw-content1').html(curData[0].DemoCarPool + '% of Residents');
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
-
+      $('.fcw-content2').html('Carpool Everyday');
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/"+curData[0].DemoCity+"/demographics");
         $('#loc').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
@@ -89,7 +88,6 @@ $(function(){
         $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
         $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
       }
-
     }, 'json')
   }
 

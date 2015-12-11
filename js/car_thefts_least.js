@@ -66,13 +66,13 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=crime&wid=6&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=crime&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       dataLength = curData.length;
       var title = "least-vehicle-theft-by-city";
-      $('.fcw-t1').html('Cities in '+fullstate(curData[0].CrimeState)+' with the Least Car Thefts in '+ curData[0].CrimeYear)
+      $('.fcw-t1').html('Cities in '+fullstate(curData[0].CrimeState)+' with the Least Car Thefts');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
       if(curData[0].CrimeMotorVehicleTheftNumber <= 1){
@@ -80,7 +80,11 @@ $(function(){
       } else {
         $('.fcw-content1').html(curData[0].CrimeMotorVehicleTheftNumber+' Car Thefts');
       }
-      $('.fcw-content2').html('in ' + curData[0].CrimeYear);
+      if(curData[0].CrimeYear == null || typeof curData[0].CrimeYear == 'undefined'){
+        $('.fcw-content2').html('In 2012');
+      } else {
+        $('.fcw-content2').html('in ' + curData[0].CrimeYear);
+      }
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){

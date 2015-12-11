@@ -77,8 +77,12 @@ $(function(){
       $('.fcw-t2-loc').html(curData[0].DemoCity + ', ' + curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
       var startFam = Number(curData[0].DemoStartFamily).toFixed(0);
-      $('.fcw-content1').html(startFam.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Residents');
-      $('.fcw-content2').html('Children Under 5');
+      $('.fcw-content1').html(startFam.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Children Under 5');
+      if(curData[0].DemoYear == null || typeof curData[0].DemoYear == 'undefined'){
+        $('.fcw-content2').html('In 2012');
+      } else {
+        $('.fcw-content2').html('In ' + curData[0].DemoYear);
+      }
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/"+curData[0].DemoCity+"/demographics");

@@ -70,14 +70,17 @@ $(function(){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
-      var popData = curData[0].population;
       dataLength = curData.length;
       var title = "lowest-cloudy-day-by-city";
       $('.fcw-t1').html(fullstate(curData[0].WeatherState) +' Cities with the Least Cloudy Days Annually');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(curData[0].WeatherCloudyDay +' Days');
-      $('.fcw-content2').html('Pop. of ' + popData.population);
+      $('.fcw-content1').html(curData[0].WeatherCloudyDay +' Cloudy Days');
+      if(curData[0].WeatherYear == null || curData[0].WeatherYear == '' || typeof curData[0].WeatherYear == 'undefined'){
+        $('.fcw-content2').html('In 2012');
+      } else {
+        $('.fcw-content2').html('In ' + curData[0].WeatherYear);
+      }
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){

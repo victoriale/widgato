@@ -72,12 +72,15 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "most-vehicle-theft-by-city";
-      $('.fcw-t1').html('Cities in '+fullstate(curData[0].CrimeState)+' with the Most Car Thefts in '+ curData[0].CrimeYear)
+      $('.fcw-t1').html('Cities in '+fullstate(curData[0].CrimeState)+' with the Most Car Thefts');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html((curData[0].CrimeMotorVehicleTheftNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +' Car Thefts');
-      $('.fcw-content2').html('in ' + curData[0].CrimeYear);
-      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
+      if(curData[0].CrimeYear == null || typeof curData[0].CrimeYear == 'undefined'){
+        $('.fcw-content2').html('In 2012');
+      } else {
+        $('.fcw-content2').html('in ' + curData[0].CrimeYear);
+      }      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");

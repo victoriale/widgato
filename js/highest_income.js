@@ -72,11 +72,12 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "highest-income";
-      $('.fcw-t1').html(fullstate(curData[0].DemoState) + ' Cities with the Highest Annual Income');
-      $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
+      $('.fcw-t1').html(curData[0].DemoState + ' Cities with the Highest Annual Income');
+      $('.fcw-t2-loc').html(curData[0].DemoCity + ', ' + curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html('$' + (Number(curData[0].DemoAvgHighestIncome).toFixed(0)).replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $('.fcw-content2').html('Average Annual Income');
+      var income = Number(curData[0].DemoAvgHighestIncome).toFixed(0);
+      $('.fcw-content1').html('$' + income.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $('.fcw-content2').html('Per Capita');
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
@@ -97,62 +98,4 @@ $(function(){
       return '../css/public/no_image.jpg';
     }
     return path;
-  }
-  function fullstate(state){
-    var stateName = {
-      AL: 'Alabama',
-      AK: 'Alaska',
-      AZ: 'Arizona',
-      AR: 'Arkansas',
-      CA: 'California',
-      CO: 'Colorado',
-      CT: 'Connecticut',
-      DC: 'District of Columbia',
-      DE: 'Delaware',
-      FL: 'Florida',
-      GA: 'Georgia',
-      HI: 'Hawaii',
-      ID: 'Idaho',
-      IL: 'Illinois',
-      IN: 'Indiana',
-      IA: 'Iowa',
-      KS: 'Kansas',
-      KY: 'Kentucky',
-      LA: 'Lousiana',
-      ME: 'Maine',
-      MD: 'Maryland',
-      MA: 'Massachusetts',
-      MI: 'Michigan',
-      MN: 'Minnesota',
-      MS: 'Mississippi',
-      MO: 'Missouri',
-      MT: 'Montana',
-      NE: 'Nebraska',
-      NV: 'Nevada',
-      NH: 'New Hampshire',
-      NJ: 'New Jersey',
-      NM: 'New Mexico',
-      NY: 'New York',
-      NC: 'North Carolina',
-      ND: 'North Dakota',
-      OH: 'Ohio',
-      OK: 'Oklahoma',
-      ON: 'Ontario',
-      OR: 'Oregon',
-      PA: 'Pennsylvania',
-      PR: 'Puerto Rico',
-      RI: 'Rhode Island',
-      SC: 'South Carolina',
-      SD: 'South Dakota',
-      TN: 'Tennessee',
-      TX: 'Texas',
-      UT: 'Utah',
-      VT: 'Vermont',
-      VA: 'Virginia',
-      WA: 'Washington',
-      WV: 'West Virginia',
-      WI: 'Wisconsin',
-      WY: 'Wyoming'
-    };
-    return stateName[state];
   }

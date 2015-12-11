@@ -85,7 +85,7 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-    $.get('//devapirt.synapsys.us/index.php?widget=crime&wid=8&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+    $.get('//devapirt.synapsys.us/index.php?widget=crime&wid=8&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -100,8 +100,11 @@ $(function(){
       }else{
         $('.fcw-content1').html(curData[0].CrimePropertyCrimeNumber + ' Crimes');
       }
-
-      $('.fcw-content2').html('In ' + curData[0].CrimeYear);
+      if(curData[0].CrimeYear == null || typeof curData[0].CrimeYear == 'undefined'){
+        $('.fcw-content2').html('In 2012');
+      } else {
+        $('.fcw-content2').html('In ' + curData[0].CrimeYear);
+      }
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");

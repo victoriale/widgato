@@ -66,19 +66,19 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=4&city='+city+'&state='+state+'&skip='+index+'&limit=2', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=4&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "highest-clear-day-by-city";
-      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Most Clear Days Annually')
+      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Most Clear Days Annually');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(curData[0].WeatherClearDay + ' Days');
-      var population = Number(popData.population).toFixed(0);
-      $('.fcw-content2').html('Pop. of ' + population.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      var pop = Number(popData.population).toFixed(0);
+      $('.fcw-content2').html('Pop. of ' + pop.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");
