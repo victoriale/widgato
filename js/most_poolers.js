@@ -33,11 +33,11 @@ $(function(){
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   	}
-  	var script_tag = document.createElement('script');
-  	script_tag.setAttribute('src','http://static.getclicky.com/js');
-  	document.head.appendChild(script_tag);
-  	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  	document.head.appendChild(clicks[0]);
+  	// var script_tag = document.createElement('script');
+  	// script_tag.setAttribute('src','http://static.getclicky.com/js');
+  	// document.head.appendChild(script_tag);
+  	// var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
+  	// document.head.appendChild(clicks[0]);
     $('.fcw-rightnav').on('click', function() {
         if ($(this).data('dir') === 'next') {
             dataCall(++offset);
