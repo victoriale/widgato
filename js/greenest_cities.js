@@ -72,7 +72,7 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "greenest-cities";
-      $('.fcw-t1').html(curData[0].DemoState + ' Cities that use the Most Solar PV Power');
+      $('.fcw-t1').html(curData[0].DemoState + ' Cities that used the Most Solar PV Power');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(Number(curData[0].DemoSolarPv).toFixed(0) + ' Solar PV');

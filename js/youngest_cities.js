@@ -77,7 +77,7 @@ $(function(){
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(Number(curData[0].DemoAvgAge).toFixed(0) + ' Years Old');
-      $('.fcw-content2').html('Median Age Amongst Residents');
+      $('.fcw-content2').html('Median Age Among Residents');
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
