@@ -66,7 +66,7 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=2&city='+city+'&state='+state+'&skip='+index+'&limit=2', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=2&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;

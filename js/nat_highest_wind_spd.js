@@ -66,34 +66,27 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=11&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=national-weathers&wid=7&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var popData = curData[0].population;
       dataLength = curData.length;
-      var title = "lowest-clear-day-by-city";
-      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with Lowest Clear Days Annually');
-      $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
+      var title = "nat-highest-wind-spd-by-city";
+      $('.fcw-t1').html('Cities with the Highest Average Wind Speed in the U.S.');
+      $('.fcw-t2-loc').html(curData[0].WeatherCity + ', ' + curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
-      if(curData[0].WeatherClearDay == 1){
-        $('.fcw-content1').html(curData[0].WeatherClearDay + ' Clear Day');
-      } else {
-        $('.fcw-content1').html(curData[0].WeatherClearDay + ' Clear Days');
-      }
-      if(curData[0].WeatherYear == null || curData[0].WeatherYear == '' || typeof curData[0].WeatherYear == 'undefined'){
-        $('.fcw-content2').html('In 2012');
-      } else {
-        $('.fcw-content2').html('In ' + curData[0].WeatherYear);
-      }
+      $('.fcw-content1').html(curData[0].WeatherWindSpeed + ' Miles Per Hour');
+      var pop = Number(popData.population).toFixed(0);
+      $('.fcw-content2').html('Pop. of ' + pop.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");
+        $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/nationalweather");
         $('#loc').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
         $('#imgUrl').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/weather/"+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity);
+        $('.fcw-href').attr('href',link_partner+domain+"/nationalweather/"+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity);
         $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
         $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
       }

@@ -75,8 +75,13 @@ $(function(){
       $('.fcw-t1').html(curData[0].WeatherState + ' Cities with the Least Annual Precipitation');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(curData[0].WeatherPercipication +' Inches');
-      $('.fcw-content2').html('Annual Precipitation');
+      if(curData[0].WeatherPercipication == 0 || curData[0].WeatherPercipication == null){
+        $('.fcw-content1').html('0 Inches');
+      } else if(curData[0].WeatherPercipication == 1){
+        $('.fcw-content1').html(curData[0].WeatherPercipication +' Inch');
+      } else {
+        $('.fcw-content1').html(curData[0].WeatherPercipication +' Inches');
+      }      $('.fcw-content2').html('Annual Precipitation');
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){

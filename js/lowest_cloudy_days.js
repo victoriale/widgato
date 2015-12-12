@@ -74,14 +74,18 @@ $(function(){
       var title = "lowest-cloudy-day-by-city";
       $('.fcw-t1').html(fullstate(curData[0].WeatherState) +' Cities with the Least Cloudy Days Annually');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
+      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(curData[0].WeatherCloudyDay +' Cloudy Days');
+      if(curData[0].WeatherCloudyDay == 1){
+        $('.fcw-content1').html(curData[0].WeatherCloudyDay +' Cloudy Day');
+      } else {
+        $('.fcw-content1').html(curData[0].WeatherCloudyDay +' Cloudy Days');
+      }
       if(curData[0].WeatherYear == null || curData[0].WeatherYear == '' || typeof curData[0].WeatherYear == 'undefined'){
         $('.fcw-content2').html('In 2012');
       } else {
         $('.fcw-content2').html('In ' + curData[0].WeatherYear);
       }
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");

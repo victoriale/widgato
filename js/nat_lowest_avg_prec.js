@@ -66,38 +66,34 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=11&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=national-weathers&wid=8&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
-      var popData = curData[0].population;
       dataLength = curData.length;
-      var title = "lowest-clear-day-by-city";
-      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with Lowest Clear Days Annually');
+      var title = "nat-lowest-avg-prec-by-city";
+      $('.fcw-t1').html('Cities with the Least Annual Precipitation in the U.S.');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
-      if(curData[0].WeatherClearDay == 1){
-        $('.fcw-content1').html(curData[0].WeatherClearDay + ' Clear Day');
+      if(curData[0].WeatherPercipication == 0 || curData[0].WeatherPercipication == null){
+        $('.fcw-content1').html('0 Inches');
+      } else if(curData[0].WeatherPercipication == 1){
+        $('.fcw-content1').html(curData[0].WeatherPercipication +' Inch');
       } else {
-        $('.fcw-content1').html(curData[0].WeatherClearDay + ' Clear Days');
+        $('.fcw-content1').html(curData[0].WeatherPercipication +' Inches');
       }
-      if(curData[0].WeatherYear == null || curData[0].WeatherYear == '' || typeof curData[0].WeatherYear == 'undefined'){
-        $('.fcw-content2').html('In 2012');
-      } else {
-        $('.fcw-content2').html('In ' + curData[0].WeatherYear);
-      }
+      $('.fcw-content2').html('Annual Precipitation');
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");
+        $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/nationalweather");
         $('#loc').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
         $('#imgUrl').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/weather/"+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity);
+        $('.fcw-href').attr('href',link_partner+domain+"/nationalweather/"+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity);
         $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
         $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
       }
-
     }, 'json')
   }
 
