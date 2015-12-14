@@ -71,13 +71,13 @@ $(function(){
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       dataLength = curData.length;
-      var title = "most-female";
+      var title = "most-male";
       $('.fcw-t1').html('Cities in '+ fullstate(curData[0].DemoState) +' with the Most Male Residents');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(curData[0].DemoPctMale + '% of Residents');
       $('.fcw-content2').html('Are Male');
-      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/"+curData[0].DemoCity+"/demographics");

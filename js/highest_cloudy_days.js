@@ -75,11 +75,15 @@ $(function(){
       var title = "highest-cloudy-day-by-city";
       $('.fcw-t1').html(curData[0].WeatherState + ' Cities with the Most Cloudy Days Annually');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
+      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(curData[0].WeatherCloudyDay +' Days');
+      if(curData[0].WeatherCloudyDay == 1){
+        $('.fcw-content1').html(curData[0].WeatherCloudyDay +' Cloudy Day');
+      } else {
+        $('.fcw-content1').html(curData[0].WeatherCloudyDay +' Cloudy Days');
+      }
       var population = Number(popData.population).toFixed(0);
       $('.fcw-content2').html('Pop. of ' + population.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");

@@ -75,21 +75,22 @@ $(function(){
       var title = "nat-highest-cloudy-day-by-city";
       $('.fcw-t1').html('Cities with the Most Cloudy Days Annually in the U.S.');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
+      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       if(curData[0].WeatherCloudyDay == 1){
         $('.fcw-content1').html(curData[0].WeatherCloudyDay +' Cloudy Day');
       } else {
         $('.fcw-content1').html(curData[0].WeatherCloudyDay +' Cloudy Days');
-      }      var population = Number(popData.population).toFixed(0);
+      }
+      var population = Number(popData.population).toFixed(0);
       $('.fcw-content2').html('Pop. of ' + population.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/nationalweather");
+        $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/national/weather");
         $('#loc').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
         $('#imgUrl').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/nationalweather/"+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity);
+        $('.fcw-href').attr('href',link_partner+domain+"/national/weather/"+title+"/"+curData[0].WeatherState);
         $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
         $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
       }

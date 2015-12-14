@@ -66,35 +66,28 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=national-weathers&wid=3&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=national-demographics&wid=13&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var popData = curData[0].population;
       dataLength = curData.length;
-      var title = "nat-highest-avg-thunder-by-city";
-      $('.fcw-t1').html('Cities with the Most Annual Thunderstorms in the U.S.');
-      $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
+      var title = "nat-youngest-cities";
+      $('.fcw-t1').html('Cities in the U.S. with the Youngest Median Age');
+      $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
-      if(curData[0].WeatherAvgThunder == 1){
-        $('.fcw-content1').html(Number(curData[0].WeatherAvgThunder).toFixed(0) + ' Thunderstorm');
-      } else {
-        $('.fcw-content1').html(Number(curData[0].WeatherAvgThunder).toFixed(0) + ' Thunderstorms');
-      }
-      if(curData[0].WeatherYear == null || typeof curData[0].WeatherYear == 'undefined' || curData[0].WeatherYear == ''){
-        $('.fcw-content2').html('In 2014');
-      } else {
-        $('.fcw-content2').html('In ' + curData[0].WeatherYear);
-      }
+      $('.fcw-content1').html(Number(curData[0].DemoAvgAge).toFixed(0) + ' Years Old');
+      $('.fcw-content2').html('Median Age Among Residents');
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
+
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/national/weather");
-        $('#loc').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
-        $('#imgUrl').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
+        $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/national/demographics");
+        $('#loc').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
+        $('#imgUrl').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/national/weather/"+title+"/"+curData[0].WeatherState);
-        $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
-        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
+        $('.fcw-href').attr('href',link_partner+domain+"/national/demographics/"+title+"/"+curData[0].DemoState);
+        $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
+        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
       }
 
     }, 'json')

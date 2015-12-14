@@ -34,7 +34,7 @@ $(function(){
   	}
 
   	// var script_tag = document.createElement('script');
-  	// script_tag.setAttribute('src','//static.getclicky.com/js');
+  	// script_tag.setAttribute('src','http://static.getclicky.com/js');
   	// document.head.appendChild(script_tag);
   	// var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
   	// document.head.appendChild(clicks[0]);
@@ -66,31 +66,32 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=crime&wid=2&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('//devapirt.synapsys.us/index.php?widget=national-demographics&wid=12&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
+      var popData = curData[0].population;
       dataLength = curData.length;
-      var title = "most-vehicle-theft-by-city";
-      $('.fcw-t1').html('Cities in '+fullstate(curData[0].CrimeState)+' with the Most Car Thefts');
-      $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
-      $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html((curData[0].CrimeMotorVehicleTheftNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +' Car Thefts');
-      if(curData[0].CrimeYear == null || typeof curData[0].CrimeYear == 'undefined'){
-        $('.fcw-content2').html('In 2012');
-      } else {
-        $('.fcw-content2').html('in ' + curData[0].CrimeYear);
-      }
+      var title = "nat-start-family";
+      $('.fcw-t1').html('Top Cities in the U.S. to Start a Family');
+      $('.fcw-t2-loc').html(curData[0].DemoCity + ', ' + curData[0].DemoState);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
-
-      if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");
-        $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
-        $('#imgUrl').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
+      $('.fcw-img2').html('#'+(index+1));
+      var startFam = Number(curData[0].DemoStartFamily).toFixed(0);
+      $('.fcw-content1').html(startFam.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Children Under 5');
+      if(curData[0].DemoYear == null || typeof curData[0].DemoYear == 'undefined'){
+        $('.fcw-content2').html('In 2014');
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/crimes/"+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity);
-        $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
-        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
+        $('.fcw-content2').html('In ' + curData[0].DemoYear);
+      }
+      if(remnant == 'true' || remnant == true){
+        $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/national/demographics");
+        $('#loc').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
+        $('#imgUrl').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
+      } else {
+        $('.fcw-href').attr('href',link_partner+domain+"/national/demographics/"+title+"/"+curData[0].DemoState);
+        $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
+        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
       }
 
     }, 'json')

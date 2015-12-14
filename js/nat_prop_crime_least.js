@@ -11,22 +11,41 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
-
 $(function(){
-
   var temp = location.search;
   var query = {};
 
   if(temp != null){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
+
+    //set the query data from database to global variable to use
     domain = query.dom;
+
     remnant = query.remn;
+
     clickyId = query.c_id;
+
     locName = query['loc']['loc_name'];
+
     locName = locName.replace('+',' ');
+
     city = query['loc']['loc_id']['city'];
+
   	state = query['loc']['loc_id']['state'];
+    //returns string true or false
     bord = query.bord;
+		/*
+		//Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
+		//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
+		for(var i = 0; i < query['loc']['loc']['city'].length; i++){
+			var c = query['loc']['loc']['city'][i].city;
+			var s = query['loc']['loc']['city'][i].state;
+			loc = loc + c + "," + s;
+			if (typeof query['loc']['loc']['city'][i+1] != 'undefined'){
+				loc += '|';
+			}
+		}
+		*/
   	}
 
   	if(bord == 'true'){
@@ -43,7 +62,6 @@ $(function(){
             dataCall(++offset);
         }
     });
-
     $('.fcw-leftnav').on('click', function() {
         if (offset > 0 && $(this).data('dir') === 'prev') {
               dataCall(--offset);
@@ -65,38 +83,38 @@ $(function(){
       dataCall(offset);
     }
   })//END OF FUNCTION
+
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=national-weathers&wid=3&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+    $.get('//devapirt.synapsys.us/index.php?widget=national-crime&wid=8&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var popData = curData[0].population;
-      dataLength = curData.length;
-      var title = "nat-highest-avg-thunder-by-city";
-      $('.fcw-t1').html('Cities with the Most Annual Thunderstorms in the U.S.');
-      $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
+      var dataLength = curData.length;
+      var title = "nat-least-property-crime-by-city";
+      $('.fcw-t1').html('Cities with the Least Property Crimes in the U.S.');
+      $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
-      if(curData[0].WeatherAvgThunder == 1){
-        $('.fcw-content1').html(Number(curData[0].WeatherAvgThunder).toFixed(0) + ' Thunderstorm');
-      } else {
-        $('.fcw-content1').html(Number(curData[0].WeatherAvgThunder).toFixed(0) + ' Thunderstorms');
+      if(curData[0].CrimePropertyCrimeNumber <= 1){
+        $('.fcw-content1').html(curData[0].CrimePropertyCrimeNumber + ' Crime');
+      }else{
+        $('.fcw-content1').html(curData[0].CrimePropertyCrimeNumber + ' Crimes');
       }
-      if(curData[0].WeatherYear == null || typeof curData[0].WeatherYear == 'undefined' || curData[0].WeatherYear == ''){
+      if(curData[0].CrimeYear == null || typeof curData[0].CrimeYear == 'undefined'){
         $('.fcw-content2').html('In 2014');
       } else {
-        $('.fcw-content2').html('In ' + curData[0].WeatherYear);
+        $('.fcw-content2').html('In ' + curData[0].CrimeYear);
       }
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/national/weather");
-        $('#loc').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
-        $('#imgUrl').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
+        $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/national/crimes");
+        $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
+        $('#imgUrl').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/national/weather/"+title+"/"+curData[0].WeatherState);
-        $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
-        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
+        $('.fcw-href').attr('href',link_partner+domain+"/national/crimes/"+title+"/"+curData[0].CrimeState);
+        $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
+        $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
       }
-
     }, 'json')
   }
 
