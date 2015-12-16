@@ -73,11 +73,11 @@ $(function(){
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "nat-smartest-cities";
-      $('.fcw-t1').html('Cities with the Most Residents That Have College Degrees in the U.S.');
+      $('.fcw-t1').html('Cities with the Most Bachelor Degree Holders in the U.S.');
       $('.fcw-t2-loc').html(curData[0].DemoCity + ', ' + curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html((Number(curData[0].DemoSmartest).toFixed(0)).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Residents');
-      $('.fcw-content2').html('Hold Bachelor Degree or Higher');
+      $('.fcw-content1').html(Number(curData[0].DemoSmartest).toFixed(0) + ' Percent');
+      $('.fcw-content2').html('With Bachelor Degree or Higher');
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){

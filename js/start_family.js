@@ -73,7 +73,7 @@ $(function(){
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "start-family";
-      $('.fcw-t1').html('Top Cities in ' + fullstate(curData[0].DemoState) + ' to Start a Family');
+      $('.fcw-t1').html('Cities in ' + curData[0].DemoState + ' with the Most Children Under 5 Years Old');
       $('.fcw-t2-loc').html(curData[0].DemoCity + ', ' + curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
       var startFam = Number(curData[0].DemoStartFamily).toFixed(0);
@@ -102,62 +102,4 @@ $(function(){
       return '../css/public/no_image.jpg';
     }
     return path;
-  }
-  function fullstate(state){
-    var stateName = {
-      AL: 'Alabama',
-      AK: 'Alaska',
-      AZ: 'Arizona',
-      AR: 'Arkansas',
-      CA: 'California',
-      CO: 'Colorado',
-      CT: 'Connecticut',
-      DC: 'District of Columbia',
-      DE: 'Delaware',
-      FL: 'Florida',
-      GA: 'Georgia',
-      HI: 'Hawaii',
-      ID: 'Idaho',
-      IL: 'Illinois',
-      IN: 'Indiana',
-      IA: 'Iowa',
-      KS: 'Kansas',
-      KY: 'Kentucky',
-      LA: 'Lousiana',
-      ME: 'Maine',
-      MD: 'Maryland',
-      MA: 'Massachusetts',
-      MI: 'Michigan',
-      MN: 'Minnesota',
-      MS: 'Mississippi',
-      MO: 'Missouri',
-      MT: 'Montana',
-      NE: 'Nebraska',
-      NV: 'Nevada',
-      NH: 'New Hampshire',
-      NJ: 'New Jersey',
-      NM: 'New Mexico',
-      NY: 'New York',
-      NC: 'North Carolina',
-      ND: 'North Dakota',
-      OH: 'Ohio',
-      OK: 'Oklahoma',
-      ON: 'Ontario',
-      OR: 'Oregon',
-      PA: 'Pennsylvania',
-      PR: 'Puerto Rico',
-      RI: 'Rhode Island',
-      SC: 'South Carolina',
-      SD: 'South Dakota',
-      TN: 'Tennessee',
-      TX: 'Texas',
-      UT: 'Utah',
-      VT: 'Vermont',
-      VA: 'Virginia',
-      WA: 'Washington',
-      WV: 'West Virginia',
-      WI: 'Wisconsin',
-      WY: 'Wyoming'
-    };
-    return stateName[state];
   }

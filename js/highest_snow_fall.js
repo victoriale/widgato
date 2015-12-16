@@ -55,7 +55,7 @@ $(function(){
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
-        $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
           dataCall(offset);
@@ -66,7 +66,7 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('http://devapirt.synapsys.us/index.php?widget=weathers&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -74,6 +74,7 @@ $(function(){
       var title = "highest-snow-fall-by-city";
       $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Most Snowfall Annually');
       $('.fcw-t2-loc').html(curData[0].WeatherCity + ', ' + curData[0].WeatherState);
+      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       if(curData[0].WeatherAvgSnowFall == 1){
         $('.fcw-content1').html(curData[0].WeatherAvgSnowFall + ' Inch');
@@ -83,7 +84,6 @@ $(function(){
         $('.fcw-content1').html(curData[0].WeatherAvgSnowFall + ' Inches');
       }
       $('.fcw-content2').html('Annual Snowfall');
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");

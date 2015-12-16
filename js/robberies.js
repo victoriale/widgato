@@ -73,10 +73,10 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "most-robberies-by-city";
-      $('.fcw-t1').html('Cities in ' + fullstate(curData[0].CrimeState) + ' with the Most Robberies');
+      $('.fcw-t1').html('Cities in ' + fullstate(curData[0].CrimeState) + ' with the Most Thefts');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html((curData[0].CrimeLarcenyNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +' Robberies');
+      $('.fcw-content1').html((curData[0].CrimeLarcenyNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +' Thefts');
       $('.fcw-content2').html('in ' + curData[0].CrimeYear);
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 

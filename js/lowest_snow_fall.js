@@ -11,7 +11,8 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
-
+var dataCheck = '';
+var ct = 0;
 $(function(){
 
   var temp = location.search;
@@ -55,7 +56,7 @@ $(function(){
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
-        $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
           dataCall(offset);
@@ -66,7 +67,21 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=13&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+    console.log('dataCheck', dataCheck);
+    if(dataCheck === null && ct < 2){
+      console.log('1');
+      document.location.host = 'nat_lowest_snow_fall.html';
+      console.log('2');
+    }
+  	$.get('http://devapirt.synapsys.us/index.php?widget=weathers&wid=13&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+      console.log('3');
+      if(data.widget == null){
+        console.log('4');
+        dataCheck = null;
+        ct++;
+        dataCall(index);
+      }
+      console.log('5');
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;

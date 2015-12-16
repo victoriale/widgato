@@ -73,14 +73,14 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "nat-least-robberies-by-city";
-      $('.fcw-t1').html('Cities in the U.S. with the Least Robberies');
+      $('.fcw-t1').html('Cities in the U.S. with the Least Thefts');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       if(curData[0].CrimeLarcenyNumber <= 1){
-        $('.fcw-content1').html(curData[0].CrimeLarcenyNumber +' Robbery');
+        $('.fcw-content1').html(curData[0].CrimeLarcenyNumber +' Theft');
       } else {
-        $('.fcw-content1').html(curData[0].CrimeLarcenyNumber +' Robberies');
+        $('.fcw-content1').html(curData[0].CrimeLarcenyNumber +' Thefts');
       }
       if(curData[0].CrimeYear == null || typeof curData[0].CrimeYear == 'undefined'){
         $('.fcw-content2').html('In 2014');

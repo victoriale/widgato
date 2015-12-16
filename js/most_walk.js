@@ -73,10 +73,10 @@ $(function(){
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "most-walk";
-      $('.fcw-t1').html(curData[0].DemoState + ' Cities with Most Residents that Walk to Work');
+      $('.fcw-t1').html(curData[0].DemoState + ' Cities with the Most Residents that Walk to Work');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html((Number(curData[0].DemoWalkToWork).toFixed(0)).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Residents');
+      $('.fcw-content1').html(Number(curData[0].DemoWalkToWork).toFixed(0) + ' Percent');
       $('.fcw-content2').html('Walk to Work');
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
