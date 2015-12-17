@@ -11,13 +11,12 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
-
+var query = {};
+var redirectquery = '';
 $(function(){
-
   var temp = location.search;
-  var query = {};
-
   if(temp != null){
+    redirectquery = '?'+ decodeURIComponent(temp.substr(1));
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
@@ -67,6 +66,10 @@ $(function(){
   })//END OF FUNCTION
   function dataCall(index){
   	$.get('//devapirt.synapsys.us/index.php?widget=demographics&wid=10&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+      if(data.widget == null){
+        document.location.href = 'nat_most_walk.html'+redirectquery;
+        console.log('Redirect ERROR', document.location.href);
+      }
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -75,10 +78,10 @@ $(function(){
       var title = "most-walk";
       $('.fcw-t1').html(curData[0].DemoState + ' Cities with the Most Residents that Walk to Work');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(Number(curData[0].DemoWalkToWork).toFixed(0) + ' Percent');
       $('.fcw-content2').html('Walk to Work');
-      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/"+curData[0].DemoCity+"/demographics");

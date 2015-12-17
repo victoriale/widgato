@@ -11,13 +11,12 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
-
+var query = {};
+var redirectquery = '';
 $(function(){
-
   var temp = location.search;
-  var query = {};
-
   if(temp != null){
+    redirectquery = '?'+ decodeURIComponent(temp.substr(1));
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
@@ -67,6 +66,10 @@ $(function(){
   })//END OF FUNCTION
   function dataCall(index){
   	$.get('//devapirt.synapsys.us/index.php?widget=demographics&wid=12&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+      if(data.widget == null){
+        document.location.href = 'nat_start_family.html'+redirectquery;
+        console.log('Redirect ERROR', document.location.href);
+      }
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -75,6 +78,7 @@ $(function(){
       var title = "start-family";
       $('.fcw-t1').html('Cities in ' + curData[0].DemoState + ' with the Most Children Under 5 Years Old');
       $('.fcw-t2-loc').html(curData[0].DemoCity + ', ' + curData[0].DemoState);
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       var startFam = Number(curData[0].DemoStartFamily).toFixed(0);
       $('.fcw-content1').html(startFam.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Children Under 5');
@@ -83,7 +87,6 @@ $(function(){
       } else {
         $('.fcw-content2').html('In ' + curData[0].DemoYear);
       }
-      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/"+curData[0].DemoCity+"/demographics");
         $('#loc').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);

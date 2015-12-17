@@ -11,29 +11,22 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
+var query = {};
+var redirectquery = '';
 $(function(){
   var temp = location.search;
-  var query = {};
-
   if(temp != null){
+    redirectquery = '?'+ decodeURIComponent(temp.substr(1));
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
-    //set the query data from database to global variable to use
     domain = query.dom;
-
     remnant = query.remn;
-
     clickyId = query.c_id;
-
     locName = query['loc']['loc_name'];
-
     locName = locName.replace('+',' ');
-
     city = query['loc']['loc_id']['city'];
-
   	state = query['loc']['loc_id']['state'];
-    //returns string true or false
     bord = query.bord;
+  	}
 		/*
 		//Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
 		//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
@@ -86,6 +79,10 @@ $(function(){
 
   function dataCall(index){
     $.get('//devapirt.synapsys.us/index.php?widget=crime&wid=5&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+      if(data.widget == null){
+        document.location.href = 'nat_violent_crime_least.html'+redirectquery;
+        console.log('Redirect ERROR', document.location.href);
+      }
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;

@@ -11,13 +11,12 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
-
+var query = {};
+var redirectquery = '';
 $(function(){
-
   var temp = location.search;
-  var query = {};
-
   if(temp != null){
+    redirectquery = '?'+ decodeURIComponent(temp.substr(1));
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
@@ -68,6 +67,10 @@ $(function(){
 
   function dataCall(index){
   	$.get('//devapirt.synapsys.us/index.php?widget=crime&wid=3&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+      if(data.widget == null){
+        document.location.href = 'nat_robberies.html'+redirectquery;
+        console.log('Redirect ERROR', document.location.href);
+      }
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -75,10 +78,10 @@ $(function(){
       var title = "most-robberies-by-city";
       $('.fcw-t1').html('Cities in ' + fullstate(curData[0].CrimeState) + ' with the Most Thefts');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
+      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html((curData[0].CrimeLarcenyNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +' Thefts');
       $('.fcw-content2').html('in ' + curData[0].CrimeYear);
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");

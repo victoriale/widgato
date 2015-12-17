@@ -11,29 +11,22 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
+var query = {};
+var redirectquery = '';
 $(function(){
   var temp = location.search;
-  var query = {};
-
   if(temp != null){
+    redirectquery = '?'+ decodeURIComponent(temp.substr(1));
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
-    //set the query data from database to global variable to use
     domain = query.dom;
-
     remnant = query.remn;
-
     clickyId = query.c_id;
-
     locName = query['loc']['loc_name'];
-
     locName = locName.replace('+',' ');
-
     city = query['loc']['loc_id']['city'];
-
   	state = query['loc']['loc_id']['state'];
-    //returns string true or false
     bord = query.bord;
+  	}
 		/*
 		//Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
 		//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
@@ -86,6 +79,10 @@ $(function(){
 
   function dataCall(index){
     $.get('//devapirt.synapsys.us/index.php?widget=crime&wid=8&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+      if(data.widget == null){
+        document.location.href = 'nat_prop_crime_least.html'+redirectquery;
+        console.log('Redirect ERROR', document.location.href);
+      }
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -94,6 +91,7 @@ $(function(){
       var title = "least-property-crime-by-city";
       $('.fcw-t1').html(fullstate(curData[0].CrimeState) + ' Cities with the Least Property Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
+      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       if(curData[0].CrimePropertyCrimeNumber <= 1){
         $('.fcw-content1').html(curData[0].CrimePropertyCrimeNumber + ' Crime');
@@ -105,7 +103,6 @@ $(function(){
       } else {
         $('.fcw-content2').html('In ' + curData[0].CrimeYear);
       }
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");
         $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);

@@ -11,14 +11,12 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
-var dataCheck = '';
-var ct = 0;
+var query = {};
+var redirectquery = '';
 $(function(){
-
   var temp = location.search;
-  var query = {};
-
   if(temp != null){
+    redirectquery = '?'+ decodeURIComponent(temp.substr(1));
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
@@ -56,7 +54,7 @@ $(function(){
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
-        $.get("http://apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
           dataCall(offset);
@@ -67,21 +65,11 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-    console.log('dataCheck', dataCheck);
-    if(dataCheck === null && ct < 2){
-      console.log('1');
-      document.location.host = 'nat_lowest_snow_fall.html';
-      console.log('2');
-    }
-  	$.get('http://devapirt.synapsys.us/index.php?widget=weathers&wid=13&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
-      console.log('3');
+  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=13&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       if(data.widget == null){
-        console.log('4');
-        dataCheck = null;
-        ct++;
-        dataCall(index);
+        document.location.href = 'nat_lowest_snow_fall.html'+redirectquery;
+        console.log('Redirect ERROR', document.location.href);
       }
-      console.log('5');
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -96,7 +84,8 @@ $(function(){
         $('.fcw-content1').html('0 Inches');
       } else{
         $('.fcw-content1').html(curData[0].WeatherAvgSnowFall + ' Inches');
-      }      $('.fcw-content2').html('Annual Snowfall');
+      }
+      $('.fcw-content2').html('Annual Snowfall');
       $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
 
       if(remnant == 'true' || remnant == true){

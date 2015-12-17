@@ -11,29 +11,22 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
+var query = {};
+var redirectquery = '';
 $(function(){
   var temp = location.search;
-  var query = {};
-
   if(temp != null){
+    redirectquery = '?'+ decodeURIComponent(temp.substr(1));
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
-    //set the query data from database to global variable to use
     domain = query.dom;
-
     remnant = query.remn;
-
     clickyId = query.c_id;
-
     locName = query['loc']['loc_name'];
-
     locName = locName.replace('+',' ');
-
     city = query['loc']['loc_id']['city'];
-
   	state = query['loc']['loc_id']['state'];
-    //returns string true or false
     bord = query.bord;
+  	}
 		/*
 		//Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
 		//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
@@ -86,6 +79,10 @@ $(function(){
 
   function dataCall(index){
     $.get('//devapirt.synapsys.us/index.php?widget=crime&wid=1&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+      if(data.widget == null){
+        document.location.href = 'nat_violent_crime.html'+redirectquery;
+        console.log('Redirect ERROR', document.location.href);
+      }
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -93,10 +90,10 @@ $(function(){
       var title = "most-violent-crime-by-city";
       $('.fcw-t1').html(fullstate(curData[0].CrimeState)+' Cities with the Most Violent Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html((curData[0].CrimeViolentNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Violent Crimes');
       $('.fcw-content2').html('in ' + curData[0].CrimeYear);
-      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");

@@ -11,15 +11,13 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
-
+var query = {};
+var redirectquery = '';
 $(function(){
-
   var temp = location.search;
-  var query = {};
-
   if(temp != null){
+    redirectquery = '?'+ decodeURIComponent(temp.substr(1));
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
-    console.log(query);
     domain = query.dom;
     remnant = query.remn;
     clickyId = query.c_id;
@@ -67,6 +65,10 @@ $(function(){
   })//END OF FUNCTION
   function dataCall(index){
   	$.get('//devapirt.synapsys.us/index.php?widget=demographics&wid=9&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+      if(data.widget == null){
+        document.location.href = 'nat_most_poolers.html'+redirectquery;
+        console.log('Redirect ERROR', document.location.href);
+      }
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -75,9 +77,9 @@ $(function(){
       var title = "most-car-poolers";
       $('.fcw-t1').html(fullstate(curData[0].DemoState) + ' Cities that Carpool the Most');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(curData[0].DemoCarPool + '% of Residents');
-      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-content2').html('Carpool Everyday');
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/"+curData[0].DemoCity+"/demographics");

@@ -11,13 +11,12 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
-
+var query = {};
+var redirectquery = '';
 $(function(){
-
   var temp = location.search;
-  var query = {};
-
   if(temp != null){
+    redirectquery = '?'+ decodeURIComponent(temp.substr(1));
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
@@ -67,6 +66,10 @@ $(function(){
   })//END OF FUNCTION
   function dataCall(index){
   	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=7&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+      if(data.widget == null){
+        document.location.href = 'nat_highest_wind_spd.html'+redirectquery;
+        console.log('Redirect ERROR', document.location.href);
+      }
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -75,11 +78,11 @@ $(function(){
       var title = "highest-wind-spd-by-city";
       $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with the Highest Average Wind Speed');
       $('.fcw-t2-loc').html(curData[0].WeatherCity + ', ' + curData[0].WeatherState);
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(curData[0].WeatherWindSpeed + ' Miles Per Hour');
       var pop = Number(popData.population).toFixed(0);
       $('.fcw-content2').html('Pop. of ' + pop.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");
@@ -109,7 +112,7 @@ $(function(){
       CA: 'California',
       CO: 'Colorado',
       CT: 'Connecticut',
-      DC: 'District of Columbia',
+      DC: 'DC',
       DE: 'Delaware',
       FL: 'Florida',
       GA: 'Georgia',
