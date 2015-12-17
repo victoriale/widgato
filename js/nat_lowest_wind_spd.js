@@ -81,7 +81,8 @@ $(function(){
       } else {
         $('.fcw-content1').html(curData[0].WeatherWindSpeed + ' Miles Per Hour');
       }
-      $('.fcw-content2').html('Pop. of ' + popData.population);
+      var pop = Number(popData.population).toFixed(0);
+      $('.fcw-content2').html('Pop. of ' + pop.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){

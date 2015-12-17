@@ -85,7 +85,8 @@ $(function(){
       } else {
         $('.fcw-content1').html(curData[0].WeatherWindSpeed + ' Miles Per Hour');
       }
-      $('.fcw-content2').html('Pop. of ' + popData.population);
+      var pop = Number(popData.population).toFixed(0);
+      $('.fcw-content2').html('Pop. of ' + pop.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/"+curData[0].WeatherCity+"/weather");
