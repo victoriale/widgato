@@ -1,0 +1,315 @@
+html, body {
+  margin: 0 !important;
+  font-family: HN;
+  width: 100%;
+  height: auto;
+  background-color: white;
+}
+div{
+  font-family: HN;
+}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  outline:0;
+}
+
+button:focus {
+  outline:0;
+}
+
+@font-face{
+  font-family: 'HN';
+  src: url('public/fonts/HelveticaNeue.otf');
+}
+
+@font-face{
+  font-family: 'HN-B';
+  src: url('public/fonts/HelveticaNeue-Bold.otf');
+}
+
+@font-face{
+  font-family: 'HN-L';
+  src: url('public/fonts/HelveticaNeue-Light.otf');
+}
+
+@font-face{
+  font-family: 'HN-T';
+  src: url('public/fonts/HelveticaNeue-Thin.otf');
+}
+
+@font-face{
+  font-family: 'HN-UL';
+  src: url('public/fonts/HelveticaNeue-UltraLight.otf');
+}
+
+.ad_location{
+  width:300px;
+  height:250px;
+  background-color: #ccc;
+}
+
+.nba{
+  overflow: hidden;
+  width:300px;
+  height:auto;
+  margin:0 auto;
+}
+
+.fcw{
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  border-top: 1px solid #ccc;
+  width:300px;
+  height:350px;
+  position: relative;
+}
+
+/*top text*/
+.fcw-icon{
+  width:25px;
+  height:25px;
+  background-color: #f26f26;
+  background-image: url("public/Icon_Basketball.png");
+  background-position: center center !important;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  margin: 7px 5px;
+  position: absolute;
+  top:0;
+  left:0;
+}
+.fcw-icon:hover{
+  background-color: #000;
+}
+.fcw-text{
+  width:100%;
+  height:70px;
+  padding-top: 2px;
+  position:relative;
+}
+
+.fcw-t1{
+  margin-top: 2px;
+  font-family:HN-B;
+  font-size:18px;
+  text-align: left;
+  line-height: 20px;
+  padding-left: 35px;
+  width:95%
+}
+.fcw-t2{
+  margin-top: 3px;
+  margin-bottom: 2px;
+  font-size:14px;
+  text-align: center;
+  line-height: 16px;
+  width: 100%;
+}
+/*top text END*/
+
+/*image && button*/
+.fcw-middle{
+  position: relative;
+  width:100%;
+}
+.fcw-image{
+  width:144px;
+  height:144px;
+  margin:5px auto;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px #cccccc;
+  background-size: contain !important;
+  background-position: center center !important;
+  background-repeat: no-repeat;
+  /*remove below cause its funny*/
+  text-align: center;
+  position: relative;
+}
+.fcw-t2-num{
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 45px;
+  height: 45px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  background-color: #ffffff;
+  line-height: 40px;
+  text-align: center;
+  font-size: 19px;
+}
+.fcw-logo{
+  border-radius: 50%;
+  border-width: 1px;
+  border-color: #ebebeb;
+  border-style: solid;
+  background-color: #ffffff !important;
+  width: 48px;
+  height: 48px;
+  background-size: contain !important;
+  background-position: center center !important;
+  background-repeat: no-repeat;
+  position: absolute;
+  right:0;
+  margin-top: 90px;
+}
+.fcw-logo:hover{
+  background-color: #f26f26;
+}
+.fcw-leftnav{
+  position: absolute;
+  height:60px;
+  width:30px;
+  border-radius: 0 90px 90px 0;
+  -moz-border-radius: 0 90px 90px 0;
+  -webkit-border-radius: 0 90px 90px 0;
+  border:none;
+  left: 0;
+  top:20%;
+  background-color: #000;
+  color:#fff;
+  font-size: 25px;
+  padding-right: 10px;
+  cursor: pointer;
+}
+
+.fcw-rightnav{
+  height:60px;
+  width:30px;
+  border-radius: 90px 0 0 90px;
+  -moz-border-radius: 90px 0 0 90px;
+  -webkit-border-radius: 90px 0 0 90px;
+  border:none;
+  position: absolute;
+  right: 0;
+  top:20%;
+  background-color: #000;
+  color:#fff;
+  font-size: 25px;
+  padding-left: 10px;
+  cursor: pointer;
+}
+/*image && button END*/
+
+/*bottom text*/
+.fcw-content{
+  width:100%;
+  height:45px;
+}
+
+.fcw-content1{
+  font-size: 24px;
+  color:#000000;
+  font-family: HN-B;
+  text-align: center;
+}
+
+.fcw-content2{
+  font-size: 18px;
+  color:#000000;
+  text-align: center;
+  line-height: 1em;
+  margin-top: 2px;
+}
+/*bottom text END*/
+
+.fcw-list{
+  width:100%;
+  height: 20px;
+  text-align: center;
+  position: absolute;
+  bottom:0;
+  margin-bottom: 35px;
+}
+
+.fcw-list-link{
+  color: #000;
+  font-size: 10px;
+  font-family: HN-B;
+  border-radius: 3px;
+  border-width: 1px;
+  border-color: #f26f26;
+  border-style: solid;
+  background-color: #ffffff;
+  width: 118px;
+  height: 28px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 18px;
+  padding-right: 18px;
+}
+.fcw-list-link:hover{
+  background-color: #f26f26;
+  color: #ffffff;
+}
+.fcw-list-link:active{
+  background-color: #000000;
+  color: #ffffff;
+}
+.fcw-presentedby{
+    position: absolute;
+    bottom: 4px;
+    left: 2px;
+    color:#aaaaaa;
+    text-align: left;
+    font-size: 10px;
+}
+
+.fcw-rightnav:hover{
+  background-color: #f26f26;
+}
+
+.fcw-leftnav:hover{
+  background-color: #f26f26;
+}
+
+#swc-blue{
+  color:#3aaefe;
+}
+
+.swc-space{
+  margin:0 2px;
+}
+
+.fcw-t2-title{
+  color: #000;
+}
+.fcw-t2-title:hover{
+  color:#f26f26;
+}
+.fcw-loc{
+  color: #000;
+}
+/*.fcw-loc:hover{
+  color:#f26f26;
+}*/
+.hover1{
+  width:100%;
+  height:100%;
+  border-radius: 50%;
+  opacity: 0;
+  text-align: center;
+}
+.txt1{
+  padding-top:1em;
+  font-size: 32px;
+  font-family: HN-L;
+  color:#ffffff;
+}
+.txt2{
+  font-size: 18px;
+  font-family: HN-B;
+  color:#ffffff;
+}
+.hover1:hover{
+  opacity: .85;
+  padding-top: 10px;
+  background: #f26f26;
+  font-size: 20px;
+}

@@ -60,62 +60,41 @@ $(function(){
     //   dataCall(offset);
     // }
 
-    $.get('http://apisports.synapsys.us:91/NBAHoops/call_controller.php?scope=nba&action=widgets&option=player_widget', function(data){
+    $.get('http://apisports.synapsys.us:91/NBAHoops/call_controller.php?scope=ncaa&action=widgets&option=team_widget', function(data){
       curData = data;
       dataCall(offset);
     }, 'json');
   })//END OF FUNCTION
 
   function dataCall(index){
-      var wData = curData.player_widget;
+      var wData = curData.team_widget;
       var listData = wData.list_data;
       dataLength = listData.length;
-      // Title to go to list pages
       var title = (wData.list_title).replace(/\s+/g, '-');
-      // Get Team name for linking purposes
       var team_image = listData[index].team_name;
-      var player_url = listData[index].first_name+'-'+listData[index].last_name;
-      var par_player_url = listData[index].last_name+'-'+listData[index].first_name;
       team_image = team_image.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g,'').replace('amp;', '').replace('-',' ');
       team_image = team_image.replace(/ /g, '_');
+      var w_value = listData[index][wData.list_metric];
       var teamName = (listData[index].team_name).replace(/\s+/g, '-');
       $('.fcw-t1').html(wData.list_title);
-      $('.fcw-t2-title').html(listData[index].last_name + ', ' + listData[index].first_name);
-      if(listData[index].player_position == null || listData[index].player_position == ''){
-        $('.fcw-loc').html('N/A');
-      } else {
-        $('.fcw-loc').html(listData[index].player_position);
-      }
-      $('.fcw-image').css('background', 'url('+imageUrl(listData[index].player_img)+') no-repeat');
-      $('.fcw-logo').css('background', 'url('+teamImage(team_image)+') no-repeat');
+      $('.fcw-t2-title').html(listData[index].team_name);
+      $('.fcw-loc').html(listData[index].player_position);
+      $('.fcw-image').css('background', 'url('+teamImage(team_image)+') no-repeat');
       $('.fcw-t2-num').html('#'+(index+1));
-      // var w_value = listData[index][wData.list_metric];
       $('.fcw-content1').html(listData[index].formatted_metric + ' ' + listData[index].friendly_metric);
       $('.fcw-content2').html('in the 2015 Season');
 
       if(remnant == 'true' || remnant == true){
-        // go to player profile
-        $('#title_link').attr('href',link+ "/NBA/player/" + teamName + "/" + player_url + "/" + listData[index].person_id);
-        // go to player profile
-        $('.exec-link').attr('href',link+"/NBA/player/" + teamName + "/" + player_url + "/" + listData[index].person_id);
-        // go to team profile
-        $('#teamProfile').attr('href',link + "/NBA/team/" + teamName + "/" + listData[index].team_id);
-        $('.fcw-href').attr('href',link + "/NBA/" + title + "/" + wData.list_id + "/listview/1");
+        $('#title_link').attr('href',link + "/NCAA/team/" + teamName + "/" + listData[index].TeamID);
+        $('.exec-link').attr('href',link + "/NCAA/team/" + teamName + "/" + listData[index].TeamID);
+        $('.fcw-href').attr('href',link + "/NCAA/" + title + "/" + wData.list_id + "/listview/1");
       } else {
-        $('#title_link').attr('href',link+ "/" + domain + "/NBA/p/"+teamName+"/"+par_player_url+"/"+listData[index].person_id);
-        $('.exec-link').attr('href',link+ "/" + domain + "/NBA/p/"+teamName+"/"+par_player_url+"/"+listData[index].person_id);
-        $('#teamProfile').attr('href',link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].team_id);
-        $('.fcw-href').attr('href',link + "/" + domain + "/NBA/" + title + "/" + wData.list_id+"/listview/1");
+        $('#title_link').attr('href',link + "/" + domain + "/NCAA/t/" + teamName + "/" + listData[index].TeamID);
+        $('.exec-link').attr('href',link + "/" + domain + "/NCAA/t/" + teamName + "/" + listData[index].TeamID);
+        $('.fcw-href').attr('href',link + "/" + domain + "/NCAA/" + title + "/list/" + wData.list_id + "/1");
       }
   }
 
-function imageUrl(path){
-  if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
-    return '../css/public/no_image.jpg';
-  }
-  return 'http://sports-images.synapsys.us:99' + path;
-}
-
 function teamImage(tpath){
-  return 'http://sports-images.synapsys.us:99/nba/logos/NBA_'+ tpath + '_Logo.jpg';
+  return 'http://sports-images.synapsys.us:99/ncaab/logos/NCAAB_'+ tpath + '_Logo.jpg';
 }

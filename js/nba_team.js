@@ -11,8 +11,8 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
-var link = "http://pnsports.synapsys.us/";
-var link_partner = "http://localhost:3000/";
+var link = "http://pnsports.synapsys.us";
+//var link = "http://localhost:3000";
 $(function(){
 
   var temp = location.search;
@@ -33,12 +33,6 @@ $(function(){
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   	}
-
-  	// var script_tag = document.createElement('script');
-  	// script_tag.setAttribute('src','//static.getclicky.com/js');
-  	// document.head.appendChild(script_tag);
-  	// var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  	// document.head.appendChild(clicks[0]);
     $('.fcw-rightnav').on('click', function() {
         if (offset < dataLength-1 && $(this).data('dir') === 'next') {
             dataCall(++offset);
@@ -74,44 +68,33 @@ $(function(){
 
   function dataCall(index){
       var wData = curData.team_widget;
-      console.log(wData);
-      console.log(wData.list_metric);
       var listData = wData.list_data;
-      console.log(listData);
       dataLength = listData.length;
-      console.log(dataLength);
-      var title = "nba-team-top-lists";
-      var teamName = spaceToHypen(listData.team_name);
-      console.log(teamName);
+      var title = (wData.list_title).replace(/\s+/g, '-');
+      var team_image = listData[index].team_name;
+      team_image = team_image.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g,'').replace('amp;', '').replace('-',' ');
+      team_image = team_image.replace(/ /g, '_');
       var w_value = listData[index][wData.list_metric];
-      console.log(w_value);
+      var teamName = (listData[index].team_name).replace(/\s+/g, '-');
       $('.fcw-t1').html(wData.list_title);
-      $('.fcw-t2-loc').html(listData[index].team_name);
-      $('.fcw-image').css('background', 'url('+listData[index].img+') no-repeat');
-      $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(Number(w_value).toFixed(2) +'%');
-      $('.fcw-content2').html('In 2015');
+      $('.fcw-t2-title').html(listData[index].team_name);
+      $('.fcw-loc').html(listData[index].player_position);
+      $('.fcw-image').css('background', 'url('+teamImage(team_image)+') no-repeat');
+      $('.fcw-t2-num').html('#'+(index+1));
+      $('.fcw-content1').html(listData[index].formatted_metric + ' ' + listData[index].friendly_metric);
+      $('.fcw-content2').html('in the 2015 Season');
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+"/NBA/"+title+"/team");
-        $('#loc').attr('href',link+"/NBA/team/"+listData.team_name+"/"+listData[index].TeamID);
-        $('#imgUrl').aattr('href',link+"/NBA/team/"+listData.team_name+"/"+listData[index].TeamID);
+        $('#title_link').attr('href',link + "/NBA/team/" + teamName + "/" + listData[index].TeamID);
+        $('.exec-link').attr('href',link + "/NBA/team/" + teamName + "/" + listData[index].TeamID);
+        $('.fcw-href').attr('href',link + "/NBA/" + title + "/" + wData.list_id + "/listview/1");
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/NBA/team/"+title);
-        $('#loc').attr('href',link_partner+domain+"/NBA/t/"+listData.team_name+"/"+listData[index].TeamID);
-        $('#imgUrl').attr('href',link_partner+domain+"/NBA/t/"+listData.team_name+"/"+listData[index].TeamID);
+        $('#title_link').attr('href',link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].TeamID);
+        $('.exec-link').attr('href',link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].TeamID);
+        $('.fcw-href').attr('href',link + "/" + domain + "/NBA/" + title + "/list/" + wData.list_id + "/1");
       }
   }
 
-function imageUrl(path){
-  if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
-    return '../css/public/no_image.jpg';
-  }
-  return path;
-}
-function spaceToHypen(str) {
-  if ( typeof str == "undefined" || str == null || typeof str != "string" ) {
-    return '';
-  }
-  return str.replace(/(,|\.|&|\*)/g,'').replace(/ /g,'-').replace(/\//g,'_').replace(/%20/g,'-');
+function teamImage(tpath){
+  return 'http://sports-images.synapsys.us:99/nba/logos/NBA_'+ tpath + '_Logo.jpg';
 }
