@@ -81,9 +81,9 @@ $(function(){
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       var startFam = Number(curData[0].DemoStartFamily).toFixed(0);
-      $('.fcw-content1').html(startFam.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Children Under 5');
+      $('.fcw-content1').html(startFam.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Children');
       if(curData[0].DemoYear == null || typeof curData[0].DemoYear == 'undefined'){
-        $('.fcw-content2').html('In 2012');
+        $('.fcw-content2').html('Under 5 Years Old');
       } else {
         $('.fcw-content2').html('In ' + curData[0].DemoYear);
       }

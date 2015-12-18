@@ -78,12 +78,9 @@ $(function(){
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       var startFam = Number(curData[0].DemoStartFamily).toFixed(0);
-      $('.fcw-content1').html(startFam.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Children Under 5');
-      if(curData[0].DemoYear == null || typeof curData[0].DemoYear == 'undefined'){
-        $('.fcw-content2').html('In 2014');
-      } else {
-        $('.fcw-content2').html('In ' + curData[0].DemoYear);
-      }
+      $('.fcw-content1').html(startFam.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Children');
+      $('.fcw-content2').html('Under 5 Years Old');
+
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/national/demographics");
         $('#loc').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
