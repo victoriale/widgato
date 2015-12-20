@@ -60,7 +60,7 @@ $(function(){
     //   dataCall(offset);
     // }
 
-    $.get('http://apisports.synapsys.us:91/NBAHoops/call_controller.php?scope=nba&action=widgets&option=team_widget', function(data){
+    $.get('//apisports.synapsys.us:91/NBAHoops/call_controller.php?scope=nba&action=widgets&option=team_widget', function(data){
       curData = data;
       dataCall(offset);
     }, 'json');
