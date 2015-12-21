@@ -71,7 +71,7 @@ $(function(){
       var listData = wData.list_data;
       dataLength = listData.length;
       // Title to go to list pages
-      var title = (wData.list_title).replace(/\s+/g, '-');
+      var title = (wData.list_title).replace('/','-').replace(/\s+/g, '-');
       // Get Team name for linking purposes
       var team_image = listData[index].team_name;
       var player_url = listData[index].first_name+'-'+listData[index].last_name;

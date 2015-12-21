@@ -70,7 +70,7 @@ $(function(){
       var wData = curData.team_widget;
       var listData = wData.list_data;
       dataLength = listData.length;
-      var title = (wData.list_title).replace(/\s+/g, '-');
+      var title = (wData.list_title).replace('/','-').replace(/\s+/g, '-');
       var team_image = listData[index].team_name;
       team_image = team_image.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g,'').replace('amp;', '').replace('-',' ');
       team_image = team_image.replace(/ /g, '_');
