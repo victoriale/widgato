@@ -100,12 +100,12 @@ $(function(){
         $('.exec-link').attr('href',link+"/NBA/player/" + teamName + "/" + player_url + "/" + listData[index].person_id);
         // go to team profile
         $('#teamProfile').attr('href',link + "/NBA/team/" + teamName + "/" + listData[index].team_id);
-        $('.fcw-href').attr('href',link + "/NBA/" + title + "/" + wData.list_id + "/listview/1");
+        $('.fcw-href').attr('href',link + "/NBA/player/" + title + "/" + wData.list_id + "/listview/1");
       } else {
         $('#title_link').attr('href',link+ "/" + domain + "/NBA/p/"+teamName+"/"+par_player_url+"/"+listData[index].person_id);
         $('.exec-link').attr('href',link+ "/" + domain + "/NBA/p/"+teamName+"/"+par_player_url+"/"+listData[index].person_id);
         $('#teamProfile').attr('href',link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].team_id);
-        $('.fcw-href').attr('href',link + "/" + domain + "/NBA/" + title + "/" + wData.list_id+"/listview/1");
+        $('.fcw-href').attr('href',link + "/" + domain + "/NBA/player/" + title + "/list/" + wData.list_id+"/1");
       }
   }
 

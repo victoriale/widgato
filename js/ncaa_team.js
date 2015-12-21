@@ -87,11 +87,11 @@ $(function(){
       if(remnant == 'true' || remnant == true){
         $('#title_link').attr('href',link + "/NCAA/team/" + teamName + "/" + listData[index].TeamID);
         $('.exec-link').attr('href',link + "/NCAA/team/" + teamName + "/" + listData[index].TeamID);
-        $('.fcw-href').attr('href',link + "/NCAA/" + title + "/" + wData.list_id + "/listview/1");
+        $('.fcw-href').attr('href',link + "/NCAA/team/" + title + "/" + wData.list_id + "/listview/1");
       } else {
         $('#title_link').attr('href',link + "/" + domain + "/NCAA/t/" + teamName + "/" + listData[index].TeamID);
         $('.exec-link').attr('href',link + "/" + domain + "/NCAA/t/" + teamName + "/" + listData[index].TeamID);
-        $('.fcw-href').attr('href',link + "/" + domain + "/NCAA/" + title + "/list/" + wData.list_id + "/1");
+        $('.fcw-href').attr('href',link + "/" + domain + "/NCAA/team/" + title + "/list/" + wData.list_id + "/1");
       }
   }
 
