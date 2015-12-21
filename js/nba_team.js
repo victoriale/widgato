@@ -60,7 +60,7 @@ $(function(){
     //   dataCall(offset);
     // }
 
-    $.get('http://apisports.synapsys.us:91/NBAHoops/call_controller.php?scope=nba&action=widgets&option=team_widget', function(data){
+    $.get('//apisports.synapsys.us:91/NBAHoops/call_controller.php?scope=nba&action=widgets&option=team_widget', function(data){
       curData = data;
       dataCall(offset);
     }, 'json');
@@ -70,7 +70,7 @@ $(function(){
       var wData = curData.team_widget;
       var listData = wData.list_data;
       dataLength = listData.length;
-      var title = (wData.list_title).replace(/\s+/g, '-');
+      var title = (wData.list_title).replace('/','-').replace(/\s+/g, '-');
       var team_image = listData[index].team_name;
       team_image = team_image.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g,'').replace('amp;', '').replace('-',' ');
       team_image = team_image.replace(/ /g, '_');
@@ -87,11 +87,11 @@ $(function(){
       if(remnant == 'true' || remnant == true){
         $('#title_link').attr('href',link + "/NBA/team/" + teamName + "/" + listData[index].TeamID);
         $('.exec-link').attr('href',link + "/NBA/team/" + teamName + "/" + listData[index].TeamID);
-        $('.fcw-href').attr('href',link + "/NBA/" + title + "/" + wData.list_id + "/listview/1");
+        $('.fcw-href').attr('href',link + "/NBA/team/" + title + "/" + wData.list_id + "/listview/1");
       } else {
         $('#title_link').attr('href',link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].TeamID);
         $('.exec-link').attr('href',link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].TeamID);
-        $('.fcw-href').attr('href',link + "/" + domain + "/NBA/" + title + "/list/" + wData.list_id + "/1");
+        $('.fcw-href').attr('href',link + "/" + domain + "/NBA/team/" + title + "/list/" + wData.list_id + "/1");
       }
   }
 

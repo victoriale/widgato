@@ -60,7 +60,7 @@ $(function(){
     //   dataCall(offset);
     // }
 
-    $.get('http://apisports.synapsys.us:91/NBAHoops/call_controller.php?scope=nba&action=widgets&option=player_widget', function(data){
+    $.get('//apisports.synapsys.us:91/NBAHoops/call_controller.php?scope=nba&action=widgets&option=player_widget', function(data){
       curData = data;
       dataCall(offset);
     }, 'json');
@@ -71,7 +71,7 @@ $(function(){
       var listData = wData.list_data;
       dataLength = listData.length;
       // Title to go to list pages
-      var title = (wData.list_title).replace(/\s+/g, '-');
+      var title = (wData.list_title).replace('/','-').replace(/\s+/g, '-');
       // Get Team name for linking purposes
       var team_image = listData[index].team_name;
       var player_url = listData[index].first_name+'-'+listData[index].last_name;
@@ -100,12 +100,12 @@ $(function(){
         $('.exec-link').attr('href',link+"/NBA/player/" + teamName + "/" + player_url + "/" + listData[index].person_id);
         // go to team profile
         $('#teamProfile').attr('href',link + "/NBA/team/" + teamName + "/" + listData[index].team_id);
-        $('.fcw-href').attr('href',link + "/NBA/" + title + "/" + wData.list_id + "/listview/1");
+        $('.fcw-href').attr('href',link + "/NBA/player/" + title + "/" + wData.list_id + "/listview/1");
       } else {
         $('#title_link').attr('href',link+ "/" + domain + "/NBA/p/"+teamName+"/"+par_player_url+"/"+listData[index].person_id);
         $('.exec-link').attr('href',link+ "/" + domain + "/NBA/p/"+teamName+"/"+par_player_url+"/"+listData[index].person_id);
         $('#teamProfile').attr('href',link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].team_id);
-        $('.fcw-href').attr('href',link + "/" + domain + "/NBA/" + title + "/" + wData.list_id+"/listview/1");
+        $('.fcw-href').attr('href',link + "/" + domain + "/NBA/player/" + title + "/list/" + wData.list_id+"/1");
       }
   }
 

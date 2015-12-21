@@ -60,7 +60,7 @@ $(function(){
     //   dataCall(offset);
     // }
 
-    $.get('http://apisports.synapsys.us:91/NBAHoops/call_controller.php?scope=ncaa&action=widgets&option=player_widget', function(data){
+    $.get('//apisports.synapsys.us:91/NBAHoops/call_controller.php?scope=ncaa&action=widgets&option=player_widget', function(data){
       curData = data;
       dataCall(offset);
     }, 'json');
@@ -70,7 +70,7 @@ $(function(){
       var wData = curData.player_widget;
       var listData = wData.list_data;
       dataLength = listData.length;
-      var title = (wData.list_title).replace(/\s+/g, '-');
+      var title = (wData.list_title).replace('/','-').replace(/\s+/g, '-');
       var team_image = listData[index].team_firstname + ' ' + listData[index].team_lastname;
       team_image = team_image.replace(/[&\/\\#,+()$~%.'":*?<>{}]/g,'').replace('amp;', '').replace('-',' ');
       var teamName = team_image.replace(/\s+/g, '-');
@@ -93,12 +93,12 @@ $(function(){
         $('#title_link').attr('href',link+ "/NCAA/player/" + teamName + "/"+ player_url+ "/" + listData[index].PlayerId);
         $('.exec-link').attr('href',link+ "/NCAA/player/"+teamName+"/" + player_url + "/" + listData[index].PlayerId);
         $('#teamProfile').attr('href',link + "/NCAA/team/" + teamName + "/" + listData[index].team_id);
-        $('.fcw-href').attr('href',link + "NCAA/" + title + "/" + wData.list_id+"/listview/1");
+        $('.fcw-href').attr('href',link + "NCAA/player/" + title + "/" + wData.list_id+"/listview/1");
        } else {
-        $('#title_link').attr('href',link+ "/" + domain + "/NCAA/player/"+teamName+"/"+player_url+"/"+listData[index].PlayerId);
-        $('.exec-link').attr('href',link+ "/" + domain + "/NCAA/player/"+teamName+"/"+player_url+"/"+listData[index].PlayerId);
+        $('#title_link').attr('href',link+ "/" + domain + "/NCAA/p/"+teamName+"/"+listData[index].player_last_name+'-'+listData[index].player_first_name+"/"+listData[index].PlayerId);
+        $('.exec-link').attr('href',link+ "/" + domain + "/NCAA/p/"+teamName+"/"+listData[index].player_last_name+'-'+listData[index].player_first_name+"/"+listData[index].PlayerId);
         $('#teamProfile').attr('href',link + "/NCAA/team/" + teamName + "/" + listData[index].team_id);
-        $('.fcw-href').attr('href',link + "/" + domain + "/NCAA/" + title + "/" + wData.list_id+"/listview/1");
+        $('.fcw-href').attr('href',link + "/" + domain + "/NCAA/player/" + title + "/list/" + wData.list_id+"/1");
       }
   }
 

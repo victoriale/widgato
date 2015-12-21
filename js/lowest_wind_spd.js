@@ -65,7 +65,7 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=weathers&wid=14&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('//apirt.synapsys.us/index.php?widget=weathers&wid=14&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       if(data.widget == null){
         document.location.href = 'nat_lowest_wind_spd.html'+redirectquery;
         console.log('Redirect ERROR', document.location.href);
