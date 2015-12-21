@@ -66,7 +66,7 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-  	$.get('//devapirt.synapsys.us/index.php?widget=crime&wid=3&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('//apirt.synapsys.us/index.php?widget=crime&wid=3&city='+city+'&state='+state+'&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       if(data.widget == null){
         document.location.href = 'nat_robberies.html'+redirectquery;
         console.log('Redirect ERROR', document.location.href);
