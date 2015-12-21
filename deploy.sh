@@ -10,8 +10,8 @@
 # Set variables
 # target directory
 copyTo="/var/www/content.synapsys.us/public_html/widgets"
-copyTo="./Done"
-tempCopy="./Minified"
+# copyTo="./widgets_built"
+tempCopy="./widgets"
 # Log file
 logFile="$HOME/widget_build.log"
 echo $(date) >> $logFile
@@ -20,8 +20,8 @@ green='\E[32m'
 red='\E[31m'
 normal='\E[m'
 # Directory configuration
-directories=("w_crime" "w_demographics" "w_finance" "w_hoopsloyal" "w_political" "w_realestate" "w_sports" "w_weather")
-categories=(["w_crime"]="realestate" ["w_demographics"]="realestate" ["w_finance"]="finance" ["w_hoopsloyal"]="sports" ["w_political"]="realestate" ["w_realestate"]="realestate" ["w_sports"]="sports" ["w_weather"]="realestate")
+declare -A directories
+directories=(["w_crime"]="realestate" ["w_demographics"]="realestate" ["w_finance"]="finance" ["w_hoopsloyal"]="sports" ["w_political"]="realestate" ["w_realestate"]="realestate" ["w_sports"]="sports" ["w_weather"]="realestate")
 
 # Check for the Dependencies
 # minify
@@ -95,6 +95,13 @@ else
   echo -e "[${red}ERR.${normal}]"
   exit 0;
 fi
+echo -en "[....] Copying Public and Fonts Folders"
+if cp -r ./css/font ./css/public $tempCopy/css; then
+  echo -e "[${green}DONE${normal}]"
+else
+  echo -e "[${red}ERR.${normal}]"
+  exit 1
+fi
 echo
 
 # move the HTML files
@@ -120,20 +127,57 @@ else
   echo -e "[${red}ERR.${normal}]"
   exit 0;
 fi
-for d in ${directories[@]}; do
+for d in "${!directories[@]}"; do
   echo -en "[....] Copying $d\r"
   for f in $(ls ./$d | grep html); do
-    if ! cp ./$d/$f $tempCopy/${categories[$d]}/$f >>$logFile 2>&1; then
+    if ! cp ./$d/$f $tempCopy/${directories[$d]}/$f >>$logFile 2>&1; then
       echo -e "[${red}ERR.${normal}]"
       exit 0
     fi
   done
   echo -e "[${green}DONE${normal}]"
 done
+echo
+
+# Change all the links to minified files
+echo "**** Changing Link Locations ****"
+widgets=('finance' 'realestate' 'sports');
+for w in ${widgets[@]}; do
+  echo -en "[....] $w Widgets\r"
+  for f in $(ls $tempCopy/$w | grep html); do
+    # CSS
+    if ! sed -i 's/\.\.\/css\/\(.*\)\.css/\.\.\/css\/\1\.min\.css/g' $tempCopy/$w/$f; then
+      echo -e "[${red}ERR.${normal}]"
+      exit 1;
+    fi
+    # JS
+    if ! sed -i 's/\.\.\/js\/\(.*\)\.js/\.\.\/js\/\1\.min\.js/g' $tempCopy/$w/$f; then
+      echo -e "[${red}ERR.${normal}]"
+      exit 1;
+    fi
+  done
+  echo -e "[${green}DONE${normal}]"
+done
+echo
 
 # Copy the temp directory to the deploy directory
+echo "**** Deploying ****"
+echo -en "[....] Removing old files\r"
+if rm -rf $copyTo/* >>$logFile 2>&1; then
+  echo -e "[${green}DONE${normal}]"
+else
+  echo -e "[${red}ERR.${normal}]"
+  exit 0;
+fi
 echo -en "[....] Deploying files\r"
-if mv "$tempCopy" "$copyTo"; then
+if mv -f "$tempCopy/"* "$copyTo" >>$logFile 2>&1; then
+  echo -e "[${green}DONE${normal}]"
+else
+  echo -e "[${red}ERR.${normal}]"
+  exit 0;
+fi
+echo -en "[....] Removing temporary directory\r"
+if rm -rf $tempCopy >>$logFile 2>&1; then
   echo -e "[${green}DONE${normal}]"
 else
   echo -e "[${red}ERR.${normal}]"
