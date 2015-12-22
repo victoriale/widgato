@@ -35,7 +35,7 @@ $(function(){
           dataCall(offset);
         }
     });
-    $.get('//apisports.synapsys.us:91/NBAHoops/call_controller.php?scope=nba&action=widgets&option=player_widget', function(data){
+    $.get('//prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=widgets&option=player_widget', function(data){
       curData = data;
       dataCall(offset);
     }, 'json');
@@ -88,9 +88,9 @@ function imageUrl(path){
   if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
     return '../css/public/no_image.jpg';
   }
-  return 'http://sports-images.synapsys.us:99' + path;
+  return 'http://prod-sports-images.synapsys.us' + path;
 }
 
 function teamImage(tpath){
-  return 'http://sports-images.synapsys.us:99/nba/logos/NBA_'+ tpath + '_Logo.jpg';
+  return 'http://prod-sports-images.synapsys.us/nba/logos/NBA_'+ tpath + '_Logo.jpg';
 }

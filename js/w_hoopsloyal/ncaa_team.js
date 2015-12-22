@@ -35,7 +35,7 @@ $(function(){
         }
     });
 
-    $.get('//apisports.synapsys.us:91/NBAHoops/call_controller.php?scope=ncaa&action=widgets&option=team_widget', function(data){
+    $.get('//prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=widgets&option=team_widget', function(data){
       curData = data;
       dataCall(offset);
     }, 'json');
@@ -71,5 +71,5 @@ $(function(){
   }
 
 function teamImage(tpath){
-  return 'http://sports-images.synapsys.us:99/ncaab/logos/NCAAB_'+ tpath + '_Logo.jpg';
+  return 'http://prod-sports-images.synapsys.us/ncaab/logos/NCAAB_'+ tpath + '_Logo.jpg';
 }

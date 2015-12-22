@@ -36,7 +36,7 @@ $(function(){
         }
     });
 
-    $.get('//apisports.synapsys.us:91/NBAHoops/call_controller.php?scope=ncaa&action=widgets&option=player_widget', function(data){
+    $.get('//prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=widgets&option=player_widget', function(data){
       curData = data;
       dataCall(offset);
     }, 'json');
@@ -60,7 +60,8 @@ $(function(){
         $('.fcw-loc').html(listData[index].player_position);
       }
       $('.fcw-image').css('background', 'url('+imageUrl(listData[index].player_img)+') no-repeat');
-      $('.fcw-logo').css('background', 'url('+teamImage(team_image)+') no-repeat');      $('.fcw-t2-num').html('#'+(index+1));
+      $('.fcw-logo').css('background', 'url('+teamImage(team_image)+') no-repeat');
+      $('.fcw-t2-num').html('#'+(index+1));
       // var w_value = listData[index][wData.list_metric];
       $('.fcw-content1').html(listData[index].formatted_metric + ' ' + listData[index].friendly_metric);
       $('.fcw-content2').html('in the 2015 Season');
@@ -82,8 +83,8 @@ function imageUrl(path){
   if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
     return '../css/public/no_image.jpg';
   }
-  return 'http://sports-images.synapsys.us:99' + path;
+  return 'http://prod-sports-images.synapsys.us' + path;
 }
 function teamImage(tpath){
-  return 'http://sports-images.synapsys.us:99/ncaab/logos/NCAAB_'+ tpath + '_Logo.jpg';
+  return 'http://prod-sports-images.synapsys.us/ncaab/logos/NCAAB_'+ tpath + '_Logo.jpg';
 }
