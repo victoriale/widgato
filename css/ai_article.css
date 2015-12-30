@@ -1,0 +1,193 @@
+html, body {
+  margin: 0 !important;
+  font-family: HN;
+  width: 100%;
+  height: auto;
+  background-color: white;
+}
+div, span{
+  font-family: Lato, sans-serif;
+}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+}
+button:focus {
+  outline:0;
+}
+sup {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.5em;
+}
+
+.aiw {
+  width: 300px;
+  height: 600px;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  background-color: #f2f2f2;
+}
+
+/**** Title Portion of the widget ****/
+.aiw-img {
+  width: 100%;
+  height: 130px;
+  margin: 0;
+  padding: 0;
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #222;
+  position: absolute;
+  top: 0;
+}
+.aiw-top {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  position: absolute;
+  top: 0;
+}
+.aiw-top .ball {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #e26e26;
+  margin: 5px;
+  float: left;
+  background-position: center center;
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-image: url('./public/Icon_Basketball.png');
+}
+.aiw-top span {
+  font-size: 16px;
+}
+.aiw-top span .team {
+  font-weight: bold;
+  font-size: 18px;
+}
+.aiw-top .fa {
+  color: #e26e26;
+  font-size: 20px;
+  margin-left: 5px;
+}
+
+/**** Content Classes ****/
+.aiw-bdy {
+  width: 100%;
+  height: 220px;
+  padding: 10px 15px;
+  background-color: #fff;
+  position: absolute;
+  top: 130px;
+}
+.aiw-title {
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+  float: left;
+}
+.aiw-num {
+  font-size: 16px;
+  line-height: 20px;
+  float: right;
+  color: #999;
+}
+.aiw-txt {
+  width: 250px;
+  height: 122px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  line-height: 15px;
+  position: absolute;
+  top: 40px;
+}
+.aiw-txt::first-letter {
+  font-size: 60px;
+  line-height: 45px;
+  font-style: italic;
+  font-weight: bold;
+  float: left;
+  padding-right: 5px;
+}
+.fa.aiw-btn {
+  width: 30px;
+  height: 60px;
+  position: absolute;
+  right: 0;
+  top: 70px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  background-color: rgba(0, 0, 0, 0.9);
+  line-height: 60px;
+  text-align: center;
+  color: #fff;
+  font-size: 25px;
+  cursor: pointer;
+}
+.fa.aiw-btn:hover {
+  background-color: #e26e26;
+}
+.aiw-link {
+  width: 150px;
+  height: 35px;
+  border-radius: 5px;
+  background-color: #363636;
+  color: #fff;
+  line-height: 35px;
+  text-align: center;
+  padding: 0;
+  position: absolute;
+  bottom: 15px;
+  left: 75px;
+  font-size: 13px;
+  font-weight: bold;
+  padding-left: 17px;
+  background-repeat: no-repeat;
+  background-image: url('./public/Icon-Magazine.png');
+  background-size: 15px auto;
+  background-position: 17px 12px;
+  cursor: pointer !important;
+}
+.aiw-link:hover {
+  background-color: #e26e26;
+}
+.aiw-ad {
+  width: 100%;
+  text-align: left;
+  color: #999;
+  font-size: 10px;
+  line-height: 10px;
+  text-transform: uppercase;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+/**** Utility Classes ****/
+.ad_location{
+  width:100%;
+  height:250px;
+  background-color: #ccc;
+  position: absolute;
+  bottom: 0;
+}
+.noclick {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
