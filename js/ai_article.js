@@ -118,7 +118,22 @@ ai_widget = (function(){
 
 		// Create page
 		displayPage();
-	} // --> nextPage
+	} // --> npextPage
+	function prevPage() {
+		// Exit if no pages
+		if ( pageInd == -1 || availPages.length == 0 ) {
+			return false;
+		}
+
+		// Create new pageInd
+		pageInd--;
+		if ( pageInd <= -1 ) {
+			pageInd = availPages.length - 1;
+		}
+
+		// Create page
+		displayPage();
+	} // --> prevPage
 
 	// **** PARSING FUNCTION ****
 	function processData() {
@@ -289,6 +304,7 @@ ai_widget = (function(){
 	getContent();
 	return {
 		getData: getData,
-		nextPage: nextPage
+		nextPage: nextPage,
+		prevPage: prevPage,
 	};
 })();

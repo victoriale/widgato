@@ -111,6 +111,7 @@ sup {
   line-height: 15px;
   position: absolute;
   top: 40px;
+  padding-left: 20px;
 }
 .aiw-txt::first-letter {
   font-size: 60px;
@@ -124,16 +125,23 @@ sup {
   width: 30px;
   height: 60px;
   position: absolute;
-  right: 0;
   top: 70px;
-  border-top-left-radius: 30px;
-  border-bottom-left-radius: 30px;
   background-color: rgba(0, 0, 0, 0.9);
   line-height: 60px;
   text-align: center;
   color: #fff;
   font-size: 25px;
   cursor: pointer;
+}
+.fa-angle-left.aiw-btn {
+  left: 0;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+.fa-angle-right.aiw-btn {
+  right: 0;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
 }
 .fa.aiw-btn:hover {
   background-color: #e26e26;
