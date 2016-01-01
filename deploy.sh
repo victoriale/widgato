@@ -95,7 +95,7 @@ else
   echo -e "[${red}ERR.${normal}]"
   exit 0;
 fi
-echo -en "[....] Copying Public and Fonts Folders"
+echo -en "[....] Copying Public and Fonts Folders\r"
 if cp -r ./css/font ./css/public $tempCopy/css; then
   echo -e "[${green}DONE${normal}]"
 else
