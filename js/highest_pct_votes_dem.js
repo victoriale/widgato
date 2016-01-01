@@ -34,29 +34,13 @@ $(function(){
   	state = query['loc']['loc_id']['state'];
     //returns string true or false
     bord = query.bord;
-		/*
-		//Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
-		//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
-		for(var i = 0; i < query['loc']['loc']['city'].length; i++){
-			var c = query['loc']['loc']['city'][i].city;
-			var s = query['loc']['loc']['city'][i].state;
-			loc = loc + c + "," + s;
-			if (typeof query['loc']['loc']['city'][i+1] != 'undefined'){
-				loc += '|';
-			}
-		}
-		*/
+
   	}
 
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   	}
 
-  	// var script_tag = document.createElement('script');
-  	// script_tag.setAttribute('src','//static.getclicky.com/js');
-  	// document.head.appendChild(script_tag);
-  	// var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  	// document.head.appendChild(clicks[0]);
     $('.fcw-rightnav').on('click', function() {
         if ($(this).data('dir') === 'next') {
             dataCall(++offset);
