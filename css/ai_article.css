@@ -55,6 +55,7 @@ sup {
   color: #fff;
   position: absolute;
   top: 0;
+  cursor: pointer;
 }
 .aiw-top .ball {
   width: 30px;
@@ -74,11 +75,78 @@ sup {
 .aiw-top span .team {
   font-weight: bold;
   font-size: 18px;
+  text-transform: uppercase;
 }
 .aiw-top .fa {
   color: #e26e26;
   font-size: 20px;
   margin-left: 5px;
+  position: absolute;
+  height: 40px;
+  line-height: 40px;
+  right: 10px;
+  top: 0px;
+}
+.aiw-top .fa.fa-caret-up {
+  color: #fff;
+}
+
+/**** Dropdown ****/
+.dropdown {
+  position: absolute;
+  top: 40px;
+  height: 310px;
+  width: 100%;
+  display: none;
+  color: #000;
+  background-color: #fff;
+  z-index: 10;
+  padding: 0px;
+  line-height: 40px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.dropdown-elem {
+  padding: 0px 5px;
+  height: 40px;
+  width: 100%;
+  font-size: 15px;
+}
+.dropdown-elem.active {
+  color: #e26e26;
+}
+.dropdown-elem:hover {
+  color: #fff;
+  background-color: #e26e26;
+  cursor: pointer;
+}
+.dropdown-elem b {
+  /*color: #000;*/
+  font-size: 17px;
+}
+.dropdown-elem .left {
+  float: left;
+}
+.dropdown-elem .right {
+  float: right;
+}
+.dropdown .divider {
+  width: 100%;
+  height: 1px;
+  background-color: #c2c2c2;
+  margin: 0px 5px;
+}
+.aiw-img.active .dropdown {
+  display: block;
+}
+.aiw-img.active .aiw-top {
+  background-color: #e26e26;
+}
+.aiw-img.active .aiw-top .ball {
+  background-color: #000;
+}
+.aiw-img.active .aiw-top .fa {
+  color: #fff;
 }
 
 /**** Content Classes ****/

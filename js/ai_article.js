@@ -8,6 +8,7 @@ ai_widget = (function(){
 	gameID = -1,
 	pageInd = -1,
 	availPages = [],
+	gameArr = [],
 	pages = ['pregame_report', 'postgame_report', 'about_the_teams', 'historical_team_stats', 'last_matchup', 'player_comparison_power_forwards', 'player_comparison_small_forwards', 'player_comparison_shooting_guards', 'player_comparison_point_guards', 'player_comparison_centers', 'home_team_starting_roster', 'away_team_starting_roster', 'home_team_injury_report', 'away_team_injury_report', 'upcoming'],
 	transArr = {
 		'pregame_report': 'pregame',
@@ -27,9 +28,22 @@ ai_widget = (function(){
 		'upcoming': 'upcoming',
   };
 
-	function getContent() {
+	function getContent(eventId) {
+		// Clear old data
+		if ( gameID != -1 ) {
+			availPages = [];
+			pageInd = -1;
+			$('.aiw-title')[0].innerHTML = "Loading...";
+			$('.aiw-txt')[0].innerHTML = '';
+			$('.aiw-num')[0].innerHTML = '';
+		}
+
+		var locApiUrl = APIUrl;
+		if ( typeof eventId != "undefined" ) {
+			locApiUrl += "&event=" + eventId;
+		}
 		$.ajax({
-			url: APIUrl,
+			url: locApiUrl,
 			success: function(data) {
 				$.ajax({
 					url: YseopURL,
@@ -178,23 +192,12 @@ ai_widget = (function(){
 		}
 		pageInd = 0;
 
-		// Title of the module
-		$(AIData.meta_data.text).find('.currentGame .moduleTeam').each(function(index) {
-			// Create selector or skip
-			if ( index == 0 ) {
-				var selector = '.home.team';
-			} else if ( index == 1 ) {
-				var selector = '.away.team';
-			} else {
-				return false;
-			}
-
-			// Set the team name
-			$(selector)[0].innerHTML = $(this)[0].innerHTML;
-		});
-
 		// Get game ID
 		gameID = $(AIData.meta_data.text).find('.currentGame .eventId')[0].innerHTML;
+
+		if ( gameArr.length == 0 ) {
+			parseGames();
+		}
 
 		// Display first data
 		displayPage();
@@ -301,10 +304,91 @@ ai_widget = (function(){
 		};
 	} // --> parseChildNodes
 
+	// Parse the games into an array
+	function parseGames() {
+		// Array of games
+		gameArr = [];
+
+		// Function for the parser
+		var parseGame = function() {
+			var gameData = {};
+			// Team names
+			$(this).find('.moduleTeam').each(function(){
+				if ( typeof gameData.home == "undefined" ) {
+					gameData.home = this.innerHTML;
+				} else {
+					gameData.away = this.innerHTML;
+				}
+			});
+			// Event ID
+			gameData.eventId = $(this).find('.eventId')[0].innerHTML;
+			// Date
+			gameData.eventDate = $(this).find('.moduleDate')[0].innerHTML;
+
+			gameArr.push(gameData);
+		}
+
+		// Create Jquery object
+		var games = $('<div>' + AIData.meta_data.text + '</div>').find('.nextNbaGames');
+		// Save all the games
+		games.find('.game').each(parseGame);
+
+		// Display the current game
+		showGame();
+	} // --> parseGames
+	// Creates the dropdown
+	function createDropdown() {
+		var ddStr = '';
+		for ( var i = 0; i < gameArr.length; i++ ) {
+			if ( i > 0 ) {
+				ddStr += '<div class="divider"></div>';
+			}
+			ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == gameID ? ' active"' : '" onclick="ai_widget.switchGame(' + i + ')"') + '"><span class="left"><b>' + gameArr[i].away + '</b> vs. <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
+		}
+
+		// Create
+		$('.dropdown')[0].innerHTML = ddStr;
+	} // --> createDropdown
+	// Show the current game's teams in the header
+	function showGame() {
+		// Loop through the games to find the current one
+		for ( var i = 0; i < gameArr.length; i++ ) {
+			if ( gameArr[i].eventId == gameID ) {
+				$('.home.team')[0].innerHTML = gameArr[i].home;
+				$('.away.team')[0].innerHTML = gameArr[i].away;
+			}
+		}
+
+		// Create dropdown
+		createDropdown();
+	} // --> showGame
+	// Switches the game
+	function switchGame(gameNum) {
+		gameID = gameArr[parseInt(gameNum)].eventId;
+
+		toggleDropDown();
+		getContent(gameID);
+		showGame();
+	} // --> switchGame
+
+	// Toggle the dropdown
+	function toggleDropDown() {
+		var aiwImg = $('.aiw-img');
+		if ( aiwImg.hasClass('active') ) {
+			aiwImg.removeClass('active');
+			aiwImg.find('.fa').removeClass('fa-caret-up').addClass('fa-caret-down');
+		} else {
+			aiwImg.addClass('active');
+			aiwImg.find('.fa').addClass('fa-caret-up').removeClass('fa-caret-down');
+		}
+	} // --> toggleDropDown
+
 	getContent();
 	return {
 		getData: getData,
 		nextPage: nextPage,
 		prevPage: prevPage,
+		toggleDropDown: toggleDropDown,
+		switchGame: switchGame
 	};
 })();
