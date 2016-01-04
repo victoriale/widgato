@@ -94,7 +94,7 @@ ai_widget = (function(){
 			number: (pageInd + 1) + '/' + availPages.length,
 			url: 'article/' + transArr[pageID] + '/' + gameID,
 			content: data.find('.article')[0].innerHTML.replace(/(<br>)+/g,' <br>&nbsp; '),
-			img: images[pageInd % images.length].innerHTML.replace('sports-images.synapsys.us:99', 'prod-sports-images.synapsys.us')
+			img: images[pageInd % images.length].innerHTML // .replace('sports-images.synapsys.us:99', 'prod-sports-images.synapsys.us')
 		};
 
 		// Set the data
