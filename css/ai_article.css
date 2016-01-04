@@ -183,7 +183,6 @@ sup {
 .aiw-txt::first-letter {
   font-size: 60px;
   line-height: 45px;
-  font-style: italic;
   font-weight: bold;
   float: left;
   padding-right: 5px;
