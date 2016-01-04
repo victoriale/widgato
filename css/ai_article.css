@@ -70,11 +70,11 @@ sup {
   background-image: url('./public/Icon_Basketball.png');
 }
 .aiw-top span {
-  font-size: 16px;
+  font-size: 15px;
 }
 .aiw-top span .team {
   font-weight: bold;
-  font-size: 18px;
+  font-size: 17px;
   text-transform: uppercase;
 }
 .aiw-top .fa {
@@ -110,7 +110,7 @@ sup {
   padding: 0px 5px;
   height: 40px;
   width: 100%;
-  font-size: 15px;
+  font-size: 14px;
 }
 .dropdown-elem.active {
   color: #e26e26;
@@ -121,8 +121,7 @@ sup {
   cursor: pointer;
 }
 .dropdown-elem b {
-  /*color: #000;*/
-  font-size: 17px;
+  font-size: 15px;
 }
 .dropdown-elem .left {
   float: left;
