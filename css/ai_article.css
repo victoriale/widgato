@@ -55,7 +55,7 @@ sup {
   color: #fff;
   position: absolute;
   top: 0;
-  cursor: pointer;
+  cursor: pointer !important;
 }
 .aiw-top .ball {
   width: 30px;
