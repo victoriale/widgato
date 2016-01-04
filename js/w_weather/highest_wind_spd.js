@@ -47,7 +47,7 @@ $(function(){
     });
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
-      $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+      $.get("//w1.synapsys.us/get-remote-addr/",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
           dataCall(offset);
