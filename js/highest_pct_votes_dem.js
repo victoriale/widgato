@@ -57,7 +57,7 @@ $(function(){
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
-        $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
 
@@ -70,7 +70,7 @@ $(function(){
         });
       }else{
         //partner with no data same thing as if statement but doing this just in case
-        $.get("//apireal.synapsys.us/listhuv/?action=get_remote_addr2",function(r_data){
+        $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
 
