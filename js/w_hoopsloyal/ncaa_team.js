@@ -5,7 +5,9 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
-var link = "http://pnsports.synapsys.us";
+var link = "http://www.hoopsloyal.com";
+var partner_link = "http://www.myhoopszone.com";
+//var link = "http://pnsports.synapsys.us";
 $(function(){
   var temp = location.search;
   var query = {};
@@ -15,7 +17,6 @@ $(function(){
     remnant = query.remn;
     bord = query.bord;
   	}
-
 
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
@@ -51,12 +52,12 @@ $(function(){
       team_image = team_image.replace(/ /g, '_');
       var w_value = listData[index][wData.list_metric];
       var teamName = (listData[index].team_name).replace(/\s+/g, '-');
-      $('.fcw-t1').html(wData.list_title);
+      $('.fcw-t1').html(wData.list_title.replace('College Basketball', 'NCAAB'));
       $('.fcw-t2-title').html(listData[index].team_name);
       $('.fcw-loc').html(listData[index].player_position);
       $('.fcw-image').css('background', 'url('+teamImage(team_image)+') no-repeat');
       $('.fcw-t2-num').html('#'+(index+1));
-      $('.fcw-content1').html(listData[index].formatted_metric + ' ' + listData[index].friendly_metric);
+      $('.fcw-content1').html(listData[index].formatted_metric + ' ' + (listData[index].friendly_metric).replace('Percentage', '%'));
       $('.fcw-content2').html('in the 2015 Season');
 
       if(remnant == 'true' || remnant == true){
@@ -64,9 +65,9 @@ $(function(){
         $('.exec-link').attr('href',link + "/NCAA/team/" + teamName + "/" + listData[index].TeamID);
         $('.fcw-href').attr('href',link + "/NCAA/team/" + title + "/" + wData.list_id + "/listview/1");
       } else {
-        $('#title_link').attr('href',link + "/" + domain + "/NCAA/t/" + teamName + "/" + listData[index].TeamID);
-        $('.exec-link').attr('href',link + "/" + domain + "/NCAA/t/" + teamName + "/" + listData[index].TeamID);
-        $('.fcw-href').attr('href',link + "/" + domain + "/NCAA/team/" + title + "/list/" + wData.list_id + "/1");
+        $('#title_link').attr('href',partner_link + "/" + domain + "/NCAA/t/" + teamName + "/" + listData[index].TeamID);
+        $('.exec-link').attr('href',partner_link + "/" + domain + "/NCAA/t/" + teamName + "/" + listData[index].TeamID);
+        $('.fcw-href').attr('href',partner_link + "/" + domain + "/NCAA/team/" + title + "/list/" + wData.list_id + "/1");
       }
   }
 

@@ -5,7 +5,9 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
-var link = "http://pnsports.synapsys.us";
+var link = "http://www.hoopsloyal.com";
+var partner_link = "http://www.myhoopszone.com";
+//var link = "http://pnsports.synapsys.us";
 $(function(){
   var temp = location.search;
   var query = {};
@@ -63,9 +65,9 @@ $(function(){
         $('.exec-link').attr('href',link + "/NBA/team/" + teamName + "/" + listData[index].TeamID);
         $('.fcw-href').attr('href',link + "/NBA/team/" + title + "/" + wData.list_id + "/listview/1");
       } else {
-        $('#title_link').attr('href',link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].TeamID);
-        $('.exec-link').attr('href',link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].TeamID);
-        $('.fcw-href').attr('href',link + "/" + domain + "/NBA/team/" + title + "/list/" + wData.list_id + "/1");
+        $('#title_link').attr('href',partner_link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].TeamID);
+        $('.exec-link').attr('href',partner_link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].TeamID);
+        $('.fcw-href').attr('href',partner_link + "/" + domain + "/NBA/team/" + title + "/list/" + wData.list_id + "/1");
       }
   }
 
