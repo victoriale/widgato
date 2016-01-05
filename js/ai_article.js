@@ -1,8 +1,6 @@
 ai_widget = (function(){
 	// Declare variables
 	var APIUrl = 'http://sports-ai.synapsys.us:91/HoopsLoyal/API_AI_SPO_NBA_Matchup_Mag_000006.php?call=widget',
-	YseopURL = 'http://72.52.250.160:8080/yseop-manager/direct/snt-spo-basketball/dialog.do',
-	YseopUN = 'client', YseopPW = '123',
 	YseopXML = '',
 	AIData = {},
 	gameID = -1,
@@ -45,29 +43,14 @@ ai_widget = (function(){
 		$.ajax({
 			url: locApiUrl,
 			success: function(data) {
-				$.ajax({
-					url: YseopURL,
-					method: 'POST',
-					data: {'xml': data},
-					success: function(data) {
-						YseopXML = data;
-						processData();
-					},
-					error: function(jqXHR, status, error) {
-						console.log(jqXHR, status, error);
-						displayError('Error Loading YSEOP Response: ' + status);
-					},
-					dataType: 'xml',
-					headers: {
-						"Authorization": "Basic " + btoa(YseopUN + ":" + YseopPW),
-					},
-				});
+				YseopXML = data;
+				processData();
 			},
 			error: function(jqXHR, status, error) {
 				console.log(jqXHR, status, error);
 				displayError('Error Loading Sports API: ' + status);
 			},
-			dataType: 'text'
+			dataType: 'xml'
 		});
 	} // --> getContent
 
