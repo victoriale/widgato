@@ -57,7 +57,7 @@ $(function(){
       $('.fcw-loc').html(listData[index].player_position);
       $('.fcw-image').css('background', 'url('+teamImage(team_image)+') no-repeat');
       $('.fcw-t2-num').html('#'+(index+1));
-      $('.fcw-content1').html(listData[index].formatted_metric + ' ' + listData[index].friendly_metric);
+      $('.fcw-content1').html(listData[index].formatted_metric + ' ' + (listData[index].friendly_metric).replace('Percentage', '%'));
       $('.fcw-content2').html('in the 2015 Season');
 
       if(remnant == 'true' || remnant == true){
