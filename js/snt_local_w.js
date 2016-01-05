@@ -40,7 +40,7 @@ $(function(){
 
     //checks if it is a remnant and runs through an api
     if(remnant == 'true' || remnant == true){
-      $.get("http://w1.synapsys.us/get-remote-addr/", function(result){
+      $.get("http://w1.synapsys.us/get-remote-addr2/", function(result){
         loc = result[0].state;
         //console.log("Grabbing data call");
         $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){

@@ -102,7 +102,7 @@ function listCall(method, count){
     //even if remnant possibility of no city or state detected and will run get remote address.
     //should only happen if new partners and no city and/or state has been entered into collection
     if(remnant && (city == '' || city == null || state == '' || state == null)){
-  		$.get("//w1.synapsys.us/get-remote-addr/",function(r_data){
+  		$.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
         //will change the title text and resize using resizetext() function
         var name = method[offset]['name'];
 				$("#title_text").html(name);
@@ -148,7 +148,7 @@ function listCall(method, count){
     }//end if
 	} else{
     if(city == '' || city == null || state == '' || state == null){
-      $.get("//w1.synapsys.us/get-remote-addr/",function(r_data){
+      $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
         $.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&city="+ r_data[0].city+"&state="+r_data[0].state, function(data){
     		//checks if the list exist or has reach its max and restarts the list at 0
     		if(typeof data[0] == 'undefined'){
