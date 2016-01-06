@@ -181,7 +181,8 @@ sup {
   padding-left: 20px;
 }
 .aiw-txt::first-letter {
-  font-size: 60px;
+  text-transform: uppercase;
+  font-size: 45px;
   line-height: 45px;
   font-weight: bold;
   float: left;
