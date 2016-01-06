@@ -5,7 +5,8 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
-var link = "http://pnsports.synapsys.us";
+var link = "http://www.hoopsloyal.com";
+var partner_link = "http://www.myhoopszone.com";
 $(function(){
 
   var temp = location.search;
@@ -55,17 +56,18 @@ $(function(){
       team_image = team_image.replace(/ /g, '_');
       var teamName = (listData[index].team_name).replace(/\s+/g, '-');
       $('.fcw-t1').html(wData.list_title);
-      $('.fcw-t2-title').html(listData[index].last_name + ', ' + listData[index].first_name);
-      if(listData[index].player_position == null || listData[index].player_position == ''){
-        $('.fcw-loc').html('N/A');
-      } else {
-        $('.fcw-loc').html(listData[index].player_position);
-      }
+      $('.fcw-t2-title').html(listData[index].first_name  + ' ' + listData[index].last_name + ',' );
+      $('.fcw-loc').html(listData[index].team_name);
       $('.fcw-image').css('background', 'url('+imageUrl(listData[index].player_img)+') no-repeat');
       $('.fcw-logo').css('background', 'url('+teamImage(team_image)+') no-repeat');
       $('.fcw-t2-num').html('#'+(index+1));
       // var w_value = listData[index][wData.list_metric];
-      $('.fcw-content1').html(listData[index].formatted_metric + ' ' + listData[index].friendly_metric);
+      if(listData[index].friendly_metric == 'Assist to Turnover Ratio'){
+        listData[index].friendly_metric = 'Turnover Ratio';
+      } else if(listData[index].friendly_metric == '3 Pointer Percentage'){
+        listData[index].friendly_metric = '3-Pointer Percentage'
+      }
+      $('.fcw-content1').html(listData[index].formatted_metric + ' ' + (listData[index].friendly_metric).replace('Percentage', '%'));
       $('.fcw-content2').html('in the 2015 Season');
 
       if(remnant == 'true' || remnant == true){
@@ -74,19 +76,21 @@ $(function(){
         // go to player profile
         $('.exec-link').attr('href',link+"/NBA/player/" + teamName + "/" + player_url + "/" + listData[index].person_id);
         // go to team profile
+        $('#teamProf').attr('href',link + "/NBA/team/" + teamName + "/" + listData[index].team_id);
         $('#teamProfile').attr('href',link + "/NBA/team/" + teamName + "/" + listData[index].team_id);
         $('.fcw-href').attr('href',link + "/NBA/player/" + title + "/" + wData.list_id + "/listview/1");
       } else {
-        $('#title_link').attr('href',link+ "/" + domain + "/NBA/p/"+teamName+"/"+par_player_url+"/"+listData[index].person_id);
-        $('.exec-link').attr('href',link+ "/" + domain + "/NBA/p/"+teamName+"/"+par_player_url+"/"+listData[index].person_id);
-        $('#teamProfile').attr('href',link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].team_id);
-        $('.fcw-href').attr('href',link + "/" + domain + "/NBA/player/" + title + "/list/" + wData.list_id+"/1");
+        $('#title_link').attr('href',partner_link+ "/" + domain + "/NBA/p/"+teamName+"/"+par_player_url+"/"+listData[index].person_id);
+        $('.exec-link').attr('href',partner_link+ "/" + domain + "/NBA/p/"+teamName+"/"+par_player_url+"/"+listData[index].person_id);
+        $('#teamProf').attr('href',partner_link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].team_id);
+        $('#teamProfile').attr('href',partner_link + "/" + domain + "/NBA/t/" + teamName + "/" + listData[index].team_id);
+        $('.fcw-href').attr('href',partner_link + "/" + domain + "/NBA/player/" + title + "/list/" + wData.list_id+"/1");
       }
   }
 
 function imageUrl(path){
   if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
-    return '../css/public/no_image.jpg';
+    return 'http://sports-images.synapsys.us:99/nba/players/headshots/no_player_icon.png';
   }
   return 'http://prod-sports-images.synapsys.us' + path;
 }
