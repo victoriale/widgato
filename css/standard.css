@@ -291,8 +291,8 @@ button:focus {
 }
 .hover-txt2{
   font-color: #fff;
-  font-size: 18px;
-  font-family: 'Lato', sans-serif; font-weight:900;
+  font-size: 28px;
+  font-family: 'Lato', sans-serif; font-weight:700;
   color:#fff;
 }
 .hover:hover{
