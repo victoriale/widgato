@@ -121,6 +121,7 @@ button:focus {
 }
 .fcw-t2{
   position: absolute;
+  font-weight: 500;
   bottom: 0px;
   margin-bottom: 2px;
   font-size: 14px;

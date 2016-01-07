@@ -57,11 +57,11 @@ $(function(){
       $('.fcw-content2').html(curData[0].Month + ' ' + curData[0].Day + ', ' + curData[0].Year);
       $('.fcw-presentedby').html('CITIES WITH MOST DEATHS IN TORNADO - PRESENTED BY');
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].State+"/national/disasters");
+        $('.fcw-href').attr('href',link+title+"/national/disasters");
         $('#loc').attr('href',link+"location/"+(curData[0].City).toUpperCase()+"_"+curData[0].State);
         $('#imgUrl').attr('href',link+"location/"+(curData[0].City).toUpperCase()+"_"+curData[0].State);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/national/disasters/"+title+"/"+curData[0].State);
+        $('.fcw-href').attr('href',link_partner+domain+"/national/disasters/"+title);
         $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].State+"/"+(curData[0].City).toUpperCase());
         $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].State+"/"+(curData[0].City).toUpperCase());
       }
