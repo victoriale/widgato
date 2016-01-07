@@ -21,30 +21,7 @@ a {
 button:focus {
   outline:0;
 }
-/*@font-face{
-  font-family: ''Lato', sans-serif;font-weight:100';
-  src: url('public/fonts/HelveticaNeue.otf');
-}
 
-@font-face{
-  font-family: ''Lato', sans-serif;font-weight:600';
-  src: url('public/fonts/HelveticaNeue-Bold.otf');
-}
-
-@font-face{
-  font-family: ''Lato', sans-serif;font-weight:300';
-  src: url('public/fonts/HelveticaNeue-Light.otf');
-}
-
-@font-face{
-  font-family: ''Lato', sans-serif;font-weight:100';
-  src: url('public/fonts/HelveticaNeue-Thin.otf');
-}
-
-@font-face{
-  font-family: ''Lato', sans-serif;font-weight:100';
-  src: url('public/fonts/HelveticaNeue-UltraLight.otf');
-}*/
 .ad_location{
   width:300px;
   height:250px;
@@ -73,7 +50,7 @@ button:focus {
   width:25px;
   height:25px;
   background-color: #f26f26;
-  background-image: url("public/Icon_Basketball.png");
+  background-image: url("/public/Icon_Basketball.png");
   background-position: center center !important;
   background-repeat: no-repeat;
   border-radius: 50%;
