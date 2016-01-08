@@ -36,7 +36,7 @@ $(function(){
         }
     });
 
-    $.get('http://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=widgets&option=team_widget', function(data){
+    $.get('//prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=widgets&option=team_widget', function(data){
       curData = data;
       dataCall(offset);
     }, 'json');
