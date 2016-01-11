@@ -1,12 +1,12 @@
 html, body {
   margin: 0 !important;
-  font-family: 'Lato', sans-serif;font-weight:300;
+  font-family: 'Lato', sans-serif;font-weight:400;
   width: 100%;
   height: auto;
   background-color: white;
 }
 div{
-  font-family: 'Lato', sans-serif;font-weight:300;
+  font-family: 'Lato', sans-serif;font-weight:400;
 }
 * {
   -webkit-box-sizing: border-box;
@@ -21,31 +21,6 @@ a {
 button:focus {
   outline:0;
 }
-
-/*@font-face{
-  font-family: ''Lato', sans-serif;font-weight:100';
-  src: url('public/fonts/HelveticaNeue.otf');
-}
-
-@font-face{
-  font-family: ''Lato', sans-serif;font-weight:600';
-  src: url('public/fonts/HelveticaNeue-Bold.otf');
-}
-
-@font-face{
-  font-family: ''Lato', sans-serif;font-weight:300';
-  src: url('public/fonts/HelveticaNeue-Light.otf');
-}
-
-@font-face{
-  font-family: ''Lato', sans-serif;font-weight:100';
-  src: url('public/fonts/HelveticaNeue-Thin.otf');
-}
-
-@font-face{
-  font-family: ''Lato', sans-serif;font-weight:100';
-  src: url('public/fonts/HelveticaNeue-UltraLight.otf');
-}*/
 
 .ad_location{
   width:300px;
@@ -288,6 +263,7 @@ button:focus {
 }
 .fcw-loc{
   color: #000;
+  font-weight: 400;
   overflow: hidden;
 }
 .fcw-loc:hover{
@@ -301,16 +277,12 @@ button:focus {
   text-align: center;
 }
 .txt1{
-  padding-top:1em;
+  padding-top:25px;
   font-size: 32px;
-  font-family: 'Lato', sans-serif;
-  font-weight:300;
   color:#ffffff;
 }
 .txt2{
   font-size: 18px;
-  font-family: 'Lato', sans-serif;
-  font-weight:600;
   color:#ffffff;
 }
 .hover1:hover{

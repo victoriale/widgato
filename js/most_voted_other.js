@@ -56,7 +56,6 @@ $(function(){
         $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
-
           //transforms title to add in state
           var title = $('.fcw-t1').html();
           title = title.split(' ');

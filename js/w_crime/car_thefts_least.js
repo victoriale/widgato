@@ -1,9 +1,7 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-
 var remnant = '';
 var locName = '';
 var city = '';
