@@ -3,7 +3,6 @@ var dataLength;
 var curData;
 
 var domain = '';
-var clickyId = 0;
 var remnant = '';
 var locName = '';
 var city = '';
@@ -17,21 +16,18 @@ $(function(){
 
   if(temp != null){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
     //set the query data from database to global variable to use
     domain = query.dom;
 
     remnant = query.remn;
 
-    clickyId = query.c_id;
-
     locName = query['loc']['loc_name'];
 
     locName = locName.replace('+',' ');
 
-    city = query['loc']['loc_id']['city'];
+    city = query['loc']['city'];
 
-  	state = query['loc']['loc_id']['state'];
+  	state = query['loc']['state'];
     //returns string true or false
     bord = query.bord;
 
@@ -40,12 +36,6 @@ $(function(){
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   	}
-
-  	var script_tag = document.createElement('script');
-  	script_tag.setAttribute('src','//static.getclicky.com/js');
-  	document.head.appendChild(script_tag);
-  	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  	document.head.appendChild(clicks[0]);
 
     $('.fcw-rightnav').on('click', function() {
         if ($(this).data('dir') === 'next') {
@@ -106,7 +96,7 @@ $(function(){
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-t2-loc').html(curData[0].county+' County, '+curData[0].state);
       $('.fcw-content1').html(dNumberToCommaNumber(curData[0].votes)+' Votes');
-      $('.fcw-image').css('background', 'url('+curData[0].image+') no-repeat');
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].image)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',"http://www.joyfulhome.com/"+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
@@ -133,12 +123,12 @@ $(function(){
   	return num;
   }
   function imageUrl(path){
-    if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
+    if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://pics4.city-data.com/cpic1/1files123.jpg'){
       return '../css/public/no_image.jpg';
     }
-    return 'http://images.investkit.com/images/' + path;
+    return path;
   }
 	//puts comma on every thousand number
-function dNumberToCommaNumber(Number) {
+  function dNumberToCommaNumber(Number) {
 	  return Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }

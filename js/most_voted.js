@@ -1,9 +1,7 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-var clickyId = 0;
 var remnant = '';
 var locName = '';
 var city = '';
@@ -14,38 +12,22 @@ var bord = false;
 $(function(){
   var temp = location.search;
   var query = {};
-
   if(temp != null){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
     //set the query data from database to global variable to use
     domain = query.dom;
-
     remnant = query.remn;
-
-    clickyId = query.c_id;
-
     locName = query['loc']['loc_name'];
-
     locName = locName.replace('+',' ');
-
-    city = query['loc']['loc_id']['city'];
-
-  	state = query['loc']['loc_id']['state'];
+    city = query['loc']['city'];
+  	state = query['loc']['state'];
     //returns string true or false
     bord = query.bord;
-
   	}
 
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   	}
-
-  	var script_tag = document.createElement('script');
-  	script_tag.setAttribute('src','//static.getclicky.com/js');
-  	document.head.appendChild(script_tag);
-  	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  	document.head.appendChild(clicks[0]);
 
     $('.fcw-rightnav').on('click', function() {
         if ($(this).data('dir') === 'next') {
@@ -66,7 +48,6 @@ $(function(){
         $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
-
           //transforms title to add in state
           var title = $('.fcw-t1').html();
           title = title.split(' ');
@@ -79,7 +60,6 @@ $(function(){
         $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
-
           //transforms title to add in state
           var title = $('.fcw-t1').html();
           title = title.split(' ');

@@ -3,7 +3,6 @@ var dataLength;
 var curData;
 
 var domain = '';
-var clickyId = 0;
 var remnant = '';
 var locName = '';
 var city = '';
@@ -20,11 +19,10 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    clickyId = query.c_id;
     locName = query['loc']['loc_name'];
     locName = locName.replace('+',' ');
-    city = query['loc']['loc_id']['city'];
-  	state = query['loc']['loc_id']['state'];
+    city = query['loc']['city'];
+  	state = query['loc']['state'];
     bord = query.bord;
   	}
 
@@ -71,7 +69,7 @@ $(function(){
       var title = "most-robberies-by-city";
       $('.fcw-t1').html('Cities in ' + fullstate(curData[0].CrimeState) + ' with the Most Thefts');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html((curData[0].CrimeLarcenyNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +' Thefts');
       $('.fcw-content2').html('in ' + curData[0].CrimeYear);
@@ -90,7 +88,7 @@ $(function(){
   }
 
   function imageUrl(path){
-    if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
+    if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://pics4.city-data.com/cpic1/1files123.jpg'){
       return '../css/public/no_image.jpg';
     }
     return path;

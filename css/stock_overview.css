@@ -1,15 +1,27 @@
 html, body {
-	margin: auto;
-	padding: auto;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-	width: 100%;
-	background-color:#fff;
+  margin: 0 !important;
+  font-family: 'Lato', sans-serif;font-weight:400;
+  width: 100%;
+  height: auto;
+  background-color: white;
+}
+div{
+  font-family: 'Lato', sans-serif;font-weight:400;
+}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  outline:0;
 }
 
-a{
-	text-decoration:none;
-	outline:0;
+button:focus {
+  outline:0;
 }
+
 .sv_company-link{
 	color:#fff;
 }
@@ -458,7 +470,6 @@ a{
 	height:100%;
 	background: rgba(48,152,255,.75);
 	border-radius:100%;
-	padding:1em;
 	opacity:0;
 	transition: .2s opacity;
 	box-sizing:border-box;
@@ -518,6 +529,7 @@ a{
 	color:#d6d6d6;
 	text-align:left;
 	padding-left:8px;
+  position: absolute;
 }
 
 /*AD LOCATION*/
@@ -529,3 +541,25 @@ a{
 }
 
 /* contains the whole widget including ads END*/
+.hover1{
+  width:100%;
+  height:100%;
+  border-radius: 50%;
+  padding-top: 15px;
+  opacity: 0;
+  text-align: center;
+}
+.txt1{
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;font-weight:400;
+  color:#ffffff;
+}
+.txt2{
+  font-size: 14px;
+  font-family: 'Lato', sans-serif;font-weight:700;;
+  color:#ffffff;
+}
+.hover1:hover{
+  opacity: .85;
+  font-size: 20px;
+}

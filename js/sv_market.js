@@ -1,6 +1,4 @@
-//var offset=0;
 var domain = '';
-var clickyId = 0;
 var remnant = '';
 var locName = '';
 var city = '';
@@ -11,40 +9,10 @@ var bord = false;
 
 
 $(function(){
-	// var temp = location.search;
-	// var query = {};
-
-	// if(temp != null){
-	// 	query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
 		//set the query data from database to global variable to use
-		// domain = query.dom;
 		domain = 'siliconvalley.com';//Will be always non-remnant but keeping code just in case
-
-		// remnant = query.remn;
 		//digital first widgets are not ever REMNANTS but just in case keep code there and set remnant to false
 		remnant = false;
-
-		// clickyId = query.c_id;
-
-		// locName = query['loc']['loc_name'];
-		// locName = locName.replace('+',' ');
-
-		//returns string true or false
-	// 	bord = query.bord;
-	// }
-
-	// if(bord == 'true'){
-	// 	$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
-	// }
-
-	//get click tag from query embed.
-	// var script_tag = document.createElement('script');
-	// script_tag.setAttribute('src','//static.getclicky.com/js');
-	// document.head.appendChild(script_tag);
-	// var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-	// document.head.appendChild(clicks[0]);
-
 
 //create a search function to pass into graph
 	$('.market_search_box').bind("enterKey",function(e){
@@ -71,13 +39,12 @@ $(function(){
 			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
 		}
 	})//END OF FUNCTION
-//data call to gather info on exchange prices
-	$.get('http://testapi.investkit.com:90/call_controller.php?action=widget&option=sv150_markets_slim', function(data){
+ //data call to gather info on exchange prices
+	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=sv150_markets_slim', function(data){
 		//sets a number to allow different ID's to be called since data calls are different
 		data_result = data.sv150_markets_slim;
 		data_exchange = data_result.exchange_stock_data;
 		data_gainer = data_result.sv150_list_gainer;
-		console.log(data_result);
 		var num = 1;
 		var link = 'http://www.investkit.com';
 		//plug in data call for SV150

@@ -3,7 +3,7 @@ var dataLength;
 var curData;
 
 var domain = '';
-var clickyId = 0;
+
 var remnant = '';
 var locName = '';
 var city = '';
@@ -21,11 +21,11 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    clickyId = query.c_id;
+    
     locName = query['loc']['loc_name'];
     locName = locName.replace('+',' ');
-    city = query['loc']['loc_id']['city'];
-  	state = query['loc']['loc_id']['state'];
+    city = query['loc']['city'];
+  	state = query['loc']['state'];
     bord = query.bord;
   	}
 
@@ -75,7 +75,7 @@ $(function(){
       var title = "nat-highest-cloudy-day-by-city";
       $('.fcw-t1').html('Cities with the Most Cloudy Days Annually in the U.S.');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       if(curData[0].WeatherCloudyDay == 1){
         $('.fcw-content1').html(curData[0].WeatherCloudyDay +' Cloudy Day');
@@ -99,7 +99,7 @@ $(function(){
   }
 
   function imageUrl(path){
-    if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
+    if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://apireal.synapsys.us/city-image/images/placeholder-location.jpg'){
       return '../css/public/no_image.jpg';
     }
     return path;

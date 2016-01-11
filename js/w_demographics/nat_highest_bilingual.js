@@ -21,11 +21,11 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    clickyId = query.c_id;
+    
     locName = query['loc']['loc_name'];
     locName = locName.replace('+',' ');
-    city = query['loc']['loc_id']['city'];
-  	state = query['loc']['loc_id']['state'];
+    city = query['loc']['city'];
+  	state = query['loc']['state'];
     bord = query.bord;
   	}
 

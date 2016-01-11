@@ -1,6 +1,5 @@
 //embedd code localized variables
 var domain = '';
-var clickyId = 0;
 var remnant = '';
 var locName = '';
 var city = '';
@@ -32,24 +31,20 @@ $(function(){
 
   	remnant = query.remn;
 
-  	clickyId = query.c_id;
-
   	locName = query['loc']['loc_name'];
 
     dma = query['loc']['loc']['DMA'];
 
     //checks if it is a remnant and runs through an api
     if(remnant == 'true' || remnant == true){
-      $.get("http://w1.synapsys.us/get-remote-addr2/", function(result){
+      $.get("//w1.synapsys.us/get-remote-addr2/", function(result){
         loc = result[0].state;
-        //console.log("Grabbing data call");
         $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
           dataCall = data.local_market_movers;
           w_info = dataCall.top_list_list[0].top_list_info;
           list = dataCall.top_list_list[0].top_list_list;
           listid = w_info.top_list_id;
           listTitle = w_info.top_list_title;
-          //console.log(list);
           dataLength = list.length;
           graph = dataCall.top_list_graph_data;
           compData(offset, list);
@@ -72,7 +67,7 @@ $(function(){
       }
 
       //console.log("Grabbing data call");
-      $.get('http://testapi.investkit.com:90/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
+      $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
         dataCall = data.local_market_movers;
         w_info = dataCall.top_list_list[0].top_list_info;
         list = dataCall.top_list_list[0].top_list_list;
@@ -86,13 +81,6 @@ $(function(){
     }
   	bord = query.bord;
   }
-
-  var script_tag = document.createElement('script');
-  script_tag.setAttribute('src','//static.getclicky.com/js');
-  document.head.appendChild(script_tag);
-  var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  document.head.appendChild(clicks[0]);
-
 
   $('.fgw-rightnav').on('click', function() {
 		if (offset < dataLength-1 && $(this).data('dir') === 'next') {
@@ -116,7 +104,13 @@ function compData(offset){
   var curItem = list[offset];
   $(".fgw-t2-title").html(curItem.c_name);
   $(".fgw-t2-loc").html(curItem.c_hq_state + ", " + curItem.c_hq_city);
-  $(".fgw-image").css({"background-image":"url('http://images.investkit.com/images/"+curItem.c_logo+"')"});
+  $(".fgw-content1").html(convert_num(Number(curItem.stock_percent).toFixed(2)));
+  var logo = curItem.c_logo;
+  if(logo == null || logo == 'null' || typeof logo == 'undefined'){
+    $(".fgw-image").css({"background-image":"url('../css/public/no_image.jpg')"});
+  } else {
+    $(".fgw-image").css({"background-image":"url('http://images.investkit.com/images/"+curItem.c_logo+"')"});
+  }
   $(".fgw-content1").html(convert_num(Number(curItem.stock_percent).toFixed(2)));
   listTitle = listTitle.replace(/ /g, '-');
   if(remnant == 'true' || remnant == true){

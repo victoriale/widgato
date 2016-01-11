@@ -1,11 +1,21 @@
-
-/*LINE 219  URL IMAGE CHANGE*/
 html, body {
-	margin: auto;
-	padding: auto;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-	width: 100%;
-	background-color:#fff;
+  margin: 0 !important;
+  font-family: 'Lato', sans-serif;font-weight:400;
+  width: 100%;
+  height: auto;
+  background-color: white;
+}
+div{
+  font-family: 'Lato', sans-serif;font-weight:400;
+}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+button:focus {
+  outline:0;
 }
 
 a{
@@ -50,7 +60,7 @@ a{
 
 .headline{
 	color:#fff;
-	font-weight:bold;
+	font-weight:700;
 }
 
 .mrwidget_mtabs{
@@ -59,7 +69,7 @@ a{
 	display:table;
 	color: #fff;
 	font-size:12px;
-	font-weight:bold;
+	font-weight:700;
 
 }
 
@@ -116,7 +126,7 @@ a{
 .change{
 	display:block;
 	font-size:12px;
-	font-weight:bold;
+	font-weight:700;
 	color:#44b224;
 }
 
@@ -137,7 +147,7 @@ a{
 
 .mrwidget_title{
 	width:90%;
-	height:22px;
+	height:35px;
 	padding:6px 0;
 	text-align:center;
 	margin:auto;
@@ -146,7 +156,7 @@ a{
 .title{
 	color:#000;
 	font-size:14px;
-	font-weight:bold;
+	font-weight:700;
 	text-align:center;
 	text-transform:uppercase;
 }
@@ -159,7 +169,7 @@ a{
 	border-top: 1px solid #ccc;
 	margin:0 auto;
 	width: 270px;
-	height:5px
+	height:10px;
 }
 
 .mrwidget_logo-set{
@@ -203,39 +213,38 @@ a{
 }
 
 .mrwidget_icon{
-	background-size: contain !important;
-	background-position: center center !important;
-	background-repeat: no-repeat !important;
-	text-align: center;
-	border-radius: 100%;
-	line-height: 2em;
-	font-size: 16px;
-	bottom: 92px;
-	left: 70px;
-	position: relative;
-	color: #FFF;
-	/*box-shadow: 0px 0px 0px 2px #FFF;*/
-	background-color: #44B244;
-	display: block;
-	height: 27px;
-	width: 27px;
-	background: URL(public/pass_40x40.png);
+  background-size: contain !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  text-align: center;
+  border-radius: 100%;
+  line-height: 2em;
+  font-size: 16px;
+  bottom: 30px;
+  left: 169px;
+  position: relative;
+  color: #FFF;
+  background-color: #44B244;
+  display: block;
+  height: 27px;
+  width: 27px;
+  background: URL(public/pass_40x40.png);
 }
 
 .mrwidget_counter{
-	text-align: center;
-	border-radius: 100%;
-	line-height: 2em;
-	font-size: 16px;
-	bottom: 55px;
-	left: -2px;
-	position: relative;
-	color: #FFF;
-	box-shadow: 0px 0px 0px 2px #FFF;
-	background: none repeat scroll 0% 0% #000;
-	display: block;
-	height: 30px;
-	width: 30px;
+  text-align: center;
+  border-radius: 100%;
+  line-height: 27px;
+  font-size: 16px;
+  bottom: 120px;
+  left: 91px;
+  position: relative;
+  color: #FFF;
+  box-shadow: 0px 0px 0px 2px #FFF;
+  background: none repeat scroll 0% 0% #000;
+  display: block;
+  height: 30px;
+  width: 30px;
 }
 
 .view-profile_body {
@@ -266,9 +275,8 @@ a{
 
 .bottom-profile{
 	height:20px;
-	padding-top: 10px;
-	padding-bottom:2px;
 	text-align:center;
+	margin-bottom: 5px;
 }
 
 .bp-info{
@@ -279,7 +287,10 @@ a{
 
 .name{
 	font-size: 12px;
-	font-weight:bold;
+	font-weight:700;
+}
+.name:hover{
+  color: #3098ff;
 }
 
 .mrwidget_button{
@@ -293,6 +304,9 @@ a{
 
 .why{
 	font-size:12px;
+}
+.why:hover{
+  color: #3098ff;
 }
 
 .bottom-button-info{
@@ -314,7 +328,7 @@ a{
 	vertical-align:middle;
 	font-size: 14px;
 	color: #fff;
-	font-weight:bold;
+	font-weight:700;
 	text-align:center;
 }
 
@@ -469,7 +483,7 @@ a{
 	height:100%;
 	font-size:12px;
 	line-height:2em;
-	font-family:HN;
+	font-weight:500;
 	display:table-cell;
 }
 
@@ -478,7 +492,7 @@ a{
 	background: none;
 	color: #7bbf65;
 	vertical-align:middle;
-	font-weight:bold;
+	font-weight:700;
 	text-align:center;
 }
 
@@ -509,4 +523,25 @@ a{
 	font-size:12px;
 	line-height:1.6;
 	font-family: sans-serif;
+}
+.trending-1:hover{
+  color: #3098ff;
+}
+.trending-la:hover{
+  color: #3098ff;
+}
+.hover1{
+  padding-top: 20px;
+  width:100%;
+  height:100%;
+  border-radius: 50%;
+  color: #fff;
+  opacity: 0;
+  text-align: center;
+}
+.hover1:hover{
+  opacity: .85;
+  padding-top: 10px;
+  background: #39abff;
+  font-size: 20px;
 }

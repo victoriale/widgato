@@ -3,7 +3,7 @@ var dataLength;
 var curData;
 
 var domain = '';
-var clickyId = 0;
+
 var remnant = '';
 var locName = '';
 var city = '';
@@ -23,15 +23,15 @@ $(function(){
 
     remnant = query.remn;
 
-    clickyId = query.c_id;
+    
 
     locName = query['loc']['loc_name'];
 
     locName = locName.replace('+',' ');
 
-    city = query['loc']['loc_id']['city'];
+    city = query['loc']['city'];
 
-  	state = query['loc']['loc_id']['state'];
+  	state = query['loc']['state'];
     //returns string true or false
     bord = query.bord;
 		/*

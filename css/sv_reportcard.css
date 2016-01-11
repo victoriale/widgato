@@ -1,9 +1,21 @@
 html, body {
-	margin: auto;
-	padding: auto;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-	width: 100%;
-	background-color:#fff;
+  margin: 0 !important;
+  font-family: 'Lato', sans-serif;font-weight:400;
+  width: 100%;
+  height: auto;
+  background-color: white;
+}
+div{
+  font-family: 'Lato', sans-serif;font-weight:400;
+}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+button:focus {
+  outline:0;
 }
 
 a{
@@ -63,7 +75,7 @@ a:visited{
 }
 .rc_exchange{
 	color:#3098ff;
-	font-weight:bold;
+	font-weight:700;
 	display:inline-block;
 	width:75px;
 }
@@ -115,7 +127,6 @@ a:visited{
 	height:100%;
 	font-size:12px;
 	line-height:2em;
-	font-family:sans-serif;
 	display:table-cell;
 	background-color:#3098ff;
 	cursor:pointer;
@@ -208,7 +219,7 @@ a:visited{
 	padding-left:3px;
 	font-size:14px;
 	color:#3098ff;
-	font-weight:bold;
+	font-weight:700;
 }
 .rc_company_price{
 	display:inline-block;
@@ -219,7 +230,7 @@ a:visited{
 }
 .rc_company_change{
 	display:inline-block;
-	font-weight:bold;
+	font-weight:700;
 	text-align:left;
 	font-size:14px;
 }
@@ -418,7 +429,7 @@ a:visited{
 
 .view-profile_txt2 {
 	font-size: 16px;
-	font-weight: bold;
+	font-weight:700;
 	margin-bottom:5px
 }
 
@@ -465,14 +476,14 @@ a:visited{
 
 .tp_company-price{
 	font-size:18px;
-	font-weight:bold;
+	font-weight:700;
 }
 .tp_company-color{
 	color:#36ad29;
 }
 .tp_company-change{
 	font-size:14px;
-	font-weight:bold;
+	font-weight:700;
 }
 /* top left company profile text END*/
 
@@ -505,7 +516,7 @@ a:visited{
 .tabs:hover{
 	border-top:3px solid #309fff;
 	background-color:#fbfbfb;
-	font-weight:bold;
+	font-weight:700;
 }
 
 /* tab area for stock overview graph END */
@@ -560,7 +571,7 @@ a:visited{
 	float:right;
 	line-height:24px;
 	margin:10px 21px 0 0;
-	font-weight:bold;
+	font-weight:700;
 }
 
 .key-data{

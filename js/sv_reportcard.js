@@ -1,5 +1,4 @@
 var domain = '';
-var clickyId = 0;
 var remnant = '';
 var locName = '';
 var city = '';
@@ -9,41 +8,10 @@ var max = 10;
 var bord = false;
 
 $(function(){
-	// var temp = location.search;
-	// var query = {};
-
-	// if(temp != null){
-	// 	query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
-		//set the query data from database to global variable to use
-		// domain = query.dom;
 		domain = 'siliconvalley.com';//Will be always non-remnant but keeping code just in case
-
-		// remnant = query.remn;
-		//digital first widgets are not ever REMNANTS but just in case keep code there and set remnant to false
 		remnant = false;
 
-		// clickyId = query.c_id;
-		// locName = query['loc']['loc_name'];
-		// locName = locName.replace('+',' ');
-
-		//returns string true or false
-	// 	bord = query.bord;
-	// }
-
-	// if(bord == 'true'){
-	// 	$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
-	// }
-
-	//get click tag from query embed.
-	// var script_tag = document.createElement('script');
-	// script_tag.setAttribute('src','//static.getclicky.com/js');
-	// document.head.appendChild(script_tag);
-	// var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-	// document.head.appendChild(clicks[0]);
-
 	$('.sv-tabs').mousedown(function(){ return false; });
-//create a search function to pass into graph
 	$('.rc_search_input').bind("enterKey",function(e){
 		search = $('input').val();
 		if(remnant == 'true' || remnant == true){
@@ -52,7 +20,6 @@ $(function(){
 			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
 		}
 	});//END OF FUNCTION
-	//by pressing enter in this field it will activate
 	$('.rc_search_input').keyup(function(e){
 		if(e.keyCode == 13){
 		  $(this).trigger("enterKey");
@@ -74,15 +41,14 @@ $(function(){
 		$('.so_widget-wrapper').css("display","none");
 		$('.rc_search_input').val("");
 	});
-	//data call for exchange and lists
 })
 
 $(function top(id){
-	$.get('http://testapi.investkit.com:90/call_controller.php?action=widget&option=sv150_report_card', function(data){
+	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=sv150_report_card', function(data){
 				data_result = data.sv150_report_card;
 				data_exchange = data_result.exchange_stock_data;
 				data_gainer = data_result.sv150_list_gainers;
-				data_loser = data_result.sv150_list_losers;
+				data_loser = data_result.sv150_Yist_losers;
 
 				var SV150_price = Number(data_result.sv150_comp_index).toFixed(2);
 				var SV150_priceChange = Number(data_result.sv150_price_change).toFixed(2);

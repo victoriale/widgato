@@ -1,12 +1,12 @@
 html, body {
   margin: 0 !important;
-  font-family: HN;
+  font-family: 'Lato', sans-serif;font-weight:400;
   width: 100%;
   height: auto;
   background-color: white;
 }
 div{
-  font-family: HN;
+  font-family: 'Lato', sans-serif;font-weight:400;
 }
 * {
   -webkit-box-sizing: border-box;
@@ -18,6 +18,16 @@ a {
   color: #000;
   outline:0;
 }
+
+button:focus {
+  outline:0;
+}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
 
 button:focus {
   outline:0;
@@ -292,18 +302,16 @@ button:focus {
   text-align: center;
 }
 .hover-txt1{
-  padding-top:2.5em;
-  font-size: 20px;
-  font-color: #ffffff;
+  padding-top: 35px;
+  font-size: 32px;
+  color: #ffffff;
   line-height: inherit;
-  font-family: HN-B;
-  color:#ffffff;
+  font-weight: 700;
 }
 .hover-txt2{
-  font-color: #ffffff;
-  font-size: 20px;
-  font-family: HN;
-  color:#ffffff;
+  font-size: 26px;
+  font-weight: 500;
+  color: #ffffff;
 }
 .hover:hover{
   width:100%;

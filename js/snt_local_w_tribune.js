@@ -1,6 +1,5 @@
 //embedd code localized variables
 var domain = '';
-var clickyId = 0;
 var remnant = '';
 var locName = '';
 var city = '';
@@ -26,18 +25,11 @@ $(function(){
 
   if(temp != null){
   	query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
   	//set the query data from database to global variable to use
   	domain = query.dom;
-
   	remnant = query.remn;
-
-  	clickyId = query.c_id;
-
   	locName = query['loc']['loc_name'];
-
     dma = query['loc']['loc']['DMA'];
-
     //checks if it is a remnant and runs through an api
     if(remnant == 'true' || remnant == true){
       $.get("http://w1.synapsys.us/get-remote-addr2/", function(result){
@@ -70,33 +62,19 @@ $(function(){
         loc = loc.replace(/ /g, ",");
         loc = removeLastComma(loc);
       }
-
-      //console.log("Grabbing data call");
-      $.get('http://testapi.investkit.com:90/call_controller.php?action=widget&option=shares_locally_traded&param='+loc, function(data){
+      $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=shares_locally_traded&param='+loc, function(data){
         dataCall = data.shares_locally_traded;
         w_info = dataCall.top_list_list[0].top_list_info;
         list = dataCall.top_list_list[0].top_list_list;
         listid = w_info.top_list_id;
         listTitle = w_info.top_list_title;
-        //console.log(list);
         dataLength = list.length;
         graph = dataCall.top_list_graph_data;
         compData(offset, list);
       }, 'json')
-
-
     }
   	bord = query.bord;
-
-
   }
-
-  var script_tag = document.createElement('script');
-  script_tag.setAttribute('src','//static.getclicky.com/js');
-  document.head.appendChild(script_tag);
-  var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  document.head.appendChild(clicks[0]);
-
 
   $('.fgw-rightnav').on('click', function() {
 		if (offset < dataLength-1 && $(this).data('dir') === 'next') {
@@ -144,7 +122,6 @@ function compData(offset){
   }
   stockGraph(curItem.c_id, graph, curItem.c_ticker);
 }
-
 function stockGraph(comp_id, graph, ticker){
   var seriesOptions = [];
 

@@ -1,7 +1,6 @@
 var c_name;
 var comp = '';
 var domain = '';
-var clickyId = 0;
 var remnant = '';
 var locName = '';
 var city = '';
@@ -10,39 +9,11 @@ var loc = '';
 var max = 10;
 var bord = false;
 $(function location(loc){
-  // var temp = location.search;
-  // var query = {};
-
-  // if(temp != null){
-  //   query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
     //set the query data from database to global variable to use
-    // domain = query.dom;
     domain = 'siliconvalley.com';//Will be always non-remnant but keeping code just in case
 
-    // remnant = query.remn;
     //digital first widgets are not ever REMNANTS but just in case keep code there and set remnant to false
     remnant = false;
-
-    // clickyId = query.c_id;
-
-    // locName = query['loc']['loc_name'];
-    // locName = locName.replace('+',' ');
-
-    //returns string true or false
-  //   bord = query.bord;
-  // }
-
-  	// if(bord == 'true'){
-  	// 	$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
-  	// }
-
-    //get click tag from query embed.
-  	// var script_tag = document.createElement('script');
-  	// script_tag.setAttribute('src','//static.getclicky.com/js');
-  	// document.head.appendChild(script_tag);
-  	// var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  	// document.head.appendChild(clicks[0]);
 
     var windowURL = document.referrer;
   	var URLLength = windowURL.length - 1;
@@ -86,7 +57,7 @@ $(function location(loc){
 
 $(function so_leftdata(id){
   $.get('http://apifin.investkit.com/call_controller.php?action=search&option=widget_search&wild=1&param='+comp, function(result){
-    	$.get('http://testapi.investkit.com:90/call_controller.php?action=widget&option=stock_overview&param='+result.company_name.func_data.search_data[0].c_id, function(data){
+    	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=stock_overview&param='+result.company_name.func_data.search_data[0].c_id, function(data){
         dataCall = data.stock_overview;
     		stockData= dataCall.stock_data;
         dailyData = dataCall.daily_update;

@@ -3,7 +3,7 @@ var dataLength;
 var curData;
 
 var domain = '';
-var clickyId = 0;
+
 var remnant = '';
 var locName = '';
 var city = '';
@@ -21,11 +21,11 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    clickyId = query.c_id;
+    
     locName = query['loc']['loc_name'];
     locName = locName.replace('+',' ');
-    city = query['loc']['loc_id']['city'];
-  	state = query['loc']['loc_id']['state'];
+    city = query['loc']['city'];
+  	state = query['loc']['state'];
     bord = query.bord;
   	}
 
@@ -71,7 +71,7 @@ $(function(){
       $('.fcw-content1').html(curData[0].WeatherWindSpeed + ' Miles Per Hour');
       var pop = Number(popData.population).toFixed(0);
       $('.fcw-content2').html('Pop. of ' + pop.replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
+      $('.fcw-image').css('background', 'url('+imageUrl(imageUrl(curData[0].img))+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/national/weather");
@@ -87,7 +87,7 @@ $(function(){
   }
 
   function imageUrl(path){
-    if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
+    if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://apireal.synapsys.us/city-image/images/placeholder-location.jpg'){
       return '../css/public/no_image.jpg';
     }
     return path;
