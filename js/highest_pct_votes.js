@@ -66,7 +66,7 @@ $(function(){
         });
       }else{
         //partner with no data same thing as if statement but doing this just in case
-        $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
+        $.get("http://w1.synapsys.us/get-remote-addr2/",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
 
@@ -89,7 +89,7 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-  	$.get('//apirt.synapsys.us/index.php?widget=politics&wid=3&city='+city+'&state='+state+'&page-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://apirt.synapsys.us/index.php?widget=politics&wid=3&city='+city+'&state='+state+'&page-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var county = data.county;
       curData = data.widget;
