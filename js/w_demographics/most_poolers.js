@@ -3,7 +3,7 @@ var dataLength;
 var curData;
 
 var domain = '';
-var clickyId = 0;
+
 var remnant = '';
 var locName = '';
 var city = '';

@@ -71,7 +71,7 @@ $(function(){
       var title = "least-robberies-by-city";
       $('.fcw-t1').html('Cities in ' + fullstate(curData[0].CrimeState) + ' with the Least Thefts');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       if(curData[0].CrimeLarcenyNumber <= 1){
         $('.fcw-content1').html(curData[0].CrimeLarcenyNumber +' Theft');

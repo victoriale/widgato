@@ -1,9 +1,7 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-
 var remnant = '';
 var locName = '';
 var city = '';
@@ -20,7 +18,7 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
+
     locName = query['loc']['loc_name'];
     locName = locName.replace('+',' ');
     city = query['loc']['city'];
@@ -76,7 +74,7 @@ $(function(){
         $('.fcw-content1').html((curData[0].CrimeViolentNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Violent Crimes');
       }
       $('.fcw-content2').html('in ' + curData[0].CrimeYear);
-      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
+      $('.fcw-image').css('background', 'url('+imageUrl(imageUrl(curData[0].img))+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");

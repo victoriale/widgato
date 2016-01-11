@@ -74,11 +74,11 @@ $(function(){
       $('.fcw-image').css('background', 'url('+imageUrl(imageUrl(curData[0].img))+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].WeatherState+"/national/weather");
+        $('.fcw-href').attr('href',link+title+"/national/weathers");
         $('#loc').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
         $('#imgUrl').attr('href',link+"location/"+(curData[0].WeatherCity).toUpperCase()+"_"+curData[0].WeatherState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/national/weather/"+title+"/"+curData[0].WeatherState);
+        $('.fcw-href').attr('href',link_partner+domain+"/national/weathers/"+title);
         $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
         $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].WeatherState+"/"+(curData[0].WeatherCity).toUpperCase());
       }

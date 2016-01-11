@@ -74,7 +74,7 @@ $(function(){
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html((curData[0].CrimePropertyCrimeNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Crimes');
       $('.fcw-content2').html('In ' + curData[0].CrimeYear);
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/"+curData[0].CrimeCity+"/crimes");
         $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);

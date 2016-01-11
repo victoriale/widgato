@@ -1,12 +1,12 @@
 html, body {
   margin: 0 !important;
-  font-family: HN;
+  font-family: 'Lato', sans-serif;font-weight:400;
   width: 100%;
   height: auto;
   background-color: white;
 }
 div{
-  font-family: HN;
+  font-family: 'Lato', sans-serif;font-weight:400;
 }
 * {
   -webkit-box-sizing: border-box;
@@ -15,36 +15,11 @@ div{
 }
 a {
   text-decoration: none;
-  color: #000;
+  outline:0;
 }
 
 button:focus {
   outline:0;
-}
-
-@font-face{
-  font-family: 'HN';
-  src: url('public/fonts/HelveticaNeue.otf');
-}
-
-@font-face{
-  font-family: 'HN-B';
-  src: url('public/fonts/HelveticaNeue-Bold.otf');
-}
-
-@font-face{
-  font-family: 'HN-L';
-  src: url('public/fonts/HelveticaNeue-Light.otf');
-}
-
-@font-face{
-  font-family: 'HN-T';
-  src: url('public/fonts/HelveticaNeue-Thin.otf');
-}
-
-@font-face{
-  font-family: 'HN-UL';
-  src: url('public/fonts/HelveticaNeue-UltraLight.otf');
 }
 
 .ad_location{
@@ -95,10 +70,9 @@ button:focus {
 }
 
 .fcw-text{
-  font-family: HN-B;
+  font-weight: 700;
   height: 65px;
   padding-top: 2px;
-  /*padding-left: 43px;*/
   position: relative;
   overflow: hidden;
 }
@@ -108,7 +82,7 @@ button:focus {
   padding-left: 43px;
   top: 0;
   margin-top: 2px;
-  font-family: HN-B;
+  font-weight: 700;
   font-size: 16px;
   text-align: left;
   line-height: 1.2em;
@@ -153,7 +127,7 @@ button:focus {
   position: absolute;
   color: #000;
   font-size: 17px;
-  font-family: HN;
+  font-weight: 400;
   text-align: center;
   border-radius: 50%;
   border-width: 1px;
@@ -211,12 +185,12 @@ button:focus {
 .fcw-content1{
   font-size: 23px;
   color: #000;
-  font-family: HN-B;
+  font-weight: 700;
   text-align: center;
 }
 
 .fcw-content2{
-  font-family: HN-L;
+  font-weight: 400;
   font-size: 18px;
   color:#000;
   text-align: center;
@@ -244,7 +218,7 @@ button:focus {
   color:#000;
   font-size: 10px;
   text-align: center;
-  font-family: HN-B;
+  font-weight: 700;
   line-height: 26px;
 }
 
@@ -298,6 +272,9 @@ button:focus {
 .fcw-t2-loc:hover{
   color: #f6af05;
 }
+.fcw-t2-loc{
+  color: #000;
+}
 .hover{
   width:100%;
   height:100%;
@@ -308,15 +285,13 @@ button:focus {
 .hover-txt1{
   padding-top:2.5em;
   font-size: 20px;
-  font-color: #fff;
   line-height: inherit;
-  font-family: HN-B;
+  font-weight: 700;
   color:#fff;
 }
 .hover-txt2{
-  font-color: #fff;
   font-size: 20px;
-  font-family: HN;
+  font-weight: 400;
   color:#fff;
 }
 .hover:hover{

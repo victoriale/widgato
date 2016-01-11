@@ -45,7 +45,7 @@ $(function(){
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
-        $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
+        $.get("http://w1.synapsys.us/get-remote-addr2/",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
           //transforms title to add in state
@@ -57,7 +57,7 @@ $(function(){
         });
       }else{
         //partner with no data same thing as if statement but doing this just in case
-        $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
+        $.get("http://w1.synapsys.us/get-remote-addr2/",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
           //transforms title to add in state
@@ -79,7 +79,7 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-    $.get('//apirt.synapsys.us/index.php?widget=politics&wid=6&city='+city+'&state='+state+'&page-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+    $.get('http://apirt.synapsys.us/index.php?widget=politics&wid=6&city='+city+'&state='+state+'&page-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
       curData = data.widget;
       dataLength = curData.length;
       var title = "counties-with-the-most-republican-voters";

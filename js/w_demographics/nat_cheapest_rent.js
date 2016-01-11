@@ -1,14 +1,8 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-var clickyId = 0;
 var remnant = '';
-var locName = '';
-var city = '';
-var state = '';
-var loc = '';
 var max = 10;
 var bord = false;
 
@@ -21,11 +15,6 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
-    locName = query['loc']['loc_name'];
-    locName = locName.replace('+',' ');
-    city = query['loc']['city'];
-  	state = query['loc']['state'];
     bord = query.bord;
   	}
 
@@ -33,11 +22,6 @@ $(function(){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   	}
 
-  	// var script_tag = document.createElement('script');
-  	// script_tag.setAttribute('src','//static.getclicky.com/js');
-  	// document.head.appendChild(script_tag);
-  	// var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  	// document.head.appendChild(clicks[0]);
     $('.fcw-rightnav').on('click', function() {
         if ($(this).data('dir') === 'next') {
             dataCall(++offset);
@@ -52,19 +36,10 @@ $(function(){
           dataCall(offset);
         }
     });
-
-    if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
-      $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
-        city = r_data[0].city;
-        state = r_data[0].state;
-        dataCall(offset);
-      });
-    }else{
-      dataCall(offset);
-    }
+    dataCall(offset);
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//apirt.synapsys.us/index.php?widget=national-demographics&wid=1&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('//apirt.synapsys.us/index.php?widget=national-demographics&wid=1&skip='+index+'limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -78,11 +53,11 @@ $(function(){
       $('.fcw-content2').html('Per Month');
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/national/demographics");
+        $('.fcw-href').attr('href',link+title+"/national/demographics");
         $('#loc').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
         $('#imgUrl').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/national/demographics/"+title+"/"+curData[0].DemoState);
+        $('.fcw-href').attr('href',link_partner+domain+"/national/demographics/"+title);
         $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
         $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
       }

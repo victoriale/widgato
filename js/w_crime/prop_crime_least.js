@@ -1,9 +1,7 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-
 var remnant = '';
 var locName = '';
 var city = '';
@@ -20,14 +18,12 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
     locName = query['loc']['loc_name'];
     locName = locName.replace('+',' ');
     city = query['loc']['city'];
   	state = query['loc']['state'];
     bord = query.bord;
   	}
-
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   	}
@@ -46,7 +42,7 @@ $(function(){
     });
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
-      $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
+      $.get("http://w1.synapsys.us/get-remote-addr2/",function(r_data){
         city = r_data[0].city;
         state = r_data[0].state;
         dataCall(offset);
@@ -70,7 +66,7 @@ $(function(){
       var title = "least-property-crime-by-city";
       $('.fcw-t1').html(fullstate(curData[0].CrimeState) + ' Cities with the Least Property Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       if(curData[0].CrimePropertyCrimeNumber <= 1){
         $('.fcw-content1').html(curData[0].CrimePropertyCrimeNumber + ' Crime');

@@ -3,7 +3,6 @@ var cur_exchange = 'NASDAQ';
 var dataCall = {};
 var curData;
 
-
 var domain = '';
 var clickyId = 0;
 var remnant = '';
@@ -24,42 +23,15 @@ $(function(){
   	query = JSON.parse(decodeURIComponent(temp.substr(1)));
   	//set the query data from database to global variable to use
   	domain = query.dom;
-
   	remnant = query.remn;
-
-  	clickyId = query.c_id;
-
   	locName = query['loc']['loc_name'];
-
   	locName = locName.replace('+',' ');
-
-    //returns string true or false
   	bord = query.bord;
-
-
-    /*
-    //Same as domain = query.dom  but if that doesnt work this should work so USE [loc] global variable
-  	//USE BOTTOM ONCE WE IMPLEMENT MULTIPLE CITIES INTO LIST PAGE
-  	for(var i = 0; i < query['loc']['loc']['city'].length; i++){
-  		var c = query['loc']['loc']['city'][i].city;
-  		var s = query['loc']['loc']['city'][i].state;
-  		loc = loc + c + "," + s;
-  		if (typeof query['loc']['loc']['city'][i+1] != 'undefined'){
-  			loc += '|';
-  		}
-  	}
-    */
   }
 
   if(bord == 'true'){
     $(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   }
-
-	var script_tag = document.createElement('script');
-	script_tag.setAttribute('src','//static.getclicky.com/js');
-	document.head.appendChild(script_tag);
-	var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-	document.head.appendChild(clicks[0]);
 
 	$('.search-input').bind("enterKey",function(e){
 		search = $('input').val();
@@ -94,16 +66,16 @@ $(function(){
 		}
 		//makes sure arrow on left appear if offset is greater than 0
 		if(CUR_OFFSET > 0){
-		$('.national_widget-content-buttonleft').css("opacity","1");
-		$('.national_widget-content-buttonleft').hover(function(){
-			$('.national_widget-content-buttonleft').css("cursor","pointer");
-		})
-	}
-	else{
-		//change left arrow css to disappear
-		$('.national_widget-content-buttonleft').css("opacity","0");
-		$('.national_widget-content-buttonleft').css("cursor","default");
-	}
+				$('.national_widget-content-buttonleft').css("opacity","1");
+				$('.national_widget-content-buttonleft').hover(function(){
+					$('.national_widget-content-buttonleft').css("cursor","pointer");
+				})
+		}
+		else{
+			//change left arrow css to disappear
+			$('.national_widget-content-buttonleft').css("opacity","0");
+			$('.national_widget-content-buttonleft').css("cursor","default");
+		}
 	});// END OF FUNCTION
 
 	//change left arrow css to disappear if offset is 0
@@ -191,7 +163,6 @@ $(function(){
 	$('.national_widget-content-buttonright').mousedown(function(){ return false; });
 	$('.national_widget-content-buttonleft').mousedown(function(){ return false; });
 	$('.mtabs').mousedown(function(){ return false; });
-
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
 	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=national_market_movers', function(data){

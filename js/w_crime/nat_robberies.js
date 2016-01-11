@@ -1,14 +1,8 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-
 var remnant = '';
-var locName = '';
-var city = '';
-var state = '';
-var loc = '';
 var max = 10;
 var bord = false;
 
@@ -21,11 +15,6 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
-    locName = query['loc']['loc_name'];
-    locName = locName.replace('+',' ');
-    city = query['loc']['city'];
-  	state = query['loc']['state'];
     bord = query.bord;
   	}
 
@@ -47,20 +36,12 @@ $(function(){
           dataCall(offset);
         }
     });
+    dataCall(offset);
 
-    if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
-      $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
-          city = r_data[0].city;
-          state = r_data[0].state;
-          dataCall(offset);
-      });
-    }else{
-      dataCall(offset);
-    }
   })//END OF FUNCTION
 
   function dataCall(index){
-  	$.get('//apirt.synapsys.us/index.php?widget=national-crime&wid=3&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('//apirt.synapsys.us/index.php?widget=national-crime&wid=3&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -68,7 +49,7 @@ $(function(){
       var title = "nat-most-robberies-by-city";
       $('.fcw-t1').html('Cities in the U.S. with the Most Thefts');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html((curData[0].CrimeLarcenyNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +' Thefts');
       if(curData[0].CrimeYear == null || typeof curData[0].CrimeYear == 'undefined'){
@@ -78,11 +59,11 @@ $(function(){
       }
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/national/crimes");
+        $('.fcw-href').attr('href',link+title+"/national/crimes");
         $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
         $('#imgUrl').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/national/crimes/"+title+"/"+curData[0].CrimeState);
+        $('.fcw-href').attr('href',link_partner+domain+"/national/crimes/"+title);
         $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
         $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
       }

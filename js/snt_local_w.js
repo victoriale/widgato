@@ -11,7 +11,6 @@ var bord = false;
 var dma = '';
 var listid = '';
 var listTitle = '';
-
 var offset=0;
 var dataCall = {};
 var list = {};
@@ -19,25 +18,18 @@ var graph = {};
 var w_info = {};
 var dataLength;
 $(function(){
-
   var temp = location.search;
   var query = {};
-
   if(temp != null){
   	query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
   	//set the query data from database to global variable to use
   	domain = query.dom;
-
   	remnant = query.remn;
-
   	locName = query['loc']['loc_name'];
-
     dma = query['loc']['loc']['DMA'];
-
     //checks if it is a remnant and runs through an api
     if(remnant == 'true' || remnant == true){
-      $.get("//w1.synapsys.us/get-remote-addr2/", function(result){
+      $.get("http://w1.synapsys.us/get-remote-addr2/", function(result){
         loc = result[0].state;
         $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
           dataCall = data.local_market_movers;
@@ -52,8 +44,8 @@ $(function(){
       })
     }else{//if not a remnant then grab all data for datacall
       if(dma.length == 0 || typeof dma == 'undefined'){
-        city = query['loc']['loc']['city'];
-        state = query['loc']['loc']['state'];
+        city = query['loc']['city'];
+        state = query['loc']['state'];
         if(typeof city == 'undefined'){
           loc = state;
         }

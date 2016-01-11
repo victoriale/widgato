@@ -1,19 +1,12 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-
 var remnant = '';
-var locName = '';
-var city = '';
-var state = '';
-var loc = '';
 var max = 10;
 var bord = false;
 
 $(function(){
-
   var temp = location.search;
   var query = {};
 
@@ -21,11 +14,6 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
-    locName = query['loc']['loc_name'];
-    locName = locName.replace('+',' ');
-    city = query['loc']['city'];
-  	state = query['loc']['state'];
     bord = query.bord;
   	}
 
@@ -47,19 +35,10 @@ $(function(){
           dataCall(offset);
         }
     });
-
-    if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
-      $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
-        city = r_data[0].city;
-        state = r_data[0].state;
-        dataCall(offset);
-      });
-    }else{
-      dataCall(offset);
-    }
+    dataCall(offset);
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//apirt.synapsys.us/index.php?widget=national-crime&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('//apirt.synapsys.us/index.php?widget=national-crime&wid=6&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
@@ -78,14 +57,14 @@ $(function(){
       } else {
         $('.fcw-content2').html('In ' + curData[0].CrimeYear);
       }
-      $('.fcw-image').css('background', 'url('+curData[0].img+') no-repeat');
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].CrimeState+"/national/crimes");
+        $('.fcw-href').attr('href',link+title+"/national/crimes");
         $('#loc').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
         $('#imgUrl').attr('href',link+"location/"+(curData[0].CrimeCity).toUpperCase()+"_"+curData[0].CrimeState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/national/crimes/"+title+"/"+curData[0].CrimeState);
+        $('.fcw-href').attr('href',link_partner+domain+"/national/crimes/"+title);
         $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
         $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].CrimeState+"/"+(curData[0].CrimeCity).toUpperCase());
       }

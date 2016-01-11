@@ -67,7 +67,7 @@ $(function(){
       var title = "most-violent-crime-by-city";
       $('.fcw-t1').html(fullstate(curData[0].CrimeState)+' Cities with the Most Violent Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
-      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
+      $('.fcw-image').css('background', 'url('+imageUrl(imageUrl(curData[0].img))+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html((curData[0].CrimeViolentNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Violent Crimes');
       $('.fcw-content2').html('in ' + curData[0].CrimeYear);

@@ -3,7 +3,7 @@ var dataLength;
 var curData;
 
 var domain = '';
-var clickyId = 0;
+
 var remnant = '';
 var locName = '';
 var city = '';
@@ -79,11 +79,11 @@ $(function(){
       $('.fcw-content2').html('Are Female');
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',link+title+"/"+curData[0].DemoState+"/national/demographics");
+        $('.fcw-href').attr('href',link+title+"/national/demographics");
         $('#loc').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
         $('#imgUrl').attr('href',link+"location/"+(curData[0].DemoCity).toUpperCase()+"_"+curData[0].DemoState);
       } else {
-        $('.fcw-href').attr('href',link_partner+domain+"/national/demographics/"+title+"/"+curData[0].DemoState);
+        $('.fcw-href').attr('href',link_partner+domain+"/national/demographics/"+title);
         $('#loc').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
         $('#imgUrl').attr('href',link_partner+domain+"/loc/"+curData[0].DemoState+"/"+(curData[0].DemoCity).toUpperCase());
       }
