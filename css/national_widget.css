@@ -44,7 +44,7 @@ button:focus {
     text-align:left;
     color:#999;
     font-size:10px;
-    padding:0 5px 3px 5px;
+    padding-left: 5px;
   }
   .national_widget{
     width:100%;
@@ -63,7 +63,7 @@ button:focus {
   .mtabs{
   	width: 99px;
   	background-color:#f2f2f2;
-  	border-top:1px solid #cccccc;
+  	/*border-top:1px solid #cccccc;*/
   	border-left:1px solid #cccccc;
   	border-right:1px solid #cccccc;
   	border-bottom:1px solid #cccccc;
@@ -335,7 +335,7 @@ button:focus {
   .national_widget-listbutton{
     height:28px;
     width:118px;
-    margin:3px auto;
+    margin:2px auto;
     box-sizing:border-box;
     border-radius:5px;
     cursor: pointer;
@@ -380,7 +380,7 @@ button:focus {
   .national_widget-listbutton-t1{
     padding-right:5px;
     font-size: 1em;
-    font-family: HN;
+    font-weight: 500;
     color:#636363;
   }
   #fonta-color{

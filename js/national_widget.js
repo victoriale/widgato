@@ -2,9 +2,7 @@ var CUR_OFFSET = 0;
 var cur_exchange = 'NASDAQ';
 var dataCall = {};
 var curData;
-
 var domain = '';
-var clickyId = 0;
 var remnant = '';
 var locName = '';
 var city = '';
