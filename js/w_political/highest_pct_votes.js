@@ -16,6 +16,7 @@ $(function(){
 
   if(temp != null){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
+
     //set the query data from database to global variable to use
     domain = query.dom;
 
@@ -56,7 +57,6 @@ $(function(){
         $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
-
           //transforms title to add in state
           var title = $('.fcw-t1').html();
           title = title.split(' ');
@@ -89,19 +89,21 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-    $.get('//apirt.synapsys.us/index.php?widget=politics&wid=5&city='+city+'&state='+state+'&page-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('http://apirt.synapsys.us/index.php?widget=politics&wid=3&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+      var link = "http://www.joyfulhome.com/";
+      var county = data.county;
       curData = data.widget;
       dataLength = curData.length;
-      var title = "counties-with-the-most-democrat-voters";
-      $('.fcw-img2').html('#'+(index+1));
+      var title = "counties-with-the-highest-percent-of-republican-voters";
       $('.fcw-t2-loc').html(curData[0].county+' County, '+curData[0].state);
-      $('.fcw-content1').html(dNumberToCommaNumber(curData[0].votes)+' Votes');
+      $('.fcw-img2').html('#'+(index+1));
+      $('.fcw-content1').html(Number(curData[0].percent).toFixed()+'% of Voters');
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].image)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
-        $('.fcw-href').attr('href',"http://www.joyfulhome.com/"+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
-        $('#loc').attr('href',"http://www.joyfulhome.com/"+curData[0].state+"/"+curData[0].county+"/county");
-        $('#county').attr('href',"http://www.joyfulhome.com/"+curData[0].state+"/"+curData[0].county+"/county");
+        $('.fcw-href').attr('href',link+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
+        $('#loc').attr('href',link+curData[0].state+"/"+curData[0].county+"/county");
+        $('#county').attr('href',link+curData[0].state+"/"+curData[0].county+"/county");
       } else {
         $('.fcw-href').attr('href',"http://www.myhousekit.com/"+domain+"/politics/"+title+"/"+curData[0].state+"/"+curData[0].county);
         $('#loc').attr('href',"http://www.myhousekit.com/"+domain+"/county/"+curData[0].state+"/"+curData[0].county);
@@ -128,7 +130,3 @@ $(function(){
     }
     return path;
   }
-	//puts comma on every thousand number
-  function dNumberToCommaNumber(Number) {
-	  return Number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
