@@ -21,7 +21,7 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
+
     locName = query['loc']['loc_name'];
     locName = locName.replace('+',' ');
     city = query['loc']['city'];
