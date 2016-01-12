@@ -47,7 +47,7 @@ $(function top(id){
 	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=sv150_report_card', function(data){
 				data_result = data.sv150_report_card;
 				data_exchange = data_result.exchange_stock_data;
-				data_gainer = data_result.sv150_list_gainersy;
+				data_gainer = data_result.sv150_list_gainers;
 				data_loser = data_result.sv150_list_losers;
 
 				var SV150_price = Number(data_result.sv150_comp_index).toFixed(2);
