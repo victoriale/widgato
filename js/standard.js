@@ -8,7 +8,8 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
-
+var Url1 = "http://apireal.synapsys.us/listhuv/";
+var graUrl = "http://w1.synapsys.us/get-remote-addr2/";
 $(function () {
 
   var temp = location.search;
@@ -52,7 +53,7 @@ $(function () {
   }
 
   //make an inital api call to get lists of all the list for real estate
-  $.get("//apireal.synapsys.us/listhuv/?action=list_of_lists", function(lists){
+  $.get(Url1 + "?action=list_of_lists", function(lists){
     offset = Math.floor((Math.random() * 9) + 1);
     var method = lists['available_lists'];;
 	  var name = method[offset]['name'];
@@ -90,7 +91,7 @@ function listCall(method, count){
     //even if remnant possibility of no city or state detected and will run get remote address.
     //should only happen if new partners and no city and/or state has been entered into collection
     if(remnant && (city == '' || city == null || state == '' || state == null)){
-  		$.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
+  		$.get(graUrl,function(r_data){
         //will change the title text and resize using resizetext() function
         var name = method[offset]['name'];
 				$(".fcw-t1").html(name);
@@ -108,7 +109,7 @@ function listCall(method, count){
   			$("#loc").attr('href',"//www.joyfulhome.com/location/"+city + "_" +state +"");
 
   			//displays information on the widget
-  			$.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+city+','+state, function(r_data){
+  			$.get(Url1 + "?action="+method[count]['method']+"&locs="+city+','+state, function(r_data){
   				$(".fcw-content1").html(r_data[0]['total_count']);
           var random = randomimage();
           $(".fcw-image").css("background-image","url('"+random[offset]+"')");
@@ -132,7 +133,7 @@ function listCall(method, count){
       $("#loc").attr('href',"//www.joyfulhome.com/location/"+r_city + "_" +r_state +"");
 
       //displays information on the widget
-      $.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+r_city+','+r_state, function(r_data){
+      $.get(Url1 + "?action="+method[count]['method']+"&locs="+r_city+','+r_state, function(r_data){
         $(".fcw-content1").html(r_data[0]['total_count']);
         var random = randomimage();
         $(".fcw-image").css("background-image","url('"+random[offset]+"')");
@@ -140,8 +141,8 @@ function listCall(method, count){
     }//end if
 	} else{
     if(city == '' || city == null || state == '' || state == null){
-      $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
-        $.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&city="+ r_data[0].city+"&state="+r_data[0].state, function(data){
+      $.get(graUrl,function(r_data){
+        $.get(Url1 + "?action="+method[count]['method']+"&city="+ r_data[0].city+"&state="+r_data[0].state, function(data){
     		//checks if the list exist or has reach its max and restarts the list at 0
     		if(typeof data[0] == 'undefined'){
     			offset++;
@@ -176,7 +177,7 @@ function listCall(method, count){
       	});
       })
     }else{
-		$.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&partner_domain="+ domain, function(data){
+		$.get(Url1 + "?action="+method[count]['method']+"&partner_domain="+ domain, function(data){
 		//checks if the list exist or has reach its max and restarts the list at 0
 		if(typeof data[0] == 'undefined'){
 			offset++;
@@ -203,8 +204,8 @@ function listCall(method, count){
 				locName = locName.replace('+',' ');
 				$(".fcw-t2-loc").html(locName);
 
-				$(".fcw-href").attr('href',"//www.myhousekit.com/"+p_domain+"view_list/"+link+"/"+state+"/"+city);
-        $("#imgUrl").attr('href',"//www.myhousekit.com/"+p_domain+"view_list/"+link+"/"+state+"/"+city);
+				$(".fcw-href").attr('href',"//www.myhousekit.com/"+p_domain+"view_list/"+link+"/"+data[0].state+"/"+data[0].city);
+        $("#imgUrl").attr('href',"//www.myhousekit.com/"+p_domain+"view_list/"+link+"/"+data[0].state+"/"+data[0].city);
 				//go to location page go to myhousekit for partner non remnant
 				$("#loc").attr('href',"//www.myhousekit.com/"+p_domain+"loc/");
   		}
