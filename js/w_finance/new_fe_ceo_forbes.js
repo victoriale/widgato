@@ -25,7 +25,7 @@ $(function(){
 
     	locName = query['loc']['loc_name'];
 
-    	locName = locName.replace('+',' ');
+    	locName = locName.replace(/\+/g, ' ');
       //returns string true or false
     	bord = query.bord;
     }

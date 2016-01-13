@@ -22,7 +22,7 @@ $(function(){
     remnant = query.remn;
     clickyId = query.c_id;
     locName = query['loc']['loc_name'];
-    locName = locName.replace('+',' ');
+    locName = locName.replace(/\+/g, ' ');
     city = query['loc']['loc_id']['city'];
   	state = query['loc']['loc_id']['state'];
     bord = query.bord;

@@ -23,7 +23,7 @@ $(function(){
   	domain = query.dom;
   	remnant = query.remn;
   	locName = query['loc']['loc_name'];
-  	locName = locName.replace('+',' ');
+  	locName = locName.replace(/\+/g, ' ');
   	bord = query.bord;
   }
 

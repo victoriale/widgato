@@ -27,7 +27,7 @@ $(function () {
   	locName = query['loc']['loc_name'];
 
     if(locName != null && typeof locName != 'undefined' && locName != ''){
-      locName = locName.replace('+',' ');
+      locName = locName.replace(/\+/g, ' ');
     }
 
     //makes a check to see if data is being returned from parter
@@ -200,7 +200,7 @@ function listCall(method, count){
 				$(".re_w_list-content-image").css("background-image","url('"+random[offset]+"')");
 				//replace widget location name with name given name from database
 				//some reason had to run below again
-				locName = locName.replace('+',' ');
+				locName = locName.replace(/\+/g, ' ');
 				$(".re_w_list-location-text").html(locName);
 				$(".re_w_list-listbutton-icon").css("background-image","url('../css/public/myhousekit_house_clear.png')");
 				$(".re_w_list-listbutton-link").attr('href',"//www.myhousekit.com/"+p_domain+"view_list/"+link+"/"+state+"/"+city);

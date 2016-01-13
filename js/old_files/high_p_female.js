@@ -28,7 +28,7 @@ $(function () {
 
 	locName = query['loc']['loc_name'];
 
-	locName = locName.replace('+',' ');
+	locName = locName.replace(/\+/g, ' ');
 
 	city = query['loc']['loc_id']['city'];
 

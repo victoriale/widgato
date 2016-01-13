@@ -28,7 +28,7 @@ $(function () {
   	locName = query['loc']['loc_name'];
 
     if(locName != null && typeof locName != 'undefined' && locName != ''){
-      locName = locName.replace('+',' ');
+      locName = locName.replace(/\+/g, ' ');
     }
     //makes a check to see if data is being returned from parter
     if(city != null && city != '' && typeof city != 'undefined' && state != null && state != '' && typeof state != 'undefined'){
@@ -201,7 +201,7 @@ function listCall(method, count){
 				$(".fcw-image").css("background-image","url('"+random[offset]+"')");
 				//replace widget location name with name given name from database
 				//some reason had to run below again
-				locName = locName.replace('+',' ');
+				locName = locName.replace(/\+/g, ' ');
 				$(".fcw-t2-loc").html(locName);
 
 				$(".fcw-href").attr('href',"//www.myhousekit.com/"+p_domain+"view_list/"+link+"/"+data[0].state+"/"+data[0].city);

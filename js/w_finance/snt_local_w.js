@@ -44,8 +44,8 @@ $(function(){
       })
     }else{//if not a remnant then grab all data for datacall
       if(dma.length == 0 || typeof dma == 'undefined'){
-        city = query['loc']['city'];
-        state = query['loc']['state'];
+        city = query['loc']['loc_id']['city'];
+        state = query['loc']['loc_id']['state'];
         if(typeof city == 'undefined'){
           loc = state;
         }

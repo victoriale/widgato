@@ -24,11 +24,11 @@ $(function(){
 
     locName = query['loc']['loc_name'];
 
-    locName = locName.replace('+',' ');
+    locName = locName.replace(/\+/g, ' ');
 
-    city = query['loc']['city'];
+    city = query['loc']['loc_id']['city'];
 
-  	state = query['loc']['state'];
+  	state = query['loc']['loc_id']['state'];
     //returns string true or false
     bord = query.bord;
   	}

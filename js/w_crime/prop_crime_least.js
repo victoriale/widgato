@@ -19,9 +19,9 @@ $(function(){
     domain = query.dom;
     remnant = query.remn;
     locName = query['loc']['loc_name'];
-    locName = locName.replace('+',' ');
-    city = query['loc']['city'];
-  	state = query['loc']['state'];
+    locName = locName.replace(/\+/g, ' ');
+    city = query['loc']['loc_id']['city'];
+  	state = query['loc']['loc_id']['state'];
     bord = query.bord;
   	}
   	if(bord == 'true'){
