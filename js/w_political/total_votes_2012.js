@@ -12,7 +12,6 @@ var bord = false;
 $(function(){
   var temp = location.search;
   var query = {};
-
   if(temp != null){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     //set the query data from database to global variable to use
@@ -23,17 +22,14 @@ $(function(){
         break;
       default:
       locName = query['loc']['loc_name'];
-
       if(locName != null && typeof locName != 'undefined' && locName != ''){
         locName = locName.replace(/\+/g, ' ');
       }
       //makes a check to see if data is being returned from parter
       if(city != null && city != '' && typeof city != 'undefined' && state != null && state != '' && typeof state != 'undefined'){
         city = query['loc']['loc_id']['city'];
-
         state = query['loc']['loc_id']['state'];
       }
-
       //if partner database has absolutely nothing and it is a brand new partner
       if(query['loc']['loc_id'] == null || typeof query['loc']['loc_id'] == undefined || query['loc']['loc_id'] == ''){
         query['loc']['loc_id'] = {};
@@ -42,13 +38,15 @@ $(function(){
         city = query['loc']['loc_id']['city'];
         state = query['loc']['loc_id']['state'];
       }else{
-        city = query['loc']['loc_id']['city'];
+        city = query['loc']['loc']['city'];
         state = query['loc']['loc_id']['state'];
+        if(city != null && city != '' && typeof city != 'undefined'){
+          city = city[0].city.replace(/\+/g, ' ');
+        }
       }
     }
     //returns string true or false
     bord = query.bord;
-
   	}
 
   	if(bord == 'true'){
@@ -104,6 +102,7 @@ $(function(){
       $('.tv-t1').html(title.join(' '));
       dataCall(offset);
     }
+
   })//END OF FUNCTION
   function dataCall(index){
   	$.get('//apirt.synapsys.us/index.php?widget=politics&wid=1&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
