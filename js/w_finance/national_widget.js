@@ -59,7 +59,6 @@ $(function(){
 	$('.national_widget-content-buttonright').on('click', function() {
 		//when clicking on right button will change offset of data call and pull correct data based off of SEE THE WHOLE LIST
 		if ($(this).data('dir') === 'next') {
-			//console.log(curData);
 			mr_center_piece(++CUR_OFFSET, curData);
 		}
 		//makes sure arrow on left appear if offset is greater than 0
@@ -121,7 +120,7 @@ $(function(){
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.XAX'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList[0].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.XAX'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.XAX'].top_list_info.top_list_id+"/list/1");
 					}else{
 						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList['.XAX'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.XAX'].top_list_info.top_list_id+"/list/1");
 					}
@@ -184,19 +183,25 @@ $(function(){
 			$("#apl").attr('href', "http://www.myinvestkit.com/"+domain+"/Apple-Inc/AAPL/c/2636");
 			$("#tm").attr('href', "http://www.myinvestkit.com/"+domain+"/Tesla-Motors-Inc/TSLA/c/4762");
 			$("#mc").attr('href', "http://www.myinvestkit.com/"+domain+"/Microsoft-Corporation/MSFT/c/4004");
-			$("#wd").attr('href', "http://www.myinvestkit.com/"+domain+"/Walt-Disney-Co/DIS/c/624");
+			$("#wd").attr('href', "http://www.myinvestkc_logoit.com/"+domain+"/Walt-Disney-Co/DIS/c/624");
 		}
 	}, 'json')
 
 })//END OF FUNCTION
 
 //data api call for list
+function imageUrl(path){
+  if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
+    return '../css/public/no_image.jpg';
+  }
+  return 'http://images.investkit.com/images/' + path;
+}
 function mr_center_piece(offset, data){
 	//service called time to set div classes to given results
 	$('.national_widget-content-textarea-t1').html(data[offset].c_name);
 	$('.national_widget-content-textarea-t2').html(data[offset].c_hq_state + ', ' + (data[offset].c_hq_city).capitalize());
 	$('.national_widget-total-price').html(lossGainCheck(offset,data));
-	$('.national_widget-content-image').css('background','url(http://images.investkit.com/images/'+data[offset].c_logo+') no-repeat');
+	$('.national_widget-content-image').css('background','url('+imageUrl(data[offset].c_logo)+') no-repeat');
 	$(".nwprofile-link").attr("href", "http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
 	if(remnant == 'true' || remnant == true){
 		$(".nwlink").attr('href', "http://www.investkit.com/"+data[offset].c_hq_state+"/location");
