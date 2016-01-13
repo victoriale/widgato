@@ -2,7 +2,7 @@
 q1 = document.body;
 q2 = document.createElement('script');
 q2.src = "http://content.synapsys.us/embeds/realestate/standard/remnant.js";
-q1.appendChild(q2);
+q1.insertBefore(q2, q1.firstElementChild);
 
 
 theblaze.com
@@ -17,6 +17,6 @@ theblaze.com
     'counties-with-the-most-republican-voters': 6,
     'counties-with-the-most-independent-voters': 7, 
 
-http://apirt.synapsys.us/index.php?widget=politics&wid=1&county=Nueces&state=TX&page-list=1&city-list=1&page-list=1&skip=0&limit=15
+http://apirt.synapsys.us/index.php?widget=politics&wid=1&county=Nueces&state=TX&skip=0&limit=15
 
 change &wid= 1-7
