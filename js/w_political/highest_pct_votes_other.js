@@ -18,9 +18,28 @@ $(function(){
     domain = query.dom;
     remnant = query.remn;
     locName = query['loc']['loc_name'];
-    locName = locName.replace(/\+/g, ' ');
-    city = query['loc']['loc_id']['city'];
-  	state = query['loc']['loc_id']['state'];
+
+    if(locName != null && typeof locName != 'undefined' && locName != ''){
+      locName = locName.replace(/\+/g, ' ');
+    }
+    //makes a check to see if data is being returned from parter
+    if(city != null && city != '' && typeof city != 'undefined' && state != null && state != '' && typeof state != 'undefined'){
+      city = query['loc']['loc_id']['city'];
+
+      state = query['loc']['loc_id']['state'];
+    }
+
+    //if partner database has absolutely nothing and it is a brand new partner
+    if(query['loc']['loc_id'] == null || typeof query['loc']['loc_id'] == undefined || query['loc']['loc_id'] == ''){
+      query['loc']['loc_id'] = {};
+      query['loc']['loc_id']['city'] = null;
+      query['loc']['loc_id']['state'] = null;
+      city = query['loc']['loc_id']['city'];
+      state = query['loc']['loc_id']['state'];
+    }else{
+      city = query['loc']['loc_id']['city'];
+      state = query['loc']['loc_id']['state'];
+    }
     //returns string true or false
     bord = query.bord;
 
@@ -46,7 +65,7 @@ $(function(){
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       if(remnant == 'true' || remnant === true){
-        $.get("http://w1.synapsys.us/get-remote-addr2/",function(r_data){
+        $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
 
@@ -59,7 +78,7 @@ $(function(){
         });
       }else{
         //partner with no data same thing as if statement but doing this just in case
-        $.get("http://w1.synapsys.us/get-remote-addr2/",function(r_data){
+        $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
           city = r_data[0].city;
           state = r_data[0].state;
 
@@ -82,7 +101,7 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-  	$.get('http://apirt.synapsys.us/index.php?widget=politics&wid=4&city='+city+'&state='+state+'&page-list=1&city-list=1&page-list=1&skip='+index+'&limit=1', function(data){
+  	$.get('//apirt.synapsys.us/index.php?widget=politics&wid=4&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var county = data.county;
       curData = data.widget;
@@ -91,7 +110,7 @@ $(function(){
       $('.fcw-t2-loc').html(curData[0].county+' County, '+curData[0].state);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html(Number(curData[0].percent).toFixed()+'% of Voters');
-      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].image)+') no-repeat');
+      $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-href').attr('href',link+title+"/"+curData[0].state+"/"+curData[0].county+"/politics");
