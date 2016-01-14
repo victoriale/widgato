@@ -1,9 +1,7 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-
 var remnant = '';
 var locName = '';
 var city = '';
@@ -20,7 +18,7 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
+
     locName = query['loc']['loc_name'];
     locName = locName.replace(/\+/g, ' ');
     city = query['loc']['loc_id']['city'];
@@ -44,6 +42,7 @@ $(function(){
           offset = 0;
           dataCall(offset);
         }
+
     });
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
@@ -57,7 +56,7 @@ $(function(){
     }
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//apirt.synapsys.us/index.php?widget=demographics&wid=4&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('http://apirt.synapsys.us/index.php?widget=demographics&wid=4&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       if(data.widget == null){
         document.location.href = 'nat_highest_home_value.html'+redirectquery;
         console.log('Redirect ERROR', document.location.href);
@@ -88,7 +87,7 @@ $(function(){
   }
 
   function imageUrl(path){
-    if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
+    if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://apireal.synapsys.us/city-image/images/placeholder-location.jpg'){
       return '../css/public/no_image.jpg';
     }
     return path;

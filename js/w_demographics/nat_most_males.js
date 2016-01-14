@@ -90,7 +90,7 @@ $(function(){
     }, 'json')
   }
   function imageUrl(path){
-    if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
+    if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://apireal.synapsys.us/city-image/images/placeholder-location.jpg'){
       return '../css/public/no_image.jpg';
     }
     return path;

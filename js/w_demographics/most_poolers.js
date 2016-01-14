@@ -1,9 +1,7 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-
 var remnant = '';
 var locName = '';
 var city = '';
@@ -20,7 +18,6 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
     locName = query['loc']['loc_name'];
     locName = locName.replace(/\+/g, ' ');
     city = query['loc']['loc_id']['city'];
@@ -31,11 +28,7 @@ $(function(){
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   	}
-  	// var script_tag = document.createElement('script');
-  	// script_tag.setAttribute('src','http://static.getclicky.com/js');
-  	// document.head.appendChild(script_tag);
-  	// var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  	// document.head.appendChild(clicks[0]);
+
     $('.fcw-rightnav').on('click', function() {
         if ($(this).data('dir') === 'next') {
             dataCall(++offset);
@@ -44,7 +37,7 @@ $(function(){
 
     $('.fcw-leftnav').on('click', function() {
         if (offset > 0 && $(this).data('dir') === 'prev') {
-              dataCall(--offset);
+          dataCall(--offset);
         }else if(offset <= 0){
           offset = 0;
           dataCall(offset);
@@ -92,7 +85,7 @@ $(function(){
   }
 
   function imageUrl(path){
-    if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
+    if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://apireal.synapsys.us/city-image/images/placeholder-location.jpg'){
       return '../css/public/no_image.jpg';
     }
     return path;
