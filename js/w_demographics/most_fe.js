@@ -20,7 +20,7 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
+
     locName = query['loc']['loc_name'];
     locName = locName.replace(/\+/g, ' ');
     city = query['loc']['loc_id']['city'];
@@ -33,32 +33,36 @@ $(function(){
   	}
     $('.fcw-rightnav').on('click', function() {
         if ($(this).data('dir') === 'next') {
+          console.log('test1');
             dataCall(++offset);
         }
     });
 
     $('.fcw-leftnav').on('click', function() {
         if (offset > 0 && $(this).data('dir') === 'prev') {
+          console.log('test2');
               dataCall(--offset);
-        }else if(offset <= 0){
-          offset = 0;
-          dataCall(offset);
         }
     });
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
-      $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
+      $.get("http://w1.synapsys.us/get-remote-addr2/",function(r_data){
+        console.log('test4');
         city = r_data[0].city;
         state = r_data[0].state;
         dataCall(offset);
       });
     }else{
+      console.log('test5');
       dataCall(offset);
     }
-  })//END OF FUNCTION
+  });//END OF FUNCTION
   function dataCall(index){
-  	$.get('//apirt.synapsys.us/index.php?widget=demographics&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+    console.log('http://apirt.synapsys.us/index.php?widget=demographics&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1');
+    console.log(index,"HATE");
+  	$.get('http://apirt.synapsys.us/index.php?widget=demographics&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       if(data.widget == null){
+        console.log(index,"HATE");
         document.location.href = 'nat_most_fe.html'+redirectquery;
         console.log('Redirect ERROR', document.location.href);
       }
