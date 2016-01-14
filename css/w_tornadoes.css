@@ -126,7 +126,7 @@ button:focus {
   margin-bottom: 2px;
   font-size: 14px;
   text-align: center;
-  width: 205px;
+  width: 75%;
   overflow: hidden;
   max-height: 20px;
 }

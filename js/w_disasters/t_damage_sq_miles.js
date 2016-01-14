@@ -5,7 +5,7 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
-var apiUrl = '//devapirt.synapsys.us';
+var apiUrl = '//apirt.synapsys.us';
 var wid_num = 9;
 var link = "http://www.joyfulhome.com/";
 var link_partner = "http://www.myhousekit.com/";
@@ -45,7 +45,7 @@ $(function(){
       dataLength = curData.length;
       var title = "tornado-damage-by-sq-miles";
       $('#title').html('Tornado with Biggest Damage Sq Mileage');
-      $('.fcw-t1').html('Toradoes with the Biggest Damage Square Mileage ');
+      $('.fcw-t1').html('Tornadoes with the Biggest Damage Square Mileage ');
       $('.fcw-t2-loc').html(curData[0].City+', '+curData[0].State);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
