@@ -43,7 +43,7 @@ $(function(){
   	$.get(apiUrl + '/index.php?widget=disasters&wid='+wid_num+'&skip='+index+'&limit=1', function(data){
       var curData = data.widget;
       dataLength = curData.length;
-      var title = "tornado-damage-by-sq-miles";
+      var title = "tornado-damage-sq-miles";
       $('#title').html('Tornado with Biggest Damage Sq Mileage');
       $('.fcw-t1').html('Tornadoes with the Biggest Damage Square Mileage ');
       $('.fcw-t2-loc').html(curData[0].City+', '+curData[0].State);
