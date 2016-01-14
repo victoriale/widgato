@@ -75,7 +75,7 @@ $(function(){
         $('.exec-link').attr('href',link+ "/NCAA/player/"+teamName+"/" + player_url + "/" + listData[index].PlayerId);
         $('#loc_link').attr('href',link + "/NCAA/team/" + teamName + "/" + listData[index].team_id);
         $('#teamProfile').attr('href',link + "/NCAA/team/" + teamName + "/" + listData[index].team_id);
-        $('.fcw-href').attr('href',link + "NCAA/player/" + title + "/" + wData.list_id+"/listview/1");
+        $('.fcw-href').attr('href',link + "/NCAA/player/" + title + "/" + wData.list_id+"/listview/1");
        } else {
         $('#title_link').attr('href',partner_link+ "/" + domain + "/NCAA/p/"+teamName+"/"+listData[index].player_last_name+'-'+listData[index].player_first_name+"/"+listData[index].PlayerId);
         $('.exec-link').attr('href',partner_link+ "/" + domain + "/NCAA/p/"+teamName+"/"+listData[index].player_last_name+'-'+listData[index].player_first_name+"/"+listData[index].PlayerId);
