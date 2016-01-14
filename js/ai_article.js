@@ -1,6 +1,6 @@
 ai_widget = (function(){
 	// Declare variables
-	var APIUrl = 'http://sports-ai.synapsys.us:91/HoopsLoyal/API_AI_SPO_NBA_Matchup_Mag_000006.php?call=widget',
+	var APIUrl = 'http://prod-sports-ai.synapsys.us/HoopsLoyal/API_AI_SPO_NBA_Matchup_Mag_000006.php?call=widget',
 	YseopXML = '',
 	AIData = {},
 	gameID = -1,
