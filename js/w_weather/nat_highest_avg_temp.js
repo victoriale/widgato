@@ -5,7 +5,8 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
-
+var link = "http://www.joyfulhome.com/";
+var link_partner = "http://www.myhousekit.com/";
 $(function(){
 
   var temp = location.search;
