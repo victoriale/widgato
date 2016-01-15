@@ -43,8 +43,8 @@ $(function(){
   	$.get(apiUrl + '/index.php?widget=disasters&wid='+wid_num+'&skip='+index+'&limit=1', function(data){
       var curData = data.widget;
       dataLength = curData.length;
-      var title = "tornado-most-injuries";
-      $('#title').html('Tornado with Highest Num of Injuries');
+      var title = "tornado-most-deaths";
+      $('#title').html('Tornado with Highest Num of Deaths');
       $('.fcw-t1').html('Cities with the Most Deaths in a Tornado');
       $('.fcw-t2-loc').html(curData[0].City+', '+curData[0].State);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');

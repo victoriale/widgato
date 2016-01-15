@@ -43,7 +43,7 @@ $(function(){
   	$.get(apiUrl + '/index.php?widget=disasters&wid='+wid_num+'&skip='+index+'&limit=1', function(data){
       var curData = data.widget;
       dataLength = curData.length;
-      var title = "tornado-damage-by-width";
+      var title = "tornado-damage-by-length";
       $('#title').html('Tornado with Biggest Damage Length');
       $('.fcw-t1').html('Tornadoes with the Biggest Damage Length');
       $('.fcw-t2-loc').html(curData[0].City+', '+curData[0].State);
