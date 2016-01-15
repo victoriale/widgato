@@ -191,7 +191,7 @@ button:focus {
 .fcw-content1{
   font-size: 21px;
   width: 92%;
-  height: 50px;
+  max-height: 50px;
   color: #000000;
   font-weight: 700;
   overflow: hidden;
@@ -229,8 +229,7 @@ button:focus {
   height: 28px;
   padding-top: 5px;
   padding-bottom: 8px;
-  padding-left: 18px;
-  padding-right: 18px;
+  padding-left: 2px;
 }
 .fcw-list-link:hover{
   background-color: #f26f26;
