@@ -199,7 +199,7 @@ function imageUrl(path){
 function mr_center_piece(offset, data){
 	//service called time to set div classes to given results
 	$('.national_widget-content-textarea-t1').html(data[offset].c_name);
-	$('.national_widget-content-textarea-t2').html(data[offset].c_hq_state + ', ' + (data[offset].c_hq_city).capitalize());
+	$('.national_widget-content-textarea-t2').html((data[offset].c_hq_city).capitalize() + ', ' + (data[offset].c_hq_state));
 	$('.national_widget-total-price').html(lossGainCheck(offset,data));
 	$('.national_widget-content-image').css('background','url('+imageUrl(data[offset].c_logo)+') no-repeat');
 	$(".nwprofile-link").attr("href", "http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
