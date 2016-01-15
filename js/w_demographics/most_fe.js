@@ -33,36 +33,29 @@ $(function(){
   	}
     $('.fcw-rightnav').on('click', function() {
         if ($(this).data('dir') === 'next') {
-          console.log('test1');
             dataCall(++offset);
         }
     });
 
     $('.fcw-leftnav').on('click', function() {
         if (offset > 0 && $(this).data('dir') === 'prev') {
-          console.log('test2');
               dataCall(--offset);
         }
     });
 
     if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
       $.get("http://w1.synapsys.us/get-remote-addr2/",function(r_data){
-        console.log('test4');
         city = r_data[0].city;
         state = r_data[0].state;
         dataCall(offset);
       });
     }else{
-      console.log('test5');
       dataCall(offset);
     }
   });//END OF FUNCTION
   function dataCall(index){
-    console.log('http://apirt.synapsys.us/index.php?widget=demographics&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1');
-    console.log(index,"HATE");
   	$.get('http://apirt.synapsys.us/index.php?widget=demographics&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       if(data.widget == null){
-        console.log(index,"HATE");
         document.location.href = 'nat_most_fe.html'+redirectquery;
         console.log('Redirect ERROR', document.location.href);
       }
