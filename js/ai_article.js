@@ -70,13 +70,18 @@ ai_widget = (function() {
         // Get the data
         var pageID = availPages[pageInd];
         var data = $('<div>' + AIData[pageID].text + '</div>');
-        var images = $(AIData.meta_data.text).find('.currentGameImages .image');
+        var images = $(AIData[pageID].text).find('.carousel .url');
+        if (images.length < 5) {
+            images = $(AIData.meta_data.text).find('.currentGameImages .image');
+        }
+        var imgIndex = Math.floor(Math.random() * ((images.length - 4) + 1));
+        imgIndex = (imgIndex > -1 ? imgIndex : 0);
         var arr = {
             title: data.find('.widget_title')[0].innerHTML,
             number: (pageInd + 1) + '/' + availPages.length,
             url: 'article/' + transArr[pageID] + '/' + gameID,
             content: data.find('.article')[0].innerHTML.replace(/(<br>)+/g, ' <br>&nbsp; '),
-            img: images[pageInd % images.length].innerHTML // .replace('sports-images.synapsys.us:99', 'prod-sports-images.synapsys.us')
+            img: images[imgIndex].innerHTML
         };
 
         // Set the data
