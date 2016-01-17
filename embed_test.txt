@@ -1,7 +1,7 @@
 
-//Remnant query defaults to no location sfgate.com
-?%7B"dom"%3A"sfgate.com"%2C"loc"%3A%7B"loc_id"%3A%7B"value"%3A"-null"%2C"city"%3A""%2C"state"%3Anull%7D%2C"loc"%3A%7B"city"%3A%5B%5D%2C"zipcode"%3A%5B%5D%7D%2C"loc_name"%3A""%7D%2C"c_id"%3A""%2C"remn"%3A"true"%7D
-
+//Remnant query defaults to no location businessinsider.com												
+?%7B%22dom%22%3A%22businessinsider.com%22%2C%22loc%22%3A%7B%22loc_id%22%3A%7B%22value%22%3A%22-null%22%2C%22city%22%3A%22%22%2C%22state%22%3Anull%7D%2C%22loc%22%3A%7B%22city%22%3A%5B%5D%2C%22zipcode%22%3A%5B%5D%7D%2C%22loc_name%22%3A%22%22%7D%2C%22c_id%22%3A%22100880569%22%2C%22remn%22%3A%22true%22%2C%22bord%22%3A%22false%22%7D
+																																			
 //Partner query with location in partner database tampabay.com
 ?%7B%22dom%22%3A%22tampabay.com%22%2C%22loc%22%3A%7B%22loc_id%22%3A%7B%22value%22%3A%22TAMPA-FL%22%2C%22city%22%3A%22TAMPA%22%2C%22state%22%3A%22FL%22%7D%2C%22loc%22%3A%7B%22city%22%3A%5B%7B%22city%22%3A%22Tampa%22%2C%22state%22%3A%22FL%22%7D%5D%2C%22zipcode%22%3A%5B%5D%7D%2C%22loc_name%22%3A%22Tampa+Bay%2C+Florida%22%7D%2C%22c_id%22%3A%22%22%2C%22remn%22%3A%22false%22%2C%22bord%22%3A%22false%22%7D
 

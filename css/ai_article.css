@@ -47,6 +47,16 @@ sup {
   position: absolute;
   top: 0;
 }
+.text-snippet{
+  width:100%;
+  height:15px;
+  font-size: 10px;
+  line-height: 10px;
+  text-align: right;
+  background-color: #f2f2f2;
+  color:#000;
+  padding: 3px 5px 3px 0;
+}
 .aiw-top {
   width: 100%;
   height: 40px;
@@ -74,7 +84,7 @@ sup {
 }
 .aiw-top span .team {
   font-weight: bold;
-  font-size: 17px;
+  font-size: 14px;
   text-transform: uppercase;
 }
 .aiw-top .fa {
@@ -127,6 +137,7 @@ sup {
   float: left;
 }
 .dropdown-elem .right {
+  font-weight: 300;
   float: right;
 }
 .dropdown .divider {

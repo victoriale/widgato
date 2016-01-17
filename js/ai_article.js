@@ -124,7 +124,7 @@ ai_widget = (function() {
         // Exit if no pages
         if (pageInd == -1 || availPages.length == 0) {
             return false;
-        }
+        }F.
 
         // Create new pageInd
         pageInd--;
@@ -185,9 +185,32 @@ ai_widget = (function() {
             // Date
             gameData.eventDate = $(this).find('.moduleDate')[0].innerHTML;
 
+            //due to a '-' in the eventDate the position of the date and Time will be [0] and [2]
+            gameData.date = gameData.eventDate.split(' ')[0].split('/');
+            
+            //get rid of extra 0 in date month
+            if(Number(gameData.date[0]) < 10){
+            	gameData.date[0] = gameData.date[0].slice(1,2);
+            }
+            //get rid of the 20 in 20XX year
+            gameData.date[2] = gameData.date[2].slice(2,4);
+            gameData.date = gameData.date.join('/');
+
+            //convert hours to get rid of 0 in 09:XX AM/PM
+            gameData.Time = gameData.eventDate.split(' ')[2].split(':');
+            if(Number(gameData.Time[0]) < 10){
+            	gameData.Time[0] = gameData.Time[0].slice(1,2);
+            }
+            gameData.Time = gameData.Time.join(':');
+
+            gameData.meridian = gameData.eventDate.split(' ')[3];
+
+            //rejoin gameData.eventDate to one single use
+            gameData.eventDate = gameData.date + ' - ' + gameData.Time + gameData.meridian;
+            gameData.eventTime = ' - ' + gameData.Time + gameData.meridian + ' EST';
+
             gameArr.push(gameData);
         }
-
         // Create Jquery object
         var games = $('<div>' + AIData.meta_data.text + '</div>').find('.nextNbaGames');
         // Save all the games
@@ -202,7 +225,10 @@ ai_widget = (function() {
         for (var i = 0; i < gameArr.length; i++) {
             if (i > 0) {
                 ddStr += '<div class="divider"></div>';
+            }else{
+            	ddStr += '<div class="text-snippet">All times are in Eastern Time</div>';
             }
+
             ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == gameID ? ' active"' : '" onclick="ai_widget.switchGame(' + i + ')"') + '"><span class="left"><b>' + gameArr[i].away + '</b> vs. <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
         }
 
@@ -216,6 +242,7 @@ ai_widget = (function() {
             if (gameArr[i].eventId == gameID) {
                 $('.home.team')[0].innerHTML = gameArr[i].home;
                 $('.away.team')[0].innerHTML = gameArr[i].away;
+                $('.header-right.team')[0].innerHTML = gameArr[i].eventTime;
             }
         }
 
