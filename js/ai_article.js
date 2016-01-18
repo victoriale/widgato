@@ -124,7 +124,7 @@ ai_widget = (function() {
         // Exit if no pages
         if (pageInd == -1 || availPages.length == 0) {
             return false;
-        }F.
+        }
 
         // Create new pageInd
         pageInd--;
@@ -279,3 +279,27 @@ ai_widget = (function() {
         switchGame: switchGame
     };
 })();
+
+$(function () {
+  var domain, remnant;
+  var temp = location.search;
+  var query = {};
+  var remLink = "http://www.hoopsloyal.com/";
+  var partLink = "http://www.myhoopszone.com/";
+  
+  if(temp != null){
+  	query = JSON.parse(decodeURIComponent(temp.substr(1)));
+
+  	//set the query data from database to global variable to use
+  	domain = query.dom;
+
+  	remnant = query.remn;
+
+	if(remnant == 'true'){
+		$("base").attr("href",  remLink);
+	}else{
+		$("base").attr("href",  partLink+domain+"/");
+	}
+
+  }
+});
