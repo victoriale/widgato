@@ -5,7 +5,8 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
-
+var link = "http://www.joyfulhome.com/";
+var link_partner = "http://www.myhousekit.com/";
 $(function(){
 
   var temp = location.search;
@@ -41,12 +42,10 @@ $(function(){
   })//END OF FUNCTION
   function dataCall(index){
   	$.get('//apirt.synapsys.us/index.php?widget=national-weathers&wid=1&skip='+index+'&limit=1', function(data){
-      var link = "http://www.joyfulhome.com/";
-      var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       dataLength = curData.length;
       var title = "nat-highest-avg-prec-by-city";
-      $('.fcw-t1').html('Cities with the Most Annual Precipitation in the U.S.');
+      $('.fcw-t1').html('Cities in the U.S. with the Most Annual Precipitation');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));

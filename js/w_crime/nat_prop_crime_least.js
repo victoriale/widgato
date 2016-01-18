@@ -5,6 +5,8 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
+var link = "http://www.joyfulhome.com/";
+var link_partner = "http://www.myhousekit.com/";
 $(function(){
   var temp = location.search;
   var query = {};
@@ -41,8 +43,6 @@ $(function(){
 
   function dataCall(index){
     $.get('//apirt.synapsys.us/index.php?widget=national-crime&wid=8&skip='+index+'&limit=1', function(data){
-      var link = "http://www.joyfulhome.com/";
-      var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var popData = curData[0].population;
       var dataLength = curData.length;

@@ -5,7 +5,8 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
-
+var link = "http://www.joyfulhome.com/";
+var link_partner = "http://www.myhousekit.com/";
 $(function(){
 
   var temp = location.search;
@@ -15,11 +16,6 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-
-    locName = query['loc']['loc_name'];
-    locName = locName.replace(/\+/g, ' ');
-    city = query['loc']['loc_id']['city'];
-  	state = query['loc']['loc_id']['state'];
     bord = query.bord;
   	}
 
@@ -46,16 +42,14 @@ $(function(){
   })//END OF FUNCTION
   function dataCall(index){
   	$.get('//apirt.synapsys.us/index.php?widget=national-crime&wid=2&skip='+index+'&limit=1', function(data){
-      var link = "http://www.joyfulhome.com/";
-      var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       dataLength = curData.length;
       var title = "nat-most-vehicle-theft-by-city";
-      $('.fcw-t1').html('Cities in the U.S. with the Most Car Thefts');
+      $('.fcw-t1').html('Cities in the U.S. with the Most Auto Thefts');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-image').css('background', 'url('+imageUrl(imageUrl(curData[0].img))+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html((curData[0].CrimeMotorVehicleTheftNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +' Car Thefts');
+      $('.fcw-content1').html((curData[0].CrimeMotorVehicleTheftNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") +' Stolen Vehicles');
       if(curData[0].CrimeYear == null || typeof curData[0].CrimeYear == 'undefined'){
         $('.fcw-content2').html('In 2014');
       } else {

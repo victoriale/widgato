@@ -1,14 +1,8 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-
 var remnant = '';
-var locName = '';
-var city = '';
-var state = '';
-var loc = '';
 var max = 10;
 var bord = false;
 
@@ -21,11 +15,6 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
-    locName = query['loc']['loc_name'];
-    locName = locName.replace(/\+/g, ' ');
-    city = query['loc']['loc_id']['city'];
-  	state = query['loc']['loc_id']['state'];
     bord = query.bord;
   	}
 
@@ -47,19 +36,10 @@ $(function(){
           dataCall(offset);
         }
     });
-
-    if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
-      $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
-        city = r_data[0].city;
-        state = r_data[0].state;
-        dataCall(offset);
-      });
-    }else{
-      dataCall(offset);
-    }
+    dataCall(offset);
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//apirt.synapsys.us/index.php?widget=national-demographics&wid=12&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('//apirt.synapsys.us/index.php?widget=national-demographics&wid=12&skip='+index+'&limit=1', function(data){
       var link = "http://www.joyfulhome.com/";
       var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;

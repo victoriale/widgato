@@ -1,17 +1,12 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-
 var remnant = '';
-var locName = '';
-var city = '';
-var state = '';
-var loc = '';
 var max = 10;
 var bord = false;
-
+var link = "http://www.joyfulhome.com/";
+var link_partner = "http://www.myhousekit.com/";
 $(function(){
 
   var temp = location.search;
@@ -21,23 +16,12 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
-    locName = query['loc']['loc_name'];
-    locName = locName.replace(/\+/g, ' ');
-    city = query['loc']['loc_id']['city'];
-  	state = query['loc']['loc_id']['state'];
     bord = query.bord;
   	}
 
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   	}
-
-  	// var script_tag = document.createElement('script');
-  	// script_tag.setAttribute('src','//static.getclicky.com/js');
-  	// document.head.appendChild(script_tag);
-  	// var clicks = $('<script>try{ clicky.init('+clickyId+'); }catch(e){}</script>');
-  	// document.head.appendChild(clicks[0]);
     $('.fcw-rightnav').on('click', function() {
         if ($(this).data('dir') === 'next') {
             dataCall(++offset);
@@ -53,24 +37,14 @@ $(function(){
         }
     });
 
-    if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
-      $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
-          city = r_data[0].city;
-          state = r_data[0].state;
-          dataCall(offset);
-      });
-    }else{
-      dataCall(offset);
-    }
+    dataCall(offset);
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get('//apirt.synapsys.us/index.php?widget=national-demographics&wid=4&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
-      var link = "http://www.joyfulhome.com/";
-      var link_partner = "http://www.myhousekit.com/";
+  	$.get('//apirt.synapsys.us/index.php?widget=national-demographics&wid=4&skip='+index+'&limit=1', function(data){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "nat-highest-home-value";
-      $('.fcw-t1').html('Cities with the Highest Home Values in the U.S.');
+      $('.fcw-t1').html('Cities in the U.S. with the Highest Home Values');
       $('.fcw-t2-loc').html(curData[0].DemoCity + ', ' + curData[0].DemoState);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));

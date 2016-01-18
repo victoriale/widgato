@@ -44,7 +44,7 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "nat-highest-avg-temp-by-city";
-      $('.fcw-t1').html('Cities with the Highest Average Temperature in the U.S.');
+      $('.fcw-t1').html('Cities in the U.S. with the Highest Average Temperature');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));

@@ -5,7 +5,8 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
-
+var link = "http://www.joyfulhome.com/";
+var link_partner = "http://www.myhousekit.com/";
 $(function(){
   var temp = location.search;
   var query = {};
@@ -39,13 +40,11 @@ $(function(){
   })//END OF FUNCTION
   function dataCall(index){
   	$.get('http://apirt.synapsys.us/index.php?widget=national-weathers&wid=14&skip='+index+'&limit=1', function(data){
-      var link = "http://www.joyfulhome.com/";
-      var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "nat-lowest-wind-spd-by-city";
-      $('.fcw-t1').html('Cities with the Lowest Wind Speed Annually in the U.S.');
+      $('.fcw-t1').html('Cities in the U.S. with the Lowest Average Wind Speed');
       $('.fcw-t2-loc').html(curData[0].WeatherCity + ', ' + curData[0].WeatherState);
       $('.fcw-img2').html('#'+(index+1));
       if(curData[0].WeatherWindSpeed == 1){

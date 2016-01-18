@@ -5,6 +5,8 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
+var link = "http://www.joyfulhome.com/";
+var link_partner = "http://www.myhousekit.com/";
 $(function(){
   var temp = location.search;
   var query = {};
@@ -38,12 +40,10 @@ $(function(){
 
   function dataCall(index){
     $.get('//apirt.synapsys.us/index.php?widget=national-crime&wid=1&skip='+index+'&limit=1', function(data){
-      var link = "http://www.joyfulhome.com/";
-      var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var dataLength = curData.length;
       var title = "nat-most-violent-crime-by-city";
-      $('.fcw-t1').html('Cities with the Most Violent Crimes in the U.S.');
+      $('.fcw-t1').html('Cities in the U.S. with the Most Violent Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html((curData[0].CrimeViolentNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Violent Crimes');

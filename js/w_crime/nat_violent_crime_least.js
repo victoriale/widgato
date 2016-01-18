@@ -5,6 +5,8 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
+var link = "http://www.joyfulhome.com/";
+var link_partner = "http://www.myhousekit.com/";
 $(function(){
   var temp = location.search;
   var query = {};
@@ -41,12 +43,10 @@ $(function(){
 
   function dataCall(index){
     $.get('//apirt.synapsys.us/index.php?widget=national-crime&wid=5&skip='+index+'&limit=1', function(data){
-      var link = "http://www.joyfulhome.com/";
-      var link_partner = "http://www.myhousekit.com/";
       var curData = data.widget;
       var dataLength = curData.length;
       var title = "nat-least-violent-crime-by-city";
-      $('.fcw-t1').html('Cities with the Least Violent Crimes in the U.S.');
+      $('.fcw-t1').html('Cities in the U.S. with the Least Violent Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-image').css('background', 'url('+imageUrl(imageUrl(curData[0].img))+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
