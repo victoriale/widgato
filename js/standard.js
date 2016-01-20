@@ -166,7 +166,7 @@ function listCall(method, count){
     				$(".fcw-image").css("background-image","url('"+random[offset]+"')");
     				//replace widget location name with name given name from database
     				//some reason had to run below again
-    				locName = r_data[0].city+", "+r_data[0].state;
+    				locName = r_data[0].city + ", " + r_data[0].state;
     				$(".fcw-t2-loc").html(locName);
 
     				$(".fcw-href").attr('href',"//www.myhousekit.com/"+p_domain+"view_list/"+link+"/"+r_data[0].state+"/"+r_data[0].city);
@@ -187,7 +187,7 @@ function listCall(method, count){
 			}else{
 				listCall(method, offset);
 			}
-		}else{
+		 }else{
         //will change the title text and resize using resizetext() function
         var name = method[offset]['name'];
         $(".fcw-t1").html(name);
@@ -201,6 +201,7 @@ function listCall(method, count){
 				$(".fcw-image").css("background-image","url('"+random[offset]+"')");
 				//replace widget location name with name given name from database
 				//some reason had to run below again
+        locName = data[0].city + ", " + data[0].state;
 				locName = locName.replace(/\+/g, ' ');
 				$(".fcw-t2-loc").html(locName);
 
@@ -208,7 +209,7 @@ function listCall(method, count){
         $("#imgUrl").attr('href',"//www.myhousekit.com/"+p_domain+"view_list/"+link+"/"+data[0].state+"/"+data[0].city);
 				//go to location page go to myhousekit for partner non remnant
 				$("#loc").attr('href',"//www.myhousekit.com/"+p_domain+"loc/");
-  		}
+  	 }
   	});
   }
  }

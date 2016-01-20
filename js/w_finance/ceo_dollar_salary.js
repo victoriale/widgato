@@ -20,7 +20,7 @@ $(function(){
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
   	}
-  
+
     $('.fcw-rightnav').on('click', function() {
         if (offset < dataLength-1 && $(this).data('dir') === 'next') {
             dataCall(++offset);
@@ -48,9 +48,8 @@ $(function(){
 function dataCall(index){
   $('.fcw-t2-num').html("#"+(index + 1));
   $('.fcw-t2-title').html(curData[index].o_first_name+' '+curData[index].o_last_name);
-  $('.fcw-content1').html(curData[index].o_first_name+' '+curData[index].o_last_name);
+  $('.fcw-content1').html('$1.00 Salary');
   $('.fcw-loc').html(curData[index].c_name);
-  $('#paid').html(nFormatter(curData[index].TotalComp));
   $('.fcw-image').css('background', 'url('+imageUrl(curData[index].o_pic)+') no-repeat');
   $('.fcw-logo').css('background', 'url('+imageUrl(curData[index].c_logo)+') no-repeat');
   //$('.cds-image').css('background','url(http://images.investkit.com/images/'+curData[index].o_pic+') no-repeat');

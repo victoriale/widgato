@@ -40,7 +40,7 @@ $(function(){
 
     $('.fcw-leftnav').on('click', function() {
         if (offset > 0 && $(this).data('dir') === 'prev') {
-              dataCall(--offset);
+          dataCall(--offset);
         }else if(offset <= 0){
           offset = 0;
           dataCall(offset);
@@ -71,7 +71,7 @@ $(function(){
       $('.fcw-t1').html('Cities in '+ fullstate(curData[0].DemoState) +' with the Most Bilingual Residents');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(Number(curData[0].DemonPctBilingual).toFixed(0) + '% of Residents');
+      $('.fcw-content1').html(Number(curData[0].DemonPctBilingual).toFixed(2) + '% of Residents');
       $('.fcw-content2').html('Are Bilingual');
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
