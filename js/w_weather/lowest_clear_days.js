@@ -20,7 +20,7 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
+
     locName = query['loc']['loc_name'];
     locName = locName.replace(/\+/g, ' ');
     city = query['loc']['loc_id']['city'];
@@ -69,7 +69,7 @@ $(function(){
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "lowest-clear-day-by-city";
-      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with Lowest Clear Days Annually');
+      $('.fcw-t1').html(fullstate(curData[0].WeatherState) + ' Cities with Least Clear Days Annually');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));

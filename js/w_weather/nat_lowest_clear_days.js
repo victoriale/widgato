@@ -43,7 +43,7 @@ $(function(){
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "nat-lowest-clear-day-by-city";
-      $('.fcw-t1').html('Cities in the U.S. with Lowest Clear Days Annually');
+      $('.fcw-t1').html('Cities in the U.S. with Least Clear Days Annually');
       $('.fcw-t2-loc').html(curData[0].WeatherCity+', '+curData[0].WeatherState);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
