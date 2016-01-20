@@ -73,7 +73,7 @@ $(function(){
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(Number(curData[0].DemoWalkToWork).toFixed(0) + ' Percent');
+      $('.fcw-content1').html(Number(curData[0].DemoWalkToWork).toFixed(2) + ' Percent');
       $('.fcw-content2').html('Walk to Work');
 
       if(remnant == 'true' || remnant == true){

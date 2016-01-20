@@ -47,7 +47,7 @@ $(function(){
       $('.fcw-t1').html('Cities in the U.S. with the Most Residents that Walk to Work');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html((Number(curData[0].DemoWalkToWork).toFixed(0)).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Percent');
+      $('.fcw-content1').html((Number(curData[0].DemoWalkToWork).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Percent');
       $('.fcw-content2').html('Walk to Work');
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
 
