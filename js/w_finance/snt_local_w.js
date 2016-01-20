@@ -44,11 +44,11 @@ $(function(){
       })
     }else{//if not a remnant then grab all data for datacall
       if(dma.length == 0 || typeof dma == 'undefined'){
-        city = query['loc']['loc_id']['city'];
-        state = query['loc']['loc_id']['state'];
-        if(typeof city == 'undefined'){
-          loc = state;
-        }
+        
+        state = query['loc']['loc']['state'];
+        
+        loc = state;
+
       }else{
         for(var i = 0; i < dma.length; i++)
         {
@@ -57,7 +57,6 @@ $(function(){
         loc = loc.replace(/ /g, ",");
         loc = removeLastComma(loc);
       }
-
       //console.log("Grabbing data call");
       $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
         dataCall = data.local_market_movers;
