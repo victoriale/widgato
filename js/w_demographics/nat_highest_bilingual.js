@@ -47,7 +47,7 @@ $(function(){
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
-      $('.fcw-content1').html(Number(curData[0].DemonPctBilingual).toFixed(0) + '% of Residents');
+      $('.fcw-content1').html(Number(curData[0].DemonPctBilingual).toFixed(2) + '% of Residents');
       $('.fcw-content2').html('Are Bilingual');
 
       if(remnant == 'true' || remnant == true){

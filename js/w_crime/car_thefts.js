@@ -1,9 +1,7 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-
 var remnant = '';
 var locName = '';
 var city = '';
@@ -20,7 +18,7 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
+
     locName = query['loc']['loc_name'];
     locName = locName.replace(/\+/g, ' ');
     city = query['loc']['loc_id']['city'];

@@ -304,3 +304,79 @@ button:focus {
   background: #f26f26;
   font-size: 20px;
 }
+@media screen and (max-width:970px){
+  .nba{
+    width:650px;
+  }
+  .fcw{
+    width: 350px;
+    height: 250px;
+  }
+  .fcw-icon{
+    margin: 10px 10px;
+  }
+  .fcw-t1{
+    height: 42px;
+    width: 85%;
+    overflow: hidden;
+    margin-top: 5px;
+    font-size: 18px;
+
+  }
+  .fcw-t2{
+    margin: 8px 0 10px 0;
+    font-size: 14px;
+    text-align: left;
+    line-height: 18px;
+    width: 48%;
+    float: right;
+    position: relative;
+  }
+  .fcw-logo{
+    width:38px;
+    height:38px;
+    left: 95px;
+    z-index: 2;
+    margin: 145px 35px;
+  }
+  .fcw-t2-num{
+    width:35px;
+    height:35px;
+    line-height: 30px;
+    font-size: 16px;
+
+  }
+  .fcw-content{
+    left: 175px;
+    width: 50%;
+    top: 50px;
+  }
+  .fcw-content1{
+    font-size: 18px;
+    width: 80%;
+  }
+  .fcw-content2{
+    font-size: 12px;
+    margin: 0 0 0 0;
+  }
+  .fcw-image{
+    position: absolute;
+    width: 125px;
+    height: 125px;
+    margin: 5px 40px 0;
+  }
+  .fcw-t2-title{
+    font-size: 18px;
+
+  }
+  .fcw-list{
+    height: 30px;
+    text-align: center;
+    position: absolute;
+    margin: 0 0 47px 105px;
+  }
+  .fcw-list-link{
+    width: 130px;
+    height: 30px;
+  }
+}

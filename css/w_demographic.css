@@ -247,6 +247,8 @@ button:focus {
     text-align: left;
     font-size: 10px;
     margin-bottom: 5px;
+    height: 12px;
+    overflow: hidden;
 }
 
 .fcw-rightnav:active{
