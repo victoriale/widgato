@@ -55,42 +55,54 @@ $(function top(id){
 				var SV150_pctChange = Number(data_result.sv150_percent_change).toFixed(2);
 
 				$('#SV').html(SV150_price);
-				$('#svchange').html(lossGainCheck(SV150_priceChange));
-				$('#svpct').html(lossGainCheck(SV150_pctChange)+'%');
+				$('#svchange').html(lossGainCheck(1,SV150_priceChange));
+				$('#svpct').html(lossGainCheck(1,SV150_pctChange)+'%');
 
-				var NQ_price = Number(data_exchange[1].csi_price).toFixed(2);
-				var NQ_priceChange = Number(data_exchange[1].csi_price_change_since_last).toFixed(2);
-				var NQ_pctChange = Number(data_exchange[1].csi_percent_change_since_last).toFixed(2);
-				if(data_exchange[0].csi_price_last_operator == 0){
-					NQ_priceChange *= -1;
-					NQ_pctChange *= -1;
-				}
-				$('#nq').html(NQ_price);
-				$('#nqchange').html(lossGainCheck(NQ_priceChange));
-				$('#napct').html(lossGainCheck(NQ_pctChange)+"%");
-				//plug in data call for AMEX
-				var AMEX_price = Number(data_exchange[0].csi_price).toFixed(2);
-				var AMEX_priceChange = Number(data_exchange[0].csi_price_change_since_last).toFixed(2);
-				var AMEX_pctChange = Number(data_exchange[0].csi_percent_change_since_last).toFixed(2);
-				if(data_exchange[2].csi_price_last_operator == 0){
-					AMEX_priceChange *= -1;
-					AMEX_pctChange *= -1;
-				}
-				$('#SP').html(AMEX_price);
-				$('#spchange').html(lossGainCheck(AMEX_priceChange));
-				$('#sppct').html(lossGainCheck(AMEX_pctChange)+"%");
-
-				//plug in data call for NYSE
-				var NYSE_price = Number(data_exchange[2].csi_price).toFixed(2);
-				var NYSE_priceChange = Number(data_exchange[2].csi_price_change_since_last).toFixed(2);
-				var NYSE_pctChange = Number(data_exchange[2].csi_percent_change_since_last).toFixed(2);
-				if(data_exchange[1].csi_price_last_operator == 0){
-					NYSE_priceChange *= -1;
-					NYSE_pctChange *= -1;
-				}
-				$('#ny').html(NYSE_price);
-				$('#nychange').html(lossGainCheck(NYSE_priceChange));
-				$('#nypct').html(lossGainCheck(NYSE_pctChange)+"%");
+				$.map(data_exchange,function(data, index){
+					switch(data.c_exchange){
+						case 'AMEX':
+							//plug in data call for AMEX
+							var AMEX_price = Number(data_exchange[0].csi_price).toFixed(2);
+							var AMEX_priceChange = Number(data_exchange[0].csi_price_change_since_last).toFixed(2);
+							var AMEX_pctChange = Number(data_exchange[0].csi_percent_change_since_last).toFixed(2);
+							if(data_exchange[2].csi_price_last_operator == 0){
+								AMEX_priceChange *= -1;
+								AMEX_pctChange *= -1;
+							}
+							$('#SP').html(AMEX_price);
+							$('#spchange').html(lossGainCheck(3,AMEX_priceChange));
+							$('#sppct').html(lossGainCheck(3,AMEX_pctChange)+"%");
+						break;
+						case 'NASDAQ':
+							//plug in data call for NASDAQ
+							var NQ_price = Number(data_exchange[1].csi_price).toFixed(2);
+							var NQ_priceChange = Number(data_exchange[1].csi_price_change_since_last).toFixed(2);
+							var NQ_pctChange = Number(data_exchange[1].csi_percent_change_since_last).toFixed(2);
+							if(data_exchange[0].csi_price_last_operator == 0){
+								NQ_priceChange *= -1;
+								NQ_pctChange *= -1;
+							}
+							$('#nq').html(NQ_price);
+							$('#nqchange').html(lossGainCheck(2,NQ_priceChange));
+						$('#napct').html(lossGainCheck(2,NQ_pctChange)+"%");
+						break;
+						case 'NYSE':
+							//plug in data call for NYSE
+							var NYSE_price = Number(data_exchange[2].csi_price).toFixed(2);
+							var NYSE_priceChange = Number(data_exchange[2].csi_price_change_since_last).toFixed(2);
+							var NYSE_pctChange = Number(data_exchange[2].csi_percent_change_since_last).toFixed(2);
+							if(data_exchange[1].csi_price_last_operator == 0){
+								NYSE_priceChange *= -1;
+								NYSE_pctChange *= -1;
+							}
+							$('#ny').html(NYSE_price);
+							$('#nychange').html(lossGainCheck(4,NYSE_priceChange));
+							$('#nypct').html(lossGainCheck(4,NYSE_pctChange)+"%");
+						break;
+						default:
+						break;
+					}
+				});
 
 				if(remnant == 'true' || remnant == true){
 					$('#gainlist').attr('href',"http://www.investkit.com/sv150-top-gainers/sv150_gainers/list/1")
@@ -104,7 +116,7 @@ $(function top(id){
 					$('#gain_profile1').attr("href",'http://www.investkit.com/'+data_gainer[0].c_ticker+'/'+compUrlName(data_gainer[0].c_name)+'/company/'+data_gainer[0].c_id);
 					$('#gain_profile2').attr("href",'http://www.investkit.com/'+data_gainer[1].c_ticker+'/'+compUrlName(data_gainer[1].c_name)+'/company/'+data_gainer[1].c_id);
 					$('#gain_profile3').attr("href",'http://www.investkit.com/'+data_gainer[2].c_ticker+'/'+compUrlName(data_gainer[2].c_name)+'/company/'+data_gainer[2].c_id);
-					$('#lose_profile1').attr("href",'http://www.investkit.com/'+data_loser[0].c_ticker+'/'+compUrlName(data_loser[0].c_name)+'/company/'+data_gainer[0].c_id);
+					$('#lose_profile1').attr("href",'http://www.investkit.com/'+data_loser[0].c_ticker+'/'+compUrlName(data_loser[0].c_name)+'/company/'+data_loser[0].c_id);
 					$('#lose_profile2').attr("href",'http://www.investkit.com/'+data_loser[1].c_ticker+'/'+compUrlName(data_loser[1].c_name)+'/company/'+data_loser[1].c_id);
 					$('#lose_profile3').attr("href",'http://www.investkit.com/'+data_loser[2].c_ticker+'/'+compUrlName(data_loser[2].c_name)+'/company/'+data_loser[2].c_id);
 				}else{
@@ -119,7 +131,7 @@ $(function top(id){
 					$('#gain_profile1').attr("href",'http://www.myinvestkit.com/'+domain+'/'+compUrlName(data_gainer[0].c_name)+'/'+data_gainer[0].c_ticker+'/c/'+data_gainer[0].c_id);
 					$('#gain_profile2').attr("href",'http://www.myinvestkit.com/'+domain+'/'+compUrlName(data_gainer[1].c_name)+'/'+data_gainer[1].c_ticker+'/c/'+data_gainer[1].c_id);
 					$('#gain_profile3').attr("href",'http://www.myinvestkit.com/'+domain+'/'+compUrlName(data_gainer[2].c_name)+'/'+data_gainer[2].c_ticker+'/c/'+data_gainer[2].c_id);
-					$('#lose_profile1').attr("href",'http://www.myinvestkit.com/'+domain+'/'+compUrlName(data_loser[0].c_name)+'/'+data_loser[0].c_ticker+'/c/'+data_gainer[0].c_id);
+					$('#lose_profile1').attr("href",'http://www.myinvestkit.com/'+domain+'/'+compUrlName(data_loser[0].c_name)+'/'+data_loser[0].c_ticker+'/c/'+data_loser[0].c_id);
 					$('#lose_profile2').attr("href",'http://www.myinvestkit.com/'+domain+'/'+compUrlName(data_loser[1].c_name)+'/'+data_loser[1].c_ticker+'/c/'+data_loser[1].c_id);
 					$('#lose_profile3').attr("href",'http://www.myinvestkit.com/'+domain+'/'+compUrlName(data_loser[2].c_name)+'/'+data_loser[2].c_ticker+'/c/'+data_loser[2].c_id);
 				}
@@ -156,27 +168,19 @@ $(function top(id){
 			}, 'json')
 })
 
-function lossGainCheck(change)
+function lossGainCheck(id,change)
 {
 	//determines whether the price change is pos or neg and change colors accordingly
 	if (!isNaN(change)){
 		if(change > 0){
-			$('.tp_company-color').css({"color":"#44b224"});
-			$('#rc4').css({"color":"#44b224"});
-			$('#rc3').css({"color":"#44b224"});
-			$('#rc2').css({"color":"#44b224"});
-			$('#rc1').css({"color":"#44b224"});
-			$('.u').show();
-			$('.d').hide();
+			$('#rc'+id).css({"color":"#44b224"});
+			$("#"+id+" .u").show();
+			$("#"+id+" .d").hide();
 		}
 		else{
-			$('.tp_company-color').css({"color":"#ca1010"});
-			$('#rc4').css({"color":"#ca1010"});
-			$('#rc3').css({"color":"#ca1010"});
-			$('#rc2').css({"color":"#ca1010"});
-			$('#rc1').css({"color":"#ca1010"});
-			$('.u').hide();
-			$('.d').show();
+			$('#rc'+id).css({"color":"#ca1010"});
+			$("#"+id+" .u").hide();
+			$("#"+id+" .d").show();
 		}
 	}
 	else{
