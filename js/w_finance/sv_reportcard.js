@@ -62,10 +62,10 @@ $(function top(id){
 					switch(data.c_exchange){
 						case 'AMEX':
 							//plug in data call for AMEX
-							var AMEX_price = Number(data_exchange[0].csi_price).toFixed(2);
-							var AMEX_priceChange = Number(data_exchange[0].csi_price_change_since_last).toFixed(2);
-							var AMEX_pctChange = Number(data_exchange[0].csi_percent_change_since_last).toFixed(2);
-							if(data_exchange[2].csi_price_last_operator == 0){
+							var AMEX_price = Number(data.csi_price).toFixed(2);
+							var AMEX_priceChange = Number(data.csi_price_change_since_last).toFixed(2);
+							var AMEX_pctChange = Number(data.csi_percent_change_since_last).toFixed(2);
+							if(data.csi_price_last_operator == 0){
 								AMEX_priceChange *= -1;
 								AMEX_pctChange *= -1;
 							}
@@ -75,10 +75,10 @@ $(function top(id){
 						break;
 						case 'NASDAQ':
 							//plug in data call for NASDAQ
-							var NQ_price = Number(data_exchange[1].csi_price).toFixed(2);
-							var NQ_priceChange = Number(data_exchange[1].csi_price_change_since_last).toFixed(2);
-							var NQ_pctChange = Number(data_exchange[1].csi_percent_change_since_last).toFixed(2);
-							if(data_exchange[0].csi_price_last_operator == 0){
+							var NQ_price = Number(data.csi_price).toFixed(2);
+							var NQ_priceChange = Number(data.csi_price_change_since_last).toFixed(2);
+							var NQ_pctChange = Number(data.csi_percent_change_since_last).toFixed(2);
+							if(data.csi_price_last_operator == 0){
 								NQ_priceChange *= -1;
 								NQ_pctChange *= -1;
 							}
@@ -88,10 +88,10 @@ $(function top(id){
 						break;
 						case 'NYSE':
 							//plug in data call for NYSE
-							var NYSE_price = Number(data_exchange[2].csi_price).toFixed(2);
-							var NYSE_priceChange = Number(data_exchange[2].csi_price_change_since_last).toFixed(2);
-							var NYSE_pctChange = Number(data_exchange[2].csi_percent_change_since_last).toFixed(2);
-							if(data_exchange[1].csi_price_last_operator == 0){
+							var NYSE_price = Number(data.csi_price).toFixed(2);
+							var NYSE_priceChange = Number(data.csi_price_change_since_last).toFixed(2);
+							var NYSE_pctChange = Number(data.csi_percent_change_since_last).toFixed(2);
+							if(data.csi_price_last_operator == 0){
 								NYSE_priceChange *= -1;
 								NYSE_pctChange *= -1;
 							}
