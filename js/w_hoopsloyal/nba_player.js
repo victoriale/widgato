@@ -90,7 +90,7 @@ $(function(){
 
 function imageUrl(path){
   if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
-    return 'http://sports-images.synapsys.us:99/nba/players/headshots/no_player_icon.png';
+    return 'http://prod-sports-images.synapsys.us/nba/players/headshots/no_player_icon.png';
   }
   return 'http://prod-sports-images.synapsys.us' + path;
 }
