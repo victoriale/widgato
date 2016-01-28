@@ -107,7 +107,7 @@ $(function(){
 				//num = 2;
 				mr_center_piece(CUR_OFFSET, curData);
 				stock_data(cur_exchange, dataCall);
-				stock_graph(dataCall.sv_150_graph_data, cur_exchange);
+				stock_graph(dataCall.sv150_graph_data, cur_exchange);
 				break;
 			case 'NASDAQ':
 				CUR_OFFSET = 0;
@@ -199,7 +199,6 @@ function mr_center_piece(offset, data){
 
 // data api returned based on which exchange is selected
 function stock_data(cur_exch, stockData){
-	//console.log(stockData);
 	switch(cur_exch){
 		case 'SV150':
 			var price = stockData.sv150_graph_data[0].sh_open;
