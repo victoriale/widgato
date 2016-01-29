@@ -230,7 +230,11 @@ function stock_graph(dataArray, exchange){
 	newDataArray = [];
 	//JSON array is converted into usable code for Highcharts also does not push NULL values
 	$.each(dataArray, function(i, val) {
-		var yVal = parseFloat(val.sh_open);
+		if(exchange == 'SV150'){
+			var yVal = parseFloat(val.sh_close);
+		}else{
+			var yVal = parseFloat(val.sh_open);
+		}
 		if (!isNaN(yVal)) {
 			newDataArray.push([val.sh_date * 1000, yVal]);
 		}
