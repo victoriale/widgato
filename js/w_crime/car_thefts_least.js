@@ -63,13 +63,13 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "least-vehicle-theft-by-city";
-      $('.fcw-t1').html('Cities in '+fullstate(curData[0].CrimeState)+' with the Least Car Thefts');
+      $('.fcw-t1').html('Cities in '+fullstate(curData[0].CrimeState)+' with the Least Auto Thefts');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
       if(curData[0].CrimeMotorVehicleTheftNumber <= 1){
-        $('.fcw-content1').html(curData[0].CrimeMotorVehicleTheftNumber+' Car Theft');
+        $('.fcw-content1').html(curData[0].CrimeMotorVehicleTheftNumber+' Stolen Vehicle');
       } else {
-        $('.fcw-content1').html(curData[0].CrimeMotorVehicleTheftNumber+' Car Thefts');
+        $('.fcw-content1').html(curData[0].CrimeMotorVehicleTheftNumber+' Stolen Vehicles');
       }
       if(curData[0].CrimeYear == null || typeof curData[0].CrimeYear == 'undefined'){
         $('.fcw-content2').html('In 2012');
