@@ -20,7 +20,7 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
+
     locName = query['loc']['loc_name'];
     locName = locName.replace(/\+/g, ' ');
     city = query['loc']['loc_id']['city'];
@@ -69,7 +69,7 @@ $(function(){
       var popData = curData[0].population;
       var dataLength = curData.length;
       var title = "most-property-crime-by-city";
-      $('.fcw-t1').html(fullstate(curData[0].CrimeState) + ' Cities with the Most Property Crimes');
+      $('.fcw-t1').html('Cities in ' + fullstate(curData[0].CrimeState) + ' with the Most Property Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
       $('.fcw-content1').html((curData[0].CrimePropertyCrimeNumber).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' Crimes');

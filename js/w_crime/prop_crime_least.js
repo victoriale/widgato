@@ -64,7 +64,7 @@ $(function(){
       var popData = curData[0].population;
       var dataLength = curData.length;
       var title = "least-property-crime-by-city";
-      $('.fcw-t1').html(fullstate(curData[0].CrimeState) + ' Cities with the Least Property Crimes');
+      $('.fcw-t1').html( 'Cities in ' + fullstate(curData[0].CrimeState) + ' with the Least Property Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
