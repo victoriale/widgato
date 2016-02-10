@@ -65,7 +65,7 @@ $(function(){
       var curData = data.widget;
       var dataLength = curData.length;
       var title = "least-violent-crime-by-city";
-      $('.fcw-t1').html(fullstate(curData[0].CrimeState)+' Cities with the Least Violent Crimes');
+      $('.fcw-t1').html('Cities in ' + fullstate(curData[0].CrimeState) + ' with the Least Violent Crimes');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
       if(curData[0].CrimeViolentNumber <= 1){

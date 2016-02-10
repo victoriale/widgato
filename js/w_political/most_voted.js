@@ -98,7 +98,7 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-    $.get('//apirt.synapsys.us/index.php?widget=politics&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1&limit=1', function(data){
+    $.get('//apirt.synapsys.us/index.php?widget=politics&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       curData = data.widget;
       dataLength = curData.length;
       var title = "counties-with-the-most-republican-voters";
