@@ -7,7 +7,6 @@ var max = 10;
 var bord = false;
 var link = "http://www.hoopsloyal.com";
 var partner_link = "http://www.myhoopszone.com";
-//var link = "http://pnsports.synapsys.us";
 $(function(){
   var temp = location.search;
   var query = {};
