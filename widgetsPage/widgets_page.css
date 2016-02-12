@@ -3,7 +3,6 @@ html, body {
   font-family: 'Lato', sans-serif;font-weight:400;
   width: 100%;
   height: auto;
-  background-color: white;
   min-width: 340px;
 }
 div{
@@ -33,50 +32,31 @@ input {
   width: 250px;
   margin-bottom: 3px;
 }
-
-.content{
-  color: #fff;
-  position:fixed;
-  top: 50%;
-  left: 50%;
-  width:30em;
-  height:36em;
-  margin-top: -18em; /*set to a negative number 1/2 of your height*/
-  margin-left: -15em; /*set to a negative number 1/2 of your width*/
-  border: 1px solid #000;
+button{
+  width: 80vw;
+  height: 35vw;
   background-color: #3294ff;
 }
-.left{
-  position:fixed;
-  top: 60%;
-  left: 35%;
-  width: 500px;
-  height: 300px;
-  margin-top: -260px;
-  margin-left: -250px;
-  border: 1px solid #ccc;
+
+.content{
+  background-color: #000;
+}
+.logo{
   background-color: #fff;
-  color: #000;
+  padding-left: 2vw;
+  padding-top: 1vw;
+  padding-bottom: 1vw;
 }
-.right{
-  position: fixed;
-  top: 60%;
-  right: 35%;
-  width: 500px;
-  height: 300px;
-  margin-top: -260px;
-  margin-right: -250px;
-  border: 1px solid #ccc;
-  background-color: #fff;
-  color: #000;
+.buttons{
+  width: 100%;
+  height: auto;
 }
-.txt{
-  font-size: 52px;
-  font-weight: 500;
-  text-align: center;
-  margin-left: 22px;
-  border-bottom: 2px #ccc solid;
+.button{
+  position: relative;
+  width: 100%;
+  height: 253px;
 }
+
 .fa {
   color: #9E9898;
   font-size: 46px;
@@ -171,13 +151,12 @@ input {
 }
 .profilepicture {
     position: absolute;
-
     width: 180px;
     height: 180px;
     color: #fff;
     background: url('Images/header.jpg') no-repeat;
     /*background-size: 180px 180px;*/
-    margin: 80px auto;
+    margin: auto;
     top: 0; left: 0; bottom: 0; right: 0;
     z-index: 3;
 
@@ -204,7 +183,7 @@ inset 0 0 0 10px  rgba(0,0,255,.2);
     position: absolute;
     width: 200px;
     height: 200px;
-    margin: 70px auto;
+    margin: auto;
     top: 0; left: 0; bottom: 0; right: 0;
     z-index: 1;
     opacity: 0;
@@ -228,7 +207,7 @@ inset 0 0 0 10px  rgba(0,0,255,.2);
     position: absolute;
     width: 200px;
     height: 200px;
-    margin: 70px auto;
+    margin: auto;
     top: 0; left: 0; bottom: 0; right: 0;
     z-index: 2;
     opacity: 0;
@@ -442,49 +421,16 @@ inset 0 0 0 10px  rgba(0,0,255,.2);
 .click{
   position: absolute;
   margin: auto;
-  padding-top: 65px;
-  font-size: 36px;
-  padding-left: 15px;
+  padding-top: 50px;
+  font-size: 30px;
+  text-align: center;
 }
 
 .profilepicture:hover{
   opacity: .6;
 }
 
-
-@media screen and (max-width: 1800px){
-  .txt{
-    font-size: 42px;
-    margin-left: 45px;
-  }
-  .left{
-    width: 450px;
-    margin-top: -260px;
-    margin-left: -285px;
-  }
-  .right{
-    width: 450px;
-    margin-top: -260px;
-    margin-right: -285px;
-  }
-}
-@media screen and (max-width: 1100px){
-
-  .txt{
-    font-size: 30px;
-    margin-left: 30px;
-    width: 100%;
-  }
-  .left{
-    width: 310px;
-    margin-top: -260px;
-    margin-left: -226px;
-  }
-  .right{
-    width: 310px;
-    margin-top: -260px;
-    margin-right: -208px;
-  }
+@media screen and (max-width: 1200px){
   .hdr{
     font-size: 28px;
     padding-top: 18px;
@@ -493,7 +439,6 @@ inset 0 0 0 10px  rgba(0,0,255,.2);
     margin: 10px 20px 0 0;
   }
 }
-
 @media screen and (max-width: 500px){
   .category{
     font-size: 28px;
@@ -510,29 +455,7 @@ inset 0 0 0 10px  rgba(0,0,255,.2);
     background-color: #fff;
   }
 }
-@media screen and (max-width: 500px){
-  .content{
-    background-color: #000;
-  }
-  .left{
-    margin-left: -35%;
-    margin-top: -275px;
-    height: 45%;
-    width: 100%;
-    border: 0;
-  }
-  .right{
-    height: 45%;
-    width: 100%;
-    margin-top: -7%;
-    margin-right: -35%;
-    border: 0;
-  }
-  .txt{
-    font-size: 26px;
-    margin-left: 21%;
-    width: 100%;
-  }
+@media screen and (max-width: 400px){
   .category{
     font-size: 24px;
     height: 100px;
@@ -545,21 +468,6 @@ inset 0 0 0 10px  rgba(0,0,255,.2);
   .retxt:hover{
     color: #000;
     background-color: #fff;
-  }
-  .profilepicture{
-    width: 150px;
-    height: 150px;
-    margin: 50px auto;
-  }
-  .pulse1{
-    margin: 26px auto;
-  }
-  .pulse2{
-    margin: 26px auto;
-  }
-  .click{
-    padding-top: 55px;
-    font-size: 28px;
   }
   .fa{
     margin: 10px 20px 0 0;
