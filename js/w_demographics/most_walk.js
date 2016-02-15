@@ -1,9 +1,7 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-
 var remnant = '';
 var locName = '';
 var city = '';
@@ -69,7 +67,7 @@ $(function(){
       var popData = curData[0].population;
       dataLength = curData.length;
       var title = "most-walk";
-      $('.fcw-t1').html(curData[0].DemoState + ' Cities with the Most Residents that Walk to Work');
+      $('.fcw-t1').html('Cities in ' + curData[0].DemoState + ' with the Most Residents that Walk to Work');
       $('.fcw-t2-loc').html(curData[0].DemoCity+', '+curData[0].DemoState);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
@@ -91,7 +89,14 @@ $(function(){
 
   function imageUrl(path){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://apireal.synapsys.us/city-image/images/placeholder-location.jpg'){
-      return '../css/public/no_image.jpg';
+      var image_array = new Array();
+      var x = Math.floor((Math.random() * 4) + 1);
+      image_array['0'] = '../css/public/nophoto1.png';
+      image_array['1'] = '../css/public/nophoto2.png';
+      image_array['2'] = '../css/public/nophoto3.png';
+      image_array['3'] = '../css/public/nophoto4.png';
+      image_array['4'] = '../css/public/nophoto5.png';
+      return image_array[x];
     }
     return path;
   }

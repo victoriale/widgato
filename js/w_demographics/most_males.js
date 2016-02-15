@@ -1,9 +1,7 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-
 var remnant = '';
 var locName = '';
 var city = '';
@@ -20,7 +18,7 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
+
     locName = query['loc']['loc_name'];
     locName = locName.replace(/\+/g, ' ');
     city = query['loc']['loc_id']['city'];
@@ -88,7 +86,14 @@ $(function(){
   }
   function imageUrl(path){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://apireal.synapsys.us/city-image/images/placeholder-location.jpg'){
-      return '../css/public/no_image.jpg';
+      var image_array = new Array();
+      var x = Math.floor((Math.random() * 4) + 1);
+      image_array['0'] = '../css/public/nophoto1.png';
+      image_array['1'] = '../css/public/nophoto2.png';
+      image_array['2'] = '../css/public/nophoto3.png';
+      image_array['3'] = '../css/public/nophoto4.png';
+      image_array['4'] = '../css/public/nophoto5.png';
+      return image_array[x];
     }
     return path;
   }
