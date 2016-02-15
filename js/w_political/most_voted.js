@@ -70,7 +70,7 @@ $(function(){
           //transforms title to add in state
           var title = $('.fcw-t1').html();
           title = title.split(' ');
-          title.splice(1,0,state);
+          title.splice(0,0,state);
           $('.fcw-t1').html(title.join(' '));
           dataCall(offset);
         });
@@ -82,7 +82,7 @@ $(function(){
           //transforms title to add in state
           var title = $('.fcw-t1').html();
           title = title.split(' ');
-          title.splice(1,0,state);
+          title.splice(0,0,state);
           $('.fcw-t1').html(title.join(' '));
           dataCall(offset);
         });
@@ -91,7 +91,7 @@ $(function(){
       //transforms title to add in state
       var title = $('.fcw-t1').html();
       title = title.split(' ');
-      title.splice(1,0,state);
+      title.splice(0,0,state);
       $('.fcw-t1').html(title.join(' '));
       dataCall(offset);
     }

@@ -20,7 +20,7 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-    
+
     locName = query['loc']['loc_name'];
     locName = locName.replace(/\+/g, ' ');
     city = query['loc']['loc_id']['city'];
@@ -67,7 +67,7 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "highest-income";
-      $('.fcw-t1').html(curData[0].DemoState + ' Cities with the Highest Annual Income');
+      $('.fcw-t1').html('Cities in '+fullstate(curData[0].DemoState) +' with the Highest Annual Income');
       $('.fcw-t2-loc').html(curData[0].DemoCity + ', ' + curData[0].DemoState);
       $('.fcw-img2').html('#'+(index+1));
       var income = Number(curData[0].DemoAvgHighestIncome).toFixed(0);
@@ -93,4 +93,62 @@ $(function(){
       return '../css/public/no_image.jpg';
     }
     return path;
+  }
+  function fullstate(state){
+    var stateName = {
+      AL: 'Alabama',
+      AK: 'Alaska',
+      AZ: 'Arizona',
+      AR: 'Arkansas',
+      CA: 'California',
+      CO: 'Colorado',
+      CT: 'Connecticut',
+      DC: 'District of Columbia',
+      DE: 'Delaware',
+      FL: 'Florida',
+      GA: 'Georgia',
+      HI: 'Hawaii',
+      ID: 'Idaho',
+      IL: 'Illinois',
+      IN: 'Indiana',
+      IA: 'Iowa',
+      KS: 'Kansas',
+      KY: 'Kentucky',
+      LA: 'Lousiana',
+      ME: 'Maine',
+      MD: 'Maryland',
+      MA: 'Massachusetts',
+      MI: 'Michigan',
+      MN: 'Minnesota',
+      MS: 'Mississippi',
+      MO: 'Missouri',
+      MT: 'Montana',
+      NE: 'Nebraska',
+      NV: 'Nevada',
+      NH: 'New Hampshire',
+      NJ: 'New Jersey',
+      NM: 'New Mexico',
+      NY: 'New York',
+      NC: 'North Carolina',
+      ND: 'North Dakota',
+      OH: 'Ohio',
+      OK: 'Oklahoma',
+      ON: 'Ontario',
+      OR: 'Oregon',
+      PA: 'Pennsylvania',
+      PR: 'Puerto Rico',
+      RI: 'Rhode Island',
+      SC: 'South Carolina',
+      SD: 'South Dakota',
+      TN: 'Tennessee',
+      TX: 'Texas',
+      UT: 'Utah',
+      VT: 'Vermont',
+      VA: 'Virginia',
+      WA: 'Washington',
+      WV: 'West Virginia',
+      WI: 'Wisconsin',
+      WY: 'Wyoming'
+    };
+    return stateName[state];
   }
