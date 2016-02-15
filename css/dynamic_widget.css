@@ -1,0 +1,208 @@
+/* General styles */
+html, body {
+  margin: 0 !important;
+  font-family: lato
+  width: 100%;
+  height: auto;
+  background-color: #ccc;
+}
+div{
+  font-family: lato;
+}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  outline:0;
+}
+button {
+  outline: 0;
+  border: none;
+}
+button:focus {
+  outline:0;
+}
+
+.dw {
+  width: 300px;
+  height: 350px;
+  background-color: #fafafa;
+  position: relative;
+  margin: 0 auto;
+}
+
+/* For things with a background image */
+.bg-img {
+  background-size: contain;
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+
+.dw-title {
+  font-size: 17px;
+  line-height: 17px;
+  font-weight: bold;
+  width: 300px;
+  min-height: 60px;
+  text-align: left;
+  padding: 7px 5px 7px 40px;
+}
+.dw-icon {
+  height: 25px;
+  width: 25px;
+  border-radius: 50%;
+  background-size: auto;
+  position: absolute;
+  left: 5px;
+  top: 15px;
+}
+
+.dw-carousel {
+  width: 300px;
+  height: 140px;
+  position: relative;
+}
+/* Nav Buttons */
+.dw-nav {
+  height: 60px;
+  width: 30px;
+  position: absolute;
+  top: 40px;
+  color: white;
+  background-color: black;
+  display: block;
+  font-size: 25px;
+  cursor: pointer;
+  padding: 0 4px;
+}
+.dw-c-l {
+  left: 0;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  text-align: left;
+}
+.dw-c-r {
+  right: 0;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  text-align: right;
+}
+/* Images */
+.dw-c-img {
+  position: absolute;
+  left: 78px;
+  border: 3px solid #ccc;
+  background-color: #fff;
+}
+.hover {
+  display: none;
+  width: 100%;
+  height: 100%;
+  padding: 32px 0;
+  font-size: 30px;
+  line-height: 35px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+  border-radius: 50%;
+}
+.dw-big:hover .hover {
+  display: block;
+}
+.dw-sm {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  position: absolute;
+}
+.dw-big {
+  width: 144px;
+  height: 144px;
+  border-radius: 50%;
+}
+.dw-c-num {
+  font-size: 20px;
+  line-height: 38px;
+  text-align: center;
+  top: 0px;
+  left: 78px;
+  background-color: white;
+}
+.dw-c-sub {
+  position: absolute;
+  left: 115px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+#subimg {
+  display: none;
+}
+
+/* Styles for 2 images */
+.two #subimg {
+  display: block;
+}
+.two .dw-c-img {
+  left: 35px;
+}
+.two .dw-c-num {
+  left: 35px;
+}
+
+/* Item information */
+.dw-info {
+  margin: 5px;
+  width: 290px;
+}
+.dw-i-title {
+  width: 100%;
+  font-size: 18px;
+  line-height: 18px;
+  text-align: center;
+  font-weight: bold;
+}
+.dw-i-desc {
+  margin-top: 2px;
+  width: 100%;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.dw-btn {
+  color: black;
+  background-color: white;
+  font-size: 11px;
+  line-height: 26px;
+  width: 118px;
+  height: 28px;
+  border-radius: 3px;
+  position: relative;
+  left: 90px;
+  border: 1px solid #000;
+  cursor: pointer;
+  text-align: center;
+}
+.dw-btn .fa {
+  margin-left: 5px;
+}
+.dw-btn:hover {
+  color: white;
+}
+.dw-btn:active {
+  color: white;
+  background-color: black;
+}
+
+.dw-presented {
+  position: absolute;
+  bottom: 0px;
+  left: 2px;
+  color: #aaa;
+  font-size: 10px;
+}
