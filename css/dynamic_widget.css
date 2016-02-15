@@ -59,6 +59,9 @@ button:focus {
   left: 5px;
   top: 15px;
 }
+.dw-icon:hover {
+  background-color: black;
+}
 
 .dw-carousel {
   width: 300px;
@@ -125,7 +128,7 @@ button:focus {
   border-radius: 50%;
 }
 .dw-c-num {
-  font-size: 20px;
+  font-size: 18px;
   line-height: 38px;
   text-align: center;
   top: 0px;
@@ -137,6 +140,9 @@ button:focus {
   left: 115px;
   border: 1px solid #ccc;
   background-color: #fff;
+}
+.dw-c-sub:hover {
+  z-index: 2;
 }
 #subimg {
   display: none;
@@ -155,8 +161,8 @@ button:focus {
 
 /* Item information */
 .dw-info {
-  margin: 5px;
-  width: 290px;
+  margin: 5px 20px;
+  width: 260px;
 }
 .dw-i-title {
   width: 100%;

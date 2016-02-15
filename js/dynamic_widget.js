@@ -47,6 +47,13 @@ dynamic_widget = (function(){
     // Get the current data
     var current_data = widget_items[current_index];
 
+    // Set up the url
+    if ( widget_conf.remn == "true" ) {
+      current_data.li_url = current_data.li_primary_url;
+    } else {
+      current_data.li_url = current_data.li_partner_url.replace('{partner}', widget_conf.dom);
+    }
+
     // Display the title
     $('.dw-i-title#line1')[0].innerHTML = current_data.li_title;
     // Display description
@@ -63,10 +70,17 @@ dynamic_widget = (function(){
 
     // Handle sub_img
     if ( current_data.li_subimg !== false ) {
+      // Set up the url
+      if ( widget_conf.remn == "true" ) {
+        var sub_li_url = current_data.li_subimg.primary_url;
+      } else {
+        var sub_li_url = current_data.li_subimg.partner_url.replace('{partner}', widget_conf.dom);
+      }
+
       // Show the subimg
       $('.dw-carousel').addClass('two');
       $('.dw-c-sub').css('background-image', 'url(' + current_data.li_subimg.img + ')');
-      $('#subimg').attr('href', current_data.li_subimg.url);
+      $('#subimg').attr('href', sub_li_url);
     }
   } // --> display_item
 

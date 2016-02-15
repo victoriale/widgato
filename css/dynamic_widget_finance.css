@@ -5,9 +5,6 @@ a:hover {
   background-color: #3098ff;
   background-image: url("../css/public/Fin_Widget_Icon.png");
 }
-.dw:hover .dw-icon {
-  background-color: black;
-}
 .dw-nav:hover {
   background-color: #3098ff;
 }
