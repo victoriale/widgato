@@ -164,11 +164,19 @@ button:focus {
   width: 260px;
 }
 .dw-i-title {
-  width: 100%;
+  width: 260px;
   font-size: 18px;
   line-height: 18px;
   text-align: center;
   font-weight: bold;
+}
+.dw-i-title a {
+  color: #3294ff;
+}
+#list-link{
+  width: 0;
+  height: 0;
+  display: inline-block;
 }
 .dw-i-desc {
   margin-top: 2px;

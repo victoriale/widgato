@@ -64,7 +64,7 @@ dynamic_widget = (function(){
     }
 
     // Display the title
-    $('.dw-i-title#line1')[0].innerHTML = current_data.li_title;
+    $('.dw-i-title#line1 a')[0].innerHTML = current_data.li_title;
     // Display description
     $('.dw-i-desc')[0].innerHTML = current_data.li_str;
     // Display the counter
