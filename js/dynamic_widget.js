@@ -37,7 +37,16 @@ dynamic_widget = (function(){
     });
 
     // Add the "See The List" link
-    $('#list-link').attr('href', 'http://dw.synapsys.us/list_creator_api.php?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input);
+    switch ( category ) {
+      case 'finance':
+      default:
+        if ( widget_conf.remn == "true" ) {
+          var base_url = "http://dev.investkit.com:280/widget-list";
+        } else {
+          var base_url = "http://dev.myinvestkit.com:280/" + widget_conf.dom + "/w-list";
+        }
+    }
+    $('#list-link').attr('href', base_url + '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input);
 
     // Display the first item
     display_item();
