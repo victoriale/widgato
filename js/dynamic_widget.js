@@ -41,9 +41,9 @@ dynamic_widget = (function(){
       case 'finance':
       default:
         if ( widget_conf.remn == "true" ) {
-          var base_url = "http://dev.investkit.com:280/widget-list";
+          var base_url = "http://www.investkit.com/widget-list";
         } else {
-          var base_url = "http://dev.myinvestkit.com:280/" + widget_conf.dom + "/w-list";
+          var base_url = "http://www.myinvestkit.com/" + widget_conf.dom + "/w-list";
         }
     }
     $('#list-link').attr('href', base_url + '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input);
