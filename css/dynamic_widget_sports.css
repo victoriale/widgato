@@ -1,0 +1,22 @@
+a:hover {
+  color: #f7701d;
+}
+.dw-icon {
+  background-color: #f7701d;
+  background-image: url("../css/public/Icon_Basketball.png");
+}
+.dw-nav:hover {
+  background-color: #f7701d;
+}
+.dw-i-title {
+  color: #f7701d;
+}
+.dw-btn {
+  border-color: #f7701d;
+}
+.dw-btn:hover {
+  background-color: #f7701d;
+}
+.hover {
+  background: rgba(247, 112, 29, 0.75);
+}

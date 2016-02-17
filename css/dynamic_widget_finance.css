@@ -1,0 +1,22 @@
+a:hover {
+  color: #3098ff;
+}
+.dw-icon {
+  background-color: #3098ff;
+  background-image: url("../css/public/Fin_Widget_Icon.png");
+}
+.dw-nav:hover {
+  background-color: #3098ff;
+}
+.dw-i-title {
+  color: #3294ff;
+}
+.dw-btn {
+  border-color: #3294ff;
+}
+.dw-btn:hover {
+  background-color: #3098ff;
+}
+.hover {
+  background: rgba(48, 152, 255, 0.75);
+}

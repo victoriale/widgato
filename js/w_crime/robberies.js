@@ -88,8 +88,15 @@ $(function(){
   }
 
   function imageUrl(path){
-    if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://pics4.city-data.com/cpic1/1files123.jpg'){
-      return '../css/public/no_image.jpg';
+    if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://apireal.synapsys.us/city-image/images/placeholder-location.jpg'){
+      var image_array = new Array();
+      var x = Math.floor((Math.random() * 4) + 1);
+      image_array['0'] = '../css/public/nophoto1.png';
+      image_array['1'] = '../css/public/nophoto2.png';
+      image_array['2'] = '../css/public/nophoto3.png';
+      image_array['3'] = '../css/public/nophoto4.png';
+      image_array['4'] = '../css/public/nophoto5.png';
+      return image_array[x];
     }
     return path;
   }

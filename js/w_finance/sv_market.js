@@ -125,10 +125,12 @@ $(function(){
 	  	$('.sv_top_profile').attr("href","http://www.myinvestkit.com/"+domain+"/"+compUrlName(data_gainer.c_name)+"/"+data_gainer.c_ticker+"/c/"+data_gainer.c_id);
 		}
 		$('.sv_top_image').css('background','url(http://images.investkit.com/images/'+data_gainer.c_logo+') no-repeat');
+
+		//top SV150 company
 		$('.sv-pd-name').html(SV150_topTck);
 		$('.sv-pd-name').attr('title', SV150_topTck);
 		$('.sv-pd-price').html('$'+SV150_top_price);
-		$('.sv-pd-change').html(SV150_top_priceChange+'('+SV150_top_pctChange+'%)');
+		$('.sv-pd-change').html(lossGainCheck(SV150_top_priceChange,5)+'('+SV150_top_pctChange+'%)');
 	}, 'json')
 })
 

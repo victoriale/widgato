@@ -183,7 +183,7 @@ $(function(){
 			$("#apl").attr('href', "http://www.myinvestkit.com/"+domain+"/Apple-Inc/AAPL/c/2636");
 			$("#tm").attr('href', "http://www.myinvestkit.com/"+domain+"/Tesla-Motors-Inc/TSLA/c/4762");
 			$("#mc").attr('href', "http://www.myinvestkit.com/"+domain+"/Microsoft-Corporation/MSFT/c/4004");
-			$("#wd").attr('href', "http://www.myinvestkc_logoit.com/"+domain+"/Walt-Disney-Co/DIS/c/624");
+			$("#wd").attr('href', "http://www.myinvestkit.com/"+domain+"/Walt-Disney-Co/DIS/c/624");
 		}
 	}, 'json')
 

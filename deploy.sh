@@ -21,7 +21,7 @@ red='\E[31m'
 normal='\E[m'
 # Directory configuration
 declare -A directories
-directories=(["w_crime"]="realestate" ["w_demographics"]="realestate" ["w_finance"]="finance" ["w_hoopsloyal"]="sports" ["w_political"]="realestate" ["w_realestate"]="realestate" ["w_sports"]="sports" ["w_weather"]="realestate")
+directories=(["w_crime"]="realestate" ["w_demographics"]="realestate" ["w_finance"]="finance" ["w_hoopsloyal"]="sports" ["w_political"]="realestate" ["w_realestate"]="realestate" ["w_sports"]="sports" ["w_weather"]="realestate" ["dynamic_widget"]="dynamic")
 
 # Check for the Dependencies
 # minify
@@ -127,6 +127,13 @@ else
   echo -e "[${red}ERR.${normal}]"
   exit 0;
 fi
+echo -en "[....] Creating target directory (dynamic)\r"
+if mkdir -p $tempCopy/dynamic >>$logFile 2>&1; then
+  echo -e "[${green}DONE${normal}]"
+else
+  echo -e "[${red}ERR.${normal}]"
+  exit 0;
+fi
 for d in "${!directories[@]}"; do
   echo -en "[....] Copying $d\r"
   for f in $(ls ./$d | grep html); do
@@ -141,7 +148,7 @@ echo
 
 # Change all the links to minified files
 echo "**** Changing Link Locations ****"
-widgets=('finance' 'realestate' 'sports');
+widgets=('finance' 'realestate' 'sports' 'dynamic');
 for w in ${widgets[@]}; do
   echo -en "[....] $w Widgets\r"
   for f in $(ls $tempCopy/$w | grep html); do

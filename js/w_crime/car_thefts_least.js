@@ -63,13 +63,13 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "least-vehicle-theft-by-city";
-      $('.fcw-t1').html('Cities in '+fullstate(curData[0].CrimeState)+' with the Least Car Thefts');
+      $('.fcw-t1').html('Cities in '+fullstate(curData[0].CrimeState)+' with the Least Auto Thefts');
       $('.fcw-t2-loc').html(curData[0].CrimeCity+', '+curData[0].CrimeState);
       $('.fcw-img2').html('#'+(index+1));
       if(curData[0].CrimeMotorVehicleTheftNumber <= 1){
-        $('.fcw-content1').html(curData[0].CrimeMotorVehicleTheftNumber+' Car Theft');
+        $('.fcw-content1').html(curData[0].CrimeMotorVehicleTheftNumber+' Stolen Vehicle');
       } else {
-        $('.fcw-content1').html(curData[0].CrimeMotorVehicleTheftNumber+' Car Thefts');
+        $('.fcw-content1').html(curData[0].CrimeMotorVehicleTheftNumber+' Stolen Vehicles');
       }
       if(curData[0].CrimeYear == null || typeof curData[0].CrimeYear == 'undefined'){
         $('.fcw-content2').html('In 2012');
@@ -93,10 +93,18 @@ $(function(){
 
   function imageUrl(path){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://apireal.synapsys.us/city-image/images/placeholder-location.jpg'){
-      return '../css/public/no_image.jpg';
+      var image_array = new Array();
+      var x = Math.floor((Math.random() * 4) + 1);
+      image_array['0'] = '../css/public/nophoto1.png';
+      image_array['1'] = '../css/public/nophoto2.png';
+      image_array['2'] = '../css/public/nophoto3.png';
+      image_array['3'] = '../css/public/nophoto4.png';
+      image_array['4'] = '../css/public/nophoto5.png';
+      return image_array[x];
     }
     return path;
   }
+
   function fullstate(state){
     var stateName = {
       AL: 'Alabama',

@@ -1,9 +1,7 @@
 var offset = 0;
 var dataLength;
 var curData;
-
 var domain = '';
-
 var remnant = '';
 var locName = '';
 var city = '';
@@ -54,7 +52,7 @@ $(function(){
     }
   });//END OF FUNCTION
   function dataCall(index){
-  	$.get('http://apirt.synapsys.us/index.php?widget=demographics&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
+  	$.get('//apirt.synapsys.us/index.php?widget=demographics&wid=6&city='+city+'&state='+state+'&skip='+index+'&limit=1', function(data){
       if(data.widget == null){
         document.location.href = 'nat_most_fe.html'+redirectquery;
         console.log('Redirect ERROR', document.location.href);
@@ -86,7 +84,14 @@ $(function(){
   }
   function imageUrl(path){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://apireal.synapsys.us/city-image/images/placeholder-location.jpg'){
-      return '../css/public/no_image.jpg';
+      var image_array = new Array();
+      var x = Math.floor((Math.random() * 4) + 1);
+      image_array['0'] = '../css/public/nophoto1.png';
+      image_array['1'] = '../css/public/nophoto2.png';
+      image_array['2'] = '../css/public/nophoto3.png';
+      image_array['3'] = '../css/public/nophoto4.png';
+      image_array['4'] = '../css/public/nophoto5.png';
+      return image_array[x];
     }
     return path;
   }

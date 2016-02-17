@@ -3,7 +3,6 @@
 <head>
 	<title>Report Card Widget</title>
 	<meta charset='utf-8'>
-	<base href="<?php echo $coreENV['path'];?>" target="_blank">
 	<link href="../css/font-awesome.css" media="all" rel="stylesheet" type="text/css">
 	<link rel="stylesheet" type="text/css" href="../css/sv_reportcard.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -36,12 +35,14 @@
 				</span>
 				<span class="rc_price" id="SV"></span>
 			</div>
-			<span class="rc_stock_color" id="rc1">
+			<div class="rc_stock_color" id="rc1">
+				<span class="rcfont" id="1">
 					<i class="fa-arrow-circle-o-down d"></i>
 					<i class="fa-arrow-circle-o-up u"></i>
+				</span>
 				<span class="rc_change" id="svchange"></span>
 				<span class="rc_pct" id="svpct"></span>
-			</span>
+			</div>
 		</div>
 		</a>
 
@@ -207,76 +208,6 @@
 			</div>
 			</a>
 		</div>
-	<!--WHEN SEARCH IS ENABLE THIS BELOW IS SHOWN-->
-	<!--header area containing title and location-->
-  	<div class="so_header">
-  		<div class="box">
-	  		<div class="so_header-icon">
-	  			<i class="fa-line-chart header-icon"></i>
-	  		</div>
-  		</div>
-  		<div class="so_header-title">
-  			<div class="header-title">STOCK OVERVIEW</div>
-			<div>
-				<!--<span class="header-company_text"></span>
-				<i class="fa fa-angle-double-right title-icon"></i>
-				<span class="header-company_location"></span> !-->
-				<a class="header-company_text" href="" style="color:#fff;">
-					<span class="header-company_text"></span>
-				</a>
-				<i class="fa fa-angle-double-right title-icon"></i>
-				<a class="header-company_location">
-					<span class="header-company_location"></span>
-				</a>
-			</div>
-  		</div>
-		<div class="so_exit">X</div>
-  	</div>
-	<div class="so_widget-wrapper">
-		<!--header area containing title and location END-->
-		<!-- left wrapper container contains finance data -->
-		<div class="so_left-wrapper">
-			<div class="left-wrapper-top_profile">
-				<!--image of logo-->
-				<div class="sowidget_logo-set">
-					<div class="logo-image" id="company">
-						<a class="profile-link" href="" id="company-profile">
-						<div class="view-profile">
-							<div class="view-profile_body">
-								<div class="view-profile_txt1">View</div>
-								<div class="view-profile_txt2">Profile</div>
-								<div><i class="fa-mail-forward"></i></div>
-							</div>
-						</div>
-						</a>
-					</div>
-				</div>
-				<!--image of logo END-->
-				<!--title of company and price data-->
-				<div class="top_profile-text">
-					<div class="tp_company">
-						<div class="tp_company-text">.</div>
-						<!--
-						<span class="tp-click"><i class="fa-user tp-follow"></i>Follow</span>
-						<span class="tp-click"><i class="fa-share-alt tp-share"></i></i>Share</span>
-					-->
-					</div>
-					<div class="tp_company">
-						<div class="tp_company-price"></div>
-						<span class="tp_company-color">
-							<i class="fa-arrow-circle-o-up"></i>
-							<i class="fa-arrow-circle-o-down"></i>
-							<span class="tp_company-change"></span>
-						</span>
-					</div>
-				</div>
-				<!--title of company and price data END-->
-			</div>
-			<!--tabs of dates END-->
-		</div>
-		<!-- left wrapper container contains finance data END-->
-	</div>
-	<!--WHEN SEARCH IS ENABLE THIS BELOW IS SHOWNEND-->
 	<!--today's losers for sv150 TOP LIST END-->
 	</div>
 </body>
