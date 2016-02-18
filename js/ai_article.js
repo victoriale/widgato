@@ -2,11 +2,11 @@ ai_widget = (function() {
   // Declare variables
   var scope;
   if (window.location.href.indexOf('NCAA') > -1) {
-    scope = 'NCAA';
+    scope = 'ncaad1';
   } else {
-    scope = 'NBA';
+    scope = 'nba';
   }
-  var APIUrl = 'http://dev-lumen-ai.synapsys.us:280/' + scope + '/widget',
+  var APIUrl = 'http://dev-lumen-ai.synapsys.us:280/' + scope + '/widget?bypass=anything`',
     AIData = {},
     gameID = -1,
     pageInd = -1,
@@ -169,6 +169,7 @@ ai_widget = (function() {
     var parseGame = function(games) {
         // Team names
         $.map(games, function(val, index) {
+          console.log(val);
           var gameData = {};
           gameData.home = val.home.abbreviation;
           gameData.away = val.away.abbreviation;
