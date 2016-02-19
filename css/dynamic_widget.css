@@ -166,7 +166,10 @@ button:focus {
 .dw-i-title {
   width: 260px;
   font-size: 18px;
-  line-height: 18px;
+  line-height: 22px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   text-align: center;
   font-weight: bold;
 }
@@ -200,6 +203,7 @@ button:focus {
   border: 1px solid #000;
   cursor: pointer;
   text-align: center;
+  margin-top: 10px;
 }
 .dw-btn .fa {
   margin-left: 5px;
