@@ -2,20 +2,19 @@ dynamic_widget = (function(){
   // Initialize Variables
   var api_url =  "http://dw.synapsys.us/list_api.php", // API location
   current_index = 0, // Current index to be viewed
-  category = (location.pathname.substring(location.pathname.lastIndexOf("/") + 1) == "dynamic_widget_finance.html" ? "finance" : "sports"), // Category of the widget (will be dynamic)
   widget_data = {}, // Data for the widget
   widget_items = [], // Actual items for the widget to display
   widget_conf = JSON.parse(decodeURIComponent(location.search.substr(1))); // Args passed to the widget
 
   function get_data() {
     // Randomly select between college_basketball and nba
-    if ( category == "sports" ) {
-      category = ["college_basketball", "nba"][Math.round(Math.random())];
+    if ( typeof(widget_conf.category) == "unefined" || ["finance", "nba", "college_basketball"].indexOf(widget_conf.category) == -1 ) {
+      widget_conf.category = "finance";
     }
 
     // Call the API
     $.ajax({
-      url: api_url + '?partner=' + (typeof(widget_conf.dom) != "undefined" ? widget_conf.dom : "") + '&cat=' + category,
+      url: api_url + '?partner=' + (typeof(widget_conf.dom) != "undefined" ? widget_conf.dom : "") + '&cat=' + widget_conf.category,
       dataType: 'json',
       success: function(data) {
         console.log(data);
@@ -37,7 +36,21 @@ dynamic_widget = (function(){
     });
 
     // Add the "See The List" link
-    switch ( category ) {
+    switch ( widget_conf.category ) {
+      case 'nba':
+        if ( widget_conf.remn == "true" ) {
+          var base_url = "http://www.hoopsloyal.com/NBA/widget-list";
+        } else {
+          var base_url = "http://www.myhoopszone.com/" + widget_conf.dom + "/NBA/w-list";
+        }
+        break;
+      case 'college_basketball':
+        if ( widget_conf.remn == "true" ) {
+          var base_url = "http://www.hoopsloyal.com/NCAA/widget-list";
+        } else {
+          var base_url = "http://www.myhoopszone.com/" + widget_conf.dom + "/NCAA/w-list";
+        }
+        break;
       case 'finance':
       default:
         if ( widget_conf.remn == "true" ) {
