@@ -111,19 +111,18 @@ a {
 }
 
 .widget-body{
-  height: 140px;
+  height: 120px;
   position: absolute;
   left: 40px;
-  bottom: 25px;
+  bottom: 45px;
 }
 
 .widget-body-img{
-  width: 125px;
-  height: 125px;
+  width: 120px;
+  height: 120px;
   border: 3px solid #ccc;
   border-radius: 50%;
   position: relative;
-  margin-top: 5px;
   float: left;
   background-size: cover;
   background-repeat: no-repeat;
@@ -181,8 +180,13 @@ a {
 }
 
 .widget-body-text .key{
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 900;
+}
+
+.widget-body-text .value{
+  font-size: 12px;
+  margin-bottom: 10px;
 }
 
 .widget-body-button{
@@ -268,6 +272,7 @@ a {
   }
 
   .widget-body-text .value{
+    font-size: 14px;
     margin-bottom: 8px;
   }
 
