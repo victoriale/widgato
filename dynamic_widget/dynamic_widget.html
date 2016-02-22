@@ -4,9 +4,30 @@
   <title>Dynamic Widget</title>
   <meta charset='utf-8'>
   <link rel="stylesheet" type="text/css" href="../css/dynamic_widget.css">
-  <link rel="stylesheet" type="text/css" href="../css/dynamic_widget_finance.css">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
   <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  <script type="text/javascript">
+  // generate CSS name
+  var css_url = "../css/dynamic_widget_",
+  conf = JSON.parse(decodeURIComponent(location.search.substr(1))),
+  array = {
+    nba: "sports",
+    college_basketball: "sports",
+    finance: "finance"
+  };
+  if ( typeof(conf.category) == "undefined" || typeof(array[conf.category]) == "undefined" ) {
+    conf.category = "finance";
+  }
+  css_url += array[conf.category] + ".css";
+
+  link = document.createElement("link");
+  link.href = css_url;
+  link.type = "text/css";
+  link.rel = "stylesheet";
+  link.media = "screen,print";
+
+  document.getElementsByTagName("head")[0].appendChild(link);
+  </script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <base target="_blank">
 </head>

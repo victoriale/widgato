@@ -8,6 +8,9 @@ a:hover {
 .dw-nav:hover {
   background-color: #f7701d;
 }
+.dw-i-title a {
+  color: #f7701d;
+}
 .dw-i-title {
   color: #f7701d;
 }
