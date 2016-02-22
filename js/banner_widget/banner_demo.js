@@ -7,17 +7,15 @@ var data_conf = [
     title: ' with the Highest Average Income',
     list_title: 'highest-income',
     url: rt_url + '&wid=5',
-    data_title1: '[Profile Name]',
-    data_title2: 'Income',
+    data_title2: 'Income Per Capita',
     data_transform2: function(val){
-      return '$' + comma(val.DemoAvgHighestIncome) + ' Per Capita';
+      return '$' + comma(val.DemoAvgHighestIncome);
     }
   },
   {
     title: ' with the Highest Home Value',
     list_title: 'highest-home-value',
     url: rt_url + '&wid=4',
-    data_title1: '[Profile Name]',
     data_title2: 'Home Value',
     data_transform2: function(val){
       return '$' + comma(val.DemoHomeValue);
@@ -27,10 +25,9 @@ var data_conf = [
     title: ' with the Cheapest Average Rent',
     list_title: 'cheapest-rent',
     url: rt_url + '&wid=1',
-    data_title1: '[Profile Name]',
-    data_title2: 'Rent',
+    data_title2: 'Rent Per Month',
     data_transform2: function(val){
-      return '$' + comma(val.DemoAvgRent) + ' Per Month';
+      return '$' + comma(val.DemoAvgRent);
     }
   }
 ];
@@ -39,8 +36,9 @@ var dom_update = function(val){
   $('#number').text('#' + (offset + 1));
   $('#title').text('Cities in ' + fullstate(val.DemoState) + config.title + ' in ' + val.DemoYear);
   $('#main-image').css('background-image', 'url(' + imageUrl(val.img) + ')');
-  $('#data-point1').text(val.DemoCity + ', ' + fullstate(val.DemoState));
+  $('#data-point1').text(val.DemoCity + ', ' + val.DemoState);
   $('#data-point2').text(config.data_transform2(val));
+  $('#data-title1').text(val.listings[val.DemoCity + ', ' + val.DemoState] + ' Listings Available');
 
   if(remnant == 'true' || remnant == true){
     $('#profile_link').attr('href', rlink + 'location/' + val.DemoCity.toUpperCase() + '_' + val.DemoState);
@@ -73,7 +71,6 @@ $(function(){
   }
 
   $('#list-name').text('Cities ' + config.title);
-  $('#data-title1').text(config.data_title1);
   $('#data-title2').text(config.data_title2);
 
   remnant == 'true' || remnant == true ? $('#vertical_link').attr('href', rlink) : $('#vertical_link').attr('href', plink + domain);
@@ -81,12 +78,18 @@ $(function(){
   $('.widget-reel.left').on('click', function(){
     if(offset > 0){
       dataCall(--offset);
+    }else{
+      offset = max - 1;
+      dataCall(offset);
     }
   })
 
   $('.widget-reel.right').on('click', function(){
     if(offset < max - 1){
       dataCall(++offset);
+    }else{
+      offset = 0;
+      dataCall(offset);
     }
   })
 
