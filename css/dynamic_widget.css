@@ -28,7 +28,7 @@ button:focus {
 
 .dw {
   width: 300px;
-  height: 350px;
+  height: 340px;
   background-color: #fafafa;
   position: relative;
   margin: 0 auto;
@@ -48,7 +48,7 @@ button:focus {
   width: 300px;
   min-height: 44px;
   text-align: left;
-  padding: 7px 5px 7px 40px;
+  padding: 7px 5px 10px 40px;
 }
 .dw-icon {
   height: 25px;
@@ -122,8 +122,8 @@ button:focus {
   position: absolute;
 }
 .dw-big {
-  width: 144px;
-  height: 144px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
 }
 .dw-c-num {
@@ -160,7 +160,7 @@ button:focus {
 
 /* Item information */
 .dw-info {
-  margin: 7px 20px 5px;
+  margin: 10px 20px 5px;
   width: 260px;
 }
 .dw-i-title {
@@ -172,6 +172,10 @@ button:focus {
   text-overflow: ellipsis;
   text-align: center;
   font-weight: bold;
+}
+.dw-i-title#line2 {
+  line-height: 14px;
+  font-size: 14px;
 }
 #list-link{
   width: 0;
