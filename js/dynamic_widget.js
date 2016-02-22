@@ -14,7 +14,7 @@ dynamic_widget = (function(){
 
     // Call the API
     $.ajax({
-      url: api_url + '?partner=' + (typeof(widget_conf.dom) != "undefined" ? widget_conf.dom : "") + '&cat=' + widget_conf.category,
+      url: api_url + '?partner=' + (typeof(widget_conf.dom) != "undefined" ? widget_conf.dom : "") + '&cat=' + widget_conf.category + '&rand=' + Math.floor(Math.random() * 10),
       dataType: 'json',
       success: function(data) {
         console.log(data);
