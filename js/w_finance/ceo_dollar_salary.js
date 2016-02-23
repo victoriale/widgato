@@ -5,6 +5,8 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
+var link = "http://www.investkit.com/";
+var partner_link = "http://www.myinvestkit.com/";
 $(function(){
   var temp = location.search;
   var query = {};
@@ -28,6 +30,9 @@ $(function(){
           offset = 0;
           dataCall(offset);
         }
+        if(offset < 1){
+            $('.fcw-leftnav').css("opacity", "0");
+        }
     });
     $('.fcw-leftnav').on('click', function() {
         if (offset > 0 && $(this).data('dir') === 'prev') {
@@ -38,7 +43,7 @@ $(function(){
         }
     });
 
-	$.get('http://apifin.investkit.com/call_controller.php?action=top_list&option=dollar_ceo', function(data){
+	$.get('//apifin.investkit.com/call_controller.php?action=top_list&option=dollar_ceo', function(data){
     data_result = data.dollar_ceo;
     curData = data_result.list_data;
     dataLength = curData.length;
@@ -54,17 +59,19 @@ function dataCall(index){
   $('.fcw-logo').css('background', 'url('+imageUrl(curData[index].c_logo)+') no-repeat');
   //$('.cds-image').css('background','url(http://images.investkit.com/images/'+curData[index].o_pic+') no-repeat');
   if(remnant == 'true' || remnant == true){
-    $('.exec-link').attr('href',"http://www.investkit.com/"+curData[index].o_first_name+'-'+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
-    $('.fcw-href').attr('href', "http://www.investkit.com/"+compUrlName(data_result.list_title)+"/dollar_ceo/executive-list/1");
-    $('#title_link').attr('href',"http://www.investkit.com/"+curData[index].o_first_name+'-'+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
-    $('.comp-link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
-    $('#loc_link').attr('href',"http://www.investkit.com/"+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
+    $('#investkit').attr('href',link);
+    $('.exec-link').attr('href',link+curData[index].o_first_name+'-'+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
+    $('.fcw-href').attr('href', link+compUrlName(data_result.list_title)+"/dollar_ceo/executive-list/1");
+    $('#title_link').attr('href',link+curData[index].o_first_name+'-'+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
+    $('.comp-link').attr('href',link+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
+    $('#loc_link').attr('href',link+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
   }else{
-    $('.exec-link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+curData[index].c_ticker+"/"+curData[index].o_last_name+'-'+curData[index].o_first_name+"/e/"+curData[index].o_id);
-    $('.fcw-href').attr('href', "http://www.myinvestkit.com/"+domain+"/"+compUrlName(data_result.list_title)+"/dollar_ceo/list-executives/1");
-    $('#title_link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+curData[index].c_ticker+"/"+curData[index].o_last_name+'-'+curData[index].o_first_name+"/e/"+curData[index].o_id);
-    $('.comp-link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
-    $('#loc_link').attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
+    $('#investkit').attr('href', partner_link+domain);
+    $('.exec-link').attr('href', partner_link+domain+"/"+curData[index].c_ticker+"/"+curData[index].o_last_name+'-'+curData[index].o_first_name+"/e/"+curData[index].o_id);
+    $('.fcw-href').attr('href', partner_link+domain+"/"+compUrlName(data_result.list_title)+"/dollar_ceo/list-executives/1");
+    $('#title_link').attr('href',partner_link+domain+"/"+curData[index].c_ticker+"/"+curData[index].o_last_name+'-'+curData[index].o_first_name+"/e/"+curData[index].o_id);
+    $('.comp-link').attr('href',partner_link+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
+    $('#loc_link').attr('href',partner_link+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
   }
 }
 

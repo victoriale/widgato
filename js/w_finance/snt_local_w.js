@@ -29,9 +29,9 @@ $(function(){
     dma = query['loc']['loc']['DMA'];
     //checks if it is a remnant and runs through an api
     if(remnant == 'true' || remnant == true){
-      $.get("http://w1.synapsys.us/get-remote-addr2/", function(result){
+      $.get("//w1.synapsys.us/get-remote-addr2/", function(result){
         loc = result[0].state;
-        $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
+        $.get('//apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
           dataCall = data.local_market_movers;
           w_info = dataCall.top_list_list[0].top_list_info;
           list = dataCall.top_list_list[0].top_list_list;
@@ -58,7 +58,7 @@ $(function(){
         loc = removeLastComma(loc);
       }
       //console.log("Grabbing data call");
-      $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
+      $.get('//apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
         dataCall = data.local_market_movers;
         w_info = dataCall.top_list_list[0].top_list_info;
         list = dataCall.top_list_list[0].top_list_list;
