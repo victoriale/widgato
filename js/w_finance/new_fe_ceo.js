@@ -55,6 +55,8 @@ function dataCall(index){
   $('#paid').html("$"+nFormatter(curData[index].TotalComp));
   $('.fcw-image').css('background','url('+imageUrl(curData[index].o_pic)+') no-repeat');
   if(remnant == 'true' || remnant == true){
+    $('#investkit').attr('href',link);
+
     $('.comp-link').attr('href',link+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
 
     $('.exec-link').attr('href',link+curData[index].o_first_name+"-"+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
@@ -65,6 +67,8 @@ function dataCall(index){
 
     $('#loc_link').attr('href',link+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
   }else{
+    $('#investkit').attr('href',partner_link+domain);
+
     $('.comp-link').attr('href',partner_link+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
 
     $('.exec-link').attr('href',partner_link+domain+"/"+curData[index].c_ticker+"/"+curData[index].o_last_name+"-"+curData[index].o_first_name+"/e/"+curData[index].o_id);
