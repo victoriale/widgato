@@ -64,8 +64,8 @@ $(function(){
     domain = query.dom;
     remnant = query.remn;
 
-    locName = query['loc']['loc_name'];
-    locName = locName.replace(/\+/g, ' ');
+    //locName = query['loc']['loc_name'];
+    //locName = locName.replace(/\+/g, ' ');
     city = query['loc']['loc_id']['city'];
   	state = query['loc']['loc_id']['state'];
   }
@@ -93,7 +93,7 @@ $(function(){
     }
   })
 
-  if(city == null || typeof city == 'undefined' || state == null || typeof state == 'undefined'){
+  if(city == '' || city == null || typeof city == 'undefined' || state == '' || state == null || typeof state == 'undefined'){
     $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
       city = r_data[0].city;
       state = r_data[0].state;
