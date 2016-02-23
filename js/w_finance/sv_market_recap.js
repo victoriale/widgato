@@ -161,7 +161,7 @@ $(function(){
 	$('.mtabs').mousedown(function(){ return false; });
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
-	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=sv150_widget', function(data){
+	$.get('//apifin.investkit.com/call_controller.php?action=widget&option=sv150_widget', function(data){
 		//set data to global variable
 		dataCall = data.sv150_widget;
 		curData = dataCall.sv150_list_data;

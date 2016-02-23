@@ -50,7 +50,7 @@ $(function(){
       }
   });
 
-	$.get('http://apifin.investkit.com/call_controller.php?action=top_list&option=female_ceo', function(data){
+	$.get('//apifin.investkit.com/call_controller.php?action=top_list&option=female_ceo', function(data){
     data_result = data.female_ceo;
     curData = data_result.list_data;
     dataLength = curData.length;

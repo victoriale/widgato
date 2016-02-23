@@ -42,7 +42,7 @@ $(function location(loc){
   			break;
   		}
   	}
-  $.get('http://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param=CA', function(data){
+  $.get('//apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param=CA', function(data){
 		dataCall = data.local_market_movers;
 		list = dataCall.top_list_list[0].top_list_list;
 		var curItem = list[0];
@@ -56,8 +56,8 @@ $(function location(loc){
 });
 
 $(function so_leftdata(id){
-  $.get('http://apifin.investkit.com/call_controller.php?action=search&option=widget_search&wild=1&param='+comp, function(result){
-    	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=stock_overview&param='+result.company_name.func_data.search_data[0].c_id, function(data){
+  $.get('//apifin.investkit.com/call_controller.php?action=search&option=widget_search&wild=1&param='+comp, function(result){
+    	$.get('//apifin.investkit.com/call_controller.php?action=widget&option=stock_overview&param='+result.company_name.func_data.search_data[0].c_id, function(data){
         dataCall = data.stock_overview;
     		stockData= dataCall.stock_data;
         dailyData = dataCall.daily_update;
