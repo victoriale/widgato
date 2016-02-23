@@ -174,7 +174,7 @@ button:focus {
   font-weight: bold;
 }
 .dw-i-title#line2 {
-  line-height: 14px;
+  line-height: 16px;
   font-size: 14px;
 }
 #list-link{
@@ -215,12 +215,4 @@ button:focus {
 .dw-btn:active {
   color: white;
   background-color: black;
-}
-
-.dw-presented {
-  position: absolute;
-  bottom: 0px;
-  left: 2px;
-  color: #aaa;
-  font-size: 10px;
 }
