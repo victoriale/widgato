@@ -46,7 +46,7 @@ a {
   top: 0px;
   right: 0px;
   bottom: 0px;
-  background-color: #FF3131;
+  background-color: #FFF;
 }
 
 .container-widget{
@@ -245,7 +245,7 @@ a {
 @media screen and (min-width: 651px){
 
   .container{
-    width: 950px;
+    width: 970px;
   }
 
   .widget-body{

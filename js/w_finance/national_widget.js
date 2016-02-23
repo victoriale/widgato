@@ -162,7 +162,7 @@ $(function(){
 	$('.mtabs').mousedown(function(){ return false; });
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
-	$.get('http://apifin.investkit.com/call_controller.php?action=widget&option=national_market_movers', function(data){
+	$.get('//apifin.investkit.com/call_controller.php?action=widget&option=national_market_movers', function(data){
 		dataCall = data.national_market_movers;
 		exList = dataCall.exchange_list;
 		curData = exList['.IXIC'].top_list_list;
