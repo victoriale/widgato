@@ -67,7 +67,7 @@ $(function () {
   }
 
   //make an inital api call to get lists of all the list for real estate
-  $.get("http://apireal.synapsys.us/listhuv/?action=list_of_lists", function(lists){
+  $.get("//apireal.synapsys.us/listhuv/?action=list_of_lists", function(lists){
     offset = Math.floor((Math.random() * 9) + 1);
     var method = lists['available_lists'];;
 	  var name = method[offset]['name'];
@@ -113,7 +113,7 @@ function listCall(method, count){
   			$("#location_link").attr('href',"//www.joyfulhome.com/location/"+city + "_" +state +"");
   			$(".re_w_list-listbutton-icon").css("background-image","url('../css/public/myhousekit_house_clear.png')");
   			//displays information on the widget
-  			$.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+city+','+state, function(r_data){
+  			$.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+city+','+state, function(r_data){
   				$(".re_w_list-content-textarea-t1").html(r_data[0]['total_count']);
   			});
   		});
@@ -135,14 +135,14 @@ function listCall(method, count){
       $("#location_link").attr('href',"//www.joyfulhome.com/location/"+r_city + "_" +r_state +"");
       $(".re_w_list-listbutton-icon").css("background-image","url('../css/public/myhousekit_house_clear.png')");
       //displays information on the widget
-      $.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+r_city+','+r_state, function(r_data){
+      $.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&locs="+r_city+','+r_state, function(r_data){
         $(".re_w_list-content-textarea-t1").html(r_data[0]['total_count']);
       });
     }//end if
 	} else{
     if(city == '' || city == null || state == '' || state == null){
-      $.get("http://w1.synapsys.us/get-remote-addr2/",function(r_data){
-        $.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&city="+ r_data[0].city+"&state="+r_data[0].state, function(data){
+      $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
+        $.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&city="+ r_data[0].city+"&state="+r_data[0].state, function(data){
     		//checks if the list exist or has reach its max and restarts the list at 0
     		if(typeof data[0] == 'undefined'){
     			offset++;
@@ -176,7 +176,7 @@ function listCall(method, count){
       	});
       })
     }else{
-		$.get("http://apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&partner_domain="+ domain, function(data){
+		$.get("//apireal.synapsys.us/listhuv/?action="+method[count]['method']+"&partner_domain="+ domain, function(data){
 		//checks if the list exist or has reach its max and restarts the list at 0
 		if(typeof data[0] == 'undefined'){
 			offset++;

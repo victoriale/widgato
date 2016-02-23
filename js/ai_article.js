@@ -6,7 +6,7 @@ ai_widget = (function() {
   } else {
     scope = 'nba';
   }
-  var APIUrl = 'http://dev-lumen-ai.synapsys.us:280/' + scope + '/widget',
+  var APIUrl = '//dev-lumen-ai.synapsys.us:280/' + scope + '/widget',
     AIData = {},
     gameID = -1,
     pageInd = -1,
