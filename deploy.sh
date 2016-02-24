@@ -21,7 +21,7 @@ red='\E[31m'
 normal='\E[m'
 # Directory configuration
 declare -A directories
-directories=(["w_crime"]="realestate" ["w_demographics"]="realestate" ["w_finance"]="finance" ["w_hoopsloyal"]="sports" ["w_political"]="realestate" ["w_realestate"]="realestate" ["w_sports"]="sports" ["w_weather"]="realestate" ["dynamic_widget"]="dynamic")
+directories=(["w_crime"]="realestate" ["w_demographics"]="realestate" ["w_finance"]="finance" ["w_hoopsloyal"]="sports" ["w_political"]="realestate" ["w_realestate"]="realestate" ["w_sports"]="sports" ["w_weather"]="realestate" ["dynamic_widget"]="dynamic_widget")
 
 # Check for the Dependencies
 # minify
