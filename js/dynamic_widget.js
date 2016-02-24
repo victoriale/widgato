@@ -20,10 +20,6 @@ dynamic_widget = (function(){
         console.log(data);
         widget_data = data;
         widget_items = data.l_data;
-        dataLayer.push({
-          'event':'widget-title',
-          'eventAction':widget_data.l_title
-        });
         create_widget();
       },
       error: function(a, b, c) {
