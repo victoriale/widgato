@@ -226,7 +226,7 @@ button:focus {
     text-align:center;
     font-weight:700;
   }
-  .national_widget-content:hover{
+  .national_widget-content-hover:hover{
     opacity:1;
   }
   .national_widget-content-textarea{

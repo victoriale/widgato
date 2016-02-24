@@ -10,6 +10,11 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
+var subdom = 'false';
+//set protocol to use
+var protocolToUse = (location.protocol == "https:") ? "https" : "http";
+var link = protocolToUse+"://www.investkit.com/";
+var partner_link = protocolToUse+"://www.myinvestkit.com/";
 
 //run js code onn startup
 $(function(){
@@ -21,11 +26,17 @@ $(function(){
   	query = JSON.parse(decodeURIComponent(temp.substr(1)));
   	//set the query data from database to global variable to use
   	domain = query.dom;
+		subdom = query.subdom;
   	remnant = query.remn;
   	locName = query['loc']['loc_name'];
   	locName = locName.replace(/\+/g, ' ');
   	bord = query.bord;
   }
+
+	//makes a check to see if subdom exists for certain partners
+	if( (subdom == 'true' || subdom == true) && typeof subdom != 'undefined' ){
+		partner_link = protocolToUse+'://finance.' + domain + '/';
+	}
 
   if(bord == 'true'){
     $(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
@@ -34,9 +45,9 @@ $(function(){
 	$('.search-input').bind("enterKey",function(e){
 		search = $('input').val();
 		if(remnant == 'true' || remnant == true){
-			window.open('http://www.investkit.com/search/r='+search);
+			window.open(link+'search/r='+search);
 		}else{
-			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
+			window.open(partner_link+domain+'/s/r='+search);
 		}
 	});//END OF FUNCTION
 	//by pressing enter in this field it will activate
@@ -49,9 +60,9 @@ $(function(){
 	$('.input-pill_btn').on('click', function(){
 		search = $('input').val();
 		if(remnant == 'true' || remnant == true){
-			window.open('http://www.investkit.com/search/r='+search);
+			window.open(link+'search/r='+search);
 		}else{
-			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
+			window.open(partner_link+domain+'/s/r='+search);
 		}
 	})//END OF FUNCTION
 
@@ -103,9 +114,9 @@ $(function(){
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', link+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
 					}else{
-						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', partner_link+domain+"/"+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
@@ -120,9 +131,9 @@ $(function(){
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.XAX'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.XAX'].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', link+exList['.XAX'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.XAX'].top_list_info.top_list_id+"/list/1");
 					}else{
-						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList['.XAX'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.XAX'].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', partner_link+domain+"/"+exList['.XAX'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.XAX'].top_list_info.top_list_id+"/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
@@ -137,9 +148,9 @@ $(function(){
 					$('.searchtab').css({"display":"none"});
 					$('.national_widget-title').html("Today's "+cur_exchange+" Market Movers");
 					if(remnant == 'true' || remnant == true){
-						$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.NYA'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.NYA'].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', link+exList['.NYA'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.NYA'].top_list_info.top_list_id+"/list/1");
 					}else{
-						$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList['.NYA'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.NYA'].top_list_info.top_list_id+"/list/1");
+						$(".nwlink_list").attr('href', partner_link+domain+"/"+exList['.NYA'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.NYA'].top_list_info.top_list_id+"/list/1");
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
@@ -162,7 +173,7 @@ $(function(){
 	$('.mtabs').mousedown(function(){ return false; });
 	//run function  initial calls incase nothing else runs this will be default call on page load
 
-	$.get('//apifin.investkit.com/call_controller.php?action=widget&option=national_market_movers', function(data){
+	$.get(protocolToUse+'://apifin.investkit.com/call_controller.php?action=widget&option=national_market_movers', function(data){
 		dataCall = data.national_market_movers;
 		exList = dataCall.exchange_list;
 		curData = exList['.IXIC'].top_list_list;
@@ -171,19 +182,19 @@ $(function(){
 		stock_graph(dataCall.exchange_stock_data['.IXIC'].graph_data, cur_exchange);
 		//run initiall to make sure link works on load
 		if(remnant == 'true' || remnant == true){
-			$(".nwlink_list").attr('href', "http://www.investkit.com/"+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
-			$("#fb").attr('href', "http://www.investkit.com/FB/Facebook-Inc/company/3330");
-			$("#apl").attr('href', "http://www.investkit.com/AAPL/Apple-Inc/company/2636");
-			$("#tm").attr('href', "http://www.investkit.com/TSLA/Tesla-Motors-Inc/company/4762");
-			$("#mc").attr('href', "http://www.investkit.com/MSFT/Microsoft-Corporation/company/4004");
-			$("#wd").attr('href', "http://www.investkit.com/DIS/Walt-Disney-Co/company/624");
+			$(".nwlink_list").attr('href', link+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
+			$("#fb").attr('href', link+"FB/Facebook-Inc/company/3330");
+			$("#apl").attr('href', link+"AAPL/Apple-Inc/company/2636");
+			$("#tm").attr('href', link+"TSLA/Tesla-Motors-Inc/company/4762");
+			$("#mc").attr('href', link+"MSFT/Microsoft-Corporation/company/4004");
+			$("#wd").attr('href', link+"DIS/Walt-Disney-Co/company/624");
 		}else{
-			$(".nwlink_list").attr('href', "http://www.myinvestkit.com/"+domain+"/"+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
-			$("#fb").attr('href', "http://www.myinvestkit.com/"+domain+"/Facebook-Inc/FB/c/3330");
-			$("#apl").attr('href', "http://www.myinvestkit.com/"+domain+"/Apple-Inc/AAPL/c/2636");
-			$("#tm").attr('href', "http://www.myinvestkit.com/"+domain+"/Tesla-Motors-Inc/TSLA/c/4762");
-			$("#mc").attr('href', "http://www.myinvestkit.com/"+domain+"/Microsoft-Corporation/MSFT/c/4004");
-			$("#wd").attr('href', "http://www.myinvestkit.com/"+domain+"/Walt-Disney-Co/DIS/c/624");
+			$(".nwlink_list").attr('href', partner_link+domain+"/"+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
+			$("#fb").attr('href', partner_link+domain+"/Facebook-Inc/FB/c/3330");
+			$("#apl").attr('href', partner_link+domain+"/Apple-Inc/AAPL/c/2636");
+			$("#tm").attr('href', partner_link+domain+"/Tesla-Motors-Inc/TSLA/c/4762");
+			$("#mc").attr('href', partner_link+domain+"/Microsoft-Corporation/MSFT/c/4004");
+			$("#wd").attr('href', partner_link+domain+"/Walt-Disney-Co/DIS/c/624");
 		}
 	}, 'json')
 
@@ -202,13 +213,13 @@ function mr_center_piece(offset, data){
 	$('.national_widget-content-textarea-t2').html((data[offset].c_hq_city).capitalize() + ', ' + (data[offset].c_hq_state));
 	$('.national_widget-total-price').html(lossGainCheck(offset,data));
 	$('.national_widget-content-image').css('background','url('+imageUrl(data[offset].c_logo)+') no-repeat');
-	$(".nwprofile-link").attr("href", "http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
+	$(".nwprofile-link").attr("href", link+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
 	if(remnant == 'true' || remnant == true){
-		$(".nwlink").attr('href', "http://www.investkit.com/"+data[offset].c_hq_state+"/location");
-		$(".nwprofile-link").attr("href", "http://www.investkit.com/"+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
+		$(".nwlink").attr('href', link+data[offset].c_hq_state+"/location");
+		$(".nwprofile-link").attr("href", link+data[offset].c_ticker+"/"+compUrlName(data[offset].c_name)+"/company/"+data[offset].c_id);
 	}else{
-		$(".nwlink").attr('href', "http://www.myinvestkit.com/"+domain+"/"+data[offset].c_hq_state+"/loc");
-		$(".nwprofile-link").attr("href", "http://www.myinvestkit.com/"+domain+"/"+compUrlName(data[offset].c_name)+"/"+data[offset].c_ticker+"/c/"+data[offset].c_id);
+		$(".nwlink").attr('href', partner_link+domain+"/"+data[offset].c_hq_state+"/loc");
+		$(".nwprofile-link").attr("href", partner_link+domain+"/"+compUrlName(data[offset].c_name)+"/"+data[offset].c_ticker+"/c/"+data[offset].c_id);
 	}
 }//END OF FUNCTION
 

@@ -5,8 +5,12 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
-var link = "http://www.investkit.com/";
-var partner_link = "http://www.myinvestkit.com/";
+var subdom = 'false';
+//set protocol to use
+var protocolToUse = (location.protocol == "https:") ? "https" : "http";
+var link = protocolToUse+"://www.investkit.com/";
+var partner_link = protocolToUse+"://www.myinvestkit.com/";
+
 $(function(){
   var temp = location.search;
   var query = {};
@@ -15,9 +19,15 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     //set the query data from database to global variable to use
     domain = query.dom;
+    subdom = query.subdom;
     remnant = query.remn;
     bord = query.bord;
   	}
+
+    //makes a check to see if subdom exists for certain partners
+    if( (subdom == 'true' || subdom == true) && typeof subdom != 'undefined' ){
+      partner_link = protocolToUse+'://finance.' + domain + '/';
+    }
 
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
@@ -43,7 +53,7 @@ $(function(){
         }
     });
 
-	$.get('//apifin.investkit.com/call_controller.php?action=top_list&option=dollar_ceo', function(data){
+	$.get(protocolToUse+'://apifin.investkit.com/call_controller.php?action=top_list&option=dollar_ceo', function(data){
     data_result = data.dollar_ceo;
     curData = data_result.list_data;
     dataLength = curData.length;

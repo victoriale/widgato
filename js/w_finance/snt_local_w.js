@@ -17,6 +17,12 @@ var list = {};
 var graph = {};
 var w_info = {};
 var dataLength;
+var subdom = 'false';
+//set protocol to use
+var protocolToUse = (location.protocol == "https:") ? "https" : "http";
+var link = protocolToUse+"://www.investkit.com/";
+var partner_link = protocolToUse+"://www.myinvestkit.com/";
+
 $(function(){
   var temp = location.search;
   var query = {};
@@ -24,14 +30,21 @@ $(function(){
   	query = JSON.parse(decodeURIComponent(temp.substr(1)));
   	//set the query data from database to global variable to use
   	domain = query.dom;
+    subdom = query.subdom;
   	remnant = query.remn;
   	locName = query['loc']['loc_name'];
     dma = query['loc']['loc']['DMA'];
+    console.log(subdom);
+    //makes a check to see if subdom exists for certain partners
+    if( (subdom == 'true' || subdom == true) && typeof subdom != 'undefined' ){
+      partner_link = protocolToUse+'://finance.' + domain + '/';
+    }
+
     //checks if it is a remnant and runs through an api
     if(remnant == 'true' || remnant == true){
-      $.get("//w1.synapsys.us/get-remote-addr2/", function(result){
+      $.get(protocolToUse+"://w1.synapsys.us/get-remote-addr2/", function(result){
         loc = result[0].state;
-        $.get('//apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
+        $.get(protocolToUse+'://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
           dataCall = data.local_market_movers;
           w_info = dataCall.top_list_list[0].top_list_info;
           list = dataCall.top_list_list[0].top_list_list;
@@ -44,9 +57,9 @@ $(function(){
       })
     }else{//if not a remnant then grab all data for datacall
       if(dma.length == 0 || typeof dma == 'undefined'){
-        
+
         state = query['loc']['loc']['state'];
-        
+
         loc = state;
 
       }else{
@@ -58,7 +71,7 @@ $(function(){
         loc = removeLastComma(loc);
       }
       //console.log("Grabbing data call");
-      $.get('//apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
+      $.get(protocolToUse+'://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
         dataCall = data.local_market_movers;
         w_info = dataCall.top_list_list[0].top_list_info;
         list = dataCall.top_list_list[0].top_list_list;
@@ -100,7 +113,7 @@ function compData(offset){
   if(logo == null || logo == 'null' || typeof logo == 'undefined'){
     $(".fgw-image").css({"background-image":"url('../css/public/no_image.jpg')"});
   } else {
-    $(".fgw-image").css({"background-image":"url('http://images.investkit.com/images/"+curItem.c_logo+"')"});
+    $(".fgw-image").css({"background-image":"url('"+protocolToUse+"://images.investkit.com/images/"+curItem.c_logo+"')"});
   }
   $(".fgw-content1").html(convert_num(Number(curItem.stock_percent).toFixed(2)));
   listTitle = listTitle.replace(/ /g, '-');
@@ -110,16 +123,16 @@ function compData(offset){
     }
     $(".swc-space").html((offset+1) + ".");
     $(".fgw-t1").html("Local Market Movers");
-    $(".fgw-href").attr('href',"http://www.investkit.com/"+listTitle+"/"+listid+"/list"+loc);
-    $(".fgw-link").attr('href',"http://www.investkit.com/"+curItem.c_ticker+"/"+compUrlName(curItem.c_name)+"/company/"+curItem.c_id);
-    $(".fgw-loc-link").attr('href',"http://www.investkit.com/"+curItem.c_hq_state+"/location");
+    $(".fgw-href").attr('href',link+listTitle+"/"+listid+"/list"+loc);
+    $(".fgw-link").attr('href',link+curItem.c_ticker+"/"+compUrlName(curItem.c_name)+"/company/"+curItem.c_id);
+    $(".fgw-loc-link").attr('href',link+curItem.c_hq_state+"/location");
   }else{
     $(".swc-space").html((offset+1) + ".");
     locName = locName.replace(/\+/g,' ');
     $(".fgw-t1").html("Today's Market Movers in "+locName);
-    $(".fgw-href").attr('href',"http://www.myinvestkit.com/"+domain+"/"+listTitle+"/"+loc+"/"+listid+"/list/1");
-    $(".fgw-link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curItem.c_name)+"/"+curItem.c_ticker+"/c/"+curItem.c_id);
-    $(".fgw-loc-link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+curItem.c_hq_state+"/loc");
+    $(".fgw-href").attr('href',partner_link+domain+"/"+listTitle+"/"+loc+"/"+listid+"/list/1");
+    $(".fgw-link").attr('href',partner_link+domain+"/"+compUrlName(curItem.c_name)+"/"+curItem.c_ticker+"/c/"+curItem.c_id);
+    $(".fgw-loc-link").attr('href',partner_link+domain+"/"+curItem.c_hq_state+"/loc");
   }
   stockGraph(curItem.c_id, graph, curItem.c_ticker);
 }
