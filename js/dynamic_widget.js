@@ -20,6 +20,10 @@ dynamic_widget = (function(){
         console.log(data);
         widget_data = data;
         widget_items = data.l_data;
+        dataLayer.push({
+          'event':'widget-title',
+          'eventAction':widget_data.l_title
+        });
         create_widget();
       },
       error: function(a, b, c) {
@@ -128,10 +132,34 @@ dynamic_widget = (function(){
     display_item();
   } // --> prev_item
 
+  function get_title() {
+    return widget_data.l_title;
+  } // --> get_title
+
   get_data();
 
   return {
     next_item: next_item,
-    prev_item: prev_item
+    prev_item: prev_item,
+    get_title: get_title
   };
 })();
+
+// Set up google analytics hover event
+$('.dw').hover(
+  function() {
+    startHover = $.now();
+  },
+  function() {
+    var endHover = $.now();
+    var ms = endHover - startHover;
+    if ( ms > 1000 ) {
+      dataLayer.push({
+        'event':'widget-hover',
+        'eventAction':dynamic_widget.get_title(),
+        'eventLabel':ms,
+        'eventValue':ms
+      });
+    }
+  }
+);
