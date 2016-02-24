@@ -5,18 +5,27 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
-var link = "http://www.investkit.com/";
-var partner_link = "http://www.myinvestkit.com/";
+var subdom = 'false';
+//set protocol to use
+var protocolToUse = (location.protocol == "https:") ? "https" : "http";
+var link = protocolToUse+"://www.investkit.com/";
+var partner_link = protocolToUse+"://www.myinvestkit.com/";
+
 $(function(){
   	var temp = location.search;
     var query = {};
-
     if(temp != null){
     	query = JSON.parse(decodeURIComponent(temp.substr(1)));
     	//set the query data from database to global variable to use
     	domain = query.dom;
+      subdom = query.subdom;
     	remnant = query.remn;
     	bord = query.bord;
+    }
+
+    //makes a check to see if subdom exists for certain partners
+    if( typeof subdom != 'undefined' && (subdom == 'true' || subdom == true) ){
+      partner_link = protocolToUse+'://finance.' + domain + '/';
     }
 
     if(bord == 'true'){
@@ -40,7 +49,7 @@ $(function(){
       }
   });
 
-	$.get('//apifin.investkit.com/call_controller.php?action=top_list&option=female_ceo', function(data){
+	$.get(protocolToUse+'://apifin.investkit.com/call_controller.php?action=top_list&option=female_ceo', function(data){
     data_result = data.female_ceo;
     curData = data_result.list_data;
     dataLength = curData.length;
@@ -55,30 +64,20 @@ function dataCall(index){
   $('#paid').html("$"+nFormatter(curData[index].TotalComp));
   $('.fcw-image').css('background','url('+imageUrl(curData[index].o_pic)+') no-repeat');
   if(remnant == 'true' || remnant == true){
-    $('#investkit').attr('href',link);
-
-    $('.comp-link').attr('href',link+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
-
-    $('.exec-link').attr('href',link+curData[index].o_first_name+"-"+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
-
-    $('.fcw-href').attr('href',link+compUrlName(data_result.list_title)+"/female_ceo/executive-list/1");
-
-    $('#title_link').attr('href',link+curData[index].o_first_name+"-"+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
-
-    $('#loc_link').attr('href',link+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
+      $('#investkit').attr('href',link);
+      $('.comp-link').attr('href',link+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
+      $('.exec-link').attr('href',link+curData[index].o_first_name+"-"+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
+      $('.fcw-href').attr('href',link+compUrlName(data_result.list_title)+"/female_ceo/executive-list/1");
+      $('#title_link').attr('href',link+curData[index].o_first_name+"-"+curData[index].o_last_name+"/"+curData[index].c_ticker+"/executive/"+curData[index].o_id);
+      $('#loc_link').attr('href',link+curData[index].c_ticker+"/"+compUrlName(curData[index].c_name)+"/company/"+curData[index].c_id);
   }else{
-    $('#investkit').attr('href',partner_link+domain);
-
-    $('.comp-link').attr('href',partner_link+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
-
-    $('.exec-link').attr('href',partner_link+domain+"/"+curData[index].c_ticker+"/"+curData[index].o_last_name+"-"+curData[index].o_first_name+"/e/"+curData[index].o_id);
-
-    $('.fcw-href').attr('href',partner_link+domain+"/"+compUrlName(data_result.list_title)+"/female_ceo/list-executives/1");
-
-    $('#title_link').attr('href',partner_link+domain+"/"+curData[index].c_ticker+"/"+curData[index].o_last_name+"-"+curData[index].o_first_name+"/e/"+curData[index].o_id);
-
-    $('#loc_link').attr('href',partner_link+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
-  }
+      $('#investkit').attr('href',partner_link+domain);
+      $('.comp-link').attr('href',partner_link+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
+      $('.exec-link').attr('href',partner_link+domain+"/"+curData[index].c_ticker+"/"+curData[index].o_last_name+"-"+curData[index].o_first_name+"/e/"+curData[index].o_id);
+      $('.fcw-href').attr('href',partner_link+domain+"/"+compUrlName(data_result.list_title)+"/female_ceo/list-executives/1");
+      $('#title_link').attr('href',partner_link+domain+"/"+curData[index].c_ticker+"/"+curData[index].o_last_name+"-"+curData[index].o_first_name+"/e/"+curData[index].o_id);
+      $('#loc_link').attr('href',partner_link+domain+"/"+compUrlName(curData[index].c_name)+"/"+curData[index].c_ticker+"/c/"+curData[index].c_id);
+  }//endif remnant
 }
 
 function compUrlName(company) {

@@ -1,4 +1,5 @@
 var rt_url = '//apirt.synapsys.us/index.php?widget=demographics';
+var get_remote_addr = "//w1.synapsys.us/get-remote-addr2/";
 var plink = 'http://www.myhousekit.com/';
 var rlink = 'http://www.joyfulhome.com/';
 
@@ -73,7 +74,7 @@ $(function(){
   $('#list-name').text('Cities ' + config.title);
   $('#data-title2').text(config.data_title2);
 
-  remnant == 'true' || remnant == true ? $('#vertical_link').attr('href', rlink) : $('#vertical_link').attr('href', plink + domain);
+  remnant == 'true' || remnant == true ? $('#vertical_link').attr('href', rlink) : $('#vertical_link').attr('href', plink + domain + '/loc');
 
   $('.widget-reel.left').on('click', function(){
     if(offset > 0){
@@ -94,7 +95,7 @@ $(function(){
   })
 
   if(city == '' || city == null || typeof city == 'undefined' || state == '' || state == null || typeof state == 'undefined'){
-    $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
+    $.get(get_remote_addr, function(r_data){
       city = r_data[0].city;
       state = r_data[0].state;
       dataCall(offset);

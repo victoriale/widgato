@@ -8,8 +8,8 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
-var Url1 = "http://apireal.synapsys.us/listhuv/";
-var graUrl = "http://w1.synapsys.us/get-remote-addr2/";
+var Url1 = "//apireal.synapsys.us/listhuv/";
+var graUrl = "//w1.synapsys.us/get-remote-addr2/";
 $(function () {
 
   var temp = location.search;
