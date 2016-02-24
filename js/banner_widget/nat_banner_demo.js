@@ -35,7 +35,7 @@ var data_conf = [
 
 var dom_update = function(val){
   $('#number').text('#' + (offset + 1));
-  $('#title').text('Cities in ' + fullstate(val.DemoState) + config.title + ' in ' + val.DemoYear);
+  $('#title').text('Cities in the U.S.' + config.title + ' in ' + val.DemoYear);
   $('#main-image').css('background-image', 'url(' + imageUrl(val.img) + ')');
   $('#data-point1').text(val.DemoCity + ', ' + val.DemoState);
   $('#data-point2').text(config.data_transform2(val));
