@@ -1,4 +1,5 @@
 var rt_url = '//apirt.synapsys.us/index.php?widget=national-demographics';
+var get_remote_addr = "//w1.synapsys.us/get-remote-addr2/";
 var plink = 'http://www.myhousekit.com/';
 var rlink = 'http://www.joyfulhome.com/';
 
@@ -94,7 +95,7 @@ $(function(){
   })
 
   if(city == '' || city == null || typeof city == 'undefined' || state == '' || state == null || typeof state == 'undefined'){
-    $.get("//w1.synapsys.us/get-remote-addr2/",function(r_data){
+    $.get(get_remote_addr, function(r_data){
       city = r_data[0].city;
       state = r_data[0].state;
       dataCall(offset);
