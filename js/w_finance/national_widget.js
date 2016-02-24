@@ -34,7 +34,7 @@ $(function(){
   }
 
 	//makes a check to see if subdom exists for certain partners
-	if( (subdom == 'true' || subdom == true) && typeof subdom != 'undefined' ){
+	if(  typeof subdom != 'undefined' && (subdom == 'true' || subdom == true) ){
 		partner_link = protocolToUse+'://finance.' + domain + '/';
 	}
 
