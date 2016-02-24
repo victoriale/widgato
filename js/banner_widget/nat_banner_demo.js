@@ -39,7 +39,7 @@ var dom_update = function(val){
   $('#main-image').css('background-image', 'url(' + imageUrl(val.img) + ')');
   $('#data-point1').text(val.DemoCity + ', ' + val.DemoState);
   $('#data-point2').text(config.data_transform2(val));
-  $('#data-title1').text(val.listings.length === 0 ? '0 Listings Available' : val.listings[val.DemoCity + ', ' + val.DemoState] + ' Listings Available');
+  $('#data-title1').text(typeof val.listings[val.DemoCity + ', ' + val.DemoState] === 'undefined' ? '0 Listings Available' : val.listings[val.DemoCity + ', ' + val.DemoState] + ' Listings Available');
 
   if(remnant == 'true' || remnant == true){
     $('#profile_link').attr('href', rlink + 'location/' + val.DemoCity.toUpperCase() + '_' + val.DemoState);
