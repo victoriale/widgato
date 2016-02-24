@@ -74,7 +74,7 @@ $(function(){
   $('#list-name').text('Cities ' + config.title);
   $('#data-title2').text(config.data_title2);
 
-  remnant == 'true' || remnant == true ? $('#vertical_link').attr('href', rlink) : $('#vertical_link').attr('href', plink + domain);
+  remnant == 'true' || remnant == true ? $('#vertical_link').attr('href', rlink) : $('#vertical_link').attr('href', plink + domain + '/loc');
 
   $('.widget-reel.left').on('click', function(){
     if(offset > 0){
