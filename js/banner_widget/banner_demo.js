@@ -110,7 +110,7 @@ $(function(){
 
 function dataCall(index){
   $.get(config.url + '&city=' + city + '&state=' + state + '&limit=1&skip=' + index, function(data){
-    console.log('data', index, data, data.widget.length);
+    
     if(data.widget === null){
       console.log('Error: no widget data found');
     }
