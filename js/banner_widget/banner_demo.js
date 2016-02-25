@@ -79,19 +79,21 @@ $(function(){
   $('.widget-reel.left').on('click', function(){
     if(offset > 0){
       dataCall(--offset);
-    }else{
-      offset = max - 1;
-      dataCall(offset);
     }
+    // }else{
+    //   offset = max - 1;
+    //   dataCall(offset);
+    // }
   })
 
   $('.widget-reel.right').on('click', function(){
-    if(offset < max - 1){
-      dataCall(++offset);
-    }else{
-      offset = 0;
-      dataCall(offset);
-    }
+    // if(offset < max - 1){
+    //   dataCall(++offset);
+    // }else{
+    //   offset = 0;
+    //   dataCall(offset);
+    // }
+    dataCall(++offset);
   })
 
   if(city == '' || city == null || typeof city == 'undefined' || state == '' || state == null || typeof state == 'undefined'){
@@ -108,13 +110,16 @@ $(function(){
 
 function dataCall(index){
   $.get(config.url + '&city=' + city + '&state=' + state + '&limit=1&skip=' + index, function(data){
-
+    console.log('data', index, data, data.widget.length);
     if(data.widget === null){
       console.log('Error: no widget data found');
     }
-
-    var curData = data.widget;
-    dom_update(curData[0]);
+    if(data.widget.length === 0){
+      offset--;
+    }else{
+      var curData = data.widget;
+      dom_update(curData[0]);
+    }
 
   }, 'json')
 }

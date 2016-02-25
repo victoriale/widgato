@@ -1,12 +1,11 @@
 var rt_url = '//apirt.synapsys.us/index.php?widget=national-demographics';
-var get_remote_addr = "//w1.synapsys.us/get-remote-addr2/";
 var plink = 'http://www.myhousekit.com/';
 var rlink = 'http://www.joyfulhome.com/';
 
 var data_conf = [
   {
     title: ' with the Highest Average Income',
-    list_title: 'highest-income',
+    list_title: 'nat-highest-income',
     url: rt_url + '&wid=5',
     data_title2: 'Income Per Capita',
     data_transform2: function(val){
@@ -15,7 +14,7 @@ var data_conf = [
   },
   {
     title: ' with the Highest Home Value',
-    list_title: 'highest-home-value',
+    list_title: 'nat-highest-home-value',
     url: rt_url + '&wid=4',
     data_title2: 'Home Value',
     data_transform2: function(val){
@@ -24,7 +23,7 @@ var data_conf = [
   },
   {
     title: ' with the Cheapest Average Rent',
-    list_title: 'cheapest-rent',
+    list_title: 'nat-cheapest-rent',
     url: rt_url + '&wid=1',
     data_title2: 'Rent Per Month',
     data_transform2: function(val){
@@ -43,10 +42,10 @@ var dom_update = function(val){
 
   if(remnant == 'true' || remnant == true){
     $('#profile_link').attr('href', rlink + 'location/' + val.DemoCity.toUpperCase() + '_' + val.DemoState);
-    $('#full_list_link').attr('href', rlink + config.list_title + '/' + val.DemoState + '/' + val.DemoCity.toUpperCase() + '/demographics');
+    $('#full_list_link').attr('href', rlink + config.list_title + '/national/demographics');
   }else{
     $('#profile_link').attr('href', plink + domain + '/loc/' + val.DemoState + '/' + val.DemoCity.toUpperCase());
-    $('#full_list_link').attr('href', plink + domain + '/demographics/' + config.list_title + '/' + val.DemoState + '/' + val.DemoCity.toUpperCase());
+    $('#full_list_link').attr('href', plink + domain + '/national/demographics/' + config.list_title);
   }
 
 }
@@ -55,7 +54,7 @@ var offset = 0;
 var rand = Math.floor(Math.random() * data_conf.length);
 var config = data_conf[rand];
 
-var query = {}, redirectquery = '', domain = '', remnant = '', locName = '', city = '', state = '', loc = '', max = 25;
+var query = {}, redirectquery = '', domain = '', remnant = '', locName = '', loc = '', max = 25;
 
 $(function(){
   var temp = location.search;
@@ -64,11 +63,6 @@ $(function(){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
-
-    //locName = query['loc']['loc_name'];
-    //locName = locName.replace(/\+/g, ' ');
-    city = query['loc']['loc_id']['city'];
-  	state = query['loc']['loc_id']['state'];
   }
 
   $('#list-name').text('Cities ' + config.title);
@@ -79,35 +73,29 @@ $(function(){
   $('.widget-reel.left').on('click', function(){
     if(offset > 0){
       dataCall(--offset);
-    }else{
-      offset = max - 1;
-      dataCall(offset);
     }
+    // }else{
+    //   offset = max - 1;
+    //   dataCall(offset);
+    // }
   })
 
   $('.widget-reel.right').on('click', function(){
-    if(offset < max - 1){
-      dataCall(++offset);
-    }else{
-      offset = 0;
-      dataCall(offset);
-    }
+    // if(offset < max - 1){
+    //   dataCall(++offset);
+    // }else{
+    //   offset = 0;
+    //   dataCall(offset);
+    // }
+    dataCall(++offset);
   })
 
-  if(city == '' || city == null || typeof city == 'undefined' || state == '' || state == null || typeof state == 'undefined'){
-    $.get(get_remote_addr, function(r_data){
-      city = r_data[0].city;
-      state = r_data[0].state;
-      dataCall(offset);
-    });
-  }else{
-    dataCall(offset);
-  }
+  dataCall(offset);
 
 })
 
 function dataCall(index){
-  $.get(config.url + '&city=' + city + '&state=' + state + '&limit=1&skip=' + index, function(data){
+  $.get(config.url + '&limit=1&skip=' + index, function(data){
 
     if(data.widget === null){
       console.log('Error: no widget data found');
