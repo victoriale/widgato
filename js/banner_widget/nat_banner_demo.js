@@ -100,7 +100,7 @@ function dataCall(index){
     if(data.widget.length === 0){
       offset--;
     }else{
-      data.widget.total_listings = 10;
+      data.widget.total_listings = 25;
       max = data.widget.total_listings >= 25 ? 25 : data.widget.total_listings;
 
       var curData = data.widget;
