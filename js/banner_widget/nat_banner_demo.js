@@ -1,5 +1,5 @@
-var rt_url = 'http://apirt.synapsys.us/index.php?widget=national-demographics';
-var plink = 'http://www.myhousekit.com/';
+var rt_url = '//apirt.synapsys.us/index.php?widget=national-demographics';
+var plink = '//www.myhousekit.com/';
 var rlink = 'http://www.joyfulhome.com/';
 
 var data_conf = [

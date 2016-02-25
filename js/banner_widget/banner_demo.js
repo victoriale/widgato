@@ -1,5 +1,5 @@
-var rt_url = 'http://apirt.synapsys.us/index.php?widget=demographics';
-var get_remote_addr = "http://w1.synapsys.us/get-remote-addr2/";
+var rt_url = '//apirt.synapsys.us/index.php?widget=demographics';
+var get_remote_addr = "//w1.synapsys.us/get-remote-addr2/";
 var plink = 'http://www.myhousekit.com/';
 var rlink = 'http://www.joyfulhome.com/';
 
