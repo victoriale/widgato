@@ -1,5 +1,5 @@
-var rt_url = '//apirt.synapsys.us/index.php?widget=demographics';
-var get_remote_addr = "//w1.synapsys.us/get-remote-addr2/";
+var rt_url = 'http://apirt.synapsys.us/index.php?widget=demographics';
+var get_remote_addr = "http://w1.synapsys.us/get-remote-addr2/";
 var plink = 'http://www.myhousekit.com/';
 var rlink = 'http://www.joyfulhome.com/';
 
@@ -8,38 +8,37 @@ var data_conf = [
     title: ' with the Highest Average Income',
     list_title: 'highest-income',
     url: rt_url + '&wid=5',
-    data_title2: 'Income Per Capita',
+    data_title2: 'Per Capita',
     data_transform2: function(val){
-      return '$' + comma(val.DemoAvgHighestIncome);
+      return '$' + comma(Math.round(val.DemoAvgHighestIncome).toString());
     }
   },
   {
-    title: ' with the Highest Home Value',
-    list_title: 'highest-home-value',
-    url: rt_url + '&wid=4',
-    data_title2: 'Home Value',
+    title: ' with the Most Bilingual Residents',
+    list_title: 'highest-bilingual',
+    url: rt_url + '&wid=3',
+    data_title2: 'Are Bilingual',
     data_transform2: function(val){
-      return '$' + comma(val.DemoHomeValue);
+      return val.DemonPctBilingual + '% of Residents';
     }
   },
   {
-    title: ' with the Cheapest Average Rent',
-    list_title: 'cheapest-rent',
-    url: rt_url + '&wid=1',
-    data_title2: 'Rent Per Month',
+    title: ' that Carpool the Most',
+    list_title: 'most-car-poolers',
+    url: rt_url + '&wid=9',
+    data_title2: 'Carpool Everyday',
     data_transform2: function(val){
-      return '$' + comma(val.DemoAvgRent);
+      return val.DemoCarPool + '% of Residents';
     }
   }
 ];
 
 var dom_update = function(val){
   $('#number').text('#' + (offset + 1));
-  $('#title').text('Cities in ' + fullstate(val.DemoState) + config.title + ' in ' + val.DemoYear);
+  $('#title').text('Cities in ' + fullstate(val.DemoState) + config.title);
   $('#main-image').css('background-image', 'url(' + imageUrl(val.img) + ')');
   $('#data-point1').text(val.DemoCity + ', ' + val.DemoState);
   $('#data-point2').text(config.data_transform2(val));
-  $('#data-title1').text(typeof val.listings[val.DemoCity + ', ' + val.DemoState] === 'undefined' ? '0 Listings Available' : val.listings[val.DemoCity + ', ' + val.DemoState] + ' Listings Available');
 
   if(remnant == 'true' || remnant == true){
     $('#profile_link').attr('href', rlink + 'location/' + val.DemoCity.toUpperCase() + '_' + val.DemoState);
@@ -55,7 +54,7 @@ var offset = 0;
 var rand = Math.floor(Math.random() * data_conf.length);
 var config = data_conf[rand];
 
-var query = {}, redirectquery = '', domain = '', remnant = '', locName = '', city = '', state = '', loc = '', max = 25;
+var query = {}, redirectquery = '', domain = '', remnant = '', locName = '', city = '', state = '', loc = '', max;
 
 $(function(){
   var temp = location.search;
@@ -71,7 +70,7 @@ $(function(){
   	state = query['loc']['loc_id']['state'];
   }
 
-  $('#list-name').text('Cities ' + config.title);
+  $('#list-name').text('based off of 2012 census data');
   $('#data-title2').text(config.data_title2);
 
   remnant == 'true' || remnant == true ? $('#vertical_link').attr('href', rlink) : $('#vertical_link').attr('href', plink + domain + '/loc');
@@ -79,21 +78,19 @@ $(function(){
   $('.widget-reel.left').on('click', function(){
     if(offset > 0){
       dataCall(--offset);
+    }else if(typeof max !== 'undefined' && offset <= 0){
+      offset = max - 1;
+      dataCall(offset);
     }
-    // }else{
-    //   offset = max - 1;
-    //   dataCall(offset);
-    // }
   })
 
   $('.widget-reel.right').on('click', function(){
-    // if(offset < max - 1){
-    //   dataCall(++offset);
-    // }else{
-    //   offset = 0;
-    //   dataCall(offset);
-    // }
-    dataCall(++offset);
+    if(typeof max !== 'undefined' && offset >= max - 1){
+      offset = 0;
+      dataCall(offset);
+    }else{
+      dataCall(++offset);
+    }
   })
 
   if(city == '' || city == null || typeof city == 'undefined' || state == '' || state == null || typeof state == 'undefined'){
@@ -110,13 +107,16 @@ $(function(){
 
 function dataCall(index){
   $.get(config.url + '&city=' + city + '&state=' + state + '&limit=1&skip=' + index, function(data){
-    
+
     if(data.widget === null){
       console.log('Error: no widget data found');
     }
     if(data.widget.length === 0){
       offset--;
     }else{
+      data.widget.total_listings = 10;
+      max = data.widget.total_listings >= 25 ? 25 : data.widget.total_listings;
+
       var curData = data.widget;
       dom_update(curData[0]);
     }
