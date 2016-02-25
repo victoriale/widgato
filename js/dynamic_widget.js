@@ -119,6 +119,13 @@ dynamic_widget = (function(){
 
     // Show the item
     display_item();
+
+    // Send GA event with the click
+    dataLayer.push({
+      'event':'nav-right',
+      'eventAction':'click',
+      'eventLabel':dynamic_widget.get_title()
+    });
   } // --> next_item
 
   function prev_item() {
@@ -130,6 +137,13 @@ dynamic_widget = (function(){
 
     // Show the item
     display_item();
+
+    // Send GA event with the click
+    dataLayer.push({
+      'event':'nav-left',
+      'eventAction':'click',
+      'eventLabel':dynamic_widget.get_title()
+    });
   } // --> prev_item
 
   function get_title() {
@@ -148,18 +162,15 @@ dynamic_widget = (function(){
 // Set up google analytics hover event
 $('.dw').hover(
   function() {
+    hoverInterval = setInterval(function () {
+      dataLayer.push({
+        'event':'widget-hover',
+        'eventAction':dynamic_widget.get_title()
+      });
+    }, 1000);
     startHover = $.now();
   },
   function() {
-    var endHover = $.now();
-    var ms = endHover - startHover;
-    if ( ms > 1000 ) {
-      dataLayer.push({
-        'event':'widget-hover',
-        'eventAction':dynamic_widget.get_title(),
-        'eventLabel':ms,
-        'eventValue':ms
-      });
-    }
+    clearInterval(hoverInterval);
   }
 );
