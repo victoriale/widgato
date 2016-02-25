@@ -100,9 +100,12 @@ function dataCall(index){
     if(data.widget === null){
       console.log('Error: no widget data found');
     }
-
-    var curData = data.widget;
-    dom_update(curData[0]);
+    if(data.widget.length === 0){
+      offset--;
+    }else{
+      var curData = data.widget;
+      dom_update(curData[0]);
+    }
 
   }, 'json')
 }
