@@ -1,24 +1,34 @@
 ai_widget = (function() {
   // Declare variables
+  var temp = location.search;
+  var query = {};
   var scope;
-  if (window.location.href.indexOf('NCAA') > -1) {
-    scope = 'ncaad1';
+  var target;
+  if (temp != null) {
+    query = JSON.parse(decodeURIComponent(temp.substr(1)));
+    scope = query.league;
+    target = query.targ;
   } else {
     scope = 'nba';
   }
-  var APIUrl = '//dev-lumen-ai.synapsys.us:280/' + scope + '/widget',
+  var APIUrl = 'http://dev-lumen-ai.synapsys.us:280/' + scope + '/widget',
     AIData = {},
     gameID = -1,
     pageInd = -1,
     availPages = [],
     gameArr = [],
-    pages = ['pregame_report', 'postgame_report', 'about_the_teams', 'historical_team_stats', 'last_matchup', 'player_comparison_power_forwards', 'player_comparison_small_forwards', 'player_comparison_shooting_guards', 'player_comparison_point_guards', 'player_comparison_centers', 'home_team_starting_roster', 'away_team_starting_roster', 'home_team_injury_report', 'away_team_injury_report', 'upcoming'],
+    pages = ['pregame_report', 'postgame_report', 'about_the_teams', 'historical_team_stats', 'last_matchup', 'centers1', 'powerforwards1', 'pointguards1', 'powerforwards2', 'pointguards2', 'player_comparison_power_forwards', 'player_comparison_small_forwards', 'player_comparison_shooting_guards', 'player_comparison_point_guards', 'player_comparison_centers', 'home_team_starting_roster', 'away_team_starting_roster', 'home_team_injury_report', 'away_team_injury_report', 'upcoming'],
     transArr = {
       'pregame_report': 'pregame',
       'postgame_report': 'postgame',
       'about_the_teams': 'about',
       'historical_team_stats': 'history',
       'last_matchup': 'lastmatch',
+      'centers1': 'player_comparison_centers1',
+      'powerforwards1': 'player_comparison_forwards1',
+      'pointguards1': 'player_comparison_guards1',
+      'powerforwards2': 'player_comparison_forwards2',
+      'pointguards2': 'player_comparison_guards2',
       'player_comparison_centers': 'centers',
       'player_comparison_power_forwards': 'powerforwards',
       'player_comparison_point_guards': 'pointguards',
@@ -30,7 +40,6 @@ ai_widget = (function() {
       'away_team_injury_report': 'awayinjury',
       'upcoming': 'upcoming',
     };
-
   function getContent(eventId) {
     // Clear old data
     if (gameID != -1) {
@@ -89,7 +98,7 @@ ai_widget = (function() {
     var arr = {
       title: dataArr[0].title,
       number: (pageInd + 1) + '/' + availPages.length,
-      url: "/" + AIData[0].league + '/article/' + transArr[pageID] + '/' + gameID,
+      url: AIData[0].league + '/article/' + transArr[pageID] + '/' + gameID,
       content: dataArr[0].content + '<br>&nbsp; ',
       img: imageArr[imgIndex]
     };
@@ -97,6 +106,7 @@ ai_widget = (function() {
     $('.aiw-title')[0].innerHTML = arr.title;
     $('.aiw-num')[0].innerHTML = arr.number;
     $('#ai-link').attr('href', arr.url);
+    $('#ai-link').attr('target', target);
     $('.aiw-txt')[0].innerHTML = arr.content;
     $('.aiw-img').css('background-image', 'url(' + arr.img + ')');
     $('.aiw-ad')[0].innerHTML = arr.title + ' presented by:';
@@ -169,7 +179,6 @@ ai_widget = (function() {
     var parseGame = function(games) {
         // Team names
         $.map(games, function(val, index) {
-          console.log(val);
           var gameData = {};
           gameData.home = val.home.abbreviation;
           gameData.away = val.away.abbreviation;
@@ -220,6 +229,7 @@ ai_widget = (function() {
       }
       ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == gameID ? ' active"' : '" onclick="ai_widget.switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs. ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs. <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
     }
+
     // Create
     $('.dropdown')[0].innerHTML = ddStr;
   } // --> createDropdown
