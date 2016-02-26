@@ -182,6 +182,7 @@ $(function(){
 		stock_graph(dataCall.exchange_stock_data['.IXIC'].graph_data, cur_exchange);
 		//run initiall to make sure link works on load
 		if(remnant == 'true' || remnant == true){
+			$('#investkit').attr('href',link);
 			$(".nwlink_list").attr('href', link+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
 			$("#fb").attr('href', link+"FB/Facebook-Inc/company/3330");
 			$("#apl").attr('href', link+"AAPL/Apple-Inc/company/2636");
@@ -189,6 +190,7 @@ $(function(){
 			$("#mc").attr('href', link+"MSFT/Microsoft-Corporation/company/4004");
 			$("#wd").attr('href', link+"DIS/Walt-Disney-Co/company/624");
 		}else{
+			$('#investkit').attr('href', partner_link+domain);
 			$(".nwlink_list").attr('href', partner_link+domain+"/"+exList['.IXIC'].top_list_info.top_list_title.replace(/ /g,'-')+"/"+exList['.IXIC'].top_list_info.top_list_id+"/list/1");
 			$("#fb").attr('href', partner_link+domain+"/Facebook-Inc/FB/c/3330");
 			$("#apl").attr('href', partner_link+domain+"/Apple-Inc/AAPL/c/2636");

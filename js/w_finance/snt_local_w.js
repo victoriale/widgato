@@ -121,12 +121,14 @@ function compData(offset){
     if(typeof loc != 'undefined' || loc != '' || loc != null){
       loc = "/"+loc+"/1";
     }
+    $('#investkit').attr('href',link);
     $(".swc-space").html((offset+1) + ".");
     $(".fgw-t1").html("Local Market Movers");
     $(".fgw-href").attr('href',link+listTitle+"/"+listid+"/list"+loc);
     $(".fgw-link").attr('href',link+curItem.c_ticker+"/"+compUrlName(curItem.c_name)+"/company/"+curItem.c_id);
     $(".fgw-loc-link").attr('href',link+curItem.c_hq_state+"/location");
   }else{
+    $('#investkit').attr('href', partner_link+domain);
     $(".swc-space").html((offset+1) + ".");
     locName = locName.replace(/\+/g,' ');
     $(".fgw-t1").html("Today's Market Movers in "+locName);

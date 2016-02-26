@@ -6,7 +6,9 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
-
+var protocolToUse = (location.protocol == "https:") ? "https" : "http";
+var link = protocolToUse+"://www.investkit.com/";
+var partner_link = protocolToUse+"://www.myinvestkit.com/";
 
 $(function(){
 		//set the query data from database to global variable to use
@@ -18,9 +20,9 @@ $(function(){
 	$('.market_search_box').bind("enterKey",function(e){
 		search = $('input').val();
 		if(remnant == 'true' || remnant == true){
-			window.open('http://www.investkit.com/search/r='+search);
+			window.open(link+'search/r='+search);
 		}else{
-			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
+			window.open(partner_link+domain+'/s/r='+search);
 		}
 	});//END OF FUNCTION
 
@@ -34,19 +36,18 @@ $(function(){
 	$('.market_search_iconbg').on('click', function(){
 		search = $('input').val();
 		if(remnant == 'true' || remnant == true){
-			window.open('http://www.investkit.com/search/r='+search);
+			window.open(link+'search/r='+search);
 		}else{
-			window.open('http://www.myinvestkit.com/'+domain+'/s/r='+search);
+			window.open(partner_link+domain+'/s/r='+search);
 		}
 	})//END OF FUNCTION
  //data call to gather info on exchange prices
-	$.get('//apifin.investkit.com/call_controller.php?action=widget&option=sv150_markets_slim', function(data){
+	$.get(protocolToUse+'://apifin.investkit.com/call_controller.php?action=widget&option=sv150_markets_slim', function(data){
 		//sets a number to allow different ID's to be called since data calls are different
 		data_result = data.sv150_markets_slim;
 		data_exchange = data_result.exchange_stock_data;
 		data_gainer = data_result.sv150_list_gainer;
 		var num = 1;
-		var link = 'http://www.investkit.com';
 		//plug in data call for SV150
 		var SV150_price = Number(data_result.sv150_comp_index).toFixed(2);
 		var SV150_priceChange = Number(data_result.sv150_price_change).toFixed(2);
@@ -55,9 +56,9 @@ $(function(){
 		$('#SVchange').html(lossGainCheck(SV150_priceChange, num));
 		$('#SVcent').html(lossGainCheck(SV150_pctChange, num)+'%');
 		if(remnant == 'true' || remnant == true){
-				$("#SVtxt").attr("href","http://www.investkit.com/sv150-top-gainers/sv150_gainers/list/1");
+				$("#SVtxt").attr("href",link+"sv150-top-gainers/sv150_gainers/list/1");
 		}else{
-				$("#SVtxt").attr("href", "http://www.myinvestkit.com/"+domain+"/sv150-top-gainers/sv150_gainers/list/1");
+				$("#SVtxt").attr("href", partner_link+domain+"/sv150-top-gainers/sv150_gainers/list/1");
 		}
 		num = 2;
 		//plug in data call for Nasdaq
@@ -72,9 +73,9 @@ $(function(){
 		$('#Nqchange').html(lossGainCheck(NQ_priceChange, num));
 		$('#Nqcent').html(lossGainCheck(NQ_pctChange, num)+"%");
 		if(remnant == 'true' || remnant == true){
-			$('#Nqtxt').attr("href",'http://www.investkit.com/Top-companies-on-NASDAQ-with-stock-percent-loss/5182/list/1');
+			$('#Nqtxt').attr("href",link+'Top-companies-on-NASDAQ-with-stock-percent-loss/5182/list/1');
 		}else{
-			$('#Nqtxt').attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NASDAQ-with-stock-percent-loss/5182/list/1');
+			$('#Nqtxt').attr("href",partner_link+domain+'/Top-companies-on-NASDAQ-with-stock-percent-loss/5182/list/1');
 		}
 		num = 3;
 		//plug in data call for AMEX
@@ -89,9 +90,9 @@ $(function(){
 		$('#SPchange').html(lossGainCheck(AMEX_priceChange, num));
 		$('#SPcent').html(lossGainCheck(AMEX_pctChange, num)+"%");
 		if(remnant == 'true' || remnant == true){
-			$("#SPtxt").attr("href",'http://www.investkit.com/Top-companies-on-AMEX-with-stock-percent-loss/5210/list/1');
+			$("#SPtxt").attr("href", link+'Top-companies-on-AMEX-with-stock-percent-loss/5210/list/1');
 		}else{
-			$("#SPtxt").attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-AMEX-with-stock-percent-loss/5210/list/1');
+			$("#SPtxt").attr("href", partner_link+domain+'/Top-companies-on-AMEX-with-stock-percent-loss/5210/list/1');
 		}
 		num = 4;
 		//plug in data call for NYSE
@@ -106,9 +107,9 @@ $(function(){
 		$('#Nychange').html(lossGainCheck(NYSE_priceChange, num));
 		$('#Nycent').html(lossGainCheck(NYSE_pctChange, num)+"%");
 		if(remnant == 'true' || remnant == true){
-			$("#Nytxt").attr("href",'http://www.investkit.com/Top-companies-on-NYSE-with-stock-percent-loss/5196/list/1');
+			$("#Nytxt").attr("href", link+'Top-companies-on-NYSE-with-stock-percent-loss/5196/list/1');
 		}else{
-			$("#Nytxt").attr("href",'http://www.myinvestkit.com/'+domain+'/Top-companies-on-NYSE-with-stock-percent-loss/5196/list/1');
+			$("#Nytxt").attr("href", partner_link+domain+'/Top-companies-on-NYSE-with-stock-percent-loss/5196/list/1');
 		}
 		//plug in data for the top sv150 company
 		var SV150_topTck = data_gainer.c_ticker;
@@ -120,9 +121,9 @@ $(function(){
 			SV150_top_pctChange *= -1;
 		}
 		if(remnant == 'true' || remnant == true){
-	  	$('.sv_top_profile').attr("href","http://www.investkit.com/"+data_gainer.c_ticker+"/"+compUrlName(data_gainer.c_name)+"/company/"+data_gainer.c_id);
+	  	$('.sv_top_profile').attr("href",link+data_gainer.c_ticker+"/"+compUrlName(data_gainer.c_name)+"/company/"+data_gainer.c_id);
 		}else{
-	  	$('.sv_top_profile').attr("href","http://www.myinvestkit.com/"+domain+"/"+compUrlName(data_gainer.c_name)+"/"+data_gainer.c_ticker+"/c/"+data_gainer.c_id);
+	  	$('.sv_top_profile').attr("href",partner_link+domain+"/"+compUrlName(data_gainer.c_name)+"/"+data_gainer.c_ticker+"/c/"+data_gainer.c_id);
 		}
 		$('.sv_top_image').css('background','url(http://images.investkit.com/images/'+data_gainer.c_logo+') no-repeat');
 
