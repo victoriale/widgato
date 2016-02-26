@@ -123,7 +123,7 @@ dynamic_widget = (function(){
     // Send GA event with the click
     dataLayer.push({
       'event':'nav-right',
-      'eventAction':widget_conf.dom + ":" + dynamic_widget.get_title()
+      'eventAction':dynamic_widget.get_title()
     });
   } // --> next_item
 
@@ -140,7 +140,7 @@ dynamic_widget = (function(){
     // Send GA event with the click
     dataLayer.push({
       'event':'nav-left',
-      'eventAction':widget_conf.dom + ":" + dynamic_widget.get_title()
+      'eventAction':dynamic_widget.get_title()
     });
   } // --> prev_item
 
