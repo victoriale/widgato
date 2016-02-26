@@ -1,4 +1,4 @@
-var rt_url = '//apirt.synapsys.us/index.php?widget=demographics';
+var rt_url = '//apirt.synapsys.us/index.php';
 var get_remote_addr = "//w1.synapsys.us/get-remote-addr2/";
 var plink = 'http://www.myhousekit.com/';
 var rlink = 'http://www.joyfulhome.com/';
@@ -7,7 +7,7 @@ var data_conf = [
   {
     title: ' with the Highest Average Income',
     list_title: 'highest-income',
-    url: rt_url + '&wid=5',
+    url: rt_url + '?widget=demographics&wid=5',
     data_title2: 'Per Capita',
     data_transform2: function(val){
       return '$' + comma(Math.round(val.DemoAvgHighestIncome).toString());
@@ -16,7 +16,7 @@ var data_conf = [
   {
     title: ' with the Most Bilingual Residents',
     list_title: 'highest-bilingual',
-    url: rt_url + '&wid=3',
+    url: rt_url + '?widget=demographics&wid=3',
     data_title2: 'Are Bilingual',
     data_transform2: function(val){
       return val.DemonPctBilingual + '% of Residents';
@@ -25,7 +25,7 @@ var data_conf = [
   {
     title: ' that Carpool the Most',
     list_title: 'most-car-poolers',
-    url: rt_url + '&wid=9',
+    url: rt_url + '?widget=demographics&wid=9',
     data_title2: 'Carpool Everyday',
     data_transform2: function(val){
       return val.DemoCarPool + '% of Residents';
@@ -33,28 +33,70 @@ var data_conf = [
   }
 ];
 
+var nat_data_conf = [
+  {
+    title: ' with the Highest Average Income',
+    list_title: 'nat-highest-income',
+    url: rt_url + '?widget=national-demographics&wid=5',
+    data_title2: 'Per Capita',
+    data_transform2: function(val){
+      return '$' + comma(Math.round(val.DemoAvgHighestIncome).toString());
+    }
+  },
+  {
+    title: ' with the Most Bilingual Residents',
+    list_title: 'nat-highest-bilingual',
+    url: rt_url + '?widget=national-demographics&wid=3',
+    data_title2: 'Are Bilingual',
+    data_transform2: function(val){
+      return val.DemonPctBilingual + '% of Residents';
+    }
+  },
+  {
+    title: ' that Carpool the Most',
+    list_title: 'nat-most-car-poolers',
+    url: rt_url + '?widget=national-demographics&wid=9',
+    data_title2: 'Carpool Everyday',
+    data_transform2: function(val){
+      return val.DemoCarPool + '% of Residents';
+    }
+  }
+]
+
 var dom_update = function(val){
   $('#number').text('#' + (offset + 1));
-  $('#title').text('Cities in ' + fullstate(val.DemoState) + config.title);
+
+  if(isLocal === true){
+    $('#title').text('Cities in ' + fullstate(val.DemoState) + config.title);
+    if(remnant == 'true' || remnant == true){
+      $('#profile_link').attr('href', rlink + 'location/' + val.DemoCity.toUpperCase() + '_' + val.DemoState);
+      $('#full_list_link').attr('href', rlink + config.list_title + '/' + val.DemoState + '/' + val.DemoCity.toUpperCase() + '/demographics');
+    }else{
+      $('#profile_link').attr('href', plink + domain + '/loc/' + val.DemoState + '/' + val.DemoCity.toUpperCase());
+      $('#full_list_link').attr('href', plink + domain + '/demographics/' + config.list_title + '/' + val.DemoState + '/' + val.DemoCity.toUpperCase());
+    }
+  }else{
+    $('#title').text('Cities in the U.S.' + config.title);
+    if(remnant == 'true' || remnant == true){
+      $('#profile_link').attr('href', rlink + 'location/' + val.DemoCity.toUpperCase() + '_' + val.DemoState);
+      $('#full_list_link').attr('href', rlink + config.list_title + '/national/demographics');
+    }else{
+      $('#profile_link').attr('href', plink + domain + '/loc/' + val.DemoState + '/' + val.DemoCity.toUpperCase());
+      $('#full_list_link').attr('href', plink + domain + '/national/demographics/' + config.list_title);
+    }
+  }
+
   $('#main-image').css('background-image', 'url(' + imageUrl(val.img) + ')');
   $('#data-point1').text(val.DemoCity + ', ' + val.DemoState);
   $('#data-point2').text(config.data_transform2(val));
-
-  if(remnant == 'true' || remnant == true){
-    $('#profile_link').attr('href', rlink + 'location/' + val.DemoCity.toUpperCase() + '_' + val.DemoState);
-    $('#full_list_link').attr('href', rlink + config.list_title + '/' + val.DemoState + '/' + val.DemoCity.toUpperCase() + '/demographics');
-  }else{
-    $('#profile_link').attr('href', plink + domain + '/loc/' + val.DemoState + '/' + val.DemoCity.toUpperCase());
-    $('#full_list_link').attr('href', plink + domain + '/demographics/' + config.list_title + '/' + val.DemoState + '/' + val.DemoCity.toUpperCase());
-  }
-
+  $('#data-title2').text(config.data_title2);
 }
 
 var offset = 0;
 var rand = Math.floor(Math.random() * data_conf.length);
 var config = data_conf[rand];
 
-var query = {}, redirectquery = '', domain = '', remnant = '', locName = '', city = '', state = '', loc = '', max;
+var query = {}, redirectquery = '', domain = '', remnant = '', locName = '', city = '', state = '', loc = '', max, isLocal = true, no_data_ct = 0;
 
 $(function(){
   var temp = location.search;
@@ -71,7 +113,6 @@ $(function(){
   }
 
   $('#list-name').text('based off of 2012 census data');
-  $('#data-title2').text(config.data_title2);
 
   remnant == 'true' || remnant == true ? $('#vertical_link').attr('href', rlink) : $('#vertical_link').attr('href', plink + domain + '/loc');
 
@@ -108,13 +149,20 @@ $(function(){
 function dataCall(index){
   $.get(config.url + '&city=' + city + '&state=' + state + '&limit=1&skip=' + index, function(data){
 
-    if(data.widget === null){
-      console.log('Error: no widget data found');
-    }
     if(data.widget.length === 0){
-      offset--;
+      if(no_data_ct < 5){
+        console.log('Error: no widget data found');
+        isLocal = false;
+        config = nat_data_conf[rand];
+        dataCall(offset);
+        no_data_ct++;
+      }
     }else{
-      data.widget.total_listings = 10;
+      if(isLocal === true){
+        data.widget.total_listings = 10;
+      }else{
+        data.widget.total_listings = 25;
+      }
       max = data.widget.total_listings >= 25 ? 25 : data.widget.total_listings;
 
       var curData = data.widget;
