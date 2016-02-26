@@ -1,12 +1,12 @@
-var rt_url = '//apirt.synapsys.us/index.php?widget=national-demographics';
-var plink = '//www.myhousekit.com/';
+var rt_url = '//apirt.synapsys.us/index.php';
+var plink = 'http://www.myhousekit.com/';
 var rlink = 'http://www.joyfulhome.com/';
 
 var data_conf = [
   {
     title: ' with the Highest Average Income',
     list_title: 'nat-highest-income',
-    url: rt_url + '&wid=5',
+    url: rt_url + '?widget=national-demographics&wid=5',
     data_title2: 'Per Capita',
     data_transform2: function(val){
       return '$' + comma(Math.round(val.DemoAvgHighestIncome).toString());
@@ -15,7 +15,7 @@ var data_conf = [
   {
     title: ' with the Most Bilingual Residents',
     list_title: 'nat-highest-bilingual',
-    url: rt_url + '&wid=3',
+    url: rt_url + '?widget=national-demographics&wid=3',
     data_title2: 'Are Bilingual',
     data_transform2: function(val){
       return val.DemonPctBilingual + '% of Residents';
@@ -24,7 +24,7 @@ var data_conf = [
   {
     title: ' that Carpool the Most',
     list_title: 'nat-most-car-poolers',
-    url: rt_url + '&wid=9',
+    url: rt_url + '?widget=national-demographics&wid=9',
     data_title2: 'Carpool Everyday',
     data_transform2: function(val){
       return val.DemoCarPool + '% of Residents';
@@ -38,6 +38,7 @@ var dom_update = function(val){
   $('#main-image').css('background-image', 'url(' + imageUrl(val.img) + ')');
   $('#data-point1').text(val.DemoCity + ', ' + val.DemoState);
   $('#data-point2').text(config.data_transform2(val));
+  $('#data-title2').text(config.data_title2);
 
   if(remnant == 'true' || remnant == true){
     $('#profile_link').attr('href', rlink + 'location/' + val.DemoCity.toUpperCase() + '_' + val.DemoState);
@@ -65,7 +66,6 @@ $(function(){
   }
 
   $('#list-name').text('based off of 2012 census data');
-  $('#data-title2').text(config.data_title2);
 
   remnant == 'true' || remnant == true ? $('#vertical_link').attr('href', rlink) : $('#vertical_link').attr('href', plink + domain + '/loc');
 
