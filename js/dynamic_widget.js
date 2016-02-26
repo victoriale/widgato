@@ -123,8 +123,7 @@ dynamic_widget = (function(){
     // Send GA event with the click
     dataLayer.push({
       'event':'nav-right',
-      'eventAction':'click',
-      'eventLabel':dynamic_widget.get_title()
+      'eventAction':widget_conf.dom + ":" + dynamic_widget.get_title()
     });
   } // --> next_item
 
@@ -141,13 +140,12 @@ dynamic_widget = (function(){
     // Send GA event with the click
     dataLayer.push({
       'event':'nav-left',
-      'eventAction':'click',
-      'eventLabel':dynamic_widget.get_title()
+      'eventAction':widget_conf.dom + ":" + dynamic_widget.get_title()
     });
   } // --> prev_item
 
   function get_title() {
-    return widget_data.l_title;
+    return widget_conf.dom + ":" + widget_data.l_title;
   } // --> get_title
 
   get_data();
