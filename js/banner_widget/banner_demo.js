@@ -149,11 +149,12 @@ $(function(){
 function dataCall(index){
   $.get(config.url + '&city=' + city + '&state=' + state + '&limit=1&skip=' + index, function(data){
 
-    if(data.widget.length === 0){
+    if(data.widget.length === 0 || data.widget === null){
       if(no_data_ct < 5){
         console.log('Error: no widget data found');
         isLocal = false;
         config = nat_data_conf[rand];
+        offset = 0;
         dataCall(offset);
         no_data_ct++;
       }
@@ -166,7 +167,16 @@ function dataCall(index){
       max = data.widget.total_listings >= 25 ? 25 : data.widget.total_listings;
 
       var curData = data.widget;
-      dom_update(curData[0]);
+
+      if(curData[0].DemoState === 'DC' && isLocal === true){
+        isLocal = false;
+        config = nat_data_conf[rand];
+        offset = 0;
+        dataCall(offset);
+        no_data_ct++;
+      }else{
+        dom_update(curData[0]);
+      }
     }
 
   }, 'json')
