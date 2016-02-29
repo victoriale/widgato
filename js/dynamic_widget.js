@@ -167,19 +167,3 @@ dynamic_widget = (function(){
     get_title: get_title
   };
 })();
-
-// Set up google analytics hover event
-$('.dw').hover(
-  function() {
-    hoverInterval = setInterval(function () {
-      dataLayer.push({
-        'event':'widget-hover',
-        'eventAction':dynamic_widget.get_title()
-      });
-    }, 1000);
-    startHover = $.now();
-  },
-  function() {
-    clearInterval(hoverInterval);
-  }
-);

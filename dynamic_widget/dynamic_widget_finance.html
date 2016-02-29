@@ -18,6 +18,7 @@
   '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-TG8P9M');</script>
   <!-- End Google Tag Manager -->
+  <script type="text/javascript" src="../js/dynamic_widget.js"></script>
 </head>
 <body>
   <div class="dw">
@@ -30,7 +31,7 @@
       <!-- Left Nav -->
       <button class="dw-nav dw-c-l" onclick="dynamic_widget.prev_item()"><i class="fa fa-angle-left"></i></button>
       <!-- Images -->
-      <a href="" id="subimg">
+      <a href="" target="_blank" id="subimg">
         <div class="bg-img dw-big dw-c-sub">
           <div class="hover">
             View<br>
@@ -38,7 +39,7 @@
           </div>
         </div>
       </a>
-      <a href="" id="mainurl">
+      <a href="" target="_blank" id="mainurl">
         <div class="bg-img dw-big dw-c-img">
           <div class="hover">
             View<br>
@@ -59,8 +60,24 @@
     </div>
 
     <!-- See Whole List Button -->
-    <a id="list-link" href=""><div class="dw-btn" href="http://google.com">SEE THE LIST <i class="fa fa-share"></i></div></a>
+    <a target="_blank" id="list-link" href=""><div class="dw-btn" href="http://google.com">SEE THE LIST <i class="fa fa-share"></i></div></a>
   </div>
-  <script type="text/javascript" src="../js/dynamic_widget.js"></script>
+  <script>
+  // Set up google analytics hover event
+  $('.dw').hover(
+    function() {
+      hoverInterval = setInterval(function () {
+        dataLayer.push({
+          'event':'widget-hover',
+          'eventAction':dynamic_widget.get_title()
+        });
+      }, 1000);
+      startHover = $.now();
+    },
+    function() {
+      clearInterval(hoverInterval);
+    }
+  );
+  </script>
 </body>
 </html>
