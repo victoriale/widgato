@@ -18,8 +18,8 @@ var list = {};
 var graph = {};
 var w_info = {};
 var dataLength;
+var protocolToUse = (location.protocol == "https:") ? "https" : "http";
 $(function(){
-
   var temp = location.search;
   var query = {};
 
@@ -32,11 +32,11 @@ $(function(){
     dma = query['loc']['loc']['DMA'];
     //checks if it is a remnant and runs through an api
     if(remnant == 'true' || remnant == true){
-      $.get("//w1.synapsys.us/get-remote-addr2/", function(result){
+      $.get(protocolToUse + "://w1.synapsys.us/get-remote-addr2/", function(result){
         loc = result[0].state;
         //console.log("Grabbing data call");
-        $.get('//apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param='+loc, function(data){
-          dataCall = data.local_market_movers;
+        $.get(protocolToUse + '://apifin.investkit.com/call_controller.php?action=widget&option=shares_locally_traded&param='+loc, function(data){
+          dataCall = data.shares_locally_traded;
           w_info = dataCall.top_list_list[0].top_list_info;
           list = dataCall.top_list_list[0].top_list_list;
           listid = w_info.top_list_id;
@@ -62,7 +62,7 @@ $(function(){
         loc = loc.replace(/ /g, ",");
         loc = removeLastComma(loc);
       }
-      $.get('//apifin.investkit.com/call_controller.php?action=widget&option=shares_locally_traded&param='+loc, function(data){
+      $.get(protocolToUse + '://apifin.investkit.com/call_controller.php?action=widget&option=shares_locally_traded&param='+loc, function(data){
         dataCall = data.shares_locally_traded;
         w_info = dataCall.top_list_list[0].top_list_info;
         list = dataCall.top_list_list[0].top_list_list;
@@ -98,16 +98,16 @@ function compData(offset){
   var curItem = list[offset];
   $(".fgw-t2-title").html(curItem.c_name);
   $(".fgw-t2-loc").html(curItem.c_hq_state + ", " + curItem.c_hq_city);
-  $(".fgw-image").css({"background-image":"url('http://images.investkit.com/images/"+curItem.c_logo+"')"});
+  $(".fgw-image").css({"background-image":"url('"+protocolToUse+"://images.investkit.com/images/"+curItem.c_logo+"')"});
   $(".fgw-content1").html(nFormatter(Number(curItem.trading_volume).toFixed(2)));
   listTitle = listTitle.replace(/ /g, '-');
   if(remnant == 'true' || remnant == true){
     if(typeof loc != 'undefined' || loc != '' || loc != null){
       loc = "/"+loc+"/1";
     }
-    $(".fgw-href").attr('href',"http://www.investkit.com/"+listTitle+"/"+listid+"/list"+loc);
-    $(".fgw-link").attr('href',"http://www.investkit.com/"+curItem.c_ticker+"/"+compUrlName(curItem.c_name)+"/company/"+curItem.c_id);
-    $(".fgw-loc-link").attr('href',"http://www.investkit.com/"+curItem.c_hq_state+"/location");
+    $(".fgw-href").attr('href',protocolToUse + "://www.investkit.com/"+listTitle+"/"+listid+"/list"+loc);
+    $(".fgw-link").attr('href',protocolToUse + "://www.investkit.com/"+curItem.c_ticker+"/"+compUrlName(curItem.c_name)+"/company/"+curItem.c_id);
+    $(".fgw-loc-link").attr('href',protocolToUse + "://www.investkit.com/"+curItem.c_hq_state+"/location");
   }else{
 		if (domain == 'latimes.com'){
 			$('.fgw-t1').html('<i class="fa-area-chart"></i>  California Movers');
@@ -116,9 +116,9 @@ function compData(offset){
 			$('.fgw-t1').html('<i class="fa-area-chart"></i>  Most Traded Local Stocks');
 		}
     locName = locName.replace(/\+/g,' ');
-    $(".fgw-href").attr('href',"http://www.myinvestkit.com/"+domain+"/"+listTitle+"/"+loc+"/"+listid+"/list/1");
-    $(".fgw-link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+compUrlName(curItem.c_name)+"/"+curItem.c_ticker+"/c/"+curItem.c_id);
-    $(".fgw-loc-link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+curItem.c_hq_state+"/loc");
+    $(".fgw-href").attr('href',protocolToUse + "://www.myinvestkit.com/"+domain+"/"+listTitle+"/"+loc+"/"+listid+"/list/1");
+    $(".fgw-link").attr('href',protocolToUse + "://www.myinvestkit.com/"+domain+"/"+compUrlName(curItem.c_name)+"/"+curItem.c_ticker+"/c/"+curItem.c_id);
+    $(".fgw-loc-link").attr('href',protocolToUse + "://www.myinvestkit.com/"+domain+"/"+curItem.c_hq_state+"/loc");
   }
   stockGraph(curItem.c_id, graph, curItem.c_ticker);
 }
