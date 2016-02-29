@@ -8,6 +8,9 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
+var protocolToUse = (location.protocol == "https:") ? "https" : "http";
+var link = protocolToUse+"://www.investkit.com/";
+var partner_link = protocolToUse+"://www.myinvestkit.com/";
 $(function location(loc){
     //set the query data from database to global variable to use
     domain = 'siliconvalley.com';//Will be always non-remnant but keeping code just in case
@@ -42,22 +45,26 @@ $(function location(loc){
   			break;
   		}
   	}
-  $.get('//apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param=CA', function(data){
+  $.get(protocolToUse+'://apifin.investkit.com/call_controller.php?action=widget&option=local_market_movers&param=CA', function(data){
 		dataCall = data.local_market_movers;
 		list = dataCall.top_list_list[0].top_list_list;
 		var curItem = list[0];
 		$(".header-company_location").html(curItem.c_hq_city + ", " + curItem.c_hq_state);
     if(remnant == 'true' || remnant == true){
-    	  $(".header-company_link").attr('href',"http://www.investkit.com/"+curItem.c_hq_state+"/location");
+		$('#investkit').attr('href',link);
+
+		$(".header-company_link").attr('href', link+curItem.c_hq_state+"/location");
     }else{
-        $(".header-company_link").attr('href',"http://www.myinvestkit.com/"+domain+"/"+curItem.c_hq_state+"/loc");
+		$('#investkit').attr('href', partner_link+domain);
+
+		$(".header-company_link").attr('href', partner_link+domain+"/"+curItem.c_hq_state+"/loc");
     }
   }, 'json')
 });
 
 $(function so_leftdata(id){
-  $.get('//apifin.investkit.com/call_controller.php?action=search&option=widget_search&wild=1&param='+comp, function(result){
-    	$.get('//apifin.investkit.com/call_controller.php?action=widget&option=stock_overview&param='+result.company_name.func_data.search_data[0].c_id, function(data){
+  $.get(protocolToUse+'://apifin.investkit.com/call_controller.php?action=search&option=widget_search&wild=1&param='+comp, function(result){
+    	$.get(protocolToUse+'://apifin.investkit.com/call_controller.php?action=widget&option=stock_overview&param='+result.company_name.func_data.search_data[0].c_id, function(data){
         dataCall = data.stock_overview;
     		stockData= dataCall.stock_data;
         dailyData = dataCall.daily_update;
@@ -92,19 +99,19 @@ $(function so_leftdata(id){
     		$('#eimage2').css('background','url('+imageUrl(exeData[1].o_pic)+') no-repeat');
     		$('#eimage3').css('background','url('+imageUrl(exeData[2].o_pic)+') no-repeat');
 				if(remnant == 'true' || remnant == true){
-      		$('#company-profile').attr("href", 'http://www.investkit.com/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
-      		$('.sv_company-link').attr("href", 'http://www.investkit.com/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
-      		$('#eprof1').attr("href",'http://www.investkit.com/'+exeData[0].o_first_name+'-'+exeData[0].o_last_name+'/'+exeData[0].c_ticker+'/executive/'+exeData[0].o_id);
-      		$('#eprof2').attr("href",'http://www.investkit.com/'+exeData[1].o_first_name+'-'+exeData[1].o_last_name+'/'+exeData[1].c_ticker+'/executive/'+exeData[1].o_id);
-      		$('#eprof3').attr("href",'http://www.investkit.com/'+exeData[2].o_first_name+'-'+exeData[2].o_last_name+'/'+exeData[2].c_ticker+'/executive/'+exeData[2].o_id);
-      		$('.executive-list').attr("href",'http://www.investkit.com/'+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/executives/'+exeData[0].c_id);
+      		$('#company-profile').attr("href", link+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
+      		$('.sv_company-link').attr("href", link+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/company/'+stockData.c_id);
+      		$('#eprof1').attr("href",link+exeData[0].o_first_name+'-'+exeData[0].o_last_name+'/'+exeData[0].c_ticker+'/executive/'+exeData[0].o_id);
+      		$('#eprof2').attr("href",link+exeData[1].o_first_name+'-'+exeData[1].o_last_name+'/'+exeData[1].c_ticker+'/executive/'+exeData[1].o_id);
+      		$('#eprof3').attr("href",link+exeData[2].o_first_name+'-'+exeData[2].o_last_name+'/'+exeData[2].c_ticker+'/executive/'+exeData[2].o_id);
+      		$('.executive-list').attr("href", link+exeData[0].c_ticker+'/'+compUrlName(stockData.c_name)+'/executives/'+exeData[0].c_id);
         }else{
-          $('#company-profile').attr("href", 'http://www.myinvestkit.com/'+domain+'/'+compUrlName(stockData.c_name)+'/'+exeData[0].c_ticker+'/c/'+stockData.c_id);
-          $('.sv_company-link').attr("href", 'http://www.myinvestkit.com/'+domain+'/'+compUrlName(stockData.c_name)+'/'+exeData[0].c_ticker+'/c/'+stockData.c_id);
-          $('#eprof1').attr("href",'http://www.myinvestkit.com/'+domain+'/'+exeData[0].c_ticker+'/'+exeData[0].o_last_name+'-'+exeData[0].o_first_name+'/e/'+exeData[0].o_id);
-          $('#eprof2').attr("href",'http://www.myinvestkit.com/'+domain+'/'+exeData[1].c_ticker+'/'+exeData[1].o_last_name+'-'+exeData[1].o_first_name+'/e/'+exeData[1].o_id);
-          $('#eprof3').attr("href",'http://www.myinvestkit.com/'+domain+'/'+exeData[2].c_ticker+'/'+exeData[2].o_last_name+'-'+exeData[2].o_first_name+'/e/'+exeData[2].o_id);
-          $('.executive-list').attr("href",'http://www.myinvestkit.com/'+domain+'/'+compUrlName(stockData.c_name)+'/'+exeData[0].c_ticker+'/execs/'+exeData[0].c_id);
+          $('#company-profile').attr("href",  partner_link+domain+'/'+compUrlName(stockData.c_name)+'/'+exeData[0].c_ticker+'/c/'+stockData.c_id);
+          $('.sv_company-link').attr("href", partner_link+domain+'/'+compUrlName(stockData.c_name)+'/'+exeData[0].c_ticker+'/c/'+stockData.c_id);
+          $('#eprof1').attr("href", partner_link+domain+'/'+exeData[0].c_ticker+'/'+exeData[0].o_last_name+'-'+exeData[0].o_first_name+'/e/'+exeData[0].o_id);
+          $('#eprof2').attr("href", partner_link+domain+'/'+exeData[1].c_ticker+'/'+exeData[1].o_last_name+'-'+exeData[1].o_first_name+'/e/'+exeData[1].o_id);
+          $('#eprof3').attr("href", partner_link+domain+'/'+exeData[2].c_ticker+'/'+exeData[2].o_last_name+'-'+exeData[2].o_first_name+'/e/'+exeData[2].o_id);
+          $('.executive-list').attr("href", partner_link+domain+'/'+compUrlName(stockData.c_name)+'/'+exeData[0].c_ticker+'/execs/'+exeData[0].c_id);
         }
     		$('#ename1').html(exeData[0].o_first_name+' '+exeData[0].o_last_name);
     		$('#ename2').html(exeData[1].o_first_name+' '+exeData[1].o_last_name);

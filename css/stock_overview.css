@@ -62,7 +62,9 @@ button:focus {
 	border-radius:50%;
 	color:#fff;
 }
-
+.so_header-icon:hover{
+	background-color: #000;
+}
 .header-icon{
 	font-size:15px;
 	position:relative;
@@ -90,6 +92,15 @@ button:focus {
 
 .header-company_text{
 	cursor:pointer;
+}
+.header-company_text:hover{
+	color: #3098ff;
+}
+.header-company_location{
+	color: #fff;
+}
+.header-company_location:hover{
+	color: #3098ff;
 }
 /*
  with location info END*/

@@ -67,7 +67,7 @@ $(function(){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "cheapest-rent";
-      $('.fcw-t1').html(fullstate(curData[0].DemoState) + ' Cities with the Cheapest Average Rent');
+      $('.fcw-t1').html('Cities in ' + fullstate(curData[0].DemoState) + ' with the Cheapest Average Rent');
       $('.fcw-t2-loc').html(curData[0].DemoCity + ', ' + curData[0].DemoState);
       $('.fcw-image').css('background', 'url('+imageUrl(curData[0].img)+') no-repeat');
       $('.fcw-img2').html('#'+(index+1));
