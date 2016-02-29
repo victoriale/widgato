@@ -40,7 +40,7 @@ $(function(){
     dataCall(offset);
   })//END OF FUNCTION
   function dataCall(index){
-  	$.get(apiUrl + '/index.php?widget=disasters&wid='+wid_num+'&skip='+index+'&limit=1', function(data){
+  	$.get(apiUrl + '/index.php?widget=disaster&wid='+wid_num+'&skip='+index+'&limit=1', function(data){
       var curData = data.widget;
       dataLength = curData.length;
       var title = "tornado-highest-risk-level";
