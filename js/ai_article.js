@@ -99,7 +99,15 @@ ai_widget = (function() {
     $.map(content.images, function(val, index) {
       imageArr.push(val.url);
     });
-    var imgIndex = Math.floor(Math.random() * ((imageArr.length - 4) + 1));
+    if (imageArr.length < 1) {
+      imageArr = ['http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_1.png',
+        'http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_2.png',
+        'http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_3.png',
+        'http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_4.png',
+        'http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_5.png',
+      ];
+    }
+    var imgIndex = Math.floor(Math.random() * ((imageArr.length)));
     imgIndex = (imgIndex > -1 ? imgIndex : 0);
     var arr = {
       title: dataArr[0].title,
