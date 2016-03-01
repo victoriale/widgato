@@ -45,7 +45,6 @@ ai_widget = (function() {
       'away_team_injury_report': 'awayinjury',
       'upcoming': 'upcoming',
     };
-
   function getContent(eventId) {
     // Clear old data
     if (gameID != -1) {
