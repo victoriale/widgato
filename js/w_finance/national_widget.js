@@ -26,7 +26,7 @@ $(function(){
   	query = JSON.parse(decodeURIComponent(temp.substr(1)));
   	//set the query data from database to global variable to use
   	domain = query.dom;
-		subdom = query.subdom;
+		subdom = query.subdom || false;
   	remnant = query.remn;
   	locName = query['loc']['loc_name'];
   	locName = locName.replace(/\+/g, ' ');

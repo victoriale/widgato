@@ -12,9 +12,20 @@ dynamic_widget = (function(){
       widget_conf.category = "finance";
     }
 
+    // Generate a weighted random number
+    var random = [
+      0, 0, 0,
+      1, 1, 1,
+      2, 2, 2,
+      3, 3,
+      4, 4,
+      5, 5,
+      6, 7, 8, 9]; // Weighted array - leaning towards the first lists
+    var random = random[Math.floor(Math.random() * random.length)];
+
     // Call the API
     $.ajax({
-      url: api_url + '?partner=' + (typeof(widget_conf.dom) != "undefined" ? widget_conf.dom : "") + '&cat=' + widget_conf.category + '&rand=' + Math.floor(Math.random() * 10),
+      url: api_url + '?partner=' + (typeof(widget_conf.dom) != "undefined" ? widget_conf.dom : "") + '&cat=' + widget_conf.category + '&rand=' + random,
       dataType: 'json',
       success: function(data) {
         console.log(data);
@@ -123,7 +134,7 @@ dynamic_widget = (function(){
     // Send GA event with the click
     dataLayer.push({
       'event':'nav-right',
-      'eventAction':widget_conf.dom + ":" + dynamic_widget.get_title()
+      'eventAction':dynamic_widget.get_title()
     });
   } // --> next_item
 
@@ -140,7 +151,7 @@ dynamic_widget = (function(){
     // Send GA event with the click
     dataLayer.push({
       'event':'nav-left',
-      'eventAction':widget_conf.dom + ":" + dynamic_widget.get_title()
+      'eventAction':dynamic_widget.get_title()
     });
   } // --> prev_item
 
@@ -156,19 +167,3 @@ dynamic_widget = (function(){
     get_title: get_title
   };
 })();
-
-// Set up google analytics hover event
-$('.dw').hover(
-  function() {
-    hoverInterval = setInterval(function () {
-      dataLayer.push({
-        'event':'widget-hover',
-        'eventAction':dynamic_widget.get_title()
-      });
-    }, 1000);
-    startHover = $.now();
-  },
-  function() {
-    clearInterval(hoverInterval);
-  }
-);
