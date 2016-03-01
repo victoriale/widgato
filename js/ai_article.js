@@ -17,18 +17,23 @@ ai_widget = (function() {
     pageInd = -1,
     availPages = [],
     gameArr = [],
-    pages = ['pregame_report', 'postgame_report', 'about_the_teams', 'historical_team_stats', 'last_matchup', 'centers1', 'powerforwards1', 'pointguards1', 'powerforwards2', 'pointguards2', 'player_comparison_power_forwards', 'player_comparison_small_forwards', 'player_comparison_shooting_guards', 'player_comparison_point_guards', 'player_comparison_centers', 'home_team_starting_roster', 'away_team_starting_roster', 'home_team_injury_report', 'away_team_injury_report', 'upcoming'],
+    pages = ['pregame_report', 'postgame_report', 'about_the_teams', 'historical_team_stats', 'last_matchup', 'player_comparison_centers1', 'player_comparison_forwards1', 'player_comparison_guards1', 'player_comparison_forwards2', 'player_comparison_guards2', 'player_comparison_scorers', 'player_comparison_assisters', 'player_comparison_three_point_getters', 'player_comparison_rebounders', 'player_comparison_stealers', 'player_comparison_power_forwards', 'player_comparison_small_forwards', 'player_comparison_shooting_guards', 'player_comparison_point_guards', 'player_comparison_centers', 'home_team_starting_roster', 'away_team_starting_roster', 'home_team_injury_report', 'away_team_injury_report', 'upcoming'],
     transArr = {
       'pregame_report': 'pregame',
       'postgame_report': 'postgame',
       'about_the_teams': 'about',
       'historical_team_stats': 'history',
       'last_matchup': 'lastmatch',
-      'centers1': 'player_comparison_centers1',
-      'powerforwards1': 'player_comparison_forwards1',
-      'pointguards1': 'player_comparison_guards1',
-      'powerforwards2': 'player_comparison_forwards2',
-      'pointguards2': 'player_comparison_guards2',
+      'player_comparison_centers1': 'centers1',
+      'player_comparison_forwards1': 'powerforwards1',
+      'player_comparison_guards1': 'pointguards1',
+      'player_comparison_forwards2': 'powerforwards2',
+      'player_comparison_guards2': 'pointguards2',
+      'player_comparison_scorers': 'scorers',
+      'player_comparison_assisters': 'assisters',
+      'player_comparison_three_point_getters': 'threepoint',
+      'player_comparison_rebounders': 'rebounders',
+      'player_comparison_stealers': 'stealers',
       'player_comparison_centers': 'centers',
       'player_comparison_power_forwards': 'powerforwards',
       'player_comparison_point_guards': 'pointguards',
@@ -40,6 +45,7 @@ ai_widget = (function() {
       'away_team_injury_report': 'awayinjury',
       'upcoming': 'upcoming',
     };
+
   function getContent(eventId) {
     // Clear old data
     if (gameID != -1) {
