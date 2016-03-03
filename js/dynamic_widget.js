@@ -156,7 +156,7 @@ dynamic_widget = (function(){
   } // --> prev_item
 
   function get_title() {
-    return widget_conf.dom + ":" + widget_data.l_title;
+    return widget_conf.dom + ":" + widget_conf.category + ":" + (widget_data.l_sort == null ? widget_data.l_param : widget_data.l_sort) + ":" + widget_data.l_title;
   } // --> get_title
 
   get_data();
