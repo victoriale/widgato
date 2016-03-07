@@ -70,10 +70,12 @@
   $('.dw').hover(
     function() {
       hoverInterval = setInterval(function () {
-        dataLayer.push({
-          'event':'widget-hover',
-          'eventAction':dynamic_widget.get_title()
-        });
+        if ( typeof dynamic_widget != "undefined" ) {
+          dataLayer.push({
+            'event':'widget-hover',
+            'eventAction':dynamic_widget.get_title()
+          });
+        }
       }, 1000);
       startHover = $.now();
     },
