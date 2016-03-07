@@ -78,7 +78,9 @@
       startHover = $.now();
     },
     function() {
-      clearInterval(hoverInterval);
+      if ( typeof(hoverInterval) != "undefined" ) {
+        clearInterval(hoverInterval);
+      }
     }
   );
   </script>
