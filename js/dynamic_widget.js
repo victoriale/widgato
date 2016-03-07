@@ -4,7 +4,8 @@ dynamic_widget = (function(){
   current_index = 0, // Current index to be viewed
   widget_data = {}, // Data for the widget
   widget_items = [], // Actual items for the widget to display
-  widget_conf = JSON.parse(decodeURIComponent(location.search.substr(1))); // Args passed to the widget
+  widget_conf = JSON.parse(decodeURIComponent(location.search.substr(1))), // Args passed to the widget
+  tries = 0;
 
   function get_data() {
     // Randomly select between college_basketball and nba
@@ -28,18 +29,20 @@ dynamic_widget = (function(){
       url: api_url + '?partner=' + (typeof(widget_conf.dom) != "undefined" ? widget_conf.dom : "") + '&cat=' + widget_conf.category + '&rand=' + random,
       dataType: 'json',
       success: function(data) {
-        console.log(data);
         widget_data = data;
         widget_items = data.l_data;
         dataLayer.push({
           'event':'widget-title',
           'eventAction':widget_data.l_title
         });
-        create_widget();
+        $(document).ready(create_widget);
       },
       error: function(a, b, c) {
-        console.log(a, b, c);
-        $('.dw-title')[0].innerHTML = 'Error Loading API: ' + b;
+        tries++;
+        if ( tries > 10 ) {
+          throw "Too many tries";
+        }
+        setTimeout(get_data, 500);
       }
     });
   } // --> get_data
