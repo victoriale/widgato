@@ -164,6 +164,14 @@ dynamic_widget = (function(){
 
   get_data();
 
+  $(document).ready(function(){
+    var url = "http://www.investkit.com/";
+    if ( widget_conf.remn != "true" ) {
+      url = "http://www.myinvestkit.com/" + widget_conf.dom + "/";
+    }
+    $("#homelink").attr("href", url);
+  });
+
   return {
     next_item: next_item,
     prev_item: prev_item,
