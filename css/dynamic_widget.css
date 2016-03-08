@@ -80,6 +80,7 @@ button:focus {
   font-size: 25px;
   cursor: pointer;
   padding: 0 4px;
+  z-index: 3;
 }
 .dw-c-l {
   left: 0;
