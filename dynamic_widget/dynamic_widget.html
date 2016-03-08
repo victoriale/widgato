@@ -82,21 +82,28 @@
 
     <!-- See Whole List Button -->
     <a target="_blank" id="list-link" href=""><div class="dw-btn" href="http://google.com">SEE THE LIST <i class="fa fa-share"></i></div></a>
+
+    <!-- Presented By -->
+    <div class="dw-presented">PRESENTED BY:</div>
   </div>
   <script>
   // Set up google analytics hover event
   $('.dw').hover(
     function() {
       hoverInterval = setInterval(function () {
-        dataLayer.push({
-          'event':'widget-hover',
-          'eventAction':dynamic_widget.get_title()
-        });
+        if ( typeof dynamic_widget != "undefined" ) {
+          dataLayer.push({
+            'event':'widget-hover',
+            'eventAction':dynamic_widget.get_title()
+          });
+        }
       }, 1000);
       startHover = $.now();
     },
     function() {
-      clearInterval(hoverInterval);
+      if ( typeof(hoverInterval) != "undefined" ) {
+        clearInterval(hoverInterval);
+      }
     }
   );
   </script>
