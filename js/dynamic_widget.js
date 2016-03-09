@@ -4,7 +4,8 @@ dynamic_widget = (function(){
   current_index = 0, // Current index to be viewed
   widget_data = {}, // Data for the widget
   widget_items = [], // Actual items for the widget to display
-  widget_conf = JSON.parse(decodeURIComponent(location.search.substr(1))); // Args passed to the widget
+  widget_conf = JSON.parse(decodeURIComponent(location.search.substr(1))), // Args passed to the widget
+  tries = 0;
 
   function get_data() {
     // Randomly select between college_basketball and nba
@@ -12,34 +13,27 @@ dynamic_widget = (function(){
       widget_conf.category = "finance";
     }
 
-    // Generate a weighted random number
-    var random = [
-      0, 0, 0,
-      1, 1, 1,
-      2, 2, 2,
-      3, 3,
-      4, 4,
-      5, 5,
-      6, 7, 8, 9]; // Weighted array - leaning towards the first lists
-    var random = random[Math.floor(Math.random() * random.length)];
+    var random = Math.floor(Math.random() * 10);
 
     // Call the API
     $.ajax({
       url: api_url + '?partner=' + (typeof(widget_conf.dom) != "undefined" ? widget_conf.dom : "") + '&cat=' + widget_conf.category + '&rand=' + random,
       dataType: 'json',
       success: function(data) {
-        console.log(data);
         widget_data = data;
         widget_items = data.l_data;
         dataLayer.push({
           'event':'widget-title',
           'eventAction':widget_data.l_title
         });
-        create_widget();
+        $(document).ready(create_widget);
       },
       error: function(a, b, c) {
-        console.log(a, b, c);
-        $('.dw-title')[0].innerHTML = 'Error Loading API: ' + b;
+        tries++;
+        if ( tries > 10 ) {
+          throw "Too many tries";
+        }
+        setTimeout(get_data, 500);
       }
     });
   } // --> get_data
@@ -160,6 +154,14 @@ dynamic_widget = (function(){
   } // --> get_title
 
   get_data();
+
+  $(document).ready(function(){
+    var url = "http://www.investkit.com/";
+    if ( widget_conf.remn != "true" ) {
+      url = "http://www.myinvestkit.com/" + widget_conf.dom + "/";
+    }
+    $("#homelink").attr("href", url);
+  });
 
   return {
     next_item: next_item,

@@ -17,18 +17,19 @@
   j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
   })(window,document,'script','dataLayer','GTM-TG8P9M');</script>
+  <!-- End Google Tag Manager -->
   <script type="text/javascript" src="../js/dynamic_widget.js"></script>
 </head>
 <body>
   <div class="dw">
     <!-- Title -->
     <div class="dw-title"></div>
-    <div class="bg-img dw-icon"></div>
+    <a target="_blank" href="" id="homelink"><div class="bg-img dw-icon"></div></a>
 
     <!-- Carousel -->
+    <!-- Left Nav -->
+    <button class="dw-nav dw-c-l" onclick="dynamic_widget.prev_item()"><i class="fa fa-angle-left"></i></button>
     <div class="dw-carousel">
-      <!-- Left Nav -->
-      <button class="dw-nav dw-c-l" onclick="dynamic_widget.prev_item()"><i class="fa fa-angle-left"></i></button>
       <!-- Images -->
       <a target="_blank" href="" id="subimg">
         <div class="bg-img dw-big dw-c-sub">
@@ -47,9 +48,9 @@
         </div>
       </a>
       <div class="dw-sm dw-c-num"></div>
-      <!-- Right Nav -->
-      <button class="dw-nav dw-c-r" onclick="dynamic_widget.next_item()"><i class="fa fa-angle-right"></i></button>
     </div>
+    <!-- Right Nav -->
+    <button class="dw-nav dw-c-r" onclick="dynamic_widget.next_item()"><i class="fa fa-angle-right"></i></button>
 
     <!-- Sub Info -->
     <div class="dw-info">
@@ -60,21 +61,28 @@
 
     <!-- See Whole List Button -->
     <a target="_blank" id="list-link" href=""><div class="dw-btn" href="http://google.com">SEE THE LIST <i class="fa fa-share"></i></div></a>
+
+    <!-- Presented By -->
+    <div class="dw-presented">PRESENTED BY:</div>
   </div>
   <script>
   // Set up google analytics hover event
   $('.dw').hover(
     function() {
       hoverInterval = setInterval(function () {
-        dataLayer.push({
-          'event':'widget-hover',
-          'eventAction':dynamic_widget.get_title()
-        });
+        if ( typeof dynamic_widget != "undefined" ) {
+          dataLayer.push({
+            'event':'widget-hover',
+            'eventAction':dynamic_widget.get_title()
+          });
+        }
       }, 1000);
       startHover = $.now();
     },
     function() {
-      clearInterval(hoverInterval);
+      if ( typeof(hoverInterval) != "undefined" ) {
+        clearInterval(hoverInterval);
+      }
     }
   );
   </script>
