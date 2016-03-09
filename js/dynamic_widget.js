@@ -13,16 +13,7 @@ dynamic_widget = (function(){
       widget_conf.category = "finance";
     }
 
-    // Generate a weighted random number
-    var random = [
-      0, 0, 0,
-      1, 1, 1,
-      2, 2, 2,
-      3, 3,
-      4, 4,
-      5, 5,
-      6, 7, 8, 9]; // Weighted array - leaning towards the first lists
-    var random = random[Math.floor(Math.random() * random.length)];
+    var random = Math.floor(Math.random() * 10);
 
     // Call the API
     $.ajax({
