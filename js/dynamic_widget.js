@@ -29,11 +29,17 @@ dynamic_widget = (function(){
         $(document).ready(create_widget);
       },
       error: function(a, b, c) {
+        try {
+          var msg = $.parseJSON(a.responseText)['message'];
+        } catch ( e ) {
+          var msg = c;
+        }
+        console.log("HTTP Error: " + msg);
         tries++;
         if ( tries > 10 ) {
-          throw "Too many tries";
+          throw msg;
         }
-        setTimeout(get_data, 500);
+        setTimeout(get_data, 1000);
       }
     });
   } // --> get_data
