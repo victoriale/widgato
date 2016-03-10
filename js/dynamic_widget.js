@@ -37,7 +37,7 @@ dynamic_widget = (function(){
         console.log("HTTP Error: " + msg);
         tries++;
         if ( tries > 10 ) {
-          throw msg;
+          throw "HTTP Error: " + msg;
         }
         setTimeout(get_data, 1000);
       }
