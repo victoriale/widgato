@@ -34,6 +34,9 @@ dynamic_widget = (function(){
         } catch ( e ) {
           var msg = c;
         }
+        if ( msg == '' ) {
+          msg = b;
+        }
         console.log("HTTP Error: " + msg);
         tries++;
         if ( tries > 10 ) {
