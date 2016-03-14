@@ -13,7 +13,13 @@ dynamic_widget = (function(){
       widget_conf.category = "finance";
     }
 
+    // Create random number
     var random = Math.floor(Math.random() * 10);
+
+    // If a random number is passed AND its the first try
+    if ( typeof widget_conf.rand != "undefined" && tries == 0 ) {
+      random = widget_conf.rand;
+    }
 
     // Call the API
     $.ajax({
