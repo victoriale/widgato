@@ -1,6 +1,5 @@
 html, body {
   margin: 0 !important;
-  font-family: arial;
   width: 100%;
   height: auto;
   background-color: white;
@@ -136,7 +135,7 @@ button:focus {
 .fgw-content2{
   font-size: 16px;
   /*font-family: HN;*/
-  font-family: lato;
+  font-family: 'Lato';
   color:#000000;
   text-align: left;
   line-height: 1em;
@@ -290,7 +289,7 @@ button:focus {
   padding-top:20px;
   font-size: 32px;
   /*font-family: HN-L;*/
-  font-family: lato;
+  font-family: 'Lato';
   color:white;
 }
 .hover-txt2{
@@ -299,7 +298,7 @@ button:focus {
   font-size: 18px;
   line-height: 24px;
   /*font-family: HN;*/
-  font-family: lato;
+  font-family: 'Lato';
   color:white;
 }
 .hover:hover{
