@@ -20,31 +20,6 @@ button:focus {
   outline:0;
 }
 
-/*@font-face{
-  font-family: 'HN';
-  src: url('public/fonts/HelveticaNeue.otf');
-}
-
-@font-face{
-  font-family: 'HN-B';
-  src: url('public/fonts/HelveticaNeue-Bold.otf');
-}
-
-@font-face{
-  font-family: 'HN-L';
-  src: url('public/fonts/HelveticaNeue-Light.otf');
-}
-
-@font-face{
-  font-family: 'HN-T';
-  src: url('public/fonts/HelveticaNeue-Thin.otf');
-}
-
-@font-face{
-  font-family: 'HN-UL';
-  src: url('public/fonts/HelveticaNeue-UltraLight.otf');
-}*/
-
 .ad_location{
   width:100%;
   height:250px;
@@ -159,7 +134,7 @@ button:focus {
 }
 
 .fgw-content2{
-  font-size: 16px;
+  font-size: 14px;
   /*font-family: HN;*/
   font-family: lato;
   color:#000000;
