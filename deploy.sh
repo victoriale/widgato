@@ -128,7 +128,7 @@ else
   exit 0;
 fi
 echo -en "[....] Creating target directory (dynamic)\r"
-if mkdir -p $tempCopy/dynamic >>$logFile 2>&1; then
+if mkdir -p $tempCopy/dynamic_widget >>$logFile 2>&1; then
   echo -e "[${green}DONE${normal}]"
 else
   echo -e "[${red}ERR.${normal}]"
@@ -148,7 +148,7 @@ echo
 
 # Change all the links to minified files
 echo "**** Changing Link Locations ****"
-widgets=('finance' 'realestate' 'sports' 'dynamic');
+widgets=('finance' 'realestate' 'sports' 'dynamic_widget');
 for w in ${widgets[@]}; do
   echo -en "[....] $w Widgets\r"
   for f in $(ls $tempCopy/$w | grep html); do
