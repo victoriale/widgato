@@ -20,7 +20,7 @@ button:focus {
   outline:0;
 }
 
-@font-face{
+/*@font-face{
   font-family: 'HN';
   src: url('public/fonts/HelveticaNeue.otf');
 }
@@ -43,7 +43,7 @@ button:focus {
 @font-face{
   font-family: 'HN-UL';
   src: url('public/fonts/HelveticaNeue-UltraLight.otf');
-}
+}*/
 
 .ad_location{
   width:100%;
@@ -160,7 +160,8 @@ button:focus {
 
 .fgw-content2{
   font-size: 16px;
-  font-family: HN;
+  /*font-family: HN;*/
+  font-family: lato;
   color:#000000;
   text-align: left;
   line-height: 1em;
@@ -313,7 +314,8 @@ button:focus {
   height:50px;
   padding-top:20px;
   font-size: 32px;
-  font-family: HN-L;
+  /*font-family: HN-L;*/
+  font-family: lato;
   color:white;
 }
 .hover-txt2{
@@ -321,7 +323,8 @@ button:focus {
   height:50px;
   font-size: 18px;
   line-height: 24px;
-  font-family: HN;
+  /*font-family: HN;*/
+  font-family: lato;
   color:white;
 }
 .hover:hover{

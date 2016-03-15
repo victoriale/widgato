@@ -110,10 +110,10 @@ function compData(offset){
     $(".fgw-loc-link").attr('href',protocolToUse + "://www.investkit.com/"+curItem.c_hq_state+"/location");
   }else{
 		if (domain == 'latimes.com'){
-			$('.fgw-t1').html('<i class="fa-area-chart"></i>  California Movers');
+			$('.fgw-t1').html('<i class="fa fa-area-chart"></i>  California Movers');
 		}
 		else{
-			$('.fgw-t1').html('<i class="fa-area-chart"></i>  Most Traded Local Stocks');
+			$('.fgw-t1').html('<i class="fa fa-area-chart"></i>  Most Traded Local Stocks');
 		}
     locName = locName.replace(/\+/g,' ');
     $(".fgw-href").attr('href',protocolToUse + "://www.myinvestkit.com/"+domain+"/"+listTitle+"/"+loc+"/"+listid+"/list/1");
