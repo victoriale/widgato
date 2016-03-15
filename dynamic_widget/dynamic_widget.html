@@ -5,7 +5,7 @@
   <meta charset='utf-8'>
   <link rel="stylesheet" type="text/css" href="../css/dynamic_widget.css">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
-  <link href='http://fonts.googleapis.com/css?family=Lato&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
   <script type="text/javascript">
   // generate CSS name
   var css_url = "../css/dynamic_widget_",
@@ -48,9 +48,9 @@
     <a target="_blank" href="" id="homelink"><div class="bg-img dw-icon"></div></a>
 
     <!-- Carousel -->
+    <!-- Left Nav -->
+    <button class="dw-nav dw-c-l" onclick="dynamic_widget.prev_item()"><i class="fa fa-angle-left"></i></button>
     <div class="dw-carousel">
-      <!-- Left Nav -->
-      <button class="dw-nav dw-c-l" onclick="dynamic_widget.prev_item()"><i class="fa fa-angle-left"></i></button>
       <!-- Images -->
       <a target="_blank" href="" id="subimg">
         <div class="bg-img dw-big dw-c-sub">
@@ -69,9 +69,9 @@
         </div>
       </a>
       <div class="dw-sm dw-c-num"></div>
-      <!-- Right Nav -->
-      <button class="dw-nav dw-c-r" onclick="dynamic_widget.next_item()"><i class="fa fa-angle-right"></i></button>
     </div>
+    <!-- Right Nav -->
+    <button class="dw-nav dw-c-r" onclick="dynamic_widget.next_item()"><i class="fa fa-angle-right"></i></button>
 
     <!-- Sub Info -->
     <div class="dw-info">

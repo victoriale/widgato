@@ -1,6 +1,5 @@
 html, body {
   margin: 0 !important;
-  font-family: arial;
   width: 100%;
   height: auto;
   background-color: white;
@@ -18,31 +17,6 @@ a {
 
 button:focus {
   outline:0;
-}
-
-@font-face{
-  font-family: 'HN';
-  src: url('public/fonts/HelveticaNeue.otf');
-}
-
-@font-face{
-  font-family: 'HN-B';
-  src: url('public/fonts/HelveticaNeue-Bold.otf');
-}
-
-@font-face{
-  font-family: 'HN-L';
-  src: url('public/fonts/HelveticaNeue-Light.otf');
-}
-
-@font-face{
-  font-family: 'HN-T';
-  src: url('public/fonts/HelveticaNeue-Thin.otf');
-}
-
-@font-face{
-  font-family: 'HN-UL';
-  src: url('public/fonts/HelveticaNeue-UltraLight.otf');
 }
 
 .ad_location{
@@ -160,7 +134,8 @@ button:focus {
 
 .fgw-content2{
   font-size: 16px;
-  font-family: HN;
+  /*font-family: HN;*/
+  font-family: 'Lato';
   color:#000000;
   text-align: left;
   line-height: 1em;
@@ -313,7 +288,8 @@ button:focus {
   height:50px;
   padding-top:20px;
   font-size: 32px;
-  font-family: HN-L;
+  /*font-family: HN-L;*/
+  font-family: 'Lato';
   color:white;
 }
 .hover-txt2{
@@ -321,7 +297,8 @@ button:focus {
   height:50px;
   font-size: 18px;
   line-height: 24px;
-  font-family: HN;
+  /*font-family: HN;*/
+  font-family: 'Lato';
   color:white;
 }
 .hover:hover{
