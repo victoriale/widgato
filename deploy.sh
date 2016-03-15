@@ -21,11 +21,11 @@ red='\E[31m'
 normal='\E[m'
 # Directory configuration
 declare -A directories
-directories=(["w_crime"]="realestate" ["w_demographics"]="realestate" ["w_finance"]="finance" ["w_hoopsloyal"]="sports" ["w_political"]="realestate" ["w_realestate"]="realestate" ["w_sports"]="sports" ["w_weather"]="realestate" ["dynamic_widget"]="dynamic_widget")
+directories=(["w_crime"]="realestate" ["w_demographics"]="realestate" ["w_finance"]="finance" ["w_hoopsloyal"]="sports" ["w_political"]="realestate" ["w_realestate"]="realestate" ["w_sports"]="sports" ["w_weather"]="realestate" ["dynamic_widget"]="dynamic_widget" ["banner_widget"]="banner_widget")
 
 # Check for the Dependencies
 # minify
-command -v minify >>$logFile 2>&1 || { echo -e >&2 "minify is required to run this script. Install it with:\nnpm install -g minify\n\nExiting with error"; exit 0; }
+command -v minify >>$logFile 2>&1 || { echo -e >&2 "minify is required to run this script. Install it with:\nnpm install -g minifier\n\nExiting with error"; exit 0; }
 
 # minify the JS folder
 echo "**** Javascript ****"
@@ -40,6 +40,12 @@ fi
 # Create move to directory (if doesn't exist)
 echo -en "[....] Checking new directory\r"
 if mkdir -p $tempCopy/js >>$logFile 2>&1; then
+	for d in js/*/; do
+		if ! mkdir -p $tempCopy/$d >>$logFile 2>&1; then
+	  	echo -e "[${red}ERR.${normal}]"
+			exit 0;
+		fi
+	done
   echo -e "[${green}DONE${normal}]"
 else
   echo -e "[${red}ERR.${normal}]"
@@ -48,18 +54,24 @@ fi
 # Move JS files
 echo -en "[....] Moving minified JS files\r"
 if mv js/*.min.js $tempCopy/js >>$logFile 2>&1; then
+	for d in js/*/; do
+		if ! mv $d/*.min.js $tempCopy/$d >>$logFile 2>&1; then
+	  	echo -e "[${red}ERR.${normal}]"
+			exit 0;
+		fi
+	done
   echo -e "[${green}DONE${normal}]"
 else
   echo -e "[${red}ERR.${normal}]"
   exit 0;
 fi
-echo -en "[....] Deleting unused minified JS files\r"
-if rm js/*/*.min.js >>$logFile 2>&1; then
-  echo -e "[${green}DONE${normal}]"
-else
-  echo -e "[${red}ERR.${normal}]"
-  exit 0;
-fi
+# echo -en "[....] Deleting unused minified JS files\r"
+# if rm js/*/*.min.js >>$logFile 2>&1; then
+#   echo -e "[${green}DONE${normal}]"
+# else
+#   echo -e "[${red}ERR.${normal}]"
+#   exit 0;
+# fi
 echo
 
 # minify and move the CS folder
@@ -80,9 +92,15 @@ else
   echo -e "[${red}ERR.${normal}]"
   exit 0;
 fi
-# Move JS files
+# Move CSS files
 echo -en "[....] Moving minified CSS files\r"
 if mv css/*.min.css $tempCopy/css >>$logFile 2>&1; then
+	for d in css/*/; do
+		if ! cp -r "$d" "$tempCopy/$d" >>$logFile 2>&1; then
+	  	echo -e "[${red}ERR.${normal}]"
+			exit 0;
+		fi
+	done
   echo -e "[${green}DONE${normal}]"
 else
   echo -e "[${red}ERR.${normal}]"
@@ -127,8 +145,15 @@ else
   echo -e "[${red}ERR.${normal}]"
   exit 0;
 fi
-echo -en "[....] Creating target directory (dynamic)\r"
+echo -en "[....] Creating target directory (dynamic_widget)\r"
 if mkdir -p $tempCopy/dynamic_widget >>$logFile 2>&1; then
+  echo -e "[${green}DONE${normal}]"
+else
+  echo -e "[${red}ERR.${normal}]"
+  exit 0;
+fi
+echo -en "[....] Creating target directory (banner_widget)\r"
+if mkdir -p $tempCopy/banner_widget >>$logFile 2>&1; then
   echo -e "[${green}DONE${normal}]"
 else
   echo -e "[${red}ERR.${normal}]"
@@ -148,7 +173,7 @@ echo
 
 # Change all the links to minified files
 echo "**** Changing Link Locations ****"
-widgets=('finance' 'realestate' 'sports' 'dynamic_widget');
+widgets=('finance' 'realestate' 'sports' 'dynamic_widget' 'banner_widget');
 for w in ${widgets[@]}; do
   echo -en "[....] $w Widgets\r"
   for f in $(ls $tempCopy/$w | grep html); do
