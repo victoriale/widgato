@@ -25,7 +25,7 @@ directories=(["w_crime"]="realestate" ["w_demographics"]="realestate" ["w_financ
 
 # Check for the Dependencies
 # minify
-command -v minify >>$logFile 2>&1 || { echo -e >&2 "minify is required to run this script. Install it with:\nnpm install -g minify\n\nExiting with error"; exit 0; }
+command -v minify >>$logFile 2>&1 || { echo -e >&2 "minify is required to run this script. Install it with:\nnpm install -g minifier\n\nExiting with error"; exit 0; }
 
 # minify the JS folder
 echo "**** Javascript ****"
