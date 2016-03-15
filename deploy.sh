@@ -40,6 +40,12 @@ fi
 # Create move to directory (if doesn't exist)
 echo -en "[....] Checking new directory\r"
 if mkdir -p $tempCopy/js >>$logFile 2>&1; then
+	for d in js/*/; do
+		if ! mkdir -p $tempCopy/$d >>$logFile 2>&1; then
+	  	echo -e "[${red}ERR.${normal}]"
+			exit 0;
+		fi
+	done
   echo -e "[${green}DONE${normal}]"
 else
   echo -e "[${red}ERR.${normal}]"
@@ -48,18 +54,24 @@ fi
 # Move JS files
 echo -en "[....] Moving minified JS files\r"
 if mv js/*.min.js $tempCopy/js >>$logFile 2>&1; then
+	for d in js/*/; do
+		if ! mv $d/*.min.js $tempCopy/$d >>$logFile 2>&1; then
+	  	echo -e "[${red}ERR.${normal}]"
+			exit 0;
+		fi
+	done
   echo -e "[${green}DONE${normal}]"
 else
   echo -e "[${red}ERR.${normal}]"
   exit 0;
 fi
-echo -en "[....] Deleting unused minified JS files\r"
-if rm js/*/*.min.js >>$logFile 2>&1; then
-  echo -e "[${green}DONE${normal}]"
-else
-  echo -e "[${red}ERR.${normal}]"
-  exit 0;
-fi
+# echo -en "[....] Deleting unused minified JS files\r"
+# if rm js/*/*.min.js >>$logFile 2>&1; then
+#   echo -e "[${green}DONE${normal}]"
+# else
+#   echo -e "[${red}ERR.${normal}]"
+#   exit 0;
+# fi
 echo
 
 # minify and move the CS folder
@@ -80,9 +92,15 @@ else
   echo -e "[${red}ERR.${normal}]"
   exit 0;
 fi
-# Move JS files
+# Move CSS files
 echo -en "[....] Moving minified CSS files\r"
 if mv css/*.min.css $tempCopy/css >>$logFile 2>&1; then
+	for d in css/*/; do
+		if ! cp -r "$d" "$tempCopy/$d" >>$logFile 2>&1; then
+	  	echo -e "[${red}ERR.${normal}]"
+			exit 0;
+		fi
+	done
   echo -e "[${green}DONE${normal}]"
 else
   echo -e "[${red}ERR.${normal}]"
