@@ -71,7 +71,7 @@ $(function(){
   function imageUrl(path){
     if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://apireal.synapsys.us/city-image/images/placeholder-location.jpg'){
       var image_array = new Array();
-      var x = Math.floor((Math.random() * 9) + 1);
+      var x = Math.floor(Math.random() * 10);
       image_array['0'] = '../css/public/nophoto1.png';
       image_array['1'] = '../css/public/nophoto2.png';
       image_array['2'] = '../css/public/nophoto3.png';
