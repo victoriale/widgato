@@ -69,8 +69,20 @@ $(function(){
   }
 
   function imageUrl(path){
-    if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == "http://apireal.synapsys.us/city-image/images/placeholder-location.jpg"){
-      return '../css/public/no_image.jpg';
+    if(typeof path == 'undefined' || path == null || path == '' || path == 'null' || path == 'http://apireal.synapsys.us/city-image/images/placeholder-location.jpg'){
+      var image_array = new Array();
+      var x = Math.floor((Math.random() * 9) + 1);
+      image_array['0'] = '../css/public/nophoto1.png';
+      image_array['1'] = '../css/public/nophoto2.png';
+      image_array['2'] = '../css/public/nophoto3.png';
+      image_array['3'] = '../css/public/nophoto4.png';
+      image_array['4'] = '../css/public/nophoto5.png';
+      image_array['5'] = '../css/public/nophoto6.png';
+      image_array['6'] = '../css/public/nophoto7.png';
+      image_array['7'] = '../css/public/nophoto8.png';
+      image_array['8'] = '../css/public/nophoto9.png';
+      image_array['9'] = '../css/public/nophoto10.png';
+      return image_array[x];
     }
     return path;
   }
