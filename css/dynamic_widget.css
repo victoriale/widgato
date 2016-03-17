@@ -28,7 +28,7 @@ button:focus {
 
 .dw {
   width: 300px;
-  height: 300px;
+  height: 350px;
   background-color: #fafafa;
   position: relative;
   margin: 0 auto;
@@ -42,13 +42,13 @@ button:focus {
 }
 
 .dw-title {
-  font-size: 16px;
-  line-height: 16px;
+  font-size: 17px;
+  line-height: 17px;
   font-weight: bold;
   width: 300px;
   min-height: 44px;
   text-align: left;
-  padding: 5px 5px 5px 45px;
+  padding: 7px 10px 5px 40px;
 }
 .dw-icon {
   height: 25px;
@@ -56,8 +56,8 @@ button:focus {
   border-radius: 50%;
   background-size: auto;
   position: absolute;
-  left: 10px;
-  top: 5px;
+  left: 5px;
+  top: 15px;
 }
 .dw-icon:hover {
   background-color: black;
@@ -65,7 +65,7 @@ button:focus {
 
 .dw-carousel {
   width: 300px;
-  height: 125px;
+  height: 140px;
   position: relative;
 }
 /* Nav Buttons */
@@ -73,14 +73,13 @@ button:focus {
   height: 60px;
   width: 30px;
   position: absolute;
-  top: 120px;
+  top: 40px;
   color: white;
   background-color: black;
   display: block;
   font-size: 25px;
   cursor: pointer;
   padding: 0 4px;
-  z-index: 3;
 }
 .dw-c-l {
   left: 0;
@@ -105,7 +104,7 @@ button:focus {
   display: none;
   width: 100%;
   height: 100%;
-  padding: 38px 0;
+  padding: 43px 0;
   font-size: 32px;
   line-height: 24px;
   text-align: center;
@@ -116,20 +115,20 @@ button:focus {
   display: block;
 }
 .dw-sm {
-  width: 35px;
-  height: 35px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 1px solid #ccc;
   position: absolute;
 }
 .dw-big {
-  width: 125px;
-  height: 125px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
 }
 .dw-c-num {
-  font-size: 14px;
-  line-height: 33px;
+  font-size: 18px;
+  line-height: 38px;
   text-align: center;
   top: 0px;
   left: 78px;
@@ -137,7 +136,7 @@ button:focus {
 }
 .dw-c-sub {
   position: absolute;
-  left: 130px;
+  left: 115px;
   border: 1px solid #ccc;
   background-color: #fff;
 }
@@ -153,21 +152,21 @@ button:focus {
   display: block;
 }
 .two .dw-c-img {
-  left: 45px;
+  left: 35px;
 }
 .two .dw-c-num {
-  left: 45px;
+  left: 35px;
 }
 
 /* Item information */
 .dw-info {
-  margin: 5px 20px 10px;
+  margin: 10px 20px 5px;
   width: 260px;
 }
 .dw-i-title {
   width: 260px;
   font-size: 18px;
-  line-height: 20px;
+  line-height: 22px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -175,8 +174,8 @@ button:focus {
   font-weight: bold;
 }
 .dw-i-title#line2 {
-  line-height: 14px;
-  font-size: 12px;
+  line-height: 16px;
+  font-size: 14px;
 }
 #list-link{
   width: 0;
@@ -184,9 +183,10 @@ button:focus {
   display: inline-block;
 }
 .dw-i-desc {
+  margin-top: 2px;
   width: 100%;
-  font-size: 12px;
-  line-height: 13px;
+  font-size: 16px;
+  line-height: 16px;
   text-align: center;
   font-weight: bold;
 }
@@ -204,6 +204,7 @@ button:focus {
   border: 1px solid #000;
   cursor: pointer;
   text-align: center;
+  margin-top: 10px;
 }
 .dw-btn .fa {
   margin-left: 5px;
@@ -214,14 +215,4 @@ button:focus {
 .dw-btn:active {
   color: white;
   background-color: black;
-}
-
-.dw-presented {
-  position: absolute;
-  bottom: 5px;
-  left: 6px;
-  color: #000;
-  font-size: 10px;
-  text-align: left;
-  font-weight: 400;
 }

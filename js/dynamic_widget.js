@@ -1,6 +1,6 @@
 dynamic_widget = (function(){
   // Initialize Variables
-  var api_url =  (location.protocol == "https:" ? "https" : "http" ) + "//dw.synapsys.us/list_api.php", // API location
+  var api_url =  "http://dw.synapsys.us/list_api.php", // API location
   current_index = 0, // Current index to be viewed
   widget_data = {}, // Data for the widget
   widget_items = [], // Actual items for the widget to display
@@ -30,7 +30,7 @@ dynamic_widget = (function(){
         widget_items = data.l_data;
         dataLayer.push({
           'event':'widget-title',
-          'eventAction':widget_data.l_title
+          'eventAction':dynamic_widget.get_title()
         });
         $(document).ready(create_widget);
       },
