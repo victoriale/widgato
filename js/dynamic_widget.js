@@ -30,7 +30,7 @@ dynamic_widget = (function(){
         widget_items = data.l_data;
         dataLayer.push({
           'event':'widget-title',
-          'eventAction':widget_data.l_title
+          'eventAction':dynamic_widget.get_title()
         });
         $(document).ready(create_widget);
       },
