@@ -1,6 +1,6 @@
 dynamic_widget = (function(){
   // Initialize Variables
-  var api_url =  "http://dw.synapsys.us/list_api.php", // API location
+  var api_url =  "http://108.170.11.234:190/list_api.php", // API location
   current_index = 0, // Current index to be viewed
   widget_data = {}, // Data for the widget
   widget_items = [], // Actual items for the widget to display
