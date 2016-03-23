@@ -9,7 +9,7 @@ dynamic_widget = (function(){
 
   function get_data() {
     // Randomly select between college_basketball and nba
-    if ( typeof(widget_conf.category) == "undefined" || ["finance", "nba", "college_basketball", "weather", "crime", "demographics", "politics-d", "politics-i", "politics-r"].indexOf(widget_conf.category) == -1 ) {
+    if ( typeof(widget_conf.category) == "undefined" || ["finance", "nba", "college_basketball", "weather", "crime", "demographics", "politics"].indexOf(widget_conf.category) == -1 ) {
       widget_conf.category = "finance";
     }
 
@@ -54,6 +54,28 @@ dynamic_widget = (function(){
   } // --> get_data
 
   function create_widget() {
+    // If the category is politics, add the correct CSS
+    if ( widget_conf.category == "politics" ) {
+      // Create the CSS file name
+      var letter = "d";
+      if ( widget_data.l_title.indexOf("Republican") != -1 ) {
+        letter = "r";
+      } else if ( widget_data.l_title.indexOf("Independent") != -1 ) {
+        letter = "i";
+      }
+
+      // Create the css include element
+      var css_url = "../css/dynamic_widget_politics_" + letter + ".css";
+      var link = document.createElement("link");
+      link.href = css_url;
+      link.type = "text/css";
+      link.rel = "stylesheet";
+      link.media = "screen,print";
+
+      // Append to the head
+      document.getElementsByTagName("head")[0].appendChild(link);
+    }
+
     // Display the title
     $('.dw-title').each(function(){
       this.innerHTML = widget_data.l_title;
