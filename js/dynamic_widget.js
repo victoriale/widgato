@@ -9,7 +9,7 @@ dynamic_widget = (function(){
 
   function get_data() {
     // Randomly select between college_basketball and nba
-    if ( typeof(widget_conf.category) == "unefined" || ["finance", "nba", "college_basketball"].indexOf(widget_conf.category) == -1 ) {
+    if ( typeof(widget_conf.category) == "undefined" || ["finance", "nba", "college_basketball", "weather", "crime", "demographics", "politics-d", "politics-i", "politics-r"].indexOf(widget_conf.category) == -1 ) {
       widget_conf.category = "finance";
     }
 
@@ -28,10 +28,10 @@ dynamic_widget = (function(){
       success: function(data) {
         widget_data = data;
         widget_items = data.l_data;
-        dataLayer.push({
-          'event':'widget-title',
-          'eventAction':dynamic_widget.get_title()
-        });
+        // dataLayer.push({
+        //   'event':'widget-title',
+        //   'eventAction':dynamic_widget.get_title()
+        // });
         $(document).ready(create_widget);
       },
       error: function(a, b, c) {
@@ -76,11 +76,17 @@ dynamic_widget = (function(){
         }
         break;
       case 'finance':
-      default:
         if ( widget_conf.remn == "true" ) {
           var base_url = "http://www.investkit.com/widget-list";
         } else {
           var base_url = "http://www.myinvestkit.com/" + widget_conf.dom + "/w-list";
+        }
+        break;
+      default:
+        if ( widget_conf.remn == "true" ) {
+          var base_url = "http://www.joyfulhome.com/widget-list";
+        } else {
+          var base_url = "http://www.myhousekit.com/" + widget_conf.dom + "/w-list";
         }
     }
     $('#list-link').attr('href', base_url + '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input);
@@ -171,9 +177,31 @@ dynamic_widget = (function(){
   get_data();
 
   $(document).ready(function(){
-    var url = "http://www.investkit.com/";
-    if ( widget_conf.remn != "true" ) {
-      url = "http://www.myinvestkit.com/" + widget_conf.dom + "/";
+    switch ( widget_conf.category ) {
+      case 'finance':
+        var url = "http://www.investkit.com/";
+        if ( widget_conf.remn != "true" ) {
+          url = "http://www.myinvestkit.com/" + widget_conf.dom + "/";
+        }
+        break;
+      case 'nba':
+        var url = "http://www.hoopsloyal.com/NBA";
+        if ( widget_conf.remn != "true" ) {
+          url = "http://www.myhoopszone.com/" + widget_conf.dom + "/NBA";
+        }
+        break;
+      case 'college_basketball':
+        var url = "http://www.hoopsloyal.com/NCAA";
+        if ( widget_conf.remn != "true" ) {
+          url = "http://www.myhoopszone.com/" + widget_conf.dom + "/NCAA";
+        }
+        break;
+      default:
+        var url = "http://www.joyfulhome.com/";
+        if ( widget_conf.remn != "true" ) {
+          url = "http://www.myhousekit.com/" + widget_conf.dom + "/";
+        }
+        break;
     }
     $("#homelink").attr("href", url);
   });

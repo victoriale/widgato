@@ -1,0 +1,25 @@
+a:hover {
+  color: #0e477f;
+}
+.dw-icon {
+  background-color: #0e477f;
+  background-image: url("../css/public/Logo_Political_Democrat.png");
+}
+.dw-nav:hover {
+  background: rgba(14, 71, 127, 0.85);
+}
+.dw-i-title {
+  color: #0e477f;
+}
+.dw-i-title a {
+  color: #0e477f;
+}
+.dw-btn {
+  border-color: #0e477f;
+}
+.dw-btn:hover {
+  background-color: #0e477f;
+}
+.hover {
+  background: rgba(14, 71, 127, 0.85);
+}
