@@ -218,7 +218,7 @@ dynamic_widget = (function(){
 
   get_data();
 
-  document.addEventListener('DOMContentLoaded', function(){
+  function set_home_link() {
     switch ( widget_conf.category ) {
       case 'finance':
         var url = "http://www.investkit.com/";
@@ -247,7 +247,18 @@ dynamic_widget = (function(){
     }
 
     document.getElementById('homelink').href = url;
-  });
+  } // --> set_home_link
+
+  // Add onload listener for creating the home link
+  if ( document.addEventListener ) {
+    document.addEventListener('DOMContentLoaded', set_home_link);
+  } else if ( document.attachEvent ) {
+    document.attachEvent("onreadystatechange", function(){
+      if ( document.readyState === "complete" ) {
+        set_home_link();
+      }
+    });
+  }
 
   return {
     next_item: next_item,
