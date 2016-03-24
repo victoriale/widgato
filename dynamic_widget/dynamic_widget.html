@@ -5,46 +5,7 @@
   <meta charset='utf-8'>
   <link rel="stylesheet" type="text/css" href="../css/dynamic_widget_svg.css">
   <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
-  <script type="text/javascript">
-  (function(){
-    // generate CSS name
-    var css_url = "../css/dynamic_widget_",
-    conf = JSON.parse(decodeURIComponent(location.search.substr(1))),
-
-    // Array with the correct names for categories
-    array = {
-      nba: "sports",
-      college_basketball: "sports",
-      finance: "finance",
-      crime: "crime",
-      demographics: "demographics",
-      weather: "weather"
-    };
-
-    // Check for politics (handled when list is received)
-    if ( conf.category == "politics" ) {
-      return false;
-    }
-
-    // Get the complete URL
-    if ( typeof(conf.category) == "undefined" || typeof(array[conf.category]) == "undefined" ) {
-      conf.category = "finance";
-    }
-    css_url += array[conf.category] + ".css";
-
-    // Create link element
-    link = document.createElement("link");
-    link.href = css_url;
-    link.type = "text/css";
-    link.rel = "stylesheet";
-    link.media = "screen,print";
-
-    // Add link to the document
-    document.getElementsByTagName("head")[0].appendChild(link);
-  })();
-  </script>
   <base target="_blank">
-  <script type="text/javascript" src="../js/dynamic_widget.js"></script>
 </head>
 <body>
   <div class="dw">
@@ -91,7 +52,46 @@
       <svg width="12" height="13"><path stroke-linejoin="round" stroke-linecap="round" d="m2.33,11 l 0,-1.66 q 0,-3.33 3.33,-3.33 l 2.66,0 l 0,2 l 3.33,-3.33 l -3.33,-3.33 l 0,2 l -2.66,0 q -6.66,0 -3.33,7.66" /></svg>
     </div></a>
   </div>
+  <script type="text/javascript" src="../js/dynamic_widget.js"></script>
   <script>
+  // Add CSS file for styles
+  (function(){
+    // generate CSS name
+    var css_url = "../css/dynamic_widget_",
+    conf = JSON.parse(decodeURIComponent(location.search.substr(1))),
+
+    // Array with the correct names for categories
+    array = {
+      nba: "sports",
+      college_basketball: "sports",
+      finance: "finance",
+      crime: "crime",
+      demographics: "demographics",
+      weather: "weather"
+    };
+
+    // Check for politics (handled when list is received)
+    if ( conf.category == "politics" ) {
+      return false;
+    }
+
+    // Get the complete URL
+    if ( typeof(conf.category) == "undefined" || typeof(array[conf.category]) == "undefined" ) {
+      conf.category = "finance";
+    }
+    css_url += array[conf.category] + ".css";
+
+    // Create link element
+    link = document.createElement("link");
+    link.href = css_url;
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.media = "screen,print";
+
+    // Add link to the document
+    document.getElementsByTagName("head")[0].appendChild(link);
+  })();
+
   // Set up google analytics hover event
   var hoverInterval = null;
   var dw = document.getElementsByClassName('dw')[0];
