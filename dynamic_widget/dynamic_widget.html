@@ -3,32 +3,46 @@
 <head>
   <title>Dynamic Widget</title>
   <meta charset='utf-8'>
-  <link rel="stylesheet" type="text/css" href="../css/dynamic_widget.css">
-  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="../css/dynamic_widget_svg.css">
   <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
   <script type="text/javascript">
-  // generate CSS name
-  var css_url = "../css/dynamic_widget_",
-  conf = JSON.parse(decodeURIComponent(location.search.substr(1))),
-  array = {
-    nba: "sports",
-    college_basketball: "sports",
-    finance: "finance"
-  };
-  if ( typeof(conf.category) == "undefined" || typeof(array[conf.category]) == "undefined" ) {
-    conf.category = "finance";
-  }
-  css_url += array[conf.category] + ".css";
+  (function(){
+    // generate CSS name
+    var css_url = "../css/dynamic_widget_",
+    conf = JSON.parse(decodeURIComponent(location.search.substr(1))),
 
-  link = document.createElement("link");
-  link.href = css_url;
-  link.type = "text/css";
-  link.rel = "stylesheet";
-  link.media = "screen,print";
+    // Array with the correct names for categories
+    array = {
+      nba: "sports",
+      college_basketball: "sports",
+      finance: "finance",
+      crime: "crime",
+      demographics: "demographics",
+      weather: "weather"
+    };
 
-  document.getElementsByTagName("head")[0].appendChild(link);
+    // Check for politics (handled when list is received)
+    if ( conf.category == "politics" ) {
+      return false;
+    }
+
+    // Get the complete URL
+    if ( typeof(conf.category) == "undefined" || typeof(array[conf.category]) == "undefined" ) {
+      conf.category = "finance";
+    }
+    css_url += array[conf.category] + ".css";
+
+    // Create link element
+    link = document.createElement("link");
+    link.href = css_url;
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.media = "screen,print";
+
+    // Add link to the document
+    document.getElementsByTagName("head")[0].appendChild(link);
+  })();
   </script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <base target="_blank">
   <script type="text/javascript" src="../js/dynamic_widget.js"></script>
 </head>
@@ -41,7 +55,7 @@
     <!-- Carousel -->
     <div class="dw-carousel">
       <!-- Left Nav -->
-      <button class="dw-nav dw-c-l" onclick="dynamic_widget.prev_item()"><i class="fa fa-angle-left"></i></button>
+      <svg class="dw-nav dw-c-l" stroke="#FFFFFF" onclick="dynamic_widget.prev_item()"><path d="m 17,23 L 10,30 L 17,37" stroke-width="2" fill="none" stroke-linecap="round" /></svg>
       <!-- Images -->
       <a target="_blank" href="" id="subimg">
         <div class="bg-img dw-big dw-c-sub">
@@ -61,7 +75,7 @@
       </a>
       <div class="dw-sm dw-c-num"></div>
       <!-- Right Nav -->
-      <button class="dw-nav dw-c-r" onclick="dynamic_widget.next_item()"><i class="fa fa-angle-right"></i></button>
+      <svg class="dw-nav dw-c-r" stroke="#FFFFFF" onclick="dynamic_widget.prev_item()"><path d="m 14,23 L 21,30 L 14,37" stroke-width="2" fill="none" stroke-linecap="round" /></svg>
     </div>
 
     <!-- Sub Info -->
@@ -72,28 +86,29 @@
     </div>
 
     <!-- See Whole List Button -->
-    <a target="_blank" id="list-link" href=""><div class="dw-btn" href="http://google.com">SEE THE LIST <i class="fa fa-share"></i></div></a>
+    <a target="_blank" id="list-link" href=""><div class="dw-btn" href="http://google.com">
+      SEE THE LIST
+      <svg width="12" height="13"><path stroke-linejoin="round" stroke-linecap="round" d="m2.33,11 l 0,-1.66 q 0,-3.33 3.33,-3.33 l 2.66,0 l 0,2 l 3.33,-3.33 l -3.33,-3.33 l 0,2 l -2.66,0 q -6.66,0 -3.33,7.66" /></svg>
+    </div></a>
   </div>
   <script>
   // Set up google analytics hover event
-  $('.dw').hover(
-    function() {
-      hoverInterval = setInterval(function () {
-        if ( typeof dynamic_widget != "undefined" ) {
-          dataLayer.push({
-            'event':'widget-hover',
-            'eventAction':dynamic_widget.get_title()
-          });
-        }
-      }, 1000);
-      startHover = $.now();
-    },
-    function() {
-      if ( typeof(hoverInterval) != "undefined" ) {
-        clearInterval(hoverInterval);
+  var hoverInterval = null;
+  var dw = document.getElementsByClassName('dw')[0];
+  // Mouse over
+  dw.addEventListener('mouseover', function(){
+    hoverInterval = setInterval(function() {
+      if ( typeof dynamic_widget != "undefined" && typeof dataLayer != "undefined" ) {
+        dataLayer.push({'event':'widget-hover','eventAction':dynamic_widget.get_title()});
       }
+    }, 1000);
+  });
+  // Mouse out
+  dw.addEventListener('mouseout', function(){
+    if ( typeof hoverInterval != "undefined" && hoverInterval != null ) {
+      clearInterval(hoverInterval);
     }
-  );
+  });
   </script>
 </body>
 </html>
