@@ -3,8 +3,6 @@
 <head>
   <title>Dynamic Widget</title>
   <meta charset='utf-8'>
-  <link rel="stylesheet" type="text/css" href="../css/dynamic_widget_svg.css">
-  <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
   <base target="_blank">
 </head>
 <body>
@@ -54,8 +52,25 @@
   </div>
   <script type="text/javascript" src="../js/dynamic_widget.js"></script>
   <script>
+  // Function for creating a link and adding it to the head
+  function add_css_link(url) {
+    // Create the link node
+    var link = document.createElement("link");
+    link.href = url;
+    link.type = "text/css";
+    link.rel = "stylesheet";
+    link.media = "screen,print";
+
+    // Add the link to the document
+    document.getElementsByTagName("head")[0].appendChild(link);
+  } // --> add_css_link
+
   // Add CSS file for styles
   (function(){
+    // Add the needed links
+    add_css_link("../css/dynamic_widget_svg.css");
+    add_css_link("http://fonts.googleapis.com/css?family=Lato");
+
     // generate CSS name
     var css_url = "../css/dynamic_widget_",
     conf = JSON.parse(decodeURIComponent(location.search.substr(1))),
@@ -82,14 +97,7 @@
     css_url += array[conf.category] + ".css";
 
     // Create link element
-    link = document.createElement("link");
-    link.href = css_url;
-    link.type = "text/css";
-    link.rel = "stylesheet";
-    link.media = "screen,print";
-
-    // Add link to the document
-    document.getElementsByTagName("head")[0].appendChild(link);
+    add_css_link(css_url);
   })();
 
   // Set up google analytics hover event
