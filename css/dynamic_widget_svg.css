@@ -119,6 +119,10 @@ button:focus {
   height: 140px;
   border-radius: 50%;
 }
+.dw-big span {
+  font-size: 18px;
+  font-weight: bold;
+}
 .dw-c-num {
   font-size: 18px;
   line-height: 38px;
