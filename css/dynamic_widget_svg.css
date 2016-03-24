@@ -15,13 +15,6 @@ a {
   text-decoration: none;
   outline:0;
 }
-button {
-  outline: 0;
-  border: none;
-}
-button:focus {
-  outline:0;
-}
 
 .dw {
   width: 300px;
