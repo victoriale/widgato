@@ -9,7 +9,7 @@ dynamic_widget = (function(){
 
   function get_data() {
     // Randomly select between college_basketball and nba
-    if ( typeof(widget_conf.category) == "undefined" || ["finance", "nba", "college_basketball", "weather", "crime", "demographics", "politics"].indexOf(widget_conf.category) == -1 ) {
+    if ( typeof(widget_conf.category) == "undefined" || ["finance", "nba", "college_basketball", "weather", "crime", "demographics", "politics", "disaster"].indexOf(widget_conf.category) == -1 ) {
       widget_conf.category = "finance";
     }
 
