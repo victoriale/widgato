@@ -9,7 +9,7 @@ dynamic_widget = (function(){
 
   function get_data() {
     // Randomly select between college_basketball and nba
-    if ( typeof(widget_conf.category) == "undefined" || ["finance", "nba", "college_basketball", "weather", "crime", "demographics", "politics"].indexOf(widget_conf.category) == -1 ) {
+    if ( typeof(widget_conf.category) == "undefined" || ["finance", "nba", "college_basketball", "weather", "crime", "demographics", "politics", "disaster"].indexOf(widget_conf.category) == -1 ) {
       widget_conf.category = "finance";
     }
 
@@ -22,35 +22,56 @@ dynamic_widget = (function(){
     }
 
     // Call the API
-    $.ajax({
-      url: api_url + '?partner=' + (typeof(widget_conf.dom) != "undefined" ? widget_conf.dom : "") + '&cat=' + widget_conf.category + '&rand=' + random,
-      dataType: 'json',
-      success: function(data) {
-        widget_data = data;
-        widget_items = data.l_data;
-        // dataLayer.push({
-        //   'event':'widget-title',
-        //   'eventAction':dynamic_widget.get_title()
-        // });
-        $(document).ready(create_widget);
-      },
-      error: function(a, b, c) {
-        try {
-          var msg = $.parseJSON(a.responseText)['message'];
-        } catch ( e ) {
-          var msg = c;
+    // Create http object
+    var xmlhttp;
+    if ( window.XMLHttpRequest ) {
+      xmlhttp = new XMLHttpRequest();
+    } else {
+      xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    // Create callback
+    xmlhttp.onreadystatechange = function() {
+      if ( xmlhttp.readyState == XMLHttpRequest.DONE ) {
+        if ( xmlhttp.status == 200 ) {
+          // On success
+          widget_data = JSON.parse(xmlhttp.responseText);
+          widget_items = widget_data.l_data;
+          if ( typeof dataLayer != "undefined" ) {
+            dataLayer.push({
+              'event':'widget-title',
+              'eventAction':dynamic_widget.get_title()
+            });
+          }
+          create_widget();
+        } else {
+          // Error handling
+
+          // Get the message
+          var msg = xmlhttp.statusText;
+          if ( xmlhttp.status == 500 ) {
+            try {
+              var json_msg = JSON.parse(xmlhttp.responseText);
+              msg = json_msg.message;
+            } catch (e) {
+              console.log('No JSON message');
+            }
+          }
+          msg = "HTTP Error (" + xmlhttp.status + "): " + msg;
+          console.log(msg);
+
+          // Add a try and try again if less than 10
+          tries++;
+          if ( tries > 10 ) {
+            throw msg;
+          }
+          setTimeout(get_data, 1000);
         }
-        if ( msg == '' ) {
-          msg = b;
-        }
-        console.log("HTTP Error: " + msg);
-        tries++;
-        if ( tries > 10 ) {
-          throw "HTTP Error: " + msg;
-        }
-        setTimeout(get_data, 1000);
       }
-    });
+    }
+
+    xmlhttp.open("GET", api_url + '?partner=' + (typeof(widget_conf.dom) != "undefined" ? widget_conf.dom : "") + '&cat=' + widget_conf.category + '&rand=' + random, true);
+    xmlhttp.send();
   } // --> get_data
 
   function create_widget() {
@@ -77,9 +98,7 @@ dynamic_widget = (function(){
     }
 
     // Display the title
-    $('.dw-title').each(function(){
-      this.innerHTML = widget_data.l_title;
-    });
+    document.getElementsByClassName('dw-title')[0].innerHTML = widget_data.l_title;
 
     // Add the "See The List" link
     switch ( widget_conf.category ) {
@@ -111,7 +130,7 @@ dynamic_widget = (function(){
           var base_url = "http://www.myhousekit.com/" + widget_conf.dom + "/w-list";
         }
     }
-    $('#list-link').attr('href', base_url + '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input);
+    document.getElementById('list-link').href = base_url + '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input;
 
     // Display the first item
     display_item();
@@ -129,18 +148,19 @@ dynamic_widget = (function(){
     }
 
     // Display the title
-    $('.dw-i-title#line1 a')[0].innerHTML = current_data.li_title;
+    document.getElementById('line1').getElementsByTagName('a')[0].innerHTML = current_data.li_title;
+
     // Display description
-    $('.dw-i-desc')[0].innerHTML = current_data.li_str;
+    document.getElementsByClassName('dw-i-desc')[0].innerHTML = current_data.li_str;
     // Display the counter
-    $('.dw-c-num')[0].innerHTML = '#' + current_data.li_rank;
+    document.getElementsByClassName('dw-c-num')[0].innerHTML = "#" + current_data.li_rank;
     // Display the sub text
-    $('.dw-i-title#line2')[0].innerHTML = current_data.li_sub_txt;
+    document.getElementById('line2').innerHTML = current_data.li_sub_txt;
 
     // Put the link and photo
-    $('.dw-c-img').css('background-image', 'url(' + current_data.li_img + ')');
-    $('#mainurl').attr('href', current_data.li_url);
-    $('#dw-i-title').attr('href', current_data.li_url);
+    document.getElementsByClassName('dw-c-img')[0].style['background-image'] = 'url(' + current_data.li_img + ')';
+    document.getElementById('mainurl').href = current_data.li_url;
+    document.getElementById('dw-i-title').href = current_data.li_url;
 
     // Handle sub_img
     if ( current_data.li_subimg !== false ) {
@@ -152,9 +172,9 @@ dynamic_widget = (function(){
       }
 
       // Show the subimg
-      $('.dw-carousel').addClass('two');
-      $('.dw-c-sub').css('background-image', 'url(' + current_data.li_subimg.img + ')');
-      $('#subimg').attr('href', sub_li_url);
+      document.getElementsByClassName('dw-carousel')[0].className += ' two';
+      document.getElementsByClassName('dw-c-sub')[0].style['background-image'] = 'url(' + current_data.li_subimg.img + ')';
+      document.getElementById('subimg').href = sub_li_url;
     }
   } // --> display_item
 
@@ -198,7 +218,7 @@ dynamic_widget = (function(){
 
   get_data();
 
-  $(document).ready(function(){
+  function set_home_link() {
     switch ( widget_conf.category ) {
       case 'finance':
         var url = "http://www.investkit.com/";
@@ -225,8 +245,20 @@ dynamic_widget = (function(){
         }
         break;
     }
-    $("#homelink").attr("href", url);
-  });
+
+    document.getElementById('homelink').href = url;
+  } // --> set_home_link
+
+  // Add onload listener for creating the home link
+  if ( document.addEventListener ) {
+    document.addEventListener('DOMContentLoaded', set_home_link);
+  } else if ( document.attachEvent ) {
+    document.attachEvent("onreadystatechange", function(){
+      if ( document.readyState === "complete" ) {
+        set_home_link();
+      }
+    });
+  }
 
   return {
     next_item: next_item,
