@@ -1,7 +1,7 @@
 var offset=0;
 var domain = '';
 var clickyId = 0;
-var remnant = '';
+var remnant = 'true';
 var locName = '';
 var city = '';
 var state = '';
@@ -34,6 +34,7 @@ $(function () {
   	//set the query data from database to global variable to use
   	domain = query.dom;
 
+    //pass false if you want widget to point to myhousekit.com
   	remnant = query.remn;
 
   	clickyId = query.c_id;
@@ -167,7 +168,7 @@ function listCall(method, count){
 
       //displays information on the widget
       $.get(Url1 + method[count].method+"/"+r_state+'/'+r_city+'/empty/1/1', function(r_data){
-        $(".fcw-content1").html(r_data.data[0].totalListings || 999);
+        $(".fcw-content1").html(r_data.data[0].totalListings);
         var random = randomimage();
         $(".fcw-image").css("background-image","url('"+random[offset]+"')");
       });
@@ -195,7 +196,7 @@ function listCall(method, count){
 
             var link = method[offset].method;
             //displays information on the widget
-            $(".fcw-content1").html(data.data[0].totalListings || 999);
+            $(".fcw-content1").html(data.data[0].totalListings);
             var random = randomimage();
             $(".fcw-image").css("background-image","url('"+random[offset]+"')");
             //replace widget location name with name given name from database
