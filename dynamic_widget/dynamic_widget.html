@@ -4,53 +4,51 @@
   <title>Dynamic Widget</title>
   <meta charset='utf-8'>
   <base target="_blank">
-  <script async type="text/javascript" src="../js/dynamic_widget.js"></script>
   <link rel="stylesheet" type="text/css" href="../css/dynamic_widget_svg.css">
   <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet' type='text/css'>
+  <script async type="text/javascript" src="../js/dynamic_widget.js"></script>
 </head>
 <body>
   <div class="dw">
     <!-- Title -->
-    <div class="dw-title"></div>
+    <div class="dw-title" id="title"></div>
     <a target="_blank" href="" id="homelink"><div class="bg-img dw-icon"></div></a>
 
     <!-- Carousel -->
-    <div class="dw-carousel">
+    <div class="dw-carousel" id="carousel">
       <!-- Left Nav -->
-      <svg class="dw-nav dw-c-l" stroke="#FFFFFF" onclick="dynamic_widget.prev_item()"><path d="m 17,23 L 10,30 L 17,37" stroke-width="2" fill="none" stroke-linecap="round" /></svg>
+      <svg class="noselect dw-nav dw-c-l" stroke="#FFFFFF" onclick="dynamic_widget.prev_item()"><path d="m 17,23 L 10,30 L 17,37" stroke-width="2" fill="none" stroke-linecap="round"></path></svg>
       <!-- Images -->
-      <a target="_blank" href="" id="subimg">
-        <div class="bg-img dw-big dw-c-sub">
-          <div class="hover">
-            View<br>
-            <span>Profile</span>
-          </div>
+      <a target="_blank" href="" id="suburl">
+        <img class="dw-big dw-c-sub" id="subimg" onerror="this.src='http://w1.synapsys.us/widgets/css/public/no_image.jpg'">
+        <div class="hover dw-c-sub dw-big">
+          View<br>
+          <span>Profile</span>
         </div>
       </a>
       <a target="_blank" href="" id="mainurl">
-        <div class="bg-img dw-big dw-c-img">
-          <div class="hover">
-            View<br>
-            <span>Profile</span>
-          </div>
+        <img class="dw-big dw-c-img" id="mainimg" onerror="this.src='http://w1.synapsys.us/widgets/css/public/no_image.jpg'">
+        <div class="hover dw-c-img dw-big">
+          View<br>
+          <span>Profile</span>
         </div>
       </a>
-      <div class="dw-sm dw-c-num"></div>
+      <div class="dw-sm dw-c-num" id="num"></div>
       <!-- Right Nav -->
-      <svg class="dw-nav dw-c-r" stroke="#FFFFFF" onclick="dynamic_widget.prev_item()"><path d="m 14,23 L 21,30 L 14,37" stroke-width="2" fill="none" stroke-linecap="round" /></svg>
+      <svg class="noselect dw-nav dw-c-r" stroke="#FFFFFF" onclick="dynamic_widget.next_item()"><path d="m 14,23 L 21,30 L 14,37" stroke-width="2" fill="none" stroke-linecap="round"></path></svg>
     </div>
 
     <!-- Sub Info -->
     <div class="dw-info">
-      <div class="dw-i-title" id="line1"><a target="_blank" id="dw-i-title"></a></div>
+      <div class="dw-i-title"><a target="_blank" id="line1"></a></div>
       <div class="dw-i-title" id="line2"></div>
-      <div class="dw-i-desc"></div>
+      <div class="dw-i-desc" id="desc"></div>
     </div>
 
     <!-- See Whole List Button -->
     <a target="_blank" id="list-link" href=""><div class="dw-btn" href="http://google.com">
       SEE THE LIST
-      <svg width="12" height="13"><path stroke-linejoin="round" stroke-linecap="round" d="m2.33,11 l 0,-1.66 q 0,-3.33 3.33,-3.33 l 2.66,0 l 0,2 l 3.33,-3.33 l -3.33,-3.33 l 0,2 l -2.66,0 q -6.66,0 -3.33,7.66" /></svg>
+      <svg width="12" height="13"><path stroke-linejoin="round" stroke-linecap="round" d="m2.33,11 l 0,-1.66 q 0,-3.33 3.33,-3.33 l 2.66,0 l 0,2 l 3.33,-3.33 l -3.33,-3.33 l 0,2 l -2.66,0 q -6.66,0 -3.33,7.66"></path></svg>
     </div></a>
   </div>
   <script>
@@ -63,7 +61,8 @@
     link.rel = "stylesheet";
 
     // Add the link to the document
-    document.getElementsByTagName("head")[0].appendChild(link);
+    var head = document.getElementsByTagName("head")[0];
+    head.insertBefore(link, head.childNodes[0]);
   } // --> add_css_link
 
   // Add CSS file for styles

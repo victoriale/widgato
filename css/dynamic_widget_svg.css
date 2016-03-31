@@ -30,6 +30,15 @@ a {
   background-position: center center;
   background-repeat: no-repeat;
 }
+/* For things that can't be selected */
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
 .dw-title {
   font-size: 17px;
@@ -97,7 +106,7 @@ a {
   color: white;
   border-radius: 50%;
 }
-.dw-big:hover .hover {
+.dw-big:hover+.hover, .hover:hover {
   display: block;
 }
 .dw-sm {
@@ -130,7 +139,7 @@ a {
   border: 1px solid #ccc;
   background-color: #fff;
 }
-.dw-c-sub:hover {
+.dw-c-sub:hover, .dw-c-sub+.hover {
   z-index: 2;
 }
 #subimg {

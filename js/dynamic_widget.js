@@ -98,7 +98,7 @@ dynamic_widget = (function(){
     }
 
     // Display the title
-    document.getElementsByClassName('dw-title')[0].innerHTML = widget_data.l_title;
+    document.getElementById('title').innerHTML = widget_data.l_title;
 
     // Add the "See The List" link
     switch ( widget_conf.category ) {
@@ -148,19 +148,19 @@ dynamic_widget = (function(){
     }
 
     // Display the title
-    document.getElementById('line1').getElementsByTagName('a')[0].innerHTML = current_data.li_title;
+    document.getElementById('line1').innerHTML = current_data.li_title;
 
     // Display description
-    document.getElementsByClassName('dw-i-desc')[0].innerHTML = current_data.li_str;
+    document.getElementById('desc').innerHTML = current_data.li_str;
     // Display the counter
-    document.getElementsByClassName('dw-c-num')[0].innerHTML = "#" + current_data.li_rank;
+    document.getElementById('num').innerHTML = "#" + current_data.li_rank;
     // Display the sub text
     document.getElementById('line2').innerHTML = current_data.li_sub_txt;
 
     // Put the link and photo
-    document.getElementsByClassName('dw-c-img')[0].style['background-image'] = 'url(' + current_data.li_img + ')';
+    document.getElementById('mainimg').src = current_data.li_img;
     document.getElementById('mainurl').href = current_data.li_url;
-    document.getElementById('dw-i-title').href = current_data.li_url;
+    document.getElementById('line1').href = current_data.li_url;
 
     // Handle sub_img
     if ( current_data.li_subimg !== false ) {
@@ -172,9 +172,12 @@ dynamic_widget = (function(){
       }
 
       // Show the subimg
-      document.getElementsByClassName('dw-carousel')[0].className += ' two';
-      document.getElementsByClassName('dw-c-sub')[0].style['background-image'] = 'url(' + current_data.li_subimg.img + ')';
-      document.getElementById('subimg').href = sub_li_url;
+      var carousel = document.getElementById('carousel');
+      if ( carousel.className.indexOf('two') == -1 ) {
+        carousel.className += ' two';
+      }
+      document.getElementById('subimg').src = current_data.li_subimg.img;
+      document.getElementById('suburl').href = sub_li_url;
     }
   } // --> display_item
 
