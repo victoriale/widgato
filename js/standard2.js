@@ -9,7 +9,6 @@ var loc = '';
 var max = 10;
 var bord = false;
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-// TODO get basedomain from window.top? or document.referrer?
 var baseDomain = "www.joyfulhome.com/";
 var partnerDomain = "www.myhousekit.com/";
 var referrer = document.referrer;
