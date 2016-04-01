@@ -15,14 +15,12 @@ var referrer = document.referrer;
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
 var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
 
-// doesn't work if you navigate to this page
 function getBaseUrl(string){
     var urlArray = string.split("/");
     var domain = urlArray[2];
     return protocolToUse + "//" + domain;
 }
 
-console.log(baseUrl);
 // Example Call:  http://api2.joyfulhome.com:280/list/homesAtLeast5YearsOld/KS/Wichita/empty/1/1
 //                http://api2.joyfulhome.com:280/list/ [name of list] / [State] / [City]/ [zipcode (empty if none)]/ [limit] / [page # to return]
 var Url1 = "http://api2.joyfulhome.com:280/list/";
