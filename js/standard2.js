@@ -8,19 +8,25 @@ var state = '';
 var loc = '';
 var max = 10;
 var bord = false;
+var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+var baseDomain = "www.joyfulhome.com/";
+var partnerDomain = "www.myhousekit.com/";
+var referrer = document.referrer;
+// if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
+var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
+
+function getBaseUrl(string){
+    var urlArray = string.split("/");
+    var domain = urlArray[2];
+    return protocolToUse + "//" + domain;
+}
 
 // Example Call:  http://api2.joyfulhome.com:280/list/homesAtLeast5YearsOld/KS/Wichita/empty/1/1
 //                http://api2.joyfulhome.com:280/list/ [name of list] / [State] / [City]/ [zipcode (empty if none)]/ [limit] / [page # to return]
-// Example Call:  http://api2.joyfulhome.com:280/list/homesAtLeast5YearsOld/KS/Wichita/empty/10/1
 var Url1 = "http://api2.joyfulhome.com:280/list/";
 
 // grabs the clients geolocation - returns city state
 var graUrl = "http://w1.synapsys.us/get-remote-addr2/";
-
-/***** OLD API CALLS *****/
-// Actual API
-//var Url1 = "http://apireal.synapsys.us/listhuv/";
-/**** ************** ****/
 
 $(function () {
 
@@ -55,14 +61,6 @@ $(function () {
   	bord = query.bord;
   }
 
-  /* Unused from old JH
-  $.get(Url1 + "?action=list_of_lists", function(lists){
-    offset = Math.floor((Math.random() * 9) + 1);
-    var method = lists['available_lists'];;
-	  var name = method[offset]['name'];
-    $(".fcw-t1").html(name);
-  });
-  */
     //build lists of all the list for real estate
     method = [
         {method: 'homesAtLeast5YearsOld',             name: 'Homes at least 5 years old'},
@@ -88,7 +86,7 @@ $(function () {
     ];
     offset = Math.floor((Math.random() * method.length));
     name = method[offset].name;
-    max = method.length;
+    max = method.length-1;
 
     $(".fcw-t1").html(name);
 
@@ -137,10 +135,10 @@ function listCall(method, count){
             var r_link = method[offset].method;
             r_locName = r_locName.replace('+',' ');
             $(".fcw-t2-loc").html(r_locName);
-            $(".fcw-href").attr('href',"http://www.joyfulhome.com/list/"+r_link+"/"+state+"/"+city);
-            $("#imgUrl").attr('href',"http://www.joyfulhome.com/list/"+r_link+"/"+state+"/"+city);
+            $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+state+"/"+city+"/page/1");
+            $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+state+"/"+city+"/page/1");
             //go to location page for remnant site
-            $("#loc").attr('href',"http://www.joyfulhome.com/location/"+city + "_" +state +"");
+            $("#loc").attr('href',baseUrl+"/location/"+city + "_" +state);
 
             //displays information on the widget
             $.get(Url1 +method[count].method+"/"+state+'/'+city+'/empty/1/1', function(r_data){
@@ -161,10 +159,10 @@ function listCall(method, count){
       var r_link = method[offset].method;
       r_locName = r_locName.replace('+',' ');
       $(".fcw-t2-loc").html(r_locName);
-      $(".fcw-href").attr('href',"http://www.joyfulhome.com/list/"+r_link+"/"+r_state+"/"+r_city);
-      $("#imgUrl").attr('href',"http://www.joyfulhome.com/list/"+r_link+"/"+state+"/"+city);
+      $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+r_state+"/"+r_city+"/page/1");
+      $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+r_state+"/"+r_city+"/page/1");
       //go to location page for remnant site
-      $("#loc").attr('href',"http://www.joyfulhome.com/location/"+r_city + "_" +r_state +"");
+      $("#loc").attr('href',baseUrl+"/location/"+r_city + "_" +r_state);
 
       //displays information on the widget
       $.get(Url1 + method[count].method+"/"+r_state+'/'+r_city+'/empty/1/1', function(r_data){
@@ -174,6 +172,7 @@ function listCall(method, count){
       });
     }//end if
 	} else{
+    // Should only be for myhousekit.com
     if(city == '' || city == null || state == '' || state == null){
       $.get(graUrl,function(r_data){
           // TODO API CALL
@@ -204,10 +203,10 @@ function listCall(method, count){
             locName = r_data[0].city + ", " + r_data[0].state;
             $(".fcw-t2-loc").html(locName);
 
-            $(".fcw-href").attr('href',"http://www.myhousekit.com/"+p_domain+"view_list/"+link+"/"+r_data[0].state+"/"+r_data[0].city);
-            $("#imgUrl").attr('href',"http://www.myhousekit.com/"+p_domain+"view_list/"+link+"/"+r_data[0].state+"/"+r_data[0].city);
-            //go to location page go to myhousekit for partner non remnant
-            $("#loc").attr('href',"http://www.myhousekit.com/"+p_domain+"loc/"+r_data[0].state+"/"+r_data[0].city);
+            $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0].state+"/"+r_data[0].city+"/page/1");
+            $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0].state+"/"+r_data[0].city+"/page/1");
+            //go to myhousekit for partner non remnant
+            $("#loc").attr('href',baseUrl+"/"+p_domain+"loc/");
       		}
       	});
       })
