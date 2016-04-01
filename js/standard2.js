@@ -206,7 +206,7 @@ function listCall(method, count){
             $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0].state+"/"+r_data[0].city+"/page/1");
             $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0].state+"/"+r_data[0].city+"/page/1");
             //go to myhousekit for partner non remnant
-            $("#loc").attr('href',baseUrl+"/"+p_domain+"loc/"+r_data[0].city+"_"+r_data[0].state);
+            $("#loc").attr('href',baseUrl+"/"+p_domain+"loc/");
       		}
       	});
       })
