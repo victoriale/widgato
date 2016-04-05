@@ -11,7 +11,7 @@ ai_widget = (function() {
   } else {
     scope = 'nba';
   }
-  var APIUrl = 'http://dev-sports-ai.synapsys.us/' + scope + '/widget',
+  var APIUrl = 'http://dev-sports-ai.synapsys.us/' + scope + '/widget/63217',
     AIData = {},
     gameID = -1,
     pageInd = -1,
