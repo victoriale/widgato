@@ -21,9 +21,20 @@ function getBaseUrl(string){
     return protocolToUse + "//" + domain;
 }
 
-// Example Call:  http://api2.joyfulhome.com:280/list/homesAtLeast5YearsOld/KS/Wichita/empty/1/1
-//                http://api2.joyfulhome.com:280/list/ [name of list] / [State] / [City]/ [zipcode (empty if none)]/ [limit] / [page # to return]
-var Url1 = "http://api2.joyfulhome.com:280/list/";
+//Transforms camelCase to kabab-case
+camelCaseToKababCase = function(str){
+    str = str
+        .replace(/([A-Z][a-z]+)/g, " $1")
+        .replace(/([A-Z][A-Z]+)/g, " $1")
+        .replace(/([^A-Za-z ]+)/g, " $1")
+        .replace(/ /g, '-');
+    //Lowercase entire string
+    str = str.toLowerCase();
+    return str;
+};
+
+//var Url1 = "http://api2.joyfulhome.com:280/list/";
+var Url1 = "http://prod-joyfulhome-api.synapsys.us/list/";
 
 // grabs the clients geolocation - returns city state
 var graUrl = "http://w1.synapsys.us/get-remote-addr2/";
@@ -132,7 +143,7 @@ function listCall(method, count){
                 state = r_data[0]['state'];
                 city = r_data[0]['city'];
                 var r_locName = city + ', ' + state;
-                var r_link = method[offset].method;
+                var r_link = camelCaseToKababCase(method[offset].method);
                 r_locName = r_locName.replace('+',' ');
                 $(".fcw-t2-loc").html(r_locName);
                 $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+state+"/"+city+"/page/1");
@@ -156,7 +167,7 @@ function listCall(method, count){
             var r_state = state;
             var r_city = city;
             var r_locName = r_city + ', ' + r_state;
-            var r_link = method[offset].method;
+            var r_link = camelCaseToKababCase(method[offset].method);
             r_locName = r_locName.replace('+',' ');
             $(".fcw-t2-loc").html(r_locName);
             $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+r_state+"/"+r_city+"/page/1");
@@ -175,7 +186,6 @@ function listCall(method, count){
         // Should only be for myhousekit.com
         if(city == '' || city == null || state == '' || state == null){
             $.get(graUrl,function(r_data){
-                // TODO API CALL
                 $.get(Url1 +method[count].method+"/"+r_data[0].state+'/'+r_data[0].city+'/empty/1/1', function(data){
                     //checks if the list exist or has reach its max and restarts the list at 0
                     if(typeof data.data[0] == 'undefined'){
@@ -193,7 +203,7 @@ function listCall(method, count){
 
                         var p_domain = domain+"/";
 
-                        var link = method[offset].method;
+                        var link = camelCaseToKababCase([offset].method);
                         //displays information on the widget
                         $(".fcw-content1").html(data.data[0].totalListings);
                         var random = randomimage();
