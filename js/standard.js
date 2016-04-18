@@ -149,7 +149,7 @@ function listCall(method, count){
                 $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+state+"/"+city+"/page/1");
                 $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+state+"/"+city+"/page/1");
                 //go to location page for remnant site
-                $("#loc").attr('href',baseUrl+"/location/"+city + "_" +state);
+                $("#loc").attr('href',baseUrl+"/location/"+city.toLowerCase() + "-" +state.toLowerCase());
 
                 //displays information on the widget
                 $.get(Url1 +method[count].method+"/"+state+'/'+city+'/empty/1/1', function(r_data){
@@ -173,7 +173,7 @@ function listCall(method, count){
             $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+r_state+"/"+r_city+"/page/1");
             $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+r_state+"/"+r_city+"/page/1");
             //go to location page for remnant site
-            $("#loc").attr('href',baseUrl+"/location/"+r_city + "_" +r_state);
+            $("#loc").attr('href',baseUrl+"/location/"+r_city.toLowerCase() + "-" +r_state.toLowerCase());
 
             //displays information on the widget
             $.get(Url1 + method[count].method+"/"+r_state+'/'+r_city+'/empty/1/1', function(r_data){
