@@ -146,8 +146,8 @@ function listCall(method, count){
                 var r_link = camelCaseToKababCase(method[offset].method);
                 r_locName = r_locName.replace('+',' ');
                 $(".fcw-t2-loc").html(r_locName);
-                $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+state+"/"+city+"/page/1");
-                $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+state+"/"+city+"/page/1");
+                $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+state.toLowerCase()+"/"+city.toLowerCase()+"/page/1");
+                $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+state.toLowerCase()+"/"+city.toLowerCase()+"/page/1");
                 //go to location page for remnant site
                 $("#loc").attr('href',baseUrl+"/location/"+city.toLowerCase() + "-" +state.toLowerCase());
 
@@ -170,8 +170,8 @@ function listCall(method, count){
             var r_link = camelCaseToKababCase(method[offset].method);
             r_locName = r_locName.replace('+',' ');
             $(".fcw-t2-loc").html(r_locName);
-            $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+r_state+"/"+r_city+"/page/1");
-            $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+r_state+"/"+r_city+"/page/1");
+            $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+r_state.toLowerCase()+"/"+r_city.toLowerCase()+"/page/1");
+            $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+r_state.toLowerCase()+"/"+r_city.toLowerCase()+"/page/1");
             //go to location page for remnant site
             $("#loc").attr('href',baseUrl+"/location/"+r_city.toLowerCase() + "-" +r_state.toLowerCase());
 
@@ -213,8 +213,8 @@ function listCall(method, count){
                         locName = r_data[0].city + ", " + r_data[0].state;
                         $(".fcw-t2-loc").html(locName);
 
-                        $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0].state+"/"+r_data[0].city+"/page/1");
-                        $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0].state+"/"+r_data[0].city+"/page/1");
+                        $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0].state.toLowerCase()+"/"+r_data[0].city.toLowerCase()+"/page/1");
+                        $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0].state.toLowerCase()+"/"+r_data[0].city.toLowerCase()+"/page/1");
                         //go to myhousekit for partner non remnant
                         $("#loc").attr('href',baseUrl+"/"+p_domain+"loc/");
                     }
