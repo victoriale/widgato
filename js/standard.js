@@ -44,10 +44,9 @@ $(function () {
     var temp = location.search;
     var query = {};
 
-
     if(temp.length){
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
+        console.log(query);
         //set the query data from database to global variable to use
         domain = query.dom;
 
@@ -61,12 +60,13 @@ $(function () {
         if(locName != null && typeof locName != 'undefined' && locName != ''){
             locName = locName.replace(/\+/g, ' ');
         }
+        var queryCheckCity = query['loc']['loc']['city'];
         //makes a check to see if data is being returned from partner
-        if(city != null && city != '' && typeof city != 'undefined' && state != null && state != '' && typeof state != 'undefined'){
-            city = query['loc']['loc_id']['city'];
-            state = query['loc']['loc_id']['state'];
+        if(queryCheckCity.length != 0 || queryCheckCity[0][city] != null && queryCheckCity != '' && typeof queryCheckCity != 'undefined'){
+            city = queryCheckCity[0].city.replace(/\+/g, ' ').toLowerCase();
+            console.log(city);
+            state = queryCheckCity[0].state;
         }
-
         //if partner database has absolutely nothing and it is a brand new partner
         //returns string true or false
         bord = query.bord;
@@ -100,7 +100,6 @@ $(function () {
     max = method.length-1;
 
     $(".fcw-t1").html(name);
-
     listCall(method, offset);
 
     $('.fcw-rightnav').on('click', function() {
@@ -128,7 +127,6 @@ $(function () {
 
 function listCall(method, count){
     offset = count;
-
     //determine if the site is a remnant or not
     if(remnant == 'true'){
         //even if remnant possibility of no city or state detected and will run get remote address.
@@ -138,18 +136,15 @@ function listCall(method, count){
                 //will change the title text and resize using resizetext() function
                 name = method[offset].name;
                 $(".fcw-t1").html(name);
-
                 //remnant without a city or state provided
-                state = r_data[0]['state'];
-                city = r_data[0]['city'];
                 var r_locName = city + ', ' + state;
                 var r_link = camelCaseToKababCase(method[offset].method);
                 r_locName = r_locName.replace('+',' ');
                 $(".fcw-t2-loc").html(r_locName);
-                $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+state.toLowerCase()+"/"+city.toLowerCase()+"/page/1");
-                $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+state.toLowerCase()+"/"+city.toLowerCase()+"/page/1");
+                $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+state.toLowerCase()+"/"+city.replace(/ /g,'-').toLowerCase()+"/page/1");
+                $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+state.toLowerCase()+"/"+city.replace(/ /g,'-').toLowerCase()+"/page/1");
                 //go to location page for remnant site
-                $("#loc").attr('href',baseUrl+"/location/"+city.toLowerCase() + "-" +state.toLowerCase());
+                $("#loc").attr('href',baseUrl+"/location/"+city.replace(/ /g,'-').toLowerCase() + "-" +state.toLowerCase());
 
                 //displays information on the widget
                 $.get(Url1 +method[count].method+"/"+state+'/'+city+'/empty/1/1', function(r_data){
@@ -170,10 +165,10 @@ function listCall(method, count){
             var r_link = camelCaseToKababCase(method[offset].method);
             r_locName = r_locName.replace('+',' ');
             $(".fcw-t2-loc").html(r_locName);
-            $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+r_state.toLowerCase()+"/"+r_city.toLowerCase()+"/page/1");
-            $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+r_state.toLowerCase()+"/"+r_city.toLowerCase()+"/page/1");
+            $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+r_state.toLowerCase()+"/"+r_city.replace(/ /g,'-').toLowerCase()+"/page/1");
+            $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+r_state.toLowerCase()+"/"+r_city.replace(/ /g,'-').toLowerCase()+"/page/1");
             //go to location page for remnant site
-            $("#loc").attr('href',baseUrl+"/location/"+r_city.toLowerCase() + "-" +r_state.toLowerCase());
+            $("#loc").attr('href',baseUrl+"/location/"+r_city.replace(/ /g,'-').toLowerCase() + "-" +r_state.toLowerCase());
 
             //displays information on the widget
             $.get(Url1 + method[count].method+"/"+r_state+'/'+r_city+'/empty/1/1', function(r_data){
@@ -185,41 +180,80 @@ function listCall(method, count){
     } else{
         // Should only be for myhousekit.com
         if(city == '' || city == null || state == '' || state == null){
-            $.get(graUrl,function(r_data){
-                $.get(Url1 +method[count].method+"/"+r_data[0].state+'/'+r_data[0].city+'/empty/1/1', function(data){
+          $.get(graUrl,function(r_data){
+              $.get(Url1 + method[count].method+"/"+r_data[0]['state']+'/'+r_data[0]['city']+'/empty/1/1', function(data){
+                //checks if the list exist or has reach its max and restarts the list at 0
+                  //will change the title text and resize using resizetext() function
+                  var name = method[offset].name;
+                  $(".fcw-t1").html(name);
+                  var p_domain = domain+"/";
+                  console.log(data);
+                  var link = camelCaseToKababCase(method[offset].method);
+                  //displays information on the widget
+                  $(".fcw-content1").html(data.data[0].totalListings);
+                  var random = randomimage();
+                  $(".fcw-image").css("background-image","url('"+random[offset]+"')");
+                  //replace widget location name with name given name from database
+                  //some reason had to run below again
+                  locName = toTitleCase(r_data[0]['city']) + ", " + r_data[0]['state'].toUpperCase();
+                  $(".fcw-t2-loc").html(locName);
+
+                  $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0]['state'].toLowerCase()+"/"+r_data[0]['city'].replace(/ /g,'-').toLowerCase()+"/page/1");
+                  $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0]['state'].toLowerCase()+"/"+r_data[0]['city'].replace(/ /g,'-').toLowerCase()+"/page/1");
+                  //go to myhousekit for partner non remnant
+                  $("#loc").attr('href',baseUrl+"/"+p_domain+"loc/"+r_data[0]['city'].replace(/ /g,'-').toLowerCase()+"-"+r_data[0]['state'].toLowerCase());
+              });
+          })
+        }else{
+          city = city.toLowerCase();
+          state = state.toLowerCase();
+          $.get(Url1 + method[count].method+"/"+state+'/'+city+'/empty/1/1', function(data){
+            if(typeof data.data[0] == 'undefined'){
+              $.get(graUrl,function(r_data){
+                  $.get(Url1 + method[count].method+"/"+r_data[0]['state']+'/'+r_data[0]['city']+'/empty/1/1', function(data){
                     //checks if the list exist or has reach its max and restarts the list at 0
-                    if(typeof data.data[0] == 'undefined'){
-                        offset++;
-                        if(offset >= max){
-                            offset = 0;
-                            listCall(method, offset);
-                        }else{
-                            listCall(method, offset);
-                        }
-                    }else{
-                        //will change the title text and resize using resizetext() function
-                        var name = method[offset].name;
-                        $(".fcw-t1").html(name);
+                      //will change the title text and resize using resizetext() function
+                      var name = method[offset].name;
+                      $(".fcw-t1").html(name);
+                      var p_domain = domain+"/";
+                      var link = camelCaseToKababCase(method[offset].method);
+                      //displays information on the widget
+                      $(".fcw-content1").html(data.data[0].totalListings);
+                      var random = randomimage();
+                      $(".fcw-image").css("background-image","url('"+random[offset]+"')");
+                      //replace widget location name with name given name from database
+                      //some reason had to run below again
+                      locName = toTitleCase(r_data[0]['city']) + ", " + r_data[0]['state'].toUpperCase();
+                      $(".fcw-t2-loc").html(locName);
 
-                        var p_domain = domain+"/";
-
-                        var link = camelCaseToKababCase([offset].method);
-                        //displays information on the widget
-                        $(".fcw-content1").html(data.data[0].totalListings);
-                        var random = randomimage();
-                        $(".fcw-image").css("background-image","url('"+random[offset]+"')");
-                        //replace widget location name with name given name from database
-                        //some reason had to run below again
-                        locName = r_data[0].city + ", " + r_data[0].state;
-                        $(".fcw-t2-loc").html(locName);
-
-                        $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0].state.toLowerCase()+"/"+r_data[0].city.toLowerCase()+"/page/1");
-                        $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0].state.toLowerCase()+"/"+r_data[0].city.toLowerCase()+"/page/1");
-                        //go to myhousekit for partner non remnant
-                        $("#loc").attr('href',baseUrl+"/"+p_domain+"loc/");
-                    }
-                });
-            })
+                      $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0]['state'].toLowerCase()+"/"+r_data[0]['city'].replace(/ /g,'-').toLowerCase()+"/page/1");
+                      $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0]['state'].toLowerCase()+"/"+r_data[0]['city'].replace(/ /g,'-').toLowerCase()+"/page/1");
+                      //go to myhousekit for partner non remnant
+                      $("#loc").attr('href',baseUrl+"/"+p_domain+"loc/"+r_data[0]['city'].replace(/ /g,'-').toLowerCase()+"-"+r_data[0]['state'].toLowerCase());
+                  });
+              })
+            }else{
+              //checks if the list exist or has reach its max and restarts the list at 0
+              //will change the title text and resize using resizetext() function
+              var name = method[offset].name;
+              $(".fcw-t1").html(name);
+              var p_domain = domain+"/";
+              var link = camelCaseToKababCase(method[offset].method);
+              //displays information on the widget
+              $(".fcw-content1").html(data.data[0].totalListings);
+              var random = randomimage();
+              $(".fcw-image").css("background-image","url('"+random[offset]+"')");
+              //replace widget location name with name given name from database
+              //some reason had to run below again
+              locName = toTitleCase(city) + ", " + state.toUpperCase();
+              console.log(locName);
+              $(".fcw-t2-loc").html(locName);
+              $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+state.toLowerCase()+"/"+city.replace(/ /g,'-').toLowerCase()+"/page/1");
+              $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+state.toLowerCase()+"/"+city.replace(/ /g,'-').toLowerCase()+"/page/1");
+              //go to myhousekit for partner non remnant
+              $("#loc").attr('href',baseUrl+"/"+p_domain+"loc/");
+            }
+          });
         }
     }
 }
