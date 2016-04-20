@@ -43,10 +43,8 @@ $(function () {
 
     var temp = location.search;
     var query = {};
-
     if(temp.length){
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
-        .log(query);
         //set the query data from database to global variable to use
         domain = query.dom;
 
@@ -62,9 +60,8 @@ $(function () {
         }
         var queryCheckCity = query['loc']['loc']['city'];
         //makes a check to see if data is being returned from partner
-        if(queryCheckCity.length != 0 || queryCheckCity[0][city] != null && queryCheckCity != '' && typeof queryCheckCity != 'undefined'){
+        if(queryCheckCity.length != 0 || queryCheckCity != null && queryCheckCity != '' && typeof queryCheckCity != 'undefined'){
             city = queryCheckCity[0].city.replace(/\+/g, ' ').toLowerCase();
-            .log(city);
             state = queryCheckCity[0].state;
         }
         //if partner database has absolutely nothing and it is a brand new partner
@@ -132,10 +129,14 @@ function listCall(method, count){
         //even if remnant possibility of no city or state detected and will run get remote address.
         //should only happen if new partners and no city and/or state has been entered into collection
         if(remnant && (city == '' || city == null || state == '' || state == null)){
+
             $.get(graUrl,function(r_data){
                 //will change the title text and resize using resizetext() function
                 name = method[offset].name;
                 $(".fcw-t1").html(name);
+                state = r_data[0].state;
+                city = r_data[0].city;
+
                 //remnant without a city or state provided
                 var r_locName = city + ', ' + state;
                 var r_link = camelCaseToKababCase(method[offset].method);
@@ -245,7 +246,6 @@ function listCall(method, count){
               //replace widget location name with name given name from database
               //some reason had to run below again
               locName = toTitleCase(city) + ", " + state.toUpperCase();
-              .log(locName);
               $(".fcw-t2-loc").html(locName);
               $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+state.toLowerCase()+"/"+city.replace(/ /g,'-').toLowerCase()+"/page/1");
               $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+state.toLowerCase()+"/"+city.replace(/ /g,'-').toLowerCase()+"/page/1");
