@@ -46,7 +46,7 @@ $(function () {
 
     if(temp.length){
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
-
+        console.log(query);
         //set the query data from database to global variable to use
         domain = query.dom;
 
@@ -60,13 +60,12 @@ $(function () {
         if(locName != null && typeof locName != 'undefined' && locName != ''){
             locName = locName.replace(/\+/g, ' ');
         }
+        var queryCheckCity = query['loc']['loc']['city'];
         //makes a check to see if data is being returned from partner
-        if(query['loc']['loc_id'] != null && query['loc']['loc_id'] != '' && typeof query['loc']['loc_id'] != 'undefined'){
-            city = query['loc']['loc_id']['city'];
-            state = query['loc']['loc_id']['state'];
-        }
-        if(city == 'losangeles'){//bandaid for los angeles
-          city = 'los angeles';
+        if(queryCheckCity.length != 0 || queryCheckCity[0][city] != null && queryCheckCity != '' && typeof queryCheckCity != 'undefined'){
+            city = queryCheckCity[0].city.replace(/\+/g, ' ').toLowerCase();
+            console.log(city);
+            state = queryCheckCity[0].state;
         }
         //if partner database has absolutely nothing and it is a brand new partner
         //returns string true or false
@@ -137,20 +136,15 @@ function listCall(method, count){
                 //will change the title text and resize using resizetext() function
                 name = method[offset].name;
                 $(".fcw-t1").html(name);
-
                 //remnant without a city or state provided
                 var r_locName = city + ', ' + state;
                 var r_link = camelCaseToKababCase(method[offset].method);
                 r_locName = r_locName.replace('+',' ');
                 $(".fcw-t2-loc").html(r_locName);
-                $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+state.toLowerCase()+"/"+city.toLowerCase()+"/page/1");
-                $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+state.toLowerCase()+"/"+city.toLowerCase()+"/page/1");
+                $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+state.toLowerCase()+"/"+city.replace(/ /g,'-').toLowerCase()+"/page/1");
+                $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+state.toLowerCase()+"/"+city.replace(/ /g,'-').toLowerCase()+"/page/1");
                 //go to location page for remnant site
-                $("#loc").attr('href',baseUrl+"/location/"+city.toLowerCase() + "-" +state.toLowerCase());
-
-                if(city == 'losangeles'){//bandaid for los angeles
-                  city = 'los angeles';
-                }
+                $("#loc").attr('href',baseUrl+"/location/"+city.replace(/ /g,'-').toLowerCase() + "-" +state.toLowerCase());
 
                 //displays information on the widget
                 $.get(Url1 +method[count].method+"/"+state+'/'+city+'/empty/1/1', function(r_data){
@@ -171,10 +165,10 @@ function listCall(method, count){
             var r_link = camelCaseToKababCase(method[offset].method);
             r_locName = r_locName.replace('+',' ');
             $(".fcw-t2-loc").html(r_locName);
-            $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+r_state.toLowerCase()+"/"+r_city.toLowerCase()+"/page/1");
-            $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+r_state.toLowerCase()+"/"+r_city.toLowerCase()+"/page/1");
+            $(".fcw-href").attr('href',baseUrl+"/list/"+r_link+"/"+r_state.toLowerCase()+"/"+r_city.replace(/ /g,'-').toLowerCase()+"/page/1");
+            $("#imgUrl").attr('href',baseUrl+"/list/"+r_link+"/"+r_state.toLowerCase()+"/"+r_city.replace(/ /g,'-').toLowerCase()+"/page/1");
             //go to location page for remnant site
-            $("#loc").attr('href',baseUrl+"/location/"+r_city.toLowerCase() + "-" +r_state.toLowerCase());
+            $("#loc").attr('href',baseUrl+"/location/"+r_city.replace(/ /g,'-').toLowerCase() + "-" +r_state.toLowerCase());
 
             //displays information on the widget
             $.get(Url1 + method[count].method+"/"+r_state+'/'+r_city+'/empty/1/1', function(r_data){
@@ -204,39 +198,61 @@ function listCall(method, count){
                   locName = toTitleCase(r_data[0]['city']) + ", " + r_data[0]['state'].toUpperCase();
                   $(".fcw-t2-loc").html(locName);
 
-                  $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0]['state'].toLowerCase()+"/"+r_data[0]['city'].toLowerCase()+"/page/1");
-                  $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0]['state'].toLowerCase()+"/"+r_data[0]['city'].toLowerCase()+"/page/1");
+                  $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0]['state'].toLowerCase()+"/"+r_data[0]['city'].replace(/ /g,'-').toLowerCase()+"/page/1");
+                  $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0]['state'].toLowerCase()+"/"+r_data[0]['city'].replace(/ /g,'-').toLowerCase()+"/page/1");
                   //go to myhousekit for partner non remnant
-                  $("#loc").attr('href',baseUrl+"/"+p_domain+"loc/"+r_data[0]['city'].toLowerCase()+"-"+r_data[0]['state'].toLowerCase());
+                  $("#loc").attr('href',baseUrl+"/"+p_domain+"loc/"+r_data[0]['city'].replace(/ /g,'-').toLowerCase()+"-"+r_data[0]['state'].toLowerCase());
               });
           })
         }else{
           city = city.toLowerCase();
           state = state.toLowerCase();
-          if(city == 'losangeles'){//bandaid for los angeles
-            city = 'los angeles';
-          }
           $.get(Url1 + method[count].method+"/"+state+'/'+city+'/empty/1/1', function(data){
-            //checks if the list exist or has reach its max and restarts the list at 0
-            //will change the title text and resize using resizetext() function
-            var name = method[offset].name;
-            $(".fcw-t1").html(name);
-            var p_domain = domain+"/";
-            console.log(data);
-            var link = camelCaseToKababCase(method[offset].method);
-            //displays information on the widget
-            $(".fcw-content1").html(data.data[0].totalListings);
-            var random = randomimage();
-            $(".fcw-image").css("background-image","url('"+random[offset]+"')");
-            //replace widget location name with name given name from database
-            //some reason had to run below again
-            locName = toTitleCase(city) + ", " + state.toUpperCase();
-            $(".fcw-t2-loc").html(locName);
+            if(typeof data.data[0] == 'undefined'){
+              $.get(graUrl,function(r_data){
+                  $.get(Url1 + method[count].method+"/"+r_data[0]['state']+'/'+r_data[0]['city']+'/empty/1/1', function(data){
+                    //checks if the list exist or has reach its max and restarts the list at 0
+                      //will change the title text and resize using resizetext() function
+                      var name = method[offset].name;
+                      $(".fcw-t1").html(name);
+                      var p_domain = domain+"/";
+                      var link = camelCaseToKababCase(method[offset].method);
+                      //displays information on the widget
+                      $(".fcw-content1").html(data.data[0].totalListings);
+                      var random = randomimage();
+                      $(".fcw-image").css("background-image","url('"+random[offset]+"')");
+                      //replace widget location name with name given name from database
+                      //some reason had to run below again
+                      locName = toTitleCase(r_data[0]['city']) + ", " + r_data[0]['state'].toUpperCase();
+                      $(".fcw-t2-loc").html(locName);
 
-            $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+state.toLowerCase()+"/"+city.toLowerCase()+"/page/1");
-            $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+state.toLowerCase()+"/"+city.toLowerCase()+"/page/1");
-            //go to myhousekit for partner non remnant
-            $("#loc").attr('href',baseUrl+"/"+p_domain+"loc/");
+                      $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0]['state'].toLowerCase()+"/"+r_data[0]['city'].replace(/ /g,'-').toLowerCase()+"/page/1");
+                      $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+r_data[0]['state'].toLowerCase()+"/"+r_data[0]['city'].replace(/ /g,'-').toLowerCase()+"/page/1");
+                      //go to myhousekit for partner non remnant
+                      $("#loc").attr('href',baseUrl+"/"+p_domain+"loc/"+r_data[0]['city'].replace(/ /g,'-').toLowerCase()+"-"+r_data[0]['state'].toLowerCase());
+                  });
+              })
+            }else{
+              //checks if the list exist or has reach its max and restarts the list at 0
+              //will change the title text and resize using resizetext() function
+              var name = method[offset].name;
+              $(".fcw-t1").html(name);
+              var p_domain = domain+"/";
+              var link = camelCaseToKababCase(method[offset].method);
+              //displays information on the widget
+              $(".fcw-content1").html(data.data[0].totalListings);
+              var random = randomimage();
+              $(".fcw-image").css("background-image","url('"+random[offset]+"')");
+              //replace widget location name with name given name from database
+              //some reason had to run below again
+              locName = toTitleCase(city) + ", " + state.toUpperCase();
+              console.log(locName);
+              $(".fcw-t2-loc").html(locName);
+              $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+state.toLowerCase()+"/"+city.replace(/ /g,'-').toLowerCase()+"/page/1");
+              $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+state.toLowerCase()+"/"+city.replace(/ /g,'-').toLowerCase()+"/page/1");
+              //go to myhousekit for partner non remnant
+              $("#loc").attr('href',baseUrl+"/"+p_domain+"loc/");
+            }
           });
         }
     }
