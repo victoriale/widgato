@@ -60,7 +60,7 @@ $(function () {
         }
         var queryCheckCity = query['loc']['loc']['city'];
         //makes a check to see if data is being returned from partner
-        if(queryCheckCity.length != 0 || queryCheckCity[0][city] != null && queryCheckCity != '' && typeof queryCheckCity != 'undefined'){
+        if(queryCheckCity.length != 0 || queryCheckCity != null && queryCheckCity != '' && typeof queryCheckCity != 'undefined'){
             city = queryCheckCity[0].city.replace(/\+/g, ' ').toLowerCase();
             state = queryCheckCity[0].state;
         }
@@ -129,10 +129,14 @@ function listCall(method, count){
         //even if remnant possibility of no city or state detected and will run get remote address.
         //should only happen if new partners and no city and/or state has been entered into collection
         if(remnant && (city == '' || city == null || state == '' || state == null)){
+
             $.get(graUrl,function(r_data){
                 //will change the title text and resize using resizetext() function
                 name = method[offset].name;
                 $(".fcw-t1").html(name);
+                state = r_data[0].state;
+                city = r_data[0].city;
+
                 //remnant without a city or state provided
                 var r_locName = city + ', ' + state;
                 var r_link = camelCaseToKababCase(method[offset].method);
