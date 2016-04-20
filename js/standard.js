@@ -102,7 +102,7 @@ $(function () {
     $('.fcw-rightnav').on('click', function() {
         //checks if the list has reached its max and restarts the list at 0
         offset++;
-        if(offset === max){
+        if(offset > max){
             offset = 0;
             listCall(method, offset);
         }else{
@@ -113,7 +113,7 @@ $(function () {
     $('.fcw-leftnav').on('click', function() {
         //checks if the list has reach its max and restarts the list at 0
         offset--;
-        if(offset == 0){
+        if(offset < 0){
             offset = max;
             listCall(method, offset);
         }else{
