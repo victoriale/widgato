@@ -43,10 +43,8 @@ $(function () {
 
     var temp = location.search;
     var query = {};
-
     if(temp.length){
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
-        .log(query);
         //set the query data from database to global variable to use
         domain = query.dom;
 
@@ -64,7 +62,6 @@ $(function () {
         //makes a check to see if data is being returned from partner
         if(queryCheckCity.length != 0 || queryCheckCity[0][city] != null && queryCheckCity != '' && typeof queryCheckCity != 'undefined'){
             city = queryCheckCity[0].city.replace(/\+/g, ' ').toLowerCase();
-            .log(city);
             state = queryCheckCity[0].state;
         }
         //if partner database has absolutely nothing and it is a brand new partner
@@ -245,7 +242,6 @@ function listCall(method, count){
               //replace widget location name with name given name from database
               //some reason had to run below again
               locName = toTitleCase(city) + ", " + state.toUpperCase();
-              .log(locName);
               $(".fcw-t2-loc").html(locName);
               $(".fcw-href").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+state.toLowerCase()+"/"+city.replace(/ /g,'-').toLowerCase()+"/page/1");
               $("#imgUrl").attr('href',baseUrl+"/"+p_domain+"list/"+link+"/"+state.toLowerCase()+"/"+city.replace(/ /g,'-').toLowerCase()+"/page/1");
