@@ -1,0 +1,347 @@
+html, body {
+  margin: 0 !important;
+  font-family: HN;
+  width: 100%;
+  height: auto;
+  background-color: white;
+}
+div, span{
+  font-family: Lato, sans-serif;
+}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+}
+button:focus {
+  outline:0;
+}
+sup {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.5em;
+}
+
+.aiw {
+  width: 970px;
+  height: 250px;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  background-color: #f2f2f2;
+}
+
+/**** Title Portion of the widget ****/
+.aiw-img {
+  width: 275px;
+  height: 200px;
+  margin: 0;
+  padding: 0;
+  background-position: top center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #222;
+  position: absolute;
+  top: 50px;
+}
+.text-snippet{
+  width:100%;
+  height:15px;
+  font-size: 10px;
+  line-height: 10px;
+  text-align: right;
+  background-color: #f2f2f2;
+  color:#000;
+  padding: 3px 5px 3px 0;
+}
+.aiw-top {
+  width: 670px;
+  height: 50px;
+  line-height: 50px;
+  background-color: #000;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  cursor: pointer !important;
+}
+.aiw-top .ball {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgba(188, 22, 36, 0.9);
+  margin: 10px;
+  float: left;
+  background-position: center center;
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-image: url('./public/Icon_Basketball.png');
+}
+.aiw-top span {
+  font-size: 15px;
+}
+.aiw-top span .team {
+  font-weight: bold;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+.aiw-top .fa {
+  color: rgba(188, 22, 36, 0.9);
+  font-size: 20px;
+  margin-left: 5px;
+  position: absolute;
+  height: 40px;
+  line-height: 50px;
+  right: 10px;
+  top: 0px;
+}
+.aiw-top .fa.fa-caret-up {
+  color: #fff;
+}
+
+/**** Dropdown ****/
+.dropdown {
+  position: absolute;
+  top: 50px;
+  height: 200px;
+  width: 670px;
+  display: none;
+  color: #000;
+  background-color: #fff;
+  z-index: 10;
+  padding: 0px;
+  line-height: 40px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+[tooltip]:before {
+    position : absolute;
+     content : attr(tooltip);
+     opacity : 0;
+}
+[tooltip]:hover:before {
+    opacity : 1;
+}
+.dropdown-elem {
+  padding: 0px 5px;
+  height: 40px;
+  width: 100%;
+  font-size: 14px;
+}
+.dropdown-elem.active {
+  color: rgba(188, 22, 36, 0.9);
+}
+.dropdown-elem:hover {
+  color: #fff;
+  background-color: rgba(188, 22, 36, 0.9);
+  cursor: pointer;
+}
+.dropdown-elem b {
+  font-size: 15px;
+}
+.dropdown-elem .left {
+  float: left;
+}
+.dropdown-elem .right {
+  font-weight: 300;
+  float: right;
+}
+.dropdown .divider {
+  width: 100%;
+  height: 1px;
+  background-color: #c2c2c2;
+  margin: 0px 5px;
+}
+.aiw-dropdown.active .dropdown {
+  display: block;
+}
+.aiw-dropdown.active .aiw-top {
+  background-color: rgba(188, 22, 36, 0.9);
+}
+.aiw-dropdown.active .aiw-top .ball {
+  background-color: #000;
+}
+.aiw-dropdown.active .aiw-top .fa {
+  color: #fff;
+}
+
+/**** Content Classes ****/
+.aiw-bdy {
+  width: 395px;
+  height: 200px;
+  padding: 10px 15px;
+  background-color: #fff;
+  position: relative;;
+  top: 50px;
+  left: 275px;
+  float: left;
+}
+.aiw-title {
+  font-weight: 900;
+  font-size: 20px;
+  float: left;
+}
+.aiw-index {
+  font-size: 16px;
+  line-height: 33px;
+  float: right;
+  color: #999;
+  font-weight: 900;
+  padding-right: 1.5px;
+}
+.aiw-num {
+  font-size: 16px;
+  line-height: 35px;
+  float: right;
+  color: #999;
+  font-weight: 400;
+  padding-right: 15px;
+}
+.aiw-txt {
+  width: 325px;
+  height: 95px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 13px;
+  line-height: 18px;
+  position: absolute;
+  top: 45px;
+}
+.aiw-txt::first-letter {
+  text-transform: uppercase;
+  font-size: 60px;
+  line-height: 50px;
+  font-weight: bold;
+  float: left;
+  padding-right: 5px;
+}
+.fa.aiw-btn {
+  width: 30px;
+  height: 60px;
+  position: absolute;
+  top: 100px;
+  background-color: rgba(0, 0, 0, 0.9);
+  line-height: 60px;
+  text-align: center;
+  color: #fff;
+  font-size: 25px;
+  cursor: pointer;
+}
+.fa-angle-left.aiw-btn {
+  left: 0;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+.fa-angle-right.aiw-btn {
+  right: 300px;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+.fa.aiw-btn:hover {
+  background-color: rgba(188, 22, 36, 0.9);
+}
+.aiw-link {
+  width: 150px;
+  height: 35px;
+  border-radius: 5px;
+  background-color: #363636;
+  color: #fff;
+  line-height: 35px;
+  text-align: center;
+  padding: 0;
+  position: absolute;
+  bottom: 18px;
+  left: 16px;
+  font-size: 13px;
+  font-weight: bold;
+  padding-left: 17px;
+  background-repeat: no-repeat;
+  background-image: url('./public/Icon-Magazine.png');
+  background-size: 15px auto;
+  background-position: 17px 12px;
+  cursor: pointer !important;
+}
+.aiw-link:hover {
+  background-color: rgba(188, 22, 36, 0.9);
+}
+.aiw-ad {
+  text-align: left;
+  color: #999;
+  font-size: 10px;
+  line-height: 10px;
+  text-transform: uppercase;
+  position: absolute;
+  right: 5px;
+  bottom: 0;
+}
+
+/**** Utility Classes ****/
+.ad_location{
+  width:300px;
+  height:250px;
+  background-color: #ccc;
+  position: relative;
+  bottom: 0;
+  float: right;
+}
+.noclick {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+
+@media (max-width: 970px) {
+  .aiw {
+    width: 650px;
+    height: 250px;
+  }
+  .aiw-img {
+    display: none;
+  }
+  /**** Title Portion of the widget ****/
+  .aiw-top {
+    width: 350px;
+  }
+
+  /**** Dropdown ****/
+  .dropdown {
+    width: 350px;
+  }
+
+  /**** Content Classes ****/
+  .aiw-bdy {
+    width: 350px;
+    padding: 10px 35px;
+    left: 0;
+  }
+  .aiw-index {
+    line-height: 30px;
+    float: right;
+    padding-right: 1.5px;
+    position: absolute;
+    top: -5px;
+    right: 33px;
+  }
+  .aiw-num {
+    line-height: 32px;
+    float: right;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+  }
+  .aiw-txt {
+    width: 265px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .fa-angle-right.aiw-btn {
+    right: 300px;
+  }
+}
