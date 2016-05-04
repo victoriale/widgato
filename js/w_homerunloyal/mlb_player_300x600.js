@@ -1,3 +1,4 @@
+// will change when api is available
 var offset = 0;
 var dataLength;
 var curData;
@@ -68,8 +69,10 @@ $(function(){
       } else if(listData[index].friendly_metric == '3 Pointer Percentage'){
         listData[index].friendly_metric = '3-Pointer Percentage'
       }
-      $('.fcw-content1').html(listData[index].formatted_metric + ' ' + (listData[index].friendly_metric).replace('Percentage', '%'));
-      $('.fcw-content2').html('in the 2015 Season');
+      $('.fcw-content1').html('[Player Name]');
+      $('#fcw-content2a').html('[Team Name]');
+      $('#fcw-content2b').html('[Location]');
+      $('.fcw-content3').html('[Data Point 2] [Data Value 2] for [YYYY]');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-icon').attr('href',link);
