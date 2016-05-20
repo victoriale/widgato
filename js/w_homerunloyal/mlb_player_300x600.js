@@ -53,7 +53,7 @@ $(function(){
       dataLength = listData.length;
       var dataPt = listData[index].stat;
       var dataValue = '';
-      $('.fcw-t1').html(listInfo.name);
+      $('.fcw-t1').html(toTitleCase(listInfo.name));
       $('.fcw-t2-num').html('#'+(index+1));
       $('.fcw-image').css('background', 'url('+imageUrl(listData[index].imageUrl)+') no-repeat');
       $('.fcw-logo').css('background', 'url('+imageUrl(listData[index].teamLogo)+') no-repeat');
@@ -70,7 +70,7 @@ $(function(){
       if(typeof listInfo.seasonId == 'undefined'){
         listInfo.seasonId = '2016';
       }
-      $('.fcw-content3').html(Math.round(dataPt * 100)/100 + ' ' + toTitleCase(dataValue) + ' for ' + listInfo.seasonId);
+      $('.fcw-content3').html(Math.round(dataPt * 100)/100 + ' ' + capitalizeFirstLetter(dataValue) + ' for ' + listInfo.seasonId);
 
       if(remnant == 'true' || remnant == true){
         //TODO
@@ -106,7 +106,9 @@ function toTitleCase(str){
     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
   });
 };
-
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 function fullstate(state){
   var stateName = {
     'Alabama': 'AL',

@@ -62,14 +62,14 @@ $(function(){
       if(typeof listInfo.seasonId == 'undefined'){
         listInfo.seasonId = '2016';
       }
-      $('.fcw-t1').html(listInfo.name);
+      $('.fcw-t1').html(toTitleCase(listInfo.name));
       $('.fcw-t2-num').html('#'+(index+1));
       $('.fcw-image').css('background', 'url('+imageUrl(listData[index].imageUrl)+') no-repeat');
       $('.fcw-logo').css('background', 'url('+imageUrl(listData[index].teamLogo)+') no-repeat');
       $('#title_link').html(listData[index].playerName);
       $('#teamProf').html(listData[index].teamName);
       $('#locName').html(listData[index].teamCity + ', ' + fullstate(listData[index].teamState));
-      $('.fcw-content1').html(Math.round(dataPt * 100)/100 + ' ' + toTitleCase(dataValue));
+      $('.fcw-content1').html(Math.round(dataPt * 100)/100 + ' ' + capitalizeFirstLetter(dataValue));
       $('.fcw-content2').html(listInfo.seasonId + ' Season');
       $('.fcw-presentedby').html('MLB TOP PLAYER - PRESENTED BY');
 
@@ -94,7 +94,9 @@ $(function(){
         $('.fcw-href').attr('href', link_partner);
       }
   }
-
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 function imageUrl(path){
   if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
     return 'http://prod-sports-images.synapsys.us/nba/players/headshots/no_player_icon.png';

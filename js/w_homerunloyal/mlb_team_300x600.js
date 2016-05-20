@@ -53,7 +53,7 @@ $(function(){
       dataLength = listData.length;
       var dataPt = listData[index].stat;
       var dataValue = '';
-      $('.fcw-t1').html(listInfo.name);
+      $('.fcw-t1').html(toTitleCase(listInfo.name));
       $('.fcw-t2-num').html('#'+(index+1));
       $('.fcw-image').css('background', 'url('+imageUrl(listData[index].teamLogo)+') no-repeat');
       $('.fcw-content1').html(listData[index].teamName);
@@ -68,7 +68,7 @@ $(function(){
       if(typeof listInfo.seasonId == 'undefined'){
         listInfo.seasonId = '2016';
       }
-      $('.fcw-content3').html(Math.round(dataPt * 100)/100 + ' ' + toTitleCase(dataValue) + ' for ' + listInfo.seasonId);
+      $('.fcw-content3').html(Math.round(dataPt * 100)/100 + ' ' + capitalizeFirstLetter(dataValue) + ' for ' + listInfo.seasonId);
 
       if(remnant == 'true' || remnant == true){
         //TODO
@@ -84,6 +84,9 @@ $(function(){
         $('.fcw-href').attr('href', link_partner);
       }
   }
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 function toTitleCase(str){
   if ( str === undefined || str === null || str == 'ERA') {
     return str;
