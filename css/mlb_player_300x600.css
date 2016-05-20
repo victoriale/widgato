@@ -118,12 +118,12 @@ button:focus {
 }
 .fcw-logo{
   border-radius: 50%;
-  border-width: 2px;
+  border-width: 1px;
   border-color: #ebebeb;
   border-style: solid;
   background-color: #fff !important;
-  width: 146px;
-  height: 146px;
+  width: 148px;
+  height: 148px;
   background-size: cover !important;
   background-position: center center !important;
   position: absolute;
