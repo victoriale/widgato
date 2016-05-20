@@ -373,9 +373,8 @@ button:focus {
     margin: 0 10px;
   }
   .fcw-t1{
-    height: auto;
+    height: 40px;
     width: 85%;
-    overflow: hidden;
     margin-top: 15px;
   }
   .fcw-t2{
