@@ -124,7 +124,6 @@ a:hover .main-bottom-image {
 }
 a:hover .view-container {
   display: block;
-  ;
 }
 a:hover .read-more {
   color: rgba(188, 32, 39, 0.75);
@@ -236,7 +235,6 @@ a:hover .read-more {
   width: 445px;
   height: 43px;
   font-family: inherit;
-  ;
   color: #000;
   font-size: 14px;
   font-weight: 400;
@@ -525,11 +523,6 @@ a:hover .news-share-container {
   top: 2px;
   left: 3px;
 }
-
-/*.fa {
-  color: #3a3a3a;
-}*/
-
 @media (min-width: 520px) and (max-width: 719px) {
   .small {
     visibility: hidden;

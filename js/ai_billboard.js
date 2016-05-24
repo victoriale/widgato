@@ -44,7 +44,6 @@ ai_billboard = (function() {
     randomArticles = subArticles;
     $.map(randomArticles, function(val, index) {
     });
-
     var arr1 = {
       title: mainArticles[0].title,
       content: mainArticles[0].content + '<br>&nbsp; '
