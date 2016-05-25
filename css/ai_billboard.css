@@ -1,12 +1,9 @@
 html, body {
   margin: 0 !important;
-  font-family: HN;
+  font-family: Lato, sans-serif;
   width: 100%;
   height: auto;
   background-color: white;
-}
-div, span {
-  font-family: Lato, sans-serif;
 }
 * {
   -webkit-box-sizing: border-box;
@@ -43,7 +40,6 @@ sup {
   width: 720px;
   height: 460px;
   position: absolute;
-  font-family: Lato, sans-serif;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
   margin: 30px 0;
 }
@@ -60,7 +56,6 @@ sup {
   border-right: 25px solid #f2f2f2;
 }
 .header-home {
-  font-family: inherit;
   margin-left: 75px;
   color: #000;
   font-size: 18px;
@@ -70,7 +65,6 @@ sup {
   text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.35);
 }
 .header-recent {
-  font-family: inherit;
   color: #000;
   font-size: 18px;
   font-weight: 700;
@@ -100,7 +94,6 @@ sup {
 .main-top-title {
   width: 445px;
   height: 60px;
-  font-family: inherit;
   color: #000;
   font-size: 26px;
   line-height: 26px;
@@ -135,7 +128,6 @@ a:hover .read-more {
   display: none;
 }
 .view-article {
-  font-family: inherit;
   color: #fff;
   margin: 0 auto;
   height: 28px;
@@ -162,7 +154,6 @@ a:hover .read-more {
   left: 35px;
 }
 .main-top-event {
-  font-family: inherit;
   color: #999;
   font-size: 12px;
   font-weight: 400;
@@ -177,7 +168,6 @@ a:hover .read-more {
 .main-top-description {
   width: 445px;
   height: 43px;
-  font-family: inherit;
   color: #000;
   font-size: 14px;
   font-weight: 400;
@@ -208,7 +198,6 @@ a:hover .read-more {
 .main-bottom-title {
   width: 445px;
   height: 60px;
-  font-family: inherit;
   color: #000;
   font-size: 26px;
   line-height: 26px;
@@ -219,7 +208,6 @@ a:hover .read-more {
   left: 35px;
 }
 .main-bottom-event {
-  font-family: inherit;
   color: #999;
   font-size: 12px;
   font-weight: 400;
@@ -234,7 +222,6 @@ a:hover .read-more {
 .main-bottom-description {
   width: 445px;
   height: 43px;
-  font-family: inherit;
   color: #000;
   font-size: 14px;
   font-weight: 400;
@@ -343,21 +330,18 @@ a:hover .team-container {
   clear: both;
 }
 .news-profile-team1 {
-  font-family: inherit;
   color: #fffefe;
   font-size: 12px;
   font-weight: 700;
   text-align: center;
 }
 .news-profile-record {
-  font-family: inherit;
   color: #fffefe;
   font-size: 10px;
   font-weight: 400;
   text-align: center;
 }
 .news-profile-record1 {
-  font-family: inherit;
   color: #fffefe;
   font-size: 10px;
   font-weight: 700;
@@ -371,21 +355,18 @@ a:hover .team-container {
   top: 20px;
 }
 .news-profile-team2 {
-  font-family: inherit;
   color: #fffefe;
   font-size: 12px;
   font-weight: 700;
   text-align: center;
 }
 .news-profile-record {
-  font-family: inherit;
   color: #fffefe;
   font-size: 10px;
   font-weight: 400;
   text-align: center;
 }
 .news-profile-record2 {
-  font-family: inherit;
   color: #fffefe;
   font-size: 10px;
   font-weight: 700;
@@ -395,7 +376,6 @@ a:hover .team-container {
   width: 100%;
   height: 32px;
   background-color: #ebebeb;
-  font-family: inherit;
   color: #000;
   font-size: 14px;
   font-weight: 400;
@@ -452,7 +432,6 @@ a:hover .news-share-container {
   background-size: contain;
 }
 .news-title {
-  font-family: inherit;
   font-size: 12px;
   line-height: 12px;
   font-weight: 800;
@@ -463,7 +442,6 @@ a:hover .news-share-container {
   top: 10px;
 }
 .news-time {
-  font-family: inherit;
   color: #999;
   font-size: 10px;
   font-weight: 400;
@@ -490,7 +468,6 @@ a:hover .news-share-container {
   background-color: #f2f2f2;
   width: 120px;
   height: 24px;
-  font-family: inherit;
   color: #666;
   font-size: 12px;
   font-weight: 700;
@@ -507,7 +484,6 @@ a:hover .news-share-container {
   background-color: #ebebeb;
   width: 120px;
   height: 24px;
-  font-family: inherit;
   color: #666;
   font-size: 12px;
   font-weight: 700;
