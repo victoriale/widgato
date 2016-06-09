@@ -188,6 +188,11 @@ function listCall(method, count){
         if(city == '' || city == null || state == '' || state == null){
           $.get(graUrl,function(r_data){
               $.get(Url1 + method[count].method+"/"+r_data[0]['state']+'/'+r_data[0]['city']+'/empty/1/1', function(data){
+                // If graUrl doesn't return a valid city state location, default to LA
+                if(r_data[0].city == '' || r_data[0].city == null || r_data[0].state == '' || r_data[0].state == null ){
+                    r_data[0].city = "Los Angeles";
+                    r_data[0].state = "CA";
+                }                
                 //checks if the list exist or has reach its max and restarts the list at 0
                   //will change the title text and resize using resizetext() function
                   var name = method[offset].name;
