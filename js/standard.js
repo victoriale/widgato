@@ -3,8 +3,8 @@ var domain = '';
 var clickyId = 0;
 var remnant = 'true';
 var locName = '';
-var city = '';
-var state = '';
+var city = null;
+var state = 'CA';
 var loc = '';
 var max = 10;
 var bord = false;
@@ -134,8 +134,13 @@ function listCall(method, count){
                 //will change the title text and resize using resizetext() function
                 name = method[offset].name;
                 $(".fcw-t1").html(name);
-                state = r_data[0].state;
-                city = r_data[0].city;
+                if(r_data[0].city == '' || r_data[0].city == null || r_data[0].state == '' || r_data[0].state == null ){
+                  state = "Los Angeles";
+                  city = "CA";
+                }else{
+                  state = r_data[0].state;
+                  city = r_data[0].city;
+                }
 
                 //remnant without a city or state provided
                 var r_locName = city + ', ' + state;
