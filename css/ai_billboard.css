@@ -64,7 +64,15 @@ sup {
   text-align: left;
   text-shadow: 0px 1px 0px rgba(255, 255, 255, 0.35);
 }
-.header-recent {
+.header-teams {
+  color: #000;
+  font-size: 18px;
+  font-weight: 800;
+  text-align: left;
+  line-height: 45px;
+  padding-left: 22px;
+}
+.header-date {
   color: #000;
   font-size: 18px;
   font-weight: 700;
@@ -72,9 +80,10 @@ sup {
   line-height: 45px;
 }
 .main {
-  width: 390px;
-  height: 320px;
+  width: 480px;
+  height: 410px;
   float: left;
+  position: relative;
 }
 .main-top {
   width: 479px;
@@ -92,16 +101,16 @@ sup {
   background-size: contain;
 }
 .main-top-title {
-  width: 445px;
-  height: 60px;
+  width: 262px;
+  height: 105px;
   color: #000;
   font-size: 26px;
   line-height: 26px;
-  font-weight: 800;
+  font-weight: 700;
   text-align: left;
-  position: relative;
+  position: absolute;
   top: 20px;
-  left: 35px;
+  left: 215px;
 }
 a:hover .main-top-title {
   color: rgba(188, 32, 39, 0.75)
@@ -117,6 +126,7 @@ a:hover .main-bottom-image {
 }
 a:hover .view-container {
   display: block;
+  background-color: rgba(188, 32, 39, 0.75);
 }
 a:hover .read-more {
   color: rgba(188, 32, 39, 0.75);
@@ -158,9 +168,11 @@ a:hover .read-more {
   font-size: 12px;
   font-weight: 400;
   text-align: left;
-  position: relative;
-  top: 65px;
-  left: 35px;
+  position: absolute;
+  ;
+  width: 262px;
+  top: 126px;
+  left: 215px;
 }
 .main-top-event-data {
   font-weight: 800;
@@ -196,25 +208,26 @@ a:hover .read-more {
   background-size: contain;
 }
 .main-bottom-title {
-  width: 445px;
-  height: 60px;
+  width: 262px;
+  height: 105px;
   color: #000;
   font-size: 26px;
   line-height: 26px;
-  font-weight: 800;
+  font-weight: 700;
   text-align: left;
-  position: relative;
-  top: 20px;
-  left: 35px;
+  position: absolute;
+  bottom: 78px;
+  left: 215px;
 }
 .main-bottom-event {
   color: #999;
   font-size: 12px;
   font-weight: 400;
   text-align: left;
-  position: relative;
-  top: 65px;
-  left: 35px;
+  position: absolute;
+  width: 262px;
+  bottom: 60px;
+  left: 215px;
 }
 .main-bottom-event-data {
   font-weight: 800;
@@ -253,11 +266,6 @@ a:hover .read-more {
   float: left;
   height: 125px;
   width: 240px;
-  background: -webkit-linear-gradient(0deg, #3299ff 0%, #ff2232 100%);
-  background: -moz-linear-gradient(0deg, #3299ff 0%, #ff2232 100%);
-  background: -o-linear-gradient(0deg, #3299ff 0%, #ff2232 100%);
-  background: -ms-linear-gradient(0deg, #3299ff 0%, #ff2232 100%);
-  background: linear-gradient(90deg, #3299ff 0%, #ff2232 100%);
 }
 .news-profile-image-left {
   border-radius: 50%;
@@ -397,13 +405,14 @@ a:hover .team-container {
   color: #000;
 }
 a:hover .news-title {
-  color: rgba(188, 32, 39, 0.75)
+  color: rgba(188, 32, 39, 0.75);
 }
 a:hover .news-image {
   background-color: rgba(188, 32, 39, 0.75);
 }
 a:hover .news-share-container {
   display: block;
+  background-color: rgba(188, 32, 39, 0.75);
 }
 .news-share-container {
   display: none;
@@ -455,7 +464,7 @@ a:hover .news-share-container {
   width: 220px;
   margin: 0 auto;
   position: relative;
-  bottom: 3px;
+  bottom: 68px;
 }
 .buttons {
   width: 240px;
@@ -523,6 +532,7 @@ a:hover .news-share-container {
   }
   .header-recent {
     font-size: 16px;
+    padding-left: 13px;
   }
   .main {
     width: 320px;
@@ -551,12 +561,12 @@ a:hover .news-share-container {
     content: 'View';
   }
   .main-top-title {
-    width: 290px;
+    width: 190px;
     height: 76px;
     font-size: 20px;
     line-height: 20px;
     top: 13px;
-    left: 25px;
+    left: 125px;
   }
   .read-more {
     top: 12px;
@@ -587,12 +597,12 @@ a:hover .news-share-container {
     left: 13px;
   }
   .main-bottom-title {
-    width: 290px;
+    width: 190px;
     height: 76px;
     font-size: 20px;
     line-height: 20px;
-    top: 13px;
-    left: 25px;
+    bottom: 90px;
+    left: 125px;
   }
   .main-bottom-event {
     display: none;
@@ -630,6 +640,9 @@ a:hover .news-share-container {
     height: 50px;
     top: 15px;
     right: 24px;
+  }
+  a:hover .news-share-container {
+    display: none;
   }
   .team-container {
     width: 44px;
@@ -676,6 +689,7 @@ a:hover .news-share-container {
   }
   .news-hr {
     width: 180px;
+    bottom: 66px;
   }
   .buttons {
     width: 200px;
@@ -694,9 +708,15 @@ a:hover .news-share-container {
   .large {
     visibility: hidden;
   }
+  .teams-hide {
+    display: none;
+  }
   .billboard {
     width: 320px;
     height: 761px;
+  }
+  .header {
+    text-align: center;
   }
   .main {
     width: 100%;
@@ -727,12 +747,12 @@ a:hover .news-share-container {
     content: 'View';
   }
   .main-top-title {
-    width: 290px;
+    width: 190px;
     height: 76px;
     font-size: 20px;
     line-height: 20px;
     top: 13px;
-    left: 25px;
+    left: 125px;
   }
   .read-more {
     top: 12px;
@@ -765,12 +785,12 @@ a:hover .news-share-container {
     left: 13px;
   }
   .main-bottom-title {
-    width: 290px;
+    width: 190px;
     height: 76px;
     font-size: 20px;
     line-height: 20px;
     top: 13px;
-    left: 25px;
+    left: 125px;
   }
   .main-bottom-event {
     display: none;
@@ -868,6 +888,7 @@ a:hover .news-share-container {
   }
   .news-hr {
     width: 300px;
+    bottom: 35px;
   }
   .buttons {
     top: 180px;
