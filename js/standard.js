@@ -132,10 +132,15 @@ function listCall(method, count){
 
             $.get(graUrl,function(r_data){
                 //will change the title text and resize using resizetext() function
+                if(r_data[0].city == '' || r_data[0].city == null || r_data[0].state == '' || r_data[0].state == null ){
+                  state = "Los Angeles";
+                  city = "CA";
+                }else{
+                  state = r_data[0].state;
+                  city = r_data[0].city;
+                }
                 name = method[offset].name;
                 $(".fcw-t1").html(name);
-                state = r_data[0].state;
-                city = r_data[0].city;
 
                 //remnant without a city or state provided
                 var r_locName = city + ', ' + state;
@@ -149,6 +154,13 @@ function listCall(method, count){
 
                 //displays information on the widget
                 $.get(Url1 +method[count].method+"/"+state+'/'+city+'/empty/1/1', function(r_data){
+                  if(r_data.data.length < 1){//NEED REWRITE CODE TO REMOVE THIS FUNCTION
+                    method.splice(count,1);
+                    max = method.length - 1;
+                    offset += 2;//just for random sake cause if you go backwards this will move the sliced array to the same offset you were at before
+                    listCall(method, offset);
+                    return;
+                  }
                     $(".fcw-content1").html(r_data.data[0].totalListings);
                     var random = randomimage();
                     $(".fcw-image").css("background-image","url('"+random[offset]+"')");
@@ -156,7 +168,15 @@ function listCall(method, count){
             });
         }else{
             //will change the title text and resize using resizetext() function
-            var name = method[offset].name;
+            try{
+              var name = method[offset].name;
+            }catch(err){
+              state = 'CA';
+              city = 'Los Angeles';
+              offset = 0;
+              listCall(method, offset);
+              return;
+            }
             $(".fcw-t1").html(name);
 
             //remnant stuff
@@ -173,6 +193,13 @@ function listCall(method, count){
 
             //displays information on the widget
             $.get(Url1 + method[count].method+"/"+r_state+'/'+r_city+'/empty/1/1', function(r_data){
+              if(r_data.data.length < 1){//NEED REWRITE CODE TO REMOVE THIS FUNCTION
+                method.splice(count,1);
+                max = method.length - 1;
+                offset += 2;//just for random sake cause if you go backwards this will move the sliced array to the same offset you were at before
+                listCall(method, offset);
+                return;
+              }
                 $(".fcw-content1").html(r_data.data[0].totalListings);
                 var random = randomimage();
                 $(".fcw-image").css("background-image","url('"+random[offset]+"')");
@@ -182,7 +209,18 @@ function listCall(method, count){
         // Should only be for myhousekit.com
         if(city == '' || city == null || state == '' || state == null){
           $.get(graUrl,function(r_data){
+            if(r_data[0].city == '' || r_data[0].city == null || r_data[0].state == '' || r_data[0].state == null ){
+              r_data[0].city = "Los Angeles";
+              r_data[0].state = "CA";
+            }
               $.get(Url1 + method[count].method+"/"+r_data[0]['state']+'/'+r_data[0]['city']+'/empty/1/1', function(data){
+                if(data.data.length < 1){//NEED REWRITE CODE TO REMOVE THIS FUNCTION
+                  method.splice(count,1);
+                  max = method.length - 1;
+                  offset++;//just for random sake cause if you go backwards this will move the sliced array to the same offset you were at before
+                  listCall(method, offset);
+                  return;
+                }
                 //checks if the list exist or has reach its max and restarts the list at 0
                   //will change the title text and resize using resizetext() function
                   var name = method[offset].name;
@@ -211,6 +249,13 @@ function listCall(method, count){
             if(typeof data.data[0] == 'undefined'){
               $.get(graUrl,function(r_data){
                   $.get(Url1 + method[count].method+"/"+r_data[0]['state']+'/'+r_data[0]['city']+'/empty/1/1', function(data){
+                    if(data.data.length < 1){//NEED REWRITE CODE TO REMOVE THIS FUNCTION
+                      method.splice(count,1);
+                      max = method.length - 1;
+                      offset += 2;//just for random sake cause if you go backwards this will move the sliced array to the same offset you were at before
+                      listCall(method, offset);
+                      return;
+                    }
                     //checks if the list exist or has reach its max and restarts the list at 0
                       //will change the title text and resize using resizetext() function
                       var name = method[offset].name;
