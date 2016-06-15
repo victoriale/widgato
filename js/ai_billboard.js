@@ -1,6 +1,33 @@
 ai_billboard = (function() {
-  var APIUrl = 'http://dev-homerunloyal-ai.synapsys.us/sidekick';
+  var domain, remnant;
+  var remLink = "http://dev.homerunloyal.com/";
+  var partLink = "http://dev.homerunzone.com/";
+  var temp = location.search;
+  var href;
+  var query = {};
+  if (temp != null) {
+    query = JSON.parse(decodeURIComponent(temp.substr(1)));
+    domain = query.dom;
+    remnant = query.remn;
+    if (remnant == 'true') {
+      href = remLink;
+      $("base").attr("href", remLink);
+    } else {
+      $("base").attr("href", partLink + domain + "/");
+      href = partLink + domain + "/";
+    }
+  }
+  var teamId = query.team;
+  var APIUrl = 'http://dev-homerunloyal-ai.synapsys.us/billboard/' + teamId;
   var randomArticles = [];
+  var teamData = [];
+  var imageArr = [];
+  var leftRgb;
+  var rightRgb;
+  var red;
+  var green;
+  var blue;
+
   function getContent(eventId) {
     var locApiUrl = APIUrl;
     $.ajax({
@@ -23,46 +50,134 @@ ai_billboard = (function() {
     return AIData;
   } // --> getData
   function displayMainArticles() {
+    $.map(AIData['meta-data']['nextGame']['images'], function(val, index) {
+      val.images = val;
+      imageArr.push(val);
+    });
+    imageArr = imageArr[0].concat(imageArr[1]);
     var mainArticles = [];
     var subArticles = [];
     $.map(AIData, function(val, index) {
-      if (index == 'about-the-teams' || index == 'pregame-report') {
-        val['title'] = val.displayHeadline;
-        val['content'] = val['article'][0];
-        //content.images = val['carousel'];
+      if (index != 'meta-data') {
+        if (index == 'about-the-teams' || index == 'pregame-report') {
+          if (index == 'pregame-report') {
+            val.lastGame = val.lastGame;
+          }
+          val.title = val.displayHeadline;
+          val.content = val['article'][0];
+          val.urlSegment = index;
+        } else {
+          val.title = val.displayHeadline;
+          val.content = val['article'][0];
+          val.urlSegment = index;
+          subArticles.push(val);
+        }
         mainArticles.push(val);
       } else {
-        val['title'] = val.displayHeadline;
-        val['content'] = val['article'][0];
-        //content.images = val['carousel'];
-        subArticles.push(val);
+        teamData.push(val);
       }
+    });
+    $.map(AIData['meta-data'], function(val, index) {
+      teamData.push(val);
     });
     subArticles.sort(function() {
       return 0.5 - Math.random()
     });
     randomArticles = subArticles;
-    $.map(randomArticles, function(val, index) {
-    });
     var arr1 = {
       title: mainArticles[0].title,
-      content: mainArticles[0].content + '<br>&nbsp; '
+      content: mainArticles[0].content + '<br>&nbsp; ',
+      lastGame: mainArticles[0].lastGame,
+      url: href + 'articles/' + mainArticles[0].urlSegment + '/' + teamData[1].eventId
     };
-
     var arr2 = {
       title: mainArticles[1].title,
-      content: mainArticles[1].content + '<br>&nbsp; '
+      content: mainArticles[1].content + '<br>&nbsp; ',
+      url: href + 'articles/' + mainArticles[1].urlSegment + '/' + teamData[1].eventId
     };
-    // Set the data
+    leftRgb = teamData[1].homeTeamColors.split(', ')[0];
+    rightRgb = teamData[1].awayTeamColors.split(', ')[0];
+    getGradient(leftRgb, rightRgb);
+    var homeTeamLinkName = teamData[1].homeTeamName;
+    var awayTeamLinkName = teamData[1].awayTeamName;
+    $('.header-teams')[0].innerHTML = teamData[1].homeLastName + ' vs ' + teamData[1].awayLastName + ":";
+    if (teamData[1].eventStatus == "pre-event") {
+      $('.header-date')[0].innerHTML = "Upcoming Game - " + teamData[1].startDateLong;
+    } else {
+      $('.header-date')[0].innerHTML = "Previous Game - " + teamData[1].startDateLong;
+    }
+    $('#main-top-link').attr('href', arr1.url);
     $('.main-top-title')[0].innerHTML = arr1.title;
     $('.main-top-description')[0].innerHTML = arr1.content;
-    $('.main-top-image').css('background-image', 'url(' + arr1.img + ')');
+    $('.main-top-event-data')[0].innerHTML = arr1.lastGame;
+    $('.main-top-image').css('background-image', 'url(' + imageArr[0] + ')');
+    $('#main-bottom-link').attr('href', arr2.url);
     $('.main-bottom-title')[0].innerHTML = arr2.title;
     $('.main-bottom-description')[0].innerHTML = arr2.content;
-    $('.main-bottom-image').css('background-image', 'url(' + arr2.img + ')');
+    $('.main-bottom-event-data')[0].innerHTML = arr1.lastGame;
+    $('.main-bottom-image').css('background-image', 'url(' + imageArr[1] + ')');
+    $('#left-team-link').attr('href', href + 'team/' + toKebabCase(homeTeamLinkName) + '/' + teamData[1].homeTeamId);
+    $('#left-team-link-small').attr('href', href + 'team/' + toKebabCase(homeTeamLinkName) + '/' + teamData[1].homeTeamId);
+    $('.news-profile-image-left').css('background-image', 'url(' + teamData[1].homeTeamLogo + ')');
+    $('.news-profile-team1')[0].innerHTML = teamData[1].homeLastName;
+    $('.news-profile-record1')[0].innerHTML = teamData[1].homeWins + '-' + teamData[1].homeLosses;
+    $('#right-team-link').attr('href', href + 'team/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].awayTeamId);
+    $('#right-team-link-small').attr('href', href + 'team/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].awayTeamId);
+    $('.news-profile-image-right').css('background-image', 'url(' + teamData[1].awayTeamLogo + ')');
+    $('.news-profile-team2')[0].innerHTML = teamData[1].awayLastName;
+    $('.news-profile-record2')[0].innerHTML = teamData[1].awayWins + '-' + teamData[1].awayLosses;
     displaySubArticles();
     fitText();
   } // --> displayPage
+
+  function toKebabCase(str) {
+    str = str.toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[\.,']/g, '');
+    return str;
+  }
+
+  function getGradient(homeHex, awayHex) {
+    if (homeHex != null && awayHex != null) {
+      var homeRedValue = hexToR(homeHex);
+      var homeGreenValue = hexToG(homeHex);
+      var homeBlueValue = hexToB(homeHex);
+      var leftGradientRgba = "rgba(" + homeRedValue + "," + homeGreenValue + "," + homeBlueValue + ", 1)";
+      var awayRedValue = hexToR(awayHex);
+      var awayGreenValue = hexToG(awayHex);
+      var awayBlueValue = hexToB(awayHex);
+      var rightGradientRgba = "rgba(" + awayRedValue + "," + awayGreenValue + "," + awayBlueValue + ", 1)";
+      var gradient = fullGradient(leftGradientRgba, rightGradientRgba);
+      $('.news-profile').css(gradient);
+    } else {
+      defaultGradient = 'default-gradient';
+    }
+  }
+  //converts hex to RGB
+  function hexToR(h) {
+    return parseInt((cutHex(h)).substring(0, 2), 16)
+  }
+
+  function hexToG(h) {
+    return parseInt((cutHex(h)).substring(2, 4), 16)
+  }
+
+  function hexToB(h) {
+    return parseInt((cutHex(h)).substring(4, 6), 16)
+  }
+
+  function cutHex(h) {
+    return (h.charAt(0) == "#") ? h.substring(1, 7) : h
+  }
+
+  function fullGradient(a, b) {
+    var lgc = a;
+    var rgc = b;
+    return {
+      '-ms-filter': "progid:DXImageTransform.Microsoft.gradient (0deg," + lgc + ',' + rgc + ")",
+      'background': "linear-gradient(90deg," + lgc + ',' + rgc + ")"
+    };
+  };
 
   function displaySubArticles() {
     for (var i = 0; i < randomArticles.length; i++) {
@@ -99,12 +214,13 @@ ai_billboard = (function() {
       subContainer.appendChild(subShareContainer);
       subShareContainer.appendChild(subShare);
       subContainer.appendChild(subTitle);
+      subDate.innerHTML = randomArticles[i].dateline;
+      subDateSmall.innerHTML = randomArticles[i].dateline
       subContainer.appendChild(subDate);
-      if (i != 0) {
-        subContainer.appendChild(subHr);
-      }
       subTitle.innerHTML = randomArticles[i].title;
       $('.news-updates-small')[0].appendChild(subContainerSmall);
+      subImageSmall.src = imageArr[i + 2];
+      subImage.src = imageArr[i + 2];
       subContainerSmall.appendChild(subImageSmall);
       subContainerSmall.appendChild(subShareContainerSmall);
       subShareContainerSmall.appendChild(subShareSmall);
@@ -113,11 +229,15 @@ ai_billboard = (function() {
       if (i != 0) {
         subContainerSmall.appendChild(subHrSmall);
       }
-      $(subContainer).wrapInner($('<a href="' + randomArticles[i].title + '" />'));
-      $(subContainerSmall).wrapInner($('<a href="' + randomArticles[i].title + '" />'));
+      $(subContainer).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + teamData[1].eventId + '" />'));
+      $(subContainerSmall).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + teamData[1].eventId + '" />'));
       subTitleSmall.innerHTML = randomArticles[i].title;
+      if (i != 0) {
+        subContainer.appendChild(subHr);
+      }
     }
   }
+
   function fitText() {
     var textDiv1 = $('.main-top-description');
     if (textDiv1[0].scrollHeight > textDiv1[0].clientHeight) {
@@ -142,12 +262,15 @@ ai_billboard = (function() {
   } // --> fitText
   function scrollDown() {
     randomArticles.push(randomArticles.shift());
+    imageArr.push(imageArr.shift());
     $('.news-container').remove();
     displaySubArticles();
   } // --> scrollDown
   function scrollUp() {
-    randomArticles.splice(0,0,randomArticles[randomArticles.length-1]);
+    randomArticles.splice(0, 0, randomArticles[randomArticles.length - 1]);
     randomArticles.pop();
+    imageArr.splice(0, 0, imageArr[imageArr.length - 1]);
+    imageArr.pop();
     $('.news-container').remove();
     displaySubArticles();
   } // --> scrollUp
@@ -198,15 +321,9 @@ ai_billboard = (function() {
     getData: getData,
     scrollDown: scrollDown,
     scrollUp: scrollUp,
-    // toggleDropDown: toggleDropDown,
     switchGame: switchGame
   };
 })();
-// $(function() {
-//   var domain, remnant;
-//   var remLink = "http://www.hoopsloyal.com/";
-//   var partLink = "http://www.myhoopszone.com/";
-// });
 window.onresize = function(event) {
   var textDiv1 = $('.main-top-description');
   if (textDiv1[0].scrollHeight > textDiv1[0].clientHeight) {

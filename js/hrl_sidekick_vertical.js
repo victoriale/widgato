@@ -1,50 +1,20 @@
 ai_widget = (function() {
   // Declare variables
+  var event = '';
   var temp = location.search;
   var query = {};
-  var scope;
   var target;
   if (temp != null) {
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
-    scope = query.league;
     target = query.targ;
-  } else {
-    scope = 'nba';
   }
-  var APIUrl = 'http://prod-sports-ai.synapsys.us/' + scope + '/widget',
+  var APIUrl = 'http://dev-homerunloyal-ai.synapsys.us/sidekick',
     AIData = {},
     gameID = -1,
     pageInd = -1,
     availPages = [],
-    gameArr = [],
-    pages = ['pregame_report', 'postgame_report', 'about_the_teams', 'historical_team_stats', 'last_matchup', 'player_comparison_centers1', 'player_comparison_forwards1', 'player_comparison_guards1', 'player_comparison_forwards2', 'player_comparison_guards2', 'player_comparison_scorers', 'player_comparison_assisters', 'player_comparison_three_point_getters', 'player_comparison_rebounders', 'player_comparison_stealers', 'player_comparison_power_forwards', 'player_comparison_small_forwards', 'player_comparison_shooting_guards', 'player_comparison_point_guards', 'player_comparison_centers', 'home_team_starting_roster', 'away_team_starting_roster', 'home_team_injury_report', 'away_team_injury_report', 'upcoming'],
-    transArr = {
-      'pregame_report': 'pregame',
-      'postgame_report': 'postgame',
-      'about_the_teams': 'about',
-      'historical_team_stats': 'history',
-      'last_matchup': 'lastmatch',
-      'player_comparison_centers1': 'centers1',
-      'player_comparison_forwards1': 'forwards1',
-      'player_comparison_guards1': 'guards1',
-      'player_comparison_forwards2': 'forwards2',
-      'player_comparison_guards2': 'guards2',
-      'player_comparison_scorers': 'scorers',
-      'player_comparison_assisters': 'assisters',
-      'player_comparison_three_point_getters': 'threepoint',
-      'player_comparison_rebounders': 'rebounders',
-      'player_comparison_stealers': 'stealers',
-      'player_comparison_centers': 'centers',
-      'player_comparison_power_forwards': 'powerforwards',
-      'player_comparison_point_guards': 'pointguards',
-      'player_comparison_small_forwards': 'smallforwards',
-      'player_comparison_shooting_guards': 'shootingguards',
-      'home_team_starting_roster': 'homeroster',
-      'away_team_starting_roster': 'awayroster',
-      'home_team_injury_report': 'homeinjury',
-      'away_team_injury_report': 'awayinjury',
-      'upcoming': 'upcoming',
-    };
+    gameArr = []
+
   function getContent(eventId) {
     // Clear old data
     if (gameID != -1) {
@@ -57,6 +27,7 @@ ai_widget = (function() {
     var locApiUrl = APIUrl;
     if (typeof eventId != "undefined") {
       locApiUrl += "/" + eventId;
+      event = eventId;
     }
     $.ajax({
       url: locApiUrl,
@@ -87,17 +58,24 @@ ai_widget = (function() {
     var content = [];
     var dataArr = [];
     $.map(AIData, function(val, index) {
-      if (val.id == pageID) {
-        content.title = val.title;
-        content.content = val['body'][0].content;
-        content.images = val['carousel'];
-        dataArr.push(content);
+      if (index != "meta-data" && index == pageID) {
+        val.title = val.sidekickTitle;
+        val.content = val.article;
+        val.report = index;
+        if (event == '') {
+          val.eventId = AIData['meta-data']['current'].eventId;
+        } else {
+          val.eventId = event;
+        }
+        dataArr.push(val);
       }
     });
     var imageArr = [];
-    $.map(content.images, function(val, index) {
-      imageArr.push(val.url);
+    $.map(AIData['meta-data']['images'], function(val, index) {
+      val.images = val;
+      imageArr.push(val);
     });
+    imageArr = imageArr[0].concat(imageArr[1]);
     if (imageArr.length < 1) {
       imageArr = ['http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_1.png',
         'http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_2.png',
@@ -111,7 +89,7 @@ ai_widget = (function() {
     var arr = {
       title: dataArr[0].title,
       number: (pageInd + 1) + '/' + availPages.length,
-      url: AIData[0].league + '/article/' + transArr[pageID] + '/' + gameID,
+      url: '/articles/' + dataArr[0].report + '/' + dataArr[0].eventId,
       content: dataArr[0].content + '<br>&nbsp; ',
       img: imageArr[imgIndex]
     };
@@ -170,14 +148,15 @@ ai_widget = (function() {
       return displayError('Invalid YSEOP Response');
     }
     // Get all the pages
-    for (var i = 0; i < AIData.length; i++) {
-      if (pages.indexOf(AIData[i].id) > -1) {
-        availPages.push(AIData[i].id);
+    var pages = [];
+    for (var i = 0; i < Object.keys(AIData).length; i++) {
+      if (pages.indexOf(Object.keys(AIData)[i] > -1) && Object.keys(AIData)[i] != "meta-data") {
+        availPages.push(Object.keys(AIData)[i]);
       }
     }
     pageInd = 0;
     // Get game ID
-    gameID = AIData[0].current.id;
+    gameID = AIData['meta-data']['current'].eventId;
     if (gameArr.length == 0) {
       parseGames();
     }
@@ -190,42 +169,24 @@ ai_widget = (function() {
     gameArr = [];
     // Function for the parser
     var parseGame = function(games) {
-        // Team names
-        $.map(games, function(val, index) {
-          var gameData = {};
-          gameData.home = val.home.abbreviation;
-          gameData.away = val.away.abbreviation;
-          gameData.fullHome = val.home.name;
-          gameData.fullAway = val.away.name;
-          // Event ID
-          gameData.eventId = val.id;
-          // Date
-          gameData.eventDate = val.date;
-          //due to a '-' in the eventDate the position of the date and Time will be [0] and [2]
-          gameData.date = gameData.eventDate.split(' ')[0].split('/');
-          //get rid of extra 0 in date month
-          if (Number(gameData.date[0]) < 10) {
-            gameData.date[0] = gameData.date[0].slice(1, 2);
-          }
-          //get rid of the 20 in 20XX year
-          gameData.date[2] = gameData.date[2].slice(2, 4);
-          gameData.date = gameData.date.join('/');
-          //convert hours to get rid of 0 in 09:XX AM/PM
-          gameData.Time = gameData.eventDate.split(' ')[2].split(':');
-          if (Number(gameData.Time[0]) < 10) {
-            gameData.Time[0] = gameData.Time[0].slice(1, 2);
-          }
-          gameData.Time = gameData.Time.join(':');
-          gameData.meridian = gameData.eventDate.split(' ')[3];
-          //rejoin gameData.eventDate to one single use
-          gameData.eventDate = gameData.date + ' - ' + gameData.Time + gameData.meridian;
-          gameData.eventTime = ' - ' + gameData.Time + gameData.meridian + ' EST';
-          gameArr.push(gameData);
-        });
-        return gameArr;
-      }
-      // Create Jquery object
-    var games = AIData[0].games;
+      // Team names
+      $.map(games, function(val, index) {
+        var gameData = {};
+        gameData.home = val.homeAbbreviation;
+        gameData.away = val.awayAbbreviation;
+        gameData.fullHome = val.homeTeamName;
+        gameData.fullAway = val.awayTeamName;
+        // Event ID
+        gameData.eventId = val.eventId;
+        // Date
+        gameData.eventDate = val.startDateTime;
+        gameData.Time = gameData.eventDate.split(' ')[1];
+        gameData.eventTime = ' - ' + gameData.Time;
+        gameArr.push(gameData);
+      });
+      return gameArr;
+    }
+    var games = AIData['meta-data'].games;
     // Save all the games
     gameArr = parseGame(games);
     // Display the current game
@@ -290,8 +251,8 @@ $(function() {
   var domain, remnant;
   var temp = location.search;
   var query = {};
-  var remLink = "http://www.hoopsloyal.com/";
-  var partLink = "http://www.myhoopszone.com/";
+  var remLink = "http://dev.homerunloyal.com/";
+  var partLink = "http://dev.homerunzone.com/";
   if (temp != null) {
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     //set the query data from database to global variable to use
