@@ -55,7 +55,7 @@ $(function(){
       var dataValue = '';
       $('.fcw-t1').html(listInfo.name);
       $('.fcw-t2-num').html('#'+(index+1));
-      $('.fcw-image').css('background', 'url('+imageUrl(listData[index].teamLogo)+') no-repeat');
+      $('.fcw-image-team').css('background', 'url('+imageUrl(listData[index].teamLogo)+') no-repeat');
       $('.fcw-content1').html(listData[index].teamName);
       $('#fcw-content2a').html(listData[index].teamVenue);
       $('#fcw-content2b').html(listData[index].teamCity + ', ' + abbrState(listData[index].teamState));
