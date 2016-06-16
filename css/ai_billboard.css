@@ -100,12 +100,12 @@ sup {
   background-size: contain;
 }
 .main-top-title {
-  width: 262px;
+  width: 245px;
   height: 105px;
   color: #000;
   font-size: 26px;
   line-height: 26px;
-  font-weight: 700;
+  font-weight: 800;
   text-align: left;
   position: absolute;
   top: 20px;
@@ -159,7 +159,7 @@ a:hover .read-more {
   font-size: 10px;
   font-weight: 800;
   position: relative;
-  top: 18px;
+  top: 20px;
   left: 35px;
 }
 .main-top-event {
@@ -207,12 +207,12 @@ a:hover .read-more {
   background-size: contain;
 }
 .main-bottom-title {
-  width: 262px;
+  width: 245px;
   height: 105px;
   color: #000;
   font-size: 26px;
   line-height: 26px;
-  font-weight: 700;
+  font-weight: 800;
   text-align: left;
   position: absolute;
   bottom: 78px;
@@ -270,7 +270,7 @@ a:hover .read-more {
   border-radius: 50%;
   border-style: solid;
   border-width: 3px;
-  border-color: rgba(0, 0, 0, 25);
+  border-color: rgba(0, 0, 0, .25);
   width: 65px;
   height: 65px;
   position: relative;
@@ -284,7 +284,7 @@ a:hover .read-more {
   border-radius: 50%;
   border-style: solid;
   border-width: 3px;
-  border-color: rgba(0, 0, 0, 25);
+  border-color: rgba(0, 0, 0, .25);
   width: 65px;
   height: 65px;
   position: absolute;
@@ -568,7 +568,7 @@ a:hover .news-share-container {
     left: 125px;
   }
   .read-more {
-    top: 12px;
+    top: 15px;
     left: 21px;
   }
   .main-top-event {
@@ -754,7 +754,7 @@ a:hover .news-share-container {
     left: 125px;
   }
   .read-more {
-    top: 12px;
+    top: 15px;
     left: 21px;
   }
   .main-top-event {
