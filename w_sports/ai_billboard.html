@@ -15,15 +15,15 @@
 <body>
   <div class="billboard">
     <div class="header">
-      <div class="header-team"></div>
-      <span class="header-home"></span><span class="away"></span>
-      <span class="header-recent">
-            Upcoming Game: Tuesday, April 13. 2016.
-        </span>
+      <!-- This may be needed later
+      <div class="header-team"></div> -->
+      <!-- <span class="header-home"></span><span class="away"></span> -->
+      <span class="header-teams teams-hide"></span>
+      <span class="header-date"></span>
     </div>
     <div class="main">
       <div class="main-top">
-        <a href="#">
+        <a href="javascript:void(0)" id="main-top-link">
           <div class="main-top-image">
             <div class="view-container">
               <p class="view-article"></p>
@@ -31,7 +31,7 @@
           </div>
           <div class="main-top-title">
           </div>
-          <div class="main-top-event">Last Game: <span class="main-top-event-data">Yankees 01 - Red Sox 10</span></div>
+          <div class="main-top-event">Last Game: <span class="main-top-event-data"></span></div>
           <div class="main-top-description">
           </div>
           <div class='read-more'>Read More <i class='fa fa-share'></i></div>
@@ -39,15 +39,15 @@
       </div>
       <div class="main-hr"></div>
       <div class="main-bottom">
-        <a href="#">
+        <a href="javascript:void(0)" id="main-bottom-link">
           <div class="main-bottom-image">
             <div class="view-container">
               <p class="view-article"></p>
             </div>
           </div>
-          <div class="main-bottom-title">
-          </div>
-          <div class="main-bottom-event">Last Game: <span class="main-bottom-event-data">Yankees 01 - Red Sox 10</span></div>
+          <span class="main-bottom-title">
+          </span>
+          <div class="main-bottom-event">Last Game: <span class="main-bottom-event-data"></span></div>
           <div class="main-bottom-description">
           </div>
           <div class='read-more'>Read More <i class='fa fa-share'></i></div>
@@ -56,27 +56,27 @@
     </div>
     <div class="news large">
       <div class="news-profile">
-        <a href="#" class="left-link">
+        <a href="javascript:void(0)" id="left-team-link">
           <div class="news-profile-image-left">
             <div class="team-container">
               <i class="fa fa-share team-share"></i>
             </div>
           </div>
           <div class="news-profile-left">
-            <div class="news-profile-team1">Yankees</div>
-            <div class="news-profile-record">Record: <span class="news-profile-record1">15-5</span></div>
+            <div class="news-profile-team1"></div>
+            <div class="news-profile-record">Record: <span class="news-profile-record1"></span></div>
           </div>
         </a>
         <div class="news-profile-vs">vs</div>
-        <a href="#" class="right-link">
+        <a href="javascript:void(0)" id="right-team-link">
           <div class="news-profile-image-right">
             <div class="team-container">
               <i class="fa fa-share team-share"></i>
             </div>
           </div>
           <div class="news-profile-right">
-            <div class="news-profile-team2">Red Sox</div>
-            <div class="news-profile-record">Record: <span class="news-profile-record2">20-10</span></div>
+            <div class="news-profile-team2"></div>
+            <div class="news-profile-record">Record: <span class="news-profile-record2"></span></div>
           </div>
         </a>
       </div>
@@ -89,7 +89,7 @@
       </div>
     </div>
     <div class="news-profile small">
-      <a href="#" class="left-link">
+      <a href="javascript:void(0)" id="left-team-link-small">
         <div class="news-profile-image-left">
           <div class="team-container">
             <i class="fa fa-share team-share"></i>
@@ -101,7 +101,7 @@
         </div>
       </a>
       <div class="news-profile-vs">vs</div>
-      <a href="#" class="right-link">
+      <a href="javascript:void(0)" id="right-team-link-small">
         <div class="news-profile-image-right">
           <div class="team-container">
             <i class="fa fa-share team-share"></i>
