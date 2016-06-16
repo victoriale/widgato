@@ -1,3 +1,4 @@
+// VL - last updated: June 16th 2016
 var offset = 0;
 var dataLength;
 var curData;
@@ -5,12 +6,27 @@ var domain = '';
 var remnant = '';
 var max = 10;
 var bord = false;
-var protocolToUse = (location.protocol == "https:") ? "https" : "http";
-var link = protocolToUse+"://www.homerunloyal.com/";
-var link_partner = protocolToUse+"://www.homerunzone.com/";
-var apiUrl = protocolToUse+'://dev-homerunloyal-api.synapsys.us/';
-$(function(){
 
+var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
+var referrer = document.referrer;
+// if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
+var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
+
+function getBaseUrl(string){
+    var urlArray = string.split("/");
+    var domain = urlArray[2];
+    return protocolToUse + "//" + domain;
+}
+// convert camel case to lower kabab case for url
+toLowerKababCase = function(str){
+  str = str.toLowerCase()
+      .replace(/\s+/g, '-')
+      .replace(/[\.,']/g, '');
+  return str;
+};
+
+$(function(){
   var temp = location.search;
   var query = {};
 
@@ -41,6 +57,7 @@ $(function(){
           dataCall(offset);
         }
     });
+    // Example Url: http://dev-homerunloyal-api.synapsys.us/randomList/player/25/1
     $.get(apiUrl+'randomList/player/25/1', function(data){
       curData = data.data;
       dataCall(offset);
@@ -48,46 +65,48 @@ $(function(){
   })//END OF FUNCTION
 
   function dataCall(index){
-      var listInfo = curData.listInfo;
-      var listData = curData['listData'];
-      dataLength = listData.length;
-      var dataPt = listData[index].stat;
+      var listInfo = curData.listInfo; // Get data list info
+      var listData = curData['listData']; // Get data details list's items
+      var dataPt = listData[index].stat; // Get stats values
       var dataValue = '';
-      $('.fcw-t1').html(listInfo.name);
+      dataLength = listData.length;
+      // Convert to lower kabab case for url links
+      var teamNameUrl = toLowerKababCase(listData[index].teamName);
+      var playerNameUrl = toLowerKababCase(listData[index].playerName);
+
+      $('.fcw-t1').html(listInfo.name);// Sidekick's title
       $('.fcw-t2-num').html('#'+(index+1));
-      $('.fcw-image').css('background', 'url('+imageUrl(listData[index].imageUrl)+') no-repeat');
-      $('.fcw-logo').css('background', 'url('+imageUrl(listData[index].teamLogo)+') no-repeat');
-      $('.fcw-content1').html(listData[index].playerName);
-      $('#fcw-content2a').html(listData[index].teamLastName);
-      $('#fcw-content2b').html(listData[index].teamCity + ', ' + abbrState(listData[index].teamState));
+      $('.fcw-image').css('background', 'url('+imageUrl(listData[index].imageUrl)+') no-repeat'); // Get player's headshots image
+      $('.fcw-logo').css('background', 'url('+imageUrl(listData[index].teamLogo)+') no-repeat'); // Get team's logo image
+      $('.fcw-content1').html(listData[index].playerName); // Get player's full-name
+      $('#fcw-content2a').html(listData[index].teamLastName); // Get team's name
+      $('#fcw-content2b').html(listData[index].teamCity + ', ' + abbrState(listData[index].teamState)); // Get team's location
 
       if(listData[index].stat == 1){
         dataValue = listInfo.nouns[0];
       } else {
         dataValue = listInfo.nouns[1];
       }
-
-      if(typeof listInfo.seasonId == 'undefined'){
-        listInfo.seasonId = '2016';
+      // Check if no seasonId then return current year
+      if(typeof listInfo.season == 'undefined'){
+        listInfo.season = new Date().getFullYear();
       }
-      $('.fcw-content3').html(Math.round(dataPt * 100)/100 + ' ' + dataValue + ' for ' + listInfo.seasonId);
+      $('.fcw-content3').html(Math.round(dataPt * 100)/100 + ' ' + dataValue + ' for ' + listInfo.season);
 
       if(remnant == 'true' || remnant == true){
-        //TODO
-        $('.fcw-icon').attr('href', link);
-        $('.exec-link').attr('href', link);
-        $('#teamProfile').attr('href', link);
-        $('#playerUrl').attr('href', link);
-        $('#fcw-content2a').attr('href', link);
-        $('.fcw-href').attr('href', link);
+        $('.fcw-icon').attr('href', baseUrl); //Top Left Icon - link to Home Page
+        $('.exec-link').attr('href', baseUrl + "/player/" + teamNameUrl + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
+        $('#teamProfile').attr('href', baseUrl + "/team/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
+        $('#playerUrl').attr('href', baseUrl + "/player/" + teamNameUrl + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
+        $('#fcw-content2a').attr('href', baseUrl + "/team/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
+        $('.fcw-href').attr('href', baseUrl + listInfo.url + "/20/1"); // Get list page url
       } else {
-        //TODO
-        $('.fcw-icon').attr('href', link_partner);
-        $('.exec-link').attr('href', link_partner);
-        $('#teamProfile').attr('href', link_partner);
-        $('#playerUrl').attr('href', link_partner);
-        $('#fcw-content2a').attr('href', link_partner);
-        $('.fcw-href').attr('href', link_partner);
+        $('.fcw-icon').attr('href', baseUrl+"/"+ domain); //Top Left Icon - link to Partner Home Page
+        $('.exec-link').attr('href', baseUrl + "/" + domain + "/p/" + teamNameUrl + "/" + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
+        $('#teamProfile').attr('href', baseUrl+ "/" + domain + "/t/" + teamNameUrl + "/" + listData[index].teamId);
+        $('#playerUrl').attr('href', baseUrl + "/" + domain + "/p/" + teamNameUrl + "/" + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
+        $('#fcw-content2a').attr('href', baseUrl + "/" + domain + "/t/" + teamNameUrl + "/" + listData[index].teamId);// Get teamUrl
+        $('.fcw-href').attr('href', baseUrl + "/" + domain +  listInfo.url + "/20/1"); // Get list page domain
       }
   }
 
