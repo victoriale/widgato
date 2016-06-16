@@ -46,6 +46,7 @@ sup {
   background-color: #222;
   position: absolute;
   top: 50px;
+  left: 0;
 }
 .text-snippet{
   width:100%;
