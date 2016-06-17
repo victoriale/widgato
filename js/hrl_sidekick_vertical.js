@@ -22,8 +22,8 @@ ai_widget = (function() {
       pageInd = -1;
       $('.aiw-title')[0].innerHTML = "Loading...";
       $('.aiw-txt')[0].innerHTML = '';
-      $('.aiw-num')[0].innerHTML = '';
-      $('.aiw-num-length')[0].innerHTML = '';
+      //$('.aiw-num')[0].innerHTML = '';
+      //$('.aiw-num-length')[0].innerHTML = '';
     }
     var locApiUrl = APIUrl;
     if (typeof eventId != "undefined") {
@@ -95,8 +95,8 @@ ai_widget = (function() {
     };
     // Set the data
     $('.aiw-title')[0].innerHTML = arr.title;
-    $('.aiw-num')[0].innerHTML = (pageInd + 1);
-    $('.aiw-num-length')[0].innerHTML = '/' + availPages.length;
+    //$('.aiw-num')[0].innerHTML = (pageInd + 1);
+    //$('.aiw-num-length')[0].innerHTML = '/' + availPages.length;
     $('#ai-link').attr('href', arr.url);
     $('#ai-link').attr('target', target);
     $('.aiw-txt')[0].innerHTML = arr.content;
@@ -201,7 +201,7 @@ ai_widget = (function() {
       } else {
         ddStr += '<div class="text-snippet">All times are in Eastern Time</div>';
       }
-      ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == gameID ? ' active" " onclick="ai_widget.switchGame(' + i + ')"' : '" onclick="ai_widget.switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs. ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs. <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
+      ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == gameID ? ' active" " onclick="ai_widget.switchGame(' + i + ')"' : '" onclick="ai_widget.switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
     }
 
     // Create
