@@ -46,7 +46,6 @@ sup {
   background-color: #222;
   position: absolute;
   top: 50px;
-  left: 0;
 }
 .text-snippet{
   width:100%;
@@ -78,13 +77,13 @@ sup {
   background-position: center center;
   background-size: 15px 15px;
   background-repeat: no-repeat;
-  background-image: url('./public/Icon_Basketball.png');
+  background-image: url('./public/Icon_Baseball.png');
 }
 .aiw-top span {
   font-size: 15px;
 }
 .aiw-top span .team {
-  font-weight: bold;
+  font-weight: 400;
   font-size: 14px;
   text-transform: uppercase;
 }
@@ -197,15 +196,24 @@ sup {
   line-height: 35px;
   float: right;
   color: #999;
+  font-weight: 800;
+  padding-right: 2px;
+  line-height: 2.1;
+}
+.aiw-num-length {
+  font-size: 16px;
+  line-height: 35px;
+  float: right;
+  color: #999;
   font-weight: 400;
-  padding-right: 15px;
+  padding-right: 43px;
 }
 .aiw-txt {
   width: 325px;
   height: 95px;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 18px;
   position: absolute;
   top: 45px;
@@ -213,10 +221,12 @@ sup {
 .aiw-txt::first-letter {
   text-transform: uppercase;
   font-size: 60px;
-  line-height: 50px;
+  line-height: 43px;
   font-weight: bold;
   float: left;
-  padding-right: 5px;
+  padding-right: 7px;
+  padding-top: 2px;
+  font-style: italic;
 }
 .fa.aiw-btn {
   width: 30px;
@@ -246,7 +256,7 @@ sup {
 .aiw-link {
   width: 150px;
   height: 35px;
-  border-radius: 5px;
+  border-radius: 3px;
   background-color: #363636;
   color: #fff;
   line-height: 35px;
@@ -254,7 +264,7 @@ sup {
   padding: 0;
   position: absolute;
   bottom: 18px;
-  left: 16px;
+  left: 35px;
   font-size: 13px;
   font-weight: bold;
   padding-left: 17px;
@@ -331,11 +341,11 @@ sup {
     right: 33px;
   }
   .aiw-num {
-    line-height: 32px;
+    line-height: 33px;
     float: right;
-    position: absolute;
-    top: -5px;
-    right: -5px;
+  }
+  .aiw-num-length {
+    padding-right: 0;
   }
   .aiw-txt {
     width: 265px;
@@ -345,4 +355,26 @@ sup {
   .fa-angle-right.aiw-btn {
     right: 300px;
   }
+}
+.frame::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+
+.frame::-webkit-scrollbar:vertical {
+    width: 11px;
+}
+
+.frame::-webkit-scrollbar:horizontal {
+    height: 11px;
+}
+
+.frame::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.frame::-webkit-scrollbar-track {
+    background-color: #fff;
+    border-radius: 8px;
 }

@@ -23,6 +23,7 @@ ai_widget = (function() {
       $('.aiw-title')[0].innerHTML = "Loading...";
       $('.aiw-txt')[0].innerHTML = '';
       $('.aiw-num')[0].innerHTML = '';
+      $('.aiw-num-length')[0].innerHTML = '';
     }
     var locApiUrl = APIUrl;
     if (typeof eventId != "undefined") {
@@ -88,19 +89,18 @@ ai_widget = (function() {
     imgIndex = (imgIndex > -1 ? imgIndex : 0);
     var arr = {
       title: dataArr[0].title,
-      number: (pageInd + 1) + '/' + availPages.length,
       url: '/articles/' + dataArr[0].report + '/' + dataArr[0].eventId,
       content: dataArr[0].content + '<br>&nbsp; ',
       img: imageArr[imgIndex]
     };
     // Set the data
     $('.aiw-title')[0].innerHTML = arr.title;
-    $('.aiw-num')[0].innerHTML = arr.number;
+    $('.aiw-num')[0].innerHTML = (pageInd + 1);
+    $('.aiw-num-length')[0].innerHTML = '/' + availPages.length;
     $('#ai-link').attr('href', arr.url);
     $('#ai-link').attr('target', target);
     $('.aiw-txt')[0].innerHTML = arr.content;
     $('.aiw-img').css('background-image', 'url(' + arr.img + ')');
-    $('.aiw-ad')[0].innerHTML = arr.title + ' presented by:';
     fitText();
   } // --> displayPage
   function fitText() {
