@@ -58,7 +58,7 @@ $(function(){
         }
     });
     // Example Url: http://dev-homerunloyal-api.synapsys.us/randomList/player/25/1
-    $.get(apiUrl+'randomList/player/25/1', function(data){
+    $.get(apiUrl+'randomList/player/20/1', function(data){
       curData = data.data;
       dataCall(offset);
     }, 'json');
@@ -112,7 +112,7 @@ $(function(){
 
 function imageUrl(path){
   if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
-    return 'http://prod-sports-images.synapsys.us/nba/players/headshots/no_player_icon.png';
+    return '../css/public/no-image.png';
   }
   return 'http://prod-sports-images.synapsys.us' + path;
 }

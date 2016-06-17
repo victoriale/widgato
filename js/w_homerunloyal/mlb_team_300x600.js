@@ -94,7 +94,7 @@ $(function(){
         $('#teamProfile').attr('href', baseUrl + "/team/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
         $('.fcw-href').attr('href', baseUrl  +  listInfo.url + "/20/1"); // Get list page domain
       } else {
-        $('.fcw-icon').attr('href', baseUrl);
+        $('.fcw-icon').attr('href', baseUrl + "/" + domain);
         $('.exec-link').attr('href', baseUrl + "/" + domain + "/t/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
         $('#teamProfile').attr('href', baseUrl + "/" + domain + "/t/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
         $('.fcw-href').attr('href', baseUrl + "/" + domain +  listInfo.url + "/20/1"); // Get list page domain
@@ -103,7 +103,7 @@ $(function(){
 
 function imageUrl(path){
   if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
-    return 'http://prod-sports-images.synapsys.us/nba/players/headshots/no_player_icon.png';
+    return '../css/public/no-image.png';
   }
   return 'http://prod-sports-images.synapsys.us' + path;
 }
