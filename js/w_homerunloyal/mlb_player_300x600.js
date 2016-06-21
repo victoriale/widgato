@@ -79,7 +79,7 @@ $(function(){
       $('.fcw-image').css('background', 'url('+imageUrl(listData[index].imageUrl)+') no-repeat'); // Get player's headshots image
       $('.fcw-logo').css('background', 'url('+imageUrl(listData[index].teamLogo)+') no-repeat'); // Get team's logo image
       $('.fcw-content1').html(listData[index].playerName); // Get player's full-name
-      $('#fcw-content2a').html(listData[index].teamLastName); // Get team's name
+      $('#fcw-team').html(listData[index].teamLastName); // Get team's name
       $('#fcw-content2b').html(listData[index].teamCity + ', ' + abbrState(listData[index].teamState)); // Get team's location
 
       if(listData[index].stat == 1){
@@ -98,14 +98,14 @@ $(function(){
         $('.exec-link').attr('href', baseUrl + "/player/" + teamNameUrl + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
         $('#teamProfile').attr('href', baseUrl + "/team/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
         $('#playerUrl').attr('href', baseUrl + "/player/" + teamNameUrl + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
-        $('#fcw-content2a').attr('href', baseUrl + "/team/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
+        $('#fcw-team').attr('href', baseUrl + "/team/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
         $('.fcw-href').attr('href', baseUrl + listInfo.url + "/20/1"); // Get list page url
       } else {
         $('.fcw-icon').attr('href', baseUrl+"/"+ domain); //Top Left Icon - link to Partner Home Page
         $('.exec-link').attr('href', baseUrl + "/" + domain + "/p/" + teamNameUrl + "/" + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
         $('#teamProfile').attr('href', baseUrl+ "/" + domain + "/t/" + teamNameUrl + "/" + listData[index].teamId);
         $('#playerUrl').attr('href', baseUrl + "/" + domain + "/p/" + teamNameUrl + "/" + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
-        $('#fcw-content2a').attr('href', baseUrl + "/" + domain + "/t/" + teamNameUrl + "/" + listData[index].teamId);// Get teamUrl
+        $('#fcw-team').attr('href', baseUrl + "/" + domain + "/t/" + teamNameUrl + "/" + listData[index].teamId);// Get teamUrl
         $('.fcw-href').attr('href', baseUrl + "/" + domain +  listInfo.url + "/20/1"); // Get list page domain
       }
   }

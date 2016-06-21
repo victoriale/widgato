@@ -207,20 +207,25 @@ button:focus {
   line-height: 1.1em;
 }
 
-#fcw-content2a{
-  font-size: 12px;
+#fcw-team{
   color: #bc1624;
   font-weight: 900;
   text-align: center;
   line-height: 1.1em;
 }
 
-#fcw-content2a:hover{
+#fcw-team:hover{
   color: #000;
 }
 
+#fcw-content2a{
+  color: #bc1624;
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.1em;
+}
+
 #fcw-content2b{
-  font-size: 12px;
   color: #bc1624;
   font-weight: 900;
   text-align: center;
