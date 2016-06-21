@@ -174,13 +174,13 @@ sup {
 .aiw-bdy {
   width: 100%;
   height: 220px;
-  padding: 10px 15px;
+  padding: 10px 40px;
   background-color: #fff;
   position: absolute;
   top: 130px;
 }
 .aiw-title {
-  font-weight: bold;
+  font-weight: 800;
   font-size: 20px;
   line-height: 20px;
   float: left;
@@ -201,13 +201,12 @@ sup {
   color: #999;
 }
 .aiw-txt {
-  width: 250px;
+  width: 220px;
   height: 132px;
   text-overflow: ellipsis;
   font-size: 12px;
   position: absolute;
-  top: 30px;
-  padding-left: 20px;
+  top: 35px;
   padding-top: 10px;
 }
 .aiw-txt::first-letter {

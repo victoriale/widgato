@@ -100,11 +100,11 @@ sup {
   background-size: contain;
 }
 .main-top-title {
-  width: 245px;
+  width: 250px;
   height: 105px;
   color: #000;
-  font-size: 26px;
-  line-height: 26px;
+  font-size: 24px;
+  line-height: 1em;
   font-weight: 800;
   text-align: left;
   position: absolute;
@@ -394,13 +394,9 @@ a:hover .team-container {
   width: 100%;
   height: 200px;
 }
-.news-container {
-  height: 65px;
-}
 .news-container a, img {
   display: block;
   width: 100%;
-  height: 65px;
   color: #000;
 }
 a:hover .news-title {
@@ -448,6 +444,7 @@ a:hover .news-share-container {
   position: relative;
   width: 165px;
   top: 10px;
+  padding-right: 5px;
 }
 .news-time {
   color: #999;
@@ -457,13 +454,14 @@ a:hover .news-share-container {
   position: relative;
   top: 13px;
   left: 20px;
+  margin-bottom: 10px;
 }
 .news-hr {
   border-bottom: 1px solid rgba(167, 167, 167, 0.5);
   width: 220px;
   margin: 0 auto;
   position: relative;
-  bottom: 68px;
+  padding-top: 15px;
 }
 .buttons {
   width: 240px;
@@ -674,9 +672,6 @@ a:hover .news-share-container {
     width: 100%;
     height: 200px;
   }
-  .news-container {
-    height: 60px;
-  }
   .news-image {
     display: none;
   }
@@ -688,7 +683,6 @@ a:hover .news-share-container {
   }
   .news-hr {
     width: 180px;
-    bottom: 66px;
   }
   .buttons {
     width: 200px;
@@ -874,7 +868,6 @@ a:hover .news-share-container {
   .news-container {
     top: 10px;
     left: 10px;
-    height: 60px;
   }
   .news-image {
     display: block;
@@ -887,7 +880,6 @@ a:hover .news-share-container {
   }
   .news-hr {
     width: 300px;
-    bottom: 35px;
   }
   .buttons {
     top: 180px;

@@ -174,7 +174,7 @@ sup {
 .aiw-bdy {
   width: 395px;
   height: 200px;
-  padding: 10px 15px;
+  padding: 10px 40px 10px 15px;
   background-color: #fff;
   position: relative;;
   top: 50px;
@@ -212,12 +212,12 @@ sup {
   padding-right: 43px;
 }
 .aiw-txt {
-  width: 325px;
+  width: 340px;
   height: 95px;
   text-overflow: ellipsis;
   font-size: 12px;
   position: absolute;
-  top: 45px;
+  top: 50px;
 }
 .aiw-txt::first-letter {
   text-transform: uppercase;
@@ -326,6 +326,9 @@ sup {
   .aiw-top {
     width: 350px;
   }
+  .aiw-title {
+    padding-left: 6px;
+  }
 
   /**** Dropdown ****/
   .dropdown {
@@ -335,7 +338,7 @@ sup {
   /**** Content Classes ****/
   .aiw-bdy {
     width: 350px;
-    padding: 10px 35px;
+    padding: 10px 40px;
     left: 0;
   }
   .aiw-index {
@@ -359,6 +362,7 @@ sup {
     text-overflow: ellipsis;
     padding-top: 10px;
     left: 43px;
+    top: 40px;
   }
   .fa-angle-right.aiw-btn {
     right: 300px;
