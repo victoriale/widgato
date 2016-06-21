@@ -87,6 +87,9 @@ sup {
   font-size: 14px;
   text-transform: uppercase;
 }
+.aiw-top span .away, .aiw-top span .home{
+  font-weight: 700;
+}
 .aiw-top .fa {
   color: rgba(188, 22, 36, 0.9);
   font-size: 20px;
@@ -199,24 +202,25 @@ sup {
 }
 .aiw-txt {
   width: 250px;
-  height: 122px;
-  overflow: hidden;
+  height: 132px;
   text-overflow: ellipsis;
   font-size: 12px;
-  line-height: 15px;
   position: absolute;
-  top: 40px;
+  top: 30px;
   padding-left: 20px;
+  padding-top: 10px;
 }
 .aiw-txt::first-letter {
   text-transform: uppercase;
   font-size: 60px;
-  line-height: 43px;
+  line-height: 42px;
   font-weight: bold;
   float: left;
-  padding-right: 7px;
-  padding-top: 2px;
+  padding-right: 6px;
   font-style: italic;
+  position: relative;
+  left: 30px;
+  margin-right: 3px;
 }
 .fa.aiw-btn {
   width: 30px;
