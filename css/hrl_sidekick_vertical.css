@@ -108,7 +108,7 @@ sup {
 .dropdown {
   position: absolute;
   top: 40px;
-  height: 310px;
+  height: 300px;
   width: 100%;
   display: none;
   color: #000;
@@ -183,7 +183,10 @@ sup {
   font-weight: 800;
   font-size: 20px;
   line-height: 20px;
+  position: relative;
+  margin-bottom: 15px;
   float: left;
+  width: 260px;
 }
 .aiw-num {
   font-size: 16px;
@@ -202,12 +205,10 @@ sup {
 }
 .aiw-txt {
   width: 220px;
-  height: 132px;
+  height: 150px;
   text-overflow: ellipsis;
   font-size: 12px;
-  position: absolute;
-  top: 35px;
-  padding-top: 10px;
+  padding-top: 40px;
 }
 .aiw-txt::first-letter {
   text-transform: uppercase;
