@@ -279,6 +279,8 @@ a:hover .read-more {
   float: left;
   background-position: center;
   background-size: contain;
+  background-clip: padding-box;
+  background-repeat: no-repeat;
 }
 .news-profile-image-right {
   border-radius: 50%;
@@ -293,6 +295,8 @@ a:hover .read-more {
   float: right;
   background-position: center;
   background-size: contain;
+  background-clip: padding-box;
+  background-repeat: no-repeat;
 }
 .team-container {
   display: none;

@@ -1,6 +1,6 @@
 html, body {
   margin: 0 !important;
-  font-family: HN;
+  font-family: Lato, sans-serif;
   width: 100%;
   height: auto;
   background-color: white;
@@ -180,7 +180,7 @@ sup {
   top: 130px;
 }
 .aiw-title {
-  font-weight: 800;
+  font-weight: 900;
   font-size: 20px;
   line-height: 20px;
   position: relative;
@@ -216,7 +216,7 @@ sup {
   line-height: 42px;
   font-weight: bold;
   float: left;
-  padding-right: 6px;
+  padding-right: 10px;
   font-style: italic;
   position: relative;
   left: 30px;
