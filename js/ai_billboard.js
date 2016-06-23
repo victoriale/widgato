@@ -103,11 +103,7 @@ ai_billboard = (function() {
     var homeLastName = (teamData[1].homeLastName.toLowerCase() == "diamondbacks") ? "D'backs" : teamData[1].homeLastName;
     var awayLastName = (teamData[1].awayLastName.toLowerCase() == "diamondbacks") ? "D'backs" : teamData[1].awayLastName;
     $('.header-teams')[0].innerHTML = awayLastName + ' vs ' + homeLastName + ":";
-    if (teamData[1].eventStatus == "pre-event") {
-      $('.header-date')[0].innerHTML = "Upcoming Game - " + teamData[1].startDateLong;
-    } else {
-      $('.header-date')[0].innerHTML = "Previous Game - " + teamData[1].startDateLong;
-    }
+    $('.header-date')[0].innerHTML = teamData[1].gameFlag + " Game - " + teamData[1].startDateLong;
     $('#main-top-link').attr('href', arr1.url);
     $('.main-top-title')[0].innerHTML = arr1.title;
     $('.main-top-description')[0].innerHTML = arr1.content;
@@ -233,8 +229,8 @@ ai_billboard = (function() {
       subContainerSmall.appendChild(subTitleSmall);
       subContainerSmall.appendChild(subDateSmall);
       subContainerSmall.appendChild(subHrSmall);
-      $(subContainer).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + teamData[1].eventId + '" />'));
-      $(subContainerSmall).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + teamData[1].eventId + '" />'));
+      $(subContainer).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
+      $(subContainerSmall).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
       subTitleSmall.innerHTML = randomArticles[i].title;
       subContainer.appendChild(subHr);
       if (randomArticles[i].title.length <= 36) {
