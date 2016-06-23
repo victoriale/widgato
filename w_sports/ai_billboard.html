@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>AI Billboard</title>
+  <meta charset='utf-8'>
+  <!--ATTENTION css/fontawesome.css is being called locally the cdn link site was not working-->
+  <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="../css/ai_billboard.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/ai_billboard.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
+  <base target="_blank">
+</head>
+
+<body>
+  <div class="billboard">
+    <div class="header">
+      <!-- This may be needed later
+      <div class="header-team"></div> -->
+      <!-- <span class="header-home"></span><span class="away"></span> -->
+      <span class="header-teams teams-hide"></span>
+      <span class="header-date"></span>
+    </div>
+    <div class="main">
+      <div class="main-top">
+        <a href="javascript:void(0)" id="main-top-link">
+          <div class="main-top-image">
+            <div class="view-container">
+              <p class="view-article"></p>
+            </div>
+          </div>
+          <div class="main-top-title">
+          </div>
+          <div class="main-top-event">Last Game: <span class="main-top-event-data"></span></div>
+          <div class="main-top-description">
+          </div>
+          <div class='read-more'>Read More <i class='fa fa-share'></i></div>
+        </a>
+      </div>
+      <div class="main-hr"></div>
+      <div class="main-bottom">
+        <a href="javascript:void(0)" id="main-bottom-link">
+          <div class="main-bottom-image">
+            <div class="view-container">
+              <p class="view-article"></p>
+            </div>
+          </div>
+          <span class="main-bottom-title">
+          </span>
+          <div class="main-bottom-event">Last Game: <span class="main-bottom-event-data"></span></div>
+          <div class="main-bottom-description">
+          </div>
+          <div class='read-more'>Read More <i class='fa fa-share'></i></div>
+        </a>
+      </div>
+    </div>
+    <div class="news large">
+      <div class="news-profile">
+        <a href="javascript:void(0)" id="left-team-link">
+          <div class="news-profile-image-left">
+            <div class="team-container">
+              <i class="fa fa-share team-share"></i>
+            </div>
+          </div>
+          <div class="news-profile-left">
+            <div class="news-profile-team1"></div>
+            <div class="news-profile-record">Record: <span class="news-profile-record1"></span></div>
+          </div>
+        </a>
+        <div class="news-profile-vs">vs</div>
+        <a href="javascript:void(0)" id="right-team-link">
+          <div class="news-profile-image-right">
+            <div class="team-container">
+              <i class="fa fa-share team-share"></i>
+            </div>
+          </div>
+          <div class="news-profile-right">
+            <div class="news-profile-team2"></div>
+            <div class="news-profile-record">Record: <span class="news-profile-record2"></span></div>
+          </div>
+        </a>
+      </div>
+      <div class="news-notification"><i class="fa fa-heart-o" style="color: #bc2027;"></i> Other Content You May Love</div>
+      <div class="news-updates">
+        <div class="buttons">
+          <div class="news-button-up noclick" onclick="ai_billboard.scrollUp()">UP <i class="fa fa-caret-up button"></i></div>
+          <div class="news-button-down noclick" onclick="ai_billboard.scrollDown()">DOWN <span class="fa fa-caret-down button"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="news-profile small">
+      <a href="javascript:void(0)" id="left-team-link-small">
+        <div class="news-profile-image-left">
+          <div class="team-container">
+            <i class="fa fa-share team-share"></i>
+          </div>
+        </div>
+        <div class="news-profile-left small">
+          <div class="news-profile-team1"></div>
+          <div class="news-profile-record">Record: <span class="news-profile-record1"></span></div>
+        </div>
+      </a>
+      <div class="news-profile-vs">vs</div>
+      <a href="javascript:void(0)" id="right-team-link-small">
+        <div class="news-profile-image-right">
+          <div class="team-container">
+            <i class="fa fa-share team-share"></i>
+          </div>
+        </div>
+        <div class="news-profile-right small">
+          <div class="news-profile-team2"></div>
+          <div class="news-profile-record">Record: <span class="news-profile-record2"></span></div>
+        </div>
+      </a>
+    </div>
+    <div class="news-notification small"><i class="fa fa-heart-o" style="color: #bc2027;"></i> Other Content You May Love</div>
+    <div class="news-updates-small small">
+      <div class="buttons small">
+        <div class="news-button-up noclick" onclick="ai_billboard.scrollUp()">UP <i class="fa fa-caret-up button"></i></div>
+        <div class="news-button-down noclick" onclick="ai_billboard.scrollDown()">DOWN <span class="fa fa-caret-down button"></span></div>
+      </div>
+    </div>
+</body>
+
+</html>
