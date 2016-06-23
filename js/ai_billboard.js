@@ -229,8 +229,8 @@ ai_billboard = (function() {
       subContainerSmall.appendChild(subTitleSmall);
       subContainerSmall.appendChild(subDateSmall);
       subContainerSmall.appendChild(subHrSmall);
-      $(subContainer).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + teamData[1].eventId + '" />'));
-      $(subContainerSmall).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + teamData[1].eventId + '" />'));
+      $(subContainer).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
+      $(subContainerSmall).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
       subTitleSmall.innerHTML = randomArticles[i].title;
       subContainer.appendChild(subHr);
       if (randomArticles[i].title.length <= 36) {
