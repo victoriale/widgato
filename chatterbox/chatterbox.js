@@ -76,7 +76,7 @@ chatterbox[chatterbox.length] = function(e) {
         l = -1,
         d, h, u = {
             dom: i,
-            category: B('widget') === false ? 'nba' : B('widget').toLowerCase(),
+            category: B('widget') === false ? 'mlb' : B('widget').toLowerCase(),
             remn: false,
             rand: Math.floor(Math.random() * 10)
         },
@@ -295,6 +295,7 @@ chatterbox[chatterbox.length] = function(e) {
                         case 'college_basketball':
                             return 'sports';
                             break;
+                        case 'mlb':
                         case 'crime':
                         case 'politics':
                         case 'demographics':
