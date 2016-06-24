@@ -38,10 +38,10 @@ chatterbox[chatterbox.length] = function(e) {
             }
         },
         a = {
-            'sportschatter.com': t + '://108.170.11.234:190/chatter_api.php?site=sportschatter.com',
-            'celebchatter.com': t + '://108.170.11.234:190/chatter_api.php?site=celebchatter.com',
-            'politicschatter.com': t + '://108.170.11.234:190/chatter_api.php?site=politicschatter.com',
-            'oddchatter.com': t + '://108.170.11.234:190/chatter_api.php?site=oddchatter.com'
+            'sportschatter.com': t + '://dw.synapsys.us/chatter_api.php?site=sportschatter.com',
+            'celebchatter.com': t + '://dw.synapsys.us/chatter_api.php?site=celebchatter.com',
+            'politicschatter.com': t + '://dw.synapsys.us/chatter_api.php?site=politicschatter.com',
+            'oddchatter.com': t + '://dw.synapsys.us/chatter_api.php?site=oddchatter.com'
         },
         n = t + '://devapi.synapsys.us/widgets/chatterbox/chatterbox.js',
         i = function() {
