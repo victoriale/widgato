@@ -1,0 +1,22 @@
+.dw-i-title,
+a:hover {
+    color: #bc2027
+}
+
+#homelink>div,
+.dw-btn:hover,
+.dw-nav:hover {
+    background-color: #bc2027
+}
+
+#homelink>div {
+    background-image: url(../css/public/Icon_Baseball.png)
+}
+
+.dw-btn {
+    border-color: #bc2027!important
+}
+
+.hover {
+    background: rgba(188, 32, 39, .75)!important
+}
