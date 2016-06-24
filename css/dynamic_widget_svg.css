@@ -161,15 +161,15 @@ a {
 }
 
 .one #subimg {
-    display: none
+    display: none !important
 }
 
 .one #num{
-  left: 78px
+  left: 78px !important
 }
 
 .one .dw-c-img {
-  left: 78px
+  left: 78px !important
 }
 
 .dw-info {
