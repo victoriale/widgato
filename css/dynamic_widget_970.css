@@ -296,6 +296,10 @@ a {
         left: 175px;
         width: calc(100% - 205px)
     }
+    .one .dw-info {
+        left: 175px!important;
+        width: calc(100% - 205px)!important
+    }
     .dw-i-title {
         font-size: 16px;
         line-height: 20px
