@@ -31,10 +31,10 @@ chatterbox[chatterbox.length] = function(e) {
         }],
         s = {
             250: {
-                url: t + '://w1.synapsys.us/widgets/dynamic_widget/dynamic_widget.html'
+                url: t + '://devapi.synapsys.us/widgets/dynamic_widget/dynamic_widget.html'
             },
             970: {
-                url: t + '://w1.synapsys.us/widgets/dynamic_widget/dynamic_widget_970.html'
+                url: t + '://devapi.synapsys.us/widgets/dynamic_widget/dynamic_widget_970.html'
             }
         },
         a = {
@@ -43,7 +43,7 @@ chatterbox[chatterbox.length] = function(e) {
             'politicschatter.com': t + '://dw.synapsys.us/chatter_api.php?site=politicschatter.com',
             'oddchatter.com': t + '://dw.synapsys.us/chatter_api.php?site=oddchatter.com'
         },
-        n = t + '://w1.synapsys.us/widgets/chatterbox/chatterbox.js',
+        n = t + '://devapi.synapsys.us/widgets/chatterbox/chatterbox.js',
         i = function() {
             var e = top.location.host;
             var t = e.split('.');
@@ -241,7 +241,7 @@ chatterbox[chatterbox.length] = function(e) {
         o.parentNode.insertBefore(s, o);
         var a = document.createElement('link');
         a.setAttributes({
-            href: t + '://w1.synapsys.us/widgets/chatterbox/chatterbox.css',
+            href: t + '://devapi.synapsys.us/widgets/chatterbox/chatterbox.css',
             rel: 'stylesheet',
             type: 'text/css'
         });
@@ -307,7 +307,7 @@ chatterbox[chatterbox.length] = function(e) {
                             return e
                     }
                 }(u.category) + (r[M].min == 0 ? '_chatterbox_m_300x250' : '_chatterbox_300x250'),
-                widU: r[M].min == 0 ? '//w1.synapsys.us/widgets/dynamic_widget/dynamic_widget_250.html' : '',
+                widU: r[M].min == 0 ? '//devapi.synapsys.us/widgets/dynamic_widget/dynamic_widget_250.html' : '',
                 widW: 300,
                 widH: r[M].min == 0 ? 250 : 0,
                 adW: 300,
