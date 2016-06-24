@@ -184,7 +184,7 @@ sup {
   font-size: 20px;
   line-height: 20px;
   position: relative;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   float: left;
   width: 260px;
 }
@@ -208,7 +208,7 @@ sup {
   height: 150px;
   text-overflow: ellipsis;
   font-size: 12px;
-  padding-top: 40px;
+  padding-top: 10px;
 }
 .aiw-txt::first-letter {
   text-transform: uppercase;
