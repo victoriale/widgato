@@ -1,0 +1,303 @@
+html, body {
+  margin: 0 !important;
+  font-family: Lato, sans-serif;
+  width: 100%;
+  height: auto;
+  background-color: white;
+}
+div, span{
+  font-family: Lato, sans-serif;
+}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+}
+button:focus {
+  outline:0;
+}
+sup {
+  vertical-align: baseline;
+  position: relative;
+  top: -0.5em;
+}
+
+.aiw {
+  width: 300px;
+  height: 600px;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  background-color: #f2f2f2;
+}
+
+/**** Title Portion of the widget ****/
+.aiw-img {
+  width: 100%;
+  height: 130px;
+  margin: 0;
+  padding: 0;
+  background-position: top center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-color: #222;
+  position: absolute;
+  top: 0;
+}
+.text-snippet{
+  width:100%;
+  height:15px;
+  font-size: 10px;
+  line-height: 10px;
+  text-align: right;
+  background-color: #f2f2f2;
+  color:#000;
+  padding: 3px 5px 3px 0;
+}
+.aiw-top {
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  position: absolute;
+  top: 0;
+  cursor: pointer !important;
+}
+.aiw-top .ball {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: rgba(188, 22, 36, 0.9);
+  margin: 5px;
+  float: left;
+  background-position: center center;
+  background-size: 15px 15px;
+  background-repeat: no-repeat;
+  background-image: url('./public/Icon_Baseball.png');
+}
+.aiw-top span {
+  font-size: 15px;
+}
+.aiw-top span .team {
+  font-weight: 400;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+.aiw-top span .away, .aiw-top span .home{
+  font-weight: 700;
+}
+.aiw-top .fa {
+  color: rgba(188, 22, 36, 0.9);
+  font-size: 20px;
+  margin-left: 5px;
+  position: absolute;
+  height: 40px;
+  line-height: 40px;
+  right: 10px;
+  top: 0px;
+}
+.aiw-top .fa.fa-caret-up {
+  color: #fff;
+}
+
+/**** Dropdown ****/
+.dropdown {
+  position: absolute;
+  top: 40px;
+  height: 300px;
+  width: 100%;
+  display: none;
+  color: #000;
+  background-color: #fff;
+  z-index: 10;
+  padding: 0px;
+  line-height: 40px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+[tooltip]:before {
+    position : absolute;
+     content : attr(tooltip);
+     opacity : 0;
+}
+[tooltip]:hover:before {
+    opacity : 1;
+}
+.dropdown-elem {
+  padding: 0px 5px;
+  height: 40px;
+  width: 100%;
+  font-size: 14px;
+}
+.dropdown-elem.active {
+  color: rgba(188, 22, 36, 0.9);
+}
+.dropdown-elem:hover {
+  color: #fff;
+  background-color: rgba(188, 22, 36, 0.9);
+  cursor: pointer;
+}
+.dropdown-elem b {
+  font-size: 15px;
+}
+.dropdown-elem .left {
+  float: left;
+}
+.dropdown-elem .right {
+  font-weight: 300;
+  float: right;
+}
+.dropdown .divider {
+  width: 100%;
+  height: 1px;
+  background-color: #c2c2c2;
+  margin: 0px 5px;
+}
+.aiw-img.active .dropdown {
+  display: block;
+}
+.aiw-img.active .aiw-top {
+  background-color: rgba(188, 22, 36, 0.9);
+}
+.aiw-img.active .aiw-top .ball {
+  background-color: #000;
+}
+.aiw-img.active .aiw-top .fa {
+  color: #fff;
+}
+
+/**** Content Classes ****/
+.aiw-bdy {
+  width: 100%;
+  height: 220px;
+  padding: 10px 40px;
+  background-color: #fff;
+  position: absolute;
+  top: 130px;
+}
+.aiw-title {
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 20px;
+  position: relative;
+  margin-bottom: 15px;
+  float: left;
+  width: 260px;
+}
+.aiw-num {
+  font-size: 16px;
+  line-height: 20px;
+  float: right;
+  color: #999;
+  font-weight: 800;
+  line-height: 1.1;
+  padding-right: 2px;
+}
+.aiw-num-length {
+  font-size: 16px;
+  line-height: 20px;
+  float: right;
+  color: #999;
+}
+.aiw-txt {
+  width: 220px;
+  height: 150px;
+  text-overflow: ellipsis;
+  font-size: 12px;
+  padding-top: 40px;
+}
+.aiw-txt::first-letter {
+  text-transform: uppercase;
+  font-size: 60px;
+  line-height: 42px;
+  font-weight: bold;
+  float: left;
+  padding-right: 10px;
+  font-style: italic;
+  position: relative;
+  left: 30px;
+  margin-right: 3px;
+}
+.fa.aiw-btn {
+  width: 30px;
+  height: 60px;
+  position: absolute;
+  top: 70px;
+  background-color: rgba(0, 0, 0, 0.9);
+  line-height: 60px;
+  text-align: center;
+  color: #fff;
+  font-size: 25px;
+  cursor: pointer;
+}
+.fa-angle-left.aiw-btn {
+  left: 0;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
+.fa-angle-right.aiw-btn {
+  right: 0;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+}
+.fa.aiw-btn:hover {
+  background-color: rgba(188, 22, 36, 0.9);
+}
+.aiw-link {
+  width: 150px;
+  height: 35px;
+  border-radius: 3px;
+  background-color: #363636;
+  color: #fff;
+  line-height: 35px;
+  text-align: center;
+  padding: 0;
+  position: absolute;
+  bottom: 15px;
+  left: 75px;
+  font-size: 13px;
+  font-weight: bold;
+  padding-left: 17px;
+  background-repeat: no-repeat;
+  background-image: url('./public/Icon-Magazine.png');
+  background-size: 15px auto;
+  background-position: 17px 12px;
+  cursor: pointer !important;
+}
+.aiw-link:hover {
+  background-color: rgba(188, 22, 36, 0.9);
+}
+.aiw-ad {
+  width: 100%;
+  text-align: left;
+  color: #999;
+  font-size: 10px;
+  line-height: 10px;
+  text-transform: uppercase;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  background-color: #fff;
+}
+
+/**** Utility Classes ****/
+.ad_location{
+  width:100%;
+  height:250px;
+  background-color: #ccc;
+  position: absolute;
+  bottom: 10px;
+}
+.noclick {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  cursor: default;
+}
