@@ -103,7 +103,12 @@ dynamic_widget = function() {
                 break;
             case "mlb":
                 var n = "/";
-                $("mainurl").style.cssText += "pointer-events:none; cursor:default", $("suburl").style.cssText += "pointer-events:none; cursor:default", $("line1").style.cssText += "pointer-events:none; cursor:default", $("homelink").style.cssText += "pointer-events:none; cursor:default", $("list-link").style.display = "none";
+                $("mainurl").style.cssText += "pointer-events:none; cursor:default",
+                $("suburl").style.cssText += "pointer-events:none; cursor:default", 
+                $("carousel").className = "one",
+                $("line1").style.cssText += "pointer-events:none; cursor:default",
+                $("homelink").style.cssText += "pointer-events:none; cursor:default",
+                 $("list-link").style.display = "none";
             break;
             case 'finance':
                 var a = l.remn == 'true' ? 'http://www.investkit.com/widget-list' : 'http://www.myinvestkit.com/' + l.dom + '/w-list';
