@@ -166,6 +166,16 @@ a {
     width: 320px
 }
 
+.one #subimg {
+    display: none!important
+}
+
+.one .dw-info {
+    position: absolute!important;
+    left: 270px!important;
+    width: 390px!important
+}
+
 .dw-info {
     position: absolute;
     left: 250px;
