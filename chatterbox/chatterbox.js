@@ -293,9 +293,9 @@ chatterbox[chatterbox.length] = function(e) {
                     switch (e) {
                         case 'nba':
                         case 'college_basketball':
+                        case 'mlb':
                             return 'sports';
                             break;
-                        case 'mlb':
                         case 'crime':
                         case 'politics':
                         case 'demographics':
