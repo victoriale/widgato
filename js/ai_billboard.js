@@ -95,8 +95,9 @@ ai_billboard = (function() {
       content: mainArticles[1].content + '<br>&nbsp; ',
       url: href + 'articles/' + mainArticles[1].urlSegment + '/' + teamData[1].eventId
     };
-    var colors = getColorPair(teamData[1].awayTeamColors.split(', '), teamData[1].homeTeamColors.split(', '));
-    getGradient(colors[0], colors[1]);
+    leftRgb = teamData[1].awayTeamColors.split(', ')[0];
+    rightRgb = teamData[1].homeTeamColors.split(', ')[0];
+    getGradient(leftRgb, rightRgb);
     var homeTeamLinkName = teamData[1].homeTeamName;
     var awayTeamLinkName = teamData[1].awayTeamName;
     var homeLastName = (teamData[1].homeLastName.toLowerCase() == "diamondbacks") ? "D'backs" : teamData[1].homeLastName;
@@ -136,63 +137,6 @@ ai_billboard = (function() {
       .replace(/\s+/g, '-')
       .replace(/[\.,']/g, '');
     return str;
-  }
-  function parseColor(hexValue) {
-    if (hexValue != null) {
-      var match = /#?([0-9A-Fa-f]{6})/.exec(hexValue);
-      if (match && match[1]) {
-        let hexOnly = match[1];
-        var color = {
-          red: parseInt(hexOnly.substring(0, 2), 16),
-          green: parseInt(hexOnly.substring(2, 4), 16),
-          blue: parseInt(hexOnly.substring(4, 6), 16)
-        };
-        return color;
-      }
-    }
-    return null;
-  }
-
-  function areColorsClose(colorStr1, colorStr2) {
-    var epsilon = 255;
-    var squaredDiff = function(num1, num2) {
-      var temp = num1 - num2;
-      return temp * temp;
-    }
-    var color1 = parseColor(colorStr1);
-    var color2 = parseColor(colorStr2);
-    var sum = 3 * squaredDiff(color1.red, color2.red) + 4 * squaredDiff(color1.green, color2.green) + 2 * squaredDiff(color1.blue, color2.blue);
-    var distance = Math.abs(Math.sqrt(sum));
-    return distance < epsilon;
-  }
-
-  function getColorPair(colorSetOne, colorSetTwo) {
-    if (!colorSetOne || colorSetOne.length == 0) {
-      throw new Error("Invalid colorSetOne - it must contain a least one string");
-    }
-    if (!colorSetTwo || colorSetTwo.length == 0) {
-      throw new Error("Invalid colorSetTwo - it must contain a least one string");
-    }
-    var colorOne = colorSetOne[0];
-    var colorTwo = colorSetTwo[0];
-    if (areColorsClose(colorOne, colorTwo)) {
-      if (colorSetTwo.length >= 2 && colorSetTwo[1] != "") {
-        colorTwo = colorSetTwo[1];
-        if (areColorsClose(colorOne, colorTwo)) {
-          colorTwo = colorSetTwo.length > 2 ? colorSetTwo[2] : Color.ColorLuminance(colorSetTwo[1], Color.lightOrDark(colorTwo));
-        }
-      } else {
-        if (colorSetOne.length >= 2 && colorSetTwo[1] != "") {
-          colorOne = colorSetOne[1];
-          if (areColorsClose(colorOne, colorTwo)) {
-            colorOne = Color.ColorLuminance(colorSetTwo[1], Color.lightOrDark(colorOne));
-          }
-        } else {
-          colorTwo = Color.ColorLuminance(colorTwo, Color.lightOrDark(colorTwo));
-        }
-      }
-    }
-    return [colorOne, colorTwo];
   }
 
   function getGradient(homeHex, awayHex) {
@@ -290,9 +234,7 @@ ai_billboard = (function() {
       subTitleSmall.innerHTML = randomArticles[i].title;
       subContainer.appendChild(subHr);
       if (randomArticles[i].title.length <= 36) {
-        $(subHrSmall).css({
-          "padding-top": "25px"
-        });
+        $(subHrSmall).css({"padding-top":"25px"});
       }
     }
   }
