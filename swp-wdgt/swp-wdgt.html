@@ -1,45 +1,96 @@
-<!DOCTYPE html>
+
+<!doctype html>
+<!-- Swap Widget  -->
 <html lang="en">
-  <head>
-    <meta charset='utf-8'>
-    <link rel="stylesheet" type="text/css" href="../css/swp-wdgt.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet" type="text/css">
-    <script src="../js/swp-wdgt.js"></script>
-  </head>
+<head>
+<title>MLB Top Teams in 2015</title>
 
-  <body>
-    <div class="container">
+<meta charset='utf-8'>
+<!--ATTENTION css/fontawesome.css is being called locally the cdn link site was not working-->
 
-      <div class="title">
-        <div class="title-logo"></div>
-        <div class="title-text">MLB Gameday News</div>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato:400,300,100,700,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../css/swp-wdgt.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="../js/swp-wdgt.js"></script>
+<base target="_top">
+</head>
+<body>
+  <!--container of widget-->
+  <div class="mlb" id = "mlb">
+    <!--wrapper of just widget-->
+    <div class="fcw">
+      <!--top text-->
+      <div class="fcw-text">
+        <a class="fcw-icon"></a>
+        <div class="fcw-t1">A story should go here and things.</div>
+        <div class="fcw-t2"></div>
+      </div><!--top text END-->
+        <!--image && button-->
+      <div class="fcw-middle">
+        <div class="fcw-image"> <!-- changed from image- team to image -->
+          <a class="exec-link" href="">
+            <div class="hover1">
+              <div class="txt1">View</div>
+              <div class="txt2">Profile</div>
+            </div>
+          </a>
+          <div class="fcw-t2-num"></div>
+        </div>
+        <button class="fcw-leftnav" data-dir='prev'><i class="fa fa-angle-left"></i></button>
+        <button class="fcw-rightnav" data-dir='next'><i class="fa fa-angle-right"></i></button>
+      </div><!--image && button END-->
+      <!--bottom text-->
+      <div class="fcw-content">
+        <a id="teamProfile" href=""><div class="fcw-content1">Name is here</div></a>
+        <div class="fcw-content2"><span id="fcw-content2a">Team:</span> <span id="fcw-content2b">Team name</span></div>
+        <div class="fcw-content3">Batting average</div>
       </div>
-
-      <div class="section">
-        <div class="section-image"></div>
-        <div class="section-text"></div>
-      </div>
-
-      <div class="content">
-        <div class="content-text">
-          <!-- The zany slogans, the array of T-shirts, goofy suit trips and visits by animals might have been upstaged Tuesday night in anager Joe Maddon's... -->
-          <!-- <span class="content-readmore"> Read More </span> -->
+      <div class="fcw-list">
+        <div class="fcw-list-list" style= "height:25px; width:112px;">
+          <span class="fcw-list-text">See the List<i class="fa fa-share" aria-hidden="true"></i></span>
+        </div>
+        <div class="fcw-list-next" style="height:25px; width:94px;">
+          <span class="fcw-list-text" id = "button">Next List<i class="fa fa-arrow-right" aria-hidden="true"></i></span>
+        </div>
+        <div class="fcw-list-time" style="height:25px; width:54px;">
+          <div class="progress"> </div>
+            <span class="fcw-list-text"><i id="play" class="fa fa-play" aria-hidden="true"></i><i id = "pause" class="fa fa-pause" aria-hidden="true"></i><span class = "widget" style="color:black;">0:<span id="time">15</span></span></span>
         </div>
       </div>
+      <div class="fcw-presentedby"></div>
+      <!--bottom text END-->
+    </div><!--wrapper END-->
+    <!--AD Placement-->
+  </div>
 
-      <div class="bar">
-        <div class="bar-date"> </div>
-        <div class="bar-author"> </div>
-      </div>
-
-      <div class="buttons">
-        <a id="readbutton" href=""><div class="buttons-readstory"> <i id="paper" class="fa fa-newspaper-o"></i> Read Story </div></a>
-        <div class="buttons-nextlist" onclick="updateArticle();"> Next Story <i id="arrow" class="fa fa-arrow-right"></i> </div>
-        <div class="buttons-timer"> <i id="play" class="fa fa-play"></i>0:15</div>
-      </div>
-
+  <div class="swp">
+    <div class="title">
+      <div class="title-logo"></div>
+      <div class="title-text">MLB Gameday News</div>
     </div>
-  </body>
+    <div class="section">
+      <div class="section-image"></div>
+      <div class="section-text"></div>
+    </div>
+    <div class="content">
+      <div class="content-text">
+      </div>
+    </div>
+    <div class="bar">
+      <div class="bar-date"> </div>
+      <div class="bar-author"> </div>
+    </div>
+    <div class="buttons">
+      <a id="readbutton" href=""><div class="buttons-readstory"> <i id="paper" class="fa fa-newspaper-o"></i> Read Story </div></a>
+      <div class="buttons-nextlist" onclick="updateArticle();"> Next Story <i id="arrow" class="fa fa-arrow-right"></i> </div>
+      <div class="buttons-timer"> <i id="play" class="fa fa-play"></i>0:15</div>
+    </div>
+  </div>
+
+  <div class="tester" style="background-color:lightgrey; width:300px; height:250px;overflow: hidden;margin: 0 auto;"><span style="color:black;">0:<span id="timer">15</span></span>
+    <h1> ad space </h1>
+   </div>
+</body>
+
 </html>

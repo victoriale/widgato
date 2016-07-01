@@ -25,6 +25,7 @@ toLowerKababCase = function(str){
   return str;
 };
 
+
 $(function(){
 
   var temp = location.search;
