@@ -1,11 +1,13 @@
 $(document).ready(function(){
   $('#pause').css({'display':'none'});
+  $('.tester').css({'display': 'hidden'});
   $('.tester').css({'display': 'none'});
   $('.fcw').hover(function() {
     $(this).find('#pause').css({'display': 'inline-block'});
     $(this).find('#play').css({'display': 'none'});
     unslide();
   //  endprogress();
+
 
 
 
@@ -19,7 +21,6 @@ function(){
 //  setTimeout(progress, 1500);
 
 
-
 });
 });
 function show() {
@@ -29,6 +30,7 @@ function show() {
 
 var timer, slideNumber = 14;
 var speed = 1000
+var toggle = true;
 function slide() {
     timer = setInterval(function(){
         if (slideNumber < 10) {
@@ -38,9 +40,23 @@ function slide() {
         $('#timer').html(slideNumber);
         slideNumber--;
         if(slideNumber=== -1) {
-         $('.fcw').fadeOut();
+         slideNumber = 14
+         toggle();
         }
     },speed);
+    console.log(slideNumber);
+    function toggle(){
+      if($('.tester').is(':hidden')) {
+        $('.fcw').css({'display':'none'})
+        $('.tester').fadeIn();
+      }
+      else {
+        setTimeout(function(){
+          $('.fcw').css({'display': 'block'});
+        },600)
+        $('.tester').fadeOut();
+      }
+    }
 }
 function unslide() {
     clearInterval(timer);
@@ -48,21 +64,40 @@ function unslide() {
 slide();
 
 
-var width = 1;
-function progress() {
-    timer1 = setInterval(function(){
-      width += 3.4 ;
-      if (width >= 54) {
-          $('.progress').css({'width': '0px'});
-      } else {
-        $('.progress').css({'width': width});
-      }
-    },1000);
-}
-function endprogress() {
-  clearInterval(timer1)
-}
-progress();
+// function toggle(){
+//   if($('.fcw').hasClass('.widget')) {
+//     $('.fcw').fadeOut();
+//     $('.tester').fadeIn();
+//     console.log('fade in!!l')
+//
+//   }
+//   else {
+//     $('.fcw').fadeIn();
+//     $('.tester').fadeOut();
+//   }
+//   console.log('fade in!!l')
+// }
+//
+//
+//
+//
+
+
+// var width = 1;
+// function progress() {
+//     timer1 = setInterval(function(){
+//       width += 3.4 ;
+//       if (width >= 54) {
+//           $('.progress').css({'width': '0px'});
+//       } else {
+//         $('.progress').css({'width': width});
+//       }
+//     },1000);
+// }
+// function endprogress() {
+//   clearInterval(timer1)
+// }
+// progress();
 
 
 // VL - last updated: June 16th 2016
