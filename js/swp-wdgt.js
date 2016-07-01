@@ -64,40 +64,7 @@ function unslide() {
 slide();
 
 
-// function toggle(){
-//   if($('.fcw').hasClass('.widget')) {
-//     $('.fcw').fadeOut();
-//     $('.tester').fadeIn();
-//     console.log('fade in!!l')
-//
-//   }
-//   else {
-//     $('.fcw').fadeIn();
-//     $('.tester').fadeOut();
-//   }
-//   console.log('fade in!!l')
-// }
-//
-//
-//
-//
 
-
-// var width = 1;
-// function progress() {
-//     timer1 = setInterval(function(){
-//       width += 3.4 ;
-//       if (width >= 54) {
-//           $('.progress').css({'width': '0px'});
-//       } else {
-//         $('.progress').css({'width': width});
-//       }
-//     },1000);
-// }
-// function endprogress() {
-//   clearInterval(timer1)
-// }
-// progress();
 
 
 // VL - last updated: June 16th 2016
