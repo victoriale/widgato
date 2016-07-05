@@ -193,7 +193,7 @@ $(document).ready(function(){
   $('#pause').css({'display':'none'});
   $('.tester').css({'display': 'hidden'});
   $('.tester').css({'display': 'none'});
-  $('.fcw').hover(function() {
+  $('.mlb').hover(function() {
     $(this).find('#pause').css({'display': 'inline-block'});
     $(this).find('#play').css({'display': 'none'});
     unslide();
@@ -323,7 +323,13 @@ var max = 10;
 var bord = false;
 
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
+
+// var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
+var listType = 'finance';
+var listRand = '2';
+var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
+apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
+
 var referrer = document.referrer;
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
 var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
@@ -342,15 +348,55 @@ toLowerKababCase = function(str){
 };
 
 
+var colorSchemes = {
+    // nba: "sports",
+    nba: '#f7701d',
+    // mlb: "sports",
+    mlb: '#b31d24',
+    // college_basketball: "sports",
+    college_basketball: '#f7701d',
+    // finance: "finance",
+    finance: '#3098ff',
+    // crime: "crime",
+    crime: '#f6af05',
+    // demographics: "demographics",
+    demographics: '#65398',
+    // disaster: "disaster",
+    disaster: '#90sd8e',
+    // weather: "weather"
+    weather: '#ffdf30'
+  };
 
+var schemeToUse = colorSchemes[listType];
 
+function mapColorScheme(color){
+  $('.fcw-icon').css({'background-color': color});
+  // $('.fcw-logo:hover').css({'background-color': color});
+  // if($('.fcw-logo').is(':hover')) $('.fcw-logo:hover').css({'background-color': color});
+  $('.fcw-content1').css({'color': color});
+  $('#fcw-team').css({'color': color});
+  $('#fcw-content2b').css({'color': color});
+  $('.fcw-list-next').css({'border-color': color, 'color': color});
+  // $('.fcw-list-next:hover').css({'background-color': color});
+  // if($('.fcw-list-next').is(':hover')) $('.fcw-list-next:hover').css({'background-color': color});
+  $('.fcw-list-time').css({'border-color': color, 'color': color});
+  $('.fcw-list-list').css({'background-color': color, 'border-color': color});
+  $('.fcw-list-link').css({'border-color': color});
+  $('#button:hover').css({'background-color': color});
+  $('.fcw-rightnav:hover').css({'background-color': color});
+  // $('.fcw-leftnav:hover').css({'background-color': color});
+  // $('.fcw-t2-title:hover').css({'color': color});
+  // $('.fcw-loc:hover').css({'color': color});
+  $('#pause').css({'color': color});
+  $('#play').css({'color': color});
+}
 
-
+mapColorScheme(schemeToUse);
 // $(function(){
   var temp = location.search;
   var query = {};
-
-  // if(temp != null){
+  //
+  // if(temp != null || temp != ""){
   //   query = JSON.parse(decodeURIComponent(temp.substr(1)));
   //   domain = query.dom;
   //   remnant = query.remn;
@@ -378,40 +424,43 @@ toLowerKababCase = function(str){
         }
     });
     // Example Url: http://dev-homerunloyal-api.synapsys.us/randomList/player/25/1
-    $.get(apiUrl+'randomList/player/20/1', function(data){
-      curData = data.data;
+    $.get(apiUrl, function(data){
+      curData = data;
       dataCall(offset);
     }, 'json');
 
   function dataCall(index){
-      var listInfo = curData.listInfo; // Get data list info
-      var listData = curData['listData']; // Get data details list's items
-      var dataPt = listData[index].stat; // Get stats values
-      var dataValue = '';
+      var listName = curData.l_title;
+      var listData = curData.l_data;
+      // var dataPt = listData[index].stat; // Get stats values
+      //var dataPt = listData[index].li_value;
+      //var dataValue = '';
       dataLength = listData.length;
       // Convert to lower kabab case for url links
-      var teamNameUrl = toLowerKababCase(listData[index].teamName);
-      var playerNameUrl = toLowerKababCase(listData[index].playerName);
-      console.log(teamNameUrl);
+      // var teamNameUrl = toLowerKababCase(listData[index].teamName);
+      // var playerNameUrl = toLowerKababCase(listData[index].playerName);
+      //console.log(teamNameUrl);
 
-      $('.fcw-t1').html(listInfo.name);// Sidekick's title
+      $('.fcw-t1').html(listName);// Sidekick's title
       $('.fcw-t2-num').html('#'+(index+1));
-      $('.fcw-image').css('background', 'url('+imageUrl(listData[index].imageUrl)+') no-repeat'); // Get player's headshots image
-      $('.fcw-logo').css('background', 'url('+imageUrl(listData[index].teamLogo)+') no-repeat'); // Get team's logo image
-      $('.fcw-content1').html(listData[index].playerName); // Get player's full-name
-      $('#fcw-team').html(listData[index].teamLastName); // Get team's name
-      $('#fcw-content2b').html(listData[index].teamCity + ', ' + abbrState(listData[index].teamState)); // Get team's location
+      $('.fcw-image').css('background', 'url('+ protocolToUse + listData[index].li_img +') no-repeat');
+      //$('.fcw-logo').css('background', 'url('+imageUrl(listData[index].teamLogo)+') no-repeat'); // Get team's logo image
+      $('.fcw-content1').html(listData[index].li_title);
+      //$('#fcw-team').html(listData[index].teamLastName); // Get team's name
+      //$('#fcw-content2b').html(listData[index].teamCity + ', ' + abbrState(listData[index].teamState)); // Get team's location
+      $('#fcw-content2b').html(listData[index].li_sub_txt);
+      $('.fcw-content3').html(listData[index].li_str);
 
-      if(listData[index].stat == 1){
-        dataValue = listInfo.nouns[0];
-      } else {
-        dataValue = listInfo.nouns[1];
-      }
+      // if(listData[index].stat == 1){
+      //   dataValue = listInfo.nouns[0];
+      // } else {
+      //   dataValue = listInfo.nouns[1];
+      // }
       // Check if no seasonId then return current year
-      if(typeof listInfo.season == 'undefined'){
-        listInfo.season = new Date().getFullYear();
-      }
-      $('.fcw-content3').html(Math.round(dataPt * 100)/100 + ' ' + dataValue + ' for ' + listInfo.season);
+      // if(typeof listInfo.season == 'undefined'){
+      //   listInfo.season = new Date().getFullYear();
+      // }
+      //$('.fcw-content3').html(Math.round(dataPt * 100)/100 + ' ' + dataValue + ' for ' + listInfo.season);
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-icon').attr('href', baseUrl); //Top Left Icon - link to Home Page
