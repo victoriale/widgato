@@ -195,27 +195,35 @@ $(document).ready(function(){
   $('#pause').css({'display':'none'});
   $('.tester').css({'display': 'hidden'});
   $('.tester').css({'display': 'none'});
-  $('.fcw').hover(function() {
+  document.getElementById("mlb").onmouseover = function(){
     $(this).find('#pause').css({'display': 'inline-block'});
     $(this).find('#play').css({'display': 'none'});
     unslide();
   //  endprogress();
+  console.log('hey there');
 
 
 
 
-
-  },
-function(){
+  }
+document.getElementById("mlb").onmouseout = function(){
 //  $(this).css({'display':'none'});
   $(this).find('#pause').css({'display': 'none'});
   $(this).find('#play').css({'display': 'inline-block'});
   slide();
 //  setTimeout(progress, 1500);
 
+}
+});
 
-});
-});
+
+
+
+
+
+
+
+
 var timer, slideNumber = 14;
 var speed = 1000
 var toggle = true;
@@ -224,8 +232,9 @@ function slide() {
         if (slideNumber < 10) {
           slideNumber = '0' + String(slideNumber);
         }
-        $('#time').html(slideNumber);
-        $('#timer').html(slideNumber);
+        document.getElementById("time").innerHTML = slideNumber;
+        document.getElementById("timer").innerHTML = slideNumber;
+
         slideNumber--;
         if(slideNumber=== -1) {
          slideNumber = 14
@@ -248,6 +257,7 @@ function slide() {
 }
 function unslide() {
     clearInterval(timer);
+
 }
 slide();
 

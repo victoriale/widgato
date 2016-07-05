@@ -4,6 +4,7 @@
 	background-color: #fafafa;
   padding-top: 7px;
   border: 1px solid #ccc;
+  margin: 0 auto;
 }
 
 .title{
@@ -160,7 +161,7 @@ html, body {
   -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */
   -ms-user-select: none;      /* IE 10+ */
-  user-select: none;  
+  user-select: none;
 }
 div{
   font-family: 'Lato', sans-serif;font-weight:400;
