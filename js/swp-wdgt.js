@@ -187,8 +187,6 @@ function MonthsFullName(number){
   return month[number];
 }
 
-});
-
 /***/
 
 $(document).ready(function(){
@@ -224,7 +222,8 @@ document.getElementById("mlb").onmouseout = function(){
 
 
 
-var timer, slideNumber = 14;
+
+var timer, slideNumber = 15;
 var speed = 1000
 var toggle = true;
 function slide() {
@@ -232,26 +231,50 @@ function slide() {
         if (slideNumber < 10) {
           slideNumber = '0' + String(slideNumber);
         }
-        document.getElementById("time").innerHTML = slideNumber;
-        document.getElementById("timer").innerHTML = slideNumber;
 
+        // document.getElementById("time").innerHTML = slideNumber;
+        // document.getElementById("timer").innerHTML = slideNumber;
+
+        $('#time').html(slideNumber);
+        $('#timer').html(slideNumber);
+        $('#timers').html(slideNumber);
         slideNumber--;
         if(slideNumber=== -1) {
-         slideNumber = 14
-         toggle();
+           toggle();
+         slideNumber = 15;
+         console.log(slideNumber);
         }
     },speed);
-    console.log(slideNumber);
+
+    var lastShown;
     function toggle(){
-      if($('.tester').is(':hidden')) {
-        $('.fcw').css({'display':'none'});
-        $('.tester').fadeIn();
+      if($('.fcw').css('display') == 'block'){
+        lastShown = 'fcw';
+      }else if($('.swp').css('display') == 'block'){
+        lastShown = 'swp';
       }
-      else {
-        setTimeout(function(){
-          $('.fcw').css({'display': 'block'});
-        },600)
-        $('.tester').fadeOut();
+      console.log(lastShown);
+      displayHandler(lastShown);
+    }
+    // toggle();
+    function displayHandler(lastShown){
+      if($('.tester').css('display') == 'none'){
+        displayAd();
+      }else{
+        displayContent(lastShown);
+      }
+    }
+    function displayAd(){
+      $('.swp').css({'display': 'none'});
+      $('.fcw').css({'display': 'none'});
+      $('.tester').css({'display': 'block'});
+    }
+    function displayContent(lastShown){
+      $('.tester').css({'display': 'none'});
+      if(lastShown == 'fcw'){
+        $('.swp').css({'display': 'block'});
+      }else if(lastShown == 'swp'){
+        $('.fcw').css({'display': 'block'});
       }
     }
 }
@@ -262,40 +285,6 @@ function unslide() {
 slide();
 
 
-// function toggle(){
-//   if($('.fcw').hasClass('.widget')) {
-//     $('.fcw').fadeOut();
-//     $('.tester').fadeIn();
-//     console.log('fade in!!l')
-//
-//   }
-//   else {
-//     $('.fcw').fadeIn();
-//     $('.tester').fadeOut();
-//   }
-//   console.log('fade in!!l')
-// }
-//
-//
-//
-//
-
-
-// var width = 1;
-// function progress() {
-//     timer1 = setInterval(function(){
-//       width += 3.4 ;
-//       if (width >= 54) {
-//           $('.progress').css({'width': '0px'});
-//       } else {
-//         $('.progress').css({'width': width});
-//       }
-//     },1000);
-// }
-// function endprogress() {
-//   clearInterval(timer1)
-// }
-// progress();
 
 
 // VL - last updated: June 16th 2016
@@ -331,7 +320,7 @@ toLowerKababCase = function(str){
 
 
 
-$(function(){
+// $(function(){
   var temp = location.search;
   var query = {};
 
@@ -367,7 +356,6 @@ $(function(){
       curData = data.data;
       dataCall(offset);
     }, 'json');
-  })//END OF FUNCTION
 
   function dataCall(index){
       var listInfo = curData.listInfo; // Get data list info
@@ -482,3 +470,4 @@ function abbrState(state){
   };
   return stateName[state];
 }
+});

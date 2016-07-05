@@ -5,6 +5,7 @@
   padding-top: 7px;
   border: 1px solid #ccc;
   margin: 0 auto;
+  display: none;
 }
 
 .title{
@@ -536,9 +537,3 @@ button:focus {
   background: rgba(188, 32, 39, 0.8);
   font-size: 20px;
 }
-.progress {
-  height:24px;
-  background-color:rgba(0,0,0,.1);
-  position: absolute;
-  border-radius: 5px;
-  }
