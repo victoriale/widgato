@@ -4,6 +4,8 @@
 	background-color: #fafafa;
   padding-top: 7px;
   border: 1px solid #ccc;
+  margin: 0 auto;
+  display: none;
 }
 
 .title{

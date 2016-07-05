@@ -187,8 +187,6 @@ function MonthsFullName(number){
   return month[number];
 }
 
-});
-
 /***/
 
 $(document).ready(function(){
@@ -200,10 +198,6 @@ $(document).ready(function(){
     $(this).find('#play').css({'display': 'none'});
     unslide();
   //  endprogress();
-
-
-
-
 
   },
 function(){
@@ -217,8 +211,6 @@ function(){
 });
 });
 function show() {
-
-
 }
 
 var timer, slideNumber = 14;
@@ -231,6 +223,7 @@ function slide() {
         }
         $('#time').html(slideNumber);
         $('#timer').html(slideNumber);
+        $('#timers').html(slideNumber);
         slideNumber--;
         if(slideNumber=== -1) {
          slideNumber = 14
@@ -238,16 +231,36 @@ function slide() {
         }
     },speed);
     console.log(slideNumber);
+
+    var lastShown;
     function toggle(){
-      if($('.tester').is(':hidden')) {
-        $('.fcw').css({'display':'none'})
-        $('.tester').fadeIn();
+      if($('.fcw').css('display') == 'block'){
+        lastShown = 'fcw';
+      }else if($('.swp').css('display') == 'block'){
+        lastShown = 'swp';
       }
-      else {
-        setTimeout(function(){
-          $('.fcw').css({'display': 'block'});
-        },600)
-        $('.tester').fadeOut();
+      console.log(lastShown);
+      displayHandler(lastShown);
+    }
+    // toggle();
+    function displayHandler(lastShown){
+      if($('.tester').css('display') == 'none'){
+        displayAd();
+      }else{
+        displayContent(lastShown);
+      }
+    }
+    function displayAd(){
+      $('.swp').css({'display': 'none'});
+      $('.fcw').css({'display': 'none'});
+      $('.tester').css({'display': 'block'});
+    }
+    function displayContent(lastShown){
+      $('.tester').css({'display': 'none'});
+      if(lastShown == 'fcw'){
+        $('.swp').css({'display': 'block'});
+      }else if(lastShown == 'swp'){
+        $('.fcw').css({'display': 'block'});
       }
     }
 }
@@ -256,24 +269,31 @@ function unslide() {
 }
 slide();
 
-
 // function toggle(){
-//   if($('.fcw').hasClass('.widget')) {
-//     $('.fcw').fadeOut();
+//   var lastShown = 'ad';
+//   var showing = 'fcw';
+//
+//   if(showing = 'fcw'){
+//     $('.fcw').css({'display':'none'})
 //     $('.tester').fadeIn();
-//     console.log('fade in!!l')
-//
+//     lastShown = 'fcw';
+//     showing = 'ad';
 //   }
-//   else {
-//     $('.fcw').fadeIn();
-//     $('.tester').fadeOut();
+//   if(showing == 'ad' && lastShown == 'fcw'){
+//     $('.tester').css({'display':'none'});
+//     $('.swp').css({'display': 'block'},600);
+//     lastShown == 'ad';
+//     showing = 'swp';
 //   }
-//   console.log('fade in!!l')
+//   if(showing == 'ad' && lastShown == 'swp'){
+//     $('.tester').css({'display':'none'});
+//     $('.swp').css({'display': 'block'},600);
+//   }
+//   if(showing == 'swp'){
+//     $('.swp').css({'display': 'none'});
+//     $('.tester').fadeIn();
+//   }
 // }
-//
-//
-//
-//
 
 
 // var width = 1;
@@ -326,7 +346,7 @@ toLowerKababCase = function(str){
 
 
 
-$(function(){
+// $(function(){
   var temp = location.search;
   var query = {};
 
@@ -362,7 +382,6 @@ $(function(){
       curData = data.data;
       dataCall(offset);
     }, 'json');
-  })//END OF FUNCTION
 
   function dataCall(index){
       var listInfo = curData.listInfo; // Get data list info
@@ -477,3 +496,4 @@ function abbrState(state){
   };
   return stateName[state];
 }
+});
