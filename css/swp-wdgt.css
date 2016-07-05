@@ -1,3 +1,156 @@
+.swp{
+  width: 300px;
+	height: 250px;
+	background-color: #fafafa;
+  padding-top: 7px;
+  border: 1px solid #ccc;
+}
+
+.title{
+  display: flex;
+  height: 25px;
+  width: 100%;
+  margin-left: 10px;
+}
+.title-logo{
+  width: 25px;
+  height: 25px;
+  background-color: #af151d;
+  border-radius: 50%;
+  background-image: url("public/Icon_Baseball.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.title-text{
+  font-family: Lato;
+  font-weight: bold;
+	font-size: 16px;
+	color: #000000;
+  padding-left: 6px;
+  margin-top: 3px;
+}
+
+.section{
+  height: 90px;
+  width: 100%;
+  display: flex;
+  margin-top: 12px;
+}
+.section-image{
+  height: 90px;
+  width: 120px;
+  background-color: black;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top center;
+}
+.section-text{
+  width: 155px;
+  font-family: Lato;
+  font-weight: bold;
+  margin-left: 9px;
+}
+
+.content{
+  margin-left: 9px;
+  margin-top: 10px;
+  width: 275px;
+  height: 44px;
+}
+.content-text{
+  font-family: Lato;
+	font-size: 12px;
+  line-height: 1.3;
+  color: #000000;
+}
+.content-readmore{
+  font-family: Lato;
+  font-size: 12px;
+  font-weight: bold;
+  color: #af151d;
+}
+
+.bar{
+  display: flex;
+  margin-left: 9px;
+  margin-top: 15px;
+  height: 10px;
+  font-family: Lato;
+  font-size: 10px;
+  color: #999999;
+}
+.bar-date{}
+.bar-author{
+  margin-left: 6px;
+}
+#authorlink{
+  text-decoration: none;
+  color: #999999;
+}
+
+.buttons{
+  display: flex;
+  height: 25px;
+  margin-left: 9px;
+  margin-top: 11px;
+  bottom: 5px;
+  position: relative;
+}
+.buttons-readstory{
+  text-align: center;
+  line-height: 25px;
+  font-size: 12px;
+  font-family: Lato;
+  height: 25px;
+  width: 112px;
+  background-color: #af151d;
+  color: white;
+  border-radius: 5px;
+}
+.buttons-readstory:hover{
+  background-color: #272727;
+}
+#paper{
+  margin-right: 3px;
+}
+.buttons-nextlist{
+  width: 94px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #af151d;
+  margin-left: 10px;
+  color: #af151d;
+  font-size: 12px;
+  font-family: Lato;
+  font-weight: bold;
+  cursor: pointer;
+}
+.buttons-nextlist:hover{
+  background-color: #b31d24;
+  color: white;
+}
+#arrow{
+  margin-left: 3px;
+}
+.buttons-timer{
+  width: 54px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #af151d;
+  font-size: 12px;
+  font-family: Lato;
+  margin-left: 10px;
+}
+#play{
+  color: #af151d;
+  font-size: 12px;
+  margin-right: 5px;
+}
+
 html, body {
   margin: 0 !important;
   font-family: 'Lato', sans-serif;font-weight:400;
