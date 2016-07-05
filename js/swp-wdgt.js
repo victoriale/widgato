@@ -17,17 +17,12 @@ function(){
 //  $(this).css({'display':'none'});
   $(this).find('#pause').css({'display': 'none'});
   $(this).find('#play').css({'display': 'inline-block'});
-  setTimeout(slide, 1500);
+  slide();
 //  setTimeout(progress, 1500);
 
 
 });
 });
-function show() {
-
-
-}
-
 var timer, slideNumber = 14;
 var speed = 1000
 var toggle = true;
@@ -47,7 +42,7 @@ function slide() {
     console.log(slideNumber);
     function toggle(){
       if($('.tester').is(':hidden')) {
-        $('.fcw').css({'display':'none'})
+        $('.fcw').css({'display':'none'});
         $('.tester').fadeIn();
       }
       else {
@@ -64,7 +59,40 @@ function unslide() {
 slide();
 
 
+// function toggle(){
+//   if($('.fcw').hasClass('.widget')) {
+//     $('.fcw').fadeOut();
+//     $('.tester').fadeIn();
+//     console.log('fade in!!l')
+//
+//   }
+//   else {
+//     $('.fcw').fadeIn();
+//     $('.tester').fadeOut();
+//   }
+//   console.log('fade in!!l')
+// }
+//
+//
+//
+//
 
+
+// var width = 1;
+// function progress() {
+//     timer1 = setInterval(function(){
+//       width += 3.4 ;
+//       if (width >= 54) {
+//           $('.progress').css({'width': '0px'});
+//       } else {
+//         $('.progress').css({'width': width});
+//       }
+//     },1000);
+// }
+// function endprogress() {
+//   clearInterval(timer1)
+// }
+// progress();
 
 
 // VL - last updated: June 16th 2016
@@ -132,7 +160,7 @@ $(function(){
         }
     });
     // Example Url: http://dev-homerunloyal-api.synapsys.us/randomList/player/25/1
-    $.get(apiUrl+'randomList/player/20/1', function(data){
+    $.get(apiUrl+'randomList/player/22/1', function(data){
       curData = data.data;
       dataCall(offset);
     }, 'json');
