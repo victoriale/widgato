@@ -205,7 +205,7 @@ var bord = false;
 
 // var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
 var listType = 'finance';
-var listRand = '5';
+var listRand = '9';
 var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
 apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
 
