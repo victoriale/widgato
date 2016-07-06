@@ -217,9 +217,10 @@ button:focus {
   width: 25px;
   height: 25px;
   background-color: #bc1624;
-  background-image: url("public/Icon_Baseball.png");
+  /*background-image: url("public/Icon_Baseball.png");*/
   background-position: center center !important;
   background-repeat: no-repeat;
+  background-size: 18px 18px;
   border-radius: 50%;
   margin: 10px;
   position: absolute;
@@ -254,7 +255,6 @@ button:focus {
 .fcw-t1 p {
   display: table-cell;
  vertical-align: middle;
- text-align: center;
 }
 
 .fcw-t2{

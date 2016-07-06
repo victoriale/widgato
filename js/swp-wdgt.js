@@ -117,15 +117,15 @@ $(document).ready(function(){
       $(this).find('#swp-pause').css({'display': 'inline-block'});
       $(this).find('#swp-play').css({'display': 'none'});
       unslide();
-  //  endprogress();
     },
     function(){
       $(this).find('#pause').css({'display': 'none'});
       $(this).find('#play').css({'display': 'inline-block'});
       $(this).find('#swp-pause').css({'display': 'none'});
       $(this).find('#swp-play').css({'display': 'inline-block'});
-      setTimeout(slide, 1500);
+      //setTimeout(slide, 1500);
     //  setTimeout(progress, 1500);
+    slide();
   });
 });
 
@@ -152,12 +152,12 @@ function displayContent(lastShown){
 }
 
 
-var timer, slideNumber = 14;
-var speed = 1000
+var timer, slideNumber = 15; // starting time limit for timer
+var speed = 1000 //speed of timer
 var toggle = true;
 function slide() {
     timer = setInterval(function(){
-        if (slideNumber < 10) {
+        if (slideNumber < 10) { // when timer is less than ten at a decimal 0. [0:09]
           slideNumber = '0' + String(slideNumber);
         }
 
@@ -168,10 +168,10 @@ function slide() {
         $('#timer').html(slideNumber);
         $('#timers').html(slideNumber);
         slideNumber--;
-        if(slideNumber=== -1) {
+        if(slideNumber=== -1) { // when timer is -1 [0] reset it to 15
            toggle();
          slideNumber = 15;
-         console.log(slideNumber);
+
         }
     },speed);
 
@@ -232,25 +232,40 @@ var colorSchemes = {
     college_basketball: '#f7701d',
     finance: '#3098ff',
     crime: '#f6af05',
-    demographics: '#65398',
-    disaster: '#90sd8e',
+    demographics: '#65398e',
+    disaster: '#902d8e',
     weather: '#ffdf30'
   };
 
-var schemeToUse = colorSchemes[listType];
+var iconScheme = {
+  nba:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
+  mlb:'../css/public/icons/Home-Run-Loyal_Icon 2.svg',
+  college_basketball:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
+  finance:'../css/public/icons/Invest-Kit_Icon.svg',
+  crime:'../css/public/icons/Crime_Icon.svg',
+  demographics:'../css/public/icons/Demographic_Icon.svg',
+  disaster:'../css/public/icons/Disaster_Icon.svg',
+  weather: '../css/public/icons/Weather_Icon.svg'
 
-function mapColorScheme(color){
+};
+
+var schemeToUse = colorSchemes[listType];
+var iconsToUse = iconScheme[listType];
+
+
+function mapColorScheme(color,icons){
   $('.fcw-icon').css({'background-color': color});
   // $('.fcw-logo:hover').css({'background-color': color});
   // if($('.fcw-logo').is(':hover')) $('.fcw-logo:hover').css({'background-color': color});
   $('.fcw-content1').css({'color': color});
   $('#fcw-team').css({'color': color});
+  $('.fcw-icon').css({'background-image': "url('" + icons + "')"});
   $('#fcw-content2b').css({'color': color});
   $('.fcw-list-next').css({'border-color': color, 'color': color});
   $('.fcw-list-next').hover(function(){
     $('.fcw-list-next').css({'background-color': color, 'color': 'white'});
   },function (){
-    $('.fcw-list-next').css({'border-color': color, 'background-color': '','color':color});
+    $('.fcw-list-next').css({'border-color': color, 'background-color': '', 'color' : color});
   });
   $("button[class $= 'nav']").hover(function(){
     $(this).css({'background-color': color});
@@ -272,7 +287,8 @@ function (){
   $('#play').css({'color': color});
 }
 
-mapColorScheme(schemeToUse);
+mapColorScheme(schemeToUse,iconsToUse);
+
 
   var temp = location.search;
   var query = {};
