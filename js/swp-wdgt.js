@@ -291,8 +291,8 @@ var bord = false;
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 
 // var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
-var listType = 'crime';
-var listRand = '4';
+var listType = 'finance';
+var listRand = '1';
 var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
 apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
 
@@ -445,9 +445,7 @@ mapColorScheme(schemeToUse);
         listData[index].li_title = listData[index].li_title;
         $('.fcw-content1').html(listData[index].li_title);
       }
-      // if ($(".fcw-content1").width() + $(".fcw-content2").width() >= 250) {
-      //   $('.fcw-content3').css({'font-size' : '16px'});
-      // }
+
 
 
       // if(listData[index].stat == 1){
