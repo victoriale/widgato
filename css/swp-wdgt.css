@@ -118,7 +118,7 @@
 .buttons-nextlist{
   width: 94px;
   height: 25px;
-  line-height: 25px;
+  line-height: 24px;
   text-align: center;
   border-radius: 5px;
   border: 1px solid #b31d24;
@@ -152,6 +152,21 @@
   font-size: 12px;
   margin-right: 5px;
 }
+#pause{
+  color: #b31d24;
+  font-size: 12px;
+  margin-right: 5px;
+}
+#swp-play{
+  color: #b31d24;
+  font-size: 12px;
+  margin-right: 5px;
+}
+#swp-pause{
+  color: #b31d24;
+  font-size: 12px;
+  margin-right: 5px;
+}
 
 html, body {
   margin: 0 !important;
@@ -179,7 +194,7 @@ button:focus {
 
 
 
-.mlb{
+.content-container{
   overflow: hidden;
   width: 300px;
   height: auto;
