@@ -456,9 +456,9 @@ a:hover .news-share-container {
   font-weight: 400;
   text-align: left;
   position: relative;
-  top: 13px;
+  top: 6px;
   left: 20px;
-  margin-bottom: 10px;
+  display: inline-block;
 }
 .news-hr {
   border-bottom: 1px solid rgba(167, 167, 167, 0.5);
@@ -658,7 +658,7 @@ a:hover .news-share-container {
     height: 20px;
     left: 90px;
     top: 33px;
-    padding-top: 2px;
+    padding-top: 0;
   }
   .news-profile-left {
     width: 100px;
@@ -879,7 +879,7 @@ a:hover .news-share-container {
   .news-title {
     width: 250px;
   }
-  .newstime {
+  .news-time {
     left: 15px;
   }
   .news-hr {
