@@ -160,16 +160,20 @@ function slide() {
         if (slideNumber < 10) {
           slideNumber = '0' + String(slideNumber);
         }
+
+        // document.getElementById("time").innerHTML = slideNumber;
+        // document.getElementById("timer").innerHTML = slideNumber;
+
         $('#time').html(slideNumber);
         $('#timer').html(slideNumber);
         $('#timers').html(slideNumber);
         slideNumber--;
         if(slideNumber=== -1) {
-         slideNumber = 14
-         toggle();
+           toggle();
+         slideNumber = 15;
+         console.log(slideNumber);
         }
     },speed);
-    console.log(slideNumber);
 
     var lastShown;
     function toggle(){
@@ -183,24 +187,9 @@ function slide() {
 }
 function unslide() {
     clearInterval(timer);
+
 }
 slide();
-
-// var width = 1;
-// function progress() {
-//     timer1 = setInterval(function(){
-//       width += 3.4 ;
-//       if (width >= 54) {
-//           $('.progress').css({'width': '0px'});
-//       } else {
-//         $('.progress').css({'width': width});
-//       }
-//     },1000);
-// }
-// function endprogress() {
-//   clearInterval(timer1)
-// }
-// progress();
 
 
 // VL - last updated: June 16th 2016
@@ -215,8 +204,8 @@ var bord = false;
 // var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 
 // var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
-var listType = 'finance';
-var listRand = '2';
+var listType = 'crime';
+var listRand = '4';
 var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
 apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
 
@@ -258,12 +247,29 @@ function mapColorScheme(color){
   $('#fcw-team').css({'color': color});
   $('#fcw-content2b').css({'color': color});
   $('.fcw-list-next').css({'border-color': color, 'color': color});
+  $('.fcw-list-next').hover(function(){
+    $('.fcw-list-next').css({'background-color': color, 'color': 'white'});
+  },function (){
+    $('.fcw-list-next').css({'border-color': color, 'background-color': '','color':color});
+  });
+  $("button[class $= 'nav']").hover(function(){
+    $(this).css({'background-color': color});
+  },
+function (){
+    $(this).css({'background-color': ''});
+});
+  $(".hover1").hover(function(){
+    $('.hover1').css({'background-color': color});
+  },
+  function(){
+    $('.hover1').css({'background-color': ''});
+  });
   // $('.fcw-list-next:hover').css({'background-color': color});
   // if($('.fcw-list-next').is(':hover')) $('.fcw-list-next:hover').css({'background-color': color});
   $('.fcw-list-time').css({'border-color': color, 'color': color});
   $('.fcw-list-list').css({'background-color': color, 'border-color': color});
   $('.fcw-list-link').css({'border-color': color});
-  $('#button:hover').css({'background-color': color});
+//  $('#button:hover').css({'background-color': color});
   $('.fcw-rightnav:hover').css({'background-color': color});
   // $('.fcw-leftnav:hover').css({'background-color': color});
   // $('.fcw-t2-title:hover').css({'color': color});
@@ -306,6 +312,7 @@ mapColorScheme(schemeToUse);
         }
     });
     // Example Url: http://dev-homerunloyal-api.synapsys.us/randomList/player/25/1
+
     $.get(apiUrl, function(data){
       curData = data;
       console.log(curData);
@@ -319,12 +326,26 @@ mapColorScheme(schemeToUse);
       dataLength = listData.length;
       // Convert to lower kabab case for url links
 
-      $('.fcw-t1').html(listName);// Sidekick's title
+      $('.fcw-t1 p').html(listName);
       $('.fcw-t2-num').html('#'+(index+1));
       $('.fcw-image').css('background', 'url('+ protocolToUse + listData[index].li_img +') no-repeat');
-      $('.fcw-content1').html(listData[index].li_title);
       $('#fcw-content2b').html(listData[index].li_sub_txt);
       $('.fcw-content3').html(listData[index].li_str);
+      if (listData[index].li_str.length >= 36) {
+        $('.fcw-content1, .fcw-content2').css({'display': 'inline'});
+      //  $('.fcw-content2').css({'display' : 'inline'});
+        $('.fcw-content').css({'text-align' : 'center'});
+        //listData[index].li_title = listData[index].li_title + ' | ';
+        $('.fcw-content1').html(listData[index].li_title + ' | ');
+      }
+      else {
+        listData[index].li_title = listData[index].li_title;
+        $('.fcw-content1').html(listData[index].li_title);
+      }
+      // if ($(".fcw-content1").width() + $(".fcw-content2").width() >= 250) {
+      //   $('.fcw-content3').css({'font-size' : '16px'});
+      // }
+
 
       // if(listData[index].stat == 1){
       //   dataValue = listInfo.nouns[0];
