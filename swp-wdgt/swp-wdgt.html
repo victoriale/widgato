@@ -17,7 +17,7 @@
 </head>
 <body>
   <!--container of widget-->
-  <div class="mlb" id="mlb">
+  <div class="content-container">
     <!--wrapper of just widget-->
     <div class="fcw" id ="fcw">
       <!--top text-->
@@ -63,8 +63,6 @@
     <!--AD Placement-->
 
 
-
-
     <div class="swp">
       <div class="title">
         <div class="title-logo"></div>
@@ -78,17 +76,18 @@
         <div class="content-text">
         </div>
       </div>
-      <div class="bar">
-        <div class="bar-date"> </div>
-        <div class="bar-author"> </div>
-      </div>
-      <div class="buttons">
-        <a id="readbutton" href=""><div class="buttons-readstory"> <i id="paper" class="fa fa-newspaper-o"></i> Read Story </div></a>
-        <div class="buttons-nextlist" onclick="updateArticle();"> Next Story <i id="arrow" class="fa fa-arrow-right"></i> </div>
-        <div class="buttons-timer"> <i id="play" class="fa fa-play"></i><span style="color:black;">0:<span id="timers">15</span></span></div>
-      </div>
-    </div>
 
+    <div class="bar">
+      <div class="bar-date"> </div>
+      <div class="bar-author"> </div>
+    </div>
+    <div class="buttons">
+      <a id="readbutton" href=""><div class="buttons-readstory"> <i id="paper" class="fa fa-newspaper-o"></i> Read Story </div></a>
+      <div class="buttons-nextlist" onclick="updateArticle();"> Next Story <i id="arrow" class="fa fa-arrow-right"></i> </div>
+      <div class="buttons-timer"> <i id ="swp-pause" class="fa fa-pause" aria-hidden="true"></i><i id="swp-play" class="fa fa-play"></i>0:<span id="timers">15</span></div>
+    </div>
+  </div>
+</div>
 
   <div class="tester" style="background-color:lightgrey; width:300px; height:250px;overflow: hidden;margin: 0 auto;"><span style="color:black;">0:<span id="timer">15</span></span>
     <h1> ad space </h1>

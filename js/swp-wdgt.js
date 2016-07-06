@@ -1,7 +1,6 @@
-
-//Use AI Articles
 $(function(){
-  var APIUrl = 'http://dev-homerunloyal-ai.synapsys.us/sidekick';
+  var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+  var APIUrl = protocolToUse + 'dev-homerunloyal-ai.synapsys.us/sidekick';
   var articleIndex = 0;
 
   function getData(APIUrl){
@@ -67,8 +66,7 @@ $(function(){
     var article = new mapArticles(data)[articleTypes[articleIndex]];
     var game = new eventData(mData);
 
-    //image now being selected based on the articleIndex value     \/
-    //var image = new eventImage(mData, game.homeTeamId).imgs[articleIndex];
+    //images being selected based on the articleIndex value
     var images = getAllImages(mData);
     var image = images[articleIndex];
 
@@ -105,117 +103,56 @@ $(function(){
   }
 
 
-/* -- Manipulation Functions  -- */
-  function convertDate(d){
-    var date = d.split(' ');
-
-    var day = date[0];
-    var time = date[1];
-    var tz = date[2];
-
-    var month = MonthsFullName(day.split('/')[0]);
-    var year = day.split('/')[2];
-    var weekDay = day.split('/')[1];
-
-    day = new Date(day);
-    day = WeekDayNumToName(day.getDate());
-
-    var today = new Date();
-    var todayMonth = MonthsFullNameZed(today.getMonth());
-    var todayYear = String(today.getFullYear()).slice(2);
-    var todayDay = String(today.getDate());
-
-    if(todayMonth == month && todayDay == weekDay && todayYear == year){
-      // then it is today
-      var string = 'Today' + ' ' + time + ' ' + tz;
-    }else if(todayMonth == month && todayYear == year && Number(todayDay) - 1 == Number(weekDay)){
-      // then it is yesterday (unless edge case where it is the end of the month)
-      var string = 'Yesterday' + ' ' + time + ' ' + tz;
-    }else{
-      // otherwise just use day of the week
-      var string = day + ' ' + time + ' tz';
-    }
-    return string;
-  }
-
-  function WeekDayNumToName(n){
-  	var weekday = new Array(7);
-  	weekday[0]=  "Sunday";
-  	weekday[1] = "Monday";
-  	weekday[2] = "Tuesday";
-  	weekday[3] = "Wednesday";
-  	weekday[4] = "Thursday";
-  	weekday[5] = "Friday";
-  	weekday[6] = "Saturday";
-  	return weekday[n];
-}
-
-function MonthsFullNameZed(number){
-  var month = {
-    "0":"January",
-    "1":"February",
-    "2":"March",
-    "3":"April",
-    "4":"May",
-    "5":"June",
-    "6":"July",
-    "7":"August",
-    "8":"September",
-    "9":"October",
-    "10":"November",
-    "11":"December",
-  }
-	return month[number];
-}
-
-function MonthsFullName(number){
-  var month = {
-    "1":"January",
-    "2":"February",
-    "3":"March",
-    "4":"April",
-    "5":"May",
-    "6":"June",
-    "7":"July",
-    "8":"August",
-    "9":"September",
-    "10":"October",
-    "11":"November",
-    "12":"December",
-  }
-
-  return month[number];
-}
-
 /***/
 
 $(document).ready(function(){
   $('#pause').css({'display':'none'});
+  $('#swp-pause').css({'display':'none'});
   $('.tester').css({'display': 'hidden'});
   $('.tester').css({'display': 'none'});
-  document.getElementById("mlb").onmouseover = function(){
-
-    $(this).find('#pause').css({'display': 'inline-block'});
-    $(this).find('#play').css({'display': 'none'});
-    unslide();
+  $('.content-container').hover(
+    function() {
+      $(this).find('#pause').css({'display': 'inline-block'});
+      $(this).find('#play').css({'display': 'none'});
+      $(this).find('#swp-pause').css({'display': 'inline-block'});
+      $(this).find('#swp-play').css({'display': 'none'});
+      unslide();
   //  endprogress();
-  console.log('hey there');
-
-
-
-
-  }
-document.getElementById("mlb").onmouseout = function(){
-//  $(this).css({'display':'none'});
-  $(this).find('#pause').css({'display': 'none'});
-  $(this).find('#play').css({'display': 'inline-block'});
-  slide();
-//  setTimeout(progress, 1500);
-
-}
+    },
+    function(){
+      $(this).find('#pause').css({'display': 'none'});
+      $(this).find('#play').css({'display': 'inline-block'});
+      $(this).find('#swp-pause').css({'display': 'none'});
+      $(this).find('#swp-play').css({'display': 'inline-block'});
+      setTimeout(slide, 1500);
+    //  setTimeout(progress, 1500);
+  });
 });
 
-var timer, slideNumber = 1000;
+//functions referenced in the toggle() function
+function displayHandler(lastShown){
+  if($('.tester').css('display') == 'none'){
+    displayAd();
+  }else{
+    displayContent(lastShown);
+  }
+}
+function displayAd(){
+  $('.swp').css({'display': 'none'});
+  $('.fcw').css({'display': 'none'});
+  $('.tester').css({'display': 'block'});
+}
+function displayContent(lastShown){
+  $('.tester').css({'display': 'none'});
+  if(lastShown == 'fcw'){
+    $('.swp').css({'display': 'block'});
+  }else if(lastShown == 'swp'){
+    $('.fcw').css({'display': 'block'});
+  }
+}
+
+
+var timer, slideNumber = 14;
 var speed = 1000
 var toggle = true;
 function slide() {
@@ -245,29 +182,7 @@ function slide() {
       }else if($('.swp').css('display') == 'block'){
         lastShown = 'swp';
       }
-      console.log(lastShown);
       displayHandler(lastShown);
-    }
-    // toggle();
-    function displayHandler(lastShown){
-      if($('.tester').css('display') == 'none'){
-        displayAd();
-      }else{
-        displayContent(lastShown);
-      }
-    }
-    function displayAd(){
-      $('.swp').css({'display': 'none'});
-      $('.fcw').css({'display': 'none'});
-      $('.tester').css({'display': 'block'});
-    }
-    function displayContent(lastShown){
-      $('.tester').css({'display': 'none'});
-      if(lastShown == 'fcw'){
-        $('.swp').css({'display': 'block'});
-      }else if(lastShown == 'swp'){
-        $('.fcw').css({'display': 'block'});
-      }
     }
 }
 function unslide() {
@@ -275,8 +190,6 @@ function unslide() {
 
 }
 slide();
-
-
 
 
 // VL - last updated: June 16th 2016
@@ -288,7 +201,7 @@ var remnant = '';
 var max = 10;
 var bord = false;
 
-var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+// var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 
 // var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
 var listType = 'finance';
@@ -313,23 +226,14 @@ toLowerKababCase = function(str){
   return str;
 };
 
-
 var colorSchemes = {
-    // nba: "sports",
     nba: '#f7701d',
-    // mlb: "sports",
     mlb: '#b31d24',
-    // college_basketball: "sports",
     college_basketball: '#f7701d',
-    // finance: "finance",
     finance: '#3098ff',
-    // crime: "crime",
     crime: '#f6af05',
-    // demographics: "demographics",
     demographics: '#65398',
-    // disaster: "disaster",
     disaster: '#90sd8e',
-    // weather: "weather"
     weather: '#ffdf30'
   };
 
@@ -375,16 +279,17 @@ function (){
 }
 
 mapColorScheme(schemeToUse);
-// $(function(){
+
   var temp = location.search;
   var query = {};
-  //
-  // if(temp != null || temp != ""){
-  //   query = JSON.parse(decodeURIComponent(temp.substr(1)));
-  //   domain = query.dom;
-  //   remnant = query.remn;
-  //   bord = query.bord;
-  // 	}
+
+  if(temp !== null && temp !== ""){
+    query = JSON.parse(decodeURIComponent(temp.substr(1)));
+    domain = query.dom;
+    remnant = query.remn;
+    bord = query.bord;
+  }
+
 
   	if(bord == 'true'){
   		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
@@ -410,28 +315,20 @@ mapColorScheme(schemeToUse);
 
     $.get(apiUrl, function(data){
       curData = data;
+      console.log(curData);
       dataCall(offset);
     }, 'json');
+
 
   function dataCall(index){
       var listName = curData.l_title;
       var listData = curData.l_data;
-      // var dataPt = listData[index].stat; // Get stats values
-      //var dataPt = listData[index].li_value;
-      //var dataValue = '';
       dataLength = listData.length;
       // Convert to lower kabab case for url links
-      // var teamNameUrl = toLowerKababCase(listData[index].teamName);
-      // var playerNameUrl = toLowerKababCase(listData[index].playerName);
-      //console.log(teamNameUrl);
 
       $('.fcw-t1 p').html(listName);
       $('.fcw-t2-num').html('#'+(index+1));
       $('.fcw-image').css('background', 'url('+ protocolToUse + listData[index].li_img +') no-repeat');
-      //$('.fcw-logo').css('background', 'url('+imageUrl(listData[index].teamLogo)+') no-repeat'); // Get team's logo image
-    //  $('.fcw-content1').html(listData[index].li_title);
-      //$('#fcw-team').html(listData[index].teamLastName); // Get team's name
-      //$('#fcw-content2b').html(listData[index].teamCity + ', ' + abbrState(listData[index].teamState)); // Get team's location
       $('#fcw-content2b').html(listData[index].li_sub_txt);
       $('.fcw-content3').html(listData[index].li_str);
       if (listData[index].li_str.length >= 36) {
@@ -460,6 +357,12 @@ mapColorScheme(schemeToUse);
       //$('.fcw-content3').html(Math.round(dataPt * 100)/100 + ' ' + dataValue + ' for ' + listInfo.season);
 
       if(remnant == 'true' || remnant == true){
+         $('.exec-link').attr('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
+      }else{
+        $('.exec-link').attr('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
+      }
+
+      if(remnant == 'true' || remnant == true){
         $('.fcw-icon').attr('href', baseUrl); //Top Left Icon - link to Home Page
         $('.exec-link').attr('href', baseUrl + "/player/" + teamNameUrl + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
         $('#teamProfile').attr('href', baseUrl + "/team/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
@@ -484,6 +387,38 @@ function imageUrl(path){
   console.log(path);
 }
 
+/* -- Manipulation Functions  -- */
+function convertDate(d){
+  var date = d.split(' ');
+
+  var day = date[0];
+  var time = date[1];
+  var tz = date[2];
+
+  var month = MonthsFullName(day.split('/')[0]);
+  var year = day.split('/')[2];
+  var weekDay = day.split('/')[1];
+
+  day = new Date(day);
+  day = WeekDayNumToName(day.getDate());
+
+  var today = new Date();
+  var todayMonth = MonthsFullNameZed(today.getMonth());
+  var todayYear = String(today.getFullYear()).slice(2);
+  var todayDay = String(today.getDate());
+
+  if(todayMonth == month && todayDay == weekDay && todayYear == year){
+    // then it is today
+    var string = 'Today' + ' ' + time + ' ' + tz;
+  }else if(todayMonth == month && todayYear == year && Number(todayDay) - 1 == Number(weekDay)){
+    // then it is yesterday (unless edge case where it is the end of the month)
+    var string = 'Yesterday' + ' ' + time + ' ' + tz;
+  }else{
+    // otherwise just use day of the week
+    var string = day + ' ' + time + ' tz';
+  }
+  return string;
+}
 function abbrState(state){
   var stateName = {
     'Alabama': 'Ala.',
@@ -541,5 +476,51 @@ function abbrState(state){
     'Wyoming': 'Wyo.'
   };
   return stateName[state];
+}
+function WeekDayNumToName(n){
+  var weekday = new Array(7);
+  weekday[0]=  "Sunday";
+  weekday[1] = "Monday";
+  weekday[2] = "Tuesday";
+  weekday[3] = "Wednesday";
+  weekday[4] = "Thursday";
+  weekday[5] = "Friday";
+  weekday[6] = "Saturday";
+  return weekday[n];
+}
+function MonthsFullNameZed(number){
+  var month = {
+    "0":"January",
+    "1":"February",
+    "2":"March",
+    "3":"April",
+    "4":"May",
+    "5":"June",
+    "6":"July",
+    "7":"August",
+    "8":"September",
+    "9":"October",
+    "10":"November",
+    "11":"December",
+  }
+  return month[number];
+}
+function MonthsFullName(number){
+  var month = {
+    "1":"January",
+    "2":"February",
+    "3":"March",
+    "4":"April",
+    "5":"May",
+    "6":"June",
+    "7":"July",
+    "8":"August",
+    "9":"September",
+    "10":"October",
+    "11":"November",
+    "12":"December",
+  }
+
+  return month[number];
 }
 });
