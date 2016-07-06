@@ -441,6 +441,9 @@ button:focus {
   margin-bottom: 5px;
 
 }
+.fcw-list-next{
+  cursor: pointer;
+}
 .fcw-list-next, .fcw-list-time{
   border-radius: 5px;
   text-align: center;

@@ -201,11 +201,10 @@ var remnant = '';
 var max = 10;
 var bord = false;
 
-// var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 
 // var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
-var listType = 'crime';
-var listRand = '4';
+var listType = 'finance';
+var listRand = '2';
 var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
 apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
 
@@ -216,7 +215,8 @@ var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
 function getBaseUrl(string){
     var urlArray = string.split("/");
     var domain = urlArray[2];
-    return protocolToUse + "//" + domain;
+    // return protocolToUse + "//" + domain;
+    return protocolToUse +  domain;
 }
 // convert camel case to lower kabab case for url
 toLowerKababCase = function(str){
@@ -264,16 +264,10 @@ function (){
   function(){
     $('.hover1').css({'background-color': ''});
   });
-  // $('.fcw-list-next:hover').css({'background-color': color});
-  // if($('.fcw-list-next').is(':hover')) $('.fcw-list-next:hover').css({'background-color': color});
   $('.fcw-list-time').css({'border-color': color, 'color': color});
   $('.fcw-list-list').css({'background-color': color, 'border-color': color});
   $('.fcw-list-link').css({'border-color': color});
-//  $('#button:hover').css({'background-color': color});
   $('.fcw-rightnav:hover').css({'background-color': color});
-  // $('.fcw-leftnav:hover').css({'background-color': color});
-  // $('.fcw-t2-title:hover').css({'color': color});
-  // $('.fcw-loc:hover').css({'color': color});
   $('#pause').css({'color': color});
   $('#play').css({'color': color});
 }
@@ -311,13 +305,40 @@ mapColorScheme(schemeToUse);
           dataCall(offset);
         }
     });
+
+
+    function executeListCall(type, rand){
+      let url = protocolToUse + 'dw.synapsys.us/list_api.php?';
+      url = url + 'cat=' + listType + '&rand=' + listRand;
+      $.ajax({
+        url: url,
+        async: false,
+        dataType: 'json',
+        success: function(r){
+          curData = r;
+          dataCall(offset);
+        },
+        error: function(jqXHR, status, error){
+          console.log(jqXHR, status, error);
+          displayError('Error Loading API: ' + status);
+        }
+      });
+    }
+
+    executeListCall(listType, listRand);
+
+    advanceList = function(){
+      listRand += 1;
+      executeListCall(listType, listRand);
+    }
+
     // Example Url: http://dev-homerunloyal-api.synapsys.us/randomList/player/25/1
 
-    $.get(apiUrl, function(data){
-      curData = data;
-      console.log(curData);
-      dataCall(offset);
-    }, 'json');
+    // $.get(apiUrl, function(data){
+    //   curData = data;
+    //   console.log(curData);
+    //   dataCall(offset);
+    // }, 'json');
 
 
   function dataCall(index){
@@ -333,53 +354,67 @@ mapColorScheme(schemeToUse);
       $('.fcw-content3').html(listData[index].li_str);
       if (listData[index].li_str.length >= 36) {
         $('.fcw-content1, .fcw-content2').css({'display': 'inline'});
-      //  $('.fcw-content2').css({'display' : 'inline'});
         $('.fcw-content').css({'text-align' : 'center'});
-        //listData[index].li_title = listData[index].li_title + ' | ';
         $('.fcw-content1').html(listData[index].li_title + ' | ');
       }
       else {
         listData[index].li_title = listData[index].li_title;
         $('.fcw-content1').html(listData[index].li_title);
       }
-      // if ($(".fcw-content1").width() + $(".fcw-content2").width() >= 250) {
-      //   $('.fcw-content3').css({'font-size' : '16px'});
-      // }
 
-
-      // if(listData[index].stat == 1){
-      //   dataValue = listInfo.nouns[0];
-      // } else {
-      //   dataValue = listInfo.nouns[1];
-      // }
-      // Check if no seasonId then return current year
-      // if(typeof listInfo.season == 'undefined'){
-      //   listInfo.season = new Date().getFullYear();
-      // }
-      //$('.fcw-content3').html(Math.round(dataPt * 100)/100 + ' ' + dataValue + ' for ' + listInfo.season);
+      var listLink = buildListLink(listType, remnant, domain, listData);
+      $('.fcw-list-list').attr('href', listLink);
 
       if(remnant == 'true' || remnant == true){
          $('.exec-link').attr('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
       }else{
+        //partner site
         $('.exec-link').attr('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
       }
 
-      if(remnant == 'true' || remnant == true){
-        $('.fcw-icon').attr('href', baseUrl); //Top Left Icon - link to Home Page
-        $('.exec-link').attr('href', baseUrl + "/player/" + teamNameUrl + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
-        $('#teamProfile').attr('href', baseUrl + "/team/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
-        $('#playerUrl').attr('href', baseUrl + "/player/" + teamNameUrl + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
-        $('#fcw-team').attr('href', baseUrl + "/team/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
-        $('.fcw-href').attr('href', baseUrl + listInfo.url + "/20/1"); // Get list page url
-      } else {
-        $('.fcw-icon').attr('href', baseUrl+"/"+ domain); //Top Left Icon - link to Partner Home Page
-        $('.exec-link').attr('href', baseUrl + "/" + domain + "/p/" + teamNameUrl + "/" + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
-        $('#teamProfile').attr('href', baseUrl+ "/" + domain + "/t/" + teamNameUrl + "/" + listData[index].teamId);
-        $('#playerUrl').attr('href', baseUrl + "/" + domain + "/p/" + teamNameUrl + "/" + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
-        $('#fcw-team').attr('href', baseUrl + "/" + domain + "/t/" + teamNameUrl + "/" + listData[index].teamId);// Get teamUrl
-        $('.fcw-href').attr('href', baseUrl + "/" + domain +  listInfo.url + "/20/1"); // Get list page domain
-      }
+      // if(remnant == 'true' || remnant == true){
+      //   $('.fcw-icon').attr('href', baseUrl); //Top Left Icon - link to Home Page
+      //   $('.exec-link').attr('href', baseUrl + "/player/" + teamNameUrl + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
+      //   $('#teamProfile').attr('href', baseUrl + "/team/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
+      //   $('#playerUrl').attr('href', baseUrl + "/player/" + teamNameUrl + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
+      //   $('#fcw-team').attr('href', baseUrl + "/team/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
+      //   $('.fcw-href').attr('href', baseUrl + listInfo.url + "/20/1"); // Get list page url
+      // } else {
+      //   $('.fcw-icon').attr('href', baseUrl+"/"+ domain); //Top Left Icon - link to Partner Home Page
+      //   $('.exec-link').attr('href', baseUrl + "/" + domain + "/p/" + teamNameUrl + "/" + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
+      //   $('#teamProfile').attr('href', baseUrl+ "/" + domain + "/t/" + teamNameUrl + "/" + listData[index].teamId);
+      //   $('#playerUrl').attr('href', baseUrl + "/" + domain + "/p/" + teamNameUrl + "/" + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
+      //   $('#fcw-team').attr('href', baseUrl + "/" + domain + "/t/" + teamNameUrl + "/" + listData[index].teamId);// Get teamUrl
+      //   $('.fcw-href').attr('href', baseUrl + "/" + domain +  listInfo.url + "/20/1"); // Get list page domain
+      // }
   }
+function buildListLink(cat, remn, dom, widget_data){
+  if ( dom == "lasvegasnow.com" ) {
+    change_url = true;
+    new_url = "finance.lasvegasnow.com";
+  }else{
+    change_url = false;
+  }
+  switch ( cat ) {
+        case 'nba':
+          var base_url = remn == "true" ? "http://www.hoopsloyal.com/NBA/widget-list" : "http://www.myhoopszone.com/" + dom + "/NBA/w-list";
+          break;
+        case 'college_basketball':
+          var base_url = remn == "true" ? "http://www.hoopsloyal.com/NCAA/widget-list" : "http://www.myhoopszone.com/" + dom + "/NCAA/w-list";
+          break;
+        case 'finance':
+          var base_url = remn == "true" ? "http://www.investkit.com/widget-list" : "http://www.myinvestkit.com/" + dom + "/w-list";
+          if ( change_url ) {
+            base_url = base_url.replace("www.myinvestkit.com", new_url);
+          }
+          break;
+        default:
+          var base_url = remn == "true" ? "http://www.joyfulhome.com/wlist" : "http://www.myhousekit.com/" + dom + "/wlist";
+          var doStep = false;
+      }
+      base_url += ( doStep ) ? '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input : "/tw-" + widget_data.l_param + "+sw-" + widget_data.l_sort + "+input-" + widget_data.l_input;
+      return base_url;
+}
 
 function imageUrl(path){
   if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
@@ -388,6 +423,7 @@ function imageUrl(path){
   return 'http://prod-sports-images.synapsys.us' + path;
   console.log(path);
 }
+
 
 /* -- Manipulation Functions  -- */
 function convertDate(d){
