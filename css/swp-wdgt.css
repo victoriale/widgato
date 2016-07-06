@@ -17,7 +17,7 @@
 .title-logo{
   width: 25px;
   height: 25px;
-  background-color: #af151d;
+  background-color: #b31d24;
   border-radius: 50%;
   background-image: url("public/Icon_Baseball.png");
   background-position: center center;
@@ -69,7 +69,7 @@
   font-family: Lato;
   font-size: 12px;
   font-weight: bold;
-  color: #af151d;
+  color: #b31d24;
 }
 
 .bar{
@@ -105,7 +105,7 @@
   font-family: Lato;
   height: 25px;
   width: 112px;
-  background-color: #af151d;
+  background-color: #b31d24;
   color: white;
   border-radius: 5px;
 }
@@ -121,9 +121,9 @@
   line-height: 25px;
   text-align: center;
   border-radius: 5px;
-  border: 1px solid #af151d;
+  border: 1px solid #b31d24;
   margin-left: 10px;
-  color: #af151d;
+  color: #b31d24;
   font-size: 12px;
   font-family: Lato;
   font-weight: bold;
@@ -142,13 +142,13 @@
   line-height: 25px;
   text-align: center;
   border-radius: 5px;
-  border: 1px solid #af151d;
+  border: 1px solid #b31d24;
   font-size: 12px;
   font-family: Lato;
   margin-left: 10px;
 }
 #play{
-  color: #af151d;
+  color: #b31d24;
   font-size: 12px;
   margin-right: 5px;
 }
@@ -227,8 +227,21 @@ button:focus {
   text-align: left;
   line-height: 20px;
   padding-left: 45px;
-  width: 95%
+  width: 285px;
+  text-align: left;
+  position: absolute;
+  display: table;
+  height: 60px;
+  bottom: 8px;
+
+
 }
+.fcw-t1 p {
+  display: table-cell;
+ vertical-align: middle;
+ text-align: center;
+}
+
 .fcw-t2{
   margin: 3px 0 2px 0;
   font-size: 14px;
@@ -469,7 +482,7 @@ button:focus {
   background-color: #000000;
   color: #fff;
 }
-.fcw-list-next:hover,  #button:hover {
+.fcw-list-next:hover {
   background-color: #b31d24;
   color:white;
 }
