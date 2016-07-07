@@ -21,7 +21,7 @@
   height: 25px;
   background-color: #b31d24;
   border-radius: 50%;
-  background-image: url("public/Icon_Baseball.png");
+  /*background-image: url("public/Icon_Baseball.png");*/
   background-position: center center;
   background-repeat: no-repeat;
 }
