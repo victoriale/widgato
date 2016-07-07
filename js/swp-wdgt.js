@@ -410,10 +410,10 @@ mapColorScheme(schemeToUse,iconsToUse);
 
   }
 function buildListLink(cat, remn, dom, widget_data){
-  //temp to make sure to not use partner links:
+
   dom == "lasvegasnow.com"  ? change_url = true : change_url = false;
   change_url ? new_url = "finance.lasvegasnow.com" : "";
-
+  doStep = true;
   switch ( cat ) {
         case 'nba':
           var base_url = remn == "true" ? "http://www.hoopsloyal.com/NBA/widget-list" : "http://www.myhoopszone.com/" + dom + "/NBA/w-list";
