@@ -1,11 +1,12 @@
 swp_wdgt = function(){
   var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-  var APIUrl = protocolToUse + 'dev-homerunloyal-ai.synapsys.us/sidekick';
+  // var APIUrl = protocolToUse + 'dev-homerunloyal-ai.synapsys.us/sidekick';
   // var APIUrl = protocolToUse + 'qa-homerunloyal-ai.synapsys.us/sidekick';
   //PRODUCTION API TO USE FOR AI ARTICLES
-  //var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
+  var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
   var articleIndex = 0;
 
+  A('.fcw-list-time').style.display = 'none';
   A('.fcw').style.zIndex = '2';
   A('.swp').style.zIndex = '-1'
 
@@ -78,11 +79,12 @@ swp_wdgt = function(){
     //article url structure: /articles/:article_type/:event_id
     var articleUrl = protocolToUse + 'homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
     var articleText = article.article[0].substr(0, 130);
-    A('.content-text').innerHTML = articleText + '...<a href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>';
+    A('.content-text').innerHTML = articleText;// + '...<a href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>';
 
     A('.bar-date').innerHTML = convertDate(game.startDateTime);
     var author = 'www.homerunloyal.com';
-    A('.bar-author').innerHTML = '<a id="authorlink" href="' + protocolToUse + author +'">' + author + '</a>';
+    var authorLink = '';
+    A('.bar-author').innerHTML = '<a id="authorlink" href="' + protocolToUse + authorLink +'">' + author + '</a>';
 
     // A('#readbutton').setAttribute('href', articleUrl);
 
@@ -116,14 +118,14 @@ A(".content-container").onmouseover = function() {
   A('#pause').style.display = 'inline-block';
   A('#swp-pause').style.display = 'inline-block';
   A('#swp-play').style.display = 'none';
-  unslide();
+  //unslide();
 }
 A(".content-container").onmouseout  = function() {
   A('#play').style.display = 'inline-block';
   A('#pause').style.display = 'none';
   A('#swp-pause').style.display = 'none';
   A('#swp-play').style.display = 'inline-block';
-  slide();
+  //slide();
 }
 
 
@@ -191,7 +193,7 @@ function unslide() {
     clearInterval(timer);
 
 }
-slide();
+//slide();
 
 var offset = 0;
 var dataLength;
@@ -201,10 +203,10 @@ var remnant = '';
 var bord = false;
 
 //will most likely not use this \/
-// var possibleTypes = ['nba', 'mlb', 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
+var possibleTypes = ['nba', /*'mlb',*/ 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
 
-var listType = 'finance'; //will get rand and weather from embed, (location.search)
-// var listType = possibleTypes[Math.floor((Math.random() * possibleTypes.length ))];
+//var listType = 'weather'; //will get rand and weather from embed, (location.search)
+var listType = possibleTypes[Math.floor((Math.random() * possibleTypes.length ))];
 // console.log(listType);
 var listRand = 0;
 // var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
@@ -238,7 +240,7 @@ var iconScheme = {
     crime:'../css/public/icons/Crime_Icon.svg',
     demographics:'../css/public/icons/Demographic_Icon.svg',
     disaster:'../css/public/icons/Disaster_Icon.svg',
-    weather: '../css/public/icons/Weather_Icon.svg'
+    weather: '../css/public/icons/Weather_Icon.png'
   };
 
 var schemeToUse = colorSchemes[listType];
@@ -246,9 +248,6 @@ var iconsToUse = iconScheme[listType];
 
 function mapColorScheme(color,icons){
   A('.fcw-icon').style.backgroundColor = color;
-  // $('.fcw-logo:hover').css({'background-color': color});
-  // if($('.fcw-logo').is(':hover')) $('.fcw-logo:hover').css({'background-color': color});
-  // $('.fcw-content1').css({'color': color});
   A('.fcw-content1').style.color = color;
 
   A('.fcw-icon').style.backgroundImage = "url('" + icons + "')";
@@ -293,8 +292,6 @@ function mapColorScheme(color,icons){
   A('.fcw-list-list').style.borderColor = color;
   A('.fcw-list-list').style.backgroundColor = color;
 
-  /*NEW HOVER FUNCION FOR THIS ????*/
-  //A('.fcw-rightnav:hover').style.backgroundColor = color;
 
   A('#pause').style.color = color;
   A('#play').style.color = color;
@@ -312,6 +309,8 @@ mapColorScheme(schemeToUse,iconsToUse);
     remnant = query.remn;
     bord = query.bord;
   }
+
+  remnant = 'true';
 
   A(".fcw-rightnav").onclick = function() {
     if (offset < dataLength-1) {
@@ -335,7 +334,6 @@ mapColorScheme(schemeToUse,iconsToUse);
     url = url + 'cat=' + listType + '&rand=' + listRand;
     curData = httpGet(url);
     dataCall(offset);
-    console.log(curData);
     if(old_title != undefined && old_title == curData.l_title){
       advanceList();
     }
@@ -388,7 +386,6 @@ mapColorScheme(schemeToUse,iconsToUse);
       else {
         A('.fcw-content1').style.display = '';
         A('.fcw-content2').style.display = '';
-        // listData[index].li_title = listData[index].li_title;
         A('.fcw-content1').innerHTML = listData[index].li_title;
         var hoops = true;
       }
@@ -402,7 +399,7 @@ mapColorScheme(schemeToUse,iconsToUse);
        A('.fcw-content1').style.fontSize = '16px';
      }
 
-      var listLink = buildListLink(listType, remnant, domain, listData);
+      var listLink = buildListLink(listType, remnant, domain, curData);
       A('.fcw-list-list').setAttribute('href', listLink);
 
       if(remnant == 'true' || remnant == true){
@@ -415,7 +412,7 @@ mapColorScheme(schemeToUse,iconsToUse);
 
   }
 function buildListLink(cat, remn, dom, widget_data){
-
+  //temp to make sure to not use partner links:
   dom == "lasvegasnow.com"  ? change_url = true : change_url = false;
   change_url ? new_url = "finance.lasvegasnow.com" : "";
 
