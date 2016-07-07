@@ -47,10 +47,10 @@
         <div class="fcw-content3"></div>
       </div>
       <div class="fcw-list">
-        <div class="fcw-list-list" style= "height:25px; width:112px;">
+        <a class="fcw-list-list" style= "height:25px; width:112px;" href="">
           <span class="fcw-list-text">See the List<i class="fa fa-share" aria-hidden="true"></i></span>
-        </div>
-        <div class="fcw-list-next" style="height:25px; width:94px;">
+        </a>
+        <div class="fcw-list-next" onclick="advanceList();" style="height:25px; width:94px;">
           <span class="fcw-list-text" id = "button">Next List<i class="fa fa-arrow-right" aria-hidden="true"></i></span>
         </div>
         <div class="fcw-list-time" style="height:25px; width:54px;">
@@ -87,9 +87,8 @@
       <div class="buttons-timer"> <i id ="swp-pause" class="fa fa-pause" aria-hidden="true"></i><i id="swp-play" class="fa fa-play"></i>0:<span id="timers">15</span></div>
     </div>
   </div>
-</div>
 
-  <div class="tester" style="background-color:lightgrey; width:300px; height:250px;overflow: hidden;margin: 0 auto;"><span style="color:black;">0:<span id="timer">15</span></span>
+  <div class="tester" style="background-color:lightgrey; width:300px; height:250px;overflow: hidden;margin: 0 auto; position:absolute; z-index:1"><span style="color:black;">0:<span id="timer">15</span></span>
     <h1> ad space </h1>
    </div>
  </div>
