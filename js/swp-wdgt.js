@@ -91,8 +91,8 @@ swp_wdgt = function(){
   }
 
 /* -- Set Up Data links to the Widget -- */
-  var data = getData(APIUrl);
-  linkData(data, articleIndex);
+  //var data = getData(APIUrl);
+  //linkData(data, articleIndex);
 
 
   /* Handling of Article Index */
@@ -202,14 +202,12 @@ var domain = '';
 var remnant = '';
 var bord = false;
 
-//will most likely not use this \/
-var possibleTypes = ['nba', /*'mlb',*/ 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
 
+var possibleTypes = ['nba', /*'mlb',*/ 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
 //var listType = 'weather'; //will get rand and weather from embed, (location.search)
 var listType = possibleTypes[Math.floor((Math.random() * possibleTypes.length ))];
-// console.log(listType);
-var listRand = 0;
-// var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
+// var listRand = 0;
+var listRand = Math.floor((Math.random() * 9)  + 1);
 var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
 apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
 
@@ -234,7 +232,7 @@ var colorSchemes = {
   };
 var iconScheme = {
     nba:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
-    mlb:'../css/public/icons/Home-Run-Loyal_Icon 2.svg',
+    // mlb:'../css/public/icons/Home-Run-Loyal_Icon 2.svg',
     college_basketball:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
     finance:'../css/public/icons/Invest-Kit_Icon.svg',
     crime:'../css/public/icons/Crime_Icon.svg',
