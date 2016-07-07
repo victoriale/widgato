@@ -1,24 +1,24 @@
-$(function(){
+swp_wdgt = function(){
   var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
   var APIUrl = protocolToUse + 'dev-homerunloyal-ai.synapsys.us/sidekick';
+  // var APIUrl = protocolToUse + 'qa-homerunloyal-ai.synapsys.us/sidekick';
   //PRODUCTION API TO USE FOR AI ARTICLES
   //var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
   var articleIndex = 0;
 
+  A('.fcw').style.zIndex = '2';
+  A('.swp').style.zIndex = '-1'
+
+  function httpGet(url){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", url, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return JSON.parse(xmlHttp.responseText);
+  }
+
   function getData(APIUrl){
     var ret_data;
-    $.ajax({
-      url: APIUrl,
-      async: false,
-      dataType: 'json',
-      success: function(r){
-        ret_data = r;
-      },
-      error: function(jqXHR, status, error){
-        console.log(jqXHR, status, error);
-        displayError('Error Loading API: ' + status);
-      }
-    });
+    ret_data = httpGet(APIUrl);
     return ret_data;
   }
 
@@ -61,7 +61,6 @@ $(function(){
     }
   }
 
-
   // Main Function for mapping data to html elements
   function linkData(data, articleIndex){
     var mData = data['meta-data'];
@@ -73,19 +72,19 @@ $(function(){
     var image = images[articleIndex];
 
     //change this to img tags instead of bg image
-    $('.section-image').css({'background-image': 'url("' + image + '")'});
-    $('.section-text').html(article.displayHeadline);
+    A('.section-image').style.backgroundImage = 'url("' + image + '")';
+    A('.section-text').innerHTML = article.displayHeadline;
 
     //article url structure: /articles/:article_type/:event_id
     var articleUrl = protocolToUse + 'homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
     var articleText = article.article[0].substr(0, 130);
-    $('.content-text').html(articleText + '...<a href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>');
+    A('.content-text').innerHTML = articleText + '...<a href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>';
 
-    $('.bar-date').html(convertDate(game.startDateTime));
+    A('.bar-date').innerHTML = convertDate(game.startDateTime);
     var author = 'www.homerunloyal.com';
-    $('.bar-author').html('<a id="authorlink" href="' + protocolToUse + author +'">' + author + '</a>');
+    A('.bar-author').innerHTML = '<a id="authorlink" href="' + protocolToUse + author +'">' + author + '</a>';
 
-    $('#readbutton').attr('href', articleUrl);
+    // A('#readbutton').setAttribute('href', articleUrl);
 
   }
 
@@ -107,56 +106,55 @@ $(function(){
 
 /***/
 
-$(document).ready(function(){
-  $('#pause').css({'display':'none'});
-  $('#swp-pause').css({'display':'none'});
-//  $('.tester').css({'display': 'hidden'});
-  $('.tester').css({'z-index': '-1'});
-  $('.content-container').hover( // hover function for pause, and play icon change.
-    function() {
-      $(this).find('#pause').css({'display': 'inline-block'});
-      $(this).find('#play').css({'display': 'none'});
-      $(this).find('#swp-pause').css({'display': 'inline-block'});
-      $(this).find('#swp-play').css({'display': 'none'});
-      unslide();
-    },
-    function(){
-      $(this).find('#pause').css({'display': 'none'});
-      $(this).find('#play').css({'display': 'inline-block'});
-      $(this).find('#swp-pause').css({'display': 'none'});
-      $(this).find('#swp-play').css({'display': 'inline-block'});
-      //setTimeout(slide, 1500);
-    //  setTimeout(progress, 1500);
-    slide();
-  });
-});
+
+A('#pause').style.display = 'none';
+A('#swp-pause').style.display = 'none';
+A('.adzone').style.zIndex = '-1';
+
+A(".content-container").onmouseover = function() {
+  A('#play').style.display = 'none';
+  A('#pause').style.display = 'inline-block';
+  A('#swp-pause').style.display = 'inline-block';
+  A('#swp-play').style.display = 'none';
+  unslide();
+}
+A(".content-container").onmouseout  = function() {
+  A('#play').style.display = 'inline-block';
+  A('#pause').style.display = 'none';
+  A('#swp-pause').style.display = 'none';
+  A('#swp-play').style.display = 'inline-block';
+  slide();
+}
+
 
 //functions referenced in the toggle() function
 
 function displayHandler(lastShown){  // display content if ad is in view
-  if($('.tester').css('z-index') == '-1'){
+  if(A('.adzone').style.zIndex == '-1'){
     displayAd();
   }else{
     displayContent(lastShown);
   }
 }
 function displayAd(){ //placing ad over swp and fcw
-  $('.swp').css({'z-index': '1'});
-  $('.fcw').css({'z-index': '1'});
-  $('.tester').css({'z-index': '2'});
+  A('.swp').style.zIndex = '-1';
+  A('.fcw').style.zIndex = '-1';
+  A('.adzone').style.zIndex = '2';
 }
 function displayContent(lastShown){ //placing content over ad
-  $('.tester').css({'z-index': '-1'});
+  A('.adzone').style.zIndex = '-1';
   if(lastShown == 'fcw'){
-    $('.swp').css({'z-index': '2'});
+    A('.fcw').style.zIndex = '-1';
+    A('.swp').style.zIndex = '2';
   }else if(lastShown == 'swp'){
-    $('.fcw').css({'z-index': '2'});
+    A('.swp').style.zIndex = '-1';
+    A('.fcw').style.zIndex = '2';
   }
 }
 
 
 // var timer, slideNumber = 15; // starting time limit for timer
-var timer, slideNumber = 2;
+var timer, slideNumber = 5;
 var speed = 1000 //speed of timer
 var toggle = true;
 function slide() {
@@ -164,26 +162,25 @@ function slide() {
         if (slideNumber < 10) { // when timer is less than ten at a decimal 0. [0:09]
           slideNumber = '0' + String(slideNumber);
         }
+        A('#time').innerHTML = slideNumber;
+        A('#timer').innerHTML = slideNumber;
+        A('#timers').innerHTML = slideNumber;
 
-        $('#time').html(slideNumber);
-        $('#timer').html(slideNumber);
-        $('#timers').html(slideNumber);
         slideNumber--;
         if(slideNumber=== -1) { // when timer is -1 [0] reset it to 15
            toggle();
         //  slideNumber = 15;
-        slideNumber = 2;
+        slideNumber = 5;
 
         }
     },speed);
 
     var lastShown;
     function toggle(){
-
-      if($('.fcw').css('z-index') == '2'){ 
+      if(A('.fcw').style.zIndex == '2'){
         advanceList();
         lastShown = 'fcw';
-      }else if($('.swp').css('z-index') == '2'){
+      }else if(A('.swp').style.zIndex == '2'){
         updateArticle()
         lastShown = 'swp';
       }
@@ -203,9 +200,12 @@ var domain = '';
 var remnant = '';
 var bord = false;
 
+//will most likely not use this \/
+// var possibleTypes = ['nba', 'mlb', 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
 
-
-var listType = 'disaster'; //will get rand and weather from embed, (location.search)
+var listType = 'finance'; //will get rand and weather from embed, (location.search)
+// var listType = possibleTypes[Math.floor((Math.random() * possibleTypes.length ))];
+// console.log(listType);
 var listRand = 0;
 var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
 apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
@@ -244,38 +244,59 @@ var schemeToUse = colorSchemes[listType];
 var iconsToUse = iconScheme[listType];
 
 function mapColorScheme(color,icons){
-  $('.fcw-icon').css({'background-color': color});
+  A('.fcw-icon').style.backgroundColor = color;
   // $('.fcw-logo:hover').css({'background-color': color});
   // if($('.fcw-logo').is(':hover')) $('.fcw-logo:hover').css({'background-color': color});
-  $('.fcw-content1').css({'color': color});
-  $('#fcw-team').css({'color': color});
-  $('.fcw-icon').css({'background-image': "url('" + icons + "')"});
-  $('#fcw-content2b').css({'color': color});
-  $('.fcw-list-next').css({'border-color': color, 'color': color});
-  $('.fcw-list-next').hover(function(){
-    $('.fcw-list-next').css({'background-color': color, 'color': 'white'});
-  },
-  function (){
-    $('.fcw-list-next').css({'border-color': color, 'background-color': '', 'color' : color});
-  });
-  $("button[class $= 'nav']").hover(function(){
-    $(this).css({'background-color': color});
-  },
-  function (){
-    $(this).css({'background-color': ''});
-  });
-  $(".hover1").hover(function(){
-    $('.hover1').css({'background-color': color});
-  },
-  function(){
-    $('.hover1').css({'background-color': ''});
-  });
-  $('.fcw-list-time').css({'border-color': color, 'color': color});
-  $('.fcw-list-list').css({'background-color': color, 'border-color': color});
-  $('.fcw-list-link').css({'border-color': color});
-  $('.fcw-rightnav:hover').css({'background-color': color});
-  $('#pause').css({'color': color});
-  $('#play').css({'color': color});
+  // $('.fcw-content1').css({'color': color});
+  A('.fcw-content1').style.color = color;
+
+  A('.fcw-icon').style.backgroundImage = "url('" + icons + "')";
+  A('#fcw-content2b').style.color = color;
+  A('.fcw-list-next').style.color = color;
+  A('.fcw-list-next').style.borderColor = color;
+
+  A(".fcw-list-next").onmouseover = function() {
+    A('.fcw-list-next').style.backgroundColor = color;
+    A('.fcw-list-next').style.color = 'white';
+  }
+  A(".fcw-list-next").onmouseout  = function() {
+    A('.fcw-list-next').style.bordercolor = color;
+    A('.fcw-list-next').style.backgroundColor = '';
+    A('.fcw-list-next').style.color = color;
+  }
+
+
+
+  A(".fcw-leftnav").onmouseover = function(){
+    A('.fcw-leftnav').style.backgroundColor = color;
+  }
+  A(".fcw-leftnav").onmouseout = function(){
+    A('.fcw-leftnav').style.backgroundColor = '';
+  }
+
+  A(".fcw-rightnav").onmouseover = function(){
+    A('.fcw-rightnav').style.backgroundColor = color;
+  }
+  A(".fcw-rightnav").onmouseout = function(){
+    A('.fcw-rightnav').style.backgroundColor = '';
+  }
+
+  A(".hover1").onmouseover = function() {
+    A('.hover1').style.backgroundColor = color;
+  }
+  A(".hover1").onmouseout  = function() {
+    A(".hover1").style.backgroundColor = '';
+  }
+  A('.fcw-list-time').style.color = color;
+  A('.fcw-list-time').style.borderColor = color;
+  A('.fcw-list-list').style.borderColor = color;
+  A('.fcw-list-list').style.backgroundColor = color;
+
+  /*NEW HOVER FUNCION FOR THIS ????*/
+  //A('.fcw-rightnav:hover').style.backgroundColor = color;
+
+  A('#pause').style.color = color;
+  A('#play').style.color = color;
 }
 
 mapColorScheme(schemeToUse,iconsToUse);
@@ -291,40 +312,32 @@ mapColorScheme(schemeToUse,iconsToUse);
     bord = query.bord;
   }
 
-  $('.fcw-rightnav').on('click', function() {
-      if (offset < dataLength-1 && $(this).data('dir') === 'next') {
-          dataCall(++offset);
-      }else if(offset >= dataLength-1){
-        offset = 0;
-        dataCall(offset);
-      }
-  });
+  A(".fcw-rightnav").onclick = function() {
+    if (offset < dataLength-1) {
+           dataCall(++offset);
+       }else if(offset >= dataLength-1){
+         offset = 0;
+         dataCall(offset);
+         }
+  };
+  A(".fcw-leftnav").onclick = function() {
+    if (offset > 0 ) {
+        dataCall(--offset);
+    }else if(offset <= 0){
+      offset = dataLength-1;
+      dataCall(offset);
+    }
+  };
 
-  $('.fcw-leftnav').on('click', function() {
-      if (offset > 0 && $(this).data('dir') === 'prev') {
-          dataCall(--offset);
-      }else if(offset <= 0){
-        offset = dataLength-1;
-        dataCall(offset);
-      }
-  });
-
-  function executeListCall(type, rand){
+  function executeListCall(type, rand, old_title){
     let url = protocolToUse + 'dw.synapsys.us/list_api.php?';
     url = url + 'cat=' + listType + '&rand=' + listRand;
-    $.ajax({
-      url: url,
-      async: false,
-      dataType: 'json',
-      success: function(r){
-        curData = r;
-        dataCall(offset);
-      },
-      error: function(jqXHR, status, error){
-        console.log(jqXHR, status, error);
-        displayError('Error Loading API: ' + status);
-      }
-    });
+    curData = httpGet(url);
+    dataCall(offset);
+    console.log(curData);
+    if(old_title != undefined && old_title == curData.l_title){
+      advanceList();
+    }
   }
 
   executeListCall(listType, listRand);
@@ -336,7 +349,7 @@ mapColorScheme(schemeToUse,iconsToUse);
       listRand = 0;
     }
     offset = 0;
-    executeListCall(listType, listRand);
+    executeListCall(listType, listRand, curData.l_title);
   }
 
   function dataCall(index){
@@ -345,42 +358,58 @@ mapColorScheme(schemeToUse,iconsToUse);
       dataLength = listData.length;
       // Convert to lower kabab case for url links
 
-      $('.fcw-t1 p').html(listName);
+      A('.fcw-t1-p').innerHTML = listName;
       if (listName.length >= 63) {
-        $('.fcw-icon').css({'top': '8px'});
-        $('.fcw-t1').css({'bottom':'0px'});
+        A('.fcw-icon').style.top = '8px';
+        A('.fcw-t1').style.bottom = '0px';
       }
       else {
-        $('.fcw-icon').css({'top': '0px'});
-        $('.fcw-t1').css({'bottom':'6px'});
+        A('.fcw-icon').style.top = '0px';
+        A('.fcw-t1').style.bottom = '6px';
       }
 
-      $('.fcw-t2-num').html('#'+(index+1));
-      $('.fcw-image').css('background', 'url('+ protocolToUse + listData[index].li_img +') no-repeat');
-      $('#fcw-content2b').html(listData[index].li_sub_txt);
+      A('.fcw-t2-num').innerHTML = '#' + (index+1);
+
+      A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + listData[index].li_img +')';
+      A('.fcw-image').style.backgroundRepeat = 'no-repeat';
+
+      A('#fcw-content2b').innerHTML = listData[index].li_sub_txt;
       if (listType == 'finance'){
         listData[index].li_str = listData[index].li_str.replace('Reported', '');
       }
-      $('.fcw-content3').html(listData[index].li_str);
+      A('.fcw-content3').innerHTML = listData[index].li_str;
       if (listData[index].li_str.length >= 40) {
-        $('.fcw-content1, .fcw-content2').css({'display': 'inline'});
-        $('.fcw-content').css({'text-align' : 'center'});
-        $('.fcw-content1').html(listData[index].li_title + ' | ');
+        A('.fcw-content2').style.display = 'inline';
+        A('.fcw-content1').style.display = 'inline';
+        A('.fcw-content').style.textAlign = 'center';
+        A('.fcw-content1').innerHTML = listData[index].li_title + ' | ';
       }
       else {
         listData[index].li_title = listData[index].li_title;
-        $('.fcw-content1').html(listData[index].li_title);
+        A('.fcw-content1').innerHTML = listData[index].li_title;
+        var hoops = true;
       }
+
+     if (listType == 'college_basketball' && listData[index].li_title.length + listData[index].li_sub_txt.length >= 35) {
+       A('#fcw-content2b').style.fontSize = '10px';
+       A('.fcw-content1').style.fontSize = '12px';
+     }
+     else if(hoops = true){
+       A('#fcw-content2b').style.fontSize = '12px';
+       A('.fcw-content1').style.fontSize = '16px';
+​
+     }
 
       var listLink = buildListLink(listType, remnant, domain, listData);
-      $('.fcw-list-list').attr('href', listLink);
+      A('.fcw-list-list').setAttribute('href', listLink);
 
       if(remnant == 'true' || remnant == true){
-         $('.exec-link').attr('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
+        A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
       }else{
         //partner site
-        $('.exec-link').attr('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
+        A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
       }
+
 
   }
 function buildListLink(cat, remn, dom, widget_data){
@@ -490,4 +519,4 @@ function MonthsFullName(number){
 
   return month[number];
 }
-});
+}();
