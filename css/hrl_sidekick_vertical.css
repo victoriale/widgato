@@ -290,7 +290,7 @@ sup {
   height:250px;
   background-color: #ccc;
   position: absolute;
-  bottom: 10px;
+  bottom: 0;
 }
 .noclick {
   -webkit-touch-callout: none;
