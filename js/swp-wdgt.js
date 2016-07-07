@@ -203,7 +203,7 @@ var remnant = '';
 var bord = false;
 
 
-var possibleTypes = ['nba', /*'mlb',*/ 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
+var possibleTypes = ['nba', /*'mlb',*/ 'college_basketball', 'finance', 'crime', 'demographics', 'disaster'/*, 'weather'*/];
 //var listType = 'weather'; //will get rand and weather from embed, (location.search)
 var listType = possibleTypes[Math.floor((Math.random() * possibleTypes.length ))];
 // var listRand = 0;
