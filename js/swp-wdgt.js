@@ -153,7 +153,6 @@ function displayContent(lastShown){ //placing content over ad
 }
 
 
-
 // var timer, slideNumber = 15; // starting time limit for timer
 var timer, slideNumber = 5;
 var speed = 1000 //speed of timer
@@ -208,6 +207,7 @@ var listType = 'finance'; //will get rand and weather from embed, (location.sear
 // var listType = possibleTypes[Math.floor((Math.random() * possibleTypes.length ))];
 // console.log(listType);
 var listRand = 0;
+// var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
 var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
 apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
 
@@ -366,7 +366,7 @@ mapColorScheme(schemeToUse,iconsToUse);
       }
       else {
         A('.fcw-icon').style.top = '0px';
-        A('.fcw-t1').style.bottom = '6px';
+        A('.fcw-t1').style.bottom = '8px';
       }
 
       A('.fcw-t2-num').innerHTML = '#' + (index+1);
@@ -386,8 +386,9 @@ mapColorScheme(schemeToUse,iconsToUse);
         A('.fcw-content1').innerHTML = listData[index].li_title + ' | ';
       }
       else {
-        $('.fcw-content1, .fcw-content2').css({'display': ''});
-        listData[index].li_title = listData[index].li_title;
+        A('.fcw-content1').style.display = '';
+        A('.fcw-content2').style.display = '';
+        // listData[index].li_title = listData[index].li_title;
         A('.fcw-content1').innerHTML = listData[index].li_title;
         var hoops = true;
       }
@@ -399,7 +400,6 @@ mapColorScheme(schemeToUse,iconsToUse);
      else if(hoops = true){
        A('#fcw-content2b').style.fontSize = '12px';
        A('.fcw-content1').style.fontSize = '16px';
-​
      }
 
       var listLink = buildListLink(listType, remnant, domain, listData);
