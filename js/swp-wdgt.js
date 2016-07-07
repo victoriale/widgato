@@ -153,6 +153,7 @@ function displayContent(lastShown){ //placing content over ad
 }
 
 
+
 // var timer, slideNumber = 15; // starting time limit for timer
 var timer, slideNumber = 5;
 var speed = 1000 //speed of timer
@@ -385,6 +386,7 @@ mapColorScheme(schemeToUse,iconsToUse);
         A('.fcw-content1').innerHTML = listData[index].li_title + ' | ';
       }
       else {
+        $('.fcw-content1, .fcw-content2').css({'display': ''});
         listData[index].li_title = listData[index].li_title;
         A('.fcw-content1').innerHTML = listData[index].li_title;
         var hoops = true;
