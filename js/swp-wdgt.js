@@ -153,7 +153,7 @@ function displayContent(lastShown){ //placing content over ad
 }
 
 
-var timer, slideNumber = 15; // starting time limit for timer
+var timer, slideNumber = 1005; // starting time limit for timer
 var speed = 1000 //speed of timer
 var toggle = true;
 function slide() {
@@ -204,7 +204,7 @@ var bord = false;
 
 
 // var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
-var listType = 'demographics';
+var listType = 'crime';
 var listRand = '5';
 var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
 apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
@@ -370,7 +370,7 @@ mapColorScheme(schemeToUse,iconsToUse);
       }
       else {
         $('.fcw-icon').css({'top': '0px'});
-        $('.fcw-t1').css({'bottom':'6px'});
+        $('.fcw-t1').css({'bottom':'8px'});
       }
 
       $('.fcw-t2-num').html('#'+(index+1));
@@ -386,6 +386,7 @@ mapColorScheme(schemeToUse,iconsToUse);
         $('.fcw-content1').html(listData[index].li_title + ' | ');
       }
       else {
+        $('.fcw-content1, .fcw-content2').css({'display': ''});
         listData[index].li_title = listData[index].li_title;
         $('.fcw-content1').html(listData[index].li_title);
       }
