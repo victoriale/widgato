@@ -1,7 +1,7 @@
 ai_billboard = (function() {
   var domain, remnant;
-  var remLink = "http://dev.homerunloyal.com/";
-  var partLink = "http://dev.homerunzone.com/";
+  var remLink = "http://qa.homerunloyal.com/";
+  var partLink = "http://qa.myhomerunzone.com/";
   var temp = location.search;
   var href;
   var query = {};
@@ -18,7 +18,7 @@ ai_billboard = (function() {
     }
   }
   var teamId = query.team;
-  var APIUrl = 'http://dev-homerunloyal-ai.synapsys.us/billboard/' + teamId;
+  var APIUrl = 'http://prod-homerunloyal-ai.synapsys.us/billboard/' + teamId;
   var randomArticles = [];
   var teamData = [];
   var imageArr = [];
@@ -233,7 +233,7 @@ ai_billboard = (function() {
       $(subContainerSmall).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
       subTitleSmall.innerHTML = randomArticles[i].title;
       subContainer.appendChild(subHr);
-      if (randomArticles[i].title.length <= 36) {
+      if (randomArticles[i].title.length <= 43) {
         $(subHrSmall).css({"padding-top":"25px"});
       }
     }

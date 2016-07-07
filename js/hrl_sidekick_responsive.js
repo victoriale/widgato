@@ -8,7 +8,7 @@ ai_widget = (function() {
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     target = query.targ;
   }
-  var APIUrl = 'http://dev-homerunloyal-ai.synapsys.us/sidekick',
+  var APIUrl = 'http://prod-homerunloyal-ai.synapsys.us/sidekick',
     AIData = {},
     gameID = -1,
     pageInd = -1,
@@ -77,14 +77,6 @@ ai_widget = (function() {
       imageArr.push(val);
     });
     imageArr = imageArr[0].concat(imageArr[1]);
-    if (imageArr.length < 1) {
-      imageArr = ['http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_1.png',
-        'http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_2.png',
-        'http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_3.png',
-        'http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_4.png',
-        'http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_5.png',
-      ];
-    }
     var imgIndex = Math.floor(Math.random() * ((imageArr.length)));
     imgIndex = (imgIndex > -1 ? imgIndex : 0);
     var arr = {
@@ -101,7 +93,6 @@ ai_widget = (function() {
     $('#ai-link').attr('target', target);
     $('.aiw-txt')[0].innerHTML = arr.content;
     $('.aiw-img').css('background-image', 'url(' + arr.img + ')');
-    $('.aiw-ad')[0].innerHTML = arr.title + ' presented by:';
     fitText();
   } // --> displayPage
   function fitText() {
@@ -252,8 +243,8 @@ $(function() {
   var domain, remnant;
   var temp = location.search;
   var query = {};
-  var remLink = "http://dev.homerunloyal.com/";
-  var partLink = "http://dev.homerunzone.com/";
+  var remLink = "http://qa.homerunloyal.com/";
+  var partLink = "http://qa.myhomerunzone.com/";
   if (temp != null) {
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     //set the query data from database to global variable to use
