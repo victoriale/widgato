@@ -1,6 +1,8 @@
 $(function(){
   var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
   var APIUrl = protocolToUse + 'dev-homerunloyal-ai.synapsys.us/sidekick';
+  //PRODUCTION API TO USE FOR AI ARTICLES
+  //var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
   var articleIndex = 0;
 
   function getData(APIUrl){
@@ -75,13 +77,13 @@ $(function(){
     $('.section-text').html(article.displayHeadline);
 
     //article url structure: /articles/:article_type/:event_id
-    var articleUrl = 'http://homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
+    var articleUrl = protocolToUse + 'homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
     var articleText = article.article[0].substr(0, 130);
     $('.content-text').html(articleText + '...<a href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>');
 
     $('.bar-date').html(convertDate(game.startDateTime));
     var author = 'www.homerunloyal.com';
-    $('.bar-author').html('<a id="authorlink" href="http://'+ author +'">' + author + '</a>');
+    $('.bar-author').html('<a id="authorlink" href="' + protocolToUse + author +'">' + author + '</a>');
 
     $('#readbutton').attr('href', articleUrl);
 
@@ -152,7 +154,8 @@ function displayContent(lastShown){
 }
 
 
-var timer, slideNumber = 15; // starting time limit for timer
+// var timer, slideNumber = 15; // starting time limit for timer
+var timer, slideNumber = 2;
 var speed = 1000 //speed of timer
 var toggle = true;
 function slide() {
@@ -161,16 +164,14 @@ function slide() {
           slideNumber = '0' + String(slideNumber);
         }
 
-        // document.getElementById("time").innerHTML = slideNumber;
-        // document.getElementById("timer").innerHTML = slideNumber;
-
         $('#time').html(slideNumber);
         $('#timer').html(slideNumber);
         $('#timers').html(slideNumber);
         slideNumber--;
         if(slideNumber=== -1) { // when timer is -1 [0] reset it to 15
            toggle();
-         slideNumber = 15;
+        //  slideNumber = 15;
+        slideNumber = 2;
 
         }
     },speed);
@@ -178,8 +179,10 @@ function slide() {
     var lastShown;
     function toggle(){
       if($('.fcw').css('display') == 'block'){
+        advanceList();
         lastShown = 'fcw';
       }else if($('.swp').css('display') == 'block'){
+        updateArticle();
         lastShown = 'swp';
       }
       displayHandler(lastShown);
@@ -191,20 +194,16 @@ function unslide() {
 }
 slide();
 
-
-// VL - last updated: June 16th 2016
 var offset = 0;
 var dataLength;
 var curData;
 var domain = '';
 var remnant = '';
-var max = 10;
 var bord = false;
 
 
-// var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
-var listType = 'finance';
-var listRand = '2';
+var listType = 'disaster'; //will get rand and weather from embed, (location.search)
+var listRand = 0;
 var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
 apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
 
@@ -215,17 +214,8 @@ var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
 function getBaseUrl(string){
     var urlArray = string.split("/");
     var domain = urlArray[2];
-    // return protocolToUse + "//" + domain;
     return protocolToUse +  domain;
 }
-// convert camel case to lower kabab case for url
-toLowerKababCase = function(str){
-  str = str.toLowerCase()
-      .replace(/\s+/g, '-')
-      .replace(/[\.,']/g, '');
-  return str;
-};
-
 var colorSchemes = {
     nba: '#f7701d',
     mlb: '#b31d24',
@@ -252,7 +242,6 @@ var iconScheme = {
 var schemeToUse = colorSchemes[listType];
 var iconsToUse = iconScheme[listType];
 
-
 function mapColorScheme(color,icons){
   $('.fcw-icon').css({'background-color': color});
   // $('.fcw-logo:hover').css({'background-color': color});
@@ -270,9 +259,9 @@ function mapColorScheme(color,icons){
   $("button[class $= 'nav']").hover(function(){
     $(this).css({'background-color': color});
   },
-function (){
-    $(this).css({'background-color': ''});
-});
+  function (){
+      $(this).css({'background-color': ''});
+  });
   $(".hover1").hover(function(){
     $('.hover1').css({'background-color': color});
   },
@@ -300,62 +289,53 @@ mapColorScheme(schemeToUse,iconsToUse);
     bord = query.bord;
   }
 
+  $('.fcw-rightnav').on('click', function() {
+      if (offset < dataLength-1 && $(this).data('dir') === 'next') {
+          dataCall(++offset);
+      }else if(offset >= dataLength-1){
+        offset = 0;
+        dataCall(offset);
+      }
+  });
 
-  	if(bord == 'true'){
-  		$(".re_w_list").css({'border-right':'1px solid #ccc','border-bottom':'1px solid #ccc','border-left':'1px solid #ccc'});
-  	}
-    $('.fcw-rightnav').on('click', function() {
-        if (offset < dataLength-1 && $(this).data('dir') === 'next') {
-            dataCall(++offset);
-        }else if(offset >= dataLength-1){
-          offset = 0;
-          dataCall(offset);
-        }
+  $('.fcw-leftnav').on('click', function() {
+      if (offset > 0 && $(this).data('dir') === 'prev') {
+          dataCall(--offset);
+      }else if(offset <= 0){
+        offset = dataLength-1;
+        dataCall(offset);
+      }
+  });
+
+  function executeListCall(type, rand){
+    let url = protocolToUse + 'dw.synapsys.us/list_api.php?';
+    url = url + 'cat=' + listType + '&rand=' + listRand;
+    $.ajax({
+      url: url,
+      async: false,
+      dataType: 'json',
+      success: function(r){
+        curData = r;
+        dataCall(offset);
+      },
+      error: function(jqXHR, status, error){
+        console.log(jqXHR, status, error);
+        displayError('Error Loading API: ' + status);
+      }
     });
+  }
 
-    $('.fcw-leftnav').on('click', function() {
-        if (offset > 0 && $(this).data('dir') === 'prev') {
-            dataCall(--offset);
-        }else if(offset <= 0){
-          offset = dataLength-1;
-          dataCall(offset);
-        }
-    });
+  executeListCall(listType, listRand);
 
-
-    function executeListCall(type, rand){
-      let url = protocolToUse + 'dw.synapsys.us/list_api.php?';
-      url = url + 'cat=' + listType + '&rand=' + listRand;
-      $.ajax({
-        url: url,
-        async: false,
-        dataType: 'json',
-        success: function(r){
-          curData = r;
-          dataCall(offset);
-        },
-        error: function(jqXHR, status, error){
-          console.log(jqXHR, status, error);
-          displayError('Error Loading API: ' + status);
-        }
-      });
-    }
-
-    executeListCall(listType, listRand);
-
-    advanceList = function(){
+  advanceList = function(){
+    if(listRand < 9){
       listRand += 1;
-      executeListCall(listType, listRand);
+    }else if(listRand >= 9){
+      listRand = 0;
     }
-
-    // Example Url: http://dev-homerunloyal-api.synapsys.us/randomList/player/25/1
-
-    // $.get(apiUrl, function(data){
-    //   curData = data;
-    //   console.log(curData);
-    //   dataCall(offset);
-    // }, 'json');
-
+    offset = 0;
+    executeListCall(listType, listRand);
+  }
 
   function dataCall(index){
       var listName = curData.l_title;
@@ -388,29 +368,12 @@ mapColorScheme(schemeToUse,iconsToUse);
         $('.exec-link').attr('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
       }
 
-      // if(remnant == 'true' || remnant == true){
-      //   $('.fcw-icon').attr('href', baseUrl); //Top Left Icon - link to Home Page
-      //   $('.exec-link').attr('href', baseUrl + "/player/" + teamNameUrl + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
-      //   $('#teamProfile').attr('href', baseUrl + "/team/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
-      //   $('#playerUrl').attr('href', baseUrl + "/player/" + teamNameUrl + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
-      //   $('#fcw-team').attr('href', baseUrl + "/team/" + teamNameUrl + "/" + listData[index].teamId); // Get teamUrl
-      //   $('.fcw-href').attr('href', baseUrl + listInfo.url + "/20/1"); // Get list page url
-      // } else {
-      //   $('.fcw-icon').attr('href', baseUrl+"/"+ domain); //Top Left Icon - link to Partner Home Page
-      //   $('.exec-link').attr('href', baseUrl + "/" + domain + "/p/" + teamNameUrl + "/" + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
-      //   $('#teamProfile').attr('href', baseUrl+ "/" + domain + "/t/" + teamNameUrl + "/" + listData[index].teamId);
-      //   $('#playerUrl').attr('href', baseUrl + "/" + domain + "/p/" + teamNameUrl + "/" + playerNameUrl + "/" + listData[index].playerId); // Get playerUrl
-      //   $('#fcw-team').attr('href', baseUrl + "/" + domain + "/t/" + teamNameUrl + "/" + listData[index].teamId);// Get teamUrl
-      //   $('.fcw-href').attr('href', baseUrl + "/" + domain +  listInfo.url + "/20/1"); // Get list page domain
-      // }
   }
 function buildListLink(cat, remn, dom, widget_data){
-  if ( dom == "lasvegasnow.com" ) {
-    change_url = true;
-    new_url = "finance.lasvegasnow.com";
-  }else{
-    change_url = false;
-  }
+
+  dom == "lasvegasnow.com"  ? change_url = true : change_url = false;
+  change_url ? new_url = "finance.lasvegasnow.com" : "";
+
   switch ( cat ) {
         case 'nba':
           var base_url = remn == "true" ? "http://www.hoopsloyal.com/NBA/widget-list" : "http://www.myhoopszone.com/" + dom + "/NBA/w-list";
@@ -431,15 +394,6 @@ function buildListLink(cat, remn, dom, widget_data){
       base_url += ( doStep ) ? '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input : "/tw-" + widget_data.l_param + "+sw-" + widget_data.l_sort + "+input-" + widget_data.l_input;
       return base_url;
 }
-
-function imageUrl(path){
-  if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
-    return '../css/public/no-image.png';
-  }
-  return 'http://prod-sports-images.synapsys.us' + path;
-  console.log(path);
-}
-
 
 /* -- Manipulation Functions  -- */
 function convertDate(d){
@@ -473,64 +427,7 @@ function convertDate(d){
   }
   return string;
 }
-function abbrState(state){
-  var stateName = {
-    'Alabama': 'Ala.',
-    'Alaska': 'Alaska',
-    'Arizona':'Ariz.',
-    'Arkansas': 'Ark.',
-    'California': 'Calif.',
-    'Colorado': 'Colo.',
-    'Connecticut': 'Conn.',
-    'Delaware': 'Del.',
-    'D.C.':'D.C.',
-    'Florida': 'Fla.',
-    'Georgia': 'Ga.',
-    'Hawaii': 'Hawaii',
-    'Idaho': 'Idaho',
-    'Illinois': 'Ill.',
-    'Indiana': 'Ind.',
-    'Iowa': 'Iowa',
-    'Kansas': 'Kan.',
-    'Kentucky': 'Ky.',
-    'Lousiana': 'La.',
-    'Maine': 'Maine',
-    'Maryland': 'Md.',
-    'Massachusetts': 'Mass.',
-    'Michigan': 'Mich.',
-    'Minnesota': 'Minn.',
-    'Mississippi': 'Miss.',
-    'Missouri': 'Mo.',
-    'Montana': 'Mont.',
-    'Nebraska': 'Neb.',
-    'Nevada': 'Nev.',
-    'New Hampshire': 'N.H.',
-    'New Jersey': 'N.J.',
-    'New Mexico': 'N.M.',
-    'New York': 'N.Y.',
-    'North Carolina': 'N.C.',
-    'North Dakota': 'N.D.',
-    'Ohio': 'Ohio',
-    'Oklahoma': 'Okla.',
-    'Ontario': 'Ontario',
-    'Oregon': 'Ore.',
-    'Pennsylvania': 'Pa.',
-    'Puerto Rico': 'P.R.',
-    'Rhode Island': 'R.I.',
-    'South Carolina': 'S.C.',
-    'South Dakota': 'S.D.',
-    'Tennessee': 'Tenn.',
-    'Texas': 'Texas',
-    'Utah': 'Utah',
-    'Vermont': 'Vt.',
-    'Virginia': 'Va.',
-    'Washington': 'Wash.',
-    'West Virginia': 'W.Va.',
-    'Wisconsin': 'Wis.',
-    'Wyoming': 'Wyo.'
-  };
-  return stateName[state];
-}
+
 function WeekDayNumToName(n){
   var weekday = new Array(7);
   weekday[0]=  "Sunday";
@@ -542,6 +439,7 @@ function WeekDayNumToName(n){
   weekday[6] = "Saturday";
   return weekday[n];
 }
+
 function MonthsFullNameZed(number){
   var month = {
     "0":"January",
@@ -559,6 +457,7 @@ function MonthsFullNameZed(number){
   }
   return month[number];
 }
+
 function MonthsFullName(number){
   var month = {
     "1":"January",
