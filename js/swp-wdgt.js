@@ -110,9 +110,9 @@ $(function(){
 $(document).ready(function(){
   $('#pause').css({'display':'none'});
   $('#swp-pause').css({'display':'none'});
-  $('.tester').css({'display': 'hidden'});
-  $('.tester').css({'display': 'none'});
-  $('.content-container').hover(
+//  $('.tester').css({'display': 'hidden'});
+  $('.tester').css({'z-index': '-1'});
+  $('.content-container').hover( // hover function for pause, and play icon change.
     function() {
       $(this).find('#pause').css({'display': 'inline-block'});
       $(this).find('#play').css({'display': 'none'});
@@ -132,24 +132,25 @@ $(document).ready(function(){
 });
 
 //functions referenced in the toggle() function
-function displayHandler(lastShown){
-  if($('.tester').css('display') == 'none'){
+
+function displayHandler(lastShown){  // display content if ad is in view
+  if($('.tester').css('z-index') == '-1'){
     displayAd();
   }else{
     displayContent(lastShown);
   }
 }
-function displayAd(){
-  $('.swp').css({'display': 'none'});
-  $('.fcw').css({'display': 'none'});
-  $('.tester').css({'display': 'block'});
+function displayAd(){ //placing ad over swp and fcw
+  $('.swp').css({'z-index': '1'});
+  $('.fcw').css({'z-index': '1'});
+  $('.tester').css({'z-index': '2'});
 }
-function displayContent(lastShown){
-  $('.tester').css({'display': 'none'});
+function displayContent(lastShown){ //placing content over ad
+  $('.tester').css({'z-index': '-1'});
   if(lastShown == 'fcw'){
-    $('.swp').css({'display': 'block'});
+    $('.swp').css({'z-index': '2'});
   }else if(lastShown == 'swp'){
-    $('.fcw').css({'display': 'block'});
+    $('.fcw').css({'z-index': '2'});
   }
 }
 
@@ -178,11 +179,12 @@ function slide() {
 
     var lastShown;
     function toggle(){
-      if($('.fcw').css('display') == 'block'){
+
+      if($('.fcw').css('z-index') == '2'){ 
         advanceList();
         lastShown = 'fcw';
-      }else if($('.swp').css('display') == 'block'){
-        updateArticle();
+      }else if($('.swp').css('z-index') == '2'){
+        updateArticle()
         lastShown = 'swp';
       }
       displayHandler(lastShown);
@@ -200,6 +202,7 @@ var curData;
 var domain = '';
 var remnant = '';
 var bord = false;
+
 
 
 var listType = 'disaster'; //will get rand and weather from embed, (location.search)
@@ -226,18 +229,16 @@ var colorSchemes = {
     disaster: '#902d8e',
     weather: '#ffdf30'
   };
-
 var iconScheme = {
-  nba:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
-  mlb:'../css/public/icons/Home-Run-Loyal_Icon 2.svg',
-  college_basketball:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
-  finance:'../css/public/icons/Invest-Kit_Icon.svg',
-  crime:'../css/public/icons/Crime_Icon.svg',
-  demographics:'../css/public/icons/Demographic_Icon.svg',
-  disaster:'../css/public/icons/Disaster_Icon.svg',
-  weather: '../css/public/icons/Weather_Icon.svg'
-
-};
+    nba:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
+    mlb:'../css/public/icons/Home-Run-Loyal_Icon 2.svg',
+    college_basketball:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
+    finance:'../css/public/icons/Invest-Kit_Icon.svg',
+    crime:'../css/public/icons/Crime_Icon.svg',
+    demographics:'../css/public/icons/Demographic_Icon.svg',
+    disaster:'../css/public/icons/Disaster_Icon.svg',
+    weather: '../css/public/icons/Weather_Icon.svg'
+  };
 
 var schemeToUse = colorSchemes[listType];
 var iconsToUse = iconScheme[listType];
@@ -253,14 +254,15 @@ function mapColorScheme(color,icons){
   $('.fcw-list-next').css({'border-color': color, 'color': color});
   $('.fcw-list-next').hover(function(){
     $('.fcw-list-next').css({'background-color': color, 'color': 'white'});
-  },function (){
+  },
+  function (){
     $('.fcw-list-next').css({'border-color': color, 'background-color': '', 'color' : color});
   });
   $("button[class $= 'nav']").hover(function(){
     $(this).css({'background-color': color});
   },
   function (){
-      $(this).css({'background-color': ''});
+    $(this).css({'background-color': ''});
   });
   $(".hover1").hover(function(){
     $('.hover1').css({'background-color': color});
@@ -344,11 +346,23 @@ mapColorScheme(schemeToUse,iconsToUse);
       // Convert to lower kabab case for url links
 
       $('.fcw-t1 p').html(listName);
+      if (listName.length >= 63) {
+        $('.fcw-icon').css({'top': '8px'});
+        $('.fcw-t1').css({'bottom':'0px'});
+      }
+      else {
+        $('.fcw-icon').css({'top': '0px'});
+        $('.fcw-t1').css({'bottom':'6px'});
+      }
+
       $('.fcw-t2-num').html('#'+(index+1));
       $('.fcw-image').css('background', 'url('+ protocolToUse + listData[index].li_img +') no-repeat');
       $('#fcw-content2b').html(listData[index].li_sub_txt);
+      if (listType == 'finance'){
+        listData[index].li_str = listData[index].li_str.replace('Reported', '');
+      }
       $('.fcw-content3').html(listData[index].li_str);
-      if (listData[index].li_str.length >= 36) {
+      if (listData[index].li_str.length >= 40) {
         $('.fcw-content1, .fcw-content2').css({'display': 'inline'});
         $('.fcw-content').css({'text-align' : 'center'});
         $('.fcw-content1').html(listData[index].li_title + ' | ');
