@@ -101,7 +101,6 @@ ai_widget = (function() {
     $('#ai-link').attr('target', target);
     $('.aiw-txt')[0].innerHTML = arr.content;
     $('.aiw-img').css('background-image', 'url(' + arr.img + ')');
-    $('.aiw-ad')[0].innerHTML = arr.title + ' presented by:';
     fitText();
   } // --> displayPage
   function fitText() {
