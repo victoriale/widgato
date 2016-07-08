@@ -243,7 +243,7 @@ var iconScheme = {
 
 var schemeToUse = colorSchemes[listType];
 var iconsToUse = iconScheme[listType];
-
+A('#nextlist-svg').style.fill = schemeToUse;
 function mapColorScheme(color,icons){
   A('.fcw-icon').style.backgroundColor = color;
   A('.fcw-content1').style.color = color;
@@ -256,11 +256,13 @@ function mapColorScheme(color,icons){
   A(".fcw-list-next").onmouseover = function() {
     A('.fcw-list-next').style.backgroundColor = color;
     A('.fcw-list-next').style.color = 'white';
+    A('#nextlist-svg').style.fill = '#FFFFFF';
   }
   A(".fcw-list-next").onmouseout  = function() {
     A('.fcw-list-next').style.bordercolor = color;
     A('.fcw-list-next').style.backgroundColor = '';
     A('.fcw-list-next').style.color = color;
+    A('#nextlist-svg').style.fill = color;
   }
 
 
