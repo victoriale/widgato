@@ -1,7 +1,7 @@
 ai_billboard = (function() {
   var domain, remnant;
-  var remLink = "http://qa.homerunloyal.com/";
-  var partLink = "http://qa.myhomerunzone.com/";
+  var remLink = "http://www.homerunloyal.com/";
+  var partLink = "http://www.myhomerunzone.com/";
   var temp = location.search;
   var href;
   var query = {};
