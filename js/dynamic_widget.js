@@ -105,8 +105,8 @@ dynamic_widget = function() {
                 // var a = "/";
                 // var n = false
                 // $("mainurl").style.cssText += "pointer-events:none; cursor:default",
-                // $("suburl").style.cssText += "pointer-events:none; cursor:default",
-                // $("carousel").className = "one",
+                $("suburl").style.cssText += "pointer-events:none; cursor:default";
+                $("carousel").className = "one";
                 // $("line1").style.cssText += "pointer-events:none; cursor:default",
                 // $("homelink").style.cssText += "pointer-events:none; cursor:default",
                 //  $("list-link").style.display = "none";
@@ -237,7 +237,7 @@ dynamic_widget = function() {
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA';
                 break;
             case "mlb":
-                var r = l.remn == 'true' ? 'http://www.homerunloyal.com/NCAA' : 'http://www.myhomerunzone.com/' + l.dom + '/';
+                var r = l.remn == 'true' ? 'http://www.homerunloyal.com/' : 'http://www.myhomerunzone.com/' + l.dom + '/';
               break;
             default:
                 var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';
