@@ -1,12 +1,24 @@
 ai_widget = (function() {
   // Declare variables
   var event = '';
+  var domain, remnant;
+  var remLink = "http://www.homerunloyal.com/";
+  var partLink = "http://www.myhomerunzone.com/";
   var temp = location.search;
   var query = {};
   var target;
   if (temp != null) {
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
+    domain = query.dom;
+    remnant = query.remn;
     target = query.targ;
+    if (remnant == 'true') {
+      href = remLink;
+      $("base").attr("href", remLink);
+    } else {
+      $("base").attr("href", partLink + domain + "/");
+      href = partLink + domain + "/";
+    }
   }
   var APIUrl = 'http://prod-homerunloyal-ai.synapsys.us/sidekick',
     AIData = {},
@@ -81,7 +93,7 @@ ai_widget = (function() {
     imgIndex = (imgIndex > -1 ? imgIndex : 0);
     var arr = {
       title: dataArr[0].title,
-      url: '/articles/' + dataArr[0].report + '/' + dataArr[0].eventId,
+      url: href + 'articles/' + dataArr[0].report + '/' + dataArr[0].eventId,
       content: dataArr[0].content + '<br>&nbsp; ',
       img: imageArr[imgIndex]
     };
@@ -239,21 +251,3 @@ ai_widget = (function() {
     switchGame: switchGame
   };
 })();
-$(function() {
-  var domain, remnant;
-  var temp = location.search;
-  var query = {};
-  var remLink = "http://www.homerunloyal.com/";
-  var partLink = "http://www.myhomerunzone.com/";
-  if (temp != null) {
-    query = JSON.parse(decodeURIComponent(temp.substr(1)));
-    //set the query data from database to global variable to use
-    domain = query.dom;
-    remnant = query.remn;
-    if (remnant == 'true') {
-      $("base").attr("href", remLink);
-    } else {
-      $("base").attr("href", partLink + domain + "/");
-    }
-  }
-});
