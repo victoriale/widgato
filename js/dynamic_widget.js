@@ -102,14 +102,17 @@ dynamic_widget = function() {
                 var a = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA/widget-list' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA/w-list';
                 break;
             case "mlb":
-                var n = "/";
-                $("mainurl").style.cssText += "pointer-events:none; cursor:default",
-                $("suburl").style.cssText += "pointer-events:none; cursor:default", 
-                $("carousel").className = "one",
-                $("line1").style.cssText += "pointer-events:none; cursor:default",
-                $("homelink").style.cssText += "pointer-events:none; cursor:default",
-                 $("list-link").style.display = "none";
-            break;
+                // var a = "/";
+                // var n = false
+                // $("mainurl").style.cssText += "pointer-events:none; cursor:default",
+                // $("suburl").style.cssText += "pointer-events:none; cursor:default",
+                // $("carousel").className = "one",
+                // $("line1").style.cssText += "pointer-events:none; cursor:default",
+                // $("homelink").style.cssText += "pointer-events:none; cursor:default",
+                //  $("list-link").style.display = "none";
+                var a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : 'http://www.myhomerunzone.com/' + l.dom + '/list';
+                var n = false
+                break;
             case 'finance':
                 var a = l.remn == 'true' ? 'http://www.investkit.com/widget-list' : 'http://www.myinvestkit.com/' + l.dom + '/w-list';
                 if (s) {
@@ -234,8 +237,8 @@ dynamic_widget = function() {
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA';
                 break;
             case "mlb":
-              var i = "/";
-            break;
+                var r = l.remn == 'true' ? 'http://www.homerunloyal.com/NCAA' : 'http://www.myhomerunzone.com/' + l.dom + '/';
+              break;
             default:
                 var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';
                 break
