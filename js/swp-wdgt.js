@@ -1,4 +1,15 @@
 swp_wdgt = function(){
+  A = function(id) {
+    let d = document;
+    if(id[0] == '#'){
+      return d.getElementById(id.slice(1,id.length));
+    }else if(id[0] == '.'){
+      return d.getElementsByClassName(id.slice(1,id.length))[0];
+    }else if(id[0] != '#' && id[0] != '.'){
+      return d.getElementById(id.slice(1,id.length));
+    }
+  }
+
   var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
   // var APIUrl = protocolToUse + 'dev-homerunloyal-ai.synapsys.us/sidekick';
   // var APIUrl = protocolToUse + 'qa-homerunloyal-ai.synapsys.us/sidekick';
@@ -6,7 +17,7 @@ swp_wdgt = function(){
   var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
   var articleIndex = 0;
 
-  A('.fcw-list-time').style.display = 'none';
+  // A('.fcw-list-time').style.display = 'none';
   A('.buttons-timer').style.display = 'none';
 
   switch (getRandomInt(0,2)) {
