@@ -7,8 +7,13 @@ swp_wdgt = function(){
   var articleIndex = 0;
 
   A('.fcw-list-time').style.display = 'none';
+  A('.buttons-timer').style.display = 'none';
+
   A('.fcw').style.zIndex = '2';
   A('.swp').style.zIndex = '-1'
+
+  // A('.fcw').style.zIndex = "-1";
+  // A('.swp').style.zIndex = "2";
 
   function httpGet(url){
     var xmlHttp = new XMLHttpRequest();
@@ -79,20 +84,26 @@ swp_wdgt = function(){
     //article url structure: /articles/:article_type/:event_id
     var articleUrl = protocolToUse + 'homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
     var articleText = article.article[0].substr(0, 130);
-    A('.content-text').innerHTML = articleText;// + '...<a href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>';
+    A('.content-text').innerHTML = articleText + '...<a href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>';
 
     A('.bar-date').innerHTML = convertDate(game.startDateTime);
     var author = 'www.homerunloyal.com';
-    var authorLink = '';
+    var authorLink = author;
     A('.bar-author').innerHTML = '<a id="authorlink" href="' + protocolToUse + authorLink +'">' + author + '</a>';
 
-    // A('#readbutton').setAttribute('href', articleUrl);
+    A('#readbutton').setAttribute('href', articleUrl);
+    A('.buttons-nextlist').onmouseover = function(){
+      A('#arrow').style.fill = 'white';
+    }
+    A('.buttons-nextlist').onmouseout = function(){
+      A('#arrow').style.fill = '#b31d24';
+    }
 
   }
 
 /* -- Set Up Data links to the Widget -- */
-  //var data = getData(APIUrl);
-  //linkData(data, articleIndex);
+  var data = getData(APIUrl);
+  linkData(data, articleIndex);
 
 
   /* Handling of Article Index */
@@ -202,23 +213,24 @@ var domain = '';
 var remnant = '';
 var bord = false;
 
-
 var possibleTypes = ['nba', /*'mlb',*/ 'college_basketball', 'finance', 'crime', 'demographics', 'disaster'/*, 'weather'*/];
 //var listType = 'weather'; //will get rand and weather from embed, (location.search)
-var listType = possibleTypes[Math.floor((Math.random() * possibleTypes.length ))];
-// var listRand = 0;
-var listRand = Math.floor((Math.random() * 9)  + 1);
+var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
+var listRand = getRandomInt(0,9);
 var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
 apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
 
 var referrer = document.referrer;
-// if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
 var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
 
 function getBaseUrl(string){
     var urlArray = string.split("/");
     var domain = urlArray[2];
     return protocolToUse +  domain;
+}
+
+function getRandomInt(min, max){
+  return Math.floor(Math.random() * (max - min)) + min;
 }
 var colorSchemes = {
     nba: '#f7701d',
@@ -450,7 +462,7 @@ function convertDate(d){
   var weekDay = day.split('/')[1];
 
   day = new Date(day);
-  day = WeekDayNumToName(day.getDate());
+  day = WeekDayNumToName(day.getDay());
 
   var today = new Date();
   var todayMonth = MonthsFullNameZed(today.getMonth());
@@ -465,7 +477,7 @@ function convertDate(d){
     var string = 'Yesterday' + ' ' + time + ' ' + tz;
   }else{
     // otherwise just use day of the week
-    var string = day + ' ' + time + ' tz';
+    var string = day + ' ' + time + ' ' + tz;
   }
   return string;
 }
