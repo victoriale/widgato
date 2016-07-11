@@ -9,7 +9,6 @@ swp_wdgt = function(){
       return d.getElementById(id.slice(1,id.length));
     }
   }
-
   var temp = location.search;
   var query = {};
 
@@ -26,6 +25,8 @@ swp_wdgt = function(){
 
   A('.fcw-list-time').style.display = 'none';
   A('.buttons-timer').style.display = 'none';
+  
+  A('.presentedby').style['background-image'] = "url(" + protocolToUse + '//w1.synapsys.us/images/pb.png'  + ")";
   switch (getRandomInt(0,2)) {
     case 0:
       RenderArticleSide(protocolToUse);
@@ -38,9 +39,10 @@ swp_wdgt = function(){
   }
 }();
 
-
 function RenderArticleSide(protocolToUse){
   A('.swp').style.display = 'block';
+  //A('.swp').style['background-image'] = "url(" + protocolToUse + '//w1.synapsys.us/images/pb.png'  + ")";
+
   var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
   var articleIndex = 0;
 
