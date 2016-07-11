@@ -20,7 +20,7 @@ swp_wdgt = function(){
       break;
     default:
       A('.fcw').style.zIndex = '2';
-      A('.swp').style.zIndex = '-1'
+      A('.swp').style.zIndex = '-1';
   }
 
 
