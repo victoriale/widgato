@@ -25,8 +25,8 @@ swp_wdgt = function(){
 
   A('.fcw-list-time').style.display = 'none';
   A('.buttons-timer').style.display = 'none';
-  
-  A('.presentedby').style['background-image'] = "url(" + protocolToUse + '//w1.synapsys.us/images/pb.png'  + ")";
+
+  // A('.presentedby').style['background-image'] = "url(" + protocolToUse + '//w1.synapsys.us/images/pb.png'  + ")";
   switch (getRandomInt(0,2)) {
     case 0:
       RenderArticleSide(protocolToUse);
@@ -40,7 +40,6 @@ swp_wdgt = function(){
 }();
 
 function RenderArticleSide(protocolToUse){
-  A('.swp').style.display = 'block';
   //A('.swp').style['background-image'] = "url(" + protocolToUse + '//w1.synapsys.us/images/pb.png'  + ")";
 
   var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
@@ -48,6 +47,7 @@ function RenderArticleSide(protocolToUse){
 
   var data = httpGet(APIUrl);
   linkData(data, articleIndex);
+
 
 
   /* Handling of Article Index */
@@ -99,6 +99,8 @@ function RenderArticleSide(protocolToUse){
   }
 
   function linkData(data, articleIndex){
+    A('.presentedby').style.display = 'none';
+    A('.swp').style.display = 'block';
     var mData = data['meta-data'];
     var article = new mapArticles(data)[articleTypes[articleIndex]];
     var game = new eventData(mData);
