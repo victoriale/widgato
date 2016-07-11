@@ -9,8 +9,23 @@ swp_wdgt = function(){
   A('.fcw-list-time').style.display = 'none';
   A('.buttons-timer').style.display = 'none';
 
-  A('.fcw').style.zIndex = '2';
-  A('.swp').style.zIndex = '-1'
+  switch (getRandomInt(0,2)) {
+    case 0:
+      A('.fcw').style.zIndex = "-1";
+      A('.swp').style.zIndex = "2";
+      break;
+    case 1:
+      A('.fcw').style.zIndex = '2';
+      A('.swp').style.zIndex = '-1'
+      break;
+    default:
+      A('.fcw').style.zIndex = '2';
+      A('.swp').style.zIndex = '-1'
+  }
+
+
+  // A('.fcw').style.zIndex = '2';
+  // A('.swp').style.zIndex = '-1'
 
   // A('.fcw').style.zIndex = "-1";
   // A('.swp').style.zIndex = "2";
@@ -216,7 +231,7 @@ var bord = false;
 var possibleTypes = ['nba', /*'mlb',*/ 'college_basketball', 'finance', 'crime', 'demographics', 'disaster'/*, 'weather'*/];
 //var listType = 'weather'; //will get rand and weather from embed, (location.search)
 var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
-var listRand = getRandomInt(0,9);
+var listRand = getRandomInt(0,10);
 var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
 apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
 
