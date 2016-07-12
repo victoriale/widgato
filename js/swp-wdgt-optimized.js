@@ -36,8 +36,8 @@ swp_wdgt = function(){
       RenderDynamicSide(protocolToUse);
       break;
     default:
-    //  RenderDynamicSide(protocolToUse);
-    A('.presentedby').style.display = 'block';
+      //  RenderDynamicSide(protocolToUse);
+      A('.presentedby').style.display = 'block';
   }
 }();
 
@@ -52,7 +52,7 @@ function RenderArticleSide(protocolToUse){
 
   /* Handling of Article Index */
    updateArticle = function(){
-    if(articleIndex < articleTypes.length - 1){
+    if(articleIndex < articleTypes.length - 1 || articleIndex == 0){
       articleIndex++;
     }else if(articleIndex >= articleTypes.length - 1){
       articleIndex = 0;
