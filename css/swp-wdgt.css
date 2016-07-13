@@ -488,9 +488,6 @@ button:focus {
 
 .fcw-list-text {
   font-size:12px;
-  top:50%:
-  position:relative;
-  transform: translate(0,-50%);
 }
 
 
