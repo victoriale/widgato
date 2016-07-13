@@ -18,9 +18,12 @@ swp_wdgt = function(){
     domain = query.dom;
     remnant = query.remn;
     bord = query.bord;
+  }else{
+    domain = false;
+    remnant = 'true';
+    bord = false;
   }
 
-  remnant = 'true';
 
   var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 
@@ -33,9 +36,9 @@ function RenderDynamicSide(protocolToUse){
   var offset = 0;
   var dataLength;
   var curData;
-  var domain = '';
-  var remnant = '';
-  var bord = false;
+  // var domain = '';
+  // var remnant = '';
+  // var bord = false;
 
   var possibleTypes = ['nba', /*'mlb',*/ 'college_basketball', 'finance', 'crime', 'demographics', 'disaster'/*, 'weather'*/];
   //var listType = 'weather'; //will get rand and weather from embed, (location.search)
@@ -264,6 +267,7 @@ function buildListLink(cat, remn, dom, widget_data){
           var doStep = false;
       }
       base_url += ( doStep ) ? '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input : "/tw-" + widget_data.l_param + "+sw-" + widget_data.l_sort + "+input-" + widget_data.l_input;
+      console.log(base_url);
       return base_url;
 }
 

@@ -138,7 +138,6 @@ function RenderDynamicSide(protocolToUse){
   var dataLength;
   var curData;
   var domain = '';
-  var remnant = '';
   var bord = false;
 
   var possibleTypes = ['nba', /*'mlb',*/ 'college_basketball', 'finance', 'crime', 'demographics', 'disaster'/*, 'weather'*/];
