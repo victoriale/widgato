@@ -17,9 +17,12 @@ swp_wdgt = function(){
     domain = query.dom;
     remnant = query.remn;
     bord = query.bord;
+  }else{
+    domain = false;
+    remnant = 'true';
+    bord = false;
   }
 
-  remnant = 'true';
 
   var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 
@@ -137,8 +140,8 @@ function RenderDynamicSide(protocolToUse){
   var offset = 0;
   var dataLength;
   var curData;
-  var domain = '';
-  var bord = false;
+  // var domain = '';
+  // var bord = false;
 
   var possibleTypes = ['nba', /*'mlb',*/ 'college_basketball', 'finance', 'crime', 'demographics', 'disaster'/*, 'weather'*/];
   //var listType = 'weather'; //will get rand and weather from embed, (location.search)

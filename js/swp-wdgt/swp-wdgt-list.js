@@ -267,7 +267,6 @@ function buildListLink(cat, remn, dom, widget_data){
           var doStep = false;
       }
       base_url += ( doStep ) ? '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input : "/tw-" + widget_data.l_param + "+sw-" + widget_data.l_sort + "+input-" + widget_data.l_input;
-      console.log(base_url);
       return base_url;
 }
 
