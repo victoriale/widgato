@@ -1,6 +1,6 @@
 swp_wdgt = function(){
   A = function(id) {
-    let d = document;
+    var d = document;
     if(id[0] == '#'){
       return d.getElementById(id.slice(1,id.length));
     }else if(id[0] == '.'){
@@ -65,8 +65,8 @@ function RenderArticleSide(protocolToUse){
   /* functions to be used as objects to get various data points */
   function eventData(metaData){
     metaData = metaData.current;
-    for(let obj in metaData){
-      let string = obj.toString();
+    for(var obj in metaData){
+      var string = obj.toString();
       this[obj] = metaData[obj]
     }
   }
@@ -74,7 +74,7 @@ function RenderArticleSide(protocolToUse){
   function eventImage(metaData, teamId){
     var images = metaData.images;
     this.imgs = [];
-    for(let a = 0; a < images[teamId].length; a++){
+    for(var a = 0; a < images[teamId].length; a++){
       this.imgs[a] = images[teamId][a];
     }
   }
@@ -83,8 +83,8 @@ function RenderArticleSide(protocolToUse){
   function getAllImages(metaData){
     var imgRet = [];
     var images = metaData.images;
-    for(let obj in images){
-      for(let i = 0; i < images[obj].length; i++){
+    for(var obj in images){
+      for(var i = 0; i < images[obj].length; i++){
         imgRet.push(images[obj][i]);
       }
     }
@@ -94,7 +94,7 @@ function RenderArticleSide(protocolToUse){
   var articleTypes = [];
   function mapArticles(data){
     articleTypes = [];
-    for(let obj in data){
+    for(var obj in data){
       if(obj == "meta-data")continue;
       articleTypes.push(obj);
       this[obj] = data[obj];
@@ -256,7 +256,7 @@ function RenderDynamicSide(protocolToUse){
     };
 
     function executeListCall(type, rand, old_title){
-      let url = protocolToUse + 'dw.synapsys.us/list_api.php?';
+      var url = protocolToUse + 'dw.synapsys.us/list_api.php?';
       url = url + 'cat=' + listType + '&rand=' + listRand;
       curData = httpGet(url);
       dataCall(offset);

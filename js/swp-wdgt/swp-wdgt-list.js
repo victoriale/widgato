@@ -1,6 +1,6 @@
 swp_wdgt = function(){
   A = function(id) {
-    let d = document;
+    var d = document;
     if(id[0] == '#'){
       return d.getElementById(id.slice(1,id.length));
     }else if(id[0] == '.'){
@@ -149,7 +149,7 @@ function RenderDynamicSide(protocolToUse){
     };
 
     function executeListCall(type, rand, old_title){
-      let url = protocolToUse + 'dw.synapsys.us/list_api.php?';
+      url = protocolToUse + 'dw.synapsys.us/list_api.php?';
       url = url + 'cat=' + listType + '&rand=' + listRand;
       curData = httpGet(url);
       dataCall(offset);
