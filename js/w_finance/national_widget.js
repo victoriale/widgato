@@ -86,6 +86,10 @@ $(function(){
 		}
 	});// END OF FUNCTION
 
+	if (CUR_OFFSET == 0){
+		$('.national_widget-content-buttonleft').css("opacity","0");
+		$('.national_widget-content-buttonleft').css("cursor","default");
+	}
 	//change left arrow css to disappear if offset is 0
 	$('.national_widget-content-buttonleft').on('click', function() {
 		if (CUR_OFFSET > 0 && $(this).data('dir') === 'prev') {
