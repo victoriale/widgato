@@ -79,6 +79,10 @@ $(function(){
 					$('.national_widget-content-buttonleft').css("cursor","pointer");
 				})
 		}
+		if (CUR_OFFSET >= 99){
+			$('.national_widget-content-buttonright').css("opacity","0");
+			CUR_OFFSET = 99;
+		}
 		else{
 			//change left arrow css to disappear
 			$('.national_widget-content-buttonleft').css("opacity","0");
@@ -86,7 +90,7 @@ $(function(){
 		}
 	});// END OF FUNCTION
 
-	if (CUR_OFFSET == 0){
+	if (CUR_OFFSET <= 0){
 		$('.national_widget-content-buttonleft').css("opacity","0");
 		$('.national_widget-content-buttonleft').css("cursor","default");
 	}
@@ -96,8 +100,11 @@ $(function(){
 			mr_center_piece(--CUR_OFFSET, curData);
 		}
 		if (CUR_OFFSET == 0){
+			CUR_OFFSET = 0;
 			$('.national_widget-content-buttonleft').css("opacity","0");
 			$('.national_widget-content-buttonleft').css("cursor","default");
+		}else{
+			$('.national_widget-content-buttonright').css("opacity","1");
 		}
 	});//END OF FUNCTION
 
