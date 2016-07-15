@@ -281,16 +281,6 @@ sup {
 .aiw-link:hover {
   background-color: rgba(188, 22, 36, 0.9);
 }
-.aiw-ad {
-  text-align: left;
-  color: #999;
-  font-size: 10px;
-  line-height: 10px;
-  text-transform: uppercase;
-  position: absolute;
-  right: 5px;
-  bottom: 0;
-}
 
 /**** Utility Classes ****/
 .ad_location{
@@ -312,7 +302,7 @@ sup {
 }
 
 
-@media (max-width: 970px) {
+@media (max-width: 969px) {
   .aiw {
     width: 650px;
     height: 250px;
