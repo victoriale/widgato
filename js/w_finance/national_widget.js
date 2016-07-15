@@ -66,6 +66,12 @@ $(function(){
 		}
 	})//END OF FUNCTION
 
+	//initially make the left button disappear
+	if (CUR_OFFSET <= 0){
+		$('.national_widget-content-buttonleft').css("opacity","0");
+		$('.national_widget-content-buttonleft').css("cursor","default");
+	}
+
 	//script to allow widgets to change to next item on list(same as 'see the whole list' button link)
 	$('.national_widget-content-buttonright').on('click', function() {
 		//when clicking on right button will change offset of data call and pull correct data based off of SEE THE WHOLE LIST
@@ -79,11 +85,12 @@ $(function(){
 					$('.national_widget-content-buttonleft').css("cursor","pointer");
 				})
 		}
-		else{
-			//change left arrow css to disappear
-			$('.national_widget-content-buttonleft').css("opacity","0");
-			$('.national_widget-content-buttonleft').css("cursor","default");
+		if (CUR_OFFSET >= 99){
+			$('.national_widget-content-buttonright').css("opacity","0");
+			$('.national_widget-content-buttonright').css("cursor","default");
+			CUR_OFFSET = 99;
 		}
+
 	});// END OF FUNCTION
 
 	//change left arrow css to disappear if offset is 0
@@ -92,8 +99,12 @@ $(function(){
 			mr_center_piece(--CUR_OFFSET, curData);
 		}
 		if (CUR_OFFSET == 0){
+			CUR_OFFSET = 0;
 			$('.national_widget-content-buttonleft').css("opacity","0");
 			$('.national_widget-content-buttonleft').css("cursor","default");
+		}
+		if(CUR_OFFSET > 0){
+			$('.national_widget-content-buttonright').css("opacity","1");
 		}
 	});//END OF FUNCTION
 
