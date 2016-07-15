@@ -66,6 +66,12 @@ $(function(){
 		}
 	})//END OF FUNCTION
 
+	//initially make the left button disappear
+	if (CUR_OFFSET <= 0){
+		$('.national_widget-content-buttonleft').css("opacity","0");
+		$('.national_widget-content-buttonleft').css("cursor","default");
+	}
+
 	//script to allow widgets to change to next item on list(same as 'see the whole list' button link)
 	$('.national_widget-content-buttonright').on('click', function() {
 		//when clicking on right button will change offset of data call and pull correct data based off of SEE THE WHOLE LIST
@@ -81,19 +87,12 @@ $(function(){
 		}
 		if (CUR_OFFSET >= 99){
 			$('.national_widget-content-buttonright').css("opacity","0");
+			$('.national_widget-content-buttonright').css("cursor","default");
 			CUR_OFFSET = 99;
 		}
-		else{
-			//change left arrow css to disappear
-			$('.national_widget-content-buttonleft').css("opacity","0");
-			$('.national_widget-content-buttonleft').css("cursor","default");
-		}
+
 	});// END OF FUNCTION
 
-	if (CUR_OFFSET <= 0){
-		$('.national_widget-content-buttonleft').css("opacity","0");
-		$('.national_widget-content-buttonleft').css("cursor","default");
-	}
 	//change left arrow css to disappear if offset is 0
 	$('.national_widget-content-buttonleft').on('click', function() {
 		if (CUR_OFFSET > 0 && $(this).data('dir') === 'prev') {
@@ -103,7 +102,8 @@ $(function(){
 			CUR_OFFSET = 0;
 			$('.national_widget-content-buttonleft').css("opacity","0");
 			$('.national_widget-content-buttonleft').css("cursor","default");
-		}else{
+		}
+		if(CUR_OFFSET > 0){
 			$('.national_widget-content-buttonright').css("opacity","1");
 		}
 	});//END OF FUNCTION
