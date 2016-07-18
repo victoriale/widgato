@@ -112,9 +112,9 @@ $(function(){
 	$('.mtabs').on('click', function(){
 		//reset the css background
 		$('.mtabs').css({"background-color":"#f2f2f2","border-bottom":"1px solid #cccccc"});
+
 		//switch statement to swap out tabs and recall data api depending on which tab/exchange is chosen
 		//change title as well
-
 		switch($(this).data('dir')){
 			  case 'NASDAQ':
 					CUR_OFFSET = 0;
@@ -148,7 +148,7 @@ $(function(){
 					}
 					mr_center_piece(CUR_OFFSET, curData);
 					stock_data(cur_exchange, dataCall);
-					stock_graph(dataCall.exchange_stock_data['.NYA'].graph_data, cur_exchange);
+					stock_graph(dataCall.exchange_stock_data['.XAX'].graph_data, cur_exchange);
 					break;
 				case 'NYSE':
 					CUR_OFFSET = 0;
@@ -182,8 +182,8 @@ $(function(){
 	$('.national_widget-content-buttonright').mousedown(function(){ return false; });
 	$('.national_widget-content-buttonleft').mousedown(function(){ return false; });
 	$('.mtabs').mousedown(function(){ return false; });
-	//run function  initial calls incase nothing else runs this will be default call on page load
 
+	//run function  initial calls incase nothing else runs this will be default call on page load
 	$.get(protocolToUse+'://apifin.investkit.com/call_controller.php?action=widget&option=national_market_movers', function(data){
 		dataCall = data.national_market_movers;
 		exList = dataCall.exchange_list;
@@ -297,12 +297,14 @@ function stock_graph(dataArray, exchange){
 				return { x: -5, y: 38 };
 			},
 			style:{
-
 				fontSize:'8px'
 			},
 			shadow: false,
 			borderWidth: 0,
-			backgroundColor: 'rgba(255,255,255,0.8)'
+			backgroundColor: 'rgba(255,255,255,0.8)',
+			formatter: function() {
+	        return Highcharts.dateFormat('%A, %b %e, %Y', this.x) + "<br/>" +  this.series.name + ': <b>' + this.y + "</b>";
+	    }
 		},
 		title : {
 			text : null
