@@ -303,7 +303,7 @@ function stock_graph(dataArray, exchange){
 			borderWidth: 0,
 			backgroundColor: 'rgba(255,255,255,0.8)',
 			formatter: function() {
-	        return  Highcharts.dateFormat('%A, %b %e, %Y', this.x) + "<br/>" +  this.series.name + ': <b>' + this.y + "</b>";
+	        return Highcharts.dateFormat('%A, %b %e, %Y', this.x) + "<br/>" +  this.series.name + ': <b>' + this.y + "</b>";
 	    }
 		},
 		title : {
