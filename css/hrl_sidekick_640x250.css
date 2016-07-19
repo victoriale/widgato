@@ -81,12 +81,12 @@ sup {
 
 .aiw-top span .team {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 16px;
     text-transform: uppercase;
 }
 
 .aiw-top span .away, .aiw-top span .home {
-    font-weight: 700;
+    font-weight:800;
 }
 
 .aiw-top .fa {
@@ -193,10 +193,11 @@ sup {
     top: 50px;
     left: 0;
     float: left;
+    border: 1px solid #ccc;
 }
 
 .aiw-title {
-    font-weight: 900;
+    font-weight: 800;
     font-size: 20px;
     float: left;
     padding-left: 6px;
@@ -207,7 +208,7 @@ sup {
     line-height: 30px;
     float: right;
     color: #999;
-    font-weight: 900;
+    font-weight: 800;
     padding-right: 1.5px;
     position: absolute;
     top: -5px;
@@ -233,14 +234,15 @@ sup {
 }
 
 .aiw-txt {
-    width: 265px;
+    width: 256px;
     height: 95px;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 12px;
+    font-size: 13px;
+    font-weight: 400;
     position: absolute;
     top: 40px;
-    left: 43px;
+    left: 40px;
     padding-top: 10px;
 }
 
@@ -248,7 +250,7 @@ sup {
     text-transform: uppercase;
     font-size: 60px;
     line-height: 42px;
-    font-weight: bold;
+    font-weight: 800;
     float: left;
     padding-right: 8px;
     font-style: italic;
@@ -261,7 +263,7 @@ sup {
     width: 30px;
     height: 60px;
     position: absolute;
-    top: 100px;
+    top: 115px;
     background-color: rgba(0, 0, 0, 0.9);
     line-height: 60px;
     text-align: center;
@@ -296,8 +298,8 @@ sup {
     text-align: center;
     padding: 0;
     position: absolute;
-    bottom: 18px;
-    left: 43px;
+    bottom: 22px;
+    left: 36px;
     font-size: 13px;
     font-weight: bold;
     padding-left: 17px;
