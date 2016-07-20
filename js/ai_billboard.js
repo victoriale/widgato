@@ -18,15 +18,13 @@ ai_billboard = (function() {
     }
   }
   var teamId = query.team;
-  var APIUrl = 'http://prod-homerunloyal-ai.synapsys.us/billboard/' + teamId;
+  var protocolToUse = (location.protocol == "https:") ? "https" : "http";
+  var APIUrl = protocolToUse + '://prod-homerunloyal-ai.synapsys.us/billboard/' + teamId;
   var randomArticles = [];
   var teamData = [];
   var imageArr = [];
   var leftRgb;
   var rightRgb;
-  var red;
-  var green;
-  var blue;
 
   function getContent(eventId) {
     var locApiUrl = APIUrl;
@@ -210,12 +208,12 @@ ai_billboard = (function() {
       subContainer.className = 'news-container';
       subImage.className = 'news-image overlay red';
       subTitle.className = 'news-title';
-      subDate.className = 'news-time'
+      subDate.className = 'news-time';
       subHr.className = 'news-hr';
       subContainerSmall.className = 'news-container';
       subImageSmall.className = 'news-image';
       subTitleSmall.className = 'news-title';
-      subDateSmall.className = 'news-time'
+      subDateSmall.className = 'news-time';
       subHrSmall.className = 'news-hr';
       subShareContainer.className = 'news-share-container';
       subShareContainerSmall.className = 'news-share-container';
@@ -227,7 +225,7 @@ ai_billboard = (function() {
       subShareContainer.appendChild(subShare);
       subContainer.appendChild(subTitle);
       subDate.innerHTML = randomArticles[i].dateline;
-      subDateSmall.innerHTML = randomArticles[i].dateline
+      subDateSmall.innerHTML = randomArticles[i].dateline;
       subContainer.appendChild(subDate);
       subTitle.innerHTML = randomArticles[i].title;
       $('.news-updates-small')[0].appendChild(subContainerSmall);
