@@ -218,7 +218,7 @@ function imageUrl(path){
   if(typeof path == 'undefined' || path == null || path == '' || path == 'null'){
     return '../css/public/no_image.jpg';
   }
-  return 'http://images.investkit.com/images/' + path;
+  return '//images.investkit.com/images/' + path;
 }
 function mr_center_piece(offset, data){
 	//service called time to set div classes to given results
