@@ -172,7 +172,7 @@ dynamic_widget = function() {
             setTimeout(function(e, t) {
                 t.setAttribute('onerror', e)
             }.bind(null, n, c), 0);
-            $('suburl').href = a;
+            $('suburl').href = "http:"+a;
             var m = $('carousel');
             if (m.className.indexOf('two') == -1) {
                 m.className += ' two'
