@@ -20,12 +20,13 @@ ai_widget = (function() {
       href = partLink + domain + "/";
     }
   }
-  var APIUrl = 'http://prod-homerunloyal-ai.synapsys.us/sidekick',
+  var protocolToUse = (location.protocol == "https:") ? "https" : "http";
+  var APIUrl = protocolToUse + '://prod-homerunloyal-ai.synapsys.us/sidekick',
     AIData = {},
     gameID = -1,
     pageInd = -1,
     availPages = [],
-    gameArr = []
+    gameArr = [];
 
   function getContent(eventId) {
     // Clear old data
