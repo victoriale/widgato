@@ -134,6 +134,8 @@ dynamic_widget = function() {
         var e = r.l_data[i];
         e.li_url = e.li_subimg !== false && e.li_subimg.switch ? l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
         e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
+        e.li_url = "http:" + e.li_url;
+        e.li_line_url = "http:" + e.li_line_url;
         if (s) {
             e.li_url = e.li_url.replace('www.myinvestkit.com', o);
             e.li_line_url = e.li_line_url.replace('www.myinvestkit.com', o)
@@ -170,7 +172,7 @@ dynamic_widget = function() {
             setTimeout(function(e, t) {
                 t.setAttribute('onerror', e)
             }.bind(null, n, c), 0);
-            $('suburl').href = a;
+            $('suburl').href = "http:"+a;
             var m = $('carousel');
             if (m.className.indexOf('two') == -1) {
                 m.className += ' two'
