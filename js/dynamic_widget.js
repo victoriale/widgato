@@ -1,6 +1,6 @@
 dynamic_widget = function() {
     var e = location.protocol == 'https:' ? 'https' : 'http',
-        t = e + '://108.170.11.234:190/list_api.php',
+        t = e + '://dw.synapsys.us/list_api.php',
         i = 0,
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
@@ -134,6 +134,8 @@ dynamic_widget = function() {
         var e = r.l_data[i];
         e.li_url = e.li_subimg !== false && e.li_subimg.switch ? l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
         e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
+        e.li_url = "http:" + e.li_url;
+        e.li_line_url = "http:" + e.li_line_url;
         if (s) {
             e.li_url = e.li_url.replace('www.myinvestkit.com', o);
             e.li_line_url = e.li_line_url.replace('www.myinvestkit.com', o)
