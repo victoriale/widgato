@@ -32,7 +32,7 @@ swp_wdgt = function(){
 }();
 
 function RenderDynamicSide(protocolToUse){
-  A('.fcw').style.display = 'block';
+  // A('.fcw').style.display = 'block';
   var offset = 0;
   var dataLength;
   var curData;
@@ -79,8 +79,9 @@ function RenderDynamicSide(protocolToUse){
 
   var schemeToUse = colorSchemes[listType];
   var iconsToUse = iconScheme[listType];
-  A('#nextlist-svg').style.fill = schemeToUse;
+
   function mapColorScheme(color,icons){
+    A('#nextlist-svg').style.fill = color;
     A('.fcw-icon').style.backgroundColor = color;
     A('.fcw-content1').style.color = color;
 

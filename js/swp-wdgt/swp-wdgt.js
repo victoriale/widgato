@@ -1,3 +1,4 @@
+//warning: this file is deprecated and no longer should be in use. 
 swp_wdgt = function(){
   A = function(id) {
     var = document;

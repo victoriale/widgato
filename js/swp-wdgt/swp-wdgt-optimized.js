@@ -91,17 +91,34 @@ function RenderArticleSide(protocolToUse){
     return imgRet;
   }
 
-  var articleTypes = [];
+  // var articleTypes = [];
   function mapArticles(data){
-    articleTypes = [];
+    // articleTypes = [];
     for(var obj in data){
       if(obj == "meta-data")continue;
-      articleTypes.push(obj);
+      // articleTypes.push(obj);
       this[obj] = data[obj];
     }
   }
 
+  var articleTypes = [];
+  function listOutTypes(data){
+    articleTypes = [];
+    for(var obj in data){
+      if(obj == "meta-data")continue;
+      articleTypes.push(obj);
+    }
+  }
+
   function linkData(data, articleIndex){
+    listOutTypes(data);
+    var doRandArt = true;//or false;
+    //doRandArt == true ? articleIndex = getRandomInt(0, articleTypes.length) : articleIndex = articleIndex;
+    if(doRandArt == true){
+      articleIndex = getRandomInt(0, articleTypes.length);
+    }else{
+      articleIndex = articleIndex;
+    }
     var mData = data['meta-data'];
     var article = new mapArticles(data)[articleTypes[articleIndex]];
     var game = new eventData(mData);
