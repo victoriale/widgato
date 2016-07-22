@@ -1,539 +1,646 @@
 var chatterbox = chatterbox || [];
 var chatterLayer = chatterLayer || [];
-chatterbox[chatterbox.length] = function(e) {
-    console.log('Chatterbox ID: ', e);
-    var t = location.protocol == 'https:' ? 'https' : 'http',
-        r = [{
-            min: 1200,
-            widget: 970,
-            title: 'Promoted Stories from the Chatter Network',
-            'class': 'biggest'
-        }, {
-            min: 768,
-            widget: 970,
-            title: 'Promoted Stories from the Chatter Network',
-            'class': 'bigger'
-        }, {
-            min: 650,
-            widget: 970,
-            title: 'Promoted Stories from the Chatter Network',
-            'class': 'big'
-        }, {
-            min: 430,
-            widget: 970,
-            title: 'Promoted Stories',
-            'class': 'small'
-        }, {
-            min: 0,
-            widget: 250,
-            title: 'Promoted Stories',
-            'class': 'smallest'
-        }],
-        s = {
-            250: {
-                url: t + '://w1.synapsys.us/widgets/dynamic_widget/dynamic_widget.html'
-            },
-            970: {
-                url: t + '://w1.synapsys.us/widgets/dynamic_widget/dynamic_widget_970.html'
-            }
-        },
-        a = {
-          'celeb-chatter.baltimoresun.com': t + '://108.170.11.234:190/chatter_api.php?site=celeb-chatter.baltimoresun.com',
-          'odd-chatter.baltimoresun.com': t + '://108.170.11.234:190/chatter_api.php?site=odd-chatter.baltimoresun.com',
-          'politics-chatter.baltimoresun.com': t + '://108.170.11.234:190/chatter_api.php?site=politics-chatter.baltimoresun.com',
-          'sports-chatter.baltimoresun.com': t + '://108.170.11.234:190/chatter_api.php?site=sports-chatter.baltimoresun.com',
-          'celeb-chatter.courant.com': t + '://108.170.11.234:190/chatter_api.php?site=celeb-chatter.courant.com',
-          'odd-chatter.courant.com': t + '://108.170.11.234:190/chatter_api.php?site=odd-chatter.courant.com',
-          'politics-chatter.courant.com': t + '://108.170.11.234:190/chatter_api.php?site=politics-chatter.courant.com',
-          'sports-chatter.courant.com': t + '://108.170.11.234:190/chatter_api.php?site=sports-chatter.courant.com',
-          'celeb-chatter.dailypress.com': t + '://108.170.11.234:190/chatter_api.php?site=celeb-chatter.dailypress.com',
-          'odd-chatter.dailypress.com': t + '://108.170.11.234:190/chatter_api.php?site=odd-chatter.dailypress.com',
-          'politics-chatter.dailypress.com': t + '://108.170.11.234:190/chatter_api.php?site=politics-chatter.dailypress.com',
-          'sports-chatter.dailypress.com': t + '://108.170.11.234:190/chatter_api.php?site=sports-chatter.dailypress.com',
-          'celeb-chatter.latimes.com': t + '://108.170.11.234:190/chatter_api.php?site=celeb-chatter.latimes.com',
-          'odd-chatter.latimes.com': t + '://108.170.11.234:190/chatter_api.php?site=odd-chatter.latimes.com',
-          'politics-chatter.latimes.com': t + '://108.170.11.234:190/chatter_api.php?site=politics-chatter.latimes.com',
-          'sports-chatter.latimes.com': t + '://108.170.11.234:190/chatter_api.php?site=sports-chatter.latimes.com',
-          'celeb-chatter.mcall.com': t + '://108.170.11.234:190/chatter_api.php?site=celeb-chatter.mcall.com',
-          'odd-chatter.mcall.com': t + '://108.170.11.234:190/chatter_api.php?site=odd-chatter.mcall.com',
-          'politics-chatter.mcall.com': t + '://108.170.11.234:190/chatter_api.php?site=politics-chatter.mcall.com',
-          'celeb-chatter.orlandosentinel.com': t + '://108.170.11.234:190/chatter_api.php?site=celeb-chatter.orlandosentinel.com',
-          'odd-chatter.orlandosentinel.com': t + '://108.170.11.234:190/chatter_api.php?site=odd-chatter.orlandosentinel.com',
-          'politics-chatter.orlandosentinel.com': t + '://108.170.11.234:190/chatter_api.php?site=politics-chatter.orlandosentinel.com',
-          'sports-chatter.orlandosentinel.com': t + '://108.170.11.234:190/chatter_api.php?site=sports-chatter.orlandosentinel.com',
-          'celeb-chatter.southflorida.com': t + '://108.170.11.234:190/chatter_api.php?site=celeb-chatter.southflorida.com',
-          'celeb.chatter.sun-sentinel.com': t + '://108.170.11.234:190/chatter_api.php?site=celeb.chatter.sun-sentinel.com',
-          'odd-chatter.sun-sentinel.com': t + '://108.170.11.234:190/chatter_api.php?site=odd-chatter.sun-sentinel.com',
-          'politics.chatter.sun-sentinel.com': t + '://108.170.11.234:190/chatter_api.php?site=politics.chatter.sun-sentinel.com',
-          'celeb-chatter.chicagotribune.com': t + '://108.170.11.234:190/chatter_api.php?site=celeb-chatter.chicagotribune.com',
-          'odd-chatter.chicagotribune.com': t + '://108.170.11.234:190/chatter_api.php?site=odd-chatter.chicagotribune.com',
-          'politics-chatter.chicagotribune.com': t + '://108.170.11.234:190/chatter_api.php?site=politics-chatter.chicagotribune.com',
-          'sports-chatter.chicagotribune.com': t + '://108.170.11.234:190/chatter_api.php?site=sports-chatter.chicagotribune.com'
-        },
-        n = t + '://w1.synapsys.us/widgets/chatterbox/chatterbox.js',
-        i = function() {
-            var e = top.location.host;
-            var t = e.split('.');
-            switch (t.length) {
-                case 0:
-                case 1:
-                case 2:
-                    break;
-                default:
-                    if (t[t.length - 3] == 'att' && t[t.length - 2] == 'yahoo' && t[t.length - 1] == 'com') {
-                        e = 'att.yahoo.com'
-                    } else if (t[t.length - 2] == 'co' && t[t.length - 1] == 'uk') {
-                        e = t[t.length - 3] + '.' + t[t.length - 2] + '.' + t[t.length - 1]
-                    } else {
-                        e = t[t.length - 2] + '.' + t[t.length - 1]
-                    }
-                    break
-            }
-            return e
-        }(),
-        o = document.currentScript || function() {
-            var e = document.getElementsByTagName('script');
-            for (var t = 0; t <= e.length; t++) {
-                if (e[t].src.indexOf(n) != -1) {
-                    return e[t]
-                }
-            }
-        }(),
-        c = {},
-        l = -1,
-        d, h, u = {
-            dom: i,
-            category: B('widget') === false ? 'mlb' : B('widget').toLowerCase(),
-            remn: false,
-            rand: Math.floor(Math.random() * 10)
-        },
-        m = B('rss') === false ? 'sportschatter.com' : B('rss'),
-        f = function() {
-            if (m === false || typeof a[m] == 'undefined') {
-                m = i;
-                if (typeof a[m] === 'undefined') {
-                    return a['sportschatter.com']
-                }
-            }
-            return a[m]
-        }(),
-        p = B('small') === 'yes' ? true : false,
-        g = [],
-        y = function() {
-            if (i.indexOf('chatter') > -1) {
-                return i
-            }
-            return m.split('.')[0].replace('chatter', '-chatter') + '.' + i
-        }(),
-        w = [],
-        v, b = false,
-        _ = false,
-        x = false,
-        E = 0;
-    if (p) {
-        u.category = 'n/a'
+
+chatterbox[chatterbox.length] = (function(chatter_id) {
+  console.log("Chatterbox ID: ",chatter_id);
+  // Set main variables
+  var protocol = (location.protocol == "https:") ? "https" : "http",
+  div_conf = [
+    {
+      min: 1200,
+      widget: 970,
+      title: "Promoted Stories from the Chatter Network",
+      class: "biggest"
+    },
+    {
+      min: 768,
+      widget: 970,
+      title: "Promoted Stories from the Chatter Network",
+      class: "bigger"
+    },
+    {
+      min: 650,
+      widget: 970,
+      title: "Promoted Stories from the Chatter Network",
+      class: "big"
+    },
+    {
+      min: 430,
+      widget: 970,
+      title: "Promoted Stories",
+      class: "small"
+    },
+    {
+      min: 0,
+      widget: 250,
+      title: "Promoted Stories",
+      class: "smallest"
     }
-    var A = true,
-        k = '//www.googletagmanager.com/gtm.js?id=GTM-WDG7BV&l=chatterLayer',
-        C = document.getElementsByTagName('script');
-    for (var L = 0; L < C.length; L++) {
-        if (C[L].src.indexOf(k) != -1) {
-            A = false
+  ],
+  w_conf = {
+    250: {
+      url: protocol + "://w1.synapsys.us/widgets/dynamic_widget/dynamic_widget.html"
+    },
+    970: {
+      url: protocol + "://w1.synapsys.us/widgets/dynamic_widget/dynamic_widget_970.html"
+    }
+  },
+  apiBaseURL = "//108.170.11.234:190/chatter_api.php?site=",
+  apiURL = {
+    "sportschatter.com": "sports-chatter.",
+    "celebchatter.com": "celeb-chatter.",
+    "politicschatter.com": "politics-chatter.",
+    "oddchatter.com": "odd-chatter."
+  },
+  embedURL = protocol + "://w1.synapsys.us/widgets/chatterbox/chatterbox.js",
+  domain = (function() { // get the domain
+    var myHost = top.location.host;
+    var tempHost = myHost.split(".");
+    switch (tempHost.length) {
+      case 0:  //crash me, please
+      case 1:  //crash me, please
+      case 2:  //exactly what we want
+        break;
+      default: //break it down
+        //AT&T uses att.yahoo.com, so here's the exception to avoid a collision with yahoo.com
+        if (tempHost[tempHost.length - 3] == "att" && tempHost[tempHost.length - 2] == "yahoo" && tempHost[tempHost.length - 1] == "com") {
+          myHost = "att.yahoo.com";
+        } else if (tempHost[tempHost.length - 2] == "co" && tempHost[tempHost.length - 1] == "uk") {
+          myHost = tempHost[tempHost.length - 3] + "." + tempHost[tempHost.length - 2] + "." + tempHost[tempHost.length - 1];
+        } else {
+          myHost = tempHost[tempHost.length - 2] + "." + tempHost[tempHost.length - 1]; //no matter how many layers of subdomain there are, this should return only the domain
         }
+        break;
     }
-    if (A) {
-        var P = document.createElement('script');
-        P.async = true;
-        P.src = '//www.googletagmanager.com/gtm.js?id=GTM-WDG7BV&l=chatterLayer';
-        o.parentNode.insertBefore(P, o)
+    return myHost;
+  })(),
+  currentScript = document.currentScript || (function() { // Get the current script element
+    var scripts = document.getElementsByTagName("script");
+    for (var i = 0; i <= scripts.length; i++) {
+      if (scripts[i].src.indexOf(embedURL) != -1) {
+        return scripts[i];
+      }
     }
-    chatterLayer.push({
-        event: 'chatterboxPageView',
-        rss: m,
-        style: p ? '3UP' : '5PACK',
-        widget: u.category
+  })(),
+  currentConf = {},
+  currentSize = -1,
+  div,
+  dw_iframe,
+  w_q = {
+    dom: domain,
+    category: (getParameter("widget") === false ? "nba" : getParameter("widget").toLowerCase()),
+    remn: false,
+    rand: Math.floor(Math.random() * 10)
+  },
+  siteName = (getParameter("rss") === false ? "sportschatter.com" : getParameter("rss")),
+  apiEndpoint = (function(){
+    if ( siteName === false || typeof apiURL[siteName] == "undefined" ) {
+      siteName = domain;
+      if ( typeof apiURL[siteName] === "undefined" ) {
+        return apiBaseURL + apiURL["sportschatter.com"] + domain + ".com";
+      }
+    }
+    return apiBaseURL + apiURL[siteName] + domain + ".com";
+  })(),
+  isSmall = (getParameter("small") === "yes" ? true : false),
+  article_links = [],
+  newDomain = (function(){
+    if ( domain.indexOf("chatter") > -1 ) {
+      return domain;
+    }
+
+    return siteName.split(".")[0].replace("chatter", "-chatter") + "." + domain;
+  })(),
+  articles = [],
+  title_div,
+  isVisible = false,
+  mouseOverDone = false,
+  minvis = false,
+  tries = 0;
+
+  if ( isSmall ) {
+    w_q.category = "n/a";
+  }
+
+  // Embed google tag manager
+  var addGTM = true,
+  gtmURL = '//www.googletagmanager.com/gtm.js?id=GTM-WDG7BV&l=chatterLayer',
+  scriptsAll = document.getElementsByTagName("script");
+  for ( var x = 0; x < scriptsAll.length; x++ ) {
+    if ( scriptsAll[x].src.indexOf(gtmURL) != -1 ) {
+      addGTM = false;
+    }
+  }
+  if ( addGTM ) {
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = '//www.googletagmanager.com/gtm.js?id=GTM-WDG7BV&l=chatterLayer';
+    currentScript.parentNode.insertBefore(s, currentScript);
+  }
+
+  // Push item to the chatterLayer for the pageview event
+  chatterLayer.push({
+    event: "chatterboxPageView",
+    rss: siteName,
+    style: isSmall ? "3UP" : "5PACK",
+    widget: w_q.category
+  });
+
+  /**
+   * @function Array.randItem
+   * This function returns a random item from the array
+   */
+  Array.prototype.randItem = function() {
+    return this[Math.floor(Math.random() * this.length)];
+  } // --> randItem
+
+  /**
+   * @function Element.setAttributes
+   * This helper function allows setting multiple attributes in 1 function call.
+   */
+  Element.prototype.setAttributes = function(attrs) {
+    for ( var i in attrs ) {
+      if ( i === "style" ) {
+        for ( var s in attrs[i] ) {
+          this.style[s] = attrs[i][s];
+        }
+      } else if ( i === "html" ) {
+        this.innerHTML = attrs[i];
+      } else if ( i === "text" ) {
+        this.innerText = attrs[i];
+      } else {
+        this.setAttribute(i, attrs[i]);
+      }
+    }
+  } // --> setAttributes
+
+  /**
+   * @function Element.appendChildren
+   * This helper function allows adding multiple child elements to a parent div
+   */
+  Element.prototype.appendChildren = function() {
+    for ( var i = 0; i < arguments.length; i++ ) {
+      if ( typeof(arguments[i].length) !== "undefined" ) {
+        for ( var y = 0; y < arguments[i].length; y++ ) {
+          this.appendChild(arguments[i][y]);
+        }
+      } else {
+        this.appendChild(arguments[i]);
+      }
+    }
+  } // --> appendChildren
+
+  // Set the size
+  var width = currentScript.parentElement.clientWidth;
+  for ( var initSize = 0; initSize < div_conf.length; initSize++ ) {
+    if ( width >= div_conf[initSize].min ) {
+      break;
+    }
+  }
+  if ( isSmall ) {
+    initSize = 0;
+  }
+  callAPI();
+  create_chatterbox();
+
+  /**
+   * @function callAPI
+   * This function calls the API and parses and saves the URL's
+   */
+  function callAPI() {
+    // Create http object
+    var xh;
+    if ( window.XMLHttpRequest ) {
+      xh = new XMLHttpRequest();
+    } else {
+      xh = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+
+    // Create callback
+    xh.onreadystatechange = function() {
+      if ( xh.readyState == XMLHttpRequest.DONE ) {
+        if ( xh.status == 200 ) {
+          try {
+            // On success
+            articles = JSON.parse(xh.responseText);
+            articles.length = 3;
+            for ( var i = 0; i < article_links.length; i++ ) {
+              article_links[i].getElementsByTagName("a")[0].href = articles[i].link;
+              article_links[i].querySelectorAll(".dw_item_title")[0].innerHTML = articles[i].title;
+              article_links[i].querySelectorAll(".dw_item_sub")[0].innerHTML = (siteName.charAt(0).toUpperCase() + siteName.slice(1)).replace("chatter", "Chatter").split(".")[0];
+              article_links[i].querySelectorAll(".dw_img")[0].setAttributes({"style":{"background-image": "url('" +
+                (function(url) {
+                  try {
+                    // Generate new o
+                    var o_old = JSON.parse(atob(getParameter("o", url)));
+                  } catch(e) {
+                    var o_old = {x:0.5,y:0.5};
+                  }
+                  return url.replace(/o=[^&$]+/, "o=" + btoa(JSON.stringify({"x":o_old.x,"y":o_old.y,"height":240,"width":400})));
+                })(articles[i].thumbnail)
+                + "')"}});
+            }
+            return true;
+          } catch ( e ) {
+            console.log(e);
+            var msg = "Error Parsing JSON";
+          }
+        } else {
+          // Error handling
+          // Get the message
+          var msg = xh.statusText;
+          if ( xh.status == 500 ) {
+            try {
+              msg = JSON.parse(xh.responseText).message;
+            } catch (e) {
+              console.log('No JSON message');
+            }
+          }
+          msg = "HTTP Error (" + xh.status + "): " + msg;
+        }
+
+        // Add a try and try again if less than 10
+        if ( tries++ > 10 ) {
+          throw msg;
+        }
+        setTimeout(callAPI, 500);
+      }
+    }
+
+    xh.open("GET", apiEndpoint, true);
+    xh.send();
+  } // --> callAPI
+
+  /**
+   * @function create_chatterbox
+   * This function creates the HTML DOM nodes for the chatterbox and inserts
+   * them into the DOM
+   */
+  function create_chatterbox() {
+    // Add the style element for Lato (start download ASAP)
+    var lato = document.createElement("link");
+    lato.setAttributes({
+      "href": protocol + "://fonts.googleapis.com/css?family=Lato",
+      "rel": "stylesheet",
+      "type": "text/css"
     });
-    Array.prototype.randItem = function() {
-        return this[Math.floor(Math.random() * this.length)]
-    };
-    Element.prototype.setAttributes = function(e) {
-        for (var t in e) {
-            if (t === 'style') {
-                for (var r in e[t]) {
-                    this.style[r] = e[t][r]
-                }
-            } else if (t === 'html') {
-                this.innerHTML = e[t]
-            } else if (t === 'text') {
-                this.innerText = e[t]
-            } else {
-                this.setAttribute(t, e[t])
-            }
-        }
-    };
-    Element.prototype.appendChildren = function() {
-        for (var e = 0; e < arguments.length; e++) {
-            if (typeof arguments[e].length !== 'undefined') {
-                for (var t = 0; t < arguments[e].length; t++) {
-                    this.appendChild(arguments[e][t])
-                }
-            } else {
-                this.appendChild(arguments[e])
-            }
-        }
-    };
-    var T = o.parentElement.clientWidth;
-    for (var M = 0; M < r.length; M++) {
-        if (T >= r[M].min) {
-            break
-        }
-    }
-    if (p) {
-        M = 0
-    }
-    S();
-    N();
+    currentScript.parentNode.insertBefore(lato, currentScript);
 
-    function S() {
-        var e;
-        if (window.XMLHttpRequest) {
-            e = new XMLHttpRequest
-        } else {
-            e = new ActiveXObject('Microsoft.XMLHTTP')
-        }
-        e.onreadystatechange = function() {
-            if (e.readyState == XMLHttpRequest.DONE) {
-                if (e.status == 200) {
-                    try {
-                        w = JSON.parse(e.responseText);
-                        w.length = 3;
-                        for (var r = 0; r < g.length; r++) {
-                          // g[r].getElementsByTagName('a')[0].href = t + '://' + y + w[r].link;
-                          g[r].getElementsByTagName('a')[0].href = w[r].link;
-                            g[r].querySelectorAll('.dw_item_title')[0].innerHTML = w[r].title;
-                            g[r].querySelectorAll('.dw_item_sub')[0].innerHTML = (m.charAt(0).toUpperCase() + m.slice(1)).replace('chatter', 'Chatter').split('.')[0];
-                            g[r].querySelectorAll('.dw_img')[0].setAttributes({
-                                style: {
-                                    'background-image': 'url(\'' + function(e) {
-                                        try {
-                                            var t = JSON.parse(atob(B('o', e)))
-                                        } catch (r) {
-                                            var t = {
-                                                x: .5,
-                                                y: .5
-                                            }
-                                        }
-                                        return e.replace(/o=[^&$]+/, 'o=' + btoa(JSON.stringify({
-                                            x: t.x,
-                                            y: t.y,
-                                            height: 240,
-                                            width: 400
-                                        })))
-                                    }(w[r].thumbnail) + '\')'
-                                }
-                            })
-                        }
-                        return true
-                    } catch (s) {
-                        console.log(s);
-                        var a = 'Error Parsing JSON'
-                    }
-                } else {
-                    var a = e.statusText;
-                    if (e.status == 500) {
-                        try {
-                            a = JSON.parse(e.responseText).message
-                        } catch (s) {
-                            console.log('No JSON message')
-                        }
-                    }
-                    a = 'HTTP Error (' + e.status + '): ' + a
-                }
-                if (E++ > 10) {
-                    throw a
-                }
-                setTimeout(S, 500)
-            }
-        };
-        e.open('GET', f, true);
-        e.send()
+    // Add the chatterbox css to start downloading
+    var css = document.createElement("link");
+    css.setAttributes({
+      "href": protocol + "://w1.synapsys.us/widgets/chatterbox/chatterbox.css",
+      "rel": "stylesheet",
+      "type": "text/css"
+    });
+    currentScript.parentNode.insertBefore(css, currentScript);
+
+    // Create the div that will hold everything
+    div = document.createElement("div");
+    div.setAttribute("class", "dw_container");
+    if ( div.addEventListener ) {
+      div.addEventListener('mouseover', mouseover_handler)
+    } else if ( div.attachEvent ) {
+      div.attachEvent('onmouseover', mouseover_handler);
     }
 
-    function N() {
-        var s = document.createElement('link');
-        s.setAttributes({
-            href: t + '://fonts.googleapis.com/css?family=Lato',
-            rel: 'stylesheet',
-            type: 'text/css'
-        });
-        o.parentNode.insertBefore(s, o);
-        var a = document.createElement('link');
-        a.setAttributes({
-            href: t + '://w1.synapsys.us/widgets/chatterbox/chatterbox.css',
-            rel: 'stylesheet',
-            type: 'text/css'
-        });
-        o.parentNode.insertBefore(a, o);
-        d = document.createElement('div');
-        d.setAttribute('class', 'dw_container');
-        if (d.addEventListener) {
-            d.addEventListener('mouseover', O)
-        } else if (d.attachEvent) {
-            d.attachEvent('onmouseover', O)
-        }
-        var n = document.createElement('div');
-        n.setAttribute('class', 'dw_article');
-        v = document.createElement('div');
-        v.setAttribute('class', 'dw_title');
-        for (var c = 0; c < 3; c++) {
-            var l = [document.createElement('a'), document.createElement('div'), document.createElement('div'), document.createElement('div'), document.createElement('div'), document.createElement('div')];
-            l[1].appendChild(document.createElement('div'));
-            l[0].setAttributes({
-                onclick: 'chatterbox[' + e + '].a_click(' + c + ')',
-                target: '_blank'
-            });
-            l[1].setAttribute('class', 'dw_img');
-            l[2].setAttribute('class', 'dw_t_cont');
-            l[3].setAttributes({
-                'class': 'dw_item_title',
-                text: ''
-            });
-            l[4].setAttributes({
-                'class': 'dw_item_sub',
-                text: ''
-            });
-            l[5].setAttribute('class', 'dw_article_link');
-            l[2].appendChildren(l[3], l[4]);
-            l[0].appendChildren(l[1], l[2]);
-            l[5].appendChildren(l[0]);
-            g[c] = l[5]
-        }
-        n.appendChildren(v, g);
-        if (!p) {
-            var m = {
-                dom: i,
-                remn: false,
-                cat: u.category,
-                type: 'dynamic_' + u.category,
-                subd: false,
-                src: 'content.synapsys.us/l/n/index-mdb.php',
-                name: i.split('.').join('_') + '_' + function(e) {
-                    switch (e) {
-                        case 'nba':
-                        case 'college_basketball':
-                        case 'mlb':
-                            return 'sports';
-                            break;
-                        case 'crime':
-                        case 'politics':
-                        case 'demographics':
-                        case 'weather':
-                        case 'disaster':
-                            return 'realestate';
-                            break;
-                        default:
-                            return e
-                    }
-                }(u.category) + (r[M].min == 0 ? '_chatterbox_m_300x250' : '_chatterbox_300x250'),
-                widU: r[M].min == 0 ? '//w1.synapsys.us/widgets/dynamic_widget/dynamic_widget_250.html' : '',
-                widW: 300,
-                widH: r[M].min == 0 ? 250 : 0,
-                adW: 300,
-                adH: 250,
-                ofx: 0,
-                ofy: 0,
-                rand: (Math.random() * 1e6).toString() + (Math.random() * 1e6).toString()
-            };
-            var f = document.createElement('div');
-            f.setAttribute('class', 'dw_ad_stack');
-            var y = document.createElement('script');
-            y.src = t + '://content.synapsys.us/l/n/index-mdb.php?' + Object.keys(m).map(function(e) {
-                return encodeURIComponent(e) + '=' + encodeURIComponent(m[e])
-            }).join('&');
-            f.appendChild(y);
-            h = document.createElement('iframe');
-            h.setAttributes({
-                scrolling: 'no',
-                'class': 'dw_iframe'
-            });
-            if (r[M].min != 0) {
-                d.appendChildren(n, f, h)
-            } else {
-                console.log('CHATTERBOX MOBILE');
-                d.setAttribute('class', 'dw_container smallest mobile');
-                d.appendChildren(n, f)
-            }
-        } else {
-            d.appendChild(n)
-        }
-        o.parentElement.insertBefore(d, o);
-        o.parentElement.removeChild(o)
-    }
+    // Create the portion that holds the article
+    var article_div = document.createElement("div");
+    article_div.setAttribute("class", "dw_article");
+    title_div = document.createElement("div");
+    title_div.setAttribute("class", "dw_title");
+    for ( var i = 0; i < 3; i++ ) {
+      // Create all the items
+      var arr = [
+        document.createElement("a"), // article link
+        document.createElement("div"), // image div
+        document.createElement("div"), // container div
+        document.createElement("div"), // title div
+        document.createElement("div"), // subtitle div
+        document.createElement("div") // Conatiner div
+      ];
+      arr[1].appendChild(document.createElement("div"));
 
-    function O() {
-        if (_) {
-            return true
-        }
-        chatterLayer.push({
-            event: 'chatterMouseover',
-            style: p ? '3UP' : '5PACK',
-            rss: m,
-            widget: u.category
-        });
-        _ = true;
-        d.removeEventListener('mouseover', O)
-    }
+      // Attach the attributes
+      arr[0].setAttributes({"onclick": "chatterbox[" + chatter_id + "].a_click(" + i + ")", "target": "_blank"});
+      arr[1].setAttribute("class", "dw_img");
+      arr[2].setAttribute("class", "dw_t_cont");
+      arr[3].setAttributes({
+        "class": "dw_item_title",
+        "text": ""
+      });
+      arr[4].setAttributes({
+        "class": "dw_item_sub",
+        "text": ""
+      });
+      arr[5].setAttribute("class", "dw_article_link");
 
-    function U() {
-        var e = d.parentElement.clientWidth;
-        for (var t = 0; t < r.length; t++) {
-            if (e >= r[t].min) {
-                break
-            }
-        }
-        if (t == l) {
-            return false
-        }
-        l = t;
-        d.setAttribute('class', 'dw_container ' + r[t].class + (p !== false ? ' small_container' : ''));
-        v.setAttributes({
-            html: '<svg xmlns="http://www.w3.org/2000/svg" style="stroke:#ff3131;stroke-width:2px;fill:none;width:20.57px;height:18px;" viewBox="0 0 32 28"><path stroke-linecap="round" stroke-linejoin="round" d="m 4,14 l 12,12 l 12,-12 a 6 6 0 1 0 -10 -10 l -2, 2 l -2, -2 a 6 6 0 1 0 -10 10" /></svg> ' + r[t].title
-        });
-        H(r[t].widget)
+      // Put divs in divs
+      arr[2].appendChildren(arr[3], arr[4]);
+      arr[0].appendChildren(arr[1], arr[2]);
+      arr[5].appendChildren(arr[0]);
+      article_links[i] = arr[5];
     }
+    article_div.appendChildren(title_div, article_links);
 
-    function H(e) {
-        if (p) {
-            return false
-        }
-        var t = {};
-        switch (e) {
-            case 250:
-                t = s[250];
-                break;
+    if ( !isSmall ) {
+      // Create the ad tag
+      var e_q = {
+        dom: domain,
+        remn: false,
+        cat: w_q.category,
+        type: 'dynamic_' + w_q.category,
+        subd: false,
+        src: "content.synapsys.us/l/n/index-mdb.php",
+        name: domain.split(".").join("_") + "_" + (function(cat){
+          switch ( cat ) {
+            case "nba":
+            case "college_basketball":
+              return "sports";
+              break;
+            case "crime":
+            case "politics":
+            case "demographics":
+            case "weather":
+            case "disaster":
+              return "realestate";
+              break;
             default:
-                t = s[970];
-                break
-        }
-        if (t != c) {
-            h.src = 'about:blank';
-            c = t;
-            setTimeout(function() {
-                h.src = c.url + '?' + encodeURIComponent(JSON.stringify(u))
-            }, 0)
-        }
+              return cat;
+          }
+        })(w_q.category) + (div_conf[initSize].min == 0 ? "_chatterbox_m_300x250" : "_chatterbox_300x250"),
+        widU: (div_conf[initSize].min == 0 ? '//w1.synapsys.us/widgets/dynamic_widget/dynamic_widget_250.html' : ''),
+        widW: 300,
+        widH: (div_conf[initSize].min == 0 ? 250 : 0),
+        adW: 300,
+        adH: 250,
+        ofx: 0,
+        ofy: 0,
+        rand: (Math.random() * 1000000).toString() + (Math.random() * 1000000).toString()
+      };
+      var ad_stack_div = document.createElement('div');
+      ad_stack_div.setAttribute('class', 'dw_ad_stack');
+      var ad_script = document.createElement("script");
+      ad_script.src = protocol + "://content.synapsys.us/l/n/index-mdb.php?" + Object.keys(e_q).map(function(k){return encodeURIComponent(k)+"="+encodeURIComponent(e_q[k])}).join("&");
+      ad_stack_div.appendChild(ad_script);
+
+      // Create the dynamic widget
+      dw_iframe = document.createElement("iframe");
+      dw_iframe.setAttributes({"scrolling": "no", "class": "dw_iframe"});
+
+      // Add all the elements to the div
+      if ( div_conf[initSize].min != 0 ) {
+        div.appendChildren(article_div, ad_stack_div, dw_iframe);
+      } else {
+        console.log('CHATTERBOX MOBILE');
+        div.setAttribute("class", "dw_container smallest mobile");
+        div.appendChildren(article_div, ad_stack_div);
+      }
+    } else {
+      div.appendChild(article_div);
     }
 
-    function B(e, t) {
-        t = t || o.src;
-        var r = new RegExp('[?&]' + e.replace(/[\[\]]/g, '\\$&') + '(=([^&#]*)|&|#|$)');
-        var s = r.exec(t);
-        if (!s || !s[2]) {
-            return false
-        }
-        return decodeURIComponent(s[2].replace(/\+/g, ' '))
+    // Insert the div
+    currentScript.parentElement.insertBefore(div, currentScript);
+    currentScript.parentElement.removeChild(currentScript);
+  } // --> create_chatterbox
+
+  /**
+   * @function mouseover_handler
+   * This function logs an event for the mouse passing over the chatterbox.
+   */
+  function mouseover_handler() {
+    // Don't push the event more than once
+    if ( mouseOverDone ) {
+      return true;
     }
 
-    function R(e) {
-        if (typeof w[e] == 'undefined') {
-            return true
-        }
+    // Push the event
+    chatterLayer.push({
+      "event":"chatterMouseover",
+      "style": isSmall ? "3UP" : "5PACK",
+      "rss": siteName,
+      "widget": w_q.category
+    });
+
+    mouseOverDone = true;
+    div.removeEventListener('mouseover', mouseover_handler);
+  } // --> mouseover_event
+
+  /**
+   * @function size_change
+   * This function handles the changing of the width of the parent div.
+   */
+  function size_change() {
+    // Get the size of the widget
+    var width = div.parentElement.clientWidth;
+
+    // Get the index needed
+    for ( var i = 0; i < div_conf.length; i++ ) {
+      if ( width >= div_conf[i].min ) {
+        break;
+      }
+    }
+
+    // If there is no change, return
+    if ( i == currentSize ) {
+      return false;
+    }
+
+    // Set the new config
+    currentSize = i;
+    div.setAttribute("class", "dw_container " + div_conf[i].class + (isSmall !== false ? " small_container" : ""));
+    title_div.setAttributes({"html":'<svg xmlns="http://www.w3.org/2000/svg" style="stroke:#ff3131;stroke-width:2px;fill:none;width:20.57px;height:18px;" viewBox="0 0 32 28"><path stroke-linecap="round" stroke-linejoin="round" d="m 4,14 l 12,12 l 12,-12 a 6 6 0 1 0 -10 -10 l -2, 2 l -2, -2 a 6 6 0 1 0 -10 10" /></svg> ' + div_conf[i].title});
+    change_widget(div_conf[i].widget);
+  } // --> size_change
+
+  /**
+   * @function change_widget
+   * This function changes the widget between the 970 and 250 pixel wide versions
+   *
+   * @param string size - The width of the widget - either 970 or 250
+   */
+  function change_widget(size) {
+    // Don't worry for small widget
+    if ( isSmall ) {
+      return false;
+    }
+
+    // Get the new conf
+    var local_conf = {};
+    switch ( size ) {
+      case 250:
+        local_conf = w_conf[250];
+        break;
+      default:
+        local_conf = w_conf[970];
+        break;
+    }
+
+    // Apply only on changes
+    if ( local_conf != currentConf ) {
+      dw_iframe.src = "about:blank";
+      currentConf = local_conf;
+      setTimeout(function () {
+        dw_iframe.src = currentConf.url + "?" + encodeURIComponent(JSON.stringify(w_q));
+      }, 0);
+    }
+  } // --> change_widget
+
+  /**
+   * @function getParameter
+   * This function retrieves a get parameters. Adapted from StackOverflow
+   *
+   * @param string name - The name of the parameter to get.
+   * @return string|bool - The value of the associated parameter or false if none
+   * is found.
+   */
+  function getParameter(name, url) {
+    url = url || currentScript.src;
+    var regex = new RegExp("[?&]" + name.replace(/[\[\]]/g, "\\$&") + "(=([^&#]*)|&|#|$)");
+    var results = regex.exec(url);
+    if ( !results || !results[2] ) {
+      return false;
+    }
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+  } // --> getParameter
+
+  /**
+   * @function article_click
+   * This function logs an article click by pushing a variable to the
+   * chatterLayer.
+   *
+   * @param int article_index - The article that was clicked on (0-based index)
+   */
+  function article_click(article_index) {
+    // Handle no article
+    if ( typeof articles[article_index] == "undefined" ) {
+      return true;
+    }
+
+    chatterLayer.push({
+      "event": "chatter_click",
+      "style": isSmall ? "3UP" : "5PACK",
+      "rss": siteName,
+      "widget": w_q.category
+    });
+
+    chatterLayer.push({"event": "article_click", "article_url": siteName + articles[article_index].link, "article_title": articles[article_index].title, "style": isSmall ? "3UP" : "5PACK"});
+  } // --> article_click
+
+  /**
+   * @function check_visibility
+   * This function checks if the widget is visible. If visible, this function
+   * sends a GTM event to record the view.
+   */
+  function check_visibility() {
+    // Don't do anything if the event has already fired
+    if ( isVisible ) {
+      return true;
+    }
+
+    // Check the visibility
+    var windowDim = {x: window.scrollX, y: window.scrollY, w: window.innerWidth, h: window.innerHeight},
+    divDim = {x: div.offsetLeft, y: div.offsetTop, w: div.offsetWidth, h: div.offsetHeight},
+    divArea = divDim.w * divDim.h,
+    dispX = pixelsVisible(windowDim.x, windowDim.w, divDim.x, divDim.w),
+    dispY = pixelsVisible(windowDim.y, windowDim.h, divDim.y, divDim.h)
+    dispArea = dispX * dispY,
+    dispPerc = dispArea / divArea;
+
+    if ( !minvis && dispPerc > 0 ) {
+      minvis = true;
+      chatterLayer.push({
+        "event": "chatterVisibleMin",
+        "style": isSmall ? "3UP" : "5PACK",
+        "rss": siteName,
+        "widget": w_q.category
+      });
+    }
+
+    if ( dispPerc >= 0.6 ) {
+      isVisible = true;
+      chatterLayer.push({
+        "event": "chatterVisible",
+        "style": isSmall ? "3UP" : "5PACK",
+        "rss": siteName,
+        "widget": w_q.category
+      });
+      for ( x = 0; x < articles.length; x++ ) {
         chatterLayer.push({
-            event: 'chatter_click',
-            style: p ? '3UP' : '5PACK',
-            rss: m,
-            widget: u.category
+          "event": "chatterboxImpression",
+          "article_url": siteName + articles[x].link,
+          style: isSmall ? "3UP" : "5PACK",
+          "article_title": articles[x].title
         });
-        chatterLayer.push({
-            event: 'article_click',
-            article_url: m + w[e].link,
-            article_title: w[e].title,
-            style: p ? '3UP' : '5PACK'
-        })
+      }
+      window.removeEventListener('scroll', check_visibility);
+    }
+  } // --> check_visibility
+
+  /**
+   * @function pixelsVisible
+   * This function returns the number of visible pixels in 1 dimension (x or y).
+   *
+   * @param int winPos - The position of the window in the dimension.
+   * @param int winDim - The size of the window in the dimension.
+   * @param int divPos - The position of the div in the dimension.
+   * @param int divDim - The size of the div in the dimension.
+   * @return int - The number of pixels visible in the given dimension.
+   */
+  function pixelsVisible(winPos, winDim, divPos, divDim) {
+    // The div is not displayed (above or below the fold)
+    if ( winPos + winDim < divPos || winPos > divPos + divDim ) {
+      return 0;
     }
 
-    function j() {
-        if (b) {
-            return true
-        }
-        var e = {
-                x: window.scrollX,
-                y: window.scrollY,
-                w: window.innerWidth,
-                h: window.innerHeight
-            },
-            t = {
-                x: d.offsetLeft,
-                y: d.offsetTop,
-                w: d.offsetWidth,
-                h: d.offsetHeight
-            },
-            r = t.w * t.h,
-            s = I(e.x, e.w, t.x, t.w),
-            a = I(e.y, e.h, t.y, t.h);
-        dispArea = s * a, dispPerc = dispArea / r;
-        if (!x && dispPerc > 0) {
-            x = true;
-            chatterLayer.push({
-                event: 'chatterVisibleMin',
-                style: p ? '3UP' : '5PACK',
-                rss: m,
-                widget: u.category
-            })
-        }
-        if (dispPerc >= .6) {
-            b = true;
-            chatterLayer.push({
-                event: 'chatterVisible',
-                style: p ? '3UP' : '5PACK',
-                rss: m,
-                widget: u.category
-            });
-            for (L = 0; L < w.length; L++) {
-                chatterLayer.push({
-                    event: 'chatterboxImpression',
-                    article_url: m + w[L].link,
-                    style: p ? '3UP' : '5PACK',
-                    article_title: w[L].title
-                })
-            }
-            window.removeEventListener('scroll', j)
-        }
+    // The div extends past both boundaries (return all of div is displayed)
+    if ( (winPos > divPos && winPos + winDim < divPos + divDim) || (winPos < divPos && winPos + winDim > divPos + divDim) ) {
+      return divDim;
     }
 
-    function I(e, t, r, s) {
-        if (e + t < r || e > r + s) {
-            return 0
-        }
-        if (e > r && e + t < r + s || e < r && e + t > r + s) {
-            return s
-        }
-        if (e > r) {
-            return r + s - e
-        }
-        if (r + s > e + t) {
-            return e + t - r
-        }
-        return 0
+    // The div extends off the top of the window
+    if ( winPos > divPos ) {
+      return divPos + divDim - winPos;
     }
 
-    function K() {
-        return {
-            style: p ? '3UP' : '5PACK',
-            rss: m,
-            widget: u.category,
-            articles: w
-        }
+    // The div extends off the bottom of the window
+    if ( divPos + divDim > winPos + winDim ) {
+      return winPos + winDim - divPos;
     }
-    if (r[M].min != 0) {
-        U();
-        window.addEventListener('resize', U, false)
-    }
-    window.addEventListener('scroll', j, false);
+
+    // Full div is displayed
+    return 0;
+  } // --> pixelsVisible
+
+  /**
+   * @function get_data
+   * This function returns data about the chatterbox for the tether.
+   *
+   * @return Object
+   *
+   * @author William Klausmeyer @ SNT Media
+   */
+  function get_data() {
     return {
-        cw: H,
-        sc: U,
-        a_click: R,
-        get_data: K
-    }
-}(chatterbox.length);
+      style: isSmall ? "3UP" : "5PACK",
+      rss: siteName,
+      widget: w_q.category,
+      articles: articles
+    };
+  } // --> get_data
+
+  // Attach resize event listener
+  if ( div_conf[initSize].min != 0 ) {
+    size_change();
+    window.addEventListener('resize', size_change, false);
+  }
+  window.addEventListener('scroll', check_visibility, false);
+
+  return {
+    cw: change_widget,
+    sc: size_change,
+    a_click: article_click,
+    get_data: get_data
+  };
+})(chatterbox.length);
