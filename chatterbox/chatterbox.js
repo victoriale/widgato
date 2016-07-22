@@ -38,10 +38,10 @@ chatterbox[chatterbox.length] = function(e) {
             }
         },
         a = {
-            'sportschatter.com': t + '://dw.synapsys.us/chatter_api.php?site=sportschatter.com',
-            'celebchatter.com': t + '://dw.synapsys.us/chatter_api.php?site=celebchatter.com',
-            'politicschatter.com': t + '://dw.synapsys.us/chatter_api.php?site=politicschatter.com',
-            'oddchatter.com': t + '://dw.synapsys.us/chatter_api.php?site=oddchatter.com'
+            'sportschatter.com': t + '://108.170.11.234:190/chatter_api.php?site=sportschatter.com',
+            'celebchatter.com': t + '://108.170.11.234:190/chatter_api.php?site=celebchatter.com',
+            'politicschatter.com': t + '://108.170.11.234:190/chatter_api.php?site=politicschatter.com',
+            'oddchatter.com': t + '://108.170.11.234:190/chatter_api.php?site=oddchatter.com'
         },
         n = t + '://w1.synapsys.us/widgets/chatterbox/chatterbox.js',
         i = function() {
@@ -181,7 +181,8 @@ chatterbox[chatterbox.length] = function(e) {
                         w = JSON.parse(e.responseText);
                         w.length = 3;
                         for (var r = 0; r < g.length; r++) {
-                            g[r].getElementsByTagName('a')[0].href = t + '://' + y + w[r].link;
+                          // g[r].getElementsByTagName('a')[0].href = t + '://' + y + w[r].link;
+                          g[r].getElementsByTagName('a')[0].href = w[r].link;
                             g[r].querySelectorAll('.dw_item_title')[0].innerHTML = w[r].title;
                             g[r].querySelectorAll('.dw_item_sub')[0].innerHTML = (m.charAt(0).toUpperCase() + m.slice(1)).replace('chatter', 'Chatter').split('.')[0];
                             g[r].querySelectorAll('.dw_img')[0].setAttributes({
