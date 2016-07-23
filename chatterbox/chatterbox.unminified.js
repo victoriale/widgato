@@ -97,10 +97,10 @@ chatterbox[chatterbox.length] = (function(chatter_id) {
     if ( siteName === false || typeof apiURL[siteName] == "undefined" ) {
       siteName = domain;
       if ( typeof apiURL[siteName] === "undefined" ) {
-        return apiBaseURL + apiURL["sportschatter.com"] + domain + ".com";
+        return apiBaseURL + apiURL["sportschatter.com"] + domain;
       }
     }
-    return apiBaseURL + apiURL[siteName] + domain + ".com";
+    return apiBaseURL + apiURL[siteName] + domain;
   })(),
   isSmall = (getParameter("small") === "yes" ? true : false),
   article_links = [],
