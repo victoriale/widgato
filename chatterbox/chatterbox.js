@@ -88,7 +88,7 @@ chatterbox[chatterbox.length] = (function(chatter_id) {
   dw_iframe,
   w_q = {
     dom: domain,
-    category: (getParameter("widget") === false ? "nba" : getParameter("widget").toLowerCase()),
+    category: (getParameter("widget") === false ? "mlb" : getParameter("widget").toLowerCase()),
     remn: false,
     rand: Math.floor(Math.random() * 10)
   },
@@ -97,10 +97,10 @@ chatterbox[chatterbox.length] = (function(chatter_id) {
     if ( siteName === false || typeof apiURL[siteName] == "undefined" ) {
       siteName = domain;
       if ( typeof apiURL[siteName] === "undefined" ) {
-        return apiBaseURL + apiURL["sportschatter.com"] + domain;
+        return apiBaseURL + apiURL["sportschatter.com"] + domain + ".com";
       }
     }
-    return apiBaseURL + apiURL[siteName] + domain;
+    return apiBaseURL + apiURL[siteName] + domain + ".com";
   })(),
   isSmall = (getParameter("small") === "yes" ? true : false),
   article_links = [],
@@ -356,6 +356,7 @@ chatterbox[chatterbox.length] = (function(chatter_id) {
           switch ( cat ) {
             case "nba":
             case "college_basketball":
+            case "mlb":
               return "sports";
               break;
             case "crime":
