@@ -60,8 +60,8 @@
       src: embedURL, //this
       name: adUnitName,
       widU: widgetURL,  //full url to the widget's live code
-      widW: 300,  //the widget's width
-      widH: 600,  //the widget's height
+      widW: 650,  //the widget's width
+      widH: 250,  //the widget's height
       adW: 300,  //the ad's width
       adH: 250,  //the ad's height
       ofx: 0,  //offset in the X direction that the ad-stack needs to be adjusted to match the designated ad-space for this widget
