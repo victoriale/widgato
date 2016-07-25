@@ -64,12 +64,9 @@ function RenderArticleSide(protocolToUse){
     return imgRet;
   }
 
-  // var articleTypes = [];
   function mapArticles(data){
-    // articleTypes = [];
     for(var obj in data){
       if(obj == "meta-data")continue;
-      // articleTypes.push(obj);
       this[obj] = data[obj];
     }
   }
@@ -108,7 +105,7 @@ function RenderArticleSide(protocolToUse){
     var articleUrl = protocolToUse + 'homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
     var articleText = article.article[0].substr(0, 130);
     A('.content-text').innerHTML = articleText + '...<a target="_blank" href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>';
-
+    A('.title-logo').href = "http://www.homerunloyal.com";
     A('.bar-date').innerHTML = convertDate(game.startDateTime);
     var author = 'www.homerunloyal.com';
     var authorLink = author;
