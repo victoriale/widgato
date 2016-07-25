@@ -40,9 +40,9 @@ function RenderDynamicSide(protocolToUse){
   // var remnant = '';
   // var bord = false;
 
-  var possibleTypes = [/*'nba'*/, 'mlb', 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
-  var listType = ["weather","mlb"];
-  //var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
+  //var possibleTypes = [/*'nba'*/, 'mlb', 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
+  var possibleTypes = ["weather","mlb"];
+  var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
   var listRand = getRandomInt(0,10);
   var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
   apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
