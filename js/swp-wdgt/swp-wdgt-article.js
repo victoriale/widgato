@@ -107,12 +107,12 @@ function RenderArticleSide(protocolToUse){
     //article url structure: /articles/:article_type/:event_id
     var articleUrl = protocolToUse + 'homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
     var articleText = article.article[0].substr(0, 130);
-    A('.content-text').innerHTML = articleText + '...<a href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>';
+    A('.content-text').innerHTML = articleText + '...<a target="_blank" href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>';
 
     A('.bar-date').innerHTML = convertDate(game.startDateTime);
     var author = 'www.homerunloyal.com';
     var authorLink = author;
-    A('.bar-author').innerHTML = '<a id="authorlink" href="' + protocolToUse + authorLink +'">' + author + '</a>';
+    A('.bar-author').innerHTML = '<a target="_blank" id="authorlink" href="' + protocolToUse + authorLink +'">' + author + '</a>';
 
     A('#readbutton').setAttribute('href', articleUrl);
     A('.buttons-nextlist').onmouseover = function(){

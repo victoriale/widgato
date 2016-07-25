@@ -40,8 +40,8 @@ function RenderDynamicSide(protocolToUse){
   // var remnant = '';
   // var bord = false;
 
-  //var possibleTypes = [/*'nba'*/, 'mlb', 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
-  var possibleTypes = ["weather","mlb"];
+  // var possibleTypes = [/*'nba',*/ 'mlb', 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
+  var possibleTypes = ['mlb','weather'];
   var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
   var listRand = getRandomInt(0,10);
   var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
@@ -245,10 +245,6 @@ function getRandomInt(min, max){
 }
 
 /* -- Manipulation Functions  -- */
-String.prototype.replaceAll = function(search, replacement) {
-    var target = this;
-    return target.replace(new RegExp(search, 'g'), replacement);
-};
 function buildListLink(cat, remn, dom, widget_data){
 
   dom == "lasvegasnow.com"  ? change_url = true : change_url = false;
