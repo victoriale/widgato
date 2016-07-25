@@ -102,7 +102,7 @@ function RenderArticleSide(protocolToUse){
     A('.section-text').innerHTML = article.displayHeadline;
 
     //article url structure: /articles/:article_type/:event_id
-    var articleUrl = protocolToUse + 'homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
+    var articleUrl = protocolToUse + 'www.homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
     var articleText = article.article[0].substr(0, 130);
     A('.content-text').innerHTML = articleText + '...<a target="_blank" href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>';
     A('.title-logo').href = "http://www.homerunloyal.com";
