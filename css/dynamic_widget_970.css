@@ -316,3 +316,72 @@ a {
         margin-top: 5px
     }
 }
+
+@media screen and (max-width:340px) {
+    .dw {
+        width: calc(100% - 2px)
+    }
+    #title {
+        width: 320px
+    }
+    .dw-big {
+        width: 125px;
+        height: 125px
+    }
+    .hover {
+        padding: 36px 0
+    }
+    .dw-c-img,
+    #num {
+        left: 40px
+    }
+    #num{
+        width:35px;
+        height:35px;
+        font-size: 16px;
+        line-height: 32px;
+    }
+    .dw-c-sub {
+        z-index: 4;
+        left: 125px;
+        top: 85px;
+        width: 40px;
+        height: 40px
+    }
+    .dw-c-sub,
+    .dw-c-sub span {
+        font-size: 0;
+        line-height: 0;
+        padding: 0
+    }
+    .dw-c-sub svg {
+        display: block
+    }
+    .dw-info,
+    .two .dw-info {
+        left: 175px;
+        width: calc(100% - 205px)
+    }
+    .one .dw-info {
+        left: 175px!important;
+        width: calc(100% - 205px)!important
+    }
+    .dw-i-title {
+        font-size: 16px;
+        line-height: 20px
+    }
+    .dw-i-title#line2,
+    .dw-i-title#line4 {
+        font-size: 12px;
+        line-height: 14px
+    }
+    #line4 {
+        white-space: normal
+    }
+    .dw-btn {
+        font-weight: bold;
+        font-size: 10px;
+        width:125px;
+        margin-top: 5px
+    }
+}
