@@ -245,6 +245,10 @@ function getRandomInt(min, max){
 }
 
 /* -- Manipulation Functions  -- */
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
 function buildListLink(cat, remn, dom, widget_data){
 
   dom == "lasvegasnow.com"  ? change_url = true : change_url = false;
@@ -262,6 +266,10 @@ function buildListLink(cat, remn, dom, widget_data){
           if ( change_url ) {
             base_url = base_url.replace("www.myinvestkit.com", new_url);
           }
+          break;
+        case 'mlb':
+          var base_url = "http://homerunloyal.com/list";
+          doStep = false;
           break;
         default:
           var base_url = remn == "true" ? "http://www.joyfulhome.com/wlist" : "http://www.myhousekit.com/" + dom + "/wlist";
