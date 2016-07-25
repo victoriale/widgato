@@ -17,8 +17,7 @@ swp_wdgt = function(){
 }();
 
 function RenderArticleSide(protocolToUse){
-  // var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
-  var APIUrl = protocolToUse + 'qa-homerunloyal-ai.synapsys.us/sidekick';
+  var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
 
   var articleIndex = 0;
 
@@ -86,8 +85,7 @@ function RenderArticleSide(protocolToUse){
 
   function linkData(data, articleIndex){
     listOutTypes(data);
-    var doRandArt = false;//or false; or true.....
-    //doRandArt == true ? articleIndex = getRandomInt(0, articleTypes.length) : articleIndex = articleIndex;
+    var doRandArt = true;//or false; or true.....
     if(doRandArt == true){
       articleIndex = getRandomInt(0, articleTypes.length);
     }else{

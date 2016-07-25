@@ -40,9 +40,9 @@ function RenderDynamicSide(protocolToUse){
   // var remnant = '';
   // var bord = false;
 
-  var possibleTypes = ['nba', /*'mlb',*/ 'college_basketball', 'finance', 'crime', 'demographics', 'disaster'/*, 'weather'*/];
-  //var listType = 'weather'; //will get rand and weather from embed, (location.search)
-  var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
+  var possibleTypes = [/*'nba'*/, 'mlb', 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
+  var listType = ["weather","mlb"];
+  //var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
   var listRand = getRandomInt(0,10);
   var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
   apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
@@ -68,7 +68,7 @@ function RenderDynamicSide(protocolToUse){
     };
   var iconScheme = {
       nba:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
-      // mlb:'../css/public/icons/Home-Run-Loyal_Icon 2.svg',
+      mlb:'../css/public/icons/Home-Run-Loyal_Icon 2.svg',
       college_basketball:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
       finance:'../css/public/icons/Invest-Kit_Icon.svg',
       crime:'../css/public/icons/Crime_Icon.svg',
