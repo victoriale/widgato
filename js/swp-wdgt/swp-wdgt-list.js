@@ -41,6 +41,7 @@ function RenderDynamicSide(protocolToUse){
   // var bord = false;
 
   var possibleTypes = [/*'nba',*/ 'mlb', 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
+  // var possibleTypes = ['weather'];
   var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
   var listRand = getRandomInt(0,10);
   var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
@@ -63,7 +64,7 @@ function RenderDynamicSide(protocolToUse){
       crime: '#f6af05',
       demographics: '#65398e',
       disaster: '#902d8e',
-      weather: '#ffdf30'
+      weather: '#ffd800'
     };
   var iconScheme = {
       nba:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
@@ -73,15 +74,29 @@ function RenderDynamicSide(protocolToUse){
       crime:'../css/public/icons/Crime_Icon.svg',
       demographics:'../css/public/icons/Demographic_Icon.svg',
       disaster:'../css/public/icons/Disaster_Icon.svg',
-      weather: '../css/public/icons/Weather_Icon.png'
+      weather: '../css/public/icons/Weather_Icon.svg'
     };
+  var urlScheme = {
+    nba: 'http://www.hoopsloyal.com',
+    mlb: 'http://www.homerunloyal.com',
+    college_basketball: 'http://www.hoopsloyal.com/NCAA',
+    finance: 'http://www.investkit.com',
+    crime: 'http://www.joyfulhome.com',
+    demographics: 'http://www.joyfulhome.com',
+    disaster: 'http://www.joyfulhome.com',
+    weather: 'http://www.joyfulhome.com',
+  };
 
   var schemeToUse = colorSchemes[listType];
   var iconsToUse = iconScheme[listType];
+  var urlToUse = urlScheme[listType];
 
-  function mapColorScheme(color,icons){
+  function mapColorScheme(color,icons, type, url){
     A('#nextlist-svg').style.fill = color;
     A('.fcw-icon').style.backgroundColor = color;
+    A('.fcw-icon').style.zIndex = "5";
+    A('.fcw-icon').style.cursor = "pointer";
+    A('.fcw-icon').href = url;
     A('.fcw-content1').style.color = color;
 
     A('.fcw-icon').style.backgroundImage = "url('" + icons + "')";
@@ -101,6 +116,17 @@ function RenderDynamicSide(protocolToUse){
       A('#nextlist-svg').style.fill = color;
     }
 
+    A('.fcw-list-list').style.borderColor = color;
+    A('.fcw-list-list').style.backgroundColor = color;
+    //handle hover change to black on next lists
+    A('.fcw-list-list').onmouseover = function(){
+      A('.fcw-list-list').style.backgroundColor = '#272727';
+      A('.fcw-list-list').style.borderColor = '#272727';
+    }
+    A('.fcw-list-list').onmouseout = function(){
+      A('.fcw-list-list').style.backgroundColor = color;
+      A('.fcw-list-list').style.borderColor = color;
+    }
 
 
     A(".fcw-leftnav").onmouseover = function(){
@@ -123,13 +149,77 @@ function RenderDynamicSide(protocolToUse){
     A(".hover1").onmouseout  = function() {
       A(".hover1").style.backgroundColor = '';
     }
-    A('.fcw-list-list').style.borderColor = color;
-    A('.fcw-list-list').style.backgroundColor = color;
+
+    A('#swoop-svg').style.fill = "#FFFFFF"
+
+    if(type == "weather"){
+      //yellow causes text colors to be black....
+      A('.fcw-list-text').style.color = "#000000";
+      A('#swoop-svg').style.fill = "#000000";
+      A('#nextlist-svg').style.fill = "#000000";
+      A('.fcw-list-next').style.color = '#000000';
+
+      A(".fcw-list-next").onmouseover = function() {
+        A('.fcw-list-next').style.backgroundColor = color;
+        A('.fcw-list-next').style.color = '#000000';
+        A('#nextlist-svg').style.fill = '#000000';
+      }
+      A(".fcw-list-next").onmouseout  = function() {
+        A('.fcw-list-next').style.bordercolor = color;
+        A('.fcw-list-next').style.backgroundColor = '';
+        A('.fcw-list-next').style.color = '#000000';
+        A('#nextlist-svg').style.fill = '#000000';
+      }
 
 
+      A(".hover1").onmouseover = function() {
+        A('.hover1').style.backgroundColor = color;
+        A('.txt1').style.color = '#000000';
+        A('.txt2').style.color = '#000000';
+      }
+      A(".hover1").onmouseout  = function() {
+        A('.hover1').style.backgroundColor = '';
+        A('.txt1').style.color = '#000000';
+        A('.txt2').style.color = '#000000';
+      }
+
+
+      A(".fcw-leftnav").onmouseover = function(){
+        A('.fcw-leftnav').style.backgroundColor = color;
+        A('.fcw-leftnav').style.stroke = "#000000";
+      }
+      A(".fcw-leftnav").onmouseout = function(){
+        A('.fcw-leftnav').style.backgroundColor = '';
+        A('.fcw-leftnav').style.stroke = "#FFFFFF";
+      }
+
+
+      A(".fcw-rightnav").onmouseover = function(){
+        A('.fcw-rightnav').style.backgroundColor = color;
+        A('.fcw-rightnav').style.stroke = "#000000";
+      }
+      A(".fcw-rightnav").onmouseout = function(){
+        A('.fcw-rightnav').style.backgroundColor = '';
+        A('.fcw-rightnav').style.stroke = "#FFFFFF"
+      }
+
+
+      A('.fcw-list-list').onmouseover = function(){
+        A('.fcw-list-list').style.backgroundColor = '#272727';
+        A('.fcw-list-list').style.borderColor = '#272727';
+        A('.fcw-list-text').style.color = "#FFFFFF";
+        A('#swoop-svg').style.fill = "#FFFFFF";
+      }
+      A('.fcw-list-list').onmouseout = function(){
+        A('.fcw-list-list').style.backgroundColor = color;
+        A('.fcw-list-list').style.borderColor = color;
+        A('.fcw-list-text').style.color = "#000000"
+        A('#swoop-svg').style.fill = "#000000";
+      }
+    }
   }
 
-  mapColorScheme(schemeToUse,iconsToUse);
+  mapColorScheme(schemeToUse, iconsToUse, listType, urlToUse);
 
     A(".fcw-rightnav").onclick = function() {
       if (offset < dataLength-1) {
