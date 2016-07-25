@@ -45,7 +45,7 @@ chatterbox[chatterbox.length] = (function(chatter_id) {
       url: protocol + "://w1.synapsys.us/widgets/dynamic_widget/dynamic_widget_970.html"
     }
   },
-  apiBaseURL = "//108.170.11.234:190/chatter_api.php?site=",
+  apiBaseURL = "//dw.synapsys.us/chatter_api.php?site=",
   apiURL = {
     "sportschatter.com": "sports-chatter.",
     "celebchatter.com": "celeb-chatter.",
