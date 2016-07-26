@@ -150,7 +150,7 @@ function RenderDynamicSide(protocolToUse){
       A(".hover1").style.backgroundColor = '';
     }
 
-    A('#swoop-svg').style.fill = "#FFFFFF";
+    // A('#swoop-svg').style.fill = "#FFFFFF";
 
     if(type == "weather"){
       //yellow causes text colors to be black....
