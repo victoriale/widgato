@@ -41,7 +41,7 @@ function RenderDynamicSide(protocolToUse){
   // var bord = false;
 
   var possibleTypes = [/*'nba',*/ 'mlb', 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
-  // var possibleTypes = ['weather']; 
+  // var possibleTypes = ['weather'];
   var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
   var listRand = getRandomInt(0,10);
   var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
@@ -241,17 +241,25 @@ function RenderDynamicSide(protocolToUse){
       }
     };
 
-    function executeListCall(type, rand, old_title){
-      url = protocolToUse + 'dw.synapsys.us/list_api.php?';
+    function httpGetData(old_title){
+      var url = protocolToUse + 'dw.synapsys.us/list_api.php?';
       url = url + 'cat=' + listType + '&rand=' + listRand;
-      curData = httpGet(url);
-      dataCall(offset);
-      if(old_title != undefined && old_title == curData.l_title){
-        advanceList();
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function(){
+        if(xmlHttp.readyState === 4 && xmlHttp.status === 200){
+          //On complete function
+          curData = JSON.parse(xmlHttp.responseText);
+          dataCall(offset);
+          if(old_title != undefined && old_title == curData.l_title){
+            advanceList();
+          }
+        }
       }
+      xmlHttp.open( "GET", url, true ); // false for synchronous request
+      xmlHttp.send( null );
     }
 
-    executeListCall(listType, listRand);
+    httpGetData();
 
     advanceList = function(){
       if(listRand < 9){
@@ -260,7 +268,7 @@ function RenderDynamicSide(protocolToUse){
         listRand = 0;
       }
       offset = 0;
-      executeListCall(listType, listRand, curData.l_title);
+      httpGetData(curData.l_title);
     }
 
     function dataCall(index){
@@ -325,13 +333,6 @@ function RenderDynamicSide(protocolToUse){
 
 
 /* -- Helper Functions -- */
-function httpGet(url){
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", url, false ); // false for synchronous request
-  xmlHttp.send( null );
-  return JSON.parse(xmlHttp.responseText);
-}
-
 function getRandomInt(min, max){
   return Math.floor(Math.random() * (max - min)) + min;
 }

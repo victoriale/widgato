@@ -20,11 +20,23 @@ function RenderArticleSide(protocolToUse){
   var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
 
   var articleIndex = 0;
+  
+  var data;
 
-  var data = httpGet(APIUrl);
-  linkData(data, articleIndex);
+  function httpGetData(url){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function(){
+      if(xmlHttp.readyState === 4 && xmlHttp.status === 200){
+        //On complete function
+        data = JSON.parse(xmlHttp.responseText);
+        linkData(data, articleIndex);
+      }
+    }
+    xmlHttp.open( "GET", url, true ); // false for synchronous request
+    xmlHttp.send( null );
+  }
 
-
+  httpGetData(APIUrl);
 
   /* Handling of Article Index */
    updateArticle = function(){
@@ -124,13 +136,6 @@ function RenderArticleSide(protocolToUse){
 
 
 /* -- Helper Functions -- */
-function httpGet(url){
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", url, false ); // false for synchronous request
-  xmlHttp.send( null );
-  return JSON.parse(xmlHttp.responseText);
-}
-
 function getRandomInt(min, max){
   return Math.floor(Math.random() * (max - min)) + min;
 }
