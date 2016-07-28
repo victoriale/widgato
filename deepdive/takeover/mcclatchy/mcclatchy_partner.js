@@ -7,7 +7,7 @@
   domain = domain.replace(/www./, '');
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http';
   var partnerState; //State of partner needed for api
-  var heroImage = protocol + '://w1.synapsys.us/widgets.us/deepdive/images/baseball_hero.jpg'; //Background Hero image of deepdive hero
+  var heroImage = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball_hero.jpg'; //Background Hero image of deepdive hero
   var contentEl; //Main node of the content. This is needed to calculate position of rails and to add deep dive hero
 
   switch(domain){
@@ -752,6 +752,8 @@
     bottom: 0;
     background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_left.jpg');
     display: none;
+    background-color: #000;
+    background-repeat: no-repeat;
   }
   .to-left-rail.to-rail-visible{
     display: block;
@@ -775,6 +777,8 @@
     bottom: 0;
     background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_right.jpg');
     display: none;
+    background-color: #000;
+    background-repeat: no-repeat;
   }
   .to-right-rail.to-rail-visible{
     display: block;
@@ -824,7 +828,7 @@
   .ddh-media-right-content{
     box-sizing: border-box;
     border: 5px solid #e1e1e1;
-    background-image: url('` + protocol + `://content.synapsys.us/deepdive/images/right_bgimage.jpg');
+    background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/right_bgimage.jpg');
     float: right;
     width: 320px;
     height: 366px;
