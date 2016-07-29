@@ -1,4 +1,25 @@
 (function(){
+  var topWin = window;
+  try {
+    while(topWin !== top){
+      topWin = topWin.parent;
+    }
+  }catch(e){
+    console.error("boxscores - couldn/'t access the top window");
+  }
+
+  //Grab domain name to know where to point
+  var wLocation = topWin.location;
+  domain = wLocation.hostname.replace(/www./, '');
+  if(domain !== 'homerunloyal.com' && domain !== 'myhomerunzone.com'){
+    domain = 'homerunloyal.com';
+  }
+  if(domain === 'myhomerunzone.com'){
+    var partnerDomainArr = wLocation.pathname.split('/');
+    var partnerDomain = partnerDomainArr[1];
+    domain += '/' + partnerDomain;
+  }
+
   var embedURL = 'http://w1.synapsys.us/widgets/deepdive/boxscores/boxscores.js'; //Source of embed
   var parentNodeWidth; //width of container
   var displayNumber; //number of games to display
@@ -108,7 +129,7 @@
                 timestamp: item.gameInfo.startDateTimestamp,
                 eventStatus: item.gameInfo.eventStatus,
                 htmlMarkup: `
-                  <a href="http://homerunloyal.com/articles/pregame-report/` + item.gameInfo.eventId + `" class="boxscores-e-game-link">
+                  <a href="http://` + domain + `/articles/pregame-report/` + item.gameInfo.eventId + `" class="boxscores-e-game-link">
                     <ul class="boxscores-e-game-teams">
                       <li>
                         ` + item.homeTeamInfo.abbreviation + `
@@ -137,13 +158,13 @@
             if(compareDate(item.gameInfo.startDateTimestamp, todayDate, offset)){
               //Determines which report the live game links to
               if(item.gameInfo.inningsPlayed <= 3){
-                var link = 'http://homerunloyal.com/articles/pregame-report/' + item.gameInfo.eventId;
+                var link = 'http://' + domain + '/articles/pregame-report/' + item.gameInfo.eventId;
               }else if(item.gameInfo.inningsPlayed > 3 && item.gameInfo.inningsPlayed <= 5){
-                var link = 'http://homerunloyal.com/articles/third-inning-report/' + item.gameInfo.eventId;
+                var link = 'http://' + domain + '/articles/third-inning-report/' + item.gameInfo.eventId;
               }else if(item.gameInfo.inningsPlayed > 5 && item.gameInfo.inningsPlayed <= 7){
-                var link = 'http://homerunloyal.com/articles/fifth-inning-report/' + item.gameInfo.eventId;
+                var link = 'http://' + domain + '/articles/fifth-inning-report/' + item.gameInfo.eventId;
               }else if(item.gameInfo.inningsPlayed > 7){
-                var link = 'http://homerunloyal.com/articles/seventh-inning-report/' + item.gameInfo.eventId;
+                var link = 'http://' + domain + '/articles/seventh-inning-report/' + item.gameInfo.eventId;
               }
 
               active.push({
@@ -192,7 +213,7 @@
               timestamp: item.gameInfo.startDateTimestamp,
               eventStatus: item.gameInfo.eventStatus,
               htmlMarkup: `
-                <a ="_blank" href="http://homerunloyal.com/articles/postgame-report/` + item.gameInfo.eventId + `" class="boxscores-e-game-link">
+                <a ="_blank" href="http://` + domain + `/articles/postgame-report/` + item.gameInfo.eventId + `" class="boxscores-e-game-link">
                   <ul class="boxscores-e-game-teams">
                     <li>
                       ` + item.homeTeamInfo.abbreviation + `
@@ -521,9 +542,14 @@
       margin-right: 10px;
     }
     .boxscores-e-img>img{
-      display: inline-block;
+      display: none;
       vertical-align: middle;
       margin-top: 12px;
+    }
+    @media(min-width: 780px){
+      .boxscores-e-img>img{
+        display: inline-block;
+      }
     }
   `;
   document.head.appendChild(styleEl);
