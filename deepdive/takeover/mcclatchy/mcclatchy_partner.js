@@ -762,7 +762,7 @@
     background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_left.jpg');
     display: none;
     background-color: #000;
-    background-repeate: no-repeat;
+    background-repeat: no-repeat;
   }
   .to-left-rail.to-rail-visible{
     display: block;
@@ -787,7 +787,7 @@
     background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_right.jpg');
     display: none;
     background-color: #000;
-    background-repeate: no-repeat;
+    background-repeat: no-repeat;
   }
   .to-right-rail.to-rail-visible{
     display: block;
