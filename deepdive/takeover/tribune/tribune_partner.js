@@ -1,5 +1,14 @@
 (function(){
-  var domain = window.location.hostname,
+  var topWin = window;
+  try {
+    while(topWin !== top){
+      topWin = topWin.parent;
+    }
+  }catch(e){
+    console.error("ddh - couldn/'t access the top window");
+  }
+
+  var domain = topWin.location.hostname,
   contentMarginTop, //How many pixels to push the content down (to be flush with the header) This value will match railMarginTop if header is fixed
   railMarginTop, //How many pixels to push the rail ads down (to be flush with the header) This value will match contentMarginTop if header is fixed
   contentMaxWidth, //Max width of publisher content
@@ -7,7 +16,7 @@
   domain = domain.replace(/www./, '');
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http';
   var partnerState; //State of partner needed for api
-  var heroImage = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball_hero.jpg'; //Background Hero image of deepdive hero
+  var heroImage = protocol + '://content.synapsys.us/deepdive/images/baseball_hero.jpg'; //Background Hero image of deepdive hero
   var contentEl; //Main node of the content. This is needed to calculate position of rails and to add deep dive hero
 
   switch(domain){
@@ -15,81 +24,81 @@
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'md';
-      contentEl = document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
     break;
     case 'capitalgazette.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'md';
-      contentEl = document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
     break;
     case 'chicagotribune.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'il';
-      contentEl = document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
     break;
     case 'courant.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'ct';
-      contentEl = document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
     break;
     case 'dailypress.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'va';
-      contentEl = document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
     break;
     case 'latimes.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'ca';
-      contentEl = document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
     break;
     case 'mcall.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'pa';
-      contentEl = document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
     break;
     case 'orlandosentinel.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'fl';
-      contentEl = document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
     break;
     case 'sandiegouniontribune.com':
       railMarginTop = 89;
       contentMarginTop = 0;
       contentMaxWidth = 1280;
       partnerState = 'ca';
-      contentEl = document.querySelector('.target-bg');
+      contentEl = topWin.document.querySelector('.target-bg');
     break;
     case 'southflorida.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'fl';
-      contentEl = document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
     break;
     case 'sun-sentinel.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'fl';
-      contentEl = document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
     break;
     default:
       //Default case
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'il';
-      contentEl = document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
     break;
   }
 
   var railWidth = 500; //Width of rails (width of rail images)
   var deepDiveHero, leftRail, rightRail;
-  var body = document.getElementsByTagName("body")[0];
+  var body = topWin.document.getElementsByTagName("body")[0];
   var bodyWidth = body.offsetWidth;
   var displayNumber = 4; //Amount of games displayed for box scores (changes based on browser width)
   var railsLoaded = false; //If rails have been built
@@ -107,23 +116,23 @@
   //Build rails
   var buildRails = function(){
     //console.log('BUILD RAILS');
-    leftRail = document.createElement('a');
+    leftRail = topWin.document.createElement('a');
     leftRail.className = 'to-left-rail to-rail-visible';
     leftRail.href = 'http://www.myhomerunzone.com/' + domain;
     leftRail.target = '_blank';
     leftRail.innerHTML = `
       <div id="to-left-ad">
-        <img class="to-left-ad-presented" src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/logo_left.png">
+        <img class="to-left-ad-presented" src="` + protocol + `://content.synapsys.us/deepdive/images/logo_left.png">
       </div>
     `;
 
-    rightRail = document.createElement('a');
+    rightRail = topWin.document.createElement('a');
     rightRail.className = 'to-right-rail to-rail-visible';
     rightRail.href = 'http://www.myhomerunzone.com/' + domain;
     rightRail.target = '_blank';
     rightRail.innerHTML = `
       <div id="to-right-ad">
-        <img class="to-right-ad-presented" src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/logo_right.png">
+        <img class="to-right-ad-presented" src="` + protocol + `://content.synapsys.us/deepdive/images/logo_right.png">
       </div>
     `;
 
@@ -134,14 +143,14 @@
     body.insertBefore(leftRail, body.firstChild);
 
     //Inject left ad
-    var leftAd = document.getElementById('to-left-ad');
-    var leftEmbed = document.createElement('script');
+    var leftAd = topWin.document.getElementById('to-left-ad');
+    var leftEmbed = topWin.document.createElement('script');
     leftEmbed.src =  protocol + '://content.synapsys.us/embeds/mlb/deepdive_160x600/partner.js';
     leftAd.insertBefore(leftEmbed, leftAd.firstChild);
 
     //Inject right ad
-    var rightAd = document.getElementById('to-right-ad');
-    var rightEmbed = document.createElement('script');
+    var rightAd = topWin.document.getElementById('to-right-ad');
+    var rightEmbed = topWin.document.createElement('script');
     rightEmbed.src = protocol + '://content.synapsys.us/embeds/mlb/deepdive_160x600/partner.js';
     rightAd.insertBefore(rightEmbed, rightAd.firstChild);
 
@@ -151,7 +160,7 @@
   //Build deep dive
   var buildDeepDive = function(){
     //console.log('BUILD DEEPDIVE');
-    deepDiveHero = document.createElement('div');
+    deepDiveHero = topWin.document.createElement('div');
     deepDiveHero.className = 'ddh-container ddh-visible';
     deepDiveHero.innerHTML = `
       <div class="ddh-media">
@@ -163,20 +172,20 @@
           <div id="ddh-media-video"></div>
           <a target="_blank" href="` + ('http://www.myhomerunzone.com/' + domain) + `">
             <div class="ddh-media-right-content">
-              <img width="280px" height="40px" src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_logo.png?">
+              <img width="280px" height="40px" src="` + protocol + `://content.synapsys.us/deepdive/images/baseball_logo.png?">
               <div class="ddh-media-right-title">
                 Who's Hot and Who's Not?
                 <div class="ddh-media-right-title-border"></div>
               </div>
               <ul class="ddh-media-right-list">
                 <li>
-                  <img src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_icon.png" >Stats
+                  <img src="` + protocol + `://content.synapsys.us/deepdive/images/baseball_icon.png" >Stats
                 </li>
                 <li>
-                  <img src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_field_icon.png" >Stories
+                  <img src="` + protocol + `://content.synapsys.us/deepdive/images/baseball_field_icon.png" >Stories
                 </li>
                 <li>
-                  <img src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_hat_icon.png" >Profiles
+                  <img src="` + protocol + `://content.synapsys.us/deepdive/images/baseball_hat_icon.png" >Profiles
                 </li>
               </ul>
               <div class="ddh-media-cta">
@@ -189,11 +198,11 @@
       </div>
     `;
 
-    var deepDiveBar = document.createElement('div');
+    var deepDiveBar = topWin.document.createElement('div');
     deepDiveBar.className = 'ddh-bar';
     deepDiveBar.innerHTML = `
       <div class="ddh-bar-title">
-        <img src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_icon.png" >
+        <img src="` + protocol + `://content.synapsys.us/deepdive/images/baseball_icon.png" >
         TODAY'S MLB GAMES
       </div>
 
@@ -208,7 +217,7 @@
         </button>
       </div>
       <div class="ddh-bar-img">
-        <img src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/poweredbytcx.png">
+        <img src="` + protocol + `://content.synapsys.us/deepdive/images/poweredbytcx.png">
       </div>
     `;
 
@@ -220,8 +229,8 @@
         //Success
         var res = JSON.parse(videoXhttp.responseText);
         //console.log('video ajax complete', res);
-        var videoFrame = document.getElementById('ddh-media-video');
-        var videoNode = document.createElement('iframe');
+        var videoFrame = topWin.document.getElementById('ddh-media-video');
+        var videoNode = topWin.document.createElement('iframe');
         videoNode.frameBorder = '0';
         videoNode.width = '650px';
         videoNode.height = '366px';
@@ -233,10 +242,10 @@
     videoXhttp.open('GET', protocol + '://prod-homerunloyal-api.synapsys.us/article/video/batch/division/' + partnerState + '/1/1', true);
     videoXhttp.send();
 
-    var closeButton = document.getElementsByClassName('ddh-media-close')[0];
+    var closeButton = topWin.document.getElementsByClassName('ddh-media-close')[0];
     //On click of close remove deep dive hero
     closeButton.addEventListener('click', function(){
-      var deepDiveMedia = document.getElementsByClassName('ddh-media')[0];
+      var deepDiveMedia = topWin.document.getElementsByClassName('ddh-media')[0];
       deepDiveMedia.parentElement.removeChild(deepDiveMedia);
     })
 
@@ -278,16 +287,16 @@
         //Display initial games
         for(var i = 0, length = initialIndex.length; i < length; i++){
           var nodeIndex = initialIndex[i];
-          var gameNode = document.createElement('li');
+          var gameNode = topWin.document.createElement('li');
           gameNode.className = 'ddh-bar-game';
           gameNode.innerHTML = processedData[nodeIndex].htmlMarkup;
 
-          var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+          var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
           schedule.appendChild(gameNode);
         }
 
         //Listen for next button click
-        var nextButton = document.getElementsByClassName('ddh-bar-button ddh-next')[0];
+        var nextButton = topWin.document.getElementsByClassName('ddh-bar-button ddh-next')[0];
         nextButton.addEventListener('click', function(){
           //Clear games
           clearGames();
@@ -306,18 +315,18 @@
 
           for(var t = 0, length = initialIndex.length; t < length; t++){
             var nodeIndex = initialIndex[t];
-            var gameNode = document.createElement('li');
+            var gameNode = dtopWin.ocument.createElement('li');
             gameNode.className = 'ddh-bar-game';
             gameNode.innerHTML = processedData[nodeIndex].htmlMarkup;
 
-            var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+            var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
             schedule.appendChild(gameNode);
           }
 
         });
 
         //Listen for previous button click
-        var prevButton = document.getElementsByClassName('ddh-bar-button ddh-prev')[0];
+        var prevButton = topWin.document.getElementsByClassName('ddh-bar-button ddh-prev')[0];
         prevButton.addEventListener('click', function(){
           //Clear games
           clearGames();
@@ -335,11 +344,11 @@
 
           for(var t = 0, length = initialIndex.length; t < length; t++){
             var nodeIndex = initialIndex[t];
-            var gameNode = document.createElement('li');
+            var gameNode = topWin.document.createElement('li');
             gameNode.className = 'ddh-bar-game';
             gameNode.innerHTML = processedData[nodeIndex].htmlMarkup;
 
-            var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+            var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
             schedule.appendChild(gameNode);
           }
 
@@ -592,37 +601,35 @@
 
   //Clear games from boxscores bar
   var clearGames = function(){
-    var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+    var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
     while(schedule.hasChildNodes()){
       schedule.removeChild(schedule.firstChild);
     }
   }
 
   //Build and load font
-  var fontEl = document.createElement('link');
+  var fontEl = topWin.document.createElement('link');
   fontEl.rel = 'stylesheet';
   fontEl.type = 'text/css';
   fontEl.href = 'https://fonts.googleapis.com/css?family=Lato:300,400';
-  document.head.appendChild(fontEl);
+  topWin.document.head.appendChild(fontEl);
   //Build and load icons
-  var iconEl = document.createElement('link');
+  var iconEl = topWin.document.createElement('link');
   iconEl.rel = 'stylesheet';
   iconEl.type = 'text/css';
-  iconEl.href = protocol + '://w1.synapsys.us/widgets/deepdive/fonts/styles.css';
-  document.head.appendChild(iconEl);
+  iconEl.href = protocol + '://content.synapsys.us/deepdive/fonts/styles.css';
+  topWin.document.head.appendChild(iconEl);
 
   //Build and load stylesheet
-  var styleEl = document.createElement('style');
+  var styleEl = topWin.document.createElement('style');
   styleEl.innerHTML = `
   .to-left-rail{
     width: ` + railWidth + `px;
     position: fixed;
     top: 0;
     bottom: 0;
-    background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_left.jpg');
+    background-image: url('` + protocol + `://content.synapsys.us/deepdive/images/baseball_left.jpg');
     display: none;
-    background-color: #000;
-    background-repeat: no-repeat;
   }
   .to-left-rail.to-rail-visible{
     display: block;
@@ -644,10 +651,8 @@
     position: fixed;
     top: 0;
     bottom: 0;
-    background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_right.jpg');
+    background-image: url('` + protocol + `://content.synapsys.us/deepdive/images/baseball_right.jpg');
     display: none;
-    background-color: #000;
-    background-repeat: no-repeat;
   }
   .to-right-rail.to-rail-visible{
     display: block;
@@ -697,7 +702,7 @@
   .ddh-media-right-content{
     box-sizing: border-box;
     border: 5px solid #e1e1e1;
-    background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/right_bgimage.jpg');
+    background-image: url('` + protocol + `://content.synapsys.us/deepdive/images/right_bgimage.jpg');
     float: right;
     width: 320px;
     height: 366px;
@@ -895,7 +900,7 @@
   }
   `;
 
-  document.head.appendChild(styleEl);
+  topWin.document.head.appendChild(styleEl);
 
   var contentWidth = contentEl.offsetWidth;
   //Determine if screen is large enough for rails
@@ -907,8 +912,8 @@
     buildDeepDive();
   }
 
-  window.addEventListener('resize', function(){
-    var resizeBodyWidth = document.getElementsByTagName("body")[0].offsetWidth;
+  topWin.addEventListener('resize', function(){
+    var resizeBodyWidth = topWin.document.getElementsByTagName("body")[0].offsetWidth;
     var resizeContentWidth = contentEl.offsetWidth;
 
     //JS responsiveness for boxscores games amount
@@ -920,11 +925,11 @@
       clearGames();
       for(var i = 0, length = initialIndex.length; i < length; i++){
         var nodeIndex = initialIndex[i];
-        var gameNode = document.createElement('li');
+        var gameNode = topWin.document.createElement('li');
         gameNode.className = 'ddh-bar-game';
         gameNode.innerHTML = processedData[nodeIndex].htmlMarkup;
 
-        var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+        var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
         schedule.appendChild(gameNode);
       }
 
@@ -937,11 +942,11 @@
       clearGames();
       for(var i = 0, length = initialIndex.length; i < length; i++){
         var nodeIndex = initialIndex[i];
-        var gameNode = document.createElement('li');
+        var gameNode = topWin.document.createElement('li');
         gameNode.className = 'ddh-bar-game';
         gameNode.innerHTML = processedData[nodeIndex].htmlMarkup;
 
-        var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+        var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
         schedule.appendChild(gameNode);
       }
     }
