@@ -315,7 +315,7 @@
 
           for(var t = 0, length = initialIndex.length; t < length; t++){
             var nodeIndex = initialIndex[t];
-            var gameNode = dtopWin.ocument.createElement('li');
+            var gameNode = topWin.document.createElement('li');
             gameNode.className = 'ddh-bar-game';
             gameNode.innerHTML = processedData[nodeIndex].htmlMarkup;
 
