@@ -395,6 +395,10 @@
     boxscoresLoaded = true;
   }
 
+  //Build base tag
+  var baseEl = document.createElement('base');
+  baseEl.target = '_parent';
+  document.head.appendChild(baseEl);
   //Build and load font
   var fontEl = document.createElement('link');
   fontEl.rel = 'stylesheet';
