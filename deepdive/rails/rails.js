@@ -11,18 +11,25 @@
 
   var queryString = currentScript.src.split('?')[1];
   if(typeof queryString === 'undefined'){
-    console.warn('Skyscraper Rails - Must specify query string. Paramters are [selector] - selector of content that the rails are aligned with. (ex. selector=section.main-container)');
+    console.warn(`Skyscraper Rails - Must specify query string.
+      Paramters:
+      [selector] - selector of content that the rails are aligned with. (ex. selector=section.main-container)
+      [adMarginTop] - amount of pixels the skyscraper ads should be pushed down from the top of the page. Defaults to 0 if not specified (ex. adMarginTop=100)
+    `);
     return false;
   }else{
     //Parse query string
     var params = queryString.split('&');
     //Define query params
-    var selector;
+    var selector, adMarginTop;
     params.forEach(function(item){
       var pair = item.split('=');
       switch(pair[0]){
         case 'selector':
           selector = decodeURIComponent(pair[1]);
+        break;
+        case 'adMarginTop':
+          adMarginTop = decodeURIComponent(pair[1]);
         break;
       }
     })
@@ -32,11 +39,17 @@
       if(typeof selector === 'undefined'){
         throw 'Must specify unique content selector for Skyscraper Rails. (ex. "selector=section.main-container")';
       }
+      if(typeof adMarginTop !== 'undefined' && isNaN(adMarginTop)){
+        throw 'Ad Margin Top must be a number. (ex "adMarginTop=100")';
+      }
     }catch(e){
         console.warn('Skyscraper Rails - ' + e);
         return false;
     }
   }
+
+  //Determine amount of px the (set value or default ot 0)
+  var railMarginTop = adMarginTop || 0; //Amount of pixels the ads are pushed down from the top of the page
 
   //Find content container based on selector
   var contentEl = document.querySelector(selector);
@@ -52,7 +65,6 @@
   var railsLoaded = false; //If rails have been built
   var railsVisible = false; //If rails are visible
   var railWidth = 500; //Width of rails (width of rail images)
-  var railMarginTop = 100;
 
   var buildRails = function(){
     leftRail = document.createElement('section');
@@ -80,13 +92,13 @@
     //Inject left ad
     var leftAd = document.getElementById('ddto-left-ad');
     var leftEmbed = document.createElement('script');
-    leftEmbed.src =  protocol + '://content.synapsys.us/embeds/mlb/deepdive_160x600/remnant.js';
+    leftEmbed.src =  protocol + '://content.synapsys.us/embeds/mlb/deepdive_160x600/mlb.js';
     leftAd.insertBefore(leftEmbed, leftAd.firstChild);
 
     //Inject right ad
     var rightAd = document.getElementById('ddto-right-ad');
     var rightEmbed = document.createElement('script');
-    rightEmbed.src = protocol + '://content.synapsys.us/embeds/mlb/deepdive_160x600/remnant.js';
+    rightEmbed.src = protocol + '://content.synapsys.us/embeds/mlb/deepdive_160x600/mlb.js';
     rightAd.insertBefore(rightEmbed, rightAd.firstChild);
 
     railsLoaded = true;
@@ -120,6 +132,7 @@
       display: none;
       background-color: #000;
       background-repeat: no-repeat;
+      z-index: 100;
     }
     .ddto-left-rail.ddto-rail-visible{
       display: block;
@@ -145,6 +158,7 @@
       display: none;
       background-color: #000;
       background-repeat: no-repeat;
+      z-index: 100;
     }
     .ddto-right-rail.ddto-rail-visible{
       display: block;
