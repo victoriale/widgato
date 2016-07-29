@@ -395,7 +395,7 @@ chatterbox[chatterbox.length] = (function(chatter_id) {
           "rand": e_q.rand,
           "dom": domain
         };
-        ad_script.src = "//content.synapsys.us/l/n/igloo.php?" + Object.keys(e_q).map(function(l){return encodeURIComponent(k)+"="+encodeURIComponent(e_q[k])}).join("&");
+        ad_script.src = "//content.synapsys.us/l/n/igloo.php?" + Object.keys(e_q).map(function(k){return encodeURIComponent(k)+"="+encodeURIComponent(e_q[k])}).join("&");
       }
       ad_stack_div.appendChild(ad_script);
 
