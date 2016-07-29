@@ -1,5 +1,14 @@
 (function(){
-  var domain = window.location.hostname,
+  var topWin = window;
+  try {
+    while(topWin !== top){
+      topWin = topWin.parent;
+    }
+  }catch(e){
+    console.error("ddh - couldn/'t access the top window");
+  }
+
+  var domain = topWin.location.hostname,
   contentMarginTop, //How many pixels to push the content down (to be flush with the header) This value will match railMarginTop if header is fixed
   railMarginTop, //How many pixels to push the rail ads down (to be flush with the header) This value will match contentMarginTop if header is fixed
   contentMaxWidth, //Max width of publisher content
@@ -12,215 +21,215 @@
 
   switch(domain){
     case 'bellinghamherald.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'wa';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'bnd.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'il';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'bradenton.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'fl';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'centredaily.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'pa';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'charlotteobserver.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'nc';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'fresnobee.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'ca';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'heraldonline.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'sc';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'idahostatesman.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'id';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'islandpacket.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'sc';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'kansascity.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'mo';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'kentucky.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'ky';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'ledger-enquirer.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'ga';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'macon.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'ga';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'mercedsunstar.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'ca';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'miamiherald.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'fl';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'mcclatchydc.com':
-      //railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      //railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       railMarginTop = 110;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'dc';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'modbee.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'ca';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'myrtlebeachonline.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'sc';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'newsobserver.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'nc';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'sacbee.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'ca';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'sanluisobispo.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'ca';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'star-telegram.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'tx';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'sunherald.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'ms';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'thenewstribune.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'wa';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'theolympian.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'wa';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'thestate.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'sc';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'tri-cityherald.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'wa';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     case 'wichitaeagle.com':
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'ks';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
     default:
       //Default case
-      railMarginTop = document.querySelector('header[role="banner"]').offsetHeight;
+      railMarginTop = topWin.document.querySelector('header[role="banner"]').offsetHeight;
       contentMaxWidth = 1180;
       contentMarginTop = 0;
       partnerState = 'mo';
-      contentEl = document.querySelector('section.container[role="main"]');
+      contentEl = topWin.document.querySelector('section.container[role="main"]');
     break;
   }
 
   var railWidth = 500; //Width of rails (width of rail images)
   var deepDiveHero, leftRail, rightRail;
-  var body = document.getElementsByTagName("body")[0];
+  var body = topWin.document.getElementsByTagName("body")[0];
   var bodyWidth = body.offsetWidth;
   var displayNumber = 4; //Amount of games displayed for box scores (changes based on browser width)
   var railsLoaded = false; //If rails have been built
@@ -238,7 +247,7 @@
   //Build rails
   var buildRails = function(){
     //console.log('BUILD RAILS');
-    leftRail = document.createElement('a');
+    leftRail = topWin.document.createElement('a');
     leftRail.className = 'to-left-rail to-rail-visible';
     leftRail.href = 'http://www.myhomerunzone.com/' + domain;
     leftRail.target = '_blank';
@@ -248,7 +257,7 @@
       </div>
     `;
 
-    rightRail = document.createElement('a');
+    rightRail = topWin.document.createElement('a');
     rightRail.className = 'to-right-rail to-rail-visible';
     rightRail.href = 'http://www.myhomerunzone.com/' + domain;
     rightRail.target = '_blank';
@@ -265,14 +274,14 @@
     body.insertBefore(leftRail, body.firstChild);
 
     //Inject left ad
-    var leftAd = document.getElementById('to-left-ad');
-    var leftEmbed = document.createElement('script');
+    var leftAd = topWin.document.getElementById('to-left-ad');
+    var leftEmbed = topWin.document.createElement('script');
     leftEmbed.src =  protocol + '://content.synapsys.us/embeds/mlb/deepdive_160x600/partner.js';
     leftAd.insertBefore(leftEmbed, leftAd.firstChild);
 
     //Inject right ad
-    var rightAd = document.getElementById('to-right-ad');
-    var rightEmbed = document.createElement('script');
+    var rightAd = topWin.document.getElementById('to-right-ad');
+    var rightEmbed = topWin.document.createElement('script');
     rightEmbed.src = protocol + '://content.synapsys.us/embeds/mlb/deepdive_160x600/partner.js';
     rightAd.insertBefore(rightEmbed, rightAd.firstChild);
 
@@ -282,7 +291,7 @@
   //Build deep dive
   var buildDeepDive = function(){
     //console.log('BUILD DEEPDIVE');
-    deepDiveHero = document.createElement('div');
+    deepDiveHero = topWin.document.createElement('div');
     deepDiveHero.className = 'ddh-container ddh-visible';
     deepDiveHero.innerHTML = `
       <div class="ddh-media">
@@ -320,7 +329,7 @@
       </div>
     `;
 
-    var deepDiveBar = document.createElement('div');
+    var deepDiveBar = topWin.document.createElement('div');
     deepDiveBar.className = 'ddh-bar';
     deepDiveBar.innerHTML = `
       <div class="ddh-bar-title">
@@ -351,8 +360,8 @@
         //Success
         var res = JSON.parse(videoXhttp.responseText);
         //console.log('video ajax complete', res);
-        var videoFrame = document.getElementById('ddh-media-video');
-        var videoNode = document.createElement('iframe');
+        var videoFrame = topWin.document.getElementById('ddh-media-video');
+        var videoNode = topWin.document.createElement('iframe');
         videoNode.frameBorder = '0';
         videoNode.width = '650px';
         videoNode.height = '366px';
@@ -364,10 +373,10 @@
     videoXhttp.open('GET', protocol + '://prod-homerunloyal-api.synapsys.us/article/video/batch/division/' + partnerState + '/1/1', true);
     videoXhttp.send();
 
-    var closeButton = document.getElementsByClassName('ddh-media-close')[0];
+    var closeButton = topWin.document.getElementsByClassName('ddh-media-close')[0];
     //On click of close remove deep dive hero
     closeButton.addEventListener('click', function(){
-      var deepDiveMedia = document.getElementsByClassName('ddh-media')[0];
+      var deepDiveMedia = topWin.document.getElementsByClassName('ddh-media')[0];
       deepDiveMedia.parentElement.removeChild(deepDiveMedia);
     })
 
@@ -409,16 +418,16 @@
         //Display initial games
         for(var i = 0, length = initialIndex.length; i < length; i++){
           var nodeIndex = initialIndex[i];
-          var gameNode = document.createElement('li');
+          var gameNode = topWin.document.createElement('li');
           gameNode.className = 'ddh-bar-game';
           gameNode.innerHTML = processedData[nodeIndex].htmlMarkup;
 
-          var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+          var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
           schedule.appendChild(gameNode);
         }
 
         //Listen for next button click
-        var nextButton = document.getElementsByClassName('ddh-bar-button ddh-next')[0];
+        var nextButton = topWin.document.getElementsByClassName('ddh-bar-button ddh-next')[0];
         nextButton.addEventListener('click', function(){
           //Clear games
           clearGames();
@@ -437,18 +446,18 @@
 
           for(var t = 0, length = initialIndex.length; t < length; t++){
             var nodeIndex = initialIndex[t];
-            var gameNode = document.createElement('li');
+            var gameNode = topWin.document.createElement('li');
             gameNode.className = 'ddh-bar-game';
             gameNode.innerHTML = processedData[nodeIndex].htmlMarkup;
 
-            var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+            var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
             schedule.appendChild(gameNode);
           }
 
         });
 
         //Listen for previous button click
-        var prevButton = document.getElementsByClassName('ddh-bar-button ddh-prev')[0];
+        var prevButton = topWin.document.getElementsByClassName('ddh-bar-button ddh-prev')[0];
         prevButton.addEventListener('click', function(){
           //Clear games
           clearGames();
@@ -466,11 +475,11 @@
 
           for(var t = 0, length = initialIndex.length; t < length; t++){
             var nodeIndex = initialIndex[t];
-            var gameNode = document.createElement('li');
+            var gameNode = topWin.document.createElement('li');
             gameNode.className = 'ddh-bar-game';
             gameNode.innerHTML = processedData[nodeIndex].htmlMarkup;
 
-            var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+            var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
             schedule.appendChild(gameNode);
           }
 
@@ -723,27 +732,27 @@
 
   //Clear games from boxscores bar
   var clearGames = function(){
-    var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+    var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
     while(schedule.hasChildNodes()){
       schedule.removeChild(schedule.firstChild);
     }
   }
 
   //Build and load font
-  var fontEl = document.createElement('link');
+  var fontEl = topWin.document.createElement('link');
   fontEl.rel = 'stylesheet';
   fontEl.type = 'text/css';
   fontEl.href = 'https://fonts.googleapis.com/css?family=Lato:300,400';
-  document.head.appendChild(fontEl);
+  topWin.document.head.appendChild(fontEl);
   //Build and load icons
-  var iconEl = document.createElement('link');
+  var iconEl = topWin.document.createElement('link');
   iconEl.rel = 'stylesheet';
   iconEl.type = 'text/css';
   iconEl.href = protocol + '://w1.synapsys.us/widgets/deepdive/fonts/styles.css';
-  document.head.appendChild(iconEl);
+  topWin.document.head.appendChild(iconEl);
 
   //Build and load stylesheet
-  var styleEl = document.createElement('style');
+  var styleEl = topWin.document.createElement('style');
   styleEl.innerHTML = `
   .to-left-rail{
     width: ` + railWidth + `px;
@@ -1026,7 +1035,7 @@
   }
   `;
 
-  document.head.appendChild(styleEl);
+  topWin.document.head.appendChild(styleEl);
 
   var contentWidth = contentEl.offsetWidth;
   //Determine if screen is large enough for rails
@@ -1039,8 +1048,8 @@
     buildDeepDive();
   }
 
-  window.addEventListener('resize', function(){
-    var resizeBodyWidth = document.getElementsByTagName("body")[0].offsetWidth;
+  topWin.addEventListener('resize', function(){
+    var resizeBodyWidth = topWin.document.getElementsByTagName("body")[0].offsetWidth;
     var resizeContentWidth = contentEl.offsetWidth;
 
     //JS responsiveness for boxscores games amount
@@ -1052,11 +1061,11 @@
       clearGames();
       for(var i = 0, length = initialIndex.length; i < length; i++){
         var nodeIndex = initialIndex[i];
-        var gameNode = document.createElement('li');
+        var gameNode = topWin.document.createElement('li');
         gameNode.className = 'ddh-bar-game';
         gameNode.innerHTML = processedData[nodeIndex].htmlMarkup;
 
-        var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+        var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
         schedule.appendChild(gameNode);
       }
 
@@ -1069,11 +1078,11 @@
       clearGames();
       for(var i = 0, length = initialIndex.length; i < length; i++){
         var nodeIndex = initialIndex[i];
-        var gameNode = document.createElement('li');
+        var gameNode = topWin.document.createElement('li');
         gameNode.className = 'ddh-bar-game';
         gameNode.innerHTML = processedData[nodeIndex].htmlMarkup;
 
-        var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+        var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
         schedule.appendChild(gameNode);
       }
     }
