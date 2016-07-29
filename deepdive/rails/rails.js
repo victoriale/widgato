@@ -184,6 +184,14 @@
   }
 
   window.addEventListener('resize', function(){
+      //Check if rails exist. Need to check here if resize function is manually called
+      railsLoaded = document.getElementsByClassName('ddto-left-rail').length !== 0 && document.getElementsByClassName('ddto-right-rail').length !== 0;
+      //Check if rails are visible. Need to check here if resize function is manually called
+      if(railsLoaded){
+        railsVisible = document.getElementsByClassName('ddto-left-rail ddto-rail-visible').length !== 0 && document.getElementsByClassName('ddto-right-rail ddto-rail-visible').length !== 0;
+      }else{
+        railsVisible = false;
+      }
       var resizeBodyWidth = body.offsetWidth;
       var resizeContentWidth = contentEl.offsetWidth;
       //Determine if rails need to be loaded
