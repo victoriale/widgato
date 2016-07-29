@@ -16,7 +16,7 @@
   domain = domain.replace(/www./, '');
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http';
   var partnerState; //State of partner needed for api
-  var heroImage = protocol + '://content.synapsys.us/deepdive/images/baseball_hero.jpg'; //Background Hero image of deepdive hero
+  var heroImage = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball_hero.jpg'; //Background Hero image of deepdive hero
   var contentEl; //Main node of the content. This is needed to calculate position of rails and to add deep dive hero
 
   switch(domain){
@@ -122,7 +122,7 @@
     leftRail.target = '_blank';
     leftRail.innerHTML = `
       <div id="to-left-ad">
-        <img class="to-left-ad-presented" src="` + protocol + `://content.synapsys.us/deepdive/images/logo_left.png">
+        <img class="to-left-ad-presented" src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/logo_left.png">
       </div>
     `;
 
@@ -132,7 +132,7 @@
     rightRail.target = '_blank';
     rightRail.innerHTML = `
       <div id="to-right-ad">
-        <img class="to-right-ad-presented" src="` + protocol + `://content.synapsys.us/deepdive/images/logo_right.png">
+        <img class="to-right-ad-presented" src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/logo_right.png">
       </div>
     `;
 
@@ -172,20 +172,20 @@
           <div id="ddh-media-video"></div>
           <a target="_blank" href="` + ('http://www.myhomerunzone.com/' + domain) + `">
             <div class="ddh-media-right-content">
-              <img width="280px" height="40px" src="` + protocol + `://content.synapsys.us/deepdive/images/baseball_logo.png?">
+              <img width="280px" height="40px" src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_logo.png?">
               <div class="ddh-media-right-title">
                 Who's Hot and Who's Not?
                 <div class="ddh-media-right-title-border"></div>
               </div>
               <ul class="ddh-media-right-list">
                 <li>
-                  <img src="` + protocol + `://content.synapsys.us/deepdive/images/baseball_icon.png" >Stats
+                  <img src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_icon.png" >Stats
                 </li>
                 <li>
-                  <img src="` + protocol + `://content.synapsys.us/deepdive/images/baseball_field_icon.png" >Stories
+                  <img src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_field_icon.png" >Stories
                 </li>
                 <li>
-                  <img src="` + protocol + `://content.synapsys.us/deepdive/images/baseball_hat_icon.png" >Profiles
+                  <img src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_hat_icon.png" >Profiles
                 </li>
               </ul>
               <div class="ddh-media-cta">
@@ -202,7 +202,7 @@
     deepDiveBar.className = 'ddh-bar';
     deepDiveBar.innerHTML = `
       <div class="ddh-bar-title">
-        <img src="` + protocol + `://content.synapsys.us/deepdive/images/baseball_icon.png" >
+        <img src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_icon.png" >
         TODAY'S MLB GAMES
       </div>
 
@@ -217,7 +217,7 @@
         </button>
       </div>
       <div class="ddh-bar-img">
-        <img src="` + protocol + `://content.synapsys.us/deepdive/images/poweredbytcx.png">
+        <img src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/poweredbytcx.png">
       </div>
     `;
 
@@ -617,7 +617,7 @@
   var iconEl = topWin.document.createElement('link');
   iconEl.rel = 'stylesheet';
   iconEl.type = 'text/css';
-  iconEl.href = protocol + '://content.synapsys.us/deepdive/fonts/styles.css';
+  iconEl.href = protocol + '://w1.synapsys.us/widgets/deepdive/fonts/styles.css';
   topWin.document.head.appendChild(iconEl);
 
   //Build and load stylesheet
@@ -628,7 +628,7 @@
     position: fixed;
     top: 0;
     bottom: 0;
-    background-image: url('` + protocol + `://content.synapsys.us/deepdive/images/baseball_left.jpg');
+    background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_left.jpg');
     display: none;
   }
   .to-left-rail.to-rail-visible{
@@ -651,7 +651,7 @@
     position: fixed;
     top: 0;
     bottom: 0;
-    background-image: url('` + protocol + `://content.synapsys.us/deepdive/images/baseball_right.jpg');
+    background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_right.jpg');
     display: none;
   }
   .to-right-rail.to-rail-visible{
@@ -702,7 +702,7 @@
   .ddh-media-right-content{
     box-sizing: border-box;
     border: 5px solid #e1e1e1;
-    background-image: url('` + protocol + `://content.synapsys.us/deepdive/images/right_bgimage.jpg');
+    background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/right_bgimage.jpg');
     float: right;
     width: 320px;
     height: 366px;
