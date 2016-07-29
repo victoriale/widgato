@@ -108,7 +108,7 @@
                 timestamp: item.gameInfo.startDateTimestamp,
                 eventStatus: item.gameInfo.eventStatus,
                 htmlMarkup: `
-                  <a target="_blank" href="http://homerunloyal.com/articles/pregame-report/` + item.gameInfo.eventId + `" class="boxscores-e-game-link">
+                  <a href="http://homerunloyal.com/articles/pregame-report/` + item.gameInfo.eventId + `" class="boxscores-e-game-link">
                     <ul class="boxscores-e-game-teams">
                       <li>
                         ` + item.homeTeamInfo.abbreviation + `
@@ -154,7 +154,7 @@
                 timestamp: item.gameInfo.startDateTimestamp,
                 eventStatus: item.gameInfo.eventStatus,
                 htmlMarkup: `
-                  <a target="_blank" href="` + link + `" class="boxscores-e-game-link">
+                  <a href="` + link + `" class="boxscores-e-game-link">
                     <ul class="boxscores-e-game-teams">
                       <li>
                         ` + item.homeTeamInfo.abbreviation + `
@@ -192,7 +192,7 @@
               timestamp: item.gameInfo.startDateTimestamp,
               eventStatus: item.gameInfo.eventStatus,
               htmlMarkup: `
-                <a target="_blank" href="http://homerunloyal.com/articles/postgame-report/` + item.gameInfo.eventId + `" class="boxscores-e-game-link">
+                <a ="_blank" href="http://homerunloyal.com/articles/postgame-report/` + item.gameInfo.eventId + `" class="boxscores-e-game-link">
                   <ul class="boxscores-e-game-teams">
                     <li>
                       ` + item.homeTeamInfo.abbreviation + `
