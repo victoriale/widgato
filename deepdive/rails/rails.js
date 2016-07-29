@@ -1,6 +1,52 @@
 (function(){
+  var embedURL = 'http://w1.synapsys.us/widgets/deepdive/rails/rails.js'
+  var currentScript = document.currentScript || (function() {
+    var scripts = document.getElementsByTagName("script");
+    for (var i = scripts.length - 1; i >= 0; i--) {
+      if (scripts[i].src.indexOf(embedURL) != -1) {
+        return scripts[i];
+      }
+    }
+  })();
+
+  var queryString = currentScript.src.split('?')[1];
+  if(typeof queryString === 'undefined'){
+    console.warn('Skyscraper Rails - Must specify query string. Paramters are [selector] - selector of content that the rails are aligned with. (ex. selector=section.main-container)');
+    return false;
+  }else{
+    //Parse query string
+    var params = queryString.split('&');
+    //Define query params
+    var selector;
+    params.forEach(function(item){
+      var pair = item.split('=');
+      switch(pair[0]){
+        case 'selector':
+          selector = decodeURIComponent(pair[1]);
+        break;
+      }
+    })
+
+    //Check if required variables are defined
+    try{
+      if(typeof selector === 'undefined'){
+        throw 'Must specify unique content selector for Skyscraper Rails. (ex. "selector=section.main-container")';
+      }
+    }catch(e){
+        console.warn('Skyscraper Rails - ' + e);
+        return false;
+    }
+  }
+
+  //Find content container based on selector
+  var contentEl = document.querySelector(selector);
+  //Check if main content container exists
+  if(contentEl === null){
+    console.warn('Skyscraper Rails - Could not find container that matches selector.');
+    return false;
+  }
+
   var body = document.getElementsByTagName("body")[0];
-  var contentEl = document.getElementsByClassName('deep-dive container-fluid')[0]; //Main node of the content. This is needed to calculate position of rails and to add deep dive hero
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http';
   var leftRail, rightRail;
   var railsLoaded = false; //If rails have been built
@@ -118,7 +164,6 @@
   `;
   document.head.appendChild(styleEl);
 
-  console.log('content', contentEl);
   //Determine if screen is large enough for rails
   if((body.offsetWidth - contentEl.offsetWidth) >= 320){
     buildRails();
