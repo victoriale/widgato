@@ -30,7 +30,7 @@
     break;
     case "eot_iefix":
       header('Content-Type: application/vnd.ms-fontobject');
-      $file = file_get_contents('fonts/takeover-deep-div.eot?#iefix');
+      $file = file_get_contents('fonts/takeover-deep-dive.eot?#iefix');
       echo $file;
     break;
     default:

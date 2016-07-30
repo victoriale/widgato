@@ -10,7 +10,7 @@
 
   //Grab domain name to know where to point
   var wLocation = topWin.location;
-  domain = wLocation.hostname.replace(/www./, '');
+  var domain = wLocation.hostname.replace(/www./, '');
   if(domain !== 'homerunloyal.com' && domain !== 'myhomerunzone.com'){
     domain = 'homerunloyal.com';
   }
