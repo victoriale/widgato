@@ -11,10 +11,10 @@
   //Grab domain name to know where to point
   var wLocation = topWin.location;
   var domain = wLocation.hostname.replace(/www./, '');
-  if(domain !== 'homerunloyal.com' && domain !== 'myhomerunzone.com' && domain !== 'dev.homerunloyal.com' && domain !== 'dev.myhomerunzone.com'){
+  if(domain !== 'homerunloyal.com' && domain !== 'myhomerunzone.com' && domain !== 'dev.homerunloyal.com' && domain !== 'dev.myhomerunzone.com' && domain !== 'qa.homerunloyal.com' && domain !== 'qa.myhomerunzone.com'){
     domain = 'homerunloyal.com';
   }
-  if(domain === 'myhomerunzone.com' || domain === 'dev.myhomerunzone.com'){
+  if(domain === 'myhomerunzone.com' || domain === 'dev.myhomerunzone.com' || domain === 'qa.myhomerunzone.com'){
     var partnerDomainArr = wLocation.pathname.split('/');
     var partnerDomain = partnerDomainArr[1];
     domain += '/' + partnerDomain;
