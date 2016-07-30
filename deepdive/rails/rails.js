@@ -71,7 +71,7 @@
     leftRail.className = 'ddto-left-rail ddto-rail-visible';
     leftRail.innerHTML = `
       <div id="ddto-left-ad">
-        <img class="ddto-left-ad-presented" src="` + protocol + `://content.synapsys.us/deepdive/images/logo_left.png">
+        <img class="ddto-left-ad-presented" src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/logo_left.png">
       </div>
     `;
 
@@ -79,7 +79,7 @@
     rightRail.className = 'ddto-right-rail ddto-rail-visible';
     rightRail.innerHTML = `
       <div id="ddto-right-ad">
-        <img class="ddto-right-ad-presented" src="` + protocol + `://content.synapsys.us/deepdive/images/logo_right.png">
+        <img class="ddto-right-ad-presented" src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/logo_right.png">
       </div>
     `;
 
@@ -128,7 +128,7 @@
       position: fixed;
       top: 0;
       bottom: 0;
-      background-image: url('` + protocol + `://content.synapsys.us/deepdive/images/baseball_left.jpg');
+      background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_left.jpg');
       display: none;
       background-color: #000;
       background-repeat: no-repeat;
@@ -154,7 +154,7 @@
       position: fixed;
       top: 0;
       bottom: 0;
-      background-image: url('` + protocol + `://content.synapsys.us/deepdive/images/baseball_right.jpg');
+      background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_right.jpg');
       display: none;
       background-color: #000;
       background-repeat: no-repeat;
