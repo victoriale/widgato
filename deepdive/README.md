@@ -1,6 +1,7 @@
 # Deepdive Embeds
 
 This directory contains
+
 1. boxscores bar for homerunloyal (/boxscores)
 2. rail skyscraper embed for homerunloyal (/rails)
 3. takeover embeds for tribune and mcclatchy sites (/takeover)
