@@ -98,7 +98,7 @@
     //Inject right ad
     var rightAd = document.getElementById('ddto-right-ad');
     var rightEmbed = document.createElement('script');
-    rightEmbed.src = protocol + '://content.synapsys.us/embeds/mlb/deepdive_160x600/mlb.js';
+    rightEmbed.src = protocol + '://content.synapsys.us/embeds/mlb/deepdive_160x600/mlb-right.js';
     rightAd.insertBefore(rightEmbed, rightAd.firstChild);
 
     railsLoaded = true;

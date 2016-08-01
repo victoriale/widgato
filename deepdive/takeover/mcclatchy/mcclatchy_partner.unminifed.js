@@ -282,7 +282,7 @@
     //Inject right ad
     var rightAd = topWin.document.getElementById('to-right-ad');
     var rightEmbed = topWin.document.createElement('script');
-    rightEmbed.src = protocol + '://content.synapsys.us/embeds/mlb/deepdive_160x600/partner.js';
+    rightEmbed.src = protocol + '://content.synapsys.us/embeds/mlb/deepdive_160x600/partner-right.js';
     rightAd.insertBefore(rightEmbed, rightAd.firstChild);
 
     railsLoaded = true;
