@@ -386,7 +386,7 @@ chatterbox[chatterbox.length] = (function(chatter_id) {
         ad_script.src = protocol + "://content.synapsys.us/l/n/index-mdb.php?" + Object.keys(e_q).map(function(k){return encodeURIComponent(k)+"="+encodeURIComponent(e_q[k])}).join("&");
       } else {
         var e_q = {
-          "type": "chatterbox",
+          "type": (div_conf[initSize].min == 0 ? "chatterbox_mobile" : "chatterbox"),
           "adW": "300",
           "adH": "250",
           "widW": "0",
