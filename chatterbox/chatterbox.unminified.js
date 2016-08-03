@@ -134,7 +134,7 @@ chatterbox[chatterbox.length] = (function(chatter_id) {
   if ( addGTM ) {
     var s = document.createElement("script");
     s.async = true;
-    s.src = '//www.googletagmanager.com/gtm.js?id=GTM-WDG7BV&l=chatterLayer';
+    s.src = '//www.googletagmanager.com/gtm.js?id=GTM-KSF89B&l=chatterLayer';
     currentScript.parentNode.insertBefore(s, currentScript);
   }
 
