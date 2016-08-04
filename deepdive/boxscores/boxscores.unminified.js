@@ -167,7 +167,7 @@
                 var link = 'http://' + domain + '/articles/seventh-inning-report/' + item.gameInfo.eventId;
               }
               //Determine what inning arrow to display
-              let inningMarkup;
+              var inningMarkup;
               if(item.gameInfo.inningHalf === 'top'){
                 inningMarkup = '<span class="boxscores-e-game-inning-top"></span>';
               }else if(item.gameInfo.inningHalf === 'bottom'){
