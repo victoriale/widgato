@@ -17,15 +17,26 @@ swp_wdgt = function(){
 }();
 
 function RenderArticleSide(protocolToUse){
-  // var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
-  var APIUrl = protocolToUse + 'qa-homerunloyal-ai.synapsys.us/sidekick';
+  var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
 
   var articleIndex = 0;
+  
+  var data;
 
-  var data = httpGet(APIUrl);
-  linkData(data, articleIndex);
+  function httpGetData(url){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function(){
+      if(xmlHttp.readyState === 4 && xmlHttp.status === 200){
+        //On complete function
+        data = JSON.parse(xmlHttp.responseText);
+        linkData(data, articleIndex);
+      }
+    }
+    xmlHttp.open( "GET", url, true ); // false for synchronous request
+    xmlHttp.send( null );
+  }
 
-
+  httpGetData(APIUrl);
 
   /* Handling of Article Index */
    updateArticle = function(){
@@ -65,17 +76,31 @@ function RenderArticleSide(protocolToUse){
     return imgRet;
   }
 
-  var articleTypes = [];
   function mapArticles(data){
-    articleTypes = [];
     for(var obj in data){
       if(obj == "meta-data")continue;
-      articleTypes.push(obj);
       this[obj] = data[obj];
     }
   }
 
+  var articleTypes = [];
+  function listOutTypes(data){
+    articleTypes = [];
+    for(var obj in data){
+      if(obj == "meta-data")continue;
+      articleTypes.push(obj);
+    }
+  }
+
   function linkData(data, articleIndex){
+    listOutTypes(data);
+    var doRandArt = true;//or false; or true.....
+    if(doRandArt == true){
+      articleIndex = getRandomInt(0, articleTypes.length);
+    }else{
+      articleIndex = articleIndex;
+    }
+
     var mData = data['meta-data'];
     var article = new mapArticles(data)[articleTypes[articleIndex]];
     var game = new eventData(mData);
@@ -89,14 +114,14 @@ function RenderArticleSide(protocolToUse){
     A('.section-text').innerHTML = article.displayHeadline;
 
     //article url structure: /articles/:article_type/:event_id
-    var articleUrl = protocolToUse + 'homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
+    var articleUrl = 'http://www.homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
     var articleText = article.article[0].substr(0, 130);
-    A('.content-text').innerHTML = articleText + '...<a href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>';
-
+    A('.content-text').innerHTML = articleText + '...<a target="_blank" href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>';
+    A('.title-logo').href = "http://www.homerunloyal.com";
     A('.bar-date').innerHTML = convertDate(game.startDateTime);
     var author = 'www.homerunloyal.com';
     var authorLink = author;
-    A('.bar-author').innerHTML = '<a id="authorlink" href="' + protocolToUse + authorLink +'">' + author + '</a>';
+    A('.bar-author').innerHTML = '<a target="_blank" id="authorlink" href="' + "http://" + authorLink +'">' + author + '</a>';
 
     A('#readbutton').setAttribute('href', articleUrl);
     A('.buttons-nextlist').onmouseover = function(){
@@ -111,13 +136,6 @@ function RenderArticleSide(protocolToUse){
 
 
 /* -- Helper Functions -- */
-function httpGet(url){
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", url, false ); // false for synchronous request
-  xmlHttp.send( null );
-  return JSON.parse(xmlHttp.responseText);
-}
-
 function getRandomInt(min, max){
   return Math.floor(Math.random() * (max - min)) + min;
 }
