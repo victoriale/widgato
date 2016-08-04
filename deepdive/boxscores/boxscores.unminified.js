@@ -166,6 +166,15 @@
               }else if(item.gameInfo.inningsPlayed > 7){
                 var link = 'http://' + domain + '/articles/seventh-inning-report/' + item.gameInfo.eventId;
               }
+              //Determine what inning arrow to display
+              var inningMarkup;
+              if(item.gameInfo.inningHalf === 'top'){
+                inningMarkup = '<span class="boxscores-e-game-inning-top"></span>';
+              }else if(item.gameInfo.inningHalf === 'bottom'){
+                inningMarkup = '<span class="boxscores-e-game-inning-bottom"></span>';
+              }else{
+                inningMarkup = '';
+              }
 
               active.push({
                 homeTeam: item.homeTeamInfo.abbreviation,
@@ -178,20 +187,20 @@
                   <a href="` + link + `" class="boxscores-e-game-link">
                     <ul class="boxscores-e-game-teams">
                       <li>
-                        ` + item.homeTeamInfo.abbreviation + `
-                        <span class="boxscores-e-game-teamscore">
-                          ` + item.homeTeamInfo.score + `
-                        </span>
-                      </li>
-                      <li>
                         ` + item.awayTeamInfo.abbreviation + `
                         <span class="boxscores-e-game-teamscore">
                           ` + item.awayTeamInfo.score + `
                         </span>
                       </li>
+                      <li>
+                        ` + item.homeTeamInfo.abbreviation + `
+                        <span class="boxscores-e-game-teamscore">
+                          ` + item.homeTeamInfo.score + `
+                        </span>
+                      </li>
                     </ul>
                     <span class="boxscores-e-game-time">
-                      ` + (item.gameInfo.inningsPlayed ? ordinalSuffix(item.gameInfo.inningsPlayed) : convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev)) +  `
+                      ` + inningMarkup + (item.gameInfo.inningsPlayed ? ordinalSuffix(item.gameInfo.inningsPlayed) : convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev)) +  `
                     </span>
                   </a>
                 `
@@ -286,7 +295,6 @@
          */
         boxscoresContainer.innerHTML = `
           <div class="boxscores-e-title">
-            <!--<img class="boxscores-e-title-img" src="http://wq.synapsys.us/widgets/deepdive/images/baseball_icon.png">-->
             TODAY'S MLB GAMES
           </div>
 
@@ -299,10 +307,6 @@
             <button class="boxscores-e-nav-button boxscores-e-next">
               <span class="ddh-icon-angle-right"></span>
             </button>
-          </div>
-
-          <div class="boxscores-e-img">
-            <img src="http://w1.synapsys.us/widgets/deepdive/images/poweredbytcx.png">
           </div>
         `;
         var currentScript = document.currentScript || (function() {
@@ -455,17 +459,6 @@
       box-sizing: border-box;
       line-height: 50px;
     }
-    // .boxscores-e-title-img{
-    //   vertical-align: middle;
-    //   margin-right: 3px;
-    //   -ms-transform: rotate(90deg); /* IE 9 */
-    //   -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
-    //   transform: rotate(90deg);
-    //   display: none;
-    // }
-    // .boxscores-e-title-img.boxscores-e-visible{
-    //   display: inline-block;
-    // }
     .boxscores-e-schedule{
       list-style-type: none;
       float: left;
@@ -493,6 +486,9 @@
       text-decoration: none;
       color: #fff;
     }
+    .boxscores-e-game-link:hover{
+      color: #fff;
+    }
     .boxscores-e-game-teams{
       list-style-type: none;
       margin: 0;
@@ -503,6 +499,26 @@
       vertical-align: middle;
       font-size: 14px;
       margin-top: 8px;
+    }
+    .boxscores-e-game-inning-top:before{
+      content: '';
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 0 7px 9px 7px;
+      border-color: transparent transparent #fff transparent;
+      margin-right: 5px;
+      display: inline-block;
+    }
+    .boxscores-e-game-inning-bottom:before{
+      content: '';
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 9px 7px 0 7px;
+      border-color: #fff transparent transparent transparent;
+      margin-right: 5px;
+      display: inline-block;
     }
     .boxscores-e-game-teamscore{
       float: right;
@@ -537,20 +553,6 @@
     .boxscores-e-nav-button:focus{
       outline: none;
     }
-    .boxscores-e-img{
-      float: right;
-      margin-right: 10px;
-    }
-    .boxscores-e-img>img{
-      display: none;
-      vertical-align: middle;
-      margin-top: 12px;
-    }
-    @media(min-width: 780px){
-      .boxscores-e-img>img{
-        display: inline-block;
-      }
-    }
   `;
   document.head.appendChild(styleEl);
 
@@ -565,7 +567,7 @@
     //Resizing functions
     if(boxscoresLoaded){
 
-      if(parentNodeWidth >= 1340 && displayNumber !== 5){
+      if(parentNodeWidth >= 1170 && displayNumber !== 5){
         displayNumber = 5;
         clearGames();
 
@@ -594,7 +596,7 @@
           //Since this is the max, this case will never be hit
         }
 
-      }else if(parentNodeWidth < 1340 && parentNodeWidth >= 1180 && displayNumber !== 4){
+      }else if(parentNodeWidth < 1170 && parentNodeWidth >= 1010 && displayNumber !== 4){
         displayNumber = 4;
         clearGames();
 
@@ -639,7 +641,7 @@
 
         }
 
-      }else if(parentNodeWidth < 1180 && parentNodeWidth >= 990 && displayNumber !== 3){
+      }else if(parentNodeWidth < 1010 && parentNodeWidth >= 820 && displayNumber !== 3){
         displayNumber = 3;
         clearGames();
 
@@ -685,7 +687,7 @@
 
         }
 
-      }else if(parentNodeWidth < 990 && parentNodeWidth >= 640 && displayNumber !== 2){
+      }else if(parentNodeWidth < 820 && parentNodeWidth >= 640 && displayNumber !== 2){
         displayNumber = 2;
         clearGames();
 

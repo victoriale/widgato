@@ -347,9 +347,6 @@
           <span class="ddh-icon-angle-right"></span>
         </button>
       </div>
-      <div class="ddh-bar-img">
-        <img src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/poweredbytcx.png">
-      </div>
     `;
 
     contentEl.insertBefore(deepDiveHero, contentEl.firstChild);
@@ -404,7 +401,7 @@
 
         //Calculate bodyWidth to determine amount of games to display
         var contentWidth = contentEl.offsetWidth;
-        displayNumber = contentWidth >= 1180 ? 4 : 3;
+        displayNumber = contentWidth >= 1080 ? 4 : 3;
 
         //Add boxscores bar to deep dive hero
         deepDiveHero.appendChild(deepDiveBar);
@@ -646,6 +643,15 @@
               }else if(item.gameInfo.inningsPlayed > 7){
                 var link = 'http://myhomerunzone.com/' + domain +'/articles/seventh-inning-report/' + item.gameInfo.eventId;
               }
+              //Determine what inning arrow to display
+              var inningMarkup;
+              if(item.gameInfo.inningHalf === 'top'){
+                inningMarkup = '<span class="ddh-game-inning-top"></span>';
+              }else if(item.gameInfo.inningHalf === 'bottom'){
+                inningMarkup = '<span class="ddh-game-inning-bottom"></span>';
+              }else{
+                inningMarkup = '';
+              }
 
               active.push({
                 homeTeam: item.homeTeamInfo.abbreviation,
@@ -658,20 +664,20 @@
                   <a target="_blank" href="` + link + `" class="ddh-bar-game-link">
                     <ul class="ddh-bar-game-teams">
                       <li>
-                        ` + item.homeTeamInfo.abbreviation + `
-                        <span class="ddh-bar-game-teamscore">
-                          ` + item.homeTeamInfo.score + `
-                        </span>
-                      </li>
-                      <li>
                         ` + item.awayTeamInfo.abbreviation + `
                         <span class="ddh-bar-game-teamscore">
                           ` + item.awayTeamInfo.score + `
                         </span>
                       </li>
+                      <li>
+                        ` + item.homeTeamInfo.abbreviation + `
+                        <span class="ddh-bar-game-teamscore">
+                          ` + item.homeTeamInfo.score + `
+                        </span>
+                      </li>
                     </ul>
                     <span class="ddh-bar-game-time">
-                      ` + (item.gameInfo.inningsPlayed ? ordinalSuffix(item.gameInfo.inningsPlayed) : convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev)) +  `
+                      ` + inningMarkup + (item.gameInfo.inningsPlayed ? ordinalSuffix(item.gameInfo.inningsPlayed) : convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev)) +  `
                     </span>
                   </a>
                 `
@@ -993,6 +999,26 @@
     vertical-align: middle;
     font-size: 14px;
   }
+  .ddh-game-inning-top:before{
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 7px 9px 7px;
+    border-color: transparent transparent #fff transparent;
+    margin-right: 5px;
+    display: inline-block;
+  }
+  .ddh-game-inning-bottom:before{
+    content: '';
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 9px 7px 0 7px;
+    border-color: #fff transparent transparent transparent;
+    margin-right: 5px;
+    display: inline-block;
+  }
   .ddh-bar-game-teamscore{
     float: right;
   }
@@ -1025,14 +1051,6 @@
   .ddh-bar-button:focus{
     outline: none;
   }
-  .ddh-bar-img{
-    float: right;
-    margin-right: 10px;
-  }
-  .ddh-bar-img>img{
-    display: inline-block;
-    vertical-align: middle;
-  }
   `;
 
   topWin.document.head.appendChild(styleEl);
@@ -1053,8 +1071,8 @@
     var resizeContentWidth = contentEl.offsetWidth;
 
     //JS responsiveness for boxscores games amount
-    if(resizeContentWidth < 1180 && displayNumber !== 3 && deepDiveLoaded){
-      //If resize is less than 1180px and display number is not 3, reformat games
+    if(resizeContentWidth < 1080 && displayNumber !== 3 && deepDiveLoaded){
+      //If resize is less than 1080 and display number is not 3, reformat games
       displayNumber = 3;
       //Remove last element from index array and remove last element from html markup
       initialIndex.pop();
@@ -1069,8 +1087,8 @@
         schedule.appendChild(gameNode);
       }
 
-    }else if(resizeContentWidth >= 1180 && displayNumber !== 4 && deepDiveLoaded){
-      //If resize is greater than 1180px and display number is not 4, reformat games
+    }else if(resizeContentWidth >= 1080 && displayNumber !== 4 && deepDiveLoaded){
+      //If resize is greater than 1080 and display number is not 4, reformat games
       displayNumber = 4;
       //Add another item to index array
       var lastIndex = initialIndex[initialIndex.length - 1];
