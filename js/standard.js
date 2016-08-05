@@ -34,10 +34,10 @@ camelCaseToKababCase = function(str){
 };
 
 //var Url1 = "http://api2.joyfulhome.com:280/list/";
-var Url1 = "http://prod-joyfulhome-api.synapsys.us/list/";
+var Url1 = protocolToUse + "prod-joyfulhome-api.synapsys.us/list/";
 
 // grabs the clients geolocation - returns city state
-var graUrl = "http://w1.synapsys.us/get-remote-addr2/";
+var graUrl = protocolToUse + "w1.synapsys.us/get-remote-addr2/";
 
 $(function () {
 
