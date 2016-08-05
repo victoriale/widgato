@@ -526,7 +526,7 @@
     .boxscores-e-game-time{
       font-size: 12px;
       float: right;
-      font-weight: 300;
+      font-weight: 400;
     }
     .boxscores-e-nav{
       float: left;
@@ -541,7 +541,6 @@
       background-color: #fff;
       color: #000;
       border: none;
-      padding: 4px 0 0 0;
       margin: 0 3px 0 0;
       vertical-align: middle;
       cursor: pointer;
@@ -549,6 +548,8 @@
     }
     .boxscores-e-nav-button>span{
       vertical-align: middle;
+      margin-top: 1px;
+      display: inline-block;
     }
     .boxscores-e-nav-button:focus{
       outline: none;
