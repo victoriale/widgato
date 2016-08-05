@@ -894,7 +894,7 @@
   .ddh-bar-game-time{
     font-size: 12px;
     float: right;
-    font-weight: 300;
+    font-weight: 400;
   }
   .ddh-bar-nav{
     float: left;
