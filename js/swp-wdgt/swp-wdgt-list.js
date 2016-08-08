@@ -152,10 +152,12 @@ function RenderDynamicSide(protocolToUse){
 
     if(type == "college_basketball"){
       A('.fcw-content-top').style.height = '25px';
-      A('.fcw-content-top').style.overflow = 'hidden'
+      A('.fcw-content-top').style.overflow = 'hidden';
     }
 
     if(type == "weather"){
+      A('.fcw-content3').style.height = '25px';
+      A('.fcw-content3').style.overflow = 'hidden';
       //yellow causes text colors to be black....
       A('.fcw-list-text').style.color = "#000000";
       A('#swoop-svg').style.fill = "#000000";
