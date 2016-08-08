@@ -1,19 +1,18 @@
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var mlbDomain        = "http://www.homerunloyal.com/";
 var mlbPartnerDomain = "http://www.myhomerunzone.com/";
-var referrer = top.location.host;
+var referrer = document.referrer;
 if(referrer.match(/baseball/g)){
-  mlbPartnerDomain = protocolToUse + referrer + "/";
+    mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
 }
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
 var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
 
 function getBaseUrl(string){
-  var urlArray = string.split("/");
-  var domain = urlArray[2];
-  return protocolToUse + "//" + domain;
+    var urlArray = string.split("/");
+    var domain = urlArray[2];
+    return protocolToUse + "//" + domain;
 }
-
 
 dynamic_widget = function() {
     var e = location.protocol == 'https:' ? 'https' : 'http',
@@ -158,14 +157,17 @@ dynamic_widget = function() {
         e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
         e.li_url = "http:" + e.li_url;
         e.li_line_url = "http:" + e.li_line_url;
-        var sub = top.location.host.split('.');
-        if(sub[0] == 'baseball'){
-          var newSubUrl = e.li_url.split('/');
-          newSubUrl.splice(3,1);
-          newSubUrl[2] = top.location.host;
-          newSubUrl = newSubUrl.join('/');
-          e.li_url = newSubUrl;
-          e.li_line_url = newSubUrl;
+        if(referrer.match(/baseball/g)){
+            e.li_url = e.li_url.replace("www.myhomerunzone.com", referrer.split('/')[2]);
+            e.li_url = e.li_url.replace("myhomerunzone.com", referrer.split('/')[2]);
+            e.li_url = e.li_url.split("/");
+            e.li_url.splice(3,1);
+            e.li_url = e.li_url.join("/");
+            e.li_url = e.li_url.replace("/t/", "/team/");
+            e.li_url = e.li_url.replace("/p/", "/player/");
+            console.log(e.li_url);
+            e.li_line_url = e.li_line_url.replace("www.myhomerunzone.com", referrer.split('/')[2]);
+            e.li_line_url = e.li_line_url.replace("myhomerunzone.com", referrer.split('/')[2]);
         }
         if (s) {
             e.li_url = e.li_url.replace('www.myinvestkit.com', o);
