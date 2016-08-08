@@ -158,6 +158,10 @@ dynamic_widget = function() {
         e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
         e.li_url = "http:" + e.li_url;
         e.li_line_url = "http:" + e.li_line_url;
+        if(referrer.match(/\/\/baseball\./g)){
+            e.li_url = e.li_url.replace("myhomerunzone.com", referrer.split('/')[2]);
+            e.li_line_url = e.li_line_url.replace("myhomerunzone.com", referrer.split('/')[2]);
+        }
         if (s) {
             e.li_url = e.li_url.replace('www.myinvestkit.com', o);
             e.li_line_url = e.li_line_url.replace('www.myinvestkit.com', o)
