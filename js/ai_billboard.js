@@ -1,30 +1,43 @@
-ai_billboard = (function() {
-  var domain, remnant;
-  var remLink = "http://www.homerunloyal.com/";
-  var partLink = "http://www.myhomerunzone.com/";
-  var temp = location.search;
-  var href;
-  var query = {};
-  if (temp != null) {
-    query = JSON.parse(decodeURIComponent(temp.substr(1)));
-    domain = query.dom;
-    remnant = query.remn;
-    if (remnant == 'true') {
-      href = remLink;
-      $("base").attr("href", remLink);
-    } else {
-      $("base").attr("href", partLink + domain + "/");
-      href = partLink + domain + "/";
+ai_billboard = (function () {
+    var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+    var mlbDomain = "http://www.homerunloyal.com/";
+    var mlbPartnerDomain = "http://www.myhomerunzone.com/";
+    var referrer = document.referrer;
+    if (referrer.match(/\/\/baseball\./g)) {
+        mlbPartnerDomain = referrer.split('/')[2];
     }
-  }
-  var teamId = query.team;
-  var protocolToUse = (location.protocol == "https:") ? "https" : "http";
-  var APIUrl = protocolToUse + '://prod-homerunloyal-ai.synapsys.us/billboard/' + teamId;
-  var randomArticles = [];
-  var teamData = [];
-  var imageArr = [];
-  var leftRgb;
-  var rightRgb;
+// if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
+    var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
+
+    function getBaseUrl(string) {
+        var urlArray = string.split("/");
+        var domain = urlArray[2];
+        return protocolToUse + "//" + domain;
+    }
+
+    var domain, remnant;
+    var temp = location.search;
+    var href;
+    var query = {};
+    if (temp != null) {
+        query = JSON.parse(decodeURIComponent(temp.substr(1)));
+        domain = query.dom;
+        remnant = query.remn;
+        if (remnant == 'true') {
+            href = mlbDomain;
+            $("base").attr("href", mlbDomain);
+        } else {
+            $("base").attr("href", mlbPartnerDomain + domain + "/");
+            href = mlbPartnerDomain + domain + "/";
+        }
+    }
+    var teamId = query.team;
+    var APIUrl = protocolToUse + '://prod-homerunloyal-ai.synapsys.us/billboard/' + teamId;
+    var randomArticles = [];
+    var teamData = [];
+    var imageArr = [];
+    var leftRgb;
+    var rightRgb;
 
   function getContent(eventId) {
     var locApiUrl = APIUrl;
