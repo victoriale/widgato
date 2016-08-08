@@ -1,3 +1,20 @@
+var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+var mlbDomain        = "http://www.homerunloyal.com/";
+var mlbPartnerDomain = "http://www.myhomerunzone.com/";
+var referrer = document.referrer;
+if(referrer.match(/\/\/baseball\./g)){
+  mlbPartnerDomain = referrer.split('/')[2];
+}
+// if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
+var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
+
+function getBaseUrl(string){
+  var urlArray = string.split("/");
+  var domain = urlArray[2];
+  return protocolToUse + "//" + domain;
+}
+
+
 dynamic_widget = (function(){
   // Initialize Variables
   var protocol = (location.protocol == "https:") ? "https" : "http",
@@ -156,7 +173,12 @@ dynamic_widget = (function(){
             // $("line1").style.cssText += "pointer-events:none; cursor:default",
             // $("homelink").style.cssText += "pointer-events:none; cursor:default",
             //  $("list-link").style.display = "none";
-            var base_url = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : 'http://www.myhomerunzone.com/' + l.dom + '/list';
+            var base_url = "";
+            if( mlbPartnerDomain == "http://www.myhomerunzone.com/") {
+              base_url = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom + '/list';
+            }else{
+              base_url = mlbPartnerDomain + '/list';
+            }
             var doStep = false
             break;
       case 'finance':
