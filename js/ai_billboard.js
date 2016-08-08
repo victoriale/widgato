@@ -2,17 +2,9 @@ ai_billboard = (function () {
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
     var mlbDomain = "http://www.homerunloyal.com/";
     var mlbPartnerDomain = "http://www.myhomerunzone.com/";
-    var referrer = document.referrer;
-    if (referrer.match(/\/\/baseball\./g)) {
-        mlbPartnerDomain = referrer.split('/')[2];
-    }
-// if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
-    var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
-
-    function getBaseUrl(string) {
-        var urlArray = string.split("/");
-        var domain = urlArray[2];
-        return protocolToUse + "//" + domain;
+    var referrer = top.location.host;
+    if(referrer.match(/baseball/g)){
+      mlbPartnerDomain = protocolToUse + referrer + "/";
     }
 
     var domain, remnant;
@@ -26,7 +18,10 @@ ai_billboard = (function () {
         if (remnant == 'true') {
             href = mlbDomain;
             $("base").attr("href", mlbDomain);
-        } else {
+        } else if(referrer.match(/baseball/g)){
+            $("base").attr("href", mlbPartnerDomain + "/");
+            href = mlbPartnerDomain + "/";
+        } else{
             $("base").attr("href", mlbPartnerDomain + domain + "/");
             href = mlbPartnerDomain + domain + "/";
         }
