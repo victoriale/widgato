@@ -3,7 +3,7 @@ var mlbDomain        = "http://www.homerunloyal.com/";
 var mlbPartnerDomain = "http://www.myhomerunzone.com/";
 var referrer = document.referrer;
 if(referrer.match(/\/\/baseball\./g)){
-  mlbPartnerDomain = referrer.split('/')[2];
+  mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
 }
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
 var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
@@ -131,7 +131,7 @@ dynamic_widget = function() {
                 if( mlbPartnerDomain == "http://www.myhomerunzone.com/") {
                     a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom + '/list';
                 }else{
-                    a = mlbPartnerDomain + '/list';
+                    a = mlbPartnerDomain + 'list';
                 }
                 var n = false
                 break;
@@ -261,7 +261,12 @@ dynamic_widget = function() {
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA';
                 break;
             case "mlb":
-                var r = l.remn == 'true' ? 'http://www.homerunloyal.com/' : 'http://www.myhomerunzone.com/' + l.dom + '/';
+                var r = "";
+                if( mlbPartnerDomain == "http://www.myhomerunzone.com/") {
+                    r = l.remn == 'true' ? 'http://www.homerunloyal.com/' : mlbPartnerDomain + l.dom + '/';
+                }else{
+                    r = mlbPartnerDomain;
+                }
               break;
             default:
                 var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';
