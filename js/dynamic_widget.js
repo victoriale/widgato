@@ -168,6 +168,11 @@ dynamic_widget = function() {
             console.log(e.li_url);
             e.li_line_url = e.li_line_url.replace("www.myhomerunzone.com", referrer.split('/')[2]);
             e.li_line_url = e.li_line_url.replace("myhomerunzone.com", referrer.split('/')[2]);
+            e.li_line_url = e.li_line_url.split("/");
+            e.li_line_url.splice(3,1);
+            e.li_line_url = e.li_line_url.join("/");
+            e.li_line_url = e.li_line_url.replace("/t/", "/team/");
+            e.li_line_url = e.li_line_url.replace("/p/", "/player/");
         }
         if (s) {
             e.li_url = e.li_url.replace('www.myinvestkit.com', o);
