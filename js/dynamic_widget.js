@@ -166,7 +166,6 @@ dynamic_widget = function() {
             e.li_url = e.li_url.replace('www.myinvestkit.com', o);
             e.li_line_url = e.li_line_url.replace('www.myinvestkit.com', o)
         }
-        if()
         $('line1').innerHTML = e.li_title;
         $('line2').innerHTML = e.li_sub_txt;
         if ($('line4') == null) {
