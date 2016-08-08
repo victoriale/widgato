@@ -1,9 +1,9 @@
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var mlbDomain        = "http://www.homerunloyal.com/";
 var mlbPartnerDomain = "http://www.myhomerunzone.com/";
-var referrer = document.referrer;
-if(referrer.match(/\/\/baseball\./g)){
-  mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
+var referrer = top.location.host;
+if(referrer.match(/baseball/g)){
+  mlbPartnerDomain = protocolToUse + referrer + "/";
 }
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
 var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
@@ -158,9 +158,14 @@ dynamic_widget = function() {
         e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
         e.li_url = "http:" + e.li_url;
         e.li_line_url = "http:" + e.li_line_url;
-        if(referrer.match(/\/\/baseball\./g)){
-            e.li_url = e.li_url.replace("myhomerunzone.com", referrer.split('/')[2]);
-            e.li_line_url = e.li_line_url.replace("myhomerunzone.com", referrer.split('/')[2]);
+        var sub = top.location.host.split('.');
+        if(sub[0] == 'baseball'){
+          var newSubUrl = e.li_url.split('/');
+          newSubUrl.splice(3,1);
+          newSubUrl[2] = top.location.host;
+          newSubUrl = newSubUrl.join('/');
+          e.li_url = newSubUrl;
+          e.li_line_url = newSubUrl;
         }
         if (s) {
             e.li_url = e.li_url.replace('www.myinvestkit.com', o);
