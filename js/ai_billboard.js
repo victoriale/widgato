@@ -4,7 +4,7 @@ ai_billboard = (function () {
     var mlbPartnerDomain = "http://www.myhomerunzone.com/";
     var referrer = document.referrer;
     if (referrer.match(/baseball/g)) {
-        mlbPartnerDomain = referrer.split('/')[2];
+        mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
     }
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
     var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
