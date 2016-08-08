@@ -165,7 +165,6 @@ dynamic_widget = function() {
             e.li_url = e.li_url.join("/");
             e.li_url = e.li_url.replace("/t/", "/team/");
             e.li_url = e.li_url.replace("/p/", "/player/");
-            console.log(e.li_url);
             e.li_line_url = e.li_line_url.replace("www.myhomerunzone.com", referrer.split('/')[2]);
             e.li_line_url = e.li_line_url.replace("myhomerunzone.com", referrer.split('/')[2]);
             e.li_line_url = e.li_line_url.split("/");
