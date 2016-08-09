@@ -12,7 +12,7 @@ ai_billboard = (function () {
     function getBaseUrl(string) {
         var urlArray = string.split("/");
         var domain = urlArray[2];
-        return protocolToUse + "//" + domain;
+        return protocolToUse + domain;
     }
 
     var domain, remnant;
@@ -35,7 +35,7 @@ ai_billboard = (function () {
         }
     }
     var teamId = query.team;
-    var APIUrl = protocolToUse + '://prod-homerunloyal-ai.synapsys.us/billboard/' + teamId;
+    var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/billboard/' + teamId;
     var randomArticles = [];
     var teamData = [];
     var imageArr = [];
