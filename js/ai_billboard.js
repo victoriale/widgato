@@ -1,25 +1,43 @@
-ai_billboard = (function() {
+ai_billboard = (function () {
+  var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+  var mlbDomain = "http://www.homerunloyal.com/";
+  var mlbPartnerDomain = "http://www.myhomerunzone.com/";
+  var referrer = document.referrer;
+  if (referrer.match(/baseball/g)) {
+      mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
+  }
+
+  // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
+  var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
+
+  function getBaseUrl(string) {
+      var urlArray = string.split("/");
+      var domain = urlArray[2];
+      return protocolToUse + domain;
+  }
+
   var domain, remnant;
-  var remLink = "http://www.homerunloyal.com/";
-  var partLink = "http://www.myhomerunzone.com/";
   var temp = location.search;
   var href;
   var query = {};
   if (temp != null) {
-    query = JSON.parse(decodeURIComponent(temp.substr(1)));
-    domain = query.dom;
-    remnant = query.remn;
-    if (remnant == 'true') {
-      href = remLink;
-      $("base").attr("href", remLink);
-    } else {
-      $("base").attr("href", partLink + domain + "/");
-      href = partLink + domain + "/";
-    }
+      query = JSON.parse(decodeURIComponent(temp.substr(1)));
+      domain = query.dom;
+      remnant = query.remn;
+      if (remnant == 'true') {
+          href = mlbDomain;
+          $("base").attr("href", mlbDomain);
+      } else if(referrer.match(/baseball/g)){
+          $("base").attr("href", mlbPartnerDomain);
+          href = mlbPartnerDomain;
+      } else {
+          $("base").attr("href", mlbPartnerDomain + domain + "/");
+          href = mlbPartnerDomain + domain + "/";
+      }
   }
+
   var teamId = query.team;
-  var protocolToUse = (location.protocol == "https:") ? "https" : "http";
-  var APIUrl = protocolToUse + '://prod-homerunloyal-ai.synapsys.us/billboard/' + teamId;
+  var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/billboard/' + teamId;
   var randomArticles = [];
   var teamData = [];
   var imageArr = [];
@@ -112,7 +130,7 @@ ai_billboard = (function() {
     $('.main-bottom-description')[0].innerHTML = arr2.content;
     $('.main-bottom-event-data')[0].innerHTML = arr1.lastGame;
     $('.main-bottom-image').css('background-image', 'url(' + imageArr[1] + ')');
-    if (remnant == 'true') {
+    if (remnant == 'true' || referrer.match(/baseball/g)) {
       $('#left-team-link').attr('href', href + 'team/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].awayTeamId);
       $('#left-team-link-small').attr('href', href + 'team/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].awayTeamId);
     } else {
