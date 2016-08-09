@@ -130,7 +130,7 @@ ai_billboard = (function () {
     $('.main-bottom-description')[0].innerHTML = arr2.content;
     $('.main-bottom-event-data')[0].innerHTML = arr1.lastGame;
     $('.main-bottom-image').css('background-image', 'url(' + imageArr[1] + ')');
-    if (remnant == 'true' || referrer.match(/baseball/g) {
+    if (remnant == 'true' || referrer.match(/baseball/g)) {
       $('#left-team-link').attr('href', href + 'team/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].awayTeamId);
       $('#left-team-link-small').attr('href', href + 'team/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].awayTeamId);
     } else {
