@@ -1,26 +1,33 @@
 ai_widget = (function() {
+  var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+  var mlbDomain = "http://www.homerunloyal.com/";
+  var mlbPartnerDomain = "http://www.myhomerunzone.com/";
+  var referrer = document.referrer;
+  if (referrer.match(/baseball/g)) {
+    mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
+  }
+
   // Declare variables
   var event = '';
   var domain, remnant;
-  var remLink = "http://www.homerunloyal.com/";
-  var partLink = "http://www.myhomerunzone.com/";
   var temp = location.search;
   var query = {};
   var target;
+  var href;
+
   if (temp != null) {
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
     remnant = query.remn;
     target = query.targ;
     if (remnant == 'true') {
-      href = remLink;
-      $("base").attr("href", remLink);
+      href = mlbDomain;
+      $("base").attr("href", mlbDomain);
     } else {
-      $("base").attr("href", partLink + domain + "/");
-      href = partLink + domain + "/";
+      $("base").attr("href", mlbPartnerDomain + domain + "/");
+      href = mlbPartnerDomain + domain + "/";
     }
   }
-  var protocolToUse = (location.protocol == "https:") ? "https" : "http";
   var APIUrl = protocolToUse + '://prod-homerunloyal-ai.synapsys.us/sidekick',
     AIData = {},
     gameID = -1,
