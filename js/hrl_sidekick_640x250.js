@@ -23,7 +23,7 @@ ai_widget = (function () {
         if (remnant == 'true') {
             href = mlbDomain;
             $("base").attr("href", mlbDomain);
-        } else if(referrer.match(/baseball/g)){  // TODO
+        } else if(referrer.match(/baseball/g)){
             $("base").attr("href", mlbPartnerDomain);
             href = mlbPartnerDomain;
         } else {

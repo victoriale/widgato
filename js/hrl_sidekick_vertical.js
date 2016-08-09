@@ -20,15 +20,20 @@ ai_widget = (function() {
     domain = query.dom;
     remnant = query.remn;
     target = query.targ;
+
     if (remnant == 'true') {
       href = mlbDomain;
       $("base").attr("href", mlbDomain);
+    } else if(referrer.match(/baseball/g)){
+      $("base").attr("href", mlbPartnerDomain);
+      href = mlbPartnerDomain;
     } else {
       $("base").attr("href", mlbPartnerDomain + domain + "/");
       href = mlbPartnerDomain + domain + "/";
     }
+
   }
-  var APIUrl = protocolToUse + '://prod-homerunloyal-ai.synapsys.us/sidekick',
+  var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick',
     AIData = {},
     gameID = -1,
     pageInd = -1,
