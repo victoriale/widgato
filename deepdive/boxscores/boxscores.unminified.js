@@ -533,7 +533,6 @@
     .boxscores-e-nav-button{
       width: 30px;
       height: 30px;
-      line-height: 30px;
       border-radius: 5px;
       background-color: #fff;
       color: #000;
@@ -542,6 +541,7 @@
       vertical-align: middle;
       cursor: pointer;
       font-size: 24px;
+      padding: 0;
     }
     .boxscores-e-nav-button>span{
       vertical-align: middle;
