@@ -640,6 +640,7 @@
     display: none;
     background-color: #000;
     background-repeat: no-repeat;
+    background-position: top right;
   }
   .to-left-rail.to-rail-visible{
     display: block;
@@ -697,7 +698,6 @@
     position: relative;
     background-size: cover;
     background-image: url('` + heroImage + `');
-    background-position: 0% 50%;
   }
   .ddh-media-content{
     width: 970px;
