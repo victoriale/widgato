@@ -24,49 +24,49 @@
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'md';
-      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_masthead');
     break;
     case 'capitalgazette.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'md';
-      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_masthead');
     break;
     case 'chicagotribune.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'il';
-      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_masthead');
     break;
     case 'courant.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'ct';
-      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_masthead');
     break;
     case 'dailypress.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'va';
-      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_masthead');
     break;
     case 'latimes.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'ca';
-      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_masthead');
     break;
     case 'mcall.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'pa';
-      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_masthead');
     break;
     case 'orlandosentinel.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'fl';
-      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_masthead');
     break;
     case 'sandiegouniontribune.com':
       railMarginTop = 89;
@@ -79,13 +79,13 @@
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'fl';
-      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_masthead');
     break;
     case 'sun-sentinel.com':
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'fl';
-      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_masthead');
     break;
     default:
       //Default case
@@ -95,6 +95,8 @@
       contentEl = topWin.document.querySelector('.trb_allContentWrapper');
     break;
   }
+  //Set microsite destination link
+  domain = 'http://baseball.' + domain;
 
   var railWidth = 500; //Width of rails (width of rail images)
   var deepDiveHero, leftRail, rightRail;
@@ -118,7 +120,7 @@
     //console.log('BUILD RAILS');
     leftRail = topWin.document.createElement('a');
     leftRail.className = 'to-left-rail to-rail-visible';
-    leftRail.href = 'http://www.myhomerunzone.com/' + domain;
+    leftRail.href = domain;
     leftRail.target = '_blank';
     leftRail.innerHTML = `
       <div id="to-left-ad">
@@ -128,7 +130,7 @@
 
     rightRail = topWin.document.createElement('a');
     rightRail.className = 'to-right-rail to-rail-visible';
-    rightRail.href = 'http://www.myhomerunzone.com/' + domain;
+    rightRail.href = domain;
     rightRail.target = '_blank';
     rightRail.innerHTML = `
       <div id="to-right-ad">
@@ -170,7 +172,7 @@
         </button>
         <div class="ddh-media-content">
           <div id="ddh-media-video"></div>
-          <a target="_blank" href="` + ('http://www.myhomerunzone.com/' + domain) + `">
+          <a target="_blank" href="` + domain + `">
             <div class="ddh-media-right-content">
               <img width="280px" height="40px" src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_logo.png?">
               <div class="ddh-media-right-title">
@@ -475,7 +477,7 @@
                 timestamp: item.gameInfo.startDateTimestamp,
                 eventStatus: item.gameInfo.eventStatus,
                 htmlMarkup: `
-                  <a target="_blank" href="http://myhomerunzone.com/` + domain +`/articles/pregame-report/` + item.gameInfo.eventId + `" class="ddh-bar-game-link">
+                  <a target="_blank" href="` + domain + `/articles/pregame-report/` + item.gameInfo.eventId + `" class="ddh-bar-game-link">
                     <ul class="ddh-bar-game-teams">
                       <li>
                         ` + item.homeTeamInfo.abbreviation + `
@@ -504,13 +506,13 @@
             if(compareDate(item.gameInfo.startDateTimestamp, todayDate, offset)){
               //Determines which report the live game links to
               if(item.gameInfo.inningsPlayed <= 3){
-                var link = 'http://myhomerunzone.com/' + domain +'/articles/pregame-report/' + item.gameInfo.eventId;
+                var link = domain +'/articles/pregame-report/' + item.gameInfo.eventId;
               }else if(item.gameInfo.inningsPlayed > 3 && item.gameInfo.inningsPlayed <= 5){
-                var link = 'http://myhomerunzone.com/' + domain +'/articles/third-inning-report/' + item.gameInfo.eventId;
+                var link = domain +'/articles/third-inning-report/' + item.gameInfo.eventId;
               }else if(item.gameInfo.inningsPlayed > 5 && item.gameInfo.inningsPlayed <= 7){
-                var link = 'http://myhomerunzone.com/' + domain +'/articles/fifth-inning-report/' + item.gameInfo.eventId;
+                var link = domain +'/articles/fifth-inning-report/' + item.gameInfo.eventId;
               }else if(item.gameInfo.inningsPlayed > 7){
-                var link = 'http://myhomerunzone.com/' + domain +'/articles/seventh-inning-report/' + item.gameInfo.eventId;
+                var link = domain +'/articles/seventh-inning-report/' + item.gameInfo.eventId;
               }
               //Determine what inning arrow to display
               var inningMarkup;
@@ -568,7 +570,7 @@
               timestamp: item.gameInfo.startDateTimestamp,
               eventStatus: item.gameInfo.eventStatus,
               htmlMarkup: `
-                <a target="_blank" href="http://myhomerunzone.com/` + domain +`/articles/postgame-report/` + item.gameInfo.eventId + `" class="ddh-bar-game-link">
+                <a target="_blank" href="` + domain + `/articles/postgame-report/` + item.gameInfo.eventId + `" class="ddh-bar-game-link">
                   <ul class="ddh-bar-game-teams">
                     <li>
                       ` + item.homeTeamInfo.abbreviation + `
@@ -682,7 +684,7 @@
 
   .ddh-container{
     width: 100%;
-    margin-top: ` + contentMarginTop + `px;
+    margin: -40px 0 40px;
     font-family: Lato, Helvetica;
     display: none;
   }
