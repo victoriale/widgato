@@ -382,21 +382,17 @@ chatterbox[chatterbox.length] = (function(chatter_id) {
       var ad_stack_div = document.createElement('div');
       ad_stack_div.setAttribute('class', 'dw_ad_stack');
       var ad_script = document.createElement("script");
-      if ( domain != "chicagotribune.com" ) {
-        ad_script.src = protocol + "://content.synapsys.us/l/n/index-mdb.php?" + Object.keys(e_q).map(function(k){return encodeURIComponent(k)+"="+encodeURIComponent(e_q[k])}).join("&");
-      } else {
-        var e_q = {
-          "type": (div_conf[initSize].min == 0 ? "chatterbox_mobile" : "chatterbox"),
-          "adW": "300",
-          "adH": "250",
-          "widW": "0",
-          "widH": "0",
-          "remn": false,
-          "rand": e_q.rand,
-          "dom": domain
-        };
-        ad_script.src = "//content.synapsys.us/l/n/igloo.php?" + Object.keys(e_q).map(function(k){return encodeURIComponent(k)+"="+encodeURIComponent(e_q[k])}).join("&");
-      }
+      var e_q = {
+        "type": (div_conf[initSize].min == 0 ? "chatterbox_mobile" : "chatterbox"),
+        "adW": "300",
+        "adH": "250",
+        "widW": "0",
+        "widH": "0",
+        "remn": false,
+        "rand": e_q.rand,
+        "dom": domain
+      };
+      ad_script.src = "//content.synapsys.us/l/n/igloo.php?" + Object.keys(e_q).map(function(k){return encodeURIComponent(k)+"="+encodeURIComponent(e_q[k])}).join("&");
       ad_stack_div.appendChild(ad_script);
 
       // Create the dynamic widget
