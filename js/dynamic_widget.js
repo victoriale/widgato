@@ -24,7 +24,6 @@ dynamic_widget = function() {
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb'];
     var s = false;
     var o = '';
-
     function c(e) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
             e()
