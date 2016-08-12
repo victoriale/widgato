@@ -24,7 +24,7 @@ dynamic_widget = function() {
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb'];
     var s = false;
     var o = '';
-
+    console.log(l);
     function c(e) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
             e()
@@ -262,6 +262,7 @@ dynamic_widget = function() {
             $('list-link').parentNode.removeChild($('list-link'));
             return false
         }
+        console.log(l.category);
         switch (l.category) {
             case 'finance':
                 var r = l.remn == 'true' ? 'http://www.investkit.com/' : 'http://www.myinvestkit.com/' + l.dom + '/';
