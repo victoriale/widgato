@@ -19,6 +19,10 @@
   var heroImage = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball_hero.jpg'; //Background Hero image of deepdive hero
   var contentEl; //Main node of the content. This is needed to calculate position of rails and to add deep dive hero
 
+  //Google analytics tags
+  var gaRails = '/?utm_source=Tribune&utm_medium=Siderails&utm_campaign=Baseball%20Takeover';
+  var gaTop = '/?utm_source=Tribune&utm_medium=TopSection&utm_campaign=Baseball%20Takeover';
+
   switch(domain){
     case 'baltimoresun.com':
       railMarginTop = contentMarginTop = 131;
@@ -121,7 +125,7 @@
     leftRail = topWin.document.createElement('a');
     // leftRail.className = 'to-left-rail to-rail-visible';
     leftRail.className = 'to-left-rail';
-    leftRail.href = domain;
+    leftRail.href = domain + gaRails;
     leftRail.target = '_blank';
     leftRail.innerHTML = `
       <div id="to-left-ad">
@@ -132,7 +136,7 @@
     rightRail = topWin.document.createElement('a');
     // rightRail.className = 'to-right-rail to-rail-visible';
     rightRail.className = 'to-right-rail';
-    rightRail.href = domain;
+    rightRail.href = domain + gaRails;
     rightRail.target = '_blank';
     rightRail.innerHTML = `
       <div id="to-right-ad">
@@ -176,7 +180,7 @@
         </button>
         <div class="ddh-media-content">
           <div id="ddh-media-video"></div>
-          <a target="_blank" href="` + domain + `">
+          <a target="_blank" href="` + domain + gaTop + `">
             <div class="ddh-media-right-content">
               <img width="280px" height="40px" src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_logo.png?">
               <div class="ddh-media-right-title">
