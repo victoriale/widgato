@@ -245,6 +245,7 @@
     closeButton.addEventListener('click', function(){
       var deepDiveMedia = topWin.document.getElementsByClassName('ddh-media')[0];
       deepDiveMedia.parentElement.removeChild(deepDiveMedia);
+      deepDiveHero.className = 'ddh-container ddh-closed';
     })
 
     //Get timezone abbreviation and offset
@@ -773,6 +774,9 @@
     display: none;
     height: 496px;
     contain: strict;
+  }
+  .ddh-container.ddh-closed{
+    height: 50px;
   }
   @media(min-width: 990px){
     .ddh-container{
