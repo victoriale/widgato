@@ -109,6 +109,23 @@ dynamic_widget = function() {
             $('title').setAttribute('style', 'font-size: 14px')
         }
         var n = true;
+        var mlbspecialDomains = [
+          "latimes.com",
+          "orlandosentinel.com",
+          "sun-sentinel.com",
+          "baltimoresun.com",
+          "mcall.com",
+          "courant.com",
+          "dailypress.com",
+          "southflorida.com",
+          "citypaper.com",
+          "themash.com",
+          "coastlinepilot.com",
+          "sandiegouniontribune.com",
+          "ramonasentinel.com",
+          "capitalgazette.com",
+          "chicagotribune.com"
+        ];
         switch (l.category) {
             case 'nba':
                 var a = l.remn == 'true' ? 'http://www.hoopsloyal.com/NBA/widget-list' : 'http://www.myhoopszone.com/' + l.dom + '/NBA/w-list';
@@ -117,6 +134,14 @@ dynamic_widget = function() {
                 var a = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA/widget-list' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA/w-list';
                 break;
             case "mlb":
+                var mlbSpecialDomain = "";
+                var currentDomain = window.location.hostname.toString();
+                currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, "");
+                for (i = 0; i <= mlbspecialDomains.length; i++) {
+                  if (currentDomain == mlbspecialDomains[i]) {
+                    mlbSpecialDomain = "http://baseball." + mlbspecialDomains[i] + "/list";
+                  }
+                }
                 // var a = "/";
                 // var n = false
                 // $("mainurl").style.cssText += "pointer-events:none; cursor:default",
@@ -126,10 +151,11 @@ dynamic_widget = function() {
                 // $("homelink").style.cssText += "pointer-events:none; cursor:default",
                 //  $("list-link").style.display = "none";
                 var a = "";
-                if( mlbPartnerDomain == "http://www.myhomerunzone.com/") {
-                    a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom + '/list';
-                }else{
-                    a = mlbPartnerDomain + 'list';
+                if (mlbSpecialDomain == "") {
+                      a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom + '/list';
+                }
+                else {
+                  a = mlbSpecialDomain;
                 }
                 var n = false
                 break;
