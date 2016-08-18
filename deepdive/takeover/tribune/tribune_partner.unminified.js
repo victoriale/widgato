@@ -19,6 +19,10 @@
   var heroImage = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball_hero.jpg'; //Background Hero image of deepdive hero
   var contentEl; //Main node of the content. This is needed to calculate position of rails and to add deep dive hero
 
+  //Google analytics tags
+  var gaRails = '/?utm_source=Tribune&utm_medium=Siderails&utm_campaign=Baseball%20Takeover';
+  var gaTop = '/?utm_source=Tribune&utm_medium=TopSection&utm_campaign=Baseball%20Takeover';
+
   switch(domain){
     case 'baltimoresun.com':
       railMarginTop = contentMarginTop = 131;
@@ -119,8 +123,9 @@
   var buildRails = function(){
     //console.log('BUILD RAILS');
     leftRail = topWin.document.createElement('a');
-    leftRail.className = 'to-left-rail to-rail-visible';
-    leftRail.href = domain;
+    // leftRail.className = 'to-left-rail to-rail-visible';
+    leftRail.className = 'to-left-rail';
+    leftRail.href = domain + gaRails;
     leftRail.target = '_blank';
     leftRail.innerHTML = `
       <div id="to-left-ad">
@@ -129,8 +134,9 @@
     `;
 
     rightRail = topWin.document.createElement('a');
-    rightRail.className = 'to-right-rail to-rail-visible';
-    rightRail.href = domain;
+    // rightRail.className = 'to-right-rail to-rail-visible';
+    rightRail.className = 'to-right-rail';
+    rightRail.href = domain + gaRails;
     rightRail.target = '_blank';
     rightRail.innerHTML = `
       <div id="to-right-ad">
@@ -138,8 +144,9 @@
       </div>
     `;
 
-    leftRail.style.left = getLeftRailPos();
-    rightRail.style.left = getRightRailPos();
+    //Deprecated: Using css calc instead
+    // leftRail.style.left = getLeftRailPos();
+    // rightRail.style.left = getRightRailPos();
 
     body.insertBefore(rightRail, body.firstChild);
     body.insertBefore(leftRail, body.firstChild);
@@ -157,13 +164,14 @@
     rightAd.insertBefore(rightEmbed, rightAd.firstChild);
 
     railsLoaded = true;
-    railsVisible = true;
+    // railsVisible = true;
   }
   //Build deep dive
   var buildDeepDive = function(){
     //console.log('BUILD DEEPDIVE');
     deepDiveHero = topWin.document.createElement('div');
-    deepDiveHero.className = 'ddh-container ddh-visible';
+    // deepDiveHero.className = 'ddh-container ddh-visible';
+    deepDiveHero.className = 'ddh-container';
     deepDiveHero.innerHTML = `
       <div class="ddh-media">
         <button class="ddh-media-close">
@@ -172,7 +180,7 @@
         </button>
         <div class="ddh-media-content">
           <div id="ddh-media-video"></div>
-          <a target="_blank" href="` + domain + `">
+          <a target="_blank" href="` + domain + gaTop + `">
             <div class="ddh-media-right-content">
               <img width="280px" height="40px" src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_logo.png?">
               <div class="ddh-media-right-title">
@@ -209,15 +217,6 @@
       </div>
 
       <ul class="ddh-bar-schedule"></ul>
-
-      <div class="ddh-bar-nav">
-        <button class="ddh-bar-button ddh-prev" >
-          <span class="ddh-icon-angle-left"></span>
-        </button>
-        <button class="ddh-bar-button ddh-next">
-          <span class="ddh-icon-angle-right"></span>
-        </button>
-      </div>
     `;
 
     contentEl.insertBefore(deepDiveHero, contentEl.firstChild);
@@ -246,6 +245,7 @@
     closeButton.addEventListener('click', function(){
       var deepDiveMedia = topWin.document.getElementsByClassName('ddh-media')[0];
       deepDiveMedia.parentElement.removeChild(deepDiveMedia);
+      deepDiveHero.className = 'ddh-container ddh-closed';
     })
 
     //Get timezone abbreviation and offset
@@ -258,6 +258,9 @@
     month = month.toString().length === 1 ? '0' + month : month; //If month is single digit (1-9) add 0 so api is called with double digit params (for cache)
     var date = today.getUTCDate();
     var dateInput = year + '-' + month + '-' + date;
+
+    //Add boxscores bar to deep dive hero
+    deepDiveHero.appendChild(deepDiveBar);
 
     //AJAX call to get box scores data
     var xhttp = new XMLHttpRequest();
@@ -273,9 +276,6 @@
         //Calculate bodyWidth to determine amount of games to display
         var contentWidth = contentEl.offsetWidth;
         displayNumber = contentWidth >= 1080 ? 4 : 3;
-
-        //Add boxscores bar to deep dive hero
-        deepDiveHero.appendChild(deepDiveBar);
 
         //Get initial indexes to show
         for(var c = 0; c < displayNumber; c++){
@@ -293,6 +293,19 @@
           var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
           schedule.appendChild(gameNode);
         }
+
+        var deepDiveBarNav = topWin.document.createElement('div');
+        deepDiveBarNav.className = 'ddh-bar-nav';
+        deepDiveBarNav.innerHTML = `
+          <button class="ddh-bar-button ddh-prev" >
+            <span class="ddh-icon-angle-left"></span>
+          </button>
+          <button class="ddh-bar-button ddh-next">
+            <span class="ddh-icon-angle-right"></span>
+          </button>
+        `;
+
+        deepDiveBar.appendChild(deepDiveBarNav);
 
         //Listen for next button click
         var nextButton = topWin.document.getElementsByClassName('ddh-bar-button ddh-next')[0];
@@ -359,22 +372,25 @@
     xhttp.send();
 
     deepDiveLoaded = true;
-    deepDiveVisible = true;
+    // deepDiveVisible = true;
   }
 
+
+  //Deprecated: Using css calc instead
   //Get position of left rail
-  var getLeftRailPos = function(){
-    var contentLeft = contentEl.getBoundingClientRect().left;
-    return (contentLeft - railWidth) + 'px';
-  }
+  // var getLeftRailPos = function(){
+  //   var contentLeft = contentEl.getBoundingClientRect().left;
+  //   return (contentLeft - railWidth) + 'px';
+  // }
 
+  //Deprecated: Using css calc instead
   //Get position of right rail
-  var getRightRailPos = function(){
-    var contentLeft = contentEl.getBoundingClientRect().left;
-    var contentWidth = contentEl.offsetWidth;
-
-    return (contentLeft + contentWidth) + 'px';
-  }
+  // var getRightRailPos = function(){
+  //   var contentLeft = contentEl.getBoundingClientRect().left;
+  //   var contentWidth = contentEl.offsetWidth;
+  //
+  //   return (contentLeft + contentWidth) + 'px';
+  // }
 
   //Get current timezone offset and timezone abbreviation (in eastern)
   var getEasternTime = function(){
@@ -621,30 +637,91 @@
   fontEl.type = 'text/css';
   fontEl.href = 'https://fonts.googleapis.com/css?family=Lato:300,400';
   topWin.document.head.appendChild(fontEl);
+  //Deprecated: styles.css is now inlined
   //Build and load icons
-  var iconEl = topWin.document.createElement('link');
-  iconEl.rel = 'stylesheet';
-  iconEl.type = 'text/css';
-  iconEl.href = protocol + '://w1.synapsys.us/widgets/deepdive/fonts/styles.css';
-  topWin.document.head.appendChild(iconEl);
+  // var iconEl = topWin.document.createElement('link');
+  // iconEl.rel = 'stylesheet';
+  // iconEl.type = 'text/css';
+  // iconEl.href = protocol + '://w1.synapsys.us/widgets/deepdive/fonts/styles.css';
+  // topWin.document.head.appendChild(iconEl);
 
   //Build and load stylesheet
   var styleEl = topWin.document.createElement('style');
   styleEl.innerHTML = `
+  @charset "UTF-8";
+
+  @font-face {
+    font-family: "takeover-deep-dive";
+    src:url("` + protocol + `://w1.synapsys.us/widgets/deepdive/fonts/font_middlelayer.php?type=eot");
+    src:url("` + protocol + `://w1.synapsys.us/widgets/deepdive/fonts/font_middlelayer.php?type=eot_iefix") format("embedded-opentype"),
+      url("` + protocol + `://w1.synapsys.us/widgets/deepdive/fonts/font_middlelayer.php?type=woff") format("woff"),
+      url("` + protocol + `://w1.synapsys.us/widgets/deepdive/fonts/font_middlelayer.php?type=ttf") format("truetype"),
+      url("` + protocol + `://w1.synapsys.us/widgets/deepdive/fonts/font_middlelayer.php?type=svg") format("svg");
+    font-weight: normal;
+    font-style: normal;
+
+  }
+
+  [data-icon]:before {
+    font-family: "takeover-deep-dive" !important;
+    content: attr(data-icon);
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  [class^="ddh-icon-"]:before,
+  [class*=" ddh-icon-"]:before {
+    font-family: "takeover-deep-dive" !important;
+    font-style: normal !important;
+    font-weight: normal !important;
+    font-variant: normal !important;
+    text-transform: none !important;
+    speak: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .ddh-icon-arrow-right:before {
+    content: "` + "\\61" + `";
+  }
+  .ddh-icon-angle-right:before {
+    content: "` + "\\62" + `";
+  }
+  .ddh-icon-angle-left:before {
+    content: "` + "\\63" + `";
+  }
+  .ddh-icon-times:before {
+    content: "` + "\\64" + `";
+  }
+
   .to-left-rail{
     width: ` + railWidth + `px;
     position: fixed;
     top: 0;
+    right: calc(50% + 640px);
     bottom: 0;
     background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_left.jpg');
     display: none;
     background-color: #000;
     background-repeat: no-repeat;
     background-position: top right;
+    contain: strict;
   }
-  .to-left-rail.to-rail-visible{
-    display: block;
+  @media(min-width: 1600px){
+    .to-left-rail{
+      display: block;
+    }
   }
+  // .to-left-rail.to-rail-visible{
+  //   display: block;
+  // }
   #to-left-ad{
     width: 160px;
     height: 600px;
@@ -661,15 +738,22 @@
     width: ` + railWidth + `px;
     position: fixed;
     top: 0;
+    left: calc(50% + 640px);
     bottom: 0;
     background-image: url('` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_right.jpg');
     display: none;
     background-color: #000;
     background-repeat: no-repeat;
+    contain: strict;
   }
-  .to-right-rail.to-rail-visible{
-    display: block;
+  @media(min-width: 1600px){
+    .to-right-rail{
+      display: block;
+    }
   }
+  // .to-right-rail.to-rail-visible{
+  //   display: block;
+  // }
   #to-right-ad{
     width: 160px;
     height: 600px;
@@ -688,10 +772,20 @@
     margin: -40px 0 40px;
     font-family: Lato, Helvetica;
     display: none;
+    height: 496px;
+    contain: strict;
   }
-  .ddh-container.ddh-visible{
-    display: block;
+  .ddh-container.ddh-closed{
+    height: 50px;
   }
+  @media(min-width: 990px){
+    .ddh-container{
+      display: block;
+    }
+  }
+  // .ddh-container.ddh-visible{
+  //   display: block;
+  // }
   .ddh-media{
     background-color: #363636;
     padding: 40px 0;
@@ -982,31 +1076,35 @@
     if(!deepDiveLoaded && resizeBodyWidth >= 990){
       buildDeepDive();
     }
+
+    //Deprecated: Using media breaks instead
     //Determines if deep dive hero should be shown or hidden
-    if(deepDiveLoaded && deepDiveVisible && resizeContentWidth < 990){
-      deepDiveHero.className = 'ddh-container';
-      deepDiveVisible = false;
-    }
-    if(deepDiveLoaded && !deepDiveVisible && resizeContentWidth >= 990){
-      deepDiveHero.className = 'ddh-container ddh-visible';
-      deepDiveVisible = true;
-    }
+    // if(deepDiveLoaded && deepDiveVisible && resizeContentWidth < 990){
+    //   deepDiveHero.className = 'ddh-container';
+    //   deepDiveVisible = false;
+    // }
+    // if(deepDiveLoaded && !deepDiveVisible && resizeContentWidth >= 990){
+    //   deepDiveHero.className = 'ddh-container ddh-visible';
+    //   deepDiveVisible = true;
+    // }
+    //Deprecated: Using media breaks instead
     //Determines if rails should be shown or hidden
-    if(railsLoaded && railsVisible && (resizeBodyWidth - resizeContentWidth) < 320){
-      railsVisible = false;
-      leftRail.className = 'to-left-rail';
-      rightRail.className = 'to-right-rail';
-    }
-    if(railsLoaded && !railsVisible && (resizeBodyWidth - resizeContentWidth) >= 320){
-      railsVisible = true;
-      leftRail.className = 'to-left-rail to-rail-visible';
-      rightRail.className = 'to-right-rail to-rail-visible';
-    }
+    // if(railsLoaded && railsVisible && (resizeBodyWidth - resizeContentWidth) < 320){
+    //   railsVisible = false;
+    //   leftRail.className = 'to-left-rail';
+    //   rightRail.className = 'to-right-rail';
+    // }
+    // if(railsLoaded && !railsVisible && (resizeBodyWidth - resizeContentWidth) >= 320){
+    //   railsVisible = true;
+    //   leftRail.className = 'to-left-rail to-rail-visible';
+    //   rightRail.className = 'to-right-rail to-rail-visible';
+    // }
+    //Deprecated: Using css calc instead
     //If rails exist, realign
-    if(railsLoaded){
-      leftRail.style.left = getLeftRailPos();
-      rightRail.style.left = getRightRailPos();
-    }
+    // if(railsLoaded){
+    //   leftRail.style.left = getLeftRailPos();
+    //   rightRail.style.left = getRightRailPos();
+    // }
   });
 
 })();
