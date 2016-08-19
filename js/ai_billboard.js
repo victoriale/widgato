@@ -20,19 +20,50 @@ ai_billboard = (function () {
   var temp = location.search;
   var href;
   var query = {};
+  var mlbspecialDomains = [
+    "latimes.com",
+    "orlandosentinel.com",
+    "sun-sentinel.com",
+    "baltimoresun.com",
+    "mcall.com",
+    "courant.com",
+    "dailypress.com",
+    "southflorida.com",
+    "citypaper.com",
+    "themash.com",
+    "coastlinepilot.com",
+    "sandiegouniontribune.com",
+    "ramonasentinel.com",
+    "capitalgazette.com",
+    "chicagotribune.com"
+  ];
   if (temp != null) {
       query = JSON.parse(decodeURIComponent(temp.substr(1)));
       domain = query.dom;
       remnant = query.remn;
-      if (remnant == 'true') {
-          href = mlbDomain;
-          $("base").attr("href", mlbDomain);
-      } else if(referrer.match(/baseball/g)){
-          $("base").attr("href", mlbPartnerDomain);
-          href = mlbPartnerDomain;
-      } else {
-          $("base").attr("href", mlbPartnerDomain + domain + "/");
-          href = mlbPartnerDomain + domain + "/";
+      var mlbSpecialDomain = "";
+      var currentDomain = window.location.hostname.toString();
+      currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, "");
+      for (i = 0; i <= mlbspecialDomains.length; i++) {
+        if (currentDomain == mlbspecialDomains[i]) {
+          mlbSpecialDomain = "http://baseball." + mlbspecialDomains[i] + "/";
+        }
+      }
+      if (mlbSpecialDomain == "") {
+        if (remnant == 'true') {
+            href = mlbDomain;
+            $("base").attr("href", mlbDomain);
+        } else if(referrer.match(/baseball/g)){
+            $("base").attr("href", mlbPartnerDomain);
+            href = mlbPartnerDomain;
+        } else {
+            $("base").attr("href", mlbPartnerDomain + domain + "/");
+            href = mlbPartnerDomain + domain + "/";
+        }
+      }
+      else {
+        $("base").attr("href", mlbSpecialDomain);
+        href = mlbSpecialDomain;
       }
   }
 
