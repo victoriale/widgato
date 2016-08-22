@@ -12,9 +12,9 @@ if [[ $do_minify =~ ^[Yy]$ ]]; then
 fi
 
 # Minify the JS
-read -p "Minify dynamic_widget.js (y/n)? " -r do_minify
+read -p "Minify dynamic_widget.unminified.js (y/n)? " -r do_minify
 if [[ $do_minify =~ ^[Yy]$ ]]; then
-	uglifyjs js/dynamic_widget.js -m -q 1 --output js/dynamic_widget.js
+	uglifyjs js/dynamic_widget.unminified.js -m -q 1 --output js/dynamic_widget.js
 fi
 read -p "Minify chatterbox.unminified.js (y/n)? " -r do_minify
 if [[ $do_minify =~ ^[Yy]$ ]]; then

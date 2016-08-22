@@ -342,6 +342,24 @@ function getRandomInt(min, max){
 /* -- Manipulation Functions  -- */
 function buildListLink(cat, remn, dom, widget_data){
 
+  var mlbspecialDomains = [
+    "latimes.com",
+    "orlandosentinel.com",
+    "sun-sentinel.com",
+    "baltimoresun.com",
+    "mcall.com",
+    "courant.com",
+    "dailypress.com",
+    "southflorida.com",
+    "citypaper.com",
+    "themash.com",
+    "coastlinepilot.com",
+    "sandiegouniontribune.com",
+    "ramonasentinel.com",
+    "capitalgazette.com",
+    "chicagotribune.com"
+  ];
+
   dom == "lasvegasnow.com"  ? change_url = true : change_url = false;
   change_url ? new_url = "finance.lasvegasnow.com" : "";
   doStep = true;
@@ -359,7 +377,21 @@ function buildListLink(cat, remn, dom, widget_data){
           }
           break;
         case 'mlb':
-          var base_url = "http://homerunloyal.com/list";
+          var mlbSpecialDomain = "";
+          var currentDomain = window.location.hostname.toString();
+          currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, "");
+          for (i = 0; i <= mlbspecialDomains.length; i++) {
+            if (currentDomain == mlbspecialDomains[i]) {
+              mlbSpecialDomain = "http://baseball." + mlbspecialDomains[i] + "/list";
+            }
+          }
+          var base_url;
+          if (mlbSpecialDomain == "") {
+            base_url = remn == "true" ? "http://homerunloyal.com/list" : "http://www.myhomerunzone.com/" + dom + "/list";
+          }
+          else {
+            base_url = mlbSpecialDomain;
+          }
           doStep = false;
           break;
         default:

@@ -11,9 +11,6 @@
   //Grab domain name to know where to point
   var wLocation = topWin.location;
   var domain = wLocation.hostname.replace(/www./, '');
-  if(domain !== 'homerunloyal.com' && domain !== 'myhomerunzone.com' && domain !== 'dev.homerunloyal.com' && domain !== 'dev.myhomerunzone.com' && domain !== 'qa.homerunloyal.com' && domain !== 'qa.myhomerunzone.com'){
-    domain = 'homerunloyal.com';
-  }
   if(domain === 'myhomerunzone.com' || domain === 'dev.myhomerunzone.com' || domain === 'qa.myhomerunzone.com'){
     var partnerDomainArr = wLocation.pathname.split('/');
     var partnerDomain = partnerDomainArr[1];
@@ -536,7 +533,6 @@
     .boxscores-e-nav-button{
       width: 30px;
       height: 30px;
-      line-height: 30px;
       border-radius: 5px;
       background-color: #fff;
       color: #000;
@@ -545,6 +541,7 @@
       vertical-align: middle;
       cursor: pointer;
       font-size: 24px;
+      padding: 0;
     }
     .boxscores-e-nav-button>span{
       vertical-align: middle;

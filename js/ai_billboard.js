@@ -1,43 +1,79 @@
 ai_billboard = (function () {
-    var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-    var mlbDomain = "http://www.homerunloyal.com/";
-    var mlbPartnerDomain = "http://www.myhomerunzone.com/";
-    var referrer = document.referrer;
-    if (referrer.match(/\/\/baseball\./g)) {
-        mlbPartnerDomain = referrer.split('/')[2];
-    }
-// if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
-    var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
+  var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+  var mlbDomain = "http://www.homerunloyal.com/";
+  var mlbPartnerDomain = "http://www.myhomerunzone.com/";
+  var referrer = document.referrer;
+  if (referrer.match(/baseball/g)) {
+      mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
+  }
 
-    function getBaseUrl(string) {
-        var urlArray = string.split("/");
-        var domain = urlArray[2];
-        return protocolToUse + "//" + domain;
-    }
+  // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
+  var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
 
-    var domain, remnant;
-    var temp = location.search;
-    var href;
-    var query = {};
-    if (temp != null) {
-        query = JSON.parse(decodeURIComponent(temp.substr(1)));
-        domain = query.dom;
-        remnant = query.remn;
+  function getBaseUrl(string) {
+      var urlArray = string.split("/");
+      var domain = urlArray[2];
+      return protocolToUse + domain;
+  }
+
+  var domain, remnant;
+  var temp = location.search;
+  var href;
+  var query = {};
+  var mlbspecialDomains = [
+    "latimes.com",
+    "orlandosentinel.com",
+    "sun-sentinel.com",
+    "baltimoresun.com",
+    "mcall.com",
+    "courant.com",
+    "dailypress.com",
+    "southflorida.com",
+    "citypaper.com",
+    "themash.com",
+    "coastlinepilot.com",
+    "sandiegouniontribune.com",
+    "ramonasentinel.com",
+    "capitalgazette.com",
+    "chicagotribune.com"
+  ];
+  if (temp != null) {
+      query = JSON.parse(decodeURIComponent(temp.substr(1)));
+      domain = query.dom;
+      remnant = query.remn;
+      var mlbSpecialDomain = "";
+      var currentDomain = window.location.hostname.toString();
+      currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, "");
+      for (i = 0; i <= mlbspecialDomains.length; i++) {
+        if (currentDomain == mlbspecialDomains[i]) {
+          mlbSpecialDomain = "http://baseball." + mlbspecialDomains[i] + "/";
+        }
+      }
+      if (mlbSpecialDomain == "") {
         if (remnant == 'true') {
             href = mlbDomain;
             $("base").attr("href", mlbDomain);
+        } else if(referrer.match(/baseball/g)){
+            $("base").attr("href", mlbPartnerDomain);
+            href = mlbPartnerDomain;
         } else {
             $("base").attr("href", mlbPartnerDomain + domain + "/");
             href = mlbPartnerDomain + domain + "/";
         }
-    }
-    var teamId = query.team;
-    var APIUrl = protocolToUse + '://prod-homerunloyal-ai.synapsys.us/billboard/' + teamId;
-    var randomArticles = [];
-    var teamData = [];
-    var imageArr = [];
-    var leftRgb;
-    var rightRgb;
+      }
+      else {
+        $("base").attr("href", mlbSpecialDomain);
+        href = mlbSpecialDomain;
+      }
+  }
+
+  var teamId = query.team;
+  var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/billboard/' + teamId;
+  var randomArticles = [];
+  var teamData = [];
+  var imageArr = [];
+  var leftRgb;
+  var rightRgb;
 
   function getContent(eventId) {
     var locApiUrl = APIUrl;
@@ -125,7 +161,7 @@ ai_billboard = (function () {
     $('.main-bottom-description')[0].innerHTML = arr2.content;
     $('.main-bottom-event-data')[0].innerHTML = arr1.lastGame;
     $('.main-bottom-image').css('background-image', 'url(' + imageArr[1] + ')');
-    if (remnant == 'true') {
+    if (remnant == 'true' || referrer.match(/baseball/g)) {
       $('#left-team-link').attr('href', href + 'team/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].awayTeamId);
       $('#left-team-link-small').attr('href', href + 'team/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].awayTeamId);
     } else {

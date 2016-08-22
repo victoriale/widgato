@@ -5,7 +5,9 @@
     Description: This file pulls a font file and allows cross origin access. This needed is due to firefox and chrome CORS checks
   */
   header("Access-Control-Allow-Origin: *");
- $fileType = $_GET["type"];
+  header("Cache-Control: max-age=86400, public");
+
+  $fileType = $_GET["type"];
 
   switch($fileType){
     case "eot":
