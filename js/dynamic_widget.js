@@ -135,8 +135,16 @@ dynamic_widget = function() {
                 break;
             case "mlb":
                 var mlbSpecialDomain = "";
-                var currentDomain = window.location.hostname.toString();
-                currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, "");
+                var currentDomain = "";
+                if (document.referrer = "") {
+                  currentDomain = window.location.hostname.toString();
+                }
+                else {
+                  currentDomain = document.referrer;
+                }
+                currentDomain = currentDomain.replace(/.*?:\/\//g, ""); //remove http
+                currentDomain = currentDomain.replace("/", ""); //remove /
+                currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
                 for (i = 0; i <= mlbspecialDomains.length; i++) {
                   if (currentDomain == mlbspecialDomains[i]) {
                     mlbSpecialDomain = "http://baseball." + mlbspecialDomains[i] + "/list";
@@ -275,6 +283,7 @@ dynamic_widget = function() {
     }
 
     function h() {
+      var hn = "";
         if (l.carousel == true) {
             var e = d.getElementsByTagName('a');
             for (var t = 0; t < e.length; t++) {
@@ -293,12 +302,15 @@ dynamic_widget = function() {
                 if (s) {
                     r = r.replace('www.myinvestkit.com', o)
                 }
+                hn = "Invest Kit";
                 break;
             case 'nba':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NBA' : 'http://www.myhoopszone.com/' + l.dom + '/NBA';
+                var hn = "Hoops Loyal";
                 break;
             case 'college_basketball':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA';
+                var hn = "Hoops Loyal";
                 break;
             case "mlb":
                 var r = "";
@@ -307,12 +319,14 @@ dynamic_widget = function() {
                 }else{
                     r = mlbPartnerDomain;
                 }
+                var hn = "Home Run Loyal";
               break;
             default:
                 var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';
                 break
         }
-        $('homelink').href = r
+        $('homelink').href = r;
+        $('verticalDisplayName').innerHTML = hn;
     }
     m();
     c(h);

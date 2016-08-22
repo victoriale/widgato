@@ -378,8 +378,16 @@ function buildListLink(cat, remn, dom, widget_data){
           break;
         case 'mlb':
           var mlbSpecialDomain = "";
-          var currentDomain = window.location.hostname.toString();
-          currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, "");
+          var currentDomain = "";
+          if (document.referrer = "") {
+            currentDomain = window.location.hostname.toString();
+          }
+          else {
+            currentDomain = document.referrer;
+          }
+          currentDomain = currentDomain.replace(/.*?:\/\//g, ""); //remove http
+          currentDomain = currentDomain.replace("/", ""); //remove /
+          currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
           for (i = 0; i <= mlbspecialDomains.length; i++) {
             if (currentDomain == mlbspecialDomains[i]) {
               mlbSpecialDomain = "http://baseball." + mlbspecialDomains[i] + "/list";
