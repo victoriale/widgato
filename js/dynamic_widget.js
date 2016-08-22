@@ -326,7 +326,7 @@ dynamic_widget = function() {
                 break
         }
         $('homelink').href = r;
-        $('verticalDisplayName').innerHTML = hn;
+        //$('verticalDisplayName').innerHTML = hn;
     }
     m();
     c(h);
