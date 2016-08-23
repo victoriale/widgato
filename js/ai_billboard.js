@@ -49,8 +49,7 @@ ai_billboard = (function () {
       else {
         currentDomain = document.referrer;
       }
-      currentDomain = currentDomain.replace(/.*?:\/\//g, ""); //remove http
-      currentDomain = currentDomain.replace("/", ""); //remove /
+      currentDomain = currentDomain.split('/')[2];
       currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
       for (i = 0; i <= mlbspecialDomains.length; i++) {
         if (currentDomain == mlbspecialDomains[i]) {

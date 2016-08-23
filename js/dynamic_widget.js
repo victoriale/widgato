@@ -134,17 +134,16 @@ dynamic_widget = function() {
                 var a = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA/widget-list' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA/w-list';
                 break;
             case "mlb":
-                var mlbSpecialDomain = "";
-                var currentDomain = "";
-                if (document.referrer = "") {
-                  currentDomain = window.location.hostname.toString();
-                }
-                else {
-                  currentDomain = document.referrer;
-                }
-                currentDomain = currentDomain.replace(/.*?:\/\//g, ""); //remove http
-                currentDomain = currentDomain.replace("/", ""); //remove /
-                currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
+            var mlbSpecialDomain = "";
+            var currentDomain = "";
+            if (document.referrer = "") {
+              currentDomain = window.location.hostname.toString();
+            }
+            else {
+              currentDomain = document.referrer;
+            }
+            currentDomain = currentDomain.split('/')[2];
+            currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
                 for (i = 0; i <= mlbspecialDomains.length; i++) {
                   if (currentDomain == mlbspecialDomains[i]) {
                     mlbSpecialDomain = "http://baseball." + mlbspecialDomains[i] + "/list";
