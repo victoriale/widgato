@@ -1,11 +1,11 @@
 a:hover {
-    color: #ff0101;
+    color: #2d3e50;
 }
 #verticalName {
-  background-color: #ff0101;
+  background-color: #2d3e50;
 }
 .dw-nav{
-    background-color: #ff0101!important;
+    background-color: #2d3e50!important;
 }
 .dw-btn:hover,
 .dw-nav:hover {
@@ -14,20 +14,20 @@ a:hover {
 }
 
 #homelink>div {
-    background-image: url(../css/public/Logo_Political_Republican.png);
+    background-image: url(../css/public/Icon_Football.png);
 }
 
 .dw-btn {
-    border-color: #ff0101!important;
-    background-color: #ff0101 !important;
+    border-color: #2d3e50!important;
+    background-color: #2d3e50 !important;
     color: white!important;
 }
 #next-list-link .dw-btn{
-  border-color: #ff0101!important;
+  border-color: #2d3e50!important;
   background-color: white !important;
-  color: #ff0101!important;
-  fill: #ff0101;
-  stroke: #ff0101;
+  color: #2d3e50!important;
+  fill: #2d3e50;
+  stroke: #2d3e50;
 }
 #next-list-link .dw-btn:hover{
   border-color: black!important;
@@ -38,4 +38,4 @@ a:hover {
 }
 
 .hover {
-    background: rgba(255,1,1,0.75)!important;
+    background: rgba(45, 62, 80, 0.75)!important;

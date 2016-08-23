@@ -32,10 +32,13 @@
 
 <body>
     <div class=dw>
-        <div id=title></div>
+      <div id="verticalName">
         <a target=_blank href="" id=homelink>
             <div></div>
+            <span id="verticalDisplayName">{vertical_name}</span>
         </a>
+      </div>
+        <div id=title></div>
         <div id=carousel>
             <a target=_blank href="" class=img-link id=suburl> <img class="dw-big dw-c-sub" id=subimg onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;">
                 <div class="hover dw-c-sub dw-big"> View
@@ -48,10 +51,10 @@
             <div id=num></div>
         </div>
         <svg class="dw-nav dw-c-l" stroke=#FFFFFF onclick=dynamic_widget.carousel(-1)>
-            <path d="m 17,23 L 10,30 L 17,37" stroke-width=2 fill=none stroke-linecap=round></path>
+            <path d="m 12,18 L 5,25 L 12,32" stroke-width=2 fill=none stroke-linecap=round></path>
         </svg>
         <svg class="dw-nav dw-c-r" stroke=#FFFFFF onclick=dynamic_widget.carousel(1)>
-            <path d="m 14,23 L 21,30 L 14,37" stroke-width=2 fill=none stroke-linecap=round></path>
+            <path d="m 9,18 L 16,25 L 9,32" stroke-width=2 fill=none stroke-linecap=round></path>
         </svg>
         <div class=dw-info>
             <div class=dw-i-title>
@@ -61,10 +64,13 @@
             <div id=desc></div>
         </div>
         <a target=_blank id=list-link href="">
-            <div class=dw-btn> SEE THE LIST
-                <svg width=12 height=13>
-                    <path stroke-linejoin=round stroke-linecap=round d="m2.33,11 l 0,-1.66 q 0,-3.33 3.33,-3.33 l 2.66,0 l 0,2 l 3.33,-3.33 l -3.33,-3.33 l 0,2 l -2.66,0 q -6.66,0 -3.33,7.66"></path>
-                </svg>
+            <div class=dw-btn> See The List
+                <i>&#9776;</i>
+            </div>
+        </a>
+        <a target=_blank id=next-list-link href="">
+            <div class=dw-btn> Next List
+                <i>&#10140;</i>
             </div>
         </a>
     </div>

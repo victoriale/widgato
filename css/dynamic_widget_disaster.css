@@ -1,1 +1,41 @@
-a:hover{color:#902d8e}#homelink > div{background-color:#902d8e;background-image:url(../css/public/Icon_Disaster.png);background-position:4px 3px}.dw-nav:hover{background:rgba(144,45,142,0.85)}.dw-i-title{color:#902d8e}.dw-btn{border-color:#902d8e!important}.dw-btn:hover{background-color:#902d8e}.hover{background:rgba(144,45,142,0.85)!important}
+a:hover {
+    color: #902d8e;
+}
+#verticalName {
+  background-color: #902d8e;
+}
+.dw-nav{
+    background-color: #902d8e!important;
+}
+.dw-btn:hover,
+.dw-nav:hover {
+    background-color: black!important;
+    border-color: black!important;
+}
+
+#homelink>div {
+    background-image: url(../css/public/Icon_Disaster.png);
+}
+
+.dw-btn {
+    border-color: #902d8e!important;
+    background-color: #902d8e !important;
+    color: white!important;
+}
+#next-list-link .dw-btn{
+  border-color: #902d8e!important;
+  background-color: white !important;
+  color: #902d8e!important;
+  fill: #902d8e;
+  stroke: #902d8e;
+}
+#next-list-link .dw-btn:hover{
+  border-color: black!important;
+  background-color: black !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+.hover {
+    background: rgba(144,45,142,0.85)!important;

@@ -40,7 +40,7 @@ function RenderDynamicSide(protocolToUse){
   // var remnant = '';
   // var bord = false;
 
-  var possibleTypes = [/*'nba',*/ 'mlb', 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
+  var possibleTypes = [/*'nba',*/ 'mlb', 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather' /*,'nfl', 'ncaaf'*/];
   // var possibleTypes = ['weather'];
   var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
   var listRand = getRandomInt(0,10);
@@ -59,6 +59,7 @@ function RenderDynamicSide(protocolToUse){
   var colorSchemes = {
       nba: '#f7701d',
       mlb: '#b31d24',
+      nfl: '#2d3e50',
       college_basketball: '#f7701d',
       finance: '#3098ff',
       crime: '#f6af05',
@@ -69,6 +70,7 @@ function RenderDynamicSide(protocolToUse){
   var iconScheme = {
       nba:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
       mlb:'../css/public/icons/Home-Run-Loyal_Icon 2.svg',
+      nfl:'../css/public/icons/Touch-Down-Loyal_Icon.svg',
       college_basketball:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
       finance:'../css/public/icons/Invest-Kit_Icon.svg',
       crime:'../css/public/icons/Crime_Icon.svg',
@@ -79,6 +81,7 @@ function RenderDynamicSide(protocolToUse){
   var urlScheme = {
     nba: 'http://www.hoopsloyal.com',
     mlb: 'http://www.homerunloyal.com',
+    nfl: 'http://www.touchdownloyal.com',
     college_basketball: 'http://www.hoopsloyal.com/NCAA',
     finance: 'http://www.investkit.com',
     crime: 'http://www.joyfulhome.com',
@@ -86,21 +89,32 @@ function RenderDynamicSide(protocolToUse){
     disaster: 'http://www.joyfulhome.com',
     weather: 'http://www.joyfulhome.com',
   };
+  var siteName = {
+    nba: 'Hoops Loyal',
+    mlb: 'Home Run Loyal',
+    nfl: 'Touch Down Loyal',
+    college_basketball: 'Hoops Loyal',
+    finance: 'Invest Kit',
+    crime: 'House Kit',
+    demographics: 'House Kit',
+    disaster: 'House Kit',
+    weather: 'House Kit',
+  };
 
   var schemeToUse = colorSchemes[listType];
   var iconsToUse = iconScheme[listType];
   var urlToUse = urlScheme[listType];
+  var siteNameToUse = siteName[listType];
 
   function mapColorScheme(color,icons, type, url){
+    A('#verticalName').style.backgroundColor = color;
     A('#nextlist-svg').style.fill = color;
     A('.fcw-icon').style.backgroundColor = color;
     A('.fcw-icon').style.zIndex = "5";
     A('.fcw-icon').style.cursor = "pointer";
     A('.fcw-icon').href = url;
-    A('.fcw-content1').style.color = color;
 
     A('.fcw-icon').style.backgroundImage = "url('" + icons + "')";
-    A('#fcw-content2b').style.color = color;
     A('.fcw-list-next').style.color = color;
     A('.fcw-list-next').style.borderColor = color;
 
@@ -129,18 +143,20 @@ function RenderDynamicSide(protocolToUse){
     }
 
 
+    A('.fcw-leftnav').style.backgroundColor = color;
     A(".fcw-leftnav").onmouseover = function(){
-      A('.fcw-leftnav').style.backgroundColor = color;
+      A('.fcw-leftnav').style.backgroundColor = "black";
     }
     A(".fcw-leftnav").onmouseout = function(){
-      A('.fcw-leftnav').style.backgroundColor = '';
+      A('.fcw-leftnav').style.backgroundColor = color;
     }
 
+    A('.fcw-rightnav').style.backgroundColor = color;
     A(".fcw-rightnav").onmouseover = function(){
-      A('.fcw-rightnav').style.backgroundColor = color;
+      A('.fcw-rightnav').style.backgroundColor = "black";
     }
     A(".fcw-rightnav").onmouseout = function(){
-      A('.fcw-rightnav').style.backgroundColor = '';
+      A('.fcw-rightnav').style.backgroundColor = color;
     }
 
     A(".hover1").onmouseover = function() {
@@ -160,7 +176,7 @@ function RenderDynamicSide(protocolToUse){
       A('.fcw-content3').style.overflow = 'hidden';
       //yellow causes text colors to be black....
       A('.fcw-list-text').style.color = "#000000";
-      A('#swoop-svg').style.fill = "#000000";
+      //A('#swoop-svg').style.fill = "#000000";
       A('#nextlist-svg').style.fill = "#000000";
       A('.fcw-list-next').style.color = '#000000';
 
@@ -213,13 +229,13 @@ function RenderDynamicSide(protocolToUse){
         A('.fcw-list-list').style.backgroundColor = '#272727';
         A('.fcw-list-list').style.borderColor = '#272727';
         A('.fcw-list-text').style.color = "#FFFFFF";
-        A('#swoop-svg').style.fill = "#FFFFFF";
+        //A('#swoop-svg').style.fill = "#FFFFFF";
       }
       A('.fcw-list-list').onmouseout = function(){
         A('.fcw-list-list').style.backgroundColor = color;
         A('.fcw-list-list').style.borderColor = color;
         A('.fcw-list-text').style.color = "#000000"
-        A('#swoop-svg').style.fill = "#000000";
+        //A('#swoop-svg').style.fill = "#000000";
       }
     }
   }
@@ -288,6 +304,7 @@ function RenderDynamicSide(protocolToUse){
           A('.fcw-icon').style.top = '0px';
           A('.fcw-t1').style.bottom = '8px';
         }
+        A('#verticalDisplayName').innerHTML = siteNameToUse;
 
         A('.fcw-t2-num').innerHTML = '#' + (index+1);
 

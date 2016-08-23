@@ -153,14 +153,13 @@ dynamic_widget = function() {
             case "mlb":
                 var mlbSpecialDomain = "";
                 var currentDomain = "";
-                if (document.referrer.toString() = "") {
+                if (document.referrer = "") {
                   currentDomain = window.location.hostname.toString();
                 }
                 else {
-                  currentDomain = document.referrer.toString();
+                  currentDomain = document.referrer;
                 }
-                currentDomain = currentDomain.replace(/.*?:\/\//g, ""); //remove http
-                currentDomain = currentDomain.replace("/", ""); //remove /
+                currentDomain = currentDomain.split('/')[2];
                 currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
                 for (i = 0; i <= mlbspecialDomains.length; i++) {
                   if (currentDomain == mlbspecialDomains[i]) {
@@ -375,6 +374,7 @@ dynamic_widget = function() {
               break;
             default:
                 var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';
+                var hn = "My House Kit";
                 break
         }
         $('homelink').href = r;

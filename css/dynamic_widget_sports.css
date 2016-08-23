@@ -1,1 +1,41 @@
-a:hover{color:#f7701d}#homelink > div{background-color:#f7701d;background-image:url(../css/public/Icon_Basketball.png)}.dw-nav:hover{background-color:#f7701d}.dw-i-title{color:#f7701d}.dw-btn{border-color:#f7701d!important}.dw-btn:hover{background-color:#f7701d}.hover{background:rgba(247,112,29,0.75)!important}
+a:hover {
+    color: #f7701d;
+}
+#verticalName {
+  background-color: #f7701d;
+}
+.dw-nav{
+    background-color: #f7701d!important;
+}
+.dw-btn:hover,
+.dw-nav:hover {
+    background-color: black!important;
+    border-color: black!important;
+}
+
+#homelink>div {
+    background-image: url(../css/public/Icon_Basketball.png);
+}
+
+.dw-btn {
+    border-color: #f7701d!important;
+    background-color: #f7701d !important;
+    color: white!important;
+}
+#next-list-link .dw-btn{
+  border-color: #f7701d!important;
+  background-color: white !important;
+  color: #f7701d!important;
+  fill: #f7701d;
+  stroke: #f7701d;
+}
+#next-list-link .dw-btn:hover{
+  border-color: black!important;
+  background-color: black !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+.hover {
+    background: rgba(247,112,29,0.75)!important;
