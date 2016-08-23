@@ -245,6 +245,7 @@ i {
     top: 73px;
     left: 20px;
     padding-top: 10px;
+    margin-bottom: 20px;
 }
 .aiw-img {
   position: absolute;
@@ -284,29 +285,55 @@ i {
 }
 
 .aiw-link {
-    width: 150px;
-    height: 35px;
+    width: 137px;
+    height: 30px;
     border-radius: 3px;
-    background-color: #363636;
-    color: #fff;
-    line-height: 35px;
+    background-color: white;
+    color: #2d3e50;
+    line-height: 27px;
     text-align: center;
     padding: 0;
-    position: absolute;
+    display: inline-block;
     bottom: 10px;
     left: 20px;
     font-size: 13px;
     font-weight: bold;
-    padding-left: 17px;
+    padding-right: 25px;
     background-repeat: no-repeat;
-    background-image: url('./public/Icon-Magazine.png');
+    background-image: url('./public/Icon-Magazine-Dark.png');
     background-size: 15px auto;
-    background-position: 17px 12px;
+    background-position: 108px 8px;
     cursor: pointer !important;
+    border: 1px solid white;
+}
+.aiw-link-next {
+  width: 120px;
+  height: 30px;
+  border-radius: 3px;
+  color: white;
+  line-height: 28px;
+  text-align: center;
+  padding: 0;
+  display: inline-block;
+  left: 75px;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer !important;
+  background-color: transparent;
+  border: 1px solid white;
+  margin-left: 13px;
 }
 
 .aiw-link:hover {
-    background-color: rgba(188, 22, 36, 0.9);
+  background-color: #2d3e50;
+  background-image: url('./public/Icon-Magazine.png');
+  border-color: #2d3e50;
+  color: white;
+}
+.aiw-link-next:hover {
+  background-color: #2d3e50;
+  border-color: #2d3e50;
+  color: white;
 }
 
 /**** Utility Classes ****/
