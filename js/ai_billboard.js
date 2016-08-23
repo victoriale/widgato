@@ -42,8 +42,15 @@ ai_billboard = (function () {
       domain = query.dom;
       remnant = query.remn;
       var mlbSpecialDomain = "";
-      var currentDomain = window.location.hostname.toString();
-      currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, "");
+      var currentDomain = "";
+      if (document.referrer = "") {
+        currentDomain = window.location.hostname.toString();
+      }
+      else {
+        currentDomain = document.referrer;
+      }
+      currentDomain = currentDomain.split('/')[2];
+      currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
       for (i = 0; i <= mlbspecialDomains.length; i++) {
         if (currentDomain == mlbspecialDomains[i]) {
           mlbSpecialDomain = "http://baseball." + mlbspecialDomains[i] + "/";
