@@ -11,6 +11,7 @@
 }
 
 .title{
+  display: -webkit-flex;
   display: flex;
   height: 25px;
   width: 100%;
@@ -37,6 +38,7 @@
 .section{
   height: 90px;
   width: 100%;
+  display: -webkit-flex;
   display: flex;
   margin-top: 12px;
 }
@@ -75,6 +77,7 @@
 }
 
 .bar{
+  display: -webkit-flex;
   display: flex;
   margin-left: 9px;
   margin-top: 15px;
@@ -95,6 +98,7 @@
 .buttons{
   width: 100%;
   text-align: center;
+  display: -webkit-flex;
   display: flex;
   height: 25px;
   margin-left: 9px;
@@ -452,6 +456,7 @@ button:focus {
   bottom:0;
   /*margin-bottom: 10px;
   margin-left: 10px;*/
+  display: -webkit-flex;
   display: flex;
   justify-content: space-around;
   margin-bottom: 5px;
