@@ -43,11 +43,11 @@ ai_billboard = (function () {
       remnant = query.remn;
       var mlbSpecialDomain = "";
       var currentDomain = "";
-      if (document.referrer.toString() = "") {
+      if (document.referrer = "") {
         currentDomain = window.location.hostname.toString();
       }
       else {
-        currentDomain = document.referrer.toString();
+        currentDomain = document.referrer;
       }
       currentDomain = currentDomain.replace(/.*?:\/\//g, ""); //remove http
       currentDomain = currentDomain.replace("/", ""); //remove /
