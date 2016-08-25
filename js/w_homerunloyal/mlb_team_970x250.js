@@ -77,7 +77,7 @@ $(function(){
       $('#team_name').html(listData[index].teamName);
       $('#teamProf').html(listData[index].teamVenue);
       $('#location_link').html(listData[index].teamCity + ', ' + abbrState(listData[index].teamState));
-      $('.fcw-presentedby').html('MLB TOP TEAMS - PRESENTED BY');
+      $('.fcw-presentedby').html('BASEBALL TOP TEAMS - PRESENTED BY');
       if(listData[index].stat == 1){
         dataValue = listInfo.nouns[0];
       } else {
