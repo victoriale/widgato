@@ -104,6 +104,9 @@ dynamic_widget = function() {
             var i = r.l_title.indexOf('Republican') != -1 ? 'r' : r.l_title.indexOf('Independent') != -1 ? 'i' : 'd';
             add_css_link('../css/dynamic_widget_politics_' + i + '.css')
         }
+        if (l.category == 'mlb') {
+            r.l_title = r.l_title.replace("MLB","Baseball");
+        }
         $('title').innerHTML = r.l_title;
         if ($('line4') != null && d.getElementsByClassName('dw')[0].clientWidth == 350 && $('title').scrollHeight > 61) {
             $('title').setAttribute('style', 'font-size: 14px')

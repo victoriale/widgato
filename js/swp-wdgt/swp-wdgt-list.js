@@ -275,6 +275,7 @@ function RenderDynamicSide(protocolToUse){
 
     function dataCall(index){
         var listName = curData.l_title;
+        listName = listName.replace("MLB","Baseball");
         var listData = curData.l_data;
         dataLength = listData.length;
         // Convert to lower kabab case for url links
