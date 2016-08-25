@@ -96,7 +96,7 @@
       railMarginTop = contentMarginTop = 131;
       contentMaxWidth = 1280;
       partnerState = 'il';
-      contentEl = topWin.document.querySelector('.trb_allContentWrapper');
+      contentEl = topWin.document.querySelector('.trb_masthead');
     break;
   }
   //Set microsite destination link
