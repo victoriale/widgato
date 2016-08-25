@@ -39,8 +39,7 @@ function RenderDynamicSide(protocolToUse){
   // var domain = '';
   // var remnant = '';
   // var bord = false;
-
-  var possibleTypes = [/*'nba',*/ 'mlb', 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather' /*,'nfl', 'ncaaf'*/];
+  var possibleTypes = [/*'nba',*/ 'mlb', /*'college_basketball',*/ 'finance', 'crime', 'demographics', 'disaster', 'weather'];
   // var possibleTypes = ['weather'];
   var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
   var listRand = getRandomInt(0,10);
@@ -291,6 +290,7 @@ function RenderDynamicSide(protocolToUse){
 
     function dataCall(index){
         var listName = curData.l_title;
+        listName = listName.replace("MLB","Baseball");
         var listData = curData.l_data;
         dataLength = listData.length;
         // Convert to lower kabab case for url links
@@ -394,17 +394,16 @@ function buildListLink(cat, remn, dom, widget_data){
           }
           break;
         case 'mlb':
-          var mlbSpecialDomain = "";
-          var currentDomain = "";
-          if (document.referrer = "") {
-            currentDomain = window.location.hostname.toString();
-          }
-          else {
-            currentDomain = document.referrer;
-          }
-          currentDomain = currentDomain.replace(/.*?:\/\//g, ""); //remove http
-          currentDomain = currentDomain.replace("/", ""); //remove /
-          currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
+        var mlbSpecialDomain = "";
+        var currentDomain = "";
+        if (document.referrer == "") {
+          currentDomain = window.location.hostname.toString();
+        }
+        else {
+          currentDomain = document.referrer;
+          currentDomain = currentDomain.split('/')[2];
+        }
+        currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
           for (i = 0; i <= mlbspecialDomains.length; i++) {
             if (currentDomain == mlbspecialDomains[i]) {
               mlbSpecialDomain = "http://baseball." + mlbspecialDomains[i] + "/list";

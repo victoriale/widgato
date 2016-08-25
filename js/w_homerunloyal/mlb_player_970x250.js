@@ -90,7 +90,7 @@ $(function(){
       $('#locName').html(listData[index].teamCity + ', ' + abbrState(listData[index].teamState));
       $('.fcw-content1').html(Math.round(dataPt * 100)/100 + ' ' + dataValue);
       $('.fcw-content2').html(listInfo.season + ' Season');
-      $('.fcw-presentedby').html('MLB TOP PLAYER - PRESENTED BY');
+      $('.fcw-presentedby').html('BASEBALL TOP PLAYER - PRESENTED BY');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-icon').attr('href', baseUrl); //Top Left Icon - link to Home Page
