@@ -144,8 +144,8 @@ dynamic_widget = function() {
             }
             else {
               currentDomain = document.referrer;
+              currentDomain = currentDomain.split('/')[2];
             }
-            currentDomain = currentDomain.split('/')[2];
             currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
                 for (i = 0; i <= mlbspecialDomains.length; i++) {
                   if (currentDomain == mlbspecialDomains[i]) {
