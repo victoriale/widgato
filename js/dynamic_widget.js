@@ -139,7 +139,7 @@ dynamic_widget = function() {
             case "mlb":
             var mlbSpecialDomain = "";
             var currentDomain = "";
-            if (document.referrer = "") {
+            if (document.referrer == "") {
               currentDomain = window.location.hostname.toString();
             }
             else {
