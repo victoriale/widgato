@@ -39,12 +39,10 @@ function RenderDynamicSide(protocolToUse){
   // var domain = '';
   // var remnant = '';
   // var bord = false;
-  var possibleTypes = [/*'nba',*/ 'mlb', /*'college_basketball',*/ 'finance', 'crime', 'demographics', 'disaster', 'weather'];
+  var possibleTypes = [/*'nba',*/ 'mlb', /*'college_basketball',*/ 'finance', 'crime', 'demographics', 'disaster', 'weather', 'nfl'];
   // var possibleTypes = ['weather'];
   var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
   var listRand = getRandomInt(0,10);
-  var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
-  apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
 
   var referrer = document.referrer;
   var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
@@ -69,7 +67,7 @@ function RenderDynamicSide(protocolToUse){
   var iconScheme = {
       nba:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
       mlb:'../css/public/icons/Home-Run-Loyal_Icon 2.svg',
-      nfl:'../css/public/icons/Touch-Down-Loyal_Icon.svg',
+      nfl:'../css/public/Icon_Football.png',
       college_basketball:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
       finance:'../css/public/icons/Invest-Kit_Icon.svg',
       crime:'../css/public/icons/Crime_Icon.svg',
@@ -257,10 +255,36 @@ function RenderDynamicSide(protocolToUse){
         dataCall(offset);
       }
     };
+    var initData;
+    //get query string array for NFL list data
+    function httpGetInitData(){
+      var url = '../js/tdl_list_array.json';
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function(){
+        if(xmlHttp.readyState === 4 && xmlHttp.status === 200){
+          //On complete function
+          initData = JSON.parse(xmlHttp.responseText);
+          getRandList(initData);
+        }
+      }
+      xmlHttp.open( "GET", url, true ); // false for synchronous request
+      xmlHttp.send( null );
+    }
+    httpGetInitData();
 
-    function httpGetData(old_title){
-      var url = protocolToUse + 'dw.synapsys.us/list_api.php?';
-      url = url + 'cat=' + listType + '&rand=' + listRand;
+    function getRandList(initData) {
+      rand = Math.floor((Math.random() * 47) + 1);
+      httpGetData("",initData[rand]);
+    }
+
+    function httpGetData(old_title, query){
+      if (listType == "nfl") {
+        var url = protocolToUse + 'dev-touchdownloyal-api.synapsys.us/list/' + query;
+      }
+      else {
+        var url = protocolToUse + 'dw.synapsys.us/list_api.php?';
+        url = url + 'cat=' + listType + '&rand=' + listRand;
+      }
       var xmlHttp = new XMLHttpRequest();
       xmlHttp.onreadystatechange = function(){
         if(xmlHttp.readyState === 4 && xmlHttp.status === 200){
@@ -276,7 +300,7 @@ function RenderDynamicSide(protocolToUse){
       xmlHttp.send( null );
     }
 
-    httpGetData();
+    // httpGetData();
 
     advanceList = function(){
       if(listRand < 9){
@@ -285,13 +309,25 @@ function RenderDynamicSide(protocolToUse){
         listRand = 0;
       }
       offset = 0;
-      httpGetData(curData.l_title);
+      if (listType == "nfl") {
+        getRandList(initData);
+      }
+      else {
+        httpGetData(curData.l_title);
+      }
+
     }
 
     function dataCall(index){
-        var listName = curData.l_title;
-        listName = listName.replace("MLB","Baseball");
-        var listData = curData.l_data;
+        if (listType == "nfl") {
+          var listData = curData.data.listData;
+          var listName = curData.data.listInfo.listName;
+        }
+        else {
+          var listData = curData.l_data;
+          var listName = curData.l_title;
+          listName = listName.replace("MLB","Baseball");
+        }
         dataLength = listData.length;
         // Convert to lower kabab case for url links
 
@@ -307,16 +343,42 @@ function RenderDynamicSide(protocolToUse){
         A('#verticalDisplayName').innerHTML = siteNameToUse;
 
         A('.fcw-t2-num').innerHTML = '#' + (index+1);
-
-        A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + listData[index].li_img +')';
+        if (listType == "nfl") {
+          A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + listData[index].image +')';
+        }
+        else {
+          A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + listData[index].li_img +')';
+        }
         A('.fcw-image').style.backgroundRepeat = 'no-repeat';
 
-        A('#fcw-content2b').innerHTML = listData[index].li_sub_txt;
+        if (listType == "nfl") {
+          A('#fcw-content2b').innerHTML = listData[index].divisionName;
+        }
+        else {
+          A('#fcw-content2b').innerHTML = listData[index].li_sub_txt;
+        }
         if (listType == 'finance'){
           listData[index].li_str = listData[index].li_str.replace('Reported', '');
         }
-        A('.fcw-content3').innerHTML = listData[index].li_str;
-        if (listData[index].li_str.length >= 40) {
+        if (listType == "nfl") {
+          var statType = listData[index].statType.replace(/_/g, " ");
+          statType = statType.replace("player", "");
+          statType = statType.replace("team", "");
+          statType = statType.replace(/(^| )(\w)/g, function(x) {
+            return x.toUpperCase();
+          });
+          var stat = Math.floor(Number(listData[index].stat));
+          A('.fcw-content3').innerHTML = stat + " " + statType;
+        }
+        else {
+          A('.fcw-content3').innerHTML = listData[index].li_str;
+        }
+        if (listType == "nfl") {
+          A('.fcw-content1').style.display = '';
+          A('.fcw-content2').style.display = '';
+          A('.fcw-content1').innerHTML = listData[index].teamName;
+        }
+        else if (listData[index].li_str != null && listData[index].li_str.length >= 40) {
           A('.fcw-content2').style.display = 'inline';
           A('.fcw-content1').style.display = 'inline';
           A('.fcw-content').style.textAlign = 'center';
@@ -359,7 +421,7 @@ function getRandomInt(min, max){
 /* -- Manipulation Functions  -- */
 function buildListLink(cat, remn, dom, widget_data){
 
-  var mlbspecialDomains = [
+  var specialDomains = [
     "latimes.com",
     "orlandosentinel.com",
     "sun-sentinel.com",
@@ -376,6 +438,16 @@ function buildListLink(cat, remn, dom, widget_data){
     "capitalgazette.com",
     "chicagotribune.com"
   ];
+  var SpecialDomain = "";
+  var currentDomain = "";
+  if (document.referrer == "") {
+    currentDomain = window.location.hostname.toString();
+  }
+  else {
+    currentDomain = document.referrer;
+    currentDomain = currentDomain.split('/')[2];
+  }
+  currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
 
   dom == "lasvegasnow.com"  ? change_url = true : change_url = false;
   change_url ? new_url = "finance.lasvegasnow.com" : "";
@@ -394,27 +466,32 @@ function buildListLink(cat, remn, dom, widget_data){
           }
           break;
         case 'mlb':
-        var mlbSpecialDomain = "";
-        var currentDomain = "";
-        if (document.referrer == "") {
-          currentDomain = window.location.hostname.toString();
-        }
-        else {
-          currentDomain = document.referrer;
-          currentDomain = currentDomain.split('/')[2];
-        }
-        currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
-          for (i = 0; i <= mlbspecialDomains.length; i++) {
-            if (currentDomain == mlbspecialDomains[i]) {
-              mlbSpecialDomain = "http://baseball." + mlbspecialDomains[i] + "/list";
+          for (i = 0; i <= specialDomains.length; i++) {
+            if (currentDomain == specialDomains[i]) {
+              SpecialDomain = "http://baseball." + specialDomains[i] + "/list";
             }
           }
           var base_url;
-          if (mlbSpecialDomain == "") {
+          if (SpecialDomain == "") {
             base_url = remn == "true" ? "http://homerunloyal.com/list" : "http://www.myhomerunzone.com/" + dom + "/list";
           }
           else {
-            base_url = mlbSpecialDomain;
+            base_url = SpecialDomain;
+          }
+          doStep = false;
+          break;
+        case 'nfl':
+          for (i = 0; i <= specialDomains.length; i++) {
+            if (currentDomain == specialDomains[i]) {
+              SpecialDomain = "http://football." + specialDomains[i] + "/list";
+            }
+          }
+          var base_url;
+          if (SpecialDomain == "") {
+            base_url = remn == "true" ? "http://touchdownloyal.com/list" : "http://www.mytouchdownzone.com/" + dom + "/list";
+          }
+          else {
+            base_url = SpecialDomain;
           }
           doStep = false;
           break;
