@@ -240,7 +240,6 @@ dynamic_widget = function() {
 
     function p() {
       if (l.category == "nfl") {
-        console.log(r.data);
         var e = r.data.listData[i];
         if (e.rankType == "team") {
           $('line1').innerHTML = e.teamName;
