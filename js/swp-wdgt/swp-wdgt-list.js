@@ -273,7 +273,7 @@ function RenderDynamicSide(protocolToUse){
     httpGetInitData();
 
     function getRandList(initData) {
-      rand = Math.floor((Math.random() * 47) + 1);
+      rand = Math.floor((Math.random() * 140) + 1);
       httpGetData("",initData[rand]);
     }
 
@@ -344,7 +344,12 @@ function RenderDynamicSide(protocolToUse){
 
         A('.fcw-t2-num').innerHTML = '#' + (index+1);
         if (listType == "nfl") {
-          A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "images.synapsys.us" + listData[index].teamLogo +')';
+          if (listData[index].rankType == "team") {
+            A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "images.synapsys.us" + listData[index].teamLogo +')';
+          }
+          else {
+            A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "images.synapsys.us" + listData[index].playerHeadshotUrl +')';
+          }
         }
         else {
           A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + listData[index].li_img +')';
@@ -376,7 +381,12 @@ function RenderDynamicSide(protocolToUse){
         if (listType == "nfl") {
           A('.fcw-content1').style.display = '';
           A('.fcw-content2').style.display = '';
-          A('.fcw-content1').innerHTML = listData[index].teamName;
+          if (listData[index].rankType == "team") {
+            A('.fcw-content1').innerHTML = listData[index].teamName;
+          }
+          else {
+            A('.fcw-content1').innerHTML = listData[index].playerFirstName + " " + listData[index].playerLastName;
+          }
         }
         else if (listData[index].li_str != null && listData[index].li_str.length >= 40) {
           A('.fcw-content2').style.display = 'inline';

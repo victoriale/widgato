@@ -54,7 +54,7 @@ dynamic_widget = function() {
       xmlHttp.send( null );
     }
     function getRandList(initData) {
-      rand = Math.floor((Math.random() * 47) + 1);
+      rand = Math.floor((Math.random() * 140) + 1);
       httpGetData(initData[rand]);
     }
 
@@ -242,8 +242,14 @@ dynamic_widget = function() {
       if (l.category == "nfl") {
         console.log(r.data);
         var e = r.data.listData[i];
-        $('line1').innerHTML = e.teamName;
-        $('line2').innerHTML = e.divisionName;
+        if (e.rankType == "team") {
+          $('line1').innerHTML = e.teamName;
+          $('line2').innerHTML = e.divisionName;
+        }
+        else {
+          $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
+          $('line2').innerHTML = e.teamName;
+        }
         var statType = e.statType.replace(/_/g, " ");
         statType = statType.replace("player", "");
         statType = statType.replace("team", "");
@@ -257,7 +263,12 @@ dynamic_widget = function() {
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
-        t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
+        if (e.rankType == "team") {
+          t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
+        }
+        else {
+          t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl);
+        }
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
