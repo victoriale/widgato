@@ -252,16 +252,16 @@ dynamic_widget = function() {
         });
         var stat = Math.floor(Number(e.stat));
         $('desc').innerHTML = stat + " " + statType;
-        $('line1').href = e.li_line_url;
+        $('line1').href =  e.li_line_url;
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
-        t.setAttribute('src', e.li_img);
+        t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
-        $('mainurl').href = e.li_url;
+        $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/team/" + e.teamName.replace(/ /g, "").toLowerCase() + "/" + e.teamId;
         $('num').innerHTML = '#' + e.rank;
 
         if ($('list-link')) {

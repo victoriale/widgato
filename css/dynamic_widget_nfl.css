@@ -9,8 +9,8 @@ a:hover {
 }
 .dw-btn:hover,
 .dw-nav:hover {
-    background-color: black!important;
-    border-color: black!important;
+    background-color: #272727!important;
+    border-color: #272727!important;
 }
 
 #homelink>div {
@@ -30,8 +30,8 @@ a:hover {
   stroke: #2d3e50;
 }
 #next-list-link .dw-btn:hover{
-  border-color: black!important;
-  background-color: black !important;
+  border-color: #2d3e50!important;
+  background-color: #2d3e50 !important;
   color: white!important;
   fill: white;
   stroke: white

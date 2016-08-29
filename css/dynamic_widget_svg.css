@@ -1,7 +1,7 @@
 html,
 body {
     margin: 0!important;
-    font-family: Lato;
+    font-family: 'Lato', sans-serif;
     width: 100%;
     height: auto;
     background-color: #ccc
@@ -67,7 +67,7 @@ i {
 }
 
 #verticalName:hover {
-    background-color: black
+    background-color: #272727
 }
 
 #carousel {
@@ -95,14 +95,14 @@ i {
 
 .dw-c-l {
     left: 0;
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px
 }
 
 .dw-c-r {
     right: 0;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px
 }
 
 .dw-c-img {
@@ -146,7 +146,7 @@ i {
     border-radius: 50%;
     border: 1px solid #ccc;
     position: absolute;
-    font-size: 18px;
+    font-size: 14px;
     line-height: 38px;
     text-align: center;
     top: 0;
@@ -267,7 +267,7 @@ i {
     color: white;
     stroke: white;
     fill: white;
-    background-color: black
+    background-color: #272727
 }
 
 .presented {

@@ -344,7 +344,7 @@ function RenderDynamicSide(protocolToUse){
 
         A('.fcw-t2-num').innerHTML = '#' + (index+1);
         if (listType == "nfl") {
-          A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + listData[index].image +')';
+          A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "images.synapsys.us" + listData[index].teamLogo +')';
         }
         else {
           A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + listData[index].li_img +')';
@@ -405,9 +405,15 @@ function RenderDynamicSide(protocolToUse){
 
         if(remnant == 'true' || remnant == true){
           A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
+          if (listType == "nfl") {
+            A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
+          }
         }else{
           //partner site
           A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
+          if (listType == "nfl") {
+            A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
+          }
         }
     }
 }
