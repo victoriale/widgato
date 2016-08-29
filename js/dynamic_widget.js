@@ -207,14 +207,14 @@ dynamic_widget = function() {
             case "nfl":
                 for (i = 0; i <= specialDomains.length; i++) {
                   if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://football." + specialDomains[i] + "/list";
+                    SpecialDomain = "http://football." + specialDomains[i] + "/nfl/list";
                   }
                 }
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
                 $("carousel").className = "one";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.touchdownloyal.com/list' : PartnerDomain + l.dom + '/list';
+                      a = l.remn == 'true' ? 'http://www.touchdownloyal.com' : PartnerDomain + l.dom + '/nfl/list';
                 }
                 else {
                   a = SpecialDomain;
@@ -231,7 +231,13 @@ dynamic_widget = function() {
                 var a = l.remn == 'true' ? 'http://www.joyfulhome.com/wlist' : 'http://www.myhousekit.com/' + l.dom + '/wlist';
                 var n = false
         }
-        a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
+        if (l.category != "nfl") {
+          a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
+        }
+        else {
+          console.log(r);
+          a += "/nfl/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + "asc" + "/" + "10" + "/" + "1";
+        }
         if ($('list-link')) {
             $('list-link').href = a
         }
@@ -244,10 +250,12 @@ dynamic_widget = function() {
         if (e.rankType == "team") {
           $('line1').innerHTML = e.teamName;
           $('line2').innerHTML = e.divisionName;
+          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/team/" + e.teamName.replace(/ /g, "").toLowerCase() + "/" + e.teamId;
         }
         else {
           $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
           $('line2').innerHTML = e.teamName;
+          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/player/" + e.playerName.replace(/ /g, "").toLowerCase() + "/" + e.playerId;
         }
         var statType = e.statType.replace(/_/g, " ");
         statType = statType.replace("player", "");
@@ -271,7 +279,7 @@ dynamic_widget = function() {
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
-        $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/team/" + e.teamName.replace(/ /g, "").toLowerCase() + "/" + e.teamId;
+
         $('num').innerHTML = '#' + e.rank;
 
         if ($('list-link')) {
@@ -442,7 +450,7 @@ dynamic_widget = function() {
                 }else{
                     r = nflPartnerDomain;
                 }
-                var hn = "Touch Down Loyal";
+                var hn = "Touchdown Loyal";
               break;
             default:
                 var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';

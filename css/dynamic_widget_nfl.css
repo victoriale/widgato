@@ -36,6 +36,8 @@ a:hover {
   fill: white;
   stroke: white
 }
-
+#line1:hover {
+  color: #2d3e50;
+}
 .hover {
     background: rgba(45, 62, 80, 0.75)!important;

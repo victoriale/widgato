@@ -89,7 +89,7 @@ function RenderDynamicSide(protocolToUse){
   var siteName = {
     nba: 'Hoops Loyal',
     mlb: 'Home Run Loyal',
-    nfl: 'Touch Down Loyal',
+    nfl: 'Touchdown Loyal',
     college_basketball: 'Hoops Loyal',
     finance: 'Invest Kit',
     crime: 'House Kit',
@@ -157,10 +157,16 @@ function RenderDynamicSide(protocolToUse){
     }
 
     A(".hover1").onmouseover = function() {
-      A('.hover1').style.backgroundColor = color;
+      A('.hover1').style.Color = color;
     }
     A(".hover1").onmouseout  = function() {
-      A(".hover1").style.backgroundColor = '';
+      A(".hover1").style.Color = '';
+    }
+    A(".fcw-content1").onmouseover = function() {
+      A('.fcw-content1').style.color = color;
+    }
+    A(".fcw-content1").onmouseout  = function() {
+      A(".fcw-content1").style.color = '';
     }
 
     if(type == "college_basketball"){
@@ -504,7 +510,7 @@ function buildListLink(cat, remn, dom, widget_data){
           }
           var base_url;
           if (SpecialDomain == "") {
-            base_url = remn == "true" ? "http://touchdownloyal.com/list" : "http://www.mytouchdownzone.com/" + dom + "/list";
+            base_url = remn == "true" ? "http://touchdownloyal.com/nfl" : "http://www.mytouchdownzone.com/" + dom + "/nfl";
           }
           else {
             base_url = SpecialDomain;
@@ -515,7 +521,12 @@ function buildListLink(cat, remn, dom, widget_data){
           var base_url = remn == "true" ? "http://www.joyfulhome.com/wlist" : "http://www.myhousekit.com/" + dom + "/wlist";
           var doStep = false;
       }
-      base_url += ( doStep ) ? '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input : "/tw-" + widget_data.l_param + "+sw-" + widget_data.l_sort + "+input-" + widget_data.l_input;
+      if (cat != "nfl") {
+        base_url += ( doStep ) ? '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input : "/tw-" + widget_data.l_param + "+sw-" + widget_data.l_sort + "+input-" + widget_data.l_input;
+      }
+      else {
+        base_url += "/" + "list" + "/" + widget_data.data.listData[0].rankType + "/" + widget_data.data.listData[0].statType.replace(widget_data.data.listData[0].rankType + "_", "") + "/" + "asc" + "/" + "10" + "/" + "1";
+      }
       return base_url;
 }
 
