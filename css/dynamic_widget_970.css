@@ -203,7 +203,7 @@ i {
 
 .dw-i-title {
     width: 100%;
-    font-size: 26px;
+    font-size: 14px;
     line-height: 30px;
     overflow: hidden;
     white-space: nowrap;
@@ -231,7 +231,7 @@ i {
 
 #next-list-link .dw-btn{
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 0px;
 }
 
 .dw-btn {
@@ -240,7 +240,7 @@ i {
   background-color: white;
   font-size: 11px;
   line-height: 26px;
-  width: 118px;
+  width: 125px;
   height: 28px;
   border-radius: 3px;
   position: relative;
@@ -326,7 +326,7 @@ i {
         width: calc(100% - 205px)!important
     }
     .dw-i-title {
-        font-size: 16px;
+        font-size: 14px;
         line-height: 20px
     }
     .dw-i-title#line2,
@@ -338,7 +338,8 @@ i {
         white-space: normal
     }
     .dw-btn {
-        margin-top: 5px
+      width:125px;
+      margin-top: 10px
     }
 }
 
@@ -392,7 +393,7 @@ i {
         width: calc(100% - 205px)!important
     }
     .dw-i-title {
-        font-size: 16px;
+        font-size: 14px;
         line-height: 20px
     }
     .dw-i-title#line2,
@@ -404,9 +405,7 @@ i {
         white-space: normal
     }
     .dw-btn {
-        font-weight: bold;
-        font-size: 10px;
         width:125px;
-        margin-top: 5px
+        margin-top: 10px
     }
 }
