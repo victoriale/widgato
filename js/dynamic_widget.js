@@ -4,6 +4,7 @@ var nflDomain        = "http://www.touchdownloyal.com/";
 var mlbPartnerDomain = "http://www.myhomerunzone.com/";
 var nflPartnerDomain = "http://www.mytouchdownzone.com/";
 var referrer = document.referrer;
+var season;
 if(referrer.match(/baseball/g)){
     mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
 }
@@ -55,7 +56,20 @@ dynamic_widget = function() {
     }
     function getRandList(initData) {
       rand = Math.floor((Math.random() * 140) + 1);
-      httpGetData(initData[rand]);
+      var date = new Date;
+      var compareDate = new Date('09 15 ' + date.getFullYear());
+      if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
+        httpGetData(initData[rand] + "&season=" + date.getFullYear());
+        season = date.getFullYear();
+      }
+      else if (date.getMonth() > compareDate.getMonth()) {
+        httpGetData(initData[rand] + "&season=" + date.getFullYear());
+        season = date.getFullYear();
+      }
+      else {
+        httpGetData(initData[rand] + "&season=" + (date.getFullYear() - 1));
+        season = (date.getFullYear() - 1);
+      }
     }
 
     function m() {
@@ -235,7 +249,7 @@ dynamic_widget = function() {
           a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
         }
         else {
-          a += "/nfl/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + "asc" + "/" + "10" + "/" + "1";
+          a += "/nfl/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
         }
         if ($('list-link')) {
             $('list-link').href = a
@@ -249,12 +263,12 @@ dynamic_widget = function() {
         if (e.rankType == "team") {
           $('line1').innerHTML = e.teamName;
           $('line2').innerHTML = e.divisionName;
-          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/team/" + e.teamName.replace(/ /g, "").toLowerCase() + "/" + e.teamId;
+          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
         }
         else {
           $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
           $('line2').innerHTML = e.teamName;
-          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/player/" + e.playerFirstName.toLowerCase() + e.playerLastName.toLowerCase() + "/" + e.playerId;
+          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.playerFirstName.toLowerCase() + "-" + e.playerLastName.toLowerCase() + "/" + e.playerId;
         }
         var statType = e.statType.replace(/_/g, " ");
         statType = statType.replace("player", "");
