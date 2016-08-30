@@ -1,22 +1,42 @@
-.dw-i-title,
 a:hover {
-    color: #bc2027
+    color: #bc2027;
 }
-
-#homelink>div,
+#verticalName {
+  background-color: #bc2027;
+}
+.dw-nav{
+    background-color: #bc2027!important;
+}
 .dw-btn:hover,
 .dw-nav:hover {
-    background-color: #bc2027
+    background-color: black!important;
+    border-color: black!important;
 }
 
 #homelink>div {
-    background-image: url(../css/public/Icon_Baseball.png)
+    background-image: url(../css/public/Icon_Baseball.png);
 }
 
 .dw-btn {
-    border-color: #bc2027!important
+    border-color: #bc2027!important;
+    background-color: #bc2027 !important;
+    color: white!important;
+}
+#next-list-link .dw-btn{
+  border-color: #bc2027!important;
+  background-color: white !important;
+  color: #bc2027!important;
+  fill: #bc2027;
+  stroke: #bc2027
+}
+#next-list-link .dw-btn:hover{
+  border-color: black!important;
+  background-color: black !important;
+  color: white!important;
+  fill: white;
+  stroke: white
 }
 
 .hover {
-    background: rgba(188, 32, 39, .75)!important
+    background: rgba(188, 32, 39, .75)!important;
 }
