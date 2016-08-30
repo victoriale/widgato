@@ -254,7 +254,7 @@ dynamic_widget = function() {
         else {
           $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
           $('line2').innerHTML = e.teamName;
-          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/player/" + e.playerName.replace(/ /g, "").toLowerCase() + "/" + e.playerId;
+          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/player/" + e.playerFirstName.toLowerCase() + e.playerLastName.toLowerCase() + "/" + e.playerId;
         }
         var statType = e.statType.replace(/_/g, " ");
         statType = statType.replace("player", "");

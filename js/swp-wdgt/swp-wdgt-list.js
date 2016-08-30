@@ -421,8 +421,11 @@ function RenderDynamicSide(protocolToUse){
 
         if(remnant == 'true' || remnant == true){
           A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
-          if (listType == "nfl") {
+          if (listType == "nfl" && listData[index].rankType == "team") {
             A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
+          }
+          else if (listType == "nfl" && listData[index].rankType == "player") {
+            A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/player/" + listData[index].playerFirstName.toLowerCase() + listData[index].playerLastName.toLowerCase() + "/" + listData[index].playerId);
           }
         }else{
           //partner site
