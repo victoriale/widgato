@@ -11,7 +11,7 @@ ai_widget = (function () {
 
     // Declare variables
     var event = '';
-    var domain, remnant, scope;
+    var domain, remnant, league;
     var temp = location.search;
     var query = {};
     var target;
@@ -21,7 +21,7 @@ ai_widget = (function () {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         domain = query.dom;
         remnant = query.remn;
-        scope = query.scope;
+        league = query.league;
         target = query.targ;
 
         if (remnant == 'true') {
@@ -37,7 +37,7 @@ ai_widget = (function () {
 
     }
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/sidekick/' + scope,
+    var APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/sidekick/' + league,
         AIData = {},
         gameID = -1,
         pageInd = -1,
@@ -96,7 +96,7 @@ ai_widget = (function () {
         });
         var arr = {
             title: dataArr[0].displayHeadline,
-            url: href + scope + '/articles/' + dataArr[0].index + '/' + dataArr[0].eventId,
+            url: href + league + '/articles/' + dataArr[0].index + '/' + dataArr[0].eventId,
             content: dataArr[0].report + '<br>&nbsp; ',
             img: protocolToUse + 'images.synapsys.us' + dataArr[0].articleImage,
             icon: '../css/public/icons/Touchdown-Loyal_Icon.svg'
