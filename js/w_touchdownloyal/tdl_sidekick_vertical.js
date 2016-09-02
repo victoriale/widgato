@@ -1,15 +1,17 @@
 ai_widget = (function () {
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-    var mlbDomain = "http://www.homerunloyal.com/";
-    var mlbPartnerDomain = "http://www.myhomerunzone.com/";
+    //switch url for live or testing environment
+    var tdlDomain = "http://dev.touchdownloyal.com/";
+    var tdlPartnerDomain = "http://dev.mytouchdownzone.com/";
+    //end switch
     var referrer = document.referrer;
-    if (referrer.match(/baseball/g)) {
-        mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
+    if (referrer.match(/football/g)) {
+        tdlPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
     }
 
     // Declare variables
     var event = '';
-    var domain, remnant;
+    var domain, remnant, scope;
     var temp = location.search;
     var query = {};
     var target;
@@ -19,21 +21,23 @@ ai_widget = (function () {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         domain = query.dom;
         remnant = query.remn;
+        scope = query.scope;
         target = query.targ;
 
         if (remnant == 'true') {
-            href = mlbDomain;
-            $("base").attr("href", mlbDomain);
-        } else if (referrer.match(/baseball/g)) {
-            $("base").attr("href", mlbPartnerDomain);
-            href = mlbPartnerDomain;
+            href = tdlDomain;
+            $("base").attr("href", tdlDomain);
+        } else if (referrer.match(/football/g)) {
+            $("base").attr("href", tdlPartnerDomain);
+            href = tdlPartnerDomain;
         } else {
-            $("base").attr("href", mlbPartnerDomain + domain + "/");
-            href = mlbPartnerDomain + domain + "/";
+            $("base").attr("href", tdlPartnerDomain + domain + "/");
+            href = tdlPartnerDomain + domain + "/";
         }
 
     }
-    var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick',
+    //adjust api url for testing or live
+    var APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/sidekick/' + scope,
         AIData = {},
         gameID = -1,
         pageInd = -1,
@@ -47,8 +51,6 @@ ai_widget = (function () {
             pageInd = -1;
             $('.aiw-title')[0].innerHTML = "Loading...";
             $('.aiw-txt')[0].innerHTML = '';
-            //$('.aiw-num')[0].innerHTML = '';
-            //$('.aiw-num-length')[0].innerHTML = '';
         }
         var locApiUrl = APIUrl;
         if (typeof eventId != "undefined") {
@@ -81,34 +83,22 @@ ai_widget = (function () {
         }
         // Get the data
         var pageID = availPages[pageInd];
-        var content = [];
         var dataArr = [];
-        $.map(AIData, function (val, index) {
-            if (index != "meta-data" && index == pageID) {
-                val.title = val.sidekickTitle;
-                val.content = val.article;
-                val.report = index;
-                if (event == '') {
-                    val.eventId = AIData['meta-data']['current'].eventId;
-                } else {
-                    val.eventId = event;
-                }
+        $.map(AIData['data'], function (val, index) {
+            if ((index != "meta-data" && index != "timestamp") && index == pageID) {
+                val.title = val.displayHeadline;
+                val.report = val.article;
+                val.eventId = AIData['data']['meta-data']['current'].eventID;
+                val.articleImage = val.image;
+                val.index = index;
                 dataArr.push(val);
             }
         });
-        var imageArr = [];
-        $.map(AIData['meta-data']['images'], function (val, index) {
-            val.images = val;
-            imageArr.push(val);
-        });
-        imageArr = imageArr[0].concat(imageArr[1]);
-        var imgIndex = Math.floor(Math.random() * ((imageArr.length)));
-        imgIndex = (imgIndex > -1 ? imgIndex : 0);
         var arr = {
             title: dataArr[0].displayHeadline,
-            url: href + 'articles/' + dataArr[0].report + '/' + dataArr[0].eventId,
-            content: dataArr[0].content + '<br>&nbsp; ',
-            img: imageArr[imgIndex],
+            url: href + scope + '/articles/' + dataArr[0].index + '/' + dataArr[0].eventId,
+            content: dataArr[0].report + '<br>&nbsp; ',
+            img: protocolToUse + 'images.synapsys.us' + dataArr[0].articleImage,
             icon: '../css/public/icons/Touchdown-Loyal_Icon.svg'
         };
         // Set the data
@@ -153,14 +143,14 @@ ai_widget = (function () {
         }
         // Get all the pages
         var pages = [];
-        for (var i = 0; i < Object.keys(AIData).length; i++) {
-            if (pages.indexOf(Object.keys(AIData)[i] > -1) && Object.keys(AIData)[i] != "meta-data") {
-                availPages.push(Object.keys(AIData)[i]);
+        for (var i = 0; i < Object.keys(AIData['data']).length; i++) {
+            if (pages.indexOf(Object.keys(AIData['data'])[i] > -1) && (Object.keys(AIData['data'])[i] != "meta-data" && Object.keys(AIData['data'])[i] != "timestamp")) {
+                availPages.push(Object.keys(AIData['data'])[i]);
             }
         }
         pageInd = 0;
         // Get game ID
-        gameID = AIData['meta-data']['current'].eventId;
+        gameID = AIData['data']['meta-data']['current'].eventID;
         if (gameArr.length == 0) {
             parseGames();
         }
@@ -178,19 +168,18 @@ ai_widget = (function () {
                 var gameData = {};
                 gameData.home = val.homeAbbreviation;
                 gameData.away = val.awayAbbreviation;
-                gameData.fullHome = val.homeTeamName;
-                gameData.fullAway = val.awayTeamName;
+                gameData.fullHome = val.homeTeamLocation + ' ' + val.homeTeamName;
+                gameData.fullAway = val.awayTeamLocation + ' ' + val.awayTeamName;
                 // Event ID
-                gameData.eventId = val.eventId;
+                gameData.eventId = val.eventID;
                 // Date
-                gameData.eventDate = val.startDateTime;
-                gameData.Time = gameData.eventDate.split(' ')[1];
-                gameData.eventTime = ' - ' + gameData.Time;
+                gameData.eventDate = val['startDateTime'].dateTime.toUpperCase() + ' EDT';
+                gameData.eventTime = ' - ' + val['startDateTime'].time + ' EDT';
                 gameArr.push(gameData);
             });
             return gameArr;
         };
-        var games = AIData['meta-data'].games;
+        var games = AIData['data']['meta-data'].games;
         // Save all the games
         gameArr = parseGame(games);
         // Display the current game
