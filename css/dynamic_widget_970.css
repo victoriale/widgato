@@ -17,6 +17,13 @@ a {
     text-decoration: none;
     outline: 0
 }
+i {
+  font-style: normal;
+  margin-left: 5px;
+  font-family: 'Source Sans Pro', Helvetica, Arial , sans-serif;
+  font-size: 15px;
+  vertical-align: top;
+}
 
 .dw {
     width: 668px;
@@ -28,28 +35,40 @@ a {
 }
 
 #title {
-    font-size: 18px;
+    font-size: 15px;
     line-height: 20px;
     font-weight: bold;
     width: 670px;
     min-height: 40px;
     text-align: left;
-    padding: 21px 10px 5px 44px
+    padding: 10px 15px 10px 15px;
+}
+
+#verticalName {
+    font-size: 10px;
+    font-weight: 400;
+    width: 100%;
+    min-height: 10px;
+    text-align: left;
+    color:white;
+    padding: 5px 15px;
+}
+#verticalName a {
+  color: white;
 }
 
 #homelink > div {
-    height: 25px;
-    width: 25px;
-    border-radius: 50%;
-    background-size: auto;
-    background-position: center center;
-    background-repeat: no-repeat;
-    position: absolute;
-    left: 10px;
-    top: 20px
+  height: 12px;
+  width: 12px;
+  vertical-align: top;
+  background-size: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  margin-right:5px;
 }
 
-#homelink > div:hover {
+#verticalName:hover {
     background-color: black
 }
 
@@ -61,8 +80,8 @@ a {
 }
 
 .dw-nav {
-    height: 60px;
-    width: 30px;
+  height: 50px;
+  width: 20px;
     position: absolute;
     top: 100px;
     color: white;
@@ -79,14 +98,14 @@ a {
 
 .dw-c-l {
     left: 0;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px
 }
 
 .dw-c-r {
     right: 0;
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px
 }
 
 .dw-c-img {
@@ -184,7 +203,7 @@ a {
 
 .dw-i-title {
     width: 100%;
-    font-size: 26px;
+    font-size: 14px;
     line-height: 30px;
     overflow: hidden;
     white-space: nowrap;
@@ -206,26 +225,32 @@ a {
 }
 
 #list-link {
-    width: 0;
     height: 0;
-    display: inline-block
+    display: inline-block;
+}
+
+#next-list-link .dw-btn{
+  display: inline-block;
+  margin-left: 0px;
 }
 
 .dw-btn {
-    color: black;
-    background-color: white;
-    font-size: 11px;
-    line-height: 26px;
-    width: 140px;
-    height: 28px;
-    border-radius: 3px;
-    position: relative;
-    border: 1px solid #000;
-    cursor: pointer;
-    text-align: center;
-    margin-top: 25px;
-    fill: black;
-    stroke: black
+  display: inline-block;
+  color: white;
+  background-color: white;
+  font-size: 11px;
+  line-height: 26px;
+  width: 125px;
+  height: 28px;
+  border-radius: 3px;
+  position: relative;
+  left: 0px;
+  border: 1px solid #000;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 10px;
+  fill: white;
+  stroke: white
 }
 
 .dw-btn svg {
@@ -301,7 +326,7 @@ a {
         width: calc(100% - 205px)!important
     }
     .dw-i-title {
-        font-size: 16px;
+        font-size: 14px;
         line-height: 20px
     }
     .dw-i-title#line2,
@@ -313,7 +338,8 @@ a {
         white-space: normal
     }
     .dw-btn {
-        margin-top: 5px
+      width:125px;
+      margin-top: 10px
     }
 }
 
@@ -367,7 +393,7 @@ a {
         width: calc(100% - 205px)!important
     }
     .dw-i-title {
-        font-size: 16px;
+        font-size: 14px;
         line-height: 20px
     }
     .dw-i-title#line2,
@@ -379,9 +405,7 @@ a {
         white-space: normal
     }
     .dw-btn {
-        font-weight: bold;
-        font-size: 10px;
         width:125px;
-        margin-top: 5px
+        margin-top: 10px
     }
 }

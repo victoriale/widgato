@@ -1,1 +1,41 @@
-a:hover{color:#ff0101}#homelink > div{background-color:#ff0101;background-image:url(../css/public/Logo_Political_Republican.png)}.dw-nav:hover{background:rgba(255,1,1,0.75)}.dw-i-title{color:#ff0101}.dw-btn{border-color:#ff0101!important}.dw-btn:hover{background-color:#ff0101}.hover{background:rgba(255,1,1,0.75)!important}
+a:hover {
+    color: #ff0101;
+}
+#verticalName {
+  background-color: #ff0101;
+}
+.dw-nav{
+    background-color: #ff0101!important;
+}
+.dw-btn:hover,
+.dw-nav:hover {
+    background-color: black!important;
+    border-color: black!important;
+}
+
+#homelink>div {
+    background-image: url(../css/public/Logo_Political_Republican.png);
+}
+
+.dw-btn {
+    border-color: #ff0101!important;
+    background-color: #ff0101 !important;
+    color: white!important;
+}
+#next-list-link .dw-btn{
+  border-color: #ff0101!important;
+  background-color: white !important;
+  color: #ff0101!important;
+  fill: #ff0101;
+  stroke: #ff0101;
+}
+#next-list-link .dw-btn:hover{
+  border-color: black!important;
+  background-color: black !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+.hover {
+    background: rgba(255,1,1,0.75)!important;

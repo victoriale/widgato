@@ -148,6 +148,10 @@ dynamic_widget = (function(){
       add_css_link("../css/dynamic_widget_politics_" + letter + ".css");
     }
 
+    if (wc.category == 'mlb') {
+      wd.l_title = wd.l_title.replace("MLB","Baseball");
+    }
+
     // Display the title
     $('title').innerHTML = wd.l_title;
 
