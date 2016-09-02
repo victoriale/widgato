@@ -10,6 +10,15 @@
   var smallDesktopSearchButton; //DOM ELement of small desktop search button
   var smallDesktopSearchBar; //DOM Element of small desktop search bar
 
+  var ncaamDropdownElements = {
+    nav: document.createElement('ul'),
+    links: document.createElement('section')
+  };
+  var ncaafDropdownElements = {
+    nav: document.createElement('ul'),
+    links: document.createElement('section')
+  };
+
   var defaultState = 'ny'; //Default state used whenever state lookup fails (from api or from stateAbbrevToFull function)
 
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http'; //Protocol of the domain the bar exist on
@@ -19,7 +28,11 @@
   domain = 'latimes.com';
   var homerunDomain = 'http://baseball.' + domain;
   var hoopsDomain = 'http://myhoopszone.com/' + domain;
-  var touchdownDomain = 'http://mytouchdownzone.com/' + domain;
+  // var touchdownDomain = 'http://mytouchdownzone.com/' + domain;
+  var touchdownDomain = 'http://dev.touchdownloyal.com/' + domain;
+
+  var footballLeagueYear = 2015; //Year used by TDL sites for urls
+
   /**
    * Bootstrap functions
    **/
@@ -183,7 +196,7 @@
       if(xhttp.readyState === 4 && xhttp.status === 200){
         //Success
         var res = JSON.parse(xhttp.responseText);
-        console.log('TICKER RESULTS API SUCCESS', res);
+        //console.log('TICKER RESULTS API SUCCESS', res);
 
         var processedData = processTickerData(res);
 
@@ -206,17 +219,26 @@
     var fullState = stateAbbrevToFull(state);
     var fullStateEncode = encodeURIComponent(fullState);
     //Grab neeeded Dom Elements
-    var stateMapMarker = document.getElementById('ncaam-state-map-marker');
-    stateMapMarker.innerHTML = fullState;
+    // var stateMapMarker = document.getElementById('ncaam-state-map-marker');
+    // stateMapMarker.innerHTML = fullState;
     //If user location is not found from api clear out extra text ("in your area");
-    if(!userLocationFound){
-      var ncaamTitle = document.getElementById('ncaam-title');
-      ncaamTitle.innerHTML = 'NCAA Basketball Conferences';
-    }
+    // if(!userLocationFound){
+    //   var ncaamTitle = document.getElementById('ncaam-title');
+    //   ncaamTitle.innerHTML = 'NCAA Basketball Conferences';
+    // }
 
-    var ncaamLeagues = document.getElementById('ncaam-leagues');
-    var ncaamAllConferences = document.getElementById('ncaam-all-conferences');
-    ncaamAllConferences.href = hoopsDomain + '/ncaa';
+    var ncaamLinks = `
+      <h1 id="ncaam-title" class="ddb-menu-dropdown-links-title">
+        NCAA Basketball Conferences ` + (userLocationFound ? 'in your area' : '') + `
+      </h1>
+      <h3 class="ddb-menu-dropdown-links-subtitle">
+        showing NCAA Basketball conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaam-state-map-marker" class="ddb-heavy">` + fullState + `</span>
+      </h3>
+    `;
+
+    // var ncaamLeagues = document.getElementById('ncaam-leagues');
+    // var ncaamAllConferences = document.getElementById('ncaam-all-conferences');
+    // ncaamAllConferences.href = hoopsDomain + '/ncaa';
 
     var apiString = protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=homepage&option=' + fullStateEncode;
     var xhttp = createRequestObject()
@@ -224,13 +246,21 @@
       if(xhttp.readyState === 4 && xhttp.status === 200){
         //Success
         var res = JSON.parse(xhttp.responseText);
-        console.log('NCAA M API SUCCESS', res);
+        //console.log('NCAA M API SUCCESS', res);
 
         var processedData = processCollegeBasketballData(res.ncaa_homepage);
 
         processedData.forEach(function(item){
-          ncaamLeagues.appendChild(item);
+          ncaamLinks += item;
+          // ncaamLeagues.appendChild(item);
         })
+        ncaamLinks += `
+          <a href="` + hoopsDomain + `/ncaa" class="ddb-menu-dropdown-all">
+            SEE ALL CONFERENCES
+          </a>
+        `;
+        //Save links innerHTML
+        ncaamDropdownElements.links.innerHTML = ncaamLinks;
 
         //Link up nav items
         var navMostWins = document.getElementsByClassName('ddb-ncaam-nav-most-wins'),
@@ -263,6 +293,59 @@
           item.href = hoopsDomain + '/NCAA';
         });
 
+        var navHTML = `
+          <li>
+            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1">
+              <i class="ddb-icon ddb-icon-trophy"></i>
+              Most Wins
+            </a>
+          </li>
+          <li>
+            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1">
+              <i class="ddb-icon ddb-icon-box-scores"></i>
+              Most Turnovers
+            </a>
+          </li>
+          <li>
+            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1">
+              <i class="ddb-icon ddb-icon-dribbble"></i>
+              Most Rebounds
+            </a>
+          </li>
+          <li>
+            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1">
+              <i class="ddb-icon ddb-icon-magic"></i>
+              Most Steals
+            </a>
+          </li>
+          <li>
+            <a href="` + hoopsDomain + `"/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1>
+              <i class="ddb-icon ddb-icon-thumbs-o-down"></i>
+              Most Blocks
+            </a>
+          </li>
+          <li>
+            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1">
+              <i class="ddb-icon ddb-icon-life-ring"></i>
+              Most Assists
+            </a>
+          </li>
+        `;
+
+        ncaamDropdownElements.nav.innerHTML = navHTML;
+
+        //If last dropdown that was hovered (or is currently hovered) is ncaam insert into dynamic dropdown
+        //This is so if the user is currently hovering over ncaam (before the dropdown data is loaded the data will insert)
+        var dynamicDropdown = document.getElementById('ddb-dynamic-dropdown');
+        if(dynamicDropdown.id === 'ddb-dropdown-ncaam'){
+          var dynamicNav = document.getElementById('ddb-dynamic-nav'); //Nav of dynamic dropdown
+          var dynamicLinks = document.getElementById('ddb-dynamic-links'); //Links of dynamic dropdown
+          clearInnerHTML(dynamicNav);
+          clearInnerHTML(dynamicLinks);
+          dynamicLinks.appendChild(ncaamDropdownElements.nav);
+          dynamicLinks.appendChild(ncaamDropdownElements.links);
+        }
+
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
         console.log('NCAA M API ERROR');
@@ -278,14 +361,23 @@
     var fullState = stateAbbrevToFull(state);
 
     //Grab needed DOM Elements
-    var stateMapMarker = document.getElementById('ncaaf-state-map-marker');
-    stateMapMarker.innerHTML = fullState;
+    // var stateMapMarker = document.getElementById('ncaaf-state-map-marker');
+    // stateMapMarker.innerHTML = fullState;
     //If user location is not found from api clear out extra text ("in your area");
-    if(!userLocationFound){
-      var ncaafTitle = document.getElementById('ncaaf-title');
-      ncaafTitle.innerHTML = 'NCAA Football Conferences';
-    }
-    var ncaafLeagues = document.getElementById('ncaaf-leagues');
+    // if(!userLocationFound){
+    //   var ncaafTitle = document.getElementById('ncaaf-title');
+    //   ncaafTitle.innerHTML = 'NCAA Football Conferences';
+    // }
+    // var ncaafLeagues = document.getElementById('ncaaf-leagues');
+
+    var ncaafLinks = `
+      <h1 id="ncaaf-title" class="ddb-menu-dropdown-links-title">
+        NCAA Football Conferences ` + (userLocationFound ? 'in your area': '') + `
+      </h1>
+      <h3 class="ddb-menu-dropdown-links-subtitle">
+        showing NCAA Football conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaaf-state-map-marker" class="ddb-heavy">` + fullState + `</span>
+      </h3>
+    `;
 
     var apiString = protocol + '://dev-touchdownloyal-api.synapsys.us/landingPage/fbs/' + state;
     var xhttp = createRequestObject();
@@ -293,13 +385,72 @@
       if(xhttp.readyState === 4 && xhttp.status === 200){
         //Success
         var res = JSON.parse(xhttp.responseText);
-        console.log('NCAA F API SUCCESS', res);
+        //console.log('NCAA F API SUCCESS', res);
 
         var processedData = processCollegeFootballData(res);
 
         processedData.forEach(function(item){
-          ncaafLeagues.appendChild(item);
+          ncaafLinks += item;
+          // ncaafLeagues.appendChild(item);
         })
+        ncaafLinks += `
+          <a href="` + touchdownDomain + `/ncaaf/pick-a-team" class="ddb-menu-dropdown-all">
+            SEE ALL CONFERENCES
+          </a>
+        `;
+        //Save links innerHTML
+        ncaafDropdownElements.links.innerHTML = ncaafLinks;
+
+        var navHTML = `
+          <li>
+            <a href="` + touchdownDomain + `/ncaaf">
+              <i class="ddb-icon ddb-icon-news"></i>
+              News
+            </a>
+          </li>
+          <li>
+            <a href="` + touchdownDomain + `/ncaaf">
+              <i class="ddb-icon ddb-icon-box-scores"></i>
+              Box Scores
+            </a>
+          </li>
+          <li>
+            <a href="` + touchdownDomain + `/ncaaf/standings">
+              <i class="ddb-icon ddb-icon-trophy"></i>
+              Standings
+            </a>
+          </li>
+          <li>
+            <a href="` + touchdownDomain + `/ncaaf/schedules/league/` + footballLeagueYear + `/1">
+              <i class="ddb-icon ddb-icon-calendar"></i>
+              Schedule
+            </a>
+          </li>
+          <li>
+            <a href="` + touchdownDomain + `/ncaaf/list-of-lists/league/10/1">
+              <i class="ddb-icon ddb-icon-list"></i>
+              Top Lists
+            </a>
+          </li>
+          <li>
+            <a href="` + touchdownDomain + `/ncaaf/league">
+              <i class="ddb-icon ddb-icon-profile"></i>
+              NCAA F Profile
+            </a>
+          </li>
+        `;
+
+        ncaafDropdownElements.nav.innerHTML = navHTML;
+
+        var dynamicDropdown = document.getElementById('ddb-dynamic-dropdown');
+        if(dynamicDropdown.id === 'ddb-dropdown-ncaaf'){
+          var dynamicNav = document.getElementById('ddb-dynamic-nav'); //Nav of dynamic dropdown
+          var dynamicLinks = document.getElementById('ddb-dynamic-links'); //Links of dynamic dropdown
+          clearInnerHTML(dynamicNav);
+          clearInnerHTML(dynamicLinks);
+          dynamicLinks.appendChild(ncaafDropdownElements.nav);
+          dynamicLinks.appendChild(ncaafDropdownElements.links);
+        }
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
@@ -309,7 +460,6 @@
     xhttp.open('GET', apiString, true);
     xhttp.send();
   }
-
   //UPDATED
   var bootstrapNBADropdown = function(){
     //Static data for eastern conference
@@ -970,187 +1120,187 @@
       }
 
   };
-
+  //UPDATED
   var bootstrapNFLDropdown = function(){
     var afcNorth = [
       {
         shortName: 'Ravens',
         fullName: 'balitmore-ravens',
-        teamId: 1
+        teamId: 141
       },
       {
         shortName: 'Bengals',
         fullName: 'cincinnati-bengals',
-        teamId: 1
+        teamId: 139
       },
       {
         shortName: 'Browns',
         fullName: 'cleveland-browns',
-        teamId: 1
+        teamId: 140
       },
       {
         shortName: 'Steelers',
         fullName: 'pittsburgh-steelers',
-        teamId: 1
+        teamId: 142
       }
     ];
     var afcEast = [
       {
         shortName: 'Bills',
         fullName: 'buffalo-bills',
-        teamId: 1
+        teamId: 135
       },
       {
         shortName: 'Dolphins',
         fullName: 'miami-dolphins',
-        teamId: 1
+        teamId: 136
       },
       {
         shortName: 'Patriots',
         fullName: 'new-england-patriots',
-        teamId: 1
+        teamId: 138
       },
       {
         shortName: 'Jets',
         fullName: 'new-york-jets',
-        teamId: 1
+        teamId: 137
       }
     ];
     var afcSouth = [
       {
         shortName: 'Texans',
         fullName: 'houston-texans',
-        teamId: 1
+        teamId: 145
       },
       {
         shortName: 'Colts',
         fullName: 'indianapolis-colts',
-        teamId: 1
+        teamId: 143
       },
       {
         shortName: 'Jaguars',
         fullName: 'jacksonville-jaguars',
-        teamId: 1
+        teamId: 144
       },
       {
         shortName: 'Titans',
         fullName: 'tennessee-titans',
-        teamId: 1
+        teamId: 146
       }
     ];
     var afcWest = [
       {
         shortName: 'Broncos',
         fullName: 'denver-broncos',
-        teamId: 1
+        teamId: 147
       },
       {
         shortName: 'Chiefs',
         fullName: 'kansas-city-chief',
-        teamId: 1
+        teamId: 149
       },
       {
         shortName: 'Raiders',
         fullName: 'oakland-raiders',
-        teamId: 1
+        teamId: 150
       },
       {
         shortName: 'Chargers',
         fullName: 'san-diego-chargers',
-        teamId: 1
+        teamId: 150
       }
     ];
     var nfcNorth = [
       {
         shortName: 'Bears',
         fullName: 'chicago-bears',
-        teamId: 1
+        teamId: 155
       },
       {
         shortName: 'Lions',
         fullName: 'detroit-lions',
-        teamId: 1
+        teamId: 156
       },
       {
         shortName: 'Packers',
         fullName: 'green-bay-packers',
-        teamId: 1
+        teamId: 157
       },
       {
         shortName: 'Vikings',
         fullName: 'minnesota-vikings',
-        teamId: 1
+        teamId: 158
       }
     ];
     var nfcEast = [
       {
         shortName: 'Cowboys',
         fullName: 'dallas-cowboys',
-        teamId: 1
+        teamId: 151
       },
       {
         shortName: 'Giants',
         fullName: 'new-york-giants',
-        teamId: 1
+        teamId: 153
       },
       {
         shortName: 'Eagles',
         fullName: 'philadelphia-eagles',
-        teamId: 1
+        teamId: 152
       },
       {
         shortName: 'Redskins',
         fullName: 'washington-redskins',
-        teamId: 1
+        teamId: 154
       }
     ];
     var nfcSouth = [
       {
         shortName: 'Falcons',
         fullName: 'atlanta-falcons',
-        teamId: 1
+        teamId: 160
       },
       {
         shortName: 'Panthers',
         fullName: 'carolina-panthers',
-        teamId: 1
+        teamId: 161
       },
       {
         shortName: 'Saints',
         fullName: 'new-orleans-saints',
-        teamId: 1
+        teamId: 162
       },
       {
         shortName: 'Buccaneers',
         fullName: 'tampa-bay-buccaneers',
-        teamId: 1
+        teamId: 159
       }
     ];
     var nfcWest = [
       {
         shortName: 'Cardinals',
         fullName: 'arizona-cardinals',
-        teamId: 1
+        teamId: 164
       },
       {
         shortName: 'Rams',
         fullName: 'st-louis-rams',
-        teamId: 1
+        teamId: 165
       },
       {
         shortName: '49ers',
         fullName: 'san-francisco-49ers',
-        teamId: 1
+        teamId: 163
       },
       {
         shortName: 'Seahawks',
         fullName: 'seattle-seahawks',
-        teamId: 1
+        teamId: 166
       }
     ];
 
     var buildLink = function(data){
-      return touchdownDomain;
+      return touchdownDomain + '/nfl/team/' + data.fullName + '/' + data.teamId;
     }
 
     var linksEl = document.createElement('section');
@@ -1241,40 +1391,70 @@
     linksEl.innerHTML += afcHTML;
     linksEl.innerHTML += nfcHTML;
 
+    var navNews = document.getElementsByClassName('ddb-nfl-nav-news'),
+      navBoxScores = document.getElementsByClassName('ddb-nfl-nav-box-scores'),
+      navStandings = document.getElementsByClassName('ddb-nfl-nav-standings'),
+      navSchedule = document.getElementsByClassName('ddb-nfl-nav-schedule'),
+      navTopLists = document.getElementsByClassName('ddb-nfl-nav-top-lists'),
+      navTeams = document.getElementsByClassName('ddb-nfl-nav-teams'),
+      navProfile = document.getElementsByClassName('ddb-nfl-nav-profile');
+
+      [].forEach.call(navNews, function(item){
+        item.href = touchdownDomain + '/nfl';
+      });
+      [].forEach.call(navBoxScores, function(item){
+        item.href = touchdownDomain + '/nfl';
+      });
+      [].forEach.call(navStandings, function(item){
+        item.href = touchdownDomain + '/nfl/standings';
+      });
+      [].forEach.call(navSchedule, function(item){
+        item.href = touchdownDomain + '/nfl/schedules/league/' + footballLeagueYear + '/1';
+      });
+      [].forEach.call(navTopLists, function(item){
+        item.href = touchdownDomain + '/nfl/list-of-lists/league/10/1';
+      });
+      [].forEach.call(navTeams, function(item){
+        item.href = touchdownDomain + '/nfl/pick-a-team';
+      });
+      [].forEach.call(navProfile, function(item){
+        item.href = touchdownDomain + '/nfl/league';
+      });
+
     var navEl = document.createElement('ul');
     navEl.innerHTML = `
       <li>
-        <a>
+        <a href="` + touchdownDomain + `/nfl">
           <i class="ddb-icon ddb-icon-news"></i>
           News
         </a>
       </li>
       <li>
-        <a>
+        <a href="` + touchdownDomain + `/nfl">
           <i class="ddb-icon ddb-icon-box-scores"></i>
           Box Scores
         </a>
       </li>
       <li>
-        <a>
+        <a href="` + touchdownDomain + `/nfl/standings">
           <i class="ddb-icon ddb-icon-trophy"></i>
           Standings
         </a>
       </li>
       <li>
-        <a>
+        <a href="` + touchdownDomain + `/nfl/schedules/league/` + footballLeagueYear + `/1">
           <i class="ddb-icon ddb-icon-calendar"></i>
           Schedule
         </a>
       </li>
       <li>
-        <a>
+        <a href="` + touchdownDomain + `/nfl/list-of-lists/league/10/1">
           <i class="ddb-icon ddb-icon-list"></i>
           Top Lists
         </a>
       </li>
       <li>
-        <a>
+        <a href="` + touchdownDomain + `/nfl/league">
           <i class="ddb-icon ddb-icon-profile"></i>
           NFL Profile
         </a>
@@ -1364,7 +1544,7 @@
       if(xhttp.readyState === 4 && xhttp.status === 200){
         //Success
         var res = JSON.parse(xhttp.responseText);
-        console.log('GET BOXSCORES SUCCESS', res);
+        //console.log('GET BOXSCORES SUCCESS', res);
 
         var processedData = processBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
         //Reverse array so it is inserted correctly
@@ -1445,7 +1625,7 @@
         searchDesktopDropdown.appendChild(buildResult(item), searchDesktopDropdown);
       })
 
-      if(searchResults.length > 0 && !hasClass(this.nextElementSibling, 'ddb-show')){
+      if(!hasClass(this.nextElementSibling, 'ddb-show')){
         addClass(this.nextElementSibling, 'ddb-show');
         setTimeout(function(){
           window.addEventListener('click', windowClickEvent);
@@ -1455,7 +1635,14 @@
     }, 400);
     //Focus event when user focuses on search
     var focusSearch = function(){
-      if(searchResults.length > 0 && !hasClass(this.nextElementSibling, 'ddb-show')){
+      var val = this.value;
+
+      if(val === ''){
+        //If input is empty don't show dropdown
+        return false;
+      }
+
+      if(!hasClass(this.nextElementSibling, 'ddb-show')){
         addClass(this.nextElementSibling, 'ddb-show');
         setTimeout(function(){
           window.addEventListener('click', windowClickEvent);
@@ -1570,7 +1757,7 @@
       if(xhttp.readyState === 4 && xhttp.status === 200){
         //Success
         var res = JSON.parse(xhttp.responseText);
-        console.log('SEARCH API SUCCESS', res);
+        //console.log('SEARCH API SUCCESS', res);
         fuse = new Fuse(res, {
           keys: ['teamName'],
           threshold: 0.2
@@ -1588,59 +1775,12 @@
   }
   //UPDATED
   var bootstrapAd = function(){
-    // var adNode = document.createElement('div');
-    // var adScript = document.createElement('script');
-    // adScript.innerHTML = '';
-    // adScript.src = protocol + '://content.synapsys.us/l/n/igloo.php?type=inline_ad&adW=300&adH=250&widW=0&widH=0&remn=false&rand=' + Math.floor((Math.random() * 10000000000) + 1) + '&dom=chicagotribune.com&norotate=true'
-    //Determines if ad has been loaded
-    // var adNodeLoaded = false;
 
     var adNode = document.getElementById('ddb-ad');
     var adScript = document.createElement('script');
     adScript.innerHTML = '';
     adScript.src = protocol + '://content.synapsys.us/l/n/igloo.php?type=inline_ad&adW=300&adH=250&widW=0&widH=0&remn=false&rand=' + Math.floor((Math.random() * 10000000000) + 1) + '&dom=chicagotribune.com&norotate=true';
     adNode.appendChild(adScript);
-
-    // var adMLB = document.getElementById('ddb-ad-mlb'),
-    //   adNBA = document.getElementById('ddb-ad-nba'),
-    //   adNCAAM = document.getElementById('ddb-ad-ncaam'),
-    //   adNFL = document.getElementById('ddb-ad-nfl'),
-    //   adNCAAF = document.getElementById('ddb-ad-ncaaf')
-
-    // var hoverEvent = function(){
-    //   var id = this.id;
-    //
-    //   switch(id){
-    //     case 'ddb-dropdown-mlb':
-    //       adMLB.appendChild(adNode);
-    //     break;
-    //     case 'ddb-dropdown-nba':
-    //       adNBA.appendChild(adNode);
-    //     break;
-    //     case 'ddb-dropdown-ncaam':
-    //       adNCAAM.appendChild(adNode);
-    //     break;
-    //     case 'ddb-dropdown-nfl':
-    //       adNFL.appendChild(adNode);
-    //     break;
-    //     case 'ddb-dropdown-ncaaf':
-    //       adNCAAF.appendChild(adNode);
-    //     break;
-    //     default:
-    //       //Do nothing
-    //     break;
-    //   }
-    //   if(!adNodeLoaded && id !== 'ddb-dropdown-boxscores'){
-    //     adNode.appendChild(adScript);
-    //     adNodeLoaded = true;
-    //   }
-    //
-    // }
-
-    // var navItems = document.getElementsByClassName('ddb-menu-nav-item');
-    // [].forEach.call(navItems, function(item){
-    //   item.addEventListener('mouseenter', hoverEvent);
-    // })
   }
 
   var bootstrapDynamicDropdown = function(){
@@ -1673,6 +1813,9 @@
         break;
         case 'ddb-dropdown-ncaam':
           dynamicDropdown.id = 'ddb-dynamic-ncaam';
+
+          dynamicNav.appendChild(ncaamDropdownElements.nav);
+          dynamicLinks.appendChild(ncaamDropdownElements.links);
         break;
         case 'ddb-dropdown-nfl':
           dynamicDropdown.id = 'ddb-dynamic-nfl';
@@ -1682,6 +1825,9 @@
         break;
         case 'ddb-dropdown-ncaaf':
           dynamicDropdown.id = 'ddb-dynamic-ncaaf';
+
+          dynamicNav.appendChild(ncaafDropdownElements.nav);
+          dynamicLinks.appendChild(ncaafDropdownElements.links);
         break;
       }
 
@@ -1772,7 +1918,7 @@
        if(xhttp.readyState === 4 && xhttp.status === 200){
          //Success
          var res = JSON.parse(xhttp.responseText);
-         console.log('GET USER LOCATION SUCCESS', res);
+         //console.log('GET USER LOCATION SUCCESS', res);
 
          var state = processLocationData(res);
          bootstrapTicker(state);
@@ -1856,10 +2002,8 @@
        full_name = full_name.replace(/[^\w\s]/gi, '');
        full_name = full_name.replace(/\s+/g, '-').toLowerCase();
 
-       return 'http://www.hoopsloyal.com/NCAA/team/' + full_name + '/' + teamId;
+       return hoopsDomain + '/NCAA/t/' + full_name + '/' + teamId;
      }
-
-
 
      //Limit amount of data to iterate through (max 2)
      var dataLength = data.length > 1 ? 2 : data.length;
@@ -1868,9 +2012,10 @@
        var item = data[i];
        var leagueName = Object.keys(item)[0];
        var leagueData = data[i][leagueName];
-       var tableHTML = document.createElement('table');
-       tableHTML.className = 'ddb-menu-dropdown-table ddb-col-3';
+      //  var tableHTML = document.createElement('table');
+      //  tableHTML.className = 'ddb-menu-dropdown-table ddb-col-3';
        var tableInnerHTML = `
+        <table class="ddb-menu-dropdown-table ddb-col-3">
           <thead>
             <tr>
               <td colspan="3">
@@ -1901,10 +2046,11 @@
          tableInnerHTML += '</tr>';
        }
 
-       tableInnerHTML += '</tbody>';
-       tableHTML.innerHTML = tableInnerHTML;
+       tableInnerHTML += '</tbody></table>';
+      //  tableHTML.innerHTML = tableInnerHTML;
 
-       transform.push(tableHTML);
+      //  transform.push(tableHTML);
+      transform.push(tableInnerHTML);
      }
 
      return transform;
@@ -1915,7 +2061,10 @@
      var transform = [];
 
      var buildLink = function(full_name, teamId){
-       return touchdownDomain;
+       full_name = full_name.replace(/[^\w\s]/gi, '');
+       full_name = full_name.replace(/\s+/g, '-').toLowerCase();
+
+       return touchdownDomain + '/ncaaf/team/' + full_name + '/' + teamId;
      }
 
      //Limit amount of data to iterate through (max 2)
@@ -1925,9 +2074,10 @@
      for(var i = 0; i < dataLength; i++){
        var leagueName = objectKeys[i];
        var leagueData = data[leagueName][leagueName];
-       var tableHTML = document.createElement('table');
-       tableHTML.className = 'ddb-menu-dropdown-table ddb-col-3';
+      //  var tableHTML = document.createElement('table');
+      //  tableHTML.className = 'ddb-menu-dropdown-table ddb-col-3';
        var tableInnerHTML = `
+        <table class="ddb-menu-dropdown-table ddb-col-3">
           <thead>
             <tr>
               <td colspan="3">
@@ -1958,11 +2108,11 @@
          tableInnerHTML += '</tr>';
        }
 
-       tableInnerHTML += '</tbody>';
-       tableHTML.innerHTML = tableInnerHTML;
+       tableInnerHTML += '</tbody></table>';
+      //  tableHTML.innerHTML = tableInnerHTML;
 
-       transform.push(tableHTML);
-
+      //  transform.push(tableHTML);
+      transform.push(tableInnerHTML);
      }
 
      return transform;
@@ -2421,7 +2571,7 @@
   	};
   };
   //Clear innerHTML of item
-  clearInnerHTML = function(el){
+  var clearInnerHTML = function(el){
     while (el.firstChild) el.removeChild(el.firstChild);
   }
 

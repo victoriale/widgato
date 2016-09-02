@@ -727,7 +727,7 @@
 .ddb-menu-dropdown-ad:after{
   content: 'ADVERTISEMENT';
   position: absolute;
-  bottom: -30px;
+  bottom: -25px;
   left: 0;
   right: 0;
   text-align: center;
@@ -876,7 +876,7 @@
   width: 100%;
   display: block;
 }
-#ddb-search-mobile-dropdown li a{
+#ddb-search-mobile-dropdown li a, #ddb-search-mobile-dropdown .ddb-no-results{
   padding: 12px 20px;
   border-bottom: 1px solid #ccc;
 }
