@@ -1504,9 +1504,78 @@
     var todayInput = todayObject.year + '-' + todayObject.month + '-' + todayObject.date;
 
     var apiString = protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayInput;
+    var apiString2 = protocol + '://dev-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayInput;
+    var apiString3 = protocol + '://dev-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayInput;
 
     var mobileBoxscoresMLB = document.getElementById('ddb-mobile-boxscores-mlb');
     var desktopBoxscoresMLB = document.getElementById('ddb-desktop-boxscores-mlb');
+
+    var mobileBoxscoresNFL = document.getElementById('ddb-mobile-boxscores-nfl');
+    var desktopBoxscoresNFL = document.getElementById('ddb-desktop-boxscores-nfl');
+
+    var mobileBoxscoresNCAAF = document.getElementById('ddb-mobile-boxscores-ncaaf');
+    var desktopBoxscoresNCAAF = document.getElementById('ddb-desktop-boxscores-ncaaf');
+
+    var mlbLoaded = false,
+      nflLoaded = false,
+      ncaafLoaded = false;
+
+    var eventsOpen = false;
+    var eventsContainer = document.getElementById('ddb-boxscores-events-container');
+    var eventsButton = document.getElementById('ddb-boxscores-events-button');
+    eventsButton.addEventListener('click', function(){
+      if(eventsOpen){
+        //If open close
+        removeClass(eventsContainer, 'ddb-active');
+      }else{
+        //If closed open
+        addClass(eventsContainer, 'ddb-active');
+
+      }
+      eventsOpen = !eventsOpen;
+    })
+    var eventsOptions = document.getElementById('ddb-boxscores-options');
+    eventsOptions.childNodes.forEach(function(item){
+      item.addEventListener('click', function(){
+        var clickAllowed = false;
+        var id = this.id;
+        //Determine if data is loaded to allow/disallow click
+        switch(id){
+          case 'ddb-boxscores-options-mlb':
+            if(mlbLoaded){
+              clickAllowed = true;
+            }
+          break;
+          case 'ddb-boxscores-options-nfl':
+            if(nflLoaded){
+              clickAllowed = true;
+            }
+          break;
+          case 'ddb-boxscores-options-ncaaf':
+            if(ncaafLoaded){
+              clickAllowed = true;
+            }
+          break;
+          default:
+            clickAllowed = true;
+          break;
+        }
+        //If data hasnt loaded, exit function
+        if(!clickAllowed){
+          return false;
+        }
+
+        var siblingNodes = eventsOptions.childNodes;
+        [].forEach.call(siblingNodes, function(item){
+          if(item.nodeType === 1){
+            removeClass(item, 'ddb-active');
+          }
+        })
+        addClass(this, 'ddb-active');
+
+      })
+    })
+
 
     var bootstrapMobileBoxscoresButtons = function(data){
       var index = 0;
@@ -1587,14 +1656,70 @@
 
         bootstrapMobileBoxscoresButtons(processedData);
 
+        mlbLoaded = true;
+
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
-        console.log('GET BOXSCORES ERROR');
+        console.log('GET MLB BOXSCORES ERROR');
 
       }
     };
     xhttp.open('GET', apiString, true);
     xhttp.send();
+
+    var xhttp2 = createRequestObject();
+    xhttp2.onreadystatechange = function(){
+      if(xhttp2.readyState === 4 && xhttp2.status === 200){
+        //Success
+        var res = JSON.parse(xhttp2.responseText);
+        console.log('xhttp2', res);
+
+        var processedData = proccessNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
+        console.log('xhttp2 processed', processedData);
+        //Reverse array so it is inserted correctly
+        processedData.reverse();
+        //Add HTML to page
+        processedData.forEach(function(item){
+          mobileBoxscoresNFL.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNFL.nextSibling);
+          desktopBoxscoresNFL.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNFL.nextSibling);
+        })
+
+        nflLoaded = true;
+
+      }else if(xhttp2.readyState === 4 & xhttp2.status !== 200){
+        //Error
+        console.log('GET NFL BOXSCORES ERROR');
+      }
+    };
+    xhttp2.open('GET', apiString2, true);
+    xhttp2.send();
+
+    var xhttp3 = createRequestObject();
+    xhttp3.onreadystatechange = function(){
+      if(xhttp3.readyState === 4 && xhttp3.status === 200){
+        //Success
+        var res = JSON.parse(xhttp3.responseText);
+        console.log('xhttp3', res);
+
+        var processedData = proccessNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
+        console.log('xhttp3 processed', processedData);
+        //Reverse array so it is inserted correctly
+        processedData.reverse();
+        //Add HTML to page
+        processedData.forEach(function(item){
+          mobileBoxscoresNCAAF.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNCAAF.nextSibling);
+          desktopBoxscoresNCAAF.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNCAAF.nextSibling);
+        })
+
+        ncaafLoaded = true;
+
+      }else if(xhttp3.readyState === 4 && xhttp3.status !== 200){
+        //Error
+        console.log('GET NCAAF BOXSCORES ERROR');
+      }
+    };
+    xhttp3.open('GET', apiString3, true);
+    xhttp3.send();
   }
 
   var bootstrapSearch = function(){
@@ -2335,6 +2460,28 @@
    var processBoxscoresData = function(data, offset, tzAbbrev, todayDate){
      var pre = [], active = [], post = [];
 
+     var buildNode = function(data){
+       var gameNode = document.createElement('li');
+       gameNode.className = 'ddb-boxscores-content-game';
+       gameNode.innerHTML = `
+         <a class="ddb-boxscores-content-game-link" href="` + data.link + `">
+           <ul class="ddb-boxscores-content-game-teams">
+             <li>
+               ` + data.homeTeam + ` <span class="ddb-boxscores-content-game-score">` + data.homeScore + `</span>
+             </li>
+             <li>
+               ` + data.awayTeam + ` <span class="ddb-boxscores-content-game-score">` + data.awayScore + `</span>
+             </li>
+           </ul>
+           <span class="ddb-boxscores-content-game-bottom">
+             ` + data.bottomData + `
+           </span>
+         </a>
+       `;
+
+       return gameNode;
+     }
+
      for(var index in data){
        var item = data[index];
        //Determine if game is today (Also allow games that are live, but the day has rolled over past midnight)
@@ -2344,28 +2491,6 @@
          gameIsToday = true;
        }else if(item.gameInfo.live){
          gameIsToday = true;
-       }
-
-       var buildNode = function(data){
-         var gameNode = document.createElement('li');
-         gameNode.className = 'ddb-boxscores-content-game';
-         gameNode.innerHTML = `
-           <a class="ddb-boxscores-content-game-link" href="` + data.link + `">
-             <ul class="ddb-boxscores-content-game-teams">
-               <li>
-                 ` + data.homeTeam + ` <span class="ddb-boxscores-content-game-score">` + data.homeScore + `</span>
-               </li>
-               <li>
-                 ` + data.awayTeam + ` <span class="ddb-boxscores-content-game-score">` + data.awayScore + `</span>
-               </li>
-             </ul>
-             <span class="ddb-boxscores-content-game-bottom">
-               ` + data.bottomData + `
-             </span>
-           </a>
-         `;
-
-         return gameNode;
        }
 
        //If game is today or live, push to return array
@@ -2468,6 +2593,160 @@
      return allGames;
    }
 
+   var proccessNFLBoxscoresData = function(data, offset, tzAbbrev, todayDate){
+     var pre = [], active = [], post = [];
+     var wpre = [], wpost = [];
+
+     var buildNode = function(data){
+       var gameNode = document.createElement('li');
+       gameNode.className = 'ddb-boxscores-content-game';
+       gameNode.innerHTML = `
+         <a class="ddb-boxscores-content-game-link" href="` + data.link + `">
+           <ul class="ddb-boxscores-content-game-teams">
+             <li>
+               ` + data.homeTeam + ` <span class="ddb-boxscores-content-game-score">` + data.homeScore + `</span>
+             </li>
+             <li>
+               ` + data.awayTeam + ` <span class="ddb-boxscores-content-game-score">` + data.awayScore + `</span>
+             </li>
+           </ul>
+           <span class="ddb-boxscores-content-game-bottom">
+             ` + data.bottomData + `
+           </span>
+         </a>
+       `;
+
+       return gameNode;
+     }
+
+     for(var index in data){
+       var item = data[index];
+       var gameIsToday = false;
+       var timestampDate = new Date(item.eventStartTime + offset * 3600 * 1000).getUTCDate();
+       var now = new Date().getTime();
+
+       if(timestampDate === todayDate){
+         gameIsToday = true;
+       }
+
+       if(gameIsToday){
+        //Game is Today
+        if(item.liveStatus === 'N' && item.eventStartTime > now){
+          //Pre Game
+          var gameObject = {
+            homeTeam: item.team1Abbreviation,
+            homeScore: '-',
+            awayTeam:item.team2Abbreviation,
+            awayScore: '-',
+            timestamp: item.eventStartTime,
+            datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
+            eventId: item.eventId
+          };
+
+          gameObject.bottomData = gameObject.datetime;
+          gameObject.link = '#';
+
+          gameObject.mobileNode = buildNode(gameObject);
+          gameObject.desktopNode = buildNode(gameObject);
+
+          pre.push(gameObject);
+        }else if(item.liveStatus === 'Y' && item.eventStartTime < now){
+          //Live Game
+          var gameObject = {
+            homeTeam: item.team1Abbreviation,
+            homeScore: item.team1Score ? item.team1Score : '-',
+            awayTeam:item.team2Abbreviation,
+            awayScore: item.team2Score ? item.team2Score: '-',
+            timestamp: item.eventStartTime,
+            datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
+            eventId: item.eventId
+          };
+
+          gameObject.bottomData = item.eventQuarter ? ordinalSuffix(item.eventQuarter) : gameObject.datetime;
+          gameObject.link = '#';
+
+          gameObject.mobileNode = buildNode(gameObject);
+          gameObject.desktopNode = buildNode(gameObject);
+
+          active.push(gameObject);
+        }else if(item.liveStatus === 'N' && item.eventStartTime < now){
+          //Post Game
+          var gameObject = {
+            homeTeam: item.team1Abbreviation,
+            homeScore: '-',
+            awayTeam:item.team2Abbreviation,
+            awayScore: '-',
+            timestamp: item.eventStartTime,
+            datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
+            eventId: item.eventId
+          };
+
+          gameObject.bottomData = 'Final';
+          gameObject.link = '#';
+
+          gameObject.mobileNode = buildNode(gameObject);
+          gameObject.desktopNode = buildNode(gameObject);
+
+          post.push(gameObject);
+        }
+
+       }else{
+        //Game is this week
+        if(item.eventStartTime > now){
+          //Pre Game
+          var gameObject = {
+            homeTeam: item.team1Abbreviation,
+            homeScore: '-',
+            awayTeam:item.team2Abbreviation,
+            awayScore: '-',
+            timestamp: item.eventStartTime,
+            datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
+            eventId: item.eventId
+          };
+
+          gameObject.bottomData = prettyDatetime(item.eventDate);
+          gameObject.link = '#';
+
+          gameObject.mobileNode = buildNode(gameObject);
+          gameObject.desktopNode = buildNode(gameObject);
+
+          wpre.push(gameObject);
+
+        }else if(item.eventStartTime < now){
+          //Post Game
+          var gameObject = {
+            homeTeam: item.team1Abbreviation,
+            homeScore: item.team1Score,
+            awayTeam:item.team2Abbreviation,
+            awayScore: item.team2Score,
+            timestamp: item.eventStartTime,
+            datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
+            eventId: item.eventId
+          };
+
+          gameObject.bottomData = 'Final';
+          gameObject.link = '#';
+
+          gameObject.mobileNode = buildNode(gameObject);
+          gameObject.desktopNode = buildNode(gameObject);
+
+          wpost.push(gameObject);
+        }
+
+       }
+
+     }; //End for
+
+     pre = array_sort(pre, 1, 'timestamp');
+     active = array_sort(active, 1, 'timestamp');
+     post = array_sort(post, 1, 'timestamp');
+     wpre = array_sort(wpre, 1, 'timestamp');
+     wpost = array_sort(wpost, 1, 'timestamp');
+
+     var allGames = active.concat(pre, post, wpre, wpost);
+
+     return allGames;
+   }
   /**
    * Global event functions
    **/
@@ -2689,6 +2968,26 @@
     var convertedDate = hour + ':' + minutes + meridian + ' ' + tzAbbrev;
 
     return convertedDate;
+  }
+
+  var prettyDatetime = function(date){
+    var dates = date.split('-');
+    var months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'April',
+      'May',
+      'June',
+      'July',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+
+    return months[(Number(dates[1]) - 1)] + ' ' + ordinalSuffix(dates[2]);
   }
   //Function to sort array (ascending or descending) in a particular order (1 for ascending, 0 for descending)
   var array_sort = function(arr, ascending, attr){

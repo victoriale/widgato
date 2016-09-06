@@ -566,11 +566,91 @@
   min-height: 60px;
   background-color: #f2f2f2;
 }
-.ddb-menu-dropdown-container
 .ddb-menu-dropdown-events{
   float: left;
   width: 140px;
   height: 100%;
+  line-height: 58px;
+  position: relative;
+  background-color: #f2f2f2;
+}
+.ddb-menu-dropdown-events.ddb-active{
+  width: 415px;
+}
+.ddb-menu-dropdown-events.ddb-active + .ddb-menu-dropdown-boxscores{
+  left: 415px;
+}
+.ddb-menu-dropdown-events-button{
+  padding: 5px 10px;
+  margin: 15px;
+  text-transform: uppercase;
+  color: #000;
+  background-color: #fff;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  font-weight: 700;
+}
+.ddb-menu-dropdown-events-button .ddb-icon{
+  font-size: 14px;
+}
+.ddb-menu-dropdown-events.ddb-active .ddb-menu-dropdown-events-button{
+  color: #fff;
+  background-color: #4f95e6;
+  border-color: #4f95e6;
+}
+.ddb-menu-dropdown-events.ddb-active .ddb-menu-dropdown-events-button .ddb-icon{
+  font-size: 12px;
+}
+.ddb-menu-dropdown-events.ddb-active .ddb-menu-dropdown-events-button .ddb-icon:before{
+  content: '\6c';
+}
+
+.ddb-menu-dropdown-events-options{
+  display: none;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 140px;
+  right: 0;
+  line-height: normal;
+  padding: 5px 0 0 0;
+  box-sizing: border-box;
+}
+.ddb-menu-dropdown-events.ddb-active .ddb-menu-dropdown-events-options{
+  display: inline-block;
+}
+.ddb-menu-dropdown-events-options-title{
+  font-weight: 700;
+  font-size: 12px;
+  color: #000;
+  margin-bottom: 6px;
+}
+.ddb-menu-dropdown-events-options-list{
+  font-size: 12px;
+}
+.ddb-menu-dropdown-events-options-list li{
+  display: inline-block;
+  border-radius: 5px;
+  border: 1px solid #000;
+  background-color: #f2f2f2;
+  color: #000;
+  text-align: center;
+  width: 55px;
+  padding: 2px 0;
+  margin: 0 2px;
+  cursor: pointer;
+}
+.ddb-menu-dropdown-events-options-list li:first-child{
+  margin: 0 2px 0 0;
+}
+.ddb-menu-dropdown-events-options-list li:hover{
+  border-color: #5499eb;
+}
+.ddb-menu-dropdown-events-options-list li.ddb-active{
+  background-color: #5499eb;
+  color: #fff;
+  border-color: #5499eb;
 }
 
 .ddb-menu-dropdown-boxscores{
