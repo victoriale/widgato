@@ -63,7 +63,7 @@
   var body = document.getElementsByTagName("body")[0];
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http';
   var leftRail, rightRail;
-  var imageLeftRail, imageRightRail, imagePresentedBy;
+  var imageLeftRail, imageRightRail, imagePresentedByLeft, imagePresentedByRight;
   skyscraperRails.railsLoaded = false; //If rails have been built
   skyscraperRails.railsVisible = false; //If rails are visible
   var railWidth = 500; //Width of rails (width of rail images)
@@ -273,7 +273,7 @@
     skyscraperRails.buildRails();
   }
 
-  window.addEventListener('resize', throttle(skycraperRails.resize, 400));
+  window.addEventListener('resize', throttle(skycraperRails.resize, 100));
 
 }(window.skycraperRails = window.skycraperRails || {}))
 
