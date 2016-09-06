@@ -78,8 +78,8 @@
     case 'ncaaf':
       imageLeftRail = protocol + '://w1.synapsys.us/widgets/deepdive/images/football/rail_left.jpg';
       imageRightRail = protocol + '://w1.synapsys.us/widgets/deepdive/images/football/rail_right.jpg';
-      imagePresentedByLeft = protocol + '://w1.synapsys.us/widgets/deepdive/images/footbal/presented_left.png';
-      imagePresentedByRight = protocol + '://w1.synapsys.us/widgets/deepdive/images/footbal/presented)right.png';
+      imagePresentedByLeft = protocol + '://w1.synapsys.us/widgets/deepdive/images/football/presented_left.png';
+      imagePresentedByRight = protocol + '://w1.synapsys.us/widgets/deepdive/images/football/presented_right.png';
     break;
     default:
       imageLeftRail = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball/rail_left.jpg';
