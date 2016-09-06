@@ -273,7 +273,7 @@
     skyscraperRails.buildRails();
   }
 
-  window.addEventListener('resize', throttle(skycraperRails.resize, 400));
+  window.addEventListener('resize', throttle(skycraperRails.resize, 100));
 
 }(window.skycraperRails = window.skycraperRails || {}))
 
