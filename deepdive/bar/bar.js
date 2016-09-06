@@ -1,5 +1,7 @@
 (function(){
-  var embedURL = 'bar.js'; //URL of script embed. This is used as a fallback if document.currentScript is not available
+  var protocol = (location.protocol) === 'https:' ? 'https' : 'http'; //Protocol of the domain the bar exist on
+  var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
+  var embedURL = resourceURL + '/bar/bar.js'; //URL of script embed. This is used as a fallback if document.currentScript is not available
   /**
    * Global variables
    **/
@@ -21,15 +23,14 @@
 
   var defaultState = 'ny'; //Default state used whenever state lookup fails (from api or from stateAbbrevToFull function)
 
-  var protocol = (location.protocol) === 'https:' ? 'https' : 'http'; //Protocol of the domain the bar exist on
   var domain = window.location.hostname; //Domain the bar exists on
   domain = domain.replace(/www./, '');
   //TODO: Test domain. Remove when product finished
-  domain = 'latimes.com';
+  // domain = 'latimes.com';
   var homerunDomain = 'http://baseball.' + domain;
   var hoopsDomain = 'http://myhoopszone.com/' + domain;
   // var touchdownDomain = 'http://mytouchdownzone.com/' + domain;
-  var touchdownDomain = 'http://dev.touchdownloyal.com/' + domain;
+  var touchdownDomain = 'http://dev.mytouchdownzone.com/' + domain;
 
   var footballLeagueYear = 2015; //Year used by TDL sites for urls
 
@@ -37,7 +38,7 @@
    * Bootstrap functions
    **/
   var bootstrapApp = function(){
-    var apiString = '/deepdive/bar/bar.html';
+    var apiString = resourceURL + '/bar/template_middlelayer.php';
     var xhttp = createRequestObject();
 
     xhttp.onreadystatechange = function(){
@@ -57,7 +58,7 @@
                }
             }
          })();
-         parentNode = currentScript.parentNode;
+         var parentNode = currentScript.parentNode;
          //Inject HTML
          parentNode.insertBefore(template, currentScript);
          //Load script dependencies
@@ -80,7 +81,7 @@
       }
     };
     xhttp.open('GET', apiString, true);
-    xhttp.setRequestHeader('Content-type', 'text/html');
+    //xhttp.setRequestHeader('Content-type', 'text/html');
     xhttp.send();
   }
 
@@ -1847,7 +1848,7 @@
     var storedSearchValue; //Stored search value when arrow keys are pressed
     var selectedItem; //Currently selected item when arrow keys are pressed
 
-    var apiString = '/deepdive/lib/search_teams.json';
+    var apiString = resourceURL + '/lib/search_teams_middlelayer.php';
     var fuse; //Fuse.js search object
     var searchResults = [];
     //Click event added to window when dropdown is shown
@@ -2312,7 +2313,7 @@
      styleEl.rel = 'stylesheet';
      styleEl.type = 'text/css';
      styleEl.dataset.resource_from = 'deepdive-bar-embed';
-     styleEl.href = 'bar.css';
+     styleEl.href = resourceURL + '/bar/bar.css';
      if(styleEl.readyState){ //IE
        styleEl.onreadystatechange = function (){
          if(styleEl.readyState === 'loaded' || styleEl.readyState === 'complete'){
@@ -2331,7 +2332,7 @@
      iconEl.rel = 'stylesheet';
      iconEl.type = 'text/css';
      iconEl.dataset.resource_from = 'deepdive-bar-embed';
-     iconEl.href = '../fonts/deepdive_bar/styles.css';
+     iconEl.href = resourceURL + '/fonts/deepdive_bar/styles.css';
      document.head.appendChild(iconEl);
    }
 
@@ -2341,7 +2342,7 @@
      var fuseJS = document.createElement('script');
      fuseJS.type='text/javascript';
      fuseJS.dataset.resource_from = 'deepdive-bar-embed';
-     fuseJS.src = '../lib/fuse_2.5.0.min.js';
+     fuseJS.src = resourceURL + '/lib/fuse_2.5.0.min.js';
      //Wait for fuse js to load before bootstrapping search functionality
      if (fuseJS.readyState) { //IE
       fuseJS.onreadystatechange = function () {
