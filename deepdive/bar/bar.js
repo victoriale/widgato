@@ -1507,6 +1507,9 @@
     var apiString2 = protocol + '://dev-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayInput;
     var apiString3 = protocol + '://dev-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayInput;
 
+    var mobileBoxscores = document.getElementById('ddb-mobile-boxscores');
+    var desktopBoxscores = document.getElementById('ddb-desktop-boxscores');
+
     var mobileBoxscoresMLB = document.getElementById('ddb-mobile-boxscores-mlb');
     var desktopBoxscoresMLB = document.getElementById('ddb-desktop-boxscores-mlb');
 
@@ -1516,9 +1519,15 @@
     var mobileBoxscoresNCAAF = document.getElementById('ddb-mobile-boxscores-ncaaf');
     var desktopBoxscoresNCAAF = document.getElementById('ddb-desktop-boxscores-ncaaf');
 
-    var mlbLoaded = false,
+    var totalMax = 0,
+      mlbLoaded = false,
+      mlbMax = 0,
       nflLoaded = false,
-      ncaafLoaded = false;
+      nflMax = 0,
+      ncaafLoaded = false,
+      ncaafMax = 0;
+    var desktopBoxscoresSelected = 'all';
+    var desktopMax = 0;
 
     var eventsOpen = false;
     var eventsContainer = document.getElementById('ddb-boxscores-events-container');
@@ -1530,112 +1539,192 @@
       }else{
         //If closed open
         addClass(eventsContainer, 'ddb-active');
-
       }
       eventsOpen = !eventsOpen;
     })
     var eventsOptions = document.getElementById('ddb-boxscores-options');
     eventsOptions.childNodes.forEach(function(item){
       item.addEventListener('click', function(){
-        var clickAllowed = false;
         var id = this.id;
         //Determine if data is loaded to allow/disallow click
         switch(id){
           case 'ddb-boxscores-options-mlb':
             if(mlbLoaded){
-              clickAllowed = true;
+              desktopBoxscoresIndex = 0;
+              desktopBoxscores.style.left = 0;
+              desktopBoxscoresMLB.style.display = 'inline-block';
+              desktopBoxscoresNFL.style.display = 'none';
+              desktopBoxscoresNCAAF.style.display = 'none';
+              desktopBoxscoresSelected = 'mlb';
+            }else{
+              return false;
             }
           break;
           case 'ddb-boxscores-options-nfl':
             if(nflLoaded){
-              clickAllowed = true;
+              desktopBoxscoresIndex = 0;
+              desktopBoxscores.style.left = 0;
+              desktopBoxscoresMLB.style.display = 'none';
+              desktopBoxscoresNFL.style.display = 'inline-block';
+              desktopBoxscoresNCAAF.style.display = 'none';
+              desktopBoxscoresSelected = 'nfl';
+            }else{
+              return false;
             }
           break;
           case 'ddb-boxscores-options-ncaaf':
             if(ncaafLoaded){
-              clickAllowed = true;
+              desktopBoxscoresIndex = 0;
+              desktopBoxscores.style.left = 0;
+              desktopBoxscoresMLB.style.display = 'none';
+              desktopBoxscoresNFL.style.display = 'none';
+              desktopBoxscoresNCAAF.style.display = 'inline-block';
+              desktopBoxscoresSelected = 'ncaaf';
+            }else{
+              return false;
             }
           break;
+          case 'ddb-boxscores-options-all':
+            desktopBoxscoresIndex = 0;
+            desktopBoxscores.style.left = 0;
+            desktopBoxscoresMLB.style.display = 'inline-block';
+            desktopBoxscoresNFL.style.display = 'inline-block';
+            desktopBoxscoresNCAAF.style.display = 'inline-block';
+            desktopBoxscoresSelected = 'all';
+          break;
           default:
-            clickAllowed = true;
+            return false;
           break;
         }
-        //If data hasnt loaded, exit function
-        if(!clickAllowed){
-          return false;
-        }
-
+        //Remove active class from button
         var siblingNodes = eventsOptions.childNodes;
         [].forEach.call(siblingNodes, function(item){
           if(item.nodeType === 1){
             removeClass(item, 'ddb-active');
           }
         })
+        //Assign active class to button clicked
         addClass(this, 'ddb-active');
 
       })
     })
 
+    var mobileBoxscoresIndex = 0;
+    var desktopBoxscoresIndex = 0;
 
     var bootstrapMobileBoxscoresButtons = function(data){
-      var index = 0;
-      var maxLength = index + (data.length);
+      // var mobileBoxscoresIndex = 0;
+      // var maxLength = index + (data.length);
 
-      var moveLeft = function(){
-        if(index > 0){
+      var moveMobileLeft = function(){
+        if(mobileBoxscoresIndex > 0){
 
-          index--;
+          mobileBoxscoresIndex--;
 
-          if(index === 0){
+          if(mobileBoxscoresIndex === 0){
             removeClass(leftMobileButton, 'ddb-blue');
-            removeClass(leftDesktopButton, 'ddb-blue');
             mobileBoxscores.style.left = '0';
-            desktopBoxscores.style.left = '0';
-          }else if(index === maxLength - 1){
+          }else if(mobileBoxscoresIndex === totalMax - 1){
             addClass(rightMobileButton, 'ddb-blue');
-            addClass(rightDesktopButton, 'ddb-blue');
           }else{
             if(!hasClass(leftMobileButton, 'ddb-blue')){
               addClass(leftMobileButton, 'ddb-blue');
-              addClass(leftDesktopButton, 'ddb-blue');
             }
-            mobileBoxscores.style.left = (-75 + ((index - 1) * -100)) + 'px';
-            desktopBoxscores.style.left = (-75 + ((index - 1) * -100)) + 'px';
+            mobileBoxscores.style.left = (-100 + ((mobileBoxscoresIndex - 1) * -100)) + 'px';
           }
 
         }
       }
-      var moveRight = function(){
-        if(index < maxLength){
-          index++;
+      var moveMobileRight = function(){
+        if(mobileBoxscoresIndex < totalMax){
+          mobileBoxscoresIndex++;
 
-          if(index === maxLength){
+          if(mobileBoxscoresIndex === totalMax){
             removeClass(rightMobileButton, 'ddb-blue');
-            removeClass(rightDesktopButton, 'ddb-blue');
-          }else if(index === 1){
+          }else if(mobileBoxscoresIndex === 1){
             addClass(leftMobileButton, 'ddb-blue');
-            addClass(leftDesktopButton, 'ddb-blue');
           }else if(!hasClass(rightMobileButton, 'ddb-blue')){
             addClass(rightMobileButton, 'ddb-blue');
+          }
+
+          mobileBoxscores.style.left = (-100 + ((mobileBoxscoresIndex - 1) * -100)) + 'px';
+        }
+      }
+      var moveDesktopLeft = function(){
+        switch(desktopBoxscoresSelected){
+          case 'mlb':
+            desktopMax = mlbMax;
+          break;
+          case 'nfl':
+            desktopMax = nflMax;
+          break;
+          case 'ncaaf':
+            desktopMax = ncaafMax;
+          break;
+          case 'all':
+            desktopMax = totalMax;
+          break;
+        }
+
+        if(desktopBoxscoresIndex > 0){
+
+          desktopBoxscoresIndex--;
+
+          if(desktopBoxscoresIndex === 0){
+            removeClass(leftDesktopButton, 'ddb-blue');
+            desktopBoxscores.style.left = '0';
+          }else if(desktopBoxscoresIndex === desktopMax - 1){
+            addClass(rightDesktopButton, 'ddb-blue');
+          }else{
+            if(!hasClass(leftMobileButton, 'ddb-blue')){
+              addClass(leftDesktopButton, 'ddb-blue');
+            }
+            desktopBoxscores.style.left = (-100 + ((desktopBoxscoresIndex - 1) * -100)) + 'px';
+          }
+
+        }
+      }
+      var moveDesktopRight = function(){
+        switch(desktopBoxscoresSelected){
+          case 'mlb':
+            desktopMax = mlbMax;
+          break;
+          case 'nfl':
+            desktopMax = nflMax;
+          break;
+          case 'ncaaf':
+            desktopMax = ncaafMax;
+          break;
+          case 'all':
+            desktopMax = totalMax;
+          break;
+        }
+
+        if(desktopBoxscoresIndex < desktopMax){
+          desktopBoxscoresIndex++;
+
+          if(desktopBoxscoresIndex === desktopMax){
+            removeClass(rightDesktopButton, 'ddb-blue');
+          }else if(desktopBoxscoresIndex === 1){
+            addClass(leftDesktopButton, 'ddb-blue');
+          }else if(!hasClass(rightMobileButton, 'ddb-blue')){
             addClass(rightDesktopButton, 'ddb-blue');
           }
 
-          mobileBoxscores.style.left = (-75 + ((index - 1) * -100)) + 'px';
-          desktopBoxscores.style.left = (-75 + ((index - 1) * -100)) + 'px';
+          desktopBoxscores.style.left = (-100 + ((desktopBoxscoresIndex - 1) * -100)) + 'px';
         }
       }
+
       //Mobile
-      var mobileBoxscores = document.getElementById('ddb-mobile-boxscores');
       var leftMobileButton = document.getElementById('ddb-mobile-boxscores-left');
       var rightMobileButton = document.getElementById('ddb-mobile-boxscores-right');
-      leftMobileButton.addEventListener('click', moveLeft);
-      rightMobileButton.addEventListener('click', moveRight);
+      leftMobileButton.addEventListener('click', moveMobileLeft);
+      rightMobileButton.addEventListener('click', moveMobileRight);
       //Desktop
-      var desktopBoxscores = document.getElementById('ddb-desktop-boxscores');
       var leftDesktopButton = document.getElementById('ddb-desktop-boxscores-left');
       var rightDesktopButton = document.getElementById('ddb-desktop-boxscores-right');
-      leftDesktopButton.addEventListener('click', moveLeft);
-      rightDesktopButton.addEventListener('click', moveRight);
+      leftDesktopButton.addEventListener('click', moveDesktopLeft);
+      rightDesktopButton.addEventListener('click', moveDesktopRight);
     }
 
     var xhttp = createRequestObject();
@@ -1647,12 +1736,19 @@
 
         var processedData = processBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
         //Reverse array so it is inserted correctly
-        processedData.reverse();
+        // processedData.reverse();
         //Add HTML to page
         processedData.forEach(function(item){
-          mobileBoxscoresMLB.parentNode.insertBefore(item.mobileNode, mobileBoxscoresMLB.nextSibling);
-          desktopBoxscoresMLB.parentNode.insertBefore(item.desktopNode, desktopBoxscoresMLB.nextSibling);
+          // mobileBoxscoresMLB.parentNode.insertBefore(item.mobileNode, mobileBoxscoresMLB.nextSibling);
+          // desktopBoxscoresMLB.parentNode.insertBefore(item.desktopNode, desktopBoxscoresMLB.nextSibling);
+          mobileBoxscoresMLB.appendChild(item.mobileNode);
+          desktopBoxscoresMLB.appendChild(item.desktopNode);
         })
+
+        totalMax += processedData.length;
+        totalMax += processedData.length;
+
+        mlbMax = processedData.length;
 
         bootstrapMobileBoxscoresButtons(processedData);
 
@@ -1674,15 +1770,22 @@
         var res = JSON.parse(xhttp2.responseText);
         console.log('xhttp2', res);
 
-        var processedData = proccessNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
-        console.log('xhttp2 processed', processedData);
+        var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
+
         //Reverse array so it is inserted correctly
-        processedData.reverse();
+        // processedData.reverse();
         //Add HTML to page
         processedData.forEach(function(item){
-          mobileBoxscoresNFL.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNFL.nextSibling);
-          desktopBoxscoresNFL.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNFL.nextSibling);
+          // mobileBoxscoresNFL.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNFL.nextSibling);
+          // desktopBoxscoresNFL.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNFL.nextSibling);
+          mobileBoxscoresNFL.appendChild(item.mobileNode);
+          desktopBoxscoresNFL.appendChild(item.desktopNode);
         })
+
+        totalMax += processedData.length;
+        totalMax += processedData.length;
+
+        nflMax = processedData.length;
 
         nflLoaded = true;
 
@@ -1701,15 +1804,22 @@
         var res = JSON.parse(xhttp3.responseText);
         console.log('xhttp3', res);
 
-        var processedData = proccessNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
-        console.log('xhttp3 processed', processedData);
+        var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
+
         //Reverse array so it is inserted correctly
-        processedData.reverse();
+        // processedData.reverse();
         //Add HTML to page
         processedData.forEach(function(item){
-          mobileBoxscoresNCAAF.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNCAAF.nextSibling);
-          desktopBoxscoresNCAAF.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNCAAF.nextSibling);
+          // mobileBoxscoresNCAAF.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNCAAF.nextSibling);
+          // desktopBoxscoresNCAAF.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNCAAF.nextSibling);
+          mobileBoxscoresNCAAF.appendChild(item.mobileNode);
+          desktopBoxscoresNCAAF.appendChild(item.desktopNode);
         })
+
+        totalMax += processedData.length;
+        totalMax += processedData.length;
+
+        ncaafMax = processedData.length;
 
         ncaafLoaded = true;
 
@@ -2461,7 +2571,7 @@
      var pre = [], active = [], post = [];
 
      var buildNode = function(data){
-       var gameNode = document.createElement('li');
+       var gameNode = document.createElement('div');
        gameNode.className = 'ddb-boxscores-content-game';
        gameNode.innerHTML = `
          <a class="ddb-boxscores-content-game-link" href="` + data.link + `">
@@ -2593,12 +2703,12 @@
      return allGames;
    }
 
-   var proccessNFLBoxscoresData = function(data, offset, tzAbbrev, todayDate){
+   var processNFLBoxscoresData = function(data, offset, tzAbbrev, todayDate){
      var pre = [], active = [], post = [];
      var wpre = [], wpost = [];
 
      var buildNode = function(data){
-       var gameNode = document.createElement('li');
+       var gameNode = document.createElement('div');
        gameNode.className = 'ddb-boxscores-content-game';
        gameNode.innerHTML = `
          <a class="ddb-boxscores-content-game-link" href="` + data.link + `">
@@ -2716,9 +2826,9 @@
           //Post Game
           var gameObject = {
             homeTeam: item.team1Abbreviation,
-            homeScore: item.team1Score,
+            homeScore: item.team1Score ? item.team1Score : '-',
             awayTeam:item.team2Abbreviation,
-            awayScore: item.team2Score,
+            awayScore: item.team2Score ? item.team2Score : '-',
             timestamp: item.eventStartTime,
             datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
             eventId: item.eventId
