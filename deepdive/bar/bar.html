@@ -1,0 +1,1647 @@
+<!-- <!doctype html> -->
+<!-- <html lang="en"> -->
+  <!-- <head>
+    <title>Deep Dive Bar</title>
+
+    <meta charset='utf-8'>
+      <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet" type="text/css">
+      <link rel="stylesheet" type="text/css" href="bar.css">
+      <link rel="stylesheet" type="text/css" href="../fonts/deepdive_bar/styles.css">
+      <script type="text/javascript" src="../lib/fuse_2.5.0.min.js"></script>
+      <script type="text/javascript" src="bar.js" defer></script>
+
+    <base target="_top">
+
+  </head> -->
+  <!-- <body> -->
+    <!-- <section class="ddb-container"> -->
+
+      <section class="ddb-menu">
+        <!-- Mobile Layout -->
+        <button id="ddb-mobile-menu" class="ddb-menu-mobile ddb-parleft ddb-blue">
+          <i class="ddb-icon ddb-icon-bars"></i>
+        </button>
+
+        <button id="ddb-mobile-search" class="ddb-menu-mobile ddb-right ddb-parright">
+          <i class="ddb-icon"></i>
+        </button>
+
+        <div id="ddb-mobile-dropdown" class="ddb-mobile-dropdown ddb-dropdown">
+            <!-- Boxscores -->
+            <div class="ddb-mobile-dropdown-boxscores">
+              <!-- Left Button -->
+              <button id="ddb-mobile-boxscores-left" class="ddb-boxscores-button ddb-left">
+                <i class="ddb-icon ddb-icon-angle-left"></i>
+              </button>
+              <!-- Boxscores Frame -->
+              <div class="ddb-boxscores-frame">
+                <ul id="ddb-mobile-boxscores" class="ddb-boxscores-content">
+                  <!-- Category -->
+                  <li id="ddb-mobile-boxscores-mlb" class="ddb-boxscores-content-category">
+                    <span class="ddb-title">MLB</span><br>
+                    <a class="ddb-link ddb-mlb-nav-box-scores">View All</a>
+                  </li>
+                  <li id="ddb-mobile-boxscores-nfl" class="ddb-boxscores-content-category">
+                    <span class="ddb-title">NFL</span><br>
+                    <a class="ddb-link ddb-nfl-nav-box-scores">View All</a>
+                  </li>
+                  <li id="ddb-mobile-boxscores-ncaaf" class="ddb-boxscores-content-category">
+                    <span class="ddb-title">NCAAF</span><br>
+                    <a class="ddb-link ddb-nfl-nav-box-scores">View All</a>
+                  </li>
+                </ul>
+              </div>
+              <!-- Right Button -->
+              <button id="ddb-mobile-boxscores-right" class="ddb-boxscores-button ddb-right ddb-blue">
+                <i class="ddb-icon ddb-icon-angle-right"></i>
+              </button>
+            </div>
+            <!-- End Boxscores -->
+
+            <!-- Mobile Options -->
+            <ul class="ddb-mobile-dropdown-list">
+              <!-- MLB -->
+              <li class="ddb-mobile-dropdown-item">
+                <div class="ddb-mobile-dropdown-tier1">
+                  <i class="ddb-icon ddb-icon-baseball"></i>
+                  MLB
+                  <i class="ddb-icon ddb-toggle"></i>
+                </div>
+                <ul class="ddb-mobile-dropdown-tier2">
+                  <!-- Sub Items -->
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-mlb-nav-news">
+                      <i class="ddb-icon ddb-icon-news"></i>
+                      News
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-mlb-nav-box-scores">
+                      <i class="ddb-icon ddb-icon-box-scores"></i>
+                      Box Scores
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-mlb-nav-standings">
+                      <i class="ddb-icon ddb-icon-trophy"></i>
+                      Standings
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-mlb-nav-schedule">
+                      <i class="ddb-icon ddb-icon-calendar"></i>
+                      Schedule
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-mlb-nav-top-lists">
+                      <i class="ddb-icon ddb-icon-list"></i>
+                      Top Lists
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-mlb-nav-teams">
+                      <i class="ddb-icon ddb-icon-team"></i>
+                      MLB Teams
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-mlb-nav-profile">
+                      <i class="ddb-icon ddb-icon-profile"></i>
+                      MLB Profile
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- NBA -->
+              <li class="ddb-mobile-dropdown-item">
+                <div class="ddb-mobile-dropdown-tier1">
+                  <i class="ddb-icon ddb-icon-basketball"></i>
+                  NBA
+                  <i class="ddb-icon ddb-toggle"></i>
+                </div>
+                <ul class="ddb-mobile-dropdown-tier2">
+                  <!-- Sub Items -->
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nba-nav-most-wins">
+                      <i class="ddb-icon ddb-icon-trophy"></i>
+                      Most Wins
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nba-nav-most-turnovers">
+                      <i class="ddb-icon ddb-icon-box-scores"></i>
+                      Most Turnovers
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nba-nav-most-rebounds">
+                      <i class="ddb-icon ddb-icon-dribbble"></i>
+                      Most Rebounds
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nba-nav-most-steals">
+                      <i class="ddb-icon ddb-icon-magic"></i>
+                      Most Steals
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nba-nav-most-blocks">
+                      <i class="ddb-icon ddb-icon-thumbs-o-down"></i>
+                      Most Blocks
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nba-nav-most-assists">
+                      <i class="ddb-icon ddb-icon-life-ring"></i>
+                      Most Assists
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nba-nav-teams">
+                      <i class="ddb-icon ddb-icon-team"></i>
+                      NBA Teams
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- NCAA M -->
+              <li class="ddb-mobile-dropdown-item">
+                <div class="ddb-mobile-dropdown-tier1">
+                  <i class="ddb-icon ddb-icon-basketball"></i>
+                  NCAA M
+                  <i class="ddb-icon ddb-toggle"></i>
+                </div>
+                <ul class="ddb-mobile-dropdown-tier2">
+                  <!-- Sub Items -->
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaam-nav-most-wins">
+                      <i class="ddb-icon ddb-icon-trophy"></i>
+                      Most Wins
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaam-nav-most-turnovers">
+                      <i class="ddb-icon ddb-icon-box-scores"></i>
+                      Most Turnovers
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaam-nav-most-rebounds">
+                      <i class="ddb-icon ddb-icon-dribbble"></i>
+                      Most Rebounds
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaam-nav-most-steals">
+                      <i class="ddb-icon ddb-icon-magic"></i>
+                      Most Steals
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaam-nav-most-blocks">
+                      <i class="ddb-icon ddb-icon-thumbs-o-down"></i>
+                      Most Blocks
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaam-nav-most-assists">
+                      <i class="ddb-icon ddb-icon-life-ring"></i>
+                      Most Assists
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaam-nav-teams">
+                      <i class="ddb-icon ddb-icon-team"></i>
+                      NCAA M Teams
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- NFL -->
+              <li class="ddb-mobile-dropdown-item">
+                <div class="ddb-mobile-dropdown-tier1">
+                  <i class="ddb-icon ddb-icon-football"></i>
+                  NFL
+                  <i class="ddb-icon ddb-toggle"></i>
+                </div>
+                <ul class="ddb-mobile-dropdown-tier2">
+                  <!-- Sub Items -->
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nfl-nav-news">
+                      <i class="ddb-icon ddb-icon-news"></i>
+                      News
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nfl-nav-box-scores">
+                      <i class="ddb-icon ddb-icon-box-scores"></i>
+                      Box Scores
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nfl-nav-standings">
+                      <i class="ddb-icon ddb-icon-trophy"></i>
+                      Standings
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nfl-nav-schedule">
+                      <i class="ddb-icon ddb-icon-calendar"></i>
+                      Schedule
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nfl-nav-top-lists">
+                      <i class="ddb-icon ddb-icon-list"></i>
+                      Top Lists
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nfl-nav-teams">
+                      <i class="ddb-icon ddb-icon-team"></i>
+                      NFL Teams
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-nfl-nav-profile">
+                      <i class="ddb-icon ddb-icon-profile"></i>
+                      NFL Profile
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <!-- NCAA F -->
+              <li class="ddb-mobile-dropdown-item">
+                <div class="ddb-mobile-dropdown-tier1">
+                  <i class="ddb-icon ddb-icon-football"></i>
+                  NCAA F
+                  <i class="ddb-icon ddb-toggle"></i>
+                </div>
+                <ul class="ddb-mobile-dropdown-tier2">
+                  <!-- Sub Items -->
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaaf-nav-news">
+                      <i class="ddb-icon ddb-icon-news"></i>
+                      News
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaaf-nav-box-scores">
+                      <i class="ddb-icon ddb-icon-box-scores"></i>
+                      Box Scores
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaaf-nav-standings">
+                      <i class="ddb-icon ddb-icon-trophy"></i>
+                      Standings
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaaf-nav-schedule">
+                      <i class="ddb-icon ddb-icon-calendar"></i>
+                      Schedule
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaaf-nav-top-lists">
+                      <i class="ddb-icon ddb-icon-list"></i>
+                      Top Lists
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaaf-nav-teams">
+                      <i class="ddb-icon ddb-icon-team"></i>
+                      NCAA F Teams
+                    </a>
+                  </li>
+                  <li class="ddb-mobile-dropdown-tier2-item">
+                    <a class="ddb-ncaaf-nav-proifle">
+                      <i class="ddb-icon ddb-icon-profile"></i>
+                      NCAA F Profile
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+            </ul>
+            <!-- End Mobile Options -->
+        </div>
+
+        <div id="ddb-mobile-search-bar" class="ddb-mobile-dropdown ddb-dropdown">
+          <div class="ddb-mobile-dropdown-search">
+            <input id="ddb-search-mobile" placeholder="Search any sports' team..">
+          </div>
+          <ul id="ddb-search-mobile-dropdown" class="ddb-search-dropdown">
+
+          </ul>
+        </div>
+        <!-- End Mobile Layout -->
+
+        <!-- Tablet/Desktop Layout -->
+        <ul class="ddb-menu-nav">
+          <!-- Box Scores -->
+          <li id="ddb-dropdown-boxscores" class="ddb-blue ddb-parleft ddb-menu-nav-item">
+            <i class="ddb-icon ddb-icon-bars"></i>
+            Scoreboard
+            <!-- Hover Dropdown -->
+            <div id="ddb-boxscores-dropdown" class="ddb-menu-dropdown">
+              <div class="ddb-menu-dropdown-container">
+                <div id="ddb-boxscores-events-container" class="ddb-menu-dropdown-events">
+                  <button id="ddb-boxscores-events-button" class="ddb-menu-dropdown-events-button">
+                    Top Events
+                    <i class="ddb-icon ddb-icon-angle-right"></i>
+                  </button>
+                  <div class="ddb-menu-dropdown-events-options">
+                    <div class="ddb-menu-dropdown-events-options-title">
+                      Select Which Scoreboard to View
+                    </div>
+                    <ul id="ddb-boxscores-options" class="ddb-menu-dropdown-events-options-list">
+                      <li id="ddb-boxscores-option-all" class="ddb-active">
+                        ALL
+                      </li>
+                      <li id="ddb-boxscores-option-mlb">
+                        MLB
+                      </li>
+                      <li id="ddb-boxscores-option-nfl">
+                        NFL
+                      </li>
+                      <li id="ddb-boxscores-option-ncaaf">
+                        NCAAF
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="ddb-menu-dropdown-boxscores">
+                  <!-- Left Button -->
+                  <button id="ddb-desktop-boxscores-left" class="ddb-boxscores-button ddb-left">
+                    <i class="ddb-icon ddb-icon-angle-left"></i>
+                  </button>
+                  <!-- Boxscores Frame -->
+                  <div class="ddb-boxscores-frame">
+                    <ul id="ddb-desktop-boxscores" class="ddb-boxscores-content">
+                      <!-- Category -->
+                      <li id="ddb-desktop-boxscores-mlb" class="ddb-boxscores-content-category">
+                        <span class="ddb-title">MLB</span><br>
+                        <a class="ddb-link ddb-mlb-nav-box-scores">View All</a>
+                      </li>
+                      <li id="ddb-desktop-boxscores-nfl" class="ddb-boxscores-content-category">
+                        <span class="ddb-title">NFL</span><br>
+                        <a class="ddb-link ddb-nfl-nav-box-scores">View All</a>
+                      </li>
+                      <li id="ddb-desktop-boxscores-ncaaf" class="ddb-boxscores-content-category">
+                        <span class="ddb-title">NCAA F</span><br>
+                        <a class="ddb-link ddb-nfl-nav-box-scores">View All</a>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- Right Button -->
+                  <button id="ddb-desktop-boxscores-right" class="ddb-boxscores-button ddb-right ddb-blue">
+                    <i class="ddb-icon ddb-icon-angle-right"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </li>
+          <!-- MLB -->
+          <li id="ddb-dropdown-mlb" class="ddb-menu-nav-item ddb-dynamic-item">
+            MLB
+            <!-- Hover Dropdown -->
+            <!-- <div id="mlb-dropdown" class="ddb-menu-dropdown">
+              <div class="ddb-menu-dropdown-container"> -->
+                <!-- Nav -->
+                <!-- <ul class="ddb-menu-dropdown-nav">
+                  <li>
+                    <a class="ddb-mlb-nav-news">
+                      <i class="ddb-icon ddb-icon-news"></i>
+                      News
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-mlb-nav-box-scores">
+                      <i class="ddb-icon ddb-icon-box-scores"></i>
+                      Box Scores
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-mlb-nav-standings">
+                      <i class="ddb-icon ddb-icon-trophy"></i>
+                      Standings
+                    </a> -->
+                  <!-- </li>
+                  <li>
+                    <a class="ddb-mlb-nav-schedule">
+                      <i class="ddb-icon ddb-icon-calendar"></i>
+                      Schedule
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-mlb-nav-top-lists">
+                      <i class="ddb-icon ddb-icon-list"></i>
+                      Top Lists
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-mlb-nav-profile">
+                      <i class="ddb-icon ddb-icon-profile"></i> -->
+                      <!-- MLB Profile
+                    </a>
+                  </li>
+                </ul> -->
+                <!-- Content -->
+                <!-- <div class="ddb-menu-dropdown-content">
+                  <section class="ddb-menu-dropdown-links"> -->
+                    <!-- AL Division -->
+                    <!-- <table class="ddb-menu-dropdown-table ddb-col-3">
+                      <thead>
+                        <tr>
+                          <td>
+                            Al Central
+                          </td>
+                          <td>
+                            AL East
+                          </td>
+                          <td>
+                            AL West
+                          </td>
+                        </tr>
+                      </thead>
+                      <tbody id="mlb-american">
+                        <tr>
+                          <td>
+                            Indians
+                          </td>
+                          <td>
+                            Blue Jays
+                          </td>
+                          <td>
+                            Angeles
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Royals
+                          </td>
+                          <td>
+                            Orioles
+                          </td>
+                          <td>
+                            Astros
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Tigers
+                          </td>
+                          <td>
+                            Rays
+                          </td>
+                          <td>
+                            Athletics
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Twins
+                          </td>
+                          <td>
+                            Red Sox
+                          </td>
+                          <td>
+                            Mariners
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            White Sox
+                          </td>
+                          <td>
+                            Yankees
+                          </td>
+                          <td>
+                            Rangers
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table> -->
+                    <!-- NL Division -->
+                    <!-- <table class="ddb-menu-dropdown-table ddb-col-3">
+                      <thead>
+                        <tr>
+                          <td>
+                            NL Central
+                          </td>
+                          <td>
+                            NL East
+                          </td>
+                          <td>
+                            NL West
+                          </td>
+                        </tr>
+                      </thead>
+                      <tbody id="mlb-national">
+                        <tr>
+                          <td>
+                            Braves
+                          </td>
+                          <td>
+                            Brewers
+                          </td>
+                          <td>
+                            Diamondbacks
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Marlins
+                          </td>
+                          <td>
+                            Cardinals
+                          </td>
+                          <td>
+                            Dodgers
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Mets
+                          </td>
+                          <td>
+                          Cubs
+                          </td>
+                          <td>
+                            Giants
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Nationals
+                          </td>
+                          <td>
+                            Pirates
+                          </td>
+                          <td>
+                            Padres
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Phillies
+                          </td>
+                          <td>
+                            Reds
+                          </td>
+                          <td>
+                            Rockies
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </section> -->
+                  <!-- Ad Space -->
+                  <!-- <div id="ddb-ad-mlb" class="ddb-menu-dropdown-ad">
+                    <div class="ddb-menu-dropdown-ad-container"> -->
+                      <!-- <script src="//content.synapsys.us/l/n/igloo.php?type=inline_ad&adW=300&adH=250&widW=0&widH=0&remn=false&rand=3493429852&dom=chicagotribune.com&norotate=true"></script> -->
+                    <!-- </div>
+                  </div>
+                </div>
+
+              </div>
+            </div> -->
+          </li>
+          <!-- NBA -->
+          <li id="ddb-dropdown-nba" class="ddb-menu-nav-item ddb-dynamic-item">
+            NBA
+            <!-- Hover Dropdown -->
+            <!-- <div id="nba-dropdown" class="ddb-menu-dropdown">
+              <div class="ddb-menu-dropdown-container"> -->
+                <!-- Nav -->
+                <!-- <ul class="ddb-menu-dropdown-nav">
+                  <li>
+                    <a class="ddb-nba-nav-most-wins">
+                      <i class="ddb-icon ddb-icon-trophy"></i>
+                      Most Wins
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-nba-nav-most-turnovers">
+                      <i class="ddb-icon ddb-icon-box-scores"></i>
+                      Most Turnovers
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-nba-nav-most-rebounds">
+                      <i class="ddb-icon ddb-icon-dribbble"></i>
+                      Most Rebounds
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-nba-nav-most-steals">
+                      <i class="ddb-icon ddb-icon-magic"></i>
+                      Most Steals
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-nba-nav-most-blocks">
+                      <i class="ddb-icon ddb-icon-thumbs-o-down"></i>
+                      Most Blocks
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-nba-nav-most-assists">
+                      <i class="ddb-icon ddb-icon-life-ring"></i>
+                      Most Assists
+                    </a>
+                  </li>
+                </ul> -->
+                <!-- Content -->
+                <!-- <div class="ddb-menu-dropdown-content">
+                  <section class="ddb-menu-dropdown-links"> -->
+                    <!-- AL Division -->
+                    <!-- <table class="ddb-menu-dropdown-table ddb-col-3">
+                      <thead>
+                        <tr>
+                          <td>
+                            ATLANTIC
+                          </td>
+                          <td>
+                            CENTRAL
+                          </td>
+                          <td>
+                            SOUTHEAST
+                          </td>
+                        </tr>
+                      </thead>
+                      <tbody id="nba-eastern">
+                        <tr>
+                          <td>
+                            76ers
+                          </td>
+                          <td>
+                            Bucks
+                          </td>
+                          <td>
+                            Hawks
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Celtics
+                          </td>
+                          <td>
+                            Bulls
+                          </td>
+                          <td>
+                            Heat
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Knicks
+                          </td>
+                          <td>
+                            Cavaliers
+                          </td>
+                          <td>
+                            Hornets
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Nets
+                          </td>
+                          <td>
+                            Pacers
+                          </td>
+                          <td>
+                            Magic
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Raptors
+                          </td>
+                          <td>
+                            Pistons
+                          </td>
+                          <td>
+                            Wizards
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table> -->
+                    <!-- NL Division -->
+                    <!-- <table class="ddb-menu-dropdown-table ddb-col-3">
+                      <thead>
+                        <tr>
+                          <td>
+                            PACIFIC
+                          </td>
+                          <td>
+                            SOUTHWEST
+                          </td>
+                          <td>
+                            NORTHWEST
+                          </td>
+                        </tr>
+                      </thead>
+                      <tbody id="nba-western">
+                        <tr>
+                          <td>
+                            Clippers
+                          </td>
+                          <td>
+                            Grizzlies
+                          </td>
+                          <td>
+                            Jazz
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Kings
+                          </td>
+                          <td>
+                            Mavericks
+                          </td>
+                          <td>
+                            Nuggets
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Lakers
+                          </td>
+                          <td>
+                            Pelicans
+                          </td>
+                          <td>
+                            Thunder
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Suns
+                          </td>
+                          <td>
+                            Rockets
+                          </td>
+                          <td>
+                            Timberwolves
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Warriors
+                          </td>
+                          <td>
+                            Spurs
+                          </td>
+                          <td>
+                            Trail Blazers
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table> -->
+                  <!-- </section> -->
+                  <!-- Ad Space -->
+                  <!-- <div id="ddb-ad-nba" class="ddb-menu-dropdown-ad">
+
+                  </div>
+                </div>
+
+              </div>
+            </div> -->
+          </li>
+          <!-- NCAA -->
+          <li id="ddb-dropdown-ncaam" class="ddb-menu-nav-item ddb-dynamic-item">
+            NCAA M
+            <!-- Hover Dropdown -->
+            <!-- <div id="ncaam-dropdown" class="ddb-menu-dropdown">
+              <div class="ddb-menu-dropdown-container"> -->
+                <!-- Nav -->
+                <!-- <ul class="ddb-menu-dropdown-nav">
+                  <li>
+                    <a class="ddb-ncaam-nav-most-wins">
+                      <i class="ddb-icon ddb-icon-trophy"></i>
+                      Most Wins
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-ncaam-nav-most-turnovers">
+                      <i class="ddb-icon ddb-icon-box-scores"></i>
+                      Most Turnovers
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-ncaam-nav-most-rebounds">
+                      <i class="ddb-icon ddb-icon-dribbble"></i>
+                      Most Rebounds
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-ncaam-nav-most-steals">
+                      <i class="ddb-icon ddb-icon-magic"></i>
+                      Most Steals
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-ncaam-nav-most-blocks">
+                      <i class="ddb-icon ddb-icon-thumbs-o-down"></i>
+                      Most Blocks
+                    </a>
+                  </li>
+                  <li>
+                    <a class="ddb-ncaam-nav-most-assists">
+                      <i class="ddb-icon ddb-icon-life-ring"></i>
+                      Most Assists
+                    </a>
+                  </li>
+                </ul> -->
+                <!-- Content -->
+                <!-- <div class="ddb-menu-dropdown-content">
+                  <section class="ddb-menu-dropdown-links"> -->
+                    <!-- <h1 id="ncaam-title" class="ddb-menu-dropdown-links-title">
+                      NCAA Basketball Conferences in your area
+                    </h1>
+                    <h3 class="ddb-menu-dropdown-links-subtitle">
+                      showing NCAA Basketball conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaam-state-map-marker" class="ddb-heavy"></span>
+                    </h3> -->
+                    <!-- AL Division -->
+                    <!-- <section id="ncaam-leagues"> -->
+                      <!-- <table class="ddb-menu-dropdown-table ddb-col-3">
+                        <thead>
+                          <tr>
+                            <td colspan="3">
+                              Big 12 Conference
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              BU Bears
+                            </td>
+                            <td>
+                              OU Sooners
+                            </td>
+                            <td>
+                              TTU Red Raiders
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              ISU Cyclones
+                            </td>
+                            <td>
+                              OKU Cowboys
+                            </td>
+                            <td>
+                              WVU Mountaineers
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              KU Jayhawks
+                            </td>
+                            <td>
+                              TCU Horned Frogs
+                            </td>
+                            <td>
+
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              KSU Wildcats
+                            </td>
+                            <td>
+                              UT Longhorns
+                            </td>
+                            <td>
+
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table> -->
+                      <!-- NL Division -->
+                      <!-- <table class="ddb-menu-dropdown-table ddb-col-3">
+                        <thead>
+                          <tr>
+                            <td colspan="3">
+                              Missouri Valley Conference
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              BU Bears
+                            </td>
+                            <td>
+                              OU Sooners
+                            </td>
+                            <td>
+                              TTU Red Raiders
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              ISU Cyclones
+                            </td>
+                            <td>
+                              OKU Cowboys
+                            </td>
+                            <td>
+                              WVU Mountaineers
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              KU Jayhawks
+                            </td>
+                            <td>
+                              TCU Horned Frogs
+                            </td>
+                            <td>
+
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              KSU Wildcats
+                            </td>
+                            <td>
+                              UT Longhorns
+                            </td>
+                            <td>
+
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table> -->
+                    <!-- </section> -->
+                    <!-- <a id="ncaam-all-conferences" class="ddb-menu-dropdown-all">
+                      SEE ALL CONFERENCES
+                    </a>
+                  </section> -->
+                  <!-- Ad Space -->
+                  <!-- <div id="ddb-ad-ncaam" class="ddb-menu-dropdown-ad">
+
+                  </div>
+                </div>
+
+              </div>
+            </div> -->
+          </li>
+          <!-- NFL -->
+          <li id="ddb-dropdown-nfl" class="ddb-menu-nav-item ddb-dynamic-item">
+            NFL
+            <!-- Hover Dropdown -->
+            <!-- <div id="nfl-dropdown" class="ddb-menu-dropdown">
+              <div class="ddb-menu-dropdown-container"> -->
+                <!-- Nav -->
+                <!-- <ul class="ddb-menu-dropdown-nav">
+                  <li>
+                    <a>
+                      <i class="ddb-icon ddb-icon-news"></i>
+                      News
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="ddb-icon ddb-icon-box-scores"></i>
+                      Box Scores
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="ddb-icon ddb-icon-trophy"></i>
+                      Standings
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="ddb-icon ddb-icon-calendar"></i>
+                      Schedule
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="ddb-icon ddb-icon-list"></i>
+                      Top Lists
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="ddb-icon ddb-icon-profile"></i>
+                      NFL Profile
+                    </a>
+                  </li>
+                </ul> -->
+                <!-- Content -->
+                <!-- <div class="ddb-menu-dropdown-content">
+                  <section class="ddb-menu-dropdown-links"> -->
+                    <!-- AL Division -->
+                    <!-- <table class="ddb-menu-dropdown-table ddb-col-4">
+                      <thead>
+                        <tr>
+                          <td>
+                            AFC North
+                          </td>
+                          <td>
+                            AFC East
+                          </td>
+                          <td>
+                            AFC South
+                          </td>
+                          <td>
+                            AFC West
+                          </td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            Ravens
+                          </td>
+                          <td>
+                            Bills
+                          </td>
+                          <td>
+                            Texans
+                          </td>
+                          <td>
+                            Broncos
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Bengals
+                          </td>
+                          <td>
+                            Dolphins
+                          </td>
+                          <td>
+                            Colts
+                          </td>
+                          <td>
+                            Chiefs
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Browns
+                          </td>
+                          <td>
+                            Patriots
+                          </td>
+                          <td>
+                            Jaguars
+                          </td>
+                          <td>
+                            Raiders
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Steelers
+                          </td>
+                          <td>
+                            Jets
+                          </td>
+                          <td>
+                            Titans
+                          </td>
+                          <td>
+                            Chargers
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table> -->
+                    <!-- NL Division -->
+                    <!-- <table class="ddb-menu-dropdown-table ddb-col-4">
+                      <thead>
+                        <tr>
+                          <td>
+                            NFC North
+                          </td>
+                          <td>
+                            NFC East
+                          </td>
+                          <td>
+                            NFC South
+                          </td>
+                          <td>
+                            NFC West
+                          </td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            Bears
+                          </td>
+                          <td>
+                            Cowboys
+                          </td>
+                          <td>
+                            Falcons
+                          </td>
+                          <td>
+                            Cardinals
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Lions
+                          </td>
+                          <td>
+                            Giants
+                          </td>
+                          <td>
+                            Panthers
+                          </td>
+                          <td>
+                            Rams
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Packers
+                          </td>
+                          <td>
+                            Eagles
+                          </td>
+                          <td>
+                            Saints
+                          </td>
+                          <td>
+                            49ers
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            Vikings
+                          </td>
+                          <td>
+                            Redskins
+                          </td>
+                          <td>
+                            Buccaneers
+                          </td>
+                          <td>
+                            Seahawks
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </section> -->
+                  <!-- Ad Space -->
+                  <!-- <div id="ddb-ad-nfl" class="ddb-menu-dropdown-ad">
+
+                  </div>
+                </div> -->
+                <!-- Coming Soon -->
+                <!-- <div class="ddb-menu-dropdown-takeover">
+                  <div class="ddb-menu-dropdown-takeover-text">
+                    Coming Soon<br>
+                    <span class="ddb-menu-dropdown-takeover-text-line2">in 2016</span>
+                  </div>
+                </div> -->
+              <!-- </div>
+            </div> -->
+          </li>
+          <!-- NCAA F -->
+          <li id="ddb-dropdown-ncaaf" class="ddb-menu-nav-item ddb-dynamic-item">
+            NCAA F
+            <!-- Hover Dropdown -->
+            <!-- <div id="ncaaf-dropdown" class="ddb-menu-dropdown">
+              <div class="ddb-menu-dropdown-container"> -->
+                <!-- Nav -->
+                <!-- <ul class="ddb-menu-dropdown-nav">
+                  <li>
+                    <a>
+                      <i class="ddb-icon ddb-icon-news"></i>
+                      News
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="ddb-icon ddb-icon-box-scores"></i>
+                      Box Scores
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="ddb-icon ddb-icon-trophy"></i>
+                      Standings
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="ddb-icon ddb-icon-calendar"></i>
+                      Schedule
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="ddb-icon ddb-icon-list"></i>
+                      Top Lists
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <i class="ddb-icon ddb-icon-profile"></i>
+                      NCAA F Profile
+                    </a>
+                  </li>
+                </ul> -->
+                <!-- Content -->
+                <!-- <div class="ddb-menu-dropdown-content">
+                  <section class="ddb-menu-dropdown-links"> -->
+                    <!-- <h1 id="ncaaf-title" class="ddb-menu-dropdown-links-title">
+                      NCAA Football Conferences in your area
+                    </h1>
+                    <h3 class="ddb-menu-dropdown-links-subtitle">
+                      showing NCAA Football conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaaf-state-map-marker" class="ddb-heavy"></span>
+                    </h3> -->
+                    <!-- <section id="ncaaf-leagues"> -->
+                      <!-- AL Division -->
+                      <!-- <table class="ddb-menu-dropdown-table ddb-col-3">
+                        <thead>
+                          <tr>
+                            <td colspan="3">
+                              Big 12 Conference
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              Baylor
+                            </td>
+                            <td>
+                              Iowa State
+                            </td>
+                            <td>
+                              Kansas
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              Kansas State
+                            </td>
+                            <td>
+                              Oklahoma
+                            </td>
+                            <td>
+                              Oklahoma State
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              TCU
+                            </td>
+                            <td>
+                              Texas
+                            </td>
+                            <td>
+                              Texas Tech
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              West Virginia
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table> -->
+                      <!-- NL Division -->
+                      <!-- <table class="ddb-menu-dropdown-table ddb-col-3">
+                        <thead>
+                          <tr>
+                            <td colspan="3">
+                              Big Ten East
+                            </td>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>
+                              Indiana
+                            </td>
+                            <td>
+                              Maryland
+                            </td>
+                            <td>
+                              Michigan State
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              Michigan
+                            </td>
+                            <td>
+                              Ohio State
+                            </td>
+                            <td>
+                              Penn State
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              Rutgers
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table> -->
+                    <!-- </section>
+                    <a class="ddb-menu-dropdown-all">
+                      SEE ALL CONFERENCES
+                    </a>
+                  </section> -->
+                  <!-- Ad Space -->
+                  <!-- <div id="ddb-ad-ncaaf" class="ddb-menu-dropdown-ad">
+
+                  </div>
+                </div> -->
+                <!-- Coming Soon -->
+                <!-- <div class="ddb-menu-dropdown-takeover">
+                  <div class="ddb-menu-dropdown-takeover-text">
+                    Coming Soon<br>
+                    <span class="ddb-menu-dropdown-takeover-text-line2">in 2016</span>
+                  </div>
+                </div> -->
+              <!-- </div>
+            </div> -->
+          </li>
+        </ul>
+        <!-- Dynamic Dropdown -->
+        <div id="ddb-dynamic-dropdown" class="ddb-menu-nav-dynamic">
+          <div class="ddb-menu-dropdown-container">
+            <!-- Nav -->
+            <section id="ddb-dynamic-nav" class="ddb-menu-dropdown-nav">
+            <ul>
+              <li>
+                <a>
+                  <i class="ddb-icon ddb-icon-news"></i>
+                  News
+                </a>
+              </li>
+              <li>
+                <a>
+                  <i class="ddb-icon ddb-icon-box-scores"></i>
+                  Box Scores
+                </a>
+              </li>
+              <li>
+                <a>
+                  <i class="ddb-icon ddb-icon-trophy"></i>
+                  Standings
+                </a>
+              </li>
+              <li>
+                <a>
+                  <i class="ddb-icon ddb-icon-calendar"></i>
+                  Schedule
+                </a>
+              </li>
+              <li>
+                <a>
+                  <i class="ddb-icon ddb-icon-list"></i>
+                  Top Lists
+                </a>
+              </li>
+              <li>
+                <a>
+                  <i class="ddb-icon ddb-icon-profile"></i>
+                  NFL Profile
+                </a>
+              </li>
+            </ul>
+            </section>
+            <!-- Content -->
+            <div class="ddb-menu-dropdown-content">
+              <section id="ddb-dynamic-links" class="ddb-menu-dropdown-links">
+                <!-- AL Division -->
+                <!-- <table class="ddb-menu-dropdown-table ddb-col-4">
+                  <thead>
+                    <tr>
+                      <td>
+                        AFC North
+                      </td>
+                      <td>
+                        AFC East
+                      </td>
+                      <td>
+                        AFC South
+                      </td>
+                      <td>
+                        AFC West
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        Ravens
+                      </td>
+                      <td>
+                        Bills
+                      </td>
+                      <td>
+                        Texans
+                      </td>
+                      <td>
+                        Broncos
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Bengals
+                      </td>
+                      <td>
+                        Dolphins
+                      </td>
+                      <td>
+                        Colts
+                      </td>
+                      <td>
+                        Chiefs
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Browns
+                      </td>
+                      <td>
+                        Patriots
+                      </td>
+                      <td>
+                        Jaguars
+                      </td>
+                      <td>
+                        Raiders
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Steelers
+                      </td>
+                      <td>
+                        Jets
+                      </td>
+                      <td>
+                        Titans
+                      </td>
+                      <td>
+                        Chargers
+                      </td>
+                    </tr>
+                  </tbody>
+                </table> -->
+                <!-- NL Division -->
+                <!-- <table class="ddb-menu-dropdown-table ddb-col-4">
+                  <thead>
+                    <tr>
+                      <td>
+                        NFC North
+                      </td>
+                      <td>
+                        NFC East
+                      </td>
+                      <td>
+                        NFC South
+                      </td>
+                      <td>
+                        NFC West
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        Bears
+                      </td>
+                      <td>
+                        Cowboys
+                      </td>
+                      <td>
+                        Falcons
+                      </td>
+                      <td>
+                        Cardinals
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Lions
+                      </td>
+                      <td>
+                        Giants
+                      </td>
+                      <td>
+                        Panthers
+                      </td>
+                      <td>
+                        Rams
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Packers
+                      </td>
+                      <td>
+                        Eagles
+                      </td>
+                      <td>
+                        Saints
+                      </td>
+                      <td>
+                        49ers
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        Vikings
+                      </td>
+                      <td>
+                        Redskins
+                      </td>
+                      <td>
+                        Buccaneers
+                      </td>
+                      <td>
+                        Seahawks
+                      </td>
+                    </tr>
+                  </tbody>
+                </table> -->
+              </section>
+              <!-- Ad Space -->
+              <div id="ddb-ad" class="ddb-menu-dropdown-ad">
+
+              </div>
+            </div>
+            <!-- Coming Soon -->
+            <!-- <div class="ddb-menu-dropdown-takeover">
+              <div class="ddb-menu-dropdown-takeover-text">
+                Coming Soon<br>
+                <span class="ddb-menu-dropdown-takeover-text-line2">in 2016</span>
+              </div>
+            </div> -->
+          </div>
+        </div>
+
+        <div class="ddb-menu-options">
+          <!-- Medium Nav Search -->
+          <button id="ddb-small-desktop-search" class="ddb-menu-search">
+            <i class="ddb-icon ddb-icon-search"></i>
+          </button>
+          <!-- Sports Ticker -->
+          <div class="ddb-menu-ticker ddb-parleft">
+            <div class="ddb-menu-ticker-title">
+              SPORTS TICKER
+            </div>
+            <div class="ddb-menu-ticker-container">
+              <span id="ddb-ticker-content" class="ddb-menu-ticker-content">
+                <!-- Ticker Content -->
+              </span>
+            </div>
+          </div>
+          <!-- Large Nav Search -->
+          <div class="ddb-menu-search-large">
+            <input id="ddb-search-desktop" placeholder="Search any sports' team..">
+            <ul id="ddb-search-desktop-dropdown" class="ddb-search-dropdown">
+              <!-- <li>
+                <a>
+                  <i class="ddb-icon ddb-icon-basketball"></i>
+                  Kansas Jayhawks
+                </a>
+              </li>
+              <li>
+                <a>
+                  <i class="ddb-icon ddb-icon-basketball"></i>
+                  Iowa Hawkeyes
+                </a>
+              </li> -->
+            </ul>
+          </div>
+        </div>
+
+        <div id="ddb-small-desktop-search-bar" class="ddb-menu-search-dropdown ddb-dropdown">
+          <div class="ddb-mobile-dropdown-search">
+            <input id="ddb-small-desktop-search-input" placeholder="Search any sports' team..">
+          </div>
+          <ul id="ddb-small-desktop-search-dropdown" class="ddb-search-dropdown">
+
+          </ul>
+        </div>
+        <!-- End Tablet/Desktop Layout -->
+      </section>
+    <!-- </section> -->
+  <!-- </body>
+</html> -->
