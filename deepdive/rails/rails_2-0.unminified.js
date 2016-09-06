@@ -72,7 +72,8 @@
     case 'mlb':
       imageLeftRail = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball/rail_left.jpg';
       imageRightRail = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball/rail_right.jpg';
-      imagePresentedByLeft = imagePresentedByRight = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball/presented.png';
+      imagePresentedByLeft = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball/presented_left.png';
+      imagePresentedByRight = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball/presented_right.png';
     break;
     case 'nfl':
     case 'ncaaf':
@@ -84,7 +85,8 @@
     default:
       imageLeftRail = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball/rail_left.jpg';
       imageRightRail = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball/rail_right.jpg';
-      imagePresentedByLeft = imagePresentedByRight = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball/presented.png';
+      imagePresentedByLeft = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball/presented_left.png';
+      imagePresentedByRight = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball/presented_right.png';
     break;
   }
 
