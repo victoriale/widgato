@@ -401,6 +401,36 @@
         //Save links innerHTML
         ncaafDropdownElements.links.innerHTML = ncaafLinks;
 
+        var navNews = document.getElementsByClassName('ddb-ncaaf-nav-news'),
+          navBoxScores = document.getElementsByClassName('ddb-ncaaf-nav-box-scores'),
+          navStandings = document.getElementsByClassName('ddb-ncaaf-nav-standings'),
+          navSchedule = document.getElementsByClassName('ddb-ncaaf-nav-schedule'),
+          navTopLists = document.getElementsByClassName('ddb-ncaaf-nav-top-lists'),
+          navTeams = document.getElementsByClassName('ddb-ncaaf-nav-teams'),
+          navProfile = document.getElementsByClassName('ddb-ncaaf-nav-profile');
+
+        [].forEach.call(navNews, function(item){
+          item.href = touchdownDomain + '/ncaaf';
+        });
+        [].forEach.call(navBoxScores, function(item){
+          item.href = touchdownDomain + '/ncaaf';
+        });
+        [].forEach.call(navStandings, function(item){
+          item.href = touchdownDomain + '/ncaaf/standings';
+        });
+        [].forEach.call(navSchedule, function(item){
+          item.href = touchdownDomain + '/ncaaf/schedules/league/' + footballLeagueYear + '/1';
+        });
+        [].forEach.call(navTopLists, function(item){
+          item.href = touchdownDomain + '/ncaaf/list-of-lists/league/10/1';
+        });
+        [].forEach.call(navTeams, function(item){
+          item.href = touchdownDomain + '/ncaaf/pick-a-team';
+        });
+        [].forEach.call(navProfile, function(item){
+          item.href = touchdownDomain + '/ncaaf/league';
+        });
+
         var navHTML = `
           <li>
             <a href="` + touchdownDomain + `/ncaaf">
@@ -1578,6 +1608,10 @@
     var searchDesktop = document.getElementById('ddb-search-desktop');
     var searchDesktopDropdown = document.getElementById('ddb-search-desktop-dropdown');
 
+    var indexSelected = 0; //Index selectd by arrow keys (0 means none selected)
+    var storedSearchValue; //Stored search value when arrow keys are pressed
+    var selectedItem; //Currently selected item when arrow keys are pressed
+
     var apiString = '/deepdive/lib/search_teams.json';
     var fuse; //Fuse.js search object
     var searchResults = [];
@@ -1603,8 +1637,83 @@
       }
 
     }
+
+    var submitAutoSuggest = function(data){
+      var link;
+      var sanitizeTeamName = data.teamName.replace(/[^\w\s]/gi, '');
+      sanitizeTeamName = sanitizeTeamName.replace(/\s+/g, '-').toLowerCase();
+
+      switch(data.Scope){
+        case 'MLB':
+          link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
+        break;
+        case 'NFL':
+          link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
+        break;
+        case 'NCAAF':
+          link = touchdownDomain + '/ncaaf/team' + sanitizeTeamName + '/' + data.teamId;
+        break;
+        case 'NBA':
+          link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+        break;
+        case 'NCAAB':
+          link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+        break;
+        default:
+          link = '#';
+        break;
+      }
+
+      window.location.href = link;
+    }
     //Keyup event when user types in search
-    var keyupEvent = debounce(function(){
+    var keyupEvent = function(evt){
+      var keyCode = evt.keyCode;
+      //Enter function
+      if(keyCode === 13 && searchResults.length > 0 && typeof selectedItem !== 'undefined'){
+        submitAutoSuggest(selectedItem);
+
+        return false;
+      }
+      //Arrow keys function
+      if((keyCode === 38 || keyCode === 40) && searchResults.length > 0){
+        var dropdownItems = searchDesktopDropdown.childNodes;
+        //Up Arrow
+        if(keyCode === 38){
+          if(indexSelected === 0){
+            indexSelected = searchResults.length;
+          }else{
+            indexSelected--;
+          }
+
+        }
+        //Down Arrow
+        if(keyCode === 40){
+          if(indexSelected === searchResults.length){
+            indexSelected = 0;
+          }else{
+            indexSelected++;
+          }
+        }
+
+        for(var c = 0, length = dropdownItems.length; c < length; c++){
+          if(c + 1 !== indexSelected){
+            removeClass(dropdownItems[c], 'ddb-search-active');
+          }else{
+            addClass(dropdownItems[c], 'ddb-search-active');
+            searchDesktop.value = searchResults[c].teamName;
+            selectedItem = searchResults[c];
+          }
+        }
+
+        if(indexSelected === 0){
+          searchDesktop.value = storedSearchValue;
+          selectedItem = undefined;
+        }
+
+        return false;
+      }
+
       var val = this.value;
       if(val === ''){
         searchResults = [];
@@ -1613,7 +1722,11 @@
         return false;
       }
 
+      storedSearchValue = searchDesktop.value;
       searchResults = fuse.search(val).slice(0, 4);
+      //Reset index
+      indexSelected = 0;
+      selectedItem = undefined;
       //Clear results list
       while (searchDesktopDropdown.firstChild) searchDesktopDropdown.removeChild(searchDesktopDropdown.firstChild);
       //Add no results found
@@ -1632,7 +1745,7 @@
         }, 1);
       }
 
-    }, 400);
+    };
     //Focus event when user focuses on search
     var focusSearch = function(){
       var val = this.value;
@@ -1650,7 +1763,53 @@
       }
     };
 
-    var keyupEventMobile = debounce(function(){
+    var keyupEventMobile = function(evt){
+      var keyCode = evt.keyCode;
+
+      //Enter function
+      if(keyCode === 13 && searchResults.length > 0 && typeof selectedItem !== 'undefined'){
+        submitAutoSuggest(selectedItem);
+
+        return false;
+      }
+      //Arrow keys function
+      if((keyCode === 38 || keyCode === 40) && searchResults.length > 0 ){
+        var dropdownItems = searchMobileDropdown.childNodes;
+        //Up Arrow
+        if(keyCode === 38){
+          if(indexSelected === 0){
+            indexSelected = searchResults.length;
+          }else{
+            indexSelected--;
+          }
+        }
+        //Down Arrow
+        if(keyCode === 40){
+          if(indexSelected === searchResults.length){
+            indexSelected = 0;
+          }else{
+            indexSelected++;
+          }
+        }
+
+        for(var c = 0, length = dropdownItems.length; c < length; c++){
+          if(c + 1 !== indexSelected){
+            removeClass(dropdownItems[c], 'ddb-search-active');
+          }else{
+            addClass(dropdownItems[c], 'ddb-search-active');
+            searchMobile.value = searchResults[c].teamName;
+            selectedItem = searchResults[c];
+          }
+        }
+
+        if(indexSelected === 0){
+          searchMobile.value = storedSearchValue;
+          selectedItem = undefined;
+        }
+
+        return false;
+      }
+
       var val = this.value;
       if(val === ''){
         searchResults = [];
@@ -1659,7 +1818,11 @@
         return false;
       }
 
+      storedSearchValue = searchMobile.value;
       searchResults = fuse.search(val).slice(0, 4);
+      //Reset index
+      indexSelected = 0;
+      selectedItem = undefined;
       //Clear results list
       while (searchMobileDropdown.firstChild) searchMobileDropdown.removeChild(searchMobileDropdown.firstChild);
       //Add no results found
@@ -1670,9 +1833,56 @@
       searchResults.forEach(function(item){
         searchMobileDropdown.appendChild(buildResult(item), searchMobileDropdown);
       })
-    }, 400);
+    };
 
-    var keyupEventSmallDesktop = debounce(function(){
+    var keyupEventSmallDesktop = function(evt){
+      var keyCode = evt.keyCode;
+      //Enter function
+      if(keyCode === 13 && searchResults.length > 0 && typeof selectedItem !== 'undefined'){
+        submitAutoSuggest(selectedItem);
+
+        return false;
+      }
+      //Arrow keys function
+      if((keyCode === 38 || keyCode === 40) && searchResults.length > 0){
+        var dropdownItems = searchSmallDesktopDropdown.childNodes;
+        //Up Arrow
+        if(keyCode === 38){
+          if(indexSelected === 0){
+            indexSelected = searchResults.length;
+          }else{
+            indexSelected--;
+          }
+
+        }
+        //Down Arrow
+        if(keyCode === 40){
+          if(indexSelected === searchResults.length){
+            indexSelected = 0;
+          }else{
+            indexSelected++;
+          }
+        }
+
+        for(var c = 0, length = dropdownItems.length; c < length; c++){
+          if(c + 1 !== indexSelected){
+            removeClass(dropdownItems[c], 'ddb-search-active');
+          }else{
+            addClass(dropdownItems[c], 'ddb-search-active');
+            searchSmallDesktop.value = searchResults[c].teamName;
+            selectedItem = searchResults[c];
+          }
+        }
+
+        if(indexSelected === 0){
+          searchSmallDesktop.value = storedSearchValue;
+          selectedItem = undefined;
+        }
+
+        return false;
+      }
+
+
       var val = this.value;
       if(val === ''){
         searchResults = [];
@@ -1681,7 +1891,11 @@
         return false;
       }
 
+      storedSearchValue = searchSmallDesktop.value;
       searchResults = fuse.search(val).slice(0, 4);
+      //Reset index
+      indexSelected = 0;
+      selectedItem = undefined;
       //Clear results list
       while (searchSmallDesktopDropdown.firstChild) searchSmallDesktopDropdown.removeChild(searchSmallDesktopDropdown.firstChild);
       //Add no results found
@@ -1692,7 +1906,7 @@
       searchResults.forEach(function(item){
         searchSmallDesktopDropdown.appendChild(buildResult(item), searchSmallDesktopDropdown);
       })
-    }, 400);
+    };
 
     var buildNoResults = function(){
       var el = document.createElement('li');
@@ -1714,11 +1928,11 @@
         break;
         case 'NFL':
           iconClass = 'ddb-icon-football';
-          link = '#';
+          link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
         break;
         case 'NCAAF':
           iconClass = 'ddb-icon-football';
-          link = '#';
+          link = touchdownDomain + '/ncaaf/team' + sanitizeTeamName + '/' + data.teamId;
         break;
         case 'NBA':
           iconClass = 'ddb-icon-basketball';
@@ -1745,11 +1959,11 @@
 
     var bootstrapSearchInputs = function(){
       searchDesktop.addEventListener('focus', focusSearch);
-      searchDesktop.addEventListener('keyup', keyupEvent);
+      searchDesktop.addEventListener('keyup', debounce(keyupEvent, 200));
 
-      searchSmallDesktop.addEventListener('keyup', keyupEventSmallDesktop);
+      searchSmallDesktop.addEventListener('keyup', debounce(keyupEventSmallDesktop, 200));
 
-      searchMobile.addEventListener('keyup', keyupEventMobile);
+      searchMobile.addEventListener('keyup', debounce(keyupEventMobile, 200));
     }
 
     var xhttp = createRequestObject();
@@ -1762,7 +1976,7 @@
           keys: ['teamName'],
           threshold: 0.2
         });
-        var searchResults = fuse.search('jayhawk');
+
         bootstrapSearchInputs();
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){

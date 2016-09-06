@@ -866,6 +866,7 @@
   text-align: left;
   background-color: #fff;
   display: none;
+  z-index: 1000;
 }
 
 #ddb-mobile-search-bar .ddb-search-dropdown{
@@ -900,6 +901,13 @@
   top: -8px;
   right: 117px;
   z-index: 10;
+}
+.ddb-search-active a{
+  color: #fff !important;
+  background-color: #4a90e2;
+}
+.ddb-search-active a .ddb-icon{
+  color: #fff !important;
 }
 .ddb-search-dropdown li a{
   display: block;
