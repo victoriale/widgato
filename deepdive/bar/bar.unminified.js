@@ -33,7 +33,7 @@
   // var touchdownDomain = 'http://mytouchdownzone.com/' + domain;
   var touchdownDomain = 'http://dev.mytouchdownzone.com/' + domain;
 
-  var footballLeagueYear = 2015; //Year used by TDL sites for urls
+  var footballLeagueYear = 2016; //Year used by TDL sites for urls
 
   /**
    * Bootstrap functions
@@ -2601,7 +2601,7 @@
        //Determine if game is today (Also allow games that are live, but the day has rolled over past midnight)
        var gameIsToday = false;
        var timestampDate = new Date(item.gameInfo.startDateTimestamp + offset * 3600 * 1000).getUTCDate();
-       if(timestampDate === todayDate){
+       if(timestampDate == todayDate){
          gameIsToday = true;
        }else if(item.gameInfo.live){
          gameIsToday = true;
