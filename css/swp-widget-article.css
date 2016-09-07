@@ -9,6 +9,7 @@ i {
 .swp {
     width: 300px;
     height: 250px;
+    top: 0;
     background-color: #fafafa;
     padding-top: 7px;
     border: 1px solid #ccc;
