@@ -32,11 +32,13 @@
     if(currentUTC <= daylightStart || currentUTC > daylightEnd){
       //Standard Time
       offset = -5;
-      abbrev = 'EST';
+      // abbrev = 'EST';
+      abbrev = 'ET';
     }else{
       //Daylight Savings Time
       offset = -4;
-      abbrev = 'EDT';
+      // abbrev = 'EDT';
+      abbrev = 'ET';
     }
 
     return {
@@ -187,6 +189,8 @@
     var partnerDomain = partnerDomainArr[1];
     domain += '/' + partnerDomain;
   }
+
+  domain = protocol + '://' + domain;
 
   boxscoresBar.resize = function(){
     parentNodeWidth = parentNode.offsetWidth;
@@ -355,13 +359,20 @@
       if(xhttp.readyState === 4 && xhttp.status === 200){
         //Success
         var res = JSON.parse(xhttp.responseText);
-        console.log('ajax complete', res);
+        //console.log('ajax complete', res);
         processedData = formatData(res.data);
         dataLength = processedData.length;
-        console.log('processed data', processedData);
+        //console.log('processed data', processedData);
 
         //Inject HTML
         parentNode.insertBefore(boxscoresContainer, currentScript);
+
+        //If 1 or 0 games, remove arrows
+        if(dataLength <= 1){
+          var nav = document.getElementsByClassName('boxscores-e-nav')[0];
+          nav.parentNode.removeChild(nav);
+        }
+
         //Calculate parentNodeWith to determine amount of games to display
         parentNodeWidth = parentNode.offsetWidth;
         if(parentNodeWidth >= 1340){
@@ -441,7 +452,7 @@
         boxscoresBar.boxscoresLoaded = true;
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
-        console.log('ajax error', xhttp.responseText);
+        // console.log('BOXSCORES BAR ERROR', xhttp.responseText);
       }
 
     }
@@ -494,7 +505,7 @@
         float: left;
         padding: 0 10px;
         box-sizing: border-box;
-        line-height: 50px;
+        line-height: 48px;
       }
       .boxscores-e-schedule{
         list-style-type: none;
@@ -573,6 +584,10 @@
         font-size: 12px;
         float: right;
         font-weight: 400;
+      }
+      .boxscores-e-game-time.boxscores-e-2-lines{
+        line-height: normal;
+        padding-top: 10px;
       }
       .boxscores-e-nav{
         float: left;
@@ -670,6 +685,7 @@
   //Build game node
   function buildNode(data){
     var gameNode = document.createElement('li');
+    var timeClass = data.timeClass ? data.timeClass + ' boxscores-e-game-time' : 'boxscores-e-game-time';
     gameNode.className = data.gameClass ? data.gameClass + ' boxscores-e-game' : 'boxscores-e-game';
     gameNode.innerHTML = `
       <a class="boxscores-e-game-link" href="` + data.link + `">
@@ -681,7 +697,7 @@
             ` + data.awayTeam + ` <span class="boxscores-e-game-teamscore">` + data.awayScore + `</span>
           </li>
         </ul>
-        <span class="boxscores-e-game-time">
+        <span class="` + timeClass + `">
           ` + data.bottomData + `
         </span>
       </a>
@@ -708,24 +724,35 @@
   function formatFootballData(data, vertical){
     var pre = [], active = [], post = [], wpre = [], wpost = [];
 
-    var prettyDatetime = function(date){
-      var dates = date.split('-');
-      var months = [
-        'Jan',
-        'Feb',
-        'Mar',
-        'April',
-        'May',
-        'June',
-        'July',
-        'Aug',
-        'Sep',
-        'Oct',
-        'Nov',
-        'Dec'
+    var prettyDatetime = function(timestamp, datetime){
+      var dateObject = new Date(timestamp + boxscoresBar.easternTime.offset * 3600  * 1000);
+      var day = dateObject.getUTCDay();
+      // var dates = date.split('-');
+      var daysMap = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday'
       ];
-
-      return months[(Number(dates[1]) - 1)] + ' ' + ordinalSuffix(dates[2]);
+      // var months = [
+      //   'Jan',
+      //   'Feb',
+      //   'Mar',
+      //   'April',
+      //   'May',
+      //   'June',
+      //   'July',
+      //   'Aug',
+      //   'Sep',
+      //   'Oct',
+      //   'Nov',
+      //   'Dec'
+      // ];
+      return daysMap[day] + '<br>' + datetime;
+      // return months[(Number(dates[1]) - 1)] + ' ' + ordinalSuffix(dates[2]);
     }
 
     for(var index in data){
@@ -829,10 +856,11 @@
            timestamp: item.eventStartTime,
            datetime: convertToEastern(item.eventStartTime),
            eventId: item.eventId,
-           gameClass: 'boxscores-e-football'
+           gameClass: 'boxscores-e-football',
+           timeClass: 'boxscores-e-2-lines'
          };
 
-         gameObject.bottomData = prettyDatetime(item.eventDate);
+         gameObject.bottomData = prettyDatetime(gameObject.timestamp, gameObject.datetime);
          if(vertical === 'nfl'){
            gameObject.link = domain + '/nfl/articles/pregame-report/' + item.eventId;
          }else if(vertical === 'ncaaf'){
