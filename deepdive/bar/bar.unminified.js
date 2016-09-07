@@ -1,6 +1,7 @@
 (function(){
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http'; //Protocol of the domain the bar exist on
   var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
+  // var resourceURL = protocol + '://localhost:8000/deepdive';
   var embedURL = resourceURL + '/bar/bar.js'; //URL of script embed. This is used as a fallback if document.currentScript is not available
   /**
    * Global variables
@@ -205,7 +206,7 @@
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
-        console.log('TICKER RESULTS API ERROR');
+        // console.log('TICKER RESULTS API ERROR');
 
         tickerContent.innerHTML = buildDefaultTickerData();
       }
@@ -349,7 +350,7 @@
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
-        console.log('NCAA M API ERROR');
+        // console.log('NCAA M API ERROR');
       }
     };
     xhttp.open('GET', apiString, true);
@@ -485,7 +486,7 @@
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
-        console.log('NCAA F API ERROR');
+        // console.log('NCAA F API ERROR');
       }
     };
     xhttp.open('GET', apiString, true);
@@ -1757,7 +1758,7 @@
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
-        console.log('GET MLB BOXSCORES ERROR');
+        // console.log('GET MLB BOXSCORES ERROR');
 
       }
     };
@@ -1771,7 +1772,7 @@
         var res = JSON.parse(xhttp2.responseText);
         console.log('xhttp2', res);
 
-        var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
+        var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'nfl');
 
         //Reverse array so it is inserted correctly
         // processedData.reverse();
@@ -1792,7 +1793,7 @@
 
       }else if(xhttp2.readyState === 4 & xhttp2.status !== 200){
         //Error
-        console.log('GET NFL BOXSCORES ERROR');
+        // console.log('GET NFL BOXSCORES ERROR');
       }
     };
     xhttp2.open('GET', apiString2, true);
@@ -1803,9 +1804,9 @@
       if(xhttp3.readyState === 4 && xhttp3.status === 200){
         //Success
         var res = JSON.parse(xhttp3.responseText);
-        console.log('xhttp3', res);
+        // console.log('xhttp3', res);
 
-        var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
+        var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'ncaaf');
 
         //Reverse array so it is inserted correctly
         // processedData.reverse();
@@ -2704,7 +2705,7 @@
      return allGames;
    }
 
-   var processNFLBoxscoresData = function(data, offset, tzAbbrev, todayDate){
+   var processNFLBoxscoresData = function(data, offset, tzAbbrev, todayDate, vertical){
      var pre = [], active = [], post = [];
      var wpre = [], wpost = [];
 
@@ -2755,7 +2756,13 @@
           };
 
           gameObject.bottomData = gameObject.datetime;
-          gameObject.link = '#';
+          if(vertical === 'nfl'){
+            gameObject.link = touchdownDomain + '/nfl/articles/pregame-report/' + item.eventId;
+          }else if(vertical === 'ncaaf'){
+            gameObject.link = touchdownDomain + '/ncaaf/articles/pregame-report/' + item.eventId;
+          }else{
+            gameObject.link = '#';
+          }
 
           gameObject.mobileNode = buildNode(gameObject);
           gameObject.desktopNode = buildNode(gameObject);
@@ -2774,7 +2781,13 @@
           };
 
           gameObject.bottomData = item.eventQuarter ? ordinalSuffix(item.eventQuarter) : gameObject.datetime;
-          gameObject.link = '#';
+          if(vertical === 'nfl'){
+            gameObject.link = touchdownDomain + '/nfl/articles/live-report/' + item.eventId;
+          }else if(vertical === 'ncaaf'){
+            gameObject.link = touchdownDomain + '/ncaaf/articles/live-report/' + item.eventId;
+          }else{
+            gameObject.link = '#';
+          }
 
           gameObject.mobileNode = buildNode(gameObject);
           gameObject.desktopNode = buildNode(gameObject);
@@ -2793,7 +2806,13 @@
           };
 
           gameObject.bottomData = 'Final';
-          gameObject.link = '#';
+          if(vertical === 'nfl'){
+            gameObject.link = touchdownDomain + '/nfl/articles/postgame-report/' + item.eventId;
+          }else if(vertical === 'ncaaf'){
+            gameObject.link = touchdownDomain + '/ncaaf/articles/postgame-report/' + item.eventId;
+          }else{
+            gameObject.link = '#';
+          }
 
           gameObject.mobileNode = buildNode(gameObject);
           gameObject.desktopNode = buildNode(gameObject);
@@ -2816,7 +2835,13 @@
           };
 
           gameObject.bottomData = prettyDatetime(item.eventDate);
-          gameObject.link = '#';
+          if(vertical === 'nfl'){
+            gameObject.link = touchdownDomain + '/nfl/articles/pregame-report/' + item.eventId;
+          }else if(vertical === 'ncaaf'){
+            gameObject.link = touchdownDomain + '/ncaaf/articles/pregame-report/' + item.eventId;
+          }else{
+            gameObject.link = '#';
+          }
 
           gameObject.mobileNode = buildNode(gameObject);
           gameObject.desktopNode = buildNode(gameObject);
@@ -2836,7 +2861,13 @@
           };
 
           gameObject.bottomData = 'Final';
-          gameObject.link = '#';
+          if(vertical === 'nfl'){
+            gameObject.link = touchdownDomain + '/nfl/articles/postgame-report/' + item.eventId;
+          }else if(vertical === 'ncaaf'){
+            gameObject.link = touchdownDomain + '/ncaaf/articles/postgame-report/' + item.eventId;
+          }else{
+            gameObject.link = '#';
+          }
 
           gameObject.mobileNode = buildNode(gameObject);
           gameObject.desktopNode = buildNode(gameObject);
@@ -3057,12 +3088,13 @@
   var getToday = function(offset){
     var today = new Date(new Date().getTime() + offset * 3600 * 1000);
     var month = today.getUTCMonth() + 1;
+    var date = today.getUTCDate();
 
     var todayObject = {
       today: today,
       year: today.getUTCFullYear(),
       month: month.toString().length === 1 ? '0' + month : month,
-      date: today.getUTCDate()
+      date: date.toString().length === 1 ? '0' + date : date
     };
 
     return todayObject;
