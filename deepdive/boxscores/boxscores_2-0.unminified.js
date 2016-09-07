@@ -1,5 +1,6 @@
 (function(boxscoresBar, undefined){
   boxscoresBar.embedSource = 'http://w1.synapsys.us/widgets/deepdive/boxscores/boxscores_2-0.js';
+  // boxscoresBar.embedSource = 'localhost:8000/deepdive/boxscores/boxscores_2-0.unminified.js';
   boxscoresBar.boxscoresLoaded = false; //Boolean if boxscores has loaded
   //Help function
   boxscoresBar.help = function(){
@@ -533,10 +534,14 @@
         margin: 0;
         padding: 0;
         width: 57px;
+        height: 100%;
         line-height: normal;
         display: inline-block;
         vertical-align: middle;
         font-size: 13px;
+        padding-top: 8px;
+        box-sizing: border-box;
+        float: left;
       }
       .boxscores-e-football .boxscores-e-game-teams{
         width: 70px;
