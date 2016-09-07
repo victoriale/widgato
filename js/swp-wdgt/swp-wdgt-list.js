@@ -12,6 +12,7 @@ swp_wdgt = function(){
 
   var temp = location.search;
   var query = {};
+  var season;
 
   if(temp !== null && temp !== ""){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
@@ -46,7 +47,6 @@ function RenderDynamicSide(protocolToUse){
 
   var referrer = document.referrer;
   var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
-
   function getBaseUrl(string){
       var urlArray = string.split("/");
       var domain = urlArray[2];
@@ -280,7 +280,20 @@ function RenderDynamicSide(protocolToUse){
 
     function getRandList(initData) {
       rand = Math.floor((Math.random() * 140) + 1);
-      httpGetData("",initData[rand]);
+      var date = new Date;
+      var compareDate = new Date('09 15 ' + date.getFullYear());
+      if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
+        httpGetData("",initData[rand] + "&season=" + date.getFullYear());
+        season = date.getFullYear();
+      }
+      else if (date.getMonth() > compareDate.getMonth()) {
+        httpGetData("",initData[rand] + "&season=" + date.getFullYear());
+        season = date.getFullYear();
+      }
+      else {
+        httpGetData("",initData[rand] + "&season=" + (date.getFullYear() - 1));
+        season = (date.getFullYear() - 1);
+      }
     }
 
     function httpGetData(old_title, query){
@@ -422,10 +435,10 @@ function RenderDynamicSide(protocolToUse){
         if(remnant == 'true' || remnant == true){
           A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
           if (listType == "nfl" && listData[index].rankType == "team") {
-            A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
+            A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].teamId);
           }
           else if (listType == "nfl" && listData[index].rankType == "player") {
-            A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/player/" + listData[index].playerFirstName.toLowerCase() + listData[index].playerLastName.toLowerCase() + "/" + listData[index].playerId);
+            A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/player/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].playerFirstName.toLowerCase() + "-" + listData[index].playerLastName.toLowerCase() + "/" + listData[index].playerId);
           }
         }else{
           //partner site
@@ -528,7 +541,7 @@ function buildListLink(cat, remn, dom, widget_data){
         base_url += ( doStep ) ? '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input : "/tw-" + widget_data.l_param + "+sw-" + widget_data.l_sort + "+input-" + widget_data.l_input;
       }
       else {
-        base_url += "/" + "list" + "/" + widget_data.data.listData[0].rankType + "/" + widget_data.data.listData[0].statType.replace(widget_data.data.listData[0].rankType + "_", "") + "/" + "asc" + "/" + "10" + "/" + "1";
+        base_url += "/" + "list" + "/" + widget_data.data.listData[0].rankType + "/" + widget_data.data.listData[0].statType.replace(widget_data.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
       }
       return base_url;
 }
