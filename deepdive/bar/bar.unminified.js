@@ -2426,9 +2426,11 @@
      //Build inner html
      data.forEach(function(item, index){
         var eventId = item.event;
-        var headline = item.featuredReport['postgame-report'].displayHeadline;
-        var link = homerunDomain + '/articles/postgame-report/' + eventId;
-        transform += index !== (dataLength - 1) ?  '<a class="ddb-menu-ticker-link" href="' + link + '">' + headline + '</a><span class="ddb-menu-ticker-separator">&#8226;</span>': '<a class="ddb-menu-ticker-link" href="' + link + '">' + headline + '</a>';
+        if(item.featuredReport.hasOwnProperty('postgame-report')){
+          var headline = item.featuredReport['postgame-report'].displayHeadline;
+          var link = homerunDomain + '/articles/postgame-report/' + eventId;
+          transform += index !== (dataLength - 1) ?  '<a class="ddb-menu-ticker-link" href="' + link + '">' + headline + '</a><span class="ddb-menu-ticker-separator">&#8226;</span>': '<a class="ddb-menu-ticker-link" href="' + link + '">' + headline + '</a>';
+        }
      })
 
      if(transform === ''){
