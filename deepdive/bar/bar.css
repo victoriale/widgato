@@ -191,9 +191,8 @@
 .ddb-boxscores-content-category{
   background-color: #f2f2f2;
   width: 100px;
-  padding: 16px 0 0 0;
   text-align: center;
-  line-height: 12px;
+  line-height: 60px;
 }
 .ddb-boxscores-content-category .ddb-title{
   font-size: 14px;
@@ -211,6 +210,9 @@
   text-align: center;
   font-weight: 700;
 }
+.ddb-boxscores-content-game .ddb-grey{
+  color: #999;
+}
 .ddb-boxscores-content-game-link{
   display: block;
   padding: 7px 10px 0 10px;
@@ -223,6 +225,11 @@
 .ddb-boxscores-content-game-teams{
   text-align: left;
 }
+.ddb-boxscores-content-game-teams .ddb-icon-football{
+  color: #4a90e2;
+  font-size: 10px;
+  margin-left: 4px;
+}
 .ddb-boxscores-content-game-score{
   float: right;
 }
@@ -230,12 +237,10 @@
   font-weight: 400;
   display: inline-block;
   margin-top: 2px;
+  color: #444;
 }
-.ddb-boxscores-content-game .ddb-icon{
+.ddb-boxscores-content-game-bottom .ddb-icon{
   font-size: 14px;
-}
-.ddb-boxscores-content-game .ddb-down{
-  color: #999;
 }
 
 
@@ -435,8 +440,18 @@
 .ddb-menu-nav>li>.ddb-icon{
   font-weight: 400;
 }
-.ddb-menu-nav>li:hover .ddb-menu-dropdown{
+.ddb-menu-nav>li#ddb-dropdown-boxscores{
+  padding: 0;
+}
+/*.ddb-menu-nav>li:hover .ddb-menu-dropdown{
   display: block;
+}*/
+#ddb-dropdown-boxscores-button{
+  padding: 0 10px;
+  background-color: #4a90e2;
+}
+#ddb-dropdown-boxscores-button.ddb-desktop-boxscores-open .ddb-icon:before{
+  content: '\6c';
 }
 
 .ddb-menu-nav-dynamic{
@@ -549,10 +564,10 @@
 }
 
 .ddb-menu-dropdown#ddb-boxscores-dropdown{
-  left: -35px;
+  left: -15px;
 }
 .ddb-menu-dropdown#ddb-boxscores-dropdown:after{
-  left: 95px;
+  left: 103px;
 }
 .ddb-menu-dropdown#ddb-boxscores-dropdown:before{
   content: '';
@@ -563,7 +578,7 @@
   border-color: transparent transparent #f2f2f2 transparent;
   position: absolute;
   top: 2px;
-  left: 96px;
+  left: 104px;
   z-index: 10;
 }
 
