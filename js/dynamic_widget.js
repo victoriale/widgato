@@ -398,7 +398,7 @@ dynamic_widget = function() {
 
     function w(e) {
         i += e;
-        if (l.category = "nfl") {
+        if (l.category == "nfl") {
           i = i >= r.data.listData.length ? 0 : i < 0 ? r.data.listData.length - 1 : i;
         }
         else {
