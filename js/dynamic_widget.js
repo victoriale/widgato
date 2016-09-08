@@ -437,7 +437,7 @@ dynamic_widget = function() {
                 if (s) {
                     r = r.replace('www.myinvestkit.com', o)
                 }
-                hn = "Invest Kit";
+                hn = "Finance";
                 break;
             case 'nba':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NBA' : 'http://www.myhoopszone.com/' + l.dom + '/NBA';
@@ -445,7 +445,7 @@ dynamic_widget = function() {
                 break;
             case 'college_basketball':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA';
-                var hn = "Hoops Loyal";
+                var hn = "Basketball";
                 break;
             case "mlb":
                 var r = "";
@@ -454,7 +454,7 @@ dynamic_widget = function() {
                 }else{
                     r = mlbPartnerDomain;
                 }
-                var hn = "Home Run Loyal";
+                var hn = "Baseball";
               break;
             case "nfl":
                 var r = "";
@@ -463,14 +463,13 @@ dynamic_widget = function() {
                 }else{
                     r = nflPartnerDomain;
                 }
-                var hn = "Touchdown Loyal";
+                var hn = "Football";
               break;
             default:
                 var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';
-                var hn = "My House Kit";
+                var hn = "Homes";
                 break
         }
-        $('homelink').href = r;
         $('verticalDisplayName').innerHTML = hn;
     }
     m();
