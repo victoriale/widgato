@@ -83,13 +83,16 @@ sup {
     line-height: 45px;
     padding-left: 22px;
 }
-
+.teams-hide {
+    display: none;
+}
 .header-date {
     color: #000;
     font-size: 18px;
     font-weight: 700;
     text-align: left;
     line-height: 45px;
+    padding-left: 22px;
 }
 
 .main {
