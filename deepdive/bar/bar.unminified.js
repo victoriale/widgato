@@ -12,6 +12,8 @@
   var mobileSearchBar; //DOM Element of mobile search bar
   var smallDesktopSearchButton; //DOM ELement of small desktop search button
   var smallDesktopSearchBar; //DOM Element of small desktop search bar
+  var desktopBoxscoresButton; //DOM Element of desktop boxscores button
+  var desktopBoxscoresDropdown; //DOM Element of desktop boxscores dropdown
 
   var ncaamDropdownElements = {
     nav: document.createElement('ul'),
@@ -72,6 +74,7 @@
          bootstrapMobileMenu();
          bootstrapMobileSearch();
          bootstrapSmallDesktopSearch();
+         bootstrapDesktopBoxscores();
          //bootstrapNBADropdown();
          //bootstrapMLBDropdown();
          bootstrapDynamicDropdown();
@@ -159,7 +162,7 @@
 
     smallDesktopSearchButton.addEventListener('click', function(evt){
       if(hasClass(smallDesktopSearchBar, 'ddb-show')){
-        //Dropdown is hidden, close dropdown
+        //Dropdown is shown, close dropdown
         removeClass(smallDesktopSearchButton, 'ddb-small-desktop-search-open');
         closeDropdowns();
       }else{
@@ -187,6 +190,41 @@
         item.addEventListener('mouseenter', hoverEvent);
     });
 
+  }
+
+  var bootstrapDesktopBoxscores = function(){
+    desktopBoxscoresButton = document.getElementById('ddb-dropdown-boxscores-button');
+    desktopBoxscoresDropdown = document.getElementById('ddb-boxscores-dropdown');
+
+    desktopBoxscoresButton.addEventListener('click', function(evt){
+      if(hasClass(desktopBoxscoresDropdown, 'ddb-show')){
+        //Dropdown is shown, close dropdown
+        removeClass(desktopBoxscoresButton, 'ddb-desktop-boxscores-open');
+        closeDropdowns();
+      }else{
+        //Dropdown is hidden, show dropdown
+        closeDropdowns();
+        addClass(desktopBoxscoresButton, 'ddb-desktop-boxscores-open');
+        addClass(desktopBoxscoresDropdown, 'ddb-show');
+        //Add window listener
+        setTimeout(function(){
+          window.addEventListener('click', windowEventDesktopBoxscores);
+        }, 1)
+      }
+    })
+
+    var navItems = document.getElementsByClassName('ddb-menu-nav-item');
+
+    var hoverEvent = function(evt){
+      if(hasClass(desktopBoxscoresButton, 'ddb-desktop-boxscores-open')){
+        removeClass(desktopBoxscoresButton, 'ddb-desktop-boxscores-open');
+        removeClass(desktopBoxscoresDropdown, 'ddb-show');
+      }
+    };
+
+    [].forEach.call(navItems, function(item){
+        item.addEventListener('mouseenter', hoverEvent);
+    });
   }
   //UPDATED
   var bootstrapTicker = function(state){
@@ -404,7 +442,6 @@
         ncaafDropdownElements.links.innerHTML = ncaafLinks;
 
         var navNews = document.getElementsByClassName('ddb-ncaaf-nav-news'),
-          navBoxScores = document.getElementsByClassName('ddb-ncaaf-nav-box-scores'),
           navStandings = document.getElementsByClassName('ddb-ncaaf-nav-standings'),
           navSchedule = document.getElementsByClassName('ddb-ncaaf-nav-schedule'),
           navTopLists = document.getElementsByClassName('ddb-ncaaf-nav-top-lists'),
@@ -412,9 +449,6 @@
           navProfile = document.getElementsByClassName('ddb-ncaaf-nav-profile');
 
         [].forEach.call(navNews, function(item){
-          item.href = touchdownDomain + '/ncaaf';
-        });
-        [].forEach.call(navBoxScores, function(item){
           item.href = touchdownDomain + '/ncaaf';
         });
         [].forEach.call(navStandings, function(item){
@@ -438,12 +472,6 @@
             <a href="` + touchdownDomain + `/ncaaf">
               <i class="ddb-icon ddb-icon-news"></i>
               News
-            </a>
-          </li>
-          <li>
-            <a href="` + touchdownDomain + `/ncaaf">
-              <i class="ddb-icon ddb-icon-box-scores"></i>
-              Box Scores
             </a>
           </li>
           <li>
@@ -1077,7 +1105,6 @@
     // mlbNational.innerHTML = nationalHTML;
     //Link up nav items
     var navNews = document.getElementsByClassName('ddb-mlb-nav-news'),
-      navBoxScores = document.getElementsByClassName('ddb-mlb-nav-box-scores'),
       navStandings = document.getElementsByClassName('ddb-mlb-nav-standings'),
       navSchedule = document.getElementsByClassName('ddb-mlb-nav-schedule'),
       navTopLists = document.getElementsByClassName('ddb-mlb-nav-top-lists'),
@@ -1086,9 +1113,6 @@
 
       [].forEach.call(navNews, function(item){
         item.href = homerunDomain;
-      });
-      [].forEach.call(navBoxScores, function(item){
-        item.href = homerunDomain + '/mlb';
       });
       [].forEach.call(navStandings, function(item){
         item.href = homerunDomain + '/standings';
@@ -1112,12 +1136,6 @@
           <a href="` + homerunDomain + `">
             <i class="ddb-icon ddb-icon-news"></i>
             News
-          </a>
-        </li>
-        <li>
-          <a href="` + homerunDomain + `/mlb">
-            <i class="ddb-icon ddb-icon-box-scores"></i>
-            Box Scores
           </a>
         </li>
         <li>
@@ -1424,7 +1442,6 @@
     linksEl.innerHTML += nfcHTML;
 
     var navNews = document.getElementsByClassName('ddb-nfl-nav-news'),
-      navBoxScores = document.getElementsByClassName('ddb-nfl-nav-box-scores'),
       navStandings = document.getElementsByClassName('ddb-nfl-nav-standings'),
       navSchedule = document.getElementsByClassName('ddb-nfl-nav-schedule'),
       navTopLists = document.getElementsByClassName('ddb-nfl-nav-top-lists'),
@@ -1432,9 +1449,6 @@
       navProfile = document.getElementsByClassName('ddb-nfl-nav-profile');
 
       [].forEach.call(navNews, function(item){
-        item.href = touchdownDomain + '/nfl';
-      });
-      [].forEach.call(navBoxScores, function(item){
         item.href = touchdownDomain + '/nfl';
       });
       [].forEach.call(navStandings, function(item){
@@ -1459,12 +1473,6 @@
         <a href="` + touchdownDomain + `/nfl">
           <i class="ddb-icon ddb-icon-news"></i>
           News
-        </a>
-      </li>
-      <li>
-        <a href="` + touchdownDomain + `/nfl">
-          <i class="ddb-icon ddb-icon-box-scores"></i>
-          Box Scores
         </a>
       </li>
       <li>
@@ -1520,6 +1528,12 @@
 
     var mobileBoxscoresNCAAF = document.getElementById('ddb-mobile-boxscores-ncaaf');
     var desktopBoxscoresNCAAF = document.getElementById('ddb-desktop-boxscores-ncaaf');
+
+    var leftMobileButton = document.getElementById('ddb-mobile-boxscores-left');
+    var rightMobileButton = document.getElementById('ddb-mobile-boxscores-right');
+
+    var leftDesktopButton = document.getElementById('ddb-desktop-boxscores-left');
+    var rightDesktopButton = document.getElementById('ddb-desktop-boxscores-right');
 
     var totalMax = 0,
       mlbLoaded = false,
@@ -1608,6 +1622,13 @@
         //Assign active class to button clicked
         addClass(this, 'ddb-active');
 
+        if(hasClass(leftDesktopButton, 'ddb-blue')){
+          removeClass(leftDesktopButton, 'ddb-blue');
+        }
+        if(!hasClass(rightDesktopButton, 'ddb-blue')){
+          addClass(rightDesktopButton, 'ddb-blue');
+        }
+
       })
     })
 
@@ -1672,18 +1693,13 @@
 
           desktopBoxscoresIndex--;
 
-          if(desktopBoxscoresIndex === 0){
+          if(desktopBoxscoresIndex === 0 && hasClass(leftDesktopButton, 'ddb-blue')){
             removeClass(leftDesktopButton, 'ddb-blue');
-            desktopBoxscores.style.left = '0';
-          }else if(desktopBoxscoresIndex === desktopMax - 1){
+          }else if(desktopBoxscoresIndex === desktopMax - 1 && !hasClass(rightDesktopButton, 'ddb-blue')){
             addClass(rightDesktopButton, 'ddb-blue');
-          }else{
-            if(!hasClass(leftMobileButton, 'ddb-blue')){
-              addClass(leftDesktopButton, 'ddb-blue');
-            }
-            desktopBoxscores.style.left = (-100 + ((desktopBoxscoresIndex - 1) * -100)) + 'px';
           }
 
+          desktopBoxscores.style.left = (-100 + ((desktopBoxscoresIndex - 1) * -100)) + 'px';
         }
       }
       var moveDesktopRight = function(){
@@ -1705,12 +1721,11 @@
         if(desktopBoxscoresIndex < desktopMax){
           desktopBoxscoresIndex++;
 
-          if(desktopBoxscoresIndex === desktopMax){
+          if(desktopBoxscoresIndex === desktopMax && hasClass(rightDesktopButton, 'ddb-blue')){
             removeClass(rightDesktopButton, 'ddb-blue');
-          }else if(desktopBoxscoresIndex === 1){
+          }
+          if(desktopBoxscoresIndex === 1 && !hasClass(leftDesktopButton, 'ddb-blue')){
             addClass(leftDesktopButton, 'ddb-blue');
-          }else if(!hasClass(rightMobileButton, 'ddb-blue')){
-            addClass(rightDesktopButton, 'ddb-blue');
           }
 
           desktopBoxscores.style.left = (-100 + ((desktopBoxscoresIndex - 1) * -100)) + 'px';
@@ -1718,13 +1733,9 @@
       }
 
       //Mobile
-      var leftMobileButton = document.getElementById('ddb-mobile-boxscores-left');
-      var rightMobileButton = document.getElementById('ddb-mobile-boxscores-right');
       leftMobileButton.addEventListener('click', moveMobileLeft);
       rightMobileButton.addEventListener('click', moveMobileRight);
       //Desktop
-      var leftDesktopButton = document.getElementById('ddb-desktop-boxscores-left');
-      var rightDesktopButton = document.getElementById('ddb-desktop-boxscores-right');
       leftDesktopButton.addEventListener('click', moveDesktopLeft);
       rightDesktopButton.addEventListener('click', moveDesktopRight);
     }
@@ -1770,7 +1781,7 @@
       if(xhttp2.readyState === 4 && xhttp2.status === 200){
         //Success
         var res = JSON.parse(xhttp2.responseText);
-        console.log('xhttp2', res);
+        // console.log('xhttp2', res);
 
         var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'nfl');
 
@@ -2580,10 +2591,10 @@
        gameNode.innerHTML = `
          <a class="ddb-boxscores-content-game-link" href="` + data.link + `">
            <ul class="ddb-boxscores-content-game-teams">
-             <li>
+             <li class="` + (data.homeClass ? data.homeClass : '') + `">
                ` + data.homeTeam + ` <span class="ddb-boxscores-content-game-score">` + data.homeScore + `</span>
              </li>
-             <li>
+             <li class="` + (data.awayClass ? data.awayClass : '') + `">
                ` + data.awayTeam + ` <span class="ddb-boxscores-content-game-score">` + data.awayScore + `</span>
              </li>
            </ul>
@@ -2644,6 +2655,9 @@
                 eventId: item.gameInfo.eventId
               };
 
+              gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
+              gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
+
               if(item.gameInfo.inningHalf === 'top'){
                 gameObject.bottomData = '<i class="ddb-icon ddb-icon-caret-up"></i>' + (item.gameInfo.inningsPlayed ? ordinalSuffix(item.gameInfo.inningsPlayed) : gameObject.datetime);
               }else if(item.gameInfo.inningHalf === 'bottom'){
@@ -2680,6 +2694,9 @@
                 eventStatus: item.gameInfo.eventStatus,
                 eventId: item.gameInfo.eventId
               };
+
+              gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
+              gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
               gameObject.bottomData = 'Final';
               gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
@@ -2747,11 +2764,25 @@
         //Game is Today
         if(item.liveStatus === 'N' && item.eventStartTime > now){
           //Pre Game
+          var homeScore, awayScore;
+          if(item.team1Record){
+            var recordSplit = item.team1Record.split('-');
+            homeScore = recordSplit[0] + '-' + recordSplit[1];
+          }else{
+            homeScore = '-';
+          }
+          if(item.team2Record){
+            var recordSplit = item.team2Record.split('-');
+            awayScore = recordSplit[0] + '-' + recordSplit[1];
+          }else{
+            awayScore = '-';
+          }
+
           var gameObject = {
             homeTeam: item.team1Abbreviation,
-            homeScore: '-',
+            homeScore: homeScore,
             awayTeam:item.team2Abbreviation,
-            awayScore: '-',
+            awayScore: awayScore,
             timestamp: item.eventStartTime,
             datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
             eventId: item.eventId
@@ -2772,15 +2803,30 @@
           pre.push(gameObject);
         }else if(item.liveStatus === 'Y' && item.eventStartTime < now){
           //Live Game
+          var homeTeam, awayTeam;
+          if(item.team1Abbreviation && item.team1Possession){
+            homeTeam = item.team1Abbreviation + ' <i class="ddb-icon ddb-icon-football"></i>';
+          }else{
+            homeTeam = item.team1Abbreviation;
+          }
+          if(item.team2Abbreviation && item.team2Possession){
+            awayTeam = item.team2Abbreviation + ' <i class="ddb-icon ddb-icon-football"></i>';
+          }else{
+            awayTeam = item.team2Abbreviation;
+          }
+
           var gameObject = {
-            homeTeam: item.team1Abbreviation,
+            homeTeam: homeTeam,
             homeScore: item.team1Score ? item.team1Score : '-',
-            awayTeam:item.team2Abbreviation,
+            awayTeam: awayTeam,
             awayScore: item.team2Score ? item.team2Score: '-',
             timestamp: item.eventStartTime,
             datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
             eventId: item.eventId
           };
+
+          gameObject.homeClass = gameObject.homeScore !== '-' && gameObject.awayScore !== '-' && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
+          gameObject.awayClass = gameObject.homeScore !== '-' && gameObject.awayScore !== '-' && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
           gameObject.bottomData = item.eventQuarter ? ordinalSuffix(item.eventQuarter) : gameObject.datetime;
           if(vertical === 'nfl'){
@@ -2799,13 +2845,16 @@
           //Post Game
           var gameObject = {
             homeTeam: item.team1Abbreviation,
-            homeScore: '-',
+            homeScore: item.team1Score ? item.team1Score : '-',
             awayTeam:item.team2Abbreviation,
-            awayScore: '-',
+            awayScore: item.team2Score ? item.team2Score : '-',
             timestamp: item.eventStartTime,
             datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
             eventId: item.eventId
           };
+
+          gameObject.homeClass = gameObject.homeScore !== '-' && gameObject.awayScore !== '-' && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
+          gameObject.awayClass = gameObject.homeScore !== '-' && gameObject.awayScore !== '-' && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
           gameObject.bottomData = 'Final';
           if(vertical === 'nfl'){
@@ -2826,11 +2875,25 @@
         //Game is this week
         if(item.eventStartTime > now){
           //Pre Game
+          var homeScore, awayScore;
+          if(item.team1Record){
+            var recordSplit = item.team1Record.split('-');
+            homeScore = recordSplit[0] + '-' + recordSplit[1];
+          }else{
+            homeScore = '-';
+          }
+          if(item.team2Record){
+            var recordSplit = item.team2Record.split('-');
+            awayScore = recordSplit[0] + '-' + recordSplit[1];
+          }else{
+            awayScore = '-';
+          }
+
           var gameObject = {
             homeTeam: item.team1Abbreviation,
-            homeScore: '-',
+            homeScore: homeScore,
             awayTeam:item.team2Abbreviation,
-            awayScore: '-',
+            awayScore: awayScore,
             timestamp: item.eventStartTime,
             datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
             eventId: item.eventId
@@ -2861,6 +2924,9 @@
             datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
             eventId: item.eventId
           };
+
+          gameObject.homeClass = gameObject.homeScore !== '-' && gameObject.awayScore !== '-' && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
+          gameObject.awayClass = gameObject.homeScore !== '-' && gameObject.awayScore !== '-' && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
           gameObject.bottomData = 'Final';
           if(vertical === 'nfl'){
@@ -2982,7 +3048,30 @@
        window.removeEventListener('click', windowEventSmallDesktopSearch);
      }
    }
+   //Window event for desktop boxscores
+   var windowEventDesktopBoxscores = function(evt){
+     var dropdownElement = desktopBoxscoresDropdown;
+     var target = evt.target;
+     var clickedInside = false;
+     //Look through parent nodes until match is found or top of document is reached
+     do{
+       //If clicked element is mobile button or mobile menu dropdown (user clicked inside)
+       if(target === desktopBoxscoresButton || target === dropdownElement){
+         clickedInside = true;
+         target = false;
+       }
+       target = target.parentNode;
+     }while(target);
 
+     if(clickedInside){
+       //Clicked inside. Do nothing
+     }else{
+       //Clicked outside. close dropdown and remove event
+       removeClass(desktopBoxscoresButton, 'ddb-desktop-boxscores-open');
+       removeClass(desktopBoxscoresDropdown, 'ddb-show');
+       window.removeEventListener('click', windowEventDesktopBoxscores);
+     }
+   }
   /**
    * Utility functions
    **/
