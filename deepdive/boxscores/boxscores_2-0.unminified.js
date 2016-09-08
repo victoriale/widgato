@@ -606,6 +606,7 @@
         cursor: pointer;
         font-size: 24px;
         padding: 0;
+        line-height: normal;
       }
       .boxscores-e-nav-button>i{
         vertical-align: middle;
@@ -727,7 +728,6 @@
     var prettyDatetime = function(timestamp, datetime){
       var dateObject = new Date(timestamp + boxscoresBar.easternTime.offset * 3600  * 1000);
       var day = dateObject.getUTCDay();
-      // var dates = date.split('-');
       var daysMap = [
         'Sunday',
         'Monday',
@@ -737,22 +737,7 @@
         'Friday',
         'Saturday'
       ];
-      // var months = [
-      //   'Jan',
-      //   'Feb',
-      //   'Mar',
-      //   'April',
-      //   'May',
-      //   'June',
-      //   'July',
-      //   'Aug',
-      //   'Sep',
-      //   'Oct',
-      //   'Nov',
-      //   'Dec'
-      // ];
       return daysMap[day] + '<br>' + datetime;
-      // return months[(Number(dates[1]) - 1)] + ' ' + ordinalSuffix(dates[2]);
     }
 
     for(var index in data){
@@ -777,10 +762,11 @@
            timestamp: item.eventStartTime,
            datetime: convertToEastern(item.eventStartTime),
            eventId: item.eventId,
-           gameClass: 'boxscores-e-football'
+           gameClass: 'boxscores-e-football',
+           timeClass: 'boxscores-e-2-lines'
          };
 
-         gameObject.bottomData = gameObject.datetime;
+         gameObject.bottomData = prettyDatetime(gameObject.timestamp, gameObject.datetime);
          if(vertical === 'nfl'){
            gameObject.link = domain + '/nfl/articles/pregame-report/' + item.eventId;
          }else if(vertical === 'ncaaf'){
@@ -827,10 +813,11 @@
            timestamp: item.eventStartTime,
            datetime: convertToEastern(item.eventStartTime),
            eventId: item.eventId,
-           gameClass: 'boxscores-e-football'
+           gameClass: 'boxscores-e-football',
+           timeClass: 'boxscores-e-2-lines'
          };
 
-         gameObject.bottomData = 'Final';
+         gameObject.bottomData = prettyDatetime(gameObject.timestamp, 'Final');
          if(vertical === 'nfl'){
            gameObject.link = domain + '/nfl/articles/postgame-report/' + item.eventId;
          }else if(vertical === 'ncaaf'){
@@ -883,10 +870,11 @@
            timestamp: item.eventStartTime,
            datetime: convertToEastern(item.eventStartTime),
            eventId: item.eventId,
-           gameClass: 'boxscores-e-football'
+           gameClass: 'boxscores-e-football',
+           timeClass: 'boxscores-e-2-lines'
          };
 
-         gameObject.bottomData = 'Final';
+         prettyDatetime(gameObject.timestamp, 'Final')
          if(vertical === 'nfl'){
            gameObject.link = domain + '/nfl/articles/postgame-report/' + item.eventId;
          }else if(vertical === 'ncaaf'){
