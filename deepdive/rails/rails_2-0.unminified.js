@@ -1,6 +1,21 @@
 (function(skyscraperRails, undefined){
   skyscraperRails.embedSource = 'http://w1.synapsys.us/widgets/deepdive/rails/rails_2-0.js';
 
+  //Help function
+  skyscraperRails.help = function(){
+    console.warn(`Skyscraper Rails - Must specify query string.
+      Parameters:
+        [vertical] - vertical of the skyscraper rails. Options are (mlb, nfl, and ncaaf)
+        [selector] - selector of content that the rails are aligned with. (ex. selector=section.main-container)
+        [adMarginTop] - amount of pixels the skyscraper ads should be pushed down from the top of the page. Defaults to 0 if not specified (ex. adMarginTop=100)
+      Functions:
+        resize() - manually call the window resize event which will reposition the skyscraper rails.
+        reassign(newSelector, disableRealign) - attach rails to a new DOM element. Function returns true on success, false if new DOM element is not found.
+          newSelector : the query selector of the new DOM element.
+          disableRealign (optional) : a boolean used to prevent the skyscrapers from realigning after attaching to a new DOM element.
+    `);
+  }
+
   var currentScript = document.currentScript || (function() {
     var scripts = document.getElementsByTagName("script");
     for (var i = scripts.length - 1; i >= 0; i--) {
@@ -174,16 +189,6 @@
     skyscraperRails.railsVisible = true;
   }
 
-  //Help function
-  skyscraperRails.help = function(){
-    console.warn(`Skyscraper Rails - Must specify query string.
-      Paramters:
-      [vertical] - vertical of the skyscraper rails. Options are (mlb, nfl, and ncaaf)
-      [selector] - selector of content that the rails are aligned with. (ex. selector=section.main-container)
-      [adMarginTop] - amount of pixels the skyscraper ads should be pushed down from the top of the page. Defaults to 0 if not specified (ex. adMarginTop=100)
-    `);
-  }
-
   //Resize function
   skyscraperRails.resize = function(){
     var resizeBodyWidth = body.offsetWidth;
@@ -209,6 +214,26 @@
       leftRail.style.left = getLeftRailPos();
       rightRail.style.left = getRightRailPos();
     }
+  }
+
+  //Realign to new DOM element
+  //newSelector - selector for new DOM element to bind rails to
+  //disableRealign - boolean (optional) to determine if resize event should be cancelled after assinging new DOM element
+  skyscraperRails.reassign = function(newSelector, disableRealign){
+    disableRealign = typeof disableRealign !== 'undefined' ? disableRealign : false;
+
+    var newContentEl = document.querySelector(newSelector);
+
+    if(newContentEl === null){
+      return false;
+    }else{
+      contentEl = newContentEl;
+    }
+    //If flag is true then skip resize event
+    if(!disableRealign){
+      skyscraperRails.resize();
+    }
+    return true;
   }
 
   //Build and load stylesheet
