@@ -263,7 +263,6 @@ dynamic_widget = function() {
 
       if (l.category == "nfl" || l.category == "ncaaf") {
         var e = r.data.listData[i];
-        console.log("special domain",SpecialDomain);
         if (e.rankType == "team") {
           $('line1').innerHTML = e.teamName;
           $('line2').innerHTML = e.divisionName;
