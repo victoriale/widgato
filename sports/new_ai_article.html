@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <title>AI Article Widget</title>
+  <meta charset='utf-8'>
+  <!--ATTENTION css/fontawesome.css is being called locally the cdn link site was not working-->
+  
+  <link rel="stylesheet" type="text/css" href="../css/ai_article.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+  <script type="text/javascript" src="../js/ai_article.js"></script>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
+  <base href="http://www.hoopsloyal.com/" target="_blank">
+</head>
+<body>
+  <div class="aiw">
+    <!-- Top of the widget -->
+    <div class="aiw-img noclick">
+      <div class="aiw-top noclick" onclick="ai_widget.toggleDropDown()">
+        <div class="ball"></div>
+        <span class="text">
+          <span class="away team"></span> vs <span class="home team"></span>
+        </span>
+        <i class="fa fa-caret-down"></i>
+      </div>
+      <div class="dropdown">
+
+      </div>
+    </div>
+    <!-- Content Section -->
+    <div class="aiw-bdy">
+      <div class="aiw-title"></div>
+      <div class="aiw-num noclick"></div>
+      <div class="aiw-txt"></div>
+      <i class="fa fa-angle-left aiw-btn noclick" onclick="ai_widget.prevPage()"></i>
+      <i class="fa fa-angle-right aiw-btn noclick" onclick="ai_widget.nextPage()"></i>
+      <a href="/" id="ai-link"><div class="aiw-link noclick">Read the Story</div></a>
+      <div class="aiw-ad">content presented by:</div>
+    </div>
+
+    <div class="ad_location">Ad Zone</div>
+  </div>
+</body>
+</html>

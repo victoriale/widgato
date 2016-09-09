@@ -1,0 +1,22 @@
+//TEST EMBED PUT ON ANY REMNANT SITE
+q1 = document.body;
+q2 = document.createElement('script');
+q2.src = "http://content.synapsys.us/embeds/realestate/standard/remnant.js";
+q1.insertBefore(q2, q1.firstElementChild);
+
+
+theblaze.com
+
+?%7B%22dom%22%3A%22theblaze.com%22%2C%22loc%22%3A%7B%22loc_id%22%3A%7B%22value%22%3A%22-null%22%2C%22city%22%3A%22%22%2C%22state%22%3Anull%7D%2C%22loc%22%3A%7B%22city%22%3A%5B%5D%2C%22zipcode%22%3A%5B%5D%7D%2C%22loc_name%22%3A%22%22%7D%2C%22c_id%22%3A%22100857179%22%2C%22remn%22%3A%22true%22%2C%22bord%22%3A%22false%22%7D
+
+'counties-with-the-most-total-votes-in-the-2012-election: 1,
+    'counties-with-the-highest-percent-of-democrat-voters': 2,
+    'counties-with-the-highest-percent-of-republican-voters': 3,
+    'counties-with-the-highest-percent-of-independent-voters': 4,
+    'counties-with-the-most-democrat-voters': 5,
+    'counties-with-the-most-republican-voters': 6,
+    'counties-with-the-most-independent-voters': 7, 
+
+http://apirt.synapsys.us/index.php?widget=politics&wid=1&county=Nueces&state=TX&skip=0&limit=15
+
+change &wid= 1-7

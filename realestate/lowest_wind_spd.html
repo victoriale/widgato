@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<title>Lowest Avg Wind Speed</title>
+
+<meta charset='utf-8'>
+<!--ATTENTION css/fontawesome.css is being called locally the cdn link site was not working-->
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Lato:400,300,100,700,900" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="../css/w_weather.css">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script type="text/javascript" src="../js/w_weather/lowest_wind_spd.js"></script>
+<base target="_top">
+</head>
+<body>
+  <!--container of widget-->
+  <div class="universe_fcw">
+    <!--wrapper of just widget-->
+    <div class="fcw">
+      <!--top text-->
+      <div class="fcw-logo"></div>
+      <div class="fcw-text">
+        <div class="fcw-t1"></div>
+        <div class="fcw-t2">
+          <i class="fa fa-map-marker swc-space" id="swc-blue"></i>
+          <a id="loc" href="">
+            <span class="fcw-t2-loc"></span>
+          </a>
+        </div>
+      </div><!--top text END-->
+        <!--image && button-->
+      <div class="fcw-middle">
+        <div class="fcw-image">
+          <div class="fcw-img2">#1</div>
+           <a id="imgUrl" href="">
+            <div class="hover" style="position:relative;">
+                <div class="hover-txt1">View</div>
+                <div class="hover-txt2">Profile</div>
+            </div>
+          </a>
+        </div>
+        <button class="fcw-leftnav" data-dir='prev'><i class="fa fa-angle-left"></i></button>
+        <button class="fcw-rightnav" data-dir='next'><i class="fa fa-angle-right"></i></button>
+      </div><!--image && button END-->
+      <!--bottom text-->
+      <div class="fcw-content">
+        <div class="fcw-content1"></div>
+        <div class="fcw-content2"></div>
+      </div>
+      <div class="fcw-list">
+        <a class="fcw-href" href="">
+          <div class="fcw-list-link">SEE THE LIST <i class="fa fa-mail-forward swc-space"></i></div>
+        </a>
+      </div>
+      <div class="fcw-presentedby">
+        LOWEST AVG WIND SPEED BY CITY - PRESENTED BY
+      </div>
+      <!--bottom text END-->
+    </div><!--wrapper END-->
+    <!--AD Placement-->
+    <div class="ad_location"></div>
+  </div>
+</body>
+</html>
