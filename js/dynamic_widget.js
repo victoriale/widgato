@@ -216,7 +216,7 @@ dynamic_widget = function() {
                 //  $("list-link").style.display = "none";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : PartnerDomain + l.dom + '/list';
+                      a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom + '/list';
                 }
                 else {
                   a = SpecialDomain;
@@ -234,7 +234,7 @@ dynamic_widget = function() {
                 $("carousel").className = "one";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.touchdownloyal.com' : PartnerDomain + l.dom + '/'+l.category+'/list';
+                      a = l.remn == 'true' ? 'http://www.touchdownloyal.com' : nflPartnerDomain + l.dom + '/'+l.category+'/list';
                 }
                 else {
                   a = SpecialDomain;
