@@ -270,11 +270,13 @@ dynamic_widget = function() {
           $('line1').innerHTML = e.teamName;
           $('line2').innerHTML = e.divisionName;
           $('mainurl').href = protocolToUse + "www.touchdownloyal.com/"+l.category+"/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
+          $('line1').href = protocolToUse + "www.touchdownloyal.com/"+l.category+"/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
         }
         else {
           $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
           $('line2').innerHTML = e.teamName;
           $('mainurl').href = protocolToUse + "www.touchdownloyal.com/"+l.category+"/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.playerFirstName.toLowerCase() + "-" + e.playerLastName.toLowerCase() + "/" + e.playerId;
+          $('line1').href = protocolToUse + "www.touchdownloyal.com/"+l.category+"/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.playerFirstName.toLowerCase() + "-" + e.playerLastName.toLowerCase() + "/" + e.playerId;
         }
         var statType = e.statType.replace(/_/g, " ");
         statType = statType.replace("player", "");
@@ -284,7 +286,6 @@ dynamic_widget = function() {
         });
         var stat = Math.floor(Number(e.stat));
         $('desc').innerHTML = stat + " " + statType;
-        $('line1').href =  e.li_line_url;
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
