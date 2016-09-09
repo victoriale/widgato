@@ -41,7 +41,7 @@ i {
     width: 670px;
     min-height: 40px;
     text-align: left;
-    padding: 10px 15px 10px 15px;
+    padding: 10px 15px 15px 15px;
 }
 
 #verticalName {
@@ -71,8 +71,7 @@ i {
 #carousel {
     width: 100%;
     height: 140px;
-    position: absolute;
-    top: 75px
+    position: relative;;
 }
 
 .dw-nav {
@@ -107,7 +106,7 @@ i {
 .dw-c-img {
     position: absolute;
     left: 53px;
-    border: 3px solid #ccc
+    border: 2px solid #ccc
 }
 
 .hover {
@@ -140,13 +139,17 @@ i {
 }
 
 #num {
-    width: 40px;
-    height: 40px;
+    min-width: 33px;
+    min-height: 33px;
+    max-width: 40px;
+    max-height: 40px;
+    width: 6vw;
+    height: 6vw;
     border-radius: 50%;
     border: 1px solid #ccc;
     position: absolute;
     font-size: 12px;
-    line-height: 38px;
+    padding-top: 1.8%;
     text-align: center;
     top: 0;
     left: 60px;
@@ -206,7 +209,6 @@ i {
     white-space: nowrap;
     text-overflow: ellipsis;
     text-align: left;
-    font-weight: bold
 }
 #desc.dw-i-title {
   overflow: visible;
@@ -214,6 +216,7 @@ i {
   padding-right: 5px;
   line-height: 15px;
   margin-top: 15px;
+  font-size: 16px;
 }
 
 .dw-i-title a {
@@ -226,6 +229,10 @@ i {
     font-size: 14px;
     font-weight: unset;
     color: #000!important
+}
+#line1 {
+    font-size: 18px;
+    font-weight: 800;
 }
 .dw-i-title#line2 {
     margin-top: -8px;
@@ -254,7 +261,7 @@ i {
   border: 1px solid #000;
   cursor: pointer;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 20px;
   fill: white;
   stroke: white;
   white-space: nowrap;
@@ -334,7 +341,7 @@ i {
         width: calc(100% - 205px)
     }
     .one .dw-info {
-        left: calc(21vw + 100px)!important;
+        left: calc(21vw + 95px)!important;
         width: calc(100% - 187px)!important;
         padding-right: 10%;
     }
@@ -351,7 +358,7 @@ i {
     }
     .dw-btn {
       width:42%;
-      margin-top: 10px;
+      margin-top: 20px;
       font-size: 12px;
     }
 }
@@ -372,6 +379,10 @@ i {
   }
   .dw-i-title#desc {
     padding-right:30px;
+    font-size: 14px;
+  }
+  #line1 {
+      font-size: 16px;
   }
   .dw-i-title#line2,
   .dw-i-title#line4 {
