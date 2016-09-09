@@ -381,6 +381,7 @@ sup {
 .aiw-next:hover {
     color: #fff;
     background-color: rgba(45, 62, 80, 0.9);
+    border: 1px solid rgba(45, 62, 80, 0.9);
 }
 
 /**** Utility Classes ****/

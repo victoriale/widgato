@@ -100,7 +100,7 @@ ai_widget = (function () {
         });
         var arr = {
             keyword: dataArr[0].keyword,
-            date: dataArr[0].dateline,
+            date: dataArr[0].dateline.replace(/ /g,"/").replace(/,/g,"/").replace("//","/"),
             title: dataArr[0].displayHeadline,
             url: href + league + '/articles/' + dataArr[0].index + '/' + dataArr[0].eventId,
             content: dataArr[0].report + '<br>&nbsp; ',
