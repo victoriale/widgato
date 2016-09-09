@@ -145,6 +145,18 @@ sup {
     overflow-x: hidden;
 }
 
+/* Dropdown bubble arrow */
+.dropdown .container:before, .dropdown .container:after {content: "";display: block;width: 0;height: 0;position: absolute;top: -7px;right: 7px;border-left: 6px solid transparent;border-right: 6px solid transparent;border-bottom: 7px solid #2d3e50;}
+
+.dropdown .container:after {
+    border-bottom: 5px solid #FFFFFF;
+    top: -5.5px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    right: 9px;
+}
+/* END Dropdown bubble arrow */
+
 [tooltip]:before {
     position: absolute;
     content: attr(tooltip);
@@ -156,7 +168,7 @@ sup {
     width: 97%;
     border: 1px solid #2d3e50;
     border-radius: 3px;
-    margin: 5px auto;
+    margin: 10px auto 5px;
 }
 
 [tooltip]:hover:before {
@@ -223,30 +235,33 @@ sup {
     padding: 0 25px;
     position: relative;;
     top: 0;
-    float: left;
     color: #fff;
+}
+
+.text-wrapper {
+    position: absolute;
+    bottom: 63px;
+    width: 100%;
+    padding: 0 25px;
+    left: 0;
+    right: 0;
 }
 
 .aiw-keyword {
     font-weight: 800;
     font-size: 10px;
-    position: relative;
-    top: 70px;
+    text-transform: uppercase;
 }
 
 .seperator {
     font-weight: 400;
     font-size: 10px;
-    position: relative;
-    top: 70px;
     padding: 0 3px;
 }
 
 .aiw-date {
     font-weight: 400;
     font-size: 10px;
-    position: relative;
-    top: 70px;
 }
 
 .aiw-title {
@@ -255,9 +270,8 @@ sup {
     line-height: 25px;
     position: relative;
     margin-bottom: 5px;
-    float: left;
+    padding-top: 5px;
     width: 100%;
-    top: 75px;
 }
 
 .aiw-index {
@@ -274,8 +288,6 @@ sup {
     text-overflow: ellipsis;
     font-size: 12px;
     line-height: 15px;
-    position: relative;
-    top: 75px;
     overflow: hidden;
 }
 
@@ -318,7 +330,7 @@ sup {
     width: 85%;
     height: 30px;
     position: absolute;
-    bottom: 0;
+    bottom: 10px;
 }
 
 .aiw-link {
@@ -330,18 +342,16 @@ sup {
     color: #2d3e50;
     line-height: 30px;
     text-align: center;
-    position: absolute;
-    bottom: 10px;
-    left: 0;
     font-size: 12px;
     font-weight: 800;
     cursor: pointer !important;
+    float: left;
 }
 
 .aiw-link:hover {
     background-color: rgba(45, 62, 80, 0.9);
     color: #fff;
-    border: 1px solid #fff;
+    border: 1px solid transparent;
 }
 
 .news {
@@ -355,14 +365,13 @@ sup {
     border-radius: 3px;
     border: 1px solid #fff;
     cursor: pointer;
-    position: absolute;
     font-size: 12px;
     font-weight: 400;
     color: #fff;
     line-height: 30px;
     text-align: center;
-    bottom: 10px;
-    left: 172px;
+    float: left;
+    margin-left: 10px;
 }
 
 .arrow {
