@@ -260,7 +260,9 @@ dynamic_widget = function() {
         if ($('list-link')) {
             $('list-link').href = a
         }
-
+        p()
+      }
+function p() {
       if (l.category == "nfl" || l.category == "ncaaf") {
         var e = r.data.listData[i];
         if (e.rankType == "team") {
