@@ -1,0 +1,43 @@
+a:hover {
+    color: #2d3e50;
+}
+#verticalName {
+  background-color: #2d3e50;
+}
+.dw-nav{
+    background-color: #2d3e50!important;
+}
+.dw-btn:hover,
+.dw-nav:hover {
+    background-color: #272727!important;
+    border-color: #272727!important;
+}
+
+#homelink>div {
+    background-image: url(../css/public/Icon_Football.png);
+}
+
+.dw-btn {
+    border-color: #2d3e50!important;
+    background-color: #2d3e50 !important;
+    color: white!important;
+}
+#next-list-link .dw-btn{
+  border-color: #2d3e50!important;
+  background-color: white !important;
+  color: #2d3e50!important;
+  fill: #2d3e50;
+  stroke: #2d3e50;
+}
+#next-list-link .dw-btn:hover{
+  border-color: #2d3e50!important;
+  background-color: #2d3e50 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+#line1:hover {
+  color: #2d3e50;
+}
+.hover {
+    background: rgba(45, 62, 80, 0.75)!important;
