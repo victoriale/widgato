@@ -25,7 +25,7 @@ dynamic_widget = function() {
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
-        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl'];
+        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf'];
     var s = false;
     var o = '';
     function c(e) {
@@ -41,8 +41,13 @@ dynamic_widget = function() {
             })
         }
     }
-    function httpGetInitData(){
-      var url = '../js/tdl_list_array.json';
+    function httpGetInitData(league){
+      if (league == "nfl") {
+        var url = '../js/tdl_list_array.json';
+      }
+      else {
+        var url = '../js/tdl_list_array_ncaaf.json';
+      }
       var xmlHttp = new XMLHttpRequest();
       xmlHttp.onreadystatechange = function(){
         if(xmlHttp.readyState === 4 && xmlHttp.status === 200){
@@ -73,8 +78,8 @@ dynamic_widget = function() {
     }
 
     function m() {
-      if (l.category == "nfl") {
-        httpGetInitData();
+      if (l.category == "nfl" || l.category == "ncaaf") {
+        httpGetInitData(l.category);
       }
       else {
         httpGetData();
@@ -118,7 +123,7 @@ dynamic_widget = function() {
               }
           }
       };
-      if (l.category == "nfl") {
+      if (l.category == "nfl" || l.category == "ncaaf") {
         i.open('GET', protocol + "://dev-touchdownloyal-api.synapsys.us/list/" + query , true);
         i.send()
       }
@@ -156,7 +161,7 @@ dynamic_widget = function() {
         if (l.category == 'mlb') {
             r.l_title = r.l_title.replace("MLB","Baseball");
         }
-        if (l.category == "nfl") {$('title').innerHTML = r.data.listInfo.listName;} else {$('title').innerHTML = r.l_title;}
+        if (l.category == "nfl" || l.category == "ncaaf") {$('title').innerHTML = r.data.listInfo.listName;} else {$('title').innerHTML = r.l_title;}
         if ($('line4') != null && d.getElementsByClassName('dw')[0].clientWidth == 350 && $('title').scrollHeight > 61) {
             $('title').setAttribute('style', 'font-size: 14px')
         }
@@ -219,16 +224,17 @@ dynamic_widget = function() {
                 var n = false
                 break;
             case "nfl":
+            case "ncaaf":
                 for (i = 0; i <= specialDomains.length; i++) {
                   if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://football." + specialDomains[i] + "/nfl/list";
+                    SpecialDomain = "http://football." + specialDomains[i] + "/"+l.category+"/list";
                   }
                 }
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
                 $("carousel").className = "one";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.touchdownloyal.com' : PartnerDomain + l.dom + '/nfl/list';
+                      a = l.remn == 'true' ? 'http://www.touchdownloyal.com' : PartnerDomain + l.dom + '/'+l.category+'/list';
                 }
                 else {
                   a = SpecialDomain;
@@ -245,11 +251,11 @@ dynamic_widget = function() {
                 var a = l.remn == 'true' ? 'http://www.joyfulhome.com/wlist' : 'http://www.myhousekit.com/' + l.dom + '/wlist';
                 var n = false
         }
-        if (l.category != "nfl") {
+        if (l.category != "nfl" || l.category != "ncaaf") {
           a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
         }
         else {
-          a += "/nfl/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
+          a += "/"+l.category+"/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
         }
         if ($('list-link')) {
             $('list-link').href = a
@@ -258,17 +264,17 @@ dynamic_widget = function() {
     }
 
     function p() {
-      if (l.category == "nfl") {
+      if (l.category == "nfl" || l.category == "ncaaf") {
         var e = r.data.listData[i];
         if (e.rankType == "team") {
           $('line1').innerHTML = e.teamName;
           $('line2').innerHTML = e.divisionName;
-          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
+          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/"+l.category+"/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
         }
         else {
           $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
           $('line2').innerHTML = e.teamName;
-          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.playerFirstName.toLowerCase() + "-" + e.playerLastName.toLowerCase() + "/" + e.playerId;
+          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/"+l.category+"/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.playerFirstName.toLowerCase() + "-" + e.playerLastName.toLowerCase() + "/" + e.playerId;
         }
         var statType = e.statType.replace(/_/g, " ");
         statType = statType.replace("player", "");
@@ -398,7 +404,7 @@ dynamic_widget = function() {
 
     function w(e) {
         i += e;
-        if (l.category == "nfl") {
+        if (l.category == "nfl" || l.category == "ncaaf") {
           i = i >= r.data.listData.length ? 0 : i < 0 ? r.data.listData.length - 1 : i;
         }
         else {
@@ -457,6 +463,7 @@ dynamic_widget = function() {
                 var hn = "Baseball";
               break;
             case "nfl":
+            case "ncaaf":
                 var r = "";
                 if( nflPartnerDomain == "http://www.mytouchdownzone.com/") {
                     r = l.remn == 'true' ? 'http://www.touchdownloyal.com/' : nflPartnerDomain + l.dom + '/';
