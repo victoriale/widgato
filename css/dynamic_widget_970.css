@@ -106,7 +106,7 @@ i {
 
 .dw-c-img {
     position: absolute;
-    left: 60px;
+    left: 53px;
     border: 3px solid #ccc
 }
 
@@ -145,7 +145,7 @@ i {
     border-radius: 50%;
     border: 1px solid #ccc;
     position: absolute;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 38px;
     text-align: center;
     top: 0;
@@ -187,8 +187,9 @@ i {
 
 .one .dw-info {
     position: absolute!important;
-    left: 270px!important;
-    width: 390px!important
+    left: 235px!important;
+    width: calc(100% - 187px)!important;
+    padding-right: 78px;
 }
 
 .dw-info {
@@ -210,6 +211,9 @@ i {
 #desc.dw-i-title {
   overflow: visible;
   white-space: normal;
+  padding-right: 5px;
+  line-height: 15px;
+  margin-top: 15px;
 }
 
 .dw-i-title a {
@@ -223,10 +227,12 @@ i {
     font-weight: unset;
     color: #000!important
 }
+.dw-i-title#line2 {
+    margin-top: -8px;
+}
 
 #list-link {
     height: 0;
-    display: inline-block;
 }
 
 #next-list-link .dw-btn{
@@ -240,7 +246,7 @@ i {
   background-color: white;
   font-size: 11px;
   line-height: 26px;
-  width: 125px;
+  width: 42%;
   height: 28px;
   border-radius: 3px;
   position: relative;
@@ -252,6 +258,7 @@ i {
   fill: white;
   stroke: white;
   white-space: nowrap;
+  overflow: hidden;
 }
 
 .dw-btn svg {
@@ -288,18 +295,22 @@ i {
         width: calc(100% - 2px)
     }
     #title {
-        width: 350px
+        width: auto;
+        max-width:100%;
+        padding-right: 10px;
     }
     .dw-big {
-        width: 125px;
-        height: 125px
+      min-width: 125px;
+      min-height: 125px;
+      height: 21vw;
+      width: 21vw;
     }
     .hover {
         padding: 36px 0
     }
     .dw-c-img,
     #num {
-        left: 40px
+        left: 9%;
     }
     .dw-c-sub {
         z-index: 4;
@@ -323,29 +334,50 @@ i {
         width: calc(100% - 205px)
     }
     .one .dw-info {
-        left: 175px!important;
-        width: calc(100% - 190px)!important
+        left: calc(21vw + 100px)!important;
+        width: calc(100% - 187px)!important;
+        padding-right: 10%;
     }
     .dw-i-title {
         font-size: 14px;
-        line-height: 20px
     }
     .dw-i-title#line2,
     .dw-i-title#line4 {
-        font-size: 12px;
-        line-height: 14px
+        font-size: 14px;
+        line-height: 20px
     }
     #line4 {
         white-space: normal
     }
     .dw-btn {
-      width:75px;
+      width:42%;
       margin-top: 10px;
       font-size: 12px;
     }
-    a:first-of-type .dw-btn i {
-      display: none;
-    }
+}
+
+@media screen and (max-width: 485px) {
+  a:first-of-type .dw-btn i {
+    display: none;
+  }
+}
+
+@media screen and (max-width:410px) {
+  .dw-btn {
+    width: 75px;
+  }
+  .one .dw-info {
+    padding-right:0;
+    width: calc(100% - 175px)!important;
+  }
+  .dw-i-title#desc {
+    padding-right:30px;
+  }
+  .dw-i-title#line2,
+  .dw-i-title#line4 {
+      font-size: 12px;
+      line-height: 14px;
+  }
 }
 
 @media screen and (max-width:340px) {
@@ -364,12 +396,12 @@ i {
     }
     .dw-c-img,
     #num {
-        left: 40px
+        left: 30px
     }
     #num{
         width:35px;
         height:35px;
-        font-size: 16px;
+        font-size: 10px;
         line-height: 32px;
     }
     .dw-c-sub {
@@ -395,7 +427,7 @@ i {
     }
     .one .dw-info {
         left: 175px!important;
-        width: calc(100% - 195px)!important
+        width: calc(100% - 175px)!important
     }
     .dw-i-title {
         font-size: 14px;
@@ -406,13 +438,15 @@ i {
         font-size: 12px;
         line-height: 14px
     }
+    .dw-i-title#line2 {
+    margin-top: -3px;
+    }
     #line4 {
         white-space: normal
     }
     .dw-btn {
-        width:65px;
+        width:75px;
         margin-top: 10px;
-        font-size: 12px;
     }
     .dw-btn i {
       font-size: 12px;
