@@ -267,7 +267,7 @@ function p() {
         var e = r.data.listData[i];
         if (e.rankType == "team") {
           $('line1').innerHTML = e.teamName;
-          $('line2').innerHTML = e.divisionName;
+          $('line2').innerHTML = "Division: <b>" + e.divisionName + "</b>";
           var a = "";
           if (SpecialDomain == "") {
                 a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+"/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId : nflPartnerDomain + l.dom + "/" +l.category+"/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
@@ -280,7 +280,7 @@ function p() {
         }
         else {
           $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
-          $('line2').innerHTML = e.teamName;
+          $('line2').innerHTML = "Team: <b>" + e.teamName + "</b>";
           var a = "";
           if (SpecialDomain == "") {
                 a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+"/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId : nflPartnerDomain + l.dom + "/" + l.category+"/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.playerFirstName.toLowerCase() + "-" + e.playerLastName.toLowerCase() + "/" + e.playerId;
