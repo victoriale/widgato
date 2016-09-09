@@ -874,7 +874,7 @@
            timeClass: 'boxscores-e-2-lines'
          };
 
-         prettyDatetime(gameObject.timestamp, 'Final')
+         gameObject.bottomData = prettyDatetime(gameObject.timestamp, 'Final')
          if(vertical === 'nfl'){
            gameObject.link = domain + '/nfl/articles/postgame-report/' + item.eventId;
          }else if(vertical === 'ncaaf'){
