@@ -37,7 +37,7 @@ ai_widget = (function () {
 
     }
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/sidekick/' + league,
+    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick/' + league,
         AIData = {},
         gameID = -1,
         pageInd = -1,

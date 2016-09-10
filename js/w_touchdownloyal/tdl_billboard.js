@@ -72,7 +72,7 @@ tdl_billboard = (function () {
 
     var teamId = query.team;
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/billboard/' + scope + '/' + teamId;
+    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/billboard/' + scope + '/' + teamId;
     var randomArticles = [];
     var teamData = [];
     var imageArr = [];

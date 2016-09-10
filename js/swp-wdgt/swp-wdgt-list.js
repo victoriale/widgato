@@ -298,7 +298,7 @@ function RenderDynamicSide(protocolToUse){
 
     function httpGetData(old_title, query){
       if (listType == "nfl") {
-        var url = protocolToUse + 'dev-touchdownloyal-api.synapsys.us/list/' + query;
+        var url = protocolToUse + 'prod-touchdownloyal-api.synapsys.us/list/' + query;
       }
       else {
         var url = protocolToUse + 'dw.synapsys.us/list_api.php?';
