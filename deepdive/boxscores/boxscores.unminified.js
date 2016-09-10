@@ -292,7 +292,7 @@
          */
         boxscoresContainer.innerHTML = `
           <div class="boxscores-e-title">
-            TODAY'S MLB GAMES
+            TODAY'S BASEBALL GAMES
           </div>
 
           <ul class="boxscores-e-schedule"></ul>

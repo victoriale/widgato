@@ -1,223 +1,411 @@
-swp_wdgt = function(){
-  A = function(id) {
-    var d = document;
-    if(id[0] == '#'){
-      return d.getElementById(id.slice(1,id.length));
-    }else if(id[0] == '.'){
-      return d.getElementsByClassName(id.slice(1,id.length))[0];
-    }else if(id[0] != '#' && id[0] != '.'){
-      return d.getElementById(id.slice(1,id.length));
-    }
-  }
+swp_wdgt = function () {
+    A = function (id) {
+        var d = document;
+        if (id[0] == '#') {
+            return d.getElementById(id.slice(1, id.length));
+        } else if (id[0] == '.') {
+            return d.getElementsByClassName(id.slice(1, id.length))[0];
+        } else if (id[0] != '#' && id[0] != '.') {
+            return d.getElementById(id.slice(1, id.length));
+        }
+    };
 
-  var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+    var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 
-  RenderArticleSide(protocolToUse);
+    RenderArticleSide(protocolToUse);
 
 }();
 
-function RenderArticleSide(protocolToUse){
-  var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
+function RenderArticleSide(protocolToUse) {
+    var gameID;
+    var gameData;
+    var APIUrl;
+    var keyword;
+    var dropdownCount = 0;
+    var catOptions = ['mlb', /*'nfl', 'ncaa'*/];
+    var isMlb = false;
 
-  var articleIndex = 0;
-  
-  var data;
+    catOptions.sort(function () {
+        return 0.5 - Math.random()
+    });
 
-  function httpGetData(url){
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.onreadystatechange = function(){
-      if(xmlHttp.readyState === 4 && xmlHttp.status === 200){
-        //On complete function
-        data = JSON.parse(xmlHttp.responseText);
+    if (catOptions[0] == 'mlb') {
+        APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
+        keyword = "MLB";
+        isMlb = true;
+    } else if (catOptions[0] == 'nfl') {
+        APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/sidekick/nfl';
+        keyword = "NFL";
+        isMlb = false;
+    } else if (catOptions[0] == 'ncaa') {
+        APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/sidekick/ncaa';
+        keyword = "NCAAF";
+        isMlb = false;
+    } else {
+        APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/sidekick';
+        keyword = "MLB";
+        isMlb = false;
+    }
+    var articleIndex = 0;
+
+    var data;
+
+    function getContent(eventId) {
+        var locApiUrl = APIUrl;
+        if (typeof eventId != "undefined") {
+            locApiUrl += "/" + eventId;
+            event = eventId;
+        }
+        $.ajax({
+            url: locApiUrl,
+            success: function () {
+                httpGetData(locApiUrl);
+            },
+            error: function (jqXHR, status, error) {
+                console.log(jqXHR, status, error);
+                displayError('Error Loading Sports API: ' + status);
+            },
+            dataType: 'json'
+        });
+    } // --> getContent
+
+    function httpGetData(url) {
+        var xmlHttp = new XMLHttpRequest();
+        xmlHttp.onreadystatechange = function () {
+            if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+                //On complete function
+                data = JSON.parse(xmlHttp.responseText);
+                linkData(data, articleIndex);
+            }
+        };
+        xmlHttp.open("GET", url, true); // false for synchronous request
+        xmlHttp.send(null);
+    }
+
+    httpGetData(APIUrl);
+
+    /* Handling of Article Index */
+    updateArticle = function () {
+        if (articleIndex < articleTypes.length - 1 || articleIndex == 0) {
+            articleIndex++;
+        } else if (articleIndex >= articleTypes.length - 1) {
+            articleIndex = 0;
+        }
         linkData(data, articleIndex);
-      }
-    }
-    xmlHttp.open( "GET", url, true ); // false for synchronous request
-    xmlHttp.send( null );
-  }
-
-  httpGetData(APIUrl);
-
-  /* Handling of Article Index */
-   updateArticle = function(){
-    if(articleIndex < articleTypes.length - 1 || articleIndex == 0){
-      articleIndex++;
-    }else if(articleIndex >= articleTypes.length - 1){
-      articleIndex = 0;
-    }
-    linkData(data, articleIndex);
-  }
-  /* functions to be used as objects to get various data points */
-  function eventData(metaData){
-    metaData = metaData.current;
-    for(var obj in metaData){
-      var string = obj.toString();
-      this[obj] = metaData[obj]
-    }
-  }
-
-  function eventImage(metaData, teamId){
-    var images = metaData.images;
-    this.imgs = [];
-    for(var a = 0; a < images[teamId].length; a++){
-      this.imgs[a] = images[teamId][a];
-    }
-  }
-
-  //this function will return all images, home and away, in an array. (not oo)
-  function getAllImages(metaData){
-    var imgRet = [];
-    var images = metaData.images;
-    for(var obj in images){
-      for(var i = 0; i < images[obj].length; i++){
-        imgRet.push(images[obj][i]);
-      }
-    }
-    return imgRet;
-  }
-
-  function mapArticles(data){
-    for(var obj in data){
-      if(obj == "meta-data")continue;
-      this[obj] = data[obj];
-    }
-  }
-
-  var articleTypes = [];
-  function listOutTypes(data){
-    articleTypes = [];
-    for(var obj in data){
-      if(obj == "meta-data")continue;
-      articleTypes.push(obj);
-    }
-  }
-
-  function linkData(data, articleIndex){
-    listOutTypes(data);
-    var doRandArt = true;//or false; or true.....
-    if(doRandArt == true){
-      articleIndex = getRandomInt(0, articleTypes.length);
-    }else{
-      articleIndex = articleIndex;
+    };
+    /* functions to be used as objects to get various data points */
+    function eventData(metaData) {
+        metaData = metaData.current;
+        for (var obj in metaData) {
+            var string = obj.toString();
+            this[obj] = metaData[obj]
+        }
     }
 
-    var mData = data['meta-data'];
-    var article = new mapArticles(data)[articleTypes[articleIndex]];
-    var game = new eventData(mData);
-
-    //images being selected based on the articleIndex value
-    var images = getAllImages(mData);
-    var image = images[articleIndex];
-
-    //change this to img tags instead of bg image
-    A('.section-image').style.backgroundImage = 'url("' + image + '")';
-    A('.section-text').innerHTML = article.displayHeadline;
-
-    //article url structure: /articles/:article_type/:event_id
-    var articleUrl = 'http://www.homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
-    var articleText = article.article[0].substr(0, 130);
-    A('.content-text').innerHTML = articleText + '...<a target="_blank" href="'+ articleUrl +'"><span class="content-readmore"> Read More </span></a>';
-    A('.title-logo').href = "http://www.homerunloyal.com";
-    A('.bar-date').innerHTML = convertDate(game.startDateTime);
-    var author = 'www.homerunloyal.com';
-    var authorLink = author;
-    A('.bar-author').innerHTML = '<a target="_blank" id="authorlink" href="' + "http://" + authorLink +'">' + author + '</a>';
-
-    A('#readbutton').setAttribute('href', articleUrl);
-    A('.buttons-nextlist').onmouseover = function(){
-      A('#arrow').style.fill = 'white';
+    function eventImage(metaData, teamId) {
+        var images = metaData.images;
+        this.imgs = [];
+        for (var a = 0; a < images[teamId].length; a++) {
+            this.imgs[a] = images[teamId][a];
+        }
     }
-    A('.buttons-nextlist').onmouseout = function(){
-      A('#arrow').style.fill = '#b31d24';
+
+    //this function will return all images, home and away, in an array. (not oo)
+    function getAllImages(metaData) {
+        var imgRet = [];
+        var images = metaData.images;
+        for (var obj in images) {
+            for (var i = 0; i < images[obj].length; i++) {
+                imgRet.push(images[obj][i]);
+            }
+        }
+        return imgRet;
     }
-  }//end linkData()
+
+    function mapArticles(data) {
+        var dataTypes;
+        if (isMlb) {
+            dataTypes = data;
+        } else {
+            dataTypes = data['data'];
+        }
+        for (var obj in dataTypes) {
+            if (obj == "meta-data" || obj == "timestamp")continue;
+            this[obj] = isMlb ? data[obj] : data['data'][obj];
+        }
+    }
+
+    var articleTypes = [];
+
+    function listOutTypes(data) {
+        articleTypes = [];
+        var dataTypes;
+        if (isMlb) {
+            dataTypes = data;
+        } else {
+            dataTypes = data['data'];
+        }
+        for (var obj in dataTypes) {
+            if (obj == "meta-data" || obj == "timestamp")continue;
+            articleTypes.push(obj);
+        }
+    }
+
+    function linkData(data, articleIndex) {
+        listOutTypes(data);
+        var doRandArt = true;//or false; or true.....
+        if (doRandArt) {
+            articleIndex = getRandomInt(0, articleTypes.length);
+        } else {
+            articleIndex = articleIndex;
+        }
+        var mData = isMlb ? data['meta-data'] : data['data']['meta-data'];
+        var article = new mapArticles(data)[articleTypes[articleIndex]];
+        var game = new eventData(mData);
+
+        //images being selected based on the articleIndex value
+        if (isMlb) {
+            var images = getAllImages(mData);
+            var image = images[articleIndex];
+        } else {
+            var image = protocolToUse + 'images.synapsys.us' + article.image;
+        }
+        gameData = mData;
+        //change this to img tags instead of bg image
+        A('.section-image').style.backgroundImage = 'url("' + image + '")';
+        A('.dateline').innerHTML = keyword + ' ' + article.dateline;
+        A('.section-text').innerHTML = article.displayHeadline;
+
+        //article url structure: /articles/:article_type/:event_id
+        if (isMlb) {
+            var articleUrl = 'http://www.homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
+        } else {
+            var articleUrl = 'http://www.touchdownloyal.com/' + catOptions[0] + '/articles/' + articleTypes[articleIndex] + '/' + game.eventID;
+        }
+        var articleText = isMlb ? article.article[0].substr(0, 150) : article.article.substr(0, 150);
+        A('.content-text').innerHTML = articleText + '...<a target="_blank" href="' + articleUrl + '"></a>';
+        if (isMlb) {
+            A('.bar-date').innerHTML = convertDate(game.startDateTime);
+        } else {
+            A('.bar-date').innerHTML = convertDate(game['startDateTime'].date + ' ' + game['startDateTime'].time + ' EDT');
+        }
+        var author = isMlb ? 'www.homerunloyal.com' : 'www.touchdownloyal.com';
+        var authorLink = author;
+        A('.bar-author').innerHTML = '<a target="_blank" id="authorlink" href="' + "http://" + authorLink + '">' + author + '</a>';
+
+        A('#readbutton').setAttribute('href', articleUrl);
+        A('.buttons-nextlist').onmouseover = function () {
+            A('#arrow').style.fill = 'white';
+        };
+        A('.buttons-nextlist').onmouseout = function () {
+            A('#arrow').style.fill = '#b31d24';
+        };
+        gameID = isMlb ? gameData['current'].eventId : gameData['current'].eventID;
+        if (isMlb) {
+            $('.ball').css('background-image', 'url(../css/public/icons/Home-Run-Loyal_Icon%202.svg)');
+            $('.buttons-readstory').css('background-color', '#b31d24');
+            $('.buttons-nextlist').hover(function () {
+                $(this).css("background-color", '#b31d24');
+            }, function () {
+                $(this).css("background-color", "transparent");
+            });
+        } else {
+            $('.ball').css('background-image', 'url(../css/public/icons/Touchdown-Loyal_Icon.svg)');
+            $('.buttons-readstory').css('background-color', 'rgba(45, 62, 80, 0.9)');
+            $('.buttons-nextlist').hover(function () {
+                $(this).css("background-color", 'rgba(45, 62, 80, 0.9)');
+            }, function () {
+                $(this).css("background-color", "transparent");
+            });
+        }
+        parseGames();
+    }//end linkData()
+
+
+    // Parse the games into an array
+    function parseGames() {
+        // Array of games
+        gameArr = [];
+        // Function for the parser
+        var parseGame = function (games) {
+            // Team names
+            $.map(games, function (val) {
+                var gameData = {};
+                gameData.home = val.homeAbbreviation;
+                gameData.away = val.awayAbbreviation;
+                if (isMlb) {
+                    gameData.fullHome = val.homeTeamName;
+                    gameData.fullAway = val.awayTeamName;
+                } else {
+                    gameData.fullHome = val.homeTeamLocation + ' ' + val.homeTeamName;
+                    gameData.fullAway = val.awayTeamLocation + ' ' + val.awayTeamName;
+                }
+                // Event ID
+                gameData.eventId = isMlb ? val.eventId : val.eventID;
+                // Date
+                if (isMlb) {
+                    var dateArray = val['startDateTime'].split(' ');
+                    var date = val['startDateTime'];
+                    var time = ' - ' + dateArray[1] + ' EDT';
+                } else {
+                    var date = val['startDateTime'].dateTime + ' EDT';
+                    var time = ' - ' + val['startDateTime'].time + ' EDT';
+                }
+                gameData.eventDate = date;
+                gameData.eventTime = time;
+                gameArr.push(gameData);
+            });
+
+            return gameArr;
+        };
+        var games = gameData.games;
+        // Save all the games
+        gameArr = parseGame(games);
+        // Display the current game
+        showGame();
+    } // --> parseGames
+
+    function createDropdown(gameLength) {
+        var ddStr = '';
+        for (var i = 0; i < gameLength; i++) {
+            if (i > 0) {
+                ddStr += '<div class="divider"></div>';
+            }
+            ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == gameID ? ' active" " onclick="switchGame(' + i + ')"' : '" onclick="switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
+        }
+
+        // Create
+        $('.container')[0].innerHTML = ddStr;
+    } // --> createDropdown
+
+
+    // Show the current game's teams in the header
+    function showGame() {
+        // Loop through the games to find the current one
+        var gameLength = gameArr.length;
+        if (dropdownCount == 0) {
+            for (var i = 0; i < gameLength; i++) {
+                if (gameArr[i].eventId == gameID) {
+                    $('.home.team')[0].innerHTML = gameArr[i].home;
+                    $('.away.team')[0].innerHTML = gameArr[i].away;
+                    $('.header-right.team')[0].innerHTML = gameArr[i].eventTime;
+                }
+            }
+        }
+        dropdownCount = 0;
+        // Create dropdown
+        createDropdown(gameLength);
+    } // --> showGame
+    // Switches the game
+
+    switchGame = (function (gameNum) {
+        gameID = gameArr[parseInt(gameNum)].eventId;
+        toggleDropDown();
+        getContent(gameID);
+        showGame();
+        dropdownCount++;
+    }); // --> switchGame
+
+    // Toggle the dropdown
+    toggleDropDown = (function () {
+        var swpdropdown = $('.swp-dropdown');
+        if (swpdropdown.hasClass('active')) {
+            swpdropdown.removeClass('active');
+            swpdropdown.find('.fa').removeClass('fa-caret-up').addClass('fa-caret-down');
+        } else {
+            swpdropdown.addClass('active');
+            swpdropdown.find('.fa').addClass('fa-caret-up').removeClass('fa-caret-down');
+        }
+    })// --> toggleDropDown
+    return {
+        toggleDropDown: toggleDropDown,
+        switchGame: switchGame
+    };
 }
 
-
-
 /* -- Helper Functions -- */
-function getRandomInt(min, max){
-  return Math.floor(Math.random() * (max - min)) + min;
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
 }
 
 /* -- Manipulation Functions  -- */
-function convertDate(d){
-  var date = d.split(' ');
+function convertDate(d) {
+    var date = d.split(' ');
 
-  var day = date[0];
-  var time = date[1];
-  var tz = date[2];
+    var day = date[0];
+    var time = date[1];
+    var tz = date[2];
 
-  var month = MonthsFullName(day.split('/')[0]);
-  var year = day.split('/')[2];
-  var weekDay = day.split('/')[1];
+    var month = MonthsFullName(day.split('/')[0]);
+    var year = day.split('/')[2];
+    var weekDay = day.split('/')[1];
 
-  day = new Date(day);
-  day = WeekDayNumToName(day.getDay());
+    day = new Date(day);
+    day = WeekDayNumToName(day.getDay());
 
-  var today = new Date();
-  var todayMonth = MonthsFullNameZed(today.getMonth());
-  var todayYear = String(today.getFullYear()).slice(2);
-  var todayDay = String(today.getDate());
+    var today = new Date();
+    var todayMonth = MonthsFullNameZed(today.getMonth());
+    var todayYear = String(today.getFullYear()).slice(2);
+    var todayDay = String(today.getDate());
 
-  if(todayMonth == month && todayDay == weekDay && todayYear == year){
-    // then it is today
-    var string = 'Today' + ' ' + time + ' ' + tz;
-  }else if(todayMonth == month && todayYear == year && Number(todayDay) - 1 == Number(weekDay)){
-    // then it is yesterday (unless edge case where it is the end of the month)
-    var string = 'Yesterday' + ' ' + time + ' ' + tz;
-  }else{
-    // otherwise just use day of the week
-    var string = day + ' ' + time + ' ' + tz;
-  }
-  return string;
+    if (todayMonth == month && todayDay == weekDay && todayYear == year) {
+        // then it is today
+        var string = 'Today' + ' ' + time + ' ' + tz;
+    } else if (todayMonth == month && todayYear == year && Number(todayDay) - 1 == Number(weekDay)) {
+        // then it is yesterday (unless edge case where it is the end of the month)
+        var string = 'Yesterday' + ' ' + time + ' ' + tz;
+    } else {
+        // otherwise just use day of the week
+        var string = day + ' ' + time + ' ' + tz;
+    }
+    return string;
 }
 
-function WeekDayNumToName(n){
-  var weekday = new Array(7);
-  weekday[0]=  "Sunday";
-  weekday[1] = "Monday";
-  weekday[2] = "Tuesday";
-  weekday[3] = "Wednesday";
-  weekday[4] = "Thursday";
-  weekday[5] = "Friday";
-  weekday[6] = "Saturday";
-  return weekday[n];
+function WeekDayNumToName(n) {
+    var weekday = new Array(7);
+    weekday[0] = "Sunday";
+    weekday[1] = "Monday";
+    weekday[2] = "Tuesday";
+    weekday[3] = "Wednesday";
+    weekday[4] = "Thursday";
+    weekday[5] = "Friday";
+    weekday[6] = "Saturday";
+    return weekday[n];
 }
 
-function MonthsFullNameZed(number){
-  var month = {
-    "0":"January",
-    "1":"February",
-    "2":"March",
-    "3":"April",
-    "4":"May",
-    "5":"June",
-    "6":"July",
-    "7":"August",
-    "8":"September",
-    "9":"October",
-    "10":"November",
-    "11":"December",
-  }
-  return month[number];
+function MonthsFullNameZed(number) {
+    var month = {
+        "0": "January",
+        "1": "February",
+        "2": "March",
+        "3": "April",
+        "4": "May",
+        "5": "June",
+        "6": "July",
+        "7": "August",
+        "8": "September",
+        "9": "October",
+        "10": "November",
+        "11": "December",
+    }
+    return month[number];
 }
 
-function MonthsFullName(number){
-  var month = {
-    "1":"January",
-    "2":"February",
-    "3":"March",
-    "4":"April",
-    "5":"May",
-    "6":"June",
-    "7":"July",
-    "8":"August",
-    "9":"September",
-    "10":"October",
-    "11":"November",
-    "12":"December",
-  }
+function MonthsFullName(number) {
+    var month = {
+        "1": "January",
+        "2": "February",
+        "3": "March",
+        "4": "April",
+        "5": "May",
+        "6": "June",
+        "7": "July",
+        "8": "August",
+        "9": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December",
+    }
 
-  return month[number];
+    return month[number];
 }

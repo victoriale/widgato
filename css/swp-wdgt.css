@@ -1,3 +1,10 @@
+i {
+  font-style: normal;
+  margin-left: 5px;
+  font-family: 'Source Sans Pro', Helvetica, Arial , sans-serif;
+  font-size: 15px;
+  vertical-align: -1px;
+}
 .swp{
   width: 300px;
 	height: 250px;
@@ -11,6 +18,7 @@
 }
 
 .title{
+  display: -webkit-flex;
   display: flex;
   height: 25px;
   width: 100%;
@@ -34,9 +42,23 @@
   margin-top: 3px;
 }
 
+#verticalName {
+    font-size: 10px;
+    font-weight: 400;
+    width: 100%;
+    min-height: 10px;
+    text-align: left;
+    color:white;
+    padding: 5px 15px;
+}
+#verticalName a {
+  color: white;
+}
+
 .section{
   height: 90px;
   width: 100%;
+  display: -webkit-flex;
   display: flex;
   margin-top: 12px;
 }
@@ -75,6 +97,7 @@
 }
 
 .bar{
+  display: -webkit-flex;
   display: flex;
   margin-left: 9px;
   margin-top: 15px;
@@ -95,6 +118,7 @@
 .buttons{
   width: 100%;
   text-align: center;
+  display: -webkit-flex;
   display: flex;
   height: 25px;
   margin-left: 9px;
@@ -230,40 +254,36 @@ button:focus {
 
 /*top text*/
 .fcw-icon{
-  width: 25px;
-  height: 25px;
+  width: 12px;
+  height: 12px;
   background-color: #bc1624;
   /*background-image: url("public/Icon_Baseball.png");*/
   background-position: center center !important;
   background-repeat: no-repeat;
-  background-size: 15px 15px;
-  border-radius: 50%;
-  margin: 10px;
-  position: absolute;
-  top: 0;
-  left: 0;
+  background-size: 12px 12px;
+  margin: 0 5px 0 0;
+  display:inline-block;
+  vertical-align: top;
 }
 .fcw-icon:hover{
   background-color: #000;
 }
 .fcw-text{
   width: 100%;
-  height: 60px;
-  padding-top: 2px;
+  height:auto;
+  padding-top: 5px;
   position:relative;
 }
 
 .fcw-t1{
   font-weight: 800;
-  font-size: 16px;
+  font-size: 12px;
   text-align: left;
-  line-height: 20px;
-  padding-left: 45px;
+  padding-left: 10px;
   width: 285px;
   text-align: left;
-  position: absolute;
   display: table;
-  height: 60px;
+  height:auto;
   bottom: 8px;
 
 
@@ -286,11 +306,11 @@ button:focus {
 .fcw-middle{
   position: relative;
   width: 100%;
-  margin: -10px 0 6px auto;
+  margin: 10px 0 6px auto;
 }
 .fcw-image{
-  width: 90px;
-  height: 90px;
+  width: 84px;
+  height: 84px;
   margin: 5px auto;
   border-radius: 50%;
   box-shadow: 0 0 0 3px #ccc;
@@ -349,27 +369,26 @@ button:focus {
 }
 .fcw-leftnav{
   position: absolute;
-  height: 60px;
-  width:30px;
-  border-radius: 0 90px 90px 0;
-  -moz-border-radius: 0 90px 90px 0;
-  -webkit-border-radius: 0 90px 90px 0;
+  height: 50px;
+  width: 20px;
+  border-radius: 0 10px 10px 0;
+  -moz-border-radius: 0 10px 10px 0;
+  -webkit-border-radius: 0 10px 10px 0;
   border:none;
   left: 0;
   top: 15px;
   background-color: #000;
   color:#fff;
   font-size: 25px;
-  padding-right: 10px;
   cursor: pointer;
 }
 
 .fcw-rightnav{
-  height: 60px;
-  width: 30px;
-  border-radius: 90px 0 0 90px;
-  -moz-border-radius: 90px 0 0 90px;
-  -webkit-border-radius: 90px 0 0 90px;
+  height: 50px;
+  width: 20px;
+  border-radius: 10px 0 0 10px;
+  -moz-border-radius: 10px 0 0 10px;
+  -webkit-border-radius: 10px 0 0 10px;
   border:none;
   position: absolute;
   right: 0;
@@ -377,7 +396,6 @@ button:focus {
   background-color: #000;
   color:#fff;
   font-size: 25px;
-  /*padding-left: 10px;*/
   cursor: pointer;
 }
 /*image && button END*/
@@ -391,9 +409,9 @@ button:focus {
 .fcw-content-top{}
 .fcw-content1{
   font-size: 14px;
-  color:#bc1624;
+  color:black;
   font-family: 'Lato', sans-serif;
-  font-weight: 900;
+  font-weight: 800;
   text-align: center;
 }
 .fcw-content1:hover{
@@ -402,14 +420,14 @@ button:focus {
 .fcw-content2{
   font-size: 12px;
   color: #999;
-  font-weight: 500;
+  font-weight: 400;
   text-align: center;
   line-height: 1.1em;
 }
 
 #fcw-team{
   color: #bc1624;
-  font-weight: 900;
+  font-weight: 800;
   text-align: center;
   line-height: 1.1em;
 }
@@ -419,8 +437,8 @@ button:focus {
 }
 
 #fcw-content2a{
-  /*color: #bc1624;*/
-  font-weight: 900;
+  /*color: black;*/
+  font-weight: 800;
   text-align: center;
   line-height: 1.1em;
   color:black;
@@ -428,7 +446,7 @@ button:focus {
 }
 
 #fcw-content2b{
-  color: #bc1624;
+  color: black;
   font-weight: 900;
   text-align: center;
   line-height: 1.1em;
@@ -437,31 +455,32 @@ button:focus {
 }
 
 .fcw-content3{
-  font-size: 16px;
+  font-size: 12px;
   color: #000;
-  font-weight: 900;
+  font-weight: 400;
   text-align: center;
 }
 /*bottom text END*/
 
 .fcw-list{
   width:100%;
-  height: 25px;
+  height: 30px;
   /*text-align: center;*/
   position: absolute;
   bottom:0;
   /*margin-bottom: 10px;
   margin-left: 10px;*/
+  display: -webkit-flex;
   display: flex;
   justify-content: space-around;
   margin-bottom: 5px;
-
+  padding: 0 10px;
 }
 .fcw-list-next{
   cursor: pointer;
 }
 .fcw-list-next, .fcw-list-time{
-  border-radius: 5px;
+  border-radius: 3px;
   text-align: center;
   border: 1px solid;
   border-color:#b31d24;
@@ -471,7 +490,7 @@ button:focus {
 .fcw-list-list {
   background-color: #b31d24;
   color:white;
-  border-radius: 5px;
+  border-radius: 3px;
   text-align: center;
   border: 1px solid;
   border-color:#b31d24;
@@ -488,6 +507,7 @@ button:focus {
 
 .fcw-list-text {
   font-size:12px;
+  line-height: 28px;
 }
 
 
@@ -527,11 +547,11 @@ button:focus {
 }
 
 .fcw-rightnav:hover{
-  background-color: #bc1624;
+  background-color: black;
 }
 
 .fcw-leftnav:hover{
-  background-color: #bc1624;
+  background-color: black;
 }
 
 .swc-space{
@@ -563,7 +583,7 @@ button:focus {
   text-align: center;
 }
 .txt1{
-  padding-top:.7em;
+  padding-top:.5em;
   font-size: 20px;
   font-family: 'Lato', sans-serif;
   font-weight: 400;
