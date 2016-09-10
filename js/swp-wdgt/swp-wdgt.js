@@ -12,8 +12,6 @@ swp_wdgt = function(){
   }
 
   var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-  // var APIUrl = protocolToUse + 'dev-homerunloyal-ai.synapsys.us/sidekick';
-  // var APIUrl = protocolToUse + 'qa-homerunloyal-ai.synapsys.us/sidekick';
   //PRODUCTION API TO USE FOR AI ARTICLES
   var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
   var articleIndex = 0;

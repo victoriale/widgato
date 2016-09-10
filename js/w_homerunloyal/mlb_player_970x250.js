@@ -56,7 +56,7 @@ $(function(){
           dataCall(offset);
         }
     });
-    // Example Url: http://dev-homerunloyal-api.synapsys.us/randomList/player/25/1
+    // Example Url: http://prod-homerunloyal-api.synapsys.us/randomList/player/25/1
     $.get(apiUrl+'randomList/player/20/1', function(data){
       curData = data.data;
       dataCall(offset);
