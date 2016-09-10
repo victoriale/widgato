@@ -126,7 +126,7 @@ dynamic_widget = function() {
           }
       };
       if (l.category == "nfl" || l.category == "ncaaf") {
-        i.open('GET', protocol + "://dev-touchdownloyal-api.synapsys.us/list/" + query , true);
+        i.open('GET', protocol + "://prod-touchdownloyal-api.synapsys.us/list/" + query , true);
         i.send()
       }
       else {
