@@ -141,7 +141,7 @@
       };
     break;
     case 'nfl':
-      apiString = protocol + '://dev-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + boxscoresBar.todayObject.dateInput;
+      apiString = protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + boxscoresBar.todayObject.dateInput;
       domainList = ['mytouchdownzone.com', 'dev.mytouchdownzone.com', 'qa.mytouchdownzone.com'];
       barColor = '#272727';
       arrowColor = '#44b244';
@@ -152,7 +152,7 @@
       };
     break;
     case 'ncaaf':
-      apiString = protocol + '://dev-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + boxscoresBar.todayObject.dateInput;
+      apiString = protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + boxscoresBar.todayObject.dateInput;
       domainList = ['mytouchdownzone.com', 'dev.mytouchdownzone.com', 'qa.mytouchdownzone.com'];
       barColor = '#272727';
       arrowColor = '#44b244';

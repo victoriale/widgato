@@ -33,7 +33,7 @@
   var homerunDomain = 'http://baseball.' + domain;
   var hoopsDomain = 'http://myhoopszone.com/' + domain;
   // var touchdownDomain = 'http://mytouchdownzone.com/' + domain;
-  var touchdownDomain = 'http://dev.mytouchdownzone.com/' + domain;
+  var touchdownDomain = 'http://www.mytouchdownzone.com/' + domain;
 
   var footballLeagueYear = 2016; //Year used by TDL sites for urls
 
@@ -419,7 +419,7 @@
       </h3>
     `;
 
-    var apiString = protocol + '://dev-touchdownloyal-api.synapsys.us/landingPage/fbs/' + state;
+    var apiString = protocol + '://prod-touchdownloyal-api.synapsys.us/landingPage/fbs/' + state;
     var xhttp = createRequestObject();
     xhttp.onreadystatechange = function(){
       if(xhttp.readyState === 4 && xhttp.status === 200){
@@ -1514,8 +1514,8 @@
     var todayInput = todayObject.year + '-' + todayObject.month + '-' + todayObject.date;
 
     var apiString = protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayInput;
-    var apiString2 = protocol + '://dev-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayInput;
-    var apiString3 = protocol + '://dev-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayInput;
+    var apiString2 = protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayInput;
+    var apiString3 = protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayInput;
 
     var mobileBoxscores = document.getElementById('ddb-mobile-boxscores');
     var desktopBoxscores = document.getElementById('ddb-desktop-boxscores');
