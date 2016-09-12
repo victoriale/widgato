@@ -1,38 +1,43 @@
 ai_widget = (function () {
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-    var mlbDomain = "http://www.homerunloyal.com/";
-    var mlbPartnerDomain = "http://www.myhomerunzone.com/";
+    //switch url for live or testing environment
+    var tdlDomain = "http://www.touchdownloyal.com/";
+    var tdlPartnerDomain = "http://www.mytouchdownzone.com/";
+    //end switch
     var referrer = document.referrer;
-    if (referrer.match(/baseball/g)) {
-        mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
+    if (referrer.match(/football/g)) {
+        tdlPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
     }
 
     // Declare variables
     var event = '';
-    var domain, remnant;
+    var domain, remnant, league;
     var temp = location.search;
     var query = {};
     var target;
     var href;
+
     if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         domain = query.dom;
         remnant = query.remn;
+        league = query.league;
         target = query.targ;
 
         if (remnant == 'true') {
-            href = mlbDomain;
-            $("base").attr("href", mlbDomain);
-        } else if(referrer.match(/baseball/g)){
-            $("base").attr("href", mlbPartnerDomain);
-            href = mlbPartnerDomain;
+            href = tdlDomain;
+            $("base").attr("href", tdlDomain);
+        } else if (referrer.match(/football/g)) {
+            $("base").attr("href", tdlPartnerDomain);
+            href = tdlPartnerDomain;
         } else {
-            $("base").attr("href", mlbPartnerDomain + domain + "/");
-            href = mlbPartnerDomain + domain + "/";
+            $("base").attr("href", tdlPartnerDomain + domain + "/");
+            href = tdlPartnerDomain + domain + "/";
         }
+
     }
-    var protocolToUse = (location.protocol == "https:") ? "https" : "http";
-    var APIUrl = protocolToUse + '://prod-homerunloyal-ai.synapsys.us/sidekick',
+    //adjust api url for testing or live
+    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick/' + league,
         AIData = {},
         gameID = -1,
         pageInd = -1,
@@ -46,8 +51,6 @@ ai_widget = (function () {
             pageInd = -1;
             $('.aiw-title')[0].innerHTML = "Loading...";
             $('.aiw-txt')[0].innerHTML = '';
-            //$('.aiw-num')[0].innerHTML = '';
-            //$('.aiw-num-length')[0].innerHTML = '';
         }
         var locApiUrl = APIUrl;
         if (typeof eventId != "undefined") {
@@ -81,41 +84,30 @@ ai_widget = (function () {
         // Get the data
         var pageID = availPages[pageInd];
         var dataArr = [];
-        $.map(AIData, function (val, index) {
-            if (index != "meta-data" && index == pageID) {
-                val.title = val.sidekickTitle;
-                val.content = val.article;
-                val.report = index;
-                if (event == '') {
-                    val.eventId = AIData['meta-data']['current'].eventId;
-                } else {
-                    val.eventId = event;
-                }
+        $.map(AIData['data'], function (val, index) {
+            if ((index != "meta-data" && index != "timestamp") && index == pageID) {
+                val.title = val.displayHeadline;
+                val.report = val.article;
+                val.eventId = AIData['data']['meta-data']['current'].eventID;
+                val.articleImage = val.image;
+                val.index = index;
                 dataArr.push(val);
             }
         });
-        var imageArr = [];
-        $.map(AIData['meta-data']['images'], function (val, index) {
-            val.images = val;
-            imageArr.push(val);
-        });
-        imageArr = imageArr[0].concat(imageArr[1]);
-        var imgIndex = Math.floor(Math.random() * ((imageArr.length)));
-        imgIndex = (imgIndex > -1 ? imgIndex : 0);
         var arr = {
-            title: dataArr[0].title,
-            url: href + 'articles/' + dataArr[0].report + '/' + dataArr[0].eventId,
-            content: dataArr[0].content + '<br>&nbsp; ',
-            img: imageArr[imgIndex]
+            title: dataArr[0].displayHeadline,
+            url: href + league + '/articles/' + dataArr[0].index + '/' + dataArr[0].eventId,
+            content: dataArr[0].report + '<br>&nbsp; ',
+            img: protocolToUse + 'images.synapsys.us' + dataArr[0].articleImage,
+            icon: '../css/public/icons/Touchdown-Loyal_Icon.svg'
         };
         // Set the data
         $('.aiw-title')[0].innerHTML = arr.title;
-        //$('.aiw-num')[0].innerHTML = (pageInd + 1);
-        //$('.aiw-num-length')[0].innerHTML = '/' + availPages.length;
         $('#ai-link').attr('href', arr.url);
         $('#ai-link').attr('target', target);
         $('.aiw-txt')[0].innerHTML = arr.content;
         $('.aiw-img').css('background-image', 'url(' + arr.img + ')');
+        $('.ball').css('background-image', 'url(' + arr.icon + ')');
         fitText();
     } // --> displayPage
     function fitText() {
@@ -142,20 +134,7 @@ ai_widget = (function () {
         }
         // Create page
         displayPage();
-    } // --> npextPage
-    function prevPage() {
-        // Exit if no pages
-        if (pageInd == -1 || availPages.length == 0) {
-            return false;
-        }
-        // Create new pageInd
-        pageInd--;
-        if (pageInd <= -1) {
-            pageInd = availPages.length - 1;
-        }
-        // Create page
-        displayPage();
-    } // --> prevPage
+    } // --> nextPage
     // **** PARSING FUNCTION ****
     function processData() {
         // Check for data
@@ -164,14 +143,14 @@ ai_widget = (function () {
         }
         // Get all the pages
         var pages = [];
-        for (var i = 0; i < Object.keys(AIData).length; i++) {
-            if (pages.indexOf(Object.keys(AIData)[i] > -1) && Object.keys(AIData)[i] != "meta-data") {
-                availPages.push(Object.keys(AIData)[i]);
+        for (var i = 0; i < Object.keys(AIData['data']).length; i++) {
+            if (pages.indexOf(Object.keys(AIData['data'])[i] > -1) && (Object.keys(AIData['data'])[i] != "meta-data" && Object.keys(AIData['data'])[i] != "timestamp")) {
+                availPages.push(Object.keys(AIData['data'])[i]);
             }
         }
         pageInd = 0;
         // Get game ID
-        gameID = AIData['meta-data']['current'].eventId;
+        gameID = AIData['data']['meta-data']['current'].eventID;
         if (gameArr.length == 0) {
             parseGames();
         }
@@ -189,43 +168,41 @@ ai_widget = (function () {
                 var gameData = {};
                 gameData.home = val.homeAbbreviation;
                 gameData.away = val.awayAbbreviation;
-                gameData.fullHome = val.homeTeamName;
-                gameData.fullAway = val.awayTeamName;
+                gameData.fullHome = val.homeTeamLocation + ' ' + val.homeTeamName;
+                gameData.fullAway = val.awayTeamLocation + ' ' + val.awayTeamName;
                 // Event ID
-                gameData.eventId = val.eventId;
+                gameData.eventId = val.eventID;
                 // Date
-                gameData.eventDate = val.startDateTime;
-                gameData.Time = gameData.eventDate.split(' ')[1];
-                gameData.eventTime = ' - ' + gameData.Time;
+                gameData.eventDate = val['startDateTime'].dateTime.toUpperCase() + ' EDT';
+                gameData.eventTime = ' - ' + val['startDateTime'].time + ' EDT';
                 gameArr.push(gameData);
             });
             return gameArr;
-        }
-        var games = AIData['meta-data'].games;
+        };
+        var games = AIData['data']['meta-data'].games;
         // Save all the games
         gameArr = parseGame(games);
         // Display the current game
         showGame();
     } // --> parseGames
     // Creates the dropdown
-    function createDropdown() {
+    function createDropdown(gameLength) {
         var ddStr = '';
-        for (var i = 0; i < gameArr.length; i++) {
+        for (var i = 0; i < gameLength; i++) {
             if (i > 0) {
                 ddStr += '<div class="divider"></div>';
-            } else {
-                ddStr += '<div class="text-snippet">All times are in Eastern Time</div>';
             }
             ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == gameID ? ' active" " onclick="ai_widget.switchGame(' + i + ')"' : '" onclick="ai_widget.switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
         }
 
         // Create
-        $('.dropdown')[0].innerHTML = ddStr;
+        $('.container')[0].innerHTML = ddStr;
     } // --> createDropdown
     // Show the current game's teams in the header
     function showGame() {
         // Loop through the games to find the current one
-        for (var i = 0; i < gameArr.length; i++) {
+        var gameLength = gameArr.length;
+        for (var i = 0; i < gameLength; i++) {
             if (gameArr[i].eventId == gameID) {
                 $('.home.team')[0].innerHTML = gameArr[i].home;
                 $('.away.team')[0].innerHTML = gameArr[i].away;
@@ -233,7 +210,7 @@ ai_widget = (function () {
             }
         }
         // Create dropdown
-        createDropdown();
+        createDropdown(gameLength);
     } // --> showGame
     // Switches the game
     function switchGame(gameNum) {
@@ -244,33 +221,20 @@ ai_widget = (function () {
     } // --> switchGame
     // Toggle the dropdown
     function toggleDropDown() {
-        var aiwdropdown = $('.aiw-dropdown');
-        if (aiwdropdown.hasClass('active')) {
-            aiwdropdown.removeClass('active');
-            aiwdropdown.find('.fa').removeClass('fa-caret-up').addClass('fa-caret-down');
+        var dropdown = $('.aiw-dropdown');
+        if (dropdown.hasClass('active')) {
+            dropdown.removeClass('active');
+            dropdown.find('.fa').removeClass('fa-caret-up').addClass('fa-caret-down');
         } else {
-            aiwdropdown.addClass('active');
-            aiwdropdown.find('.fa').addClass('fa-caret-up').removeClass('fa-caret-down');
+            dropdown.addClass('active');
+            dropdown.find('.fa').addClass('fa-caret-up').removeClass('fa-caret-down');
         }
     } // --> toggleDropDown
     getContent();
     return {
         getData: getData,
         nextPage: nextPage,
-        prevPage: prevPage,
         toggleDropDown: toggleDropDown,
         switchGame: switchGame
     };
 })();
-window.onresize = function (event) {
-    var textDiv = $('.aiw-txt');
-    if (textDiv[0].scrollHeight > textDiv[0].clientHeight) {
-        var original = textDiv[0].innerHTML.substring(0, 400),
-            index = 0;
-        while (index < 500 && textDiv[0].scrollHeight > textDiv[0].clientHeight) {
-            index++;
-            original = original.substring(0, original.lastIndexOf(" "));
-            textDiv[0].innerHTML = original + '...';
-        }
-    }
-};

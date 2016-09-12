@@ -1,1 +1,41 @@
-a:hover{color:#3098ff}#homelink > div{background-color:#3098ff;background-image:url(../css/public/Fin_Widget_Icon.png)}.dw-nav:hover{background-color:#3098ff}.dw-i-title{color:#3294ff}.dw-btn{border-color:#3294ff!important}.dw-btn:hover{background-color:#3098ff}.hover{background:rgba(48,152,255,0.75)!important}
+a:hover {
+    color: #3294ff;
+}
+#verticalName {
+  background-color: #3294ff;
+}
+.dw-nav{
+    background-color: #3294ff!important;
+}
+.dw-btn:hover,
+.dw-nav:hover {
+    background-color: black!important;
+    border-color: black!important;
+}
+
+#homelink>div {
+    background-image: url(../css/public/Fin_Widget_Icon.png);
+}
+
+.dw-btn {
+    border-color: #3294ff!important;
+    background-color: #3294ff !important;
+    color: white!important;
+}
+#next-list-link .dw-btn{
+  border-color: #3294ff!important;
+  background-color: white !important;
+  color: #3294ff!important;
+  fill: #3294ff;
+  stroke: #3294ff;
+}
+#next-list-link .dw-btn:hover{
+  border-color: black!important;
+  background-color: black !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+.hover {
+    background: rgba(48,152,255,0.75)!important;

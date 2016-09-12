@@ -1,7 +1,7 @@
 html,
 body {
     margin: 0!important;
-    font-family: Lato;
+    font-family: 'Lato', sans-serif;
     width: 100%;
     height: auto;
     background-color: #ccc
@@ -17,6 +17,13 @@ a {
     text-decoration: none;
     outline: 0
 }
+i {
+  font-style: normal;
+  margin-left: 5px;
+  font-family: 'Source Sans Pro', Helvetica, Arial , sans-serif;
+  font-size: 15px;
+  vertical-align: top;
+}
 
 .dw {
     width: 300px;
@@ -28,29 +35,39 @@ a {
 }
 
 #title {
-    font-size: 17px;
-    line-height: 20px;
-    font-weight: bold;
+    font-size: 14px;
+    font-weight: 800;
     width: 300px;
     min-height: 44px;
     text-align: left;
-    padding: 7px 10px 5px 40px
+    padding: 10px 15px 10px 15px;
+}
+#verticalName {
+    font-size: 10px;
+    font-weight: 400;
+    width: 100%;
+    min-height: 10px;
+    text-align: left;
+    color:white;
+    padding: 5px 15px;
+}
+#verticalName a {
+  color: white;
 }
 
 #homelink > div {
-    height: 25px;
-    width: 25px;
-    border-radius: 50%;
-    background-size: auto;
+    height: 12px;
+    width: 12px;
+    vertical-align: top;
+    background-size: 100%;
     background-position: center center;
     background-repeat: no-repeat;
-    position: absolute;
-    left: 5px;
-    top: 10px
+    display: inline-block;
+    margin-right:5px;
 }
 
-#homelink > div:hover {
-    background-color: black
+#verticalName:hover {
+    background-color: #272727
 }
 
 #carousel {
@@ -60,8 +77,8 @@ a {
 }
 
 .dw-nav {
-    height: 60px;
-    width: 30px;
+    height: 50px;
+    width: 20px;
     position: absolute;
     top: 40px;
     color: white;
@@ -78,14 +95,14 @@ a {
 
 .dw-c-l {
     left: 0;
-    border-top-right-radius: 30px;
-    border-bottom-right-radius: 30px
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px
 }
 
 .dw-c-r {
     right: 0;
-    border-top-left-radius: 30px;
-    border-bottom-left-radius: 30px
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px
 }
 
 .dw-c-img {
@@ -129,7 +146,7 @@ a {
     border-radius: 50%;
     border: 1px solid #ccc;
     position: absolute;
-    font-size: 18px;
+    font-size: 14px;
     line-height: 38px;
     text-align: center;
     top: 0;
@@ -173,12 +190,10 @@ a {
 }
 
 .dw-info {
-    margin: 10px 20px 5px;
-    width: 260px
+    margin: 10px 15px 5px;
 }
 
 .dw-i-title {
-    width: 260px;
     font-size: 18px;
     line-height: 22px;
     overflow: hidden;
@@ -194,13 +209,13 @@ a {
 
 .dw-i-title#line2 {
     line-height: 16px;
-    font-size: 14px
+    font-size: 12px;
+    font-weight: 400;
 }
 
 #list-link {
-    width: 0;
     height: 0;
-    display: inline-block
+    display: inline-block;
 }
 
 #desc {
@@ -209,11 +224,17 @@ a {
     font-size: 16px;
     line-height: 16px;
     text-align: center;
-    font-weight: bold
+    font-weight: 400;
+}
+
+#next-list-link .dw-btn{
+  display: inline-block;
+  margin-left: 10px;
 }
 
 .dw-btn {
-    color: black;
+    display: inline-block;
+    color: white;
     background-color: white;
     font-size: 11px;
     line-height: 26px;
@@ -221,13 +242,13 @@ a {
     height: 28px;
     border-radius: 3px;
     position: relative;
-    left: 90px;
+    left: 25px;
     border: 1px solid #000;
     cursor: pointer;
     text-align: center;
     margin-top: 10px;
-    fill: black;
-    stroke: black
+    fill: white;
+    stroke: white
 }
 
 .dw-btn svg {
@@ -246,7 +267,7 @@ a {
     color: white;
     stroke: white;
     fill: white;
-    background-color: black
+    background-color: #272727
 }
 
 .presented {
@@ -256,4 +277,8 @@ a {
     color: #999;
     left: 4px;
     bottom: 4px
+}
+/*fix for global css bleeding in from parent page*/
+.widget_zone iframe {
+  margin: 0;
 }

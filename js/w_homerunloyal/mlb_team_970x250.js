@@ -7,7 +7,7 @@ var max = 10;
 var bord = false;
 
 var protocolToUse = (location.protocol == "https:") ? "https" : "http";
-var apiUrl = protocolToUse+'://dev-homerunloyal-api.synapsys.us/';//TODO: API Domain Name
+var apiUrl = protocolToUse+'://prod-homerunloyal-api.synapsys.us/';//TODO: API Domain Name
 var referrer = document.referrer;
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
 var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
@@ -77,7 +77,7 @@ $(function(){
       $('#team_name').html(listData[index].teamName);
       $('#teamProf').html(listData[index].teamVenue);
       $('#location_link').html(listData[index].teamCity + ', ' + abbrState(listData[index].teamState));
-      $('.fcw-presentedby').html('MLB TOP TEAMS - PRESENTED BY');
+      $('.fcw-presentedby').html('BASEBALL TOP TEAMS - PRESENTED BY');
       if(listData[index].stat == 1){
         dataValue = listInfo.nouns[0];
       } else {

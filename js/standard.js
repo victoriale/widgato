@@ -60,9 +60,11 @@ $(function () {
         }
         var queryCheckCity = query['loc']['loc']['city'];
         //makes a check to see if data is being returned from partner
-        if(queryCheckCity.length != 0 || queryCheckCity != null && queryCheckCity != '' && typeof queryCheckCity != 'undefined'){
+        if(queryCheckCity != null && queryCheckCity != '' && typeof queryCheckCity != 'undefined'){
+          if (queryCheckCity.length != 0){
             city = queryCheckCity[0].city.replace(/\+/g, ' ').toLowerCase();
             state = queryCheckCity[0].state;
+          }
         }
         //if partner database has absolutely nothing and it is a brand new partner
         //returns string true or false

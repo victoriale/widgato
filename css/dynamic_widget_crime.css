@@ -1,1 +1,41 @@
-a:hover{color:#f6af05}#homelink > div{background-color:#f6af05;background-image:url(../css/public/Crime_Icon_White.png);background-position:4px 3px!important}.dw-nav:hover{background:rgba(246,175,5,0.85)}.dw-i-title{color:#f6af05}.dw-btn{border-color:#f6af05!important}.dw-btn:hover{background-color:#f6af05}.hover{background:rgba(246,175,5,0.85)!important}
+a:hover {
+    color: #f6af05;
+}
+#verticalName {
+  background-color: #f6af05;
+}
+.dw-nav{
+    background-color: #f6af05!important;
+}
+.dw-btn:hover,
+.dw-nav:hover {
+    background-color: black!important;
+    border-color: black!important;
+}
+
+#homelink>div {
+  background-image:url(../css/public/Crime_Icon_White.png);
+}
+
+.dw-btn {
+    border-color: #f6af05!important;
+    background-color: #f6af05 !important;
+    color: white!important;
+}
+#next-list-link .dw-btn{
+  border-color: #f6af05!important;
+  background-color: white !important;
+  color: #f6af05!important;
+  fill: #f6af05;
+  stroke: #f6af05;
+}
+#next-list-link .dw-btn:hover{
+  border-color: black!important;
+  background-color: black !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+.hover {
+    background: rgba(246,175,5,0.85)!important;

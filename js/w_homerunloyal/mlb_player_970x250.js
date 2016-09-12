@@ -7,7 +7,7 @@ var max = 10;
 var bord = false;
 
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-var apiUrl = protocolToUse+'dev-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
+var apiUrl = protocolToUse+'prod-homerunloyal-api.synapsys.us/'; //TODO: API Domain Name
 var referrer = document.referrer;
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
 var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
@@ -56,7 +56,7 @@ $(function(){
           dataCall(offset);
         }
     });
-    // Example Url: http://dev-homerunloyal-api.synapsys.us/randomList/player/25/1
+    // Example Url: http://prod-homerunloyal-api.synapsys.us/randomList/player/25/1
     $.get(apiUrl+'randomList/player/20/1', function(data){
       curData = data.data;
       dataCall(offset);
@@ -90,7 +90,7 @@ $(function(){
       $('#locName').html(listData[index].teamCity + ', ' + abbrState(listData[index].teamState));
       $('.fcw-content1').html(Math.round(dataPt * 100)/100 + ' ' + dataValue);
       $('.fcw-content2').html(listInfo.season + ' Season');
-      $('.fcw-presentedby').html('MLB TOP PLAYER - PRESENTED BY');
+      $('.fcw-presentedby').html('BASEBALL TOP PLAYER - PRESENTED BY');
 
       if(remnant == 'true' || remnant == true){
         $('.fcw-icon').attr('href', baseUrl); //Top Left Icon - link to Home Page

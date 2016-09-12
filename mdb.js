@@ -1,5 +1,6 @@
 console.log("pnsports?");(function() {
    //local constants
+   //
    var CLICKY_ID = "",
       PF_WIDGET_URL = "file:///C:/Users/User/Desktop/Work/SNT-Widgets/w_sports/ai_article.html?%7B%22dom%22%3A%22businessinsider.com%22%2C%22loc%22%3A%7B%22loc%22%3A%7B%22nfl%22%3A%5B%5D%7D%7D%2C%22c_id%22%3Anull%2C%22remn%22%3A%22true%22%2C%22bord%22%3A%22false%22%7D",
       PF_WIDGET_EMBED_SRC = "file:///C:/Users/User/Desktop/Work/SNT-Widgets/remnant.js",

@@ -12,6 +12,7 @@ swp_wdgt = function(){
 
   var temp = location.search;
   var query = {};
+  var season;
 
   if(temp !== null && temp !== ""){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
@@ -39,17 +40,13 @@ function RenderDynamicSide(protocolToUse){
   // var domain = '';
   // var remnant = '';
   // var bord = false;
-
-  var possibleTypes = [/*'nba',*/ 'mlb', 'college_basketball', 'finance', 'crime', 'demographics', 'disaster', 'weather'];
+  var possibleTypes = [/*'nba',*/ 'mlb', /*'college_basketball',*/ 'finance', 'crime', 'demographics', 'disaster', 'weather'/*, 'nfl'*/];
   // var possibleTypes = ['weather'];
   var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
   var listRand = getRandomInt(0,10);
-  var apiUrl = protocolToUse + 'dw.synapsys.us/list_api.php?';
-  apiUrl = apiUrl + 'cat=' + listType + '&rand=' + listRand;
 
   var referrer = document.referrer;
   var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
-
   function getBaseUrl(string){
       var urlArray = string.split("/");
       var domain = urlArray[2];
@@ -59,6 +56,7 @@ function RenderDynamicSide(protocolToUse){
   var colorSchemes = {
       nba: '#f7701d',
       mlb: '#b31d24',
+      nfl: '#2d3e50',
       college_basketball: '#f7701d',
       finance: '#3098ff',
       crime: '#f6af05',
@@ -69,6 +67,7 @@ function RenderDynamicSide(protocolToUse){
   var iconScheme = {
       nba:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
       mlb:'../css/public/icons/Home-Run-Loyal_Icon 2.svg',
+      nfl:'../css/public/Icon_Football.png',
       college_basketball:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
       finance:'../css/public/icons/Invest-Kit_Icon.svg',
       crime:'../css/public/icons/Crime_Icon.svg',
@@ -79,6 +78,7 @@ function RenderDynamicSide(protocolToUse){
   var urlScheme = {
     nba: 'http://www.hoopsloyal.com',
     mlb: 'http://www.homerunloyal.com',
+    nfl: 'http://www.touchdownloyal.com',
     college_basketball: 'http://www.hoopsloyal.com/NCAA',
     finance: 'http://www.investkit.com',
     crime: 'http://www.joyfulhome.com',
@@ -86,21 +86,32 @@ function RenderDynamicSide(protocolToUse){
     disaster: 'http://www.joyfulhome.com',
     weather: 'http://www.joyfulhome.com',
   };
+  var siteName = {
+    nba: 'Hoops Loyal',
+    mlb: 'Home Run Loyal',
+    nfl: 'Touchdown Loyal',
+    college_basketball: 'Hoops Loyal',
+    finance: 'Invest Kit',
+    crime: 'House Kit',
+    demographics: 'House Kit',
+    disaster: 'House Kit',
+    weather: 'House Kit',
+  };
 
   var schemeToUse = colorSchemes[listType];
   var iconsToUse = iconScheme[listType];
   var urlToUse = urlScheme[listType];
+  var siteNameToUse = siteName[listType];
 
   function mapColorScheme(color,icons, type, url){
+    A('#verticalName').style.backgroundColor = color;
     A('#nextlist-svg').style.fill = color;
     A('.fcw-icon').style.backgroundColor = color;
     A('.fcw-icon').style.zIndex = "5";
     A('.fcw-icon').style.cursor = "pointer";
     A('.fcw-icon').href = url;
-    A('.fcw-content1').style.color = color;
 
     A('.fcw-icon').style.backgroundImage = "url('" + icons + "')";
-    A('#fcw-content2b').style.color = color;
     A('.fcw-list-next').style.color = color;
     A('.fcw-list-next').style.borderColor = color;
 
@@ -129,36 +140,46 @@ function RenderDynamicSide(protocolToUse){
     }
 
 
+    A('.fcw-leftnav').style.backgroundColor = color;
     A(".fcw-leftnav").onmouseover = function(){
-      A('.fcw-leftnav').style.backgroundColor = color;
+      A('.fcw-leftnav').style.backgroundColor = "black";
     }
     A(".fcw-leftnav").onmouseout = function(){
-      A('.fcw-leftnav').style.backgroundColor = '';
+      A('.fcw-leftnav').style.backgroundColor = color;
     }
 
+    A('.fcw-rightnav').style.backgroundColor = color;
     A(".fcw-rightnav").onmouseover = function(){
-      A('.fcw-rightnav').style.backgroundColor = color;
+      A('.fcw-rightnav').style.backgroundColor = "black";
     }
     A(".fcw-rightnav").onmouseout = function(){
-      A('.fcw-rightnav').style.backgroundColor = '';
+      A('.fcw-rightnav').style.backgroundColor = color;
     }
 
     A(".hover1").onmouseover = function() {
-      A('.hover1').style.backgroundColor = color;
+      A('.hover1').style.Color = color;
     }
     A(".hover1").onmouseout  = function() {
-      A(".hover1").style.backgroundColor = '';
+      A(".hover1").style.Color = '';
+    }
+    A(".fcw-content1").onmouseover = function() {
+      A('.fcw-content1').style.color = color;
+    }
+    A(".fcw-content1").onmouseout  = function() {
+      A(".fcw-content1").style.color = '';
     }
 
     if(type == "college_basketball"){
       A('.fcw-content-top').style.height = '25px';
-      A('.fcw-content-top').style.overflow = 'hidden'
+      A('.fcw-content-top').style.overflow = 'hidden';
     }
 
     if(type == "weather"){
+      A('.fcw-content3').style.height = '25px';
+      A('.fcw-content3').style.overflow = 'hidden';
       //yellow causes text colors to be black....
       A('.fcw-list-text').style.color = "#000000";
-      A('#swoop-svg').style.fill = "#000000";
+      //A('#swoop-svg').style.fill = "#000000";
       A('#nextlist-svg').style.fill = "#000000";
       A('.fcw-list-next').style.color = '#000000';
 
@@ -211,13 +232,13 @@ function RenderDynamicSide(protocolToUse){
         A('.fcw-list-list').style.backgroundColor = '#272727';
         A('.fcw-list-list').style.borderColor = '#272727';
         A('.fcw-list-text').style.color = "#FFFFFF";
-        A('#swoop-svg').style.fill = "#FFFFFF";
+        //A('#swoop-svg').style.fill = "#FFFFFF";
       }
       A('.fcw-list-list').onmouseout = function(){
         A('.fcw-list-list').style.backgroundColor = color;
         A('.fcw-list-list').style.borderColor = color;
         A('.fcw-list-text').style.color = "#000000"
-        A('#swoop-svg').style.fill = "#000000";
+        //A('#swoop-svg').style.fill = "#000000";
       }
     }
   }
@@ -240,10 +261,49 @@ function RenderDynamicSide(protocolToUse){
         dataCall(offset);
       }
     };
+    var initData;
+    //get query string array for NFL list data
+    function httpGetInitData(){
+      var url = '../js/tdl_list_array.json';
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function(){
+        if(xmlHttp.readyState === 4 && xmlHttp.status === 200){
+          //On complete function
+          initData = JSON.parse(xmlHttp.responseText);
+          getRandList(initData);
+        }
+      }
+      xmlHttp.open( "GET", url, true ); // false for synchronous request
+      xmlHttp.send( null );
+    }
+    httpGetInitData();
 
-    function httpGetData(old_title){
-      var url = protocolToUse + 'dw.synapsys.us/list_api.php?';
-      url = url + 'cat=' + listType + '&rand=' + listRand;
+    function getRandList(initData) {
+      rand = Math.floor((Math.random() * 140) + 1);
+      var date = new Date;
+      var compareDate = new Date('09 15 ' + date.getFullYear());
+      if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
+        httpGetData("",initData[rand] + "&season=" + date.getFullYear());
+        season = date.getFullYear();
+      }
+      else if (date.getMonth() > compareDate.getMonth()) {
+        httpGetData("",initData[rand] + "&season=" + date.getFullYear());
+        season = date.getFullYear();
+      }
+      else {
+        httpGetData("",initData[rand] + "&season=" + (date.getFullYear() - 1));
+        season = (date.getFullYear() - 1);
+      }
+    }
+
+    function httpGetData(old_title, query){
+      if (listType == "nfl") {
+        var url = protocolToUse + 'prod-touchdownloyal-api.synapsys.us/list/' + query;
+      }
+      else {
+        var url = protocolToUse + 'dw.synapsys.us/list_api.php?';
+        url = url + 'cat=' + listType + '&rand=' + listRand;
+      }
       var xmlHttp = new XMLHttpRequest();
       xmlHttp.onreadystatechange = function(){
         if(xmlHttp.readyState === 4 && xmlHttp.status === 200){
@@ -259,7 +319,7 @@ function RenderDynamicSide(protocolToUse){
       xmlHttp.send( null );
     }
 
-    httpGetData();
+    // httpGetData();
 
     advanceList = function(){
       if(listRand < 9){
@@ -268,12 +328,25 @@ function RenderDynamicSide(protocolToUse){
         listRand = 0;
       }
       offset = 0;
-      httpGetData(curData.l_title);
+      if (listType == "nfl") {
+        getRandList(initData);
+      }
+      else {
+        httpGetData(curData.l_title);
+      }
+
     }
 
     function dataCall(index){
-        var listName = curData.l_title;
-        var listData = curData.l_data;
+        if (listType == "nfl") {
+          var listData = curData.data.listData;
+          var listName = curData.data.listInfo.listName;
+        }
+        else {
+          var listData = curData.l_data;
+          var listName = curData.l_title;
+          listName = listName.replace("MLB","Baseball");
+        }
         dataLength = listData.length;
         // Convert to lower kabab case for url links
 
@@ -286,18 +359,55 @@ function RenderDynamicSide(protocolToUse){
           A('.fcw-icon').style.top = '0px';
           A('.fcw-t1').style.bottom = '8px';
         }
+        A('#verticalDisplayName').innerHTML = siteNameToUse;
 
         A('.fcw-t2-num').innerHTML = '#' + (index+1);
-
-        A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + listData[index].li_img +')';
+        if (listType == "nfl") {
+          if (listData[index].rankType == "team") {
+            A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "images.synapsys.us" + listData[index].teamLogo +')';
+          }
+          else {
+            A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "images.synapsys.us" + listData[index].playerHeadshotUrl +')';
+          }
+        }
+        else {
+          A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + listData[index].li_img +')';
+        }
         A('.fcw-image').style.backgroundRepeat = 'no-repeat';
 
-        A('#fcw-content2b').innerHTML = listData[index].li_sub_txt;
+        if (listType == "nfl") {
+          A('#fcw-content2b').innerHTML = listData[index].divisionName;
+        }
+        else {
+          A('#fcw-content2b').innerHTML = listData[index].li_sub_txt;
+        }
         if (listType == 'finance'){
           listData[index].li_str = listData[index].li_str.replace('Reported', '');
         }
-        A('.fcw-content3').innerHTML = listData[index].li_str;
-        if (listData[index].li_str.length >= 40) {
+        if (listType == "nfl") {
+          var statType = listData[index].statType.replace(/_/g, " ");
+          statType = statType.replace("player", "");
+          statType = statType.replace("team", "");
+          statType = statType.replace(/(^| )(\w)/g, function(x) {
+            return x.toUpperCase();
+          });
+          var stat = Math.floor(Number(listData[index].stat));
+          A('.fcw-content3').innerHTML = stat + " " + statType;
+        }
+        else {
+          A('.fcw-content3').innerHTML = listData[index].li_str;
+        }
+        if (listType == "nfl") {
+          A('.fcw-content1').style.display = '';
+          A('.fcw-content2').style.display = '';
+          if (listData[index].rankType == "team") {
+            A('.fcw-content1').innerHTML = listData[index].teamName;
+          }
+          else {
+            A('.fcw-content1').innerHTML = listData[index].playerFirstName + " " + listData[index].playerLastName;
+          }
+        }
+        else if (listData[index].li_str != null && listData[index].li_str.length >= 40) {
           A('.fcw-content2').style.display = 'inline';
           A('.fcw-content1').style.display = 'inline';
           A('.fcw-content').style.textAlign = 'center';
@@ -324,9 +434,18 @@ function RenderDynamicSide(protocolToUse){
 
         if(remnant == 'true' || remnant == true){
           A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
+          if (listType == "nfl" && listData[index].rankType == "team") {
+            A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].teamId);
+          }
+          else if (listType == "nfl" && listData[index].rankType == "player") {
+            A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/player/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].playerFirstName.toLowerCase() + "-" + listData[index].playerLastName.toLowerCase() + "/" + listData[index].playerId);
+          }
         }else{
           //partner site
           A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
+          if (listType == "nfl") {
+            A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
+          }
         }
     }
 }
@@ -339,6 +458,34 @@ function getRandomInt(min, max){
 
 /* -- Manipulation Functions  -- */
 function buildListLink(cat, remn, dom, widget_data){
+
+  var specialDomains = [
+    "latimes.com",
+    "orlandosentinel.com",
+    "sun-sentinel.com",
+    "baltimoresun.com",
+    "mcall.com",
+    "courant.com",
+    "dailypress.com",
+    "southflorida.com",
+    "citypaper.com",
+    "themash.com",
+    "coastlinepilot.com",
+    "sandiegouniontribune.com",
+    "ramonasentinel.com",
+    "capitalgazette.com",
+    "chicagotribune.com"
+  ];
+  var SpecialDomain = "";
+  var currentDomain = "";
+  if (document.referrer == "") {
+    currentDomain = window.location.hostname.toString();
+  }
+  else {
+    currentDomain = document.referrer;
+    currentDomain = currentDomain.split('/')[2];
+  }
+  currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
 
   dom == "lasvegasnow.com"  ? change_url = true : change_url = false;
   change_url ? new_url = "finance.lasvegasnow.com" : "";
@@ -357,14 +504,45 @@ function buildListLink(cat, remn, dom, widget_data){
           }
           break;
         case 'mlb':
-          var base_url = "http://homerunloyal.com/list";
+          for (i = 0; i <= specialDomains.length; i++) {
+            if (currentDomain == specialDomains[i]) {
+              SpecialDomain = "http://baseball." + specialDomains[i] + "/list";
+            }
+          }
+          var base_url;
+          if (SpecialDomain == "") {
+            base_url = remn == "true" ? "http://homerunloyal.com/list" : "http://www.myhomerunzone.com/" + dom + "/list";
+          }
+          else {
+            base_url = SpecialDomain;
+          }
+          doStep = false;
+          break;
+        case 'nfl':
+          for (i = 0; i <= specialDomains.length; i++) {
+            if (currentDomain == specialDomains[i]) {
+              SpecialDomain = "http://football." + specialDomains[i] + "/list";
+            }
+          }
+          var base_url;
+          if (SpecialDomain == "") {
+            base_url = remn == "true" ? "http://touchdownloyal.com/nfl" : "http://www.mytouchdownzone.com/" + dom + "/nfl";
+          }
+          else {
+            base_url = SpecialDomain;
+          }
           doStep = false;
           break;
         default:
           var base_url = remn == "true" ? "http://www.joyfulhome.com/wlist" : "http://www.myhousekit.com/" + dom + "/wlist";
           var doStep = false;
       }
-      base_url += ( doStep ) ? '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input : "/tw-" + widget_data.l_param + "+sw-" + widget_data.l_sort + "+input-" + widget_data.l_input;
+      if (cat != "nfl") {
+        base_url += ( doStep ) ? '?tw=' + widget_data.l_param + '&sw=' + widget_data.l_sort + '&input=' + widget_data.l_input : "/tw-" + widget_data.l_param + "+sw-" + widget_data.l_sort + "+input-" + widget_data.l_input;
+      }
+      else {
+        base_url += "/" + "list" + "/" + widget_data.data.listData[0].rankType + "/" + widget_data.data.listData[0].statType.replace(widget_data.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
+      }
       return base_url;
 }
 
