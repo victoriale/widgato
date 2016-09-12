@@ -33,7 +33,7 @@
   var homerunDomain = 'http://baseball.' + domain;
   var hoopsDomain = 'http://myhoopszone.com/' + domain;
   // var touchdownDomain = 'http://mytouchdownzone.com/' + domain;
-  var touchdownDomain = 'http://dev.mytouchdownzone.com/' + domain;
+  var touchdownDomain = 'http://prod.mytouchdownzone.com/' + domain;
 
   var footballLeagueYear = 2016; //Year used by TDL sites for urls
 
