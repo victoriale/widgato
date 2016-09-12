@@ -1,11 +1,11 @@
 a:hover {
-    color: #62a95e;
+    color: #249004;
 }
 #verticalName {
-  background-color: #62a95e;
+  background-color: #249004;
 }
 .dw-nav{
-    background-color: #62a95e!important;
+    background-color: #249004!important;
 }
 .dw-btn:hover,
 .dw-nav:hover {
@@ -14,20 +14,20 @@ a:hover {
 }
 
 #homelink>div {
-    background-image: url(../css/public/Independent_Icon.png);
+    background-image: url(../css/public/Independent_Icon.svg);
 }
 
 .dw-btn {
-    border-color: #62a95e!important;
-    background-color: #62a95e !important;
+    border-color: #249004!important;
+    background-color: #249004 !important;
     color: white!important;
 }
 #next-list-link .dw-btn{
-  border-color: #62a95e!important;
+  border-color: #249004!important;
   background-color: white !important;
-  color: #62a95e!important;
-  fill: #62a95e;
-  stroke: #62a95e;
+  color: #249004!important;
+  fill: #249004;
+  stroke: #249004;
 }
 #next-list-link .dw-btn:hover{
   border-color: black!important;
@@ -38,4 +38,4 @@ a:hover {
 }
 
 .hover {
-    background: rgba(98,169,94,0.75)!important;
+    background: rgba(36, 144, 4,0.75)!important;

@@ -87,15 +87,15 @@ function RenderDynamicSide(protocolToUse){
     weather: 'http://www.joyfulhome.com',
   };
   var siteName = {
-    nba: 'Hoops Loyal',
-    mlb: 'Home Run Loyal',
-    nfl: 'Touchdown Loyal',
-    college_basketball: 'Hoops Loyal',
-    finance: 'Invest Kit',
-    crime: 'House Kit',
-    demographics: 'House Kit',
-    disaster: 'House Kit',
-    weather: 'House Kit',
+    nba: 'Basketball',
+    mlb: 'Baseball',
+    nfl: 'Football',
+    college_basketball: 'Basketball',
+    finance: 'Finance',
+    crime: 'Crime',
+    demographics: 'Demographics',
+    disaster: 'Disaster',
+    weather: 'Weather',
   };
 
   var schemeToUse = colorSchemes[listType];
@@ -175,6 +175,7 @@ function RenderDynamicSide(protocolToUse){
     }
 
     if(type == "weather"){
+      A('#verticalName').style.color = "#272727";
       A('.fcw-content3').style.height = '25px';
       A('.fcw-content3').style.overflow = 'hidden';
       //yellow causes text colors to be black....
@@ -184,9 +185,10 @@ function RenderDynamicSide(protocolToUse){
       A('.fcw-list-next').style.color = '#000000';
 
       A(".fcw-list-next").onmouseover = function() {
-        A('.fcw-list-next').style.backgroundColor = color;
-        A('.fcw-list-next').style.color = '#000000';
-        A('#nextlist-svg').style.fill = '#000000';
+        A('.fcw-list-next').style.backgroundColor = "black";
+        A('.fcw-list-next').style.borderColor = "black";
+        A('.fcw-list-next').style.color = 'white';
+        A('#nextlist-svg').style.fill = 'white';
       }
       A(".fcw-list-next").onmouseout  = function() {
         A('.fcw-list-next').style.bordercolor = color;
@@ -207,24 +209,26 @@ function RenderDynamicSide(protocolToUse){
         A('.txt2').style.color = '#000000';
       }
 
+      A('.fcw-leftnav').style.stroke = "#272727";
+      A('.fcw-rightnav').style.stroke = "#272727";
 
       A(".fcw-leftnav").onmouseover = function(){
-        A('.fcw-leftnav').style.backgroundColor = color;
-        A('.fcw-leftnav').style.stroke = "#000000";
+        A('.fcw-leftnav').style.backgroundColor = "#272727";
+        A('.fcw-leftnav').style.stroke = "white";
       }
       A(".fcw-leftnav").onmouseout = function(){
-        A('.fcw-leftnav').style.backgroundColor = '';
-        A('.fcw-leftnav').style.stroke = "#FFFFFF";
+        A('.fcw-leftnav').style.backgroundColor = color;
+        A('.fcw-leftnav').style.stroke = "#272727";
       }
 
 
       A(".fcw-rightnav").onmouseover = function(){
-        A('.fcw-rightnav').style.backgroundColor = color;
-        A('.fcw-rightnav').style.stroke = "#000000";
+        A('.fcw-rightnav').style.backgroundColor = "#272727";
+        A('.fcw-rightnav').style.stroke = "white";
       }
       A(".fcw-rightnav").onmouseout = function(){
-        A('.fcw-rightnav').style.backgroundColor = '';
-        A('.fcw-rightnav').style.stroke = "#FFFFFF"
+        A('.fcw-rightnav').style.backgroundColor = color;
+        A('.fcw-rightnav').style.stroke = "#272727"
       }
 
 
@@ -239,6 +243,12 @@ function RenderDynamicSide(protocolToUse){
         A('.fcw-list-list').style.borderColor = color;
         A('.fcw-list-text').style.color = "#000000"
         //A('#swoop-svg').style.fill = "#000000";
+      }
+      A(".fcw-content1").onmouseover = function() {
+        A('.fcw-content1').style.color = "black";
+      }
+      A(".fcw-content1").onmouseout  = function() {
+        A(".fcw-content1").style.color = 'black';
       }
     }
   }
@@ -434,17 +444,22 @@ function RenderDynamicSide(protocolToUse){
 
         if(remnant == 'true' || remnant == true){
           A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
+          A('.exec-link-text').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
           if (listType == "nfl" && listData[index].rankType == "team") {
             A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].teamId);
+            A('.exec-link-text').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].teamId);
           }
           else if (listType == "nfl" && listData[index].rankType == "player") {
             A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/player/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].playerFirstName.toLowerCase() + "-" + listData[index].playerLastName.toLowerCase() + "/" + listData[index].playerId);
+            A('.exec-link-text').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/player/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].playerFirstName.toLowerCase() + "-" + listData[index].playerLastName.toLowerCase() + "/" + listData[index].playerId);
           }
         }else{
           //partner site
           A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
+          A('.exec-link-text').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
           if (listType == "nfl") {
             A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
+            A('.exec-link-text').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
           }
         }
     }
