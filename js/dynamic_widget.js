@@ -394,6 +394,10 @@ function p() {
             }
             var c = $('subimg');
             var n = c.getAttribute('onerror');
+            $('carousel').setAttribute('class', 'two');
+            $('suburl').setAttribute('style', 'display: block');
+            $('mainimg').setAttribute('style', 'left: 41px');
+            $('num').setAttribute('style', 'left: 41px');
             c.setAttribute('onerror', '');
             c.setAttribute('src', '');
             c.setAttribute('src', e.li_subimg.img);
@@ -405,6 +409,12 @@ function p() {
             if (m.className.indexOf('two') == -1) {
                 m.className += ' two'
             }
+        }
+        else {
+          $('carousel').setAttribute('class', 'one');
+          $('suburl').setAttribute('style', 'display: none');
+          $('mainimg').setAttribute('style', 'left: 78px');
+          $('num').setAttribute('style', 'left: 78px');
         }
         if ($('list-link')) {
             var u = d.getElementsByClassName('dw-btn')[0];
