@@ -490,6 +490,21 @@ function p() {
                 }
                 var hn = "Football";
               break;
+            case "weather":
+              var hn = "Weather";
+              break;
+            case "politics":
+            var hn = "Politics";
+              break;
+            case "disaster":
+            var hn = "Disaster";
+              break;
+            case "demographics":
+            var hn = "Demographics";
+              break;
+            case "crime":
+            var hn = "Crime";
+              break;
             default:
                 var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';
                 var hn = "Homes";

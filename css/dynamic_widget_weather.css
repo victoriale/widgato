@@ -2,40 +2,55 @@ a:hover {
     color: #ffdf30;
 }
 #verticalName {
-  background-color: #0020CF;
+  background-color: #ffd800;
+}
+#verticalName a {
+  color: #272727!important;
 }
 .dw-nav{
-    background-color: #0020CF!important;
+    background-color: #ffd800!important;
+    fill: #272727;
+    stroke: #272727;
 }
-.dw-btn:hover,
-.dw-nav:hover {
+.dw-btn:hover{
     background-color: black!important;
     border-color: black!important;
 }
+.dw-nav:hover {
+    background-color: #272727!important;
+    border-color: #272727!important;
+    fill: white;
+    stroke: white;
+}
 
 #homelink>div {
-    background-image: url(../css/public/Icon_Weather.png);
+    background-image: url(../css/public/Icon_Weather.svg);
 }
 
 .dw-btn {
-    border-color: #0020CF!important;
-    background-color: #0020CF !important;
-    color: white!important;
+    border-color: #ffd800!important;
+    background-color: #ffd800 !important;
+    color: #272727!important;
+}
+#list-link .dw-btn:hover {
+  color: white!important;
 }
 #next-list-link .dw-btn{
-  border-color: #0020CF!important;
+  border-color: #ffd800!important;
   background-color: white !important;
-  color: #0020CF!important;
-  fill: #0020CF;
-  stroke: #0020CF;
+  color: #272727!important;
+  fill: #ffd800;
+  stroke: #ffd800;
 }
 #next-list-link .dw-btn:hover{
   border-color: black!important;
   background-color: black !important;
   color: white!important;
   fill: white;
-  stroke: white
+  stroke: white;
 }
 
 .hover {
     background: rgba(255,223,48,0.85)!important;
+    color: #272727 !important;
+}
