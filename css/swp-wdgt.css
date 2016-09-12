@@ -304,7 +304,7 @@ button:focus {
 
 /*image && button*/
 .fcw-middle{
-  position: relative;
+  /*position: relative;*/
   width: 100%;
   margin: 10px 0 6px auto;
 }
@@ -376,7 +376,7 @@ button:focus {
   -webkit-border-radius: 0 10px 10px 0;
   border:none;
   left: 0;
-  top: 15px;
+  top: calc(50% - 25px);
   background-color: #000;
   color:#fff;
   font-size: 25px;
@@ -392,7 +392,7 @@ button:focus {
   border:none;
   position: absolute;
   right: 0;
-  top: 15px;
+  top: calc(50% - 25px);
   background-color: #000;
   color:#fff;
   font-size: 25px;

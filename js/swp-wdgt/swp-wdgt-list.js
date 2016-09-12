@@ -69,7 +69,7 @@ function RenderDynamicSide(protocolToUse){
       mlb:'../css/public/icons/Home-Run-Loyal_Icon 2.svg',
       nfl:'../css/public/Icon_Football.png',
       college_basketball:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
-      finance:'../css/public/icons/Invest-Kit_Icon.svg',
+      finance:'../css/public/Invest-Kit_Icon.svg',
       crime:'../css/public/icons/Crime_Icon.svg',
       demographics:'../css/public/icons/Demographic_Icon.svg',
       disaster:'../css/public/icons/Disaster_Icon.svg',
@@ -172,6 +172,17 @@ function RenderDynamicSide(protocolToUse){
     if(type == "college_basketball"){
       A('.fcw-content-top').style.height = '25px';
       A('.fcw-content-top').style.overflow = 'hidden';
+    }
+
+    A(".hover1").onmouseover = function() {
+      A('.hover1').style.backgroundColor = color;
+      A('.txt1').style.color = 'white';
+      A('.txt2').style.color = 'white';
+    }
+    A(".hover1").onmouseout  = function() {
+      A('.hover1').style.backgroundColor = '';
+      A('.txt1').style.color = 'white';
+      A('.txt2').style.color = 'white';
     }
 
     if(type == "weather"){
@@ -418,10 +429,10 @@ function RenderDynamicSide(protocolToUse){
           }
         }
         else if (listData[index].li_str != null && listData[index].li_str.length >= 40) {
-          A('.fcw-content2').style.display = 'inline';
-          A('.fcw-content1').style.display = 'inline';
+          A('.fcw-content1').style.display = '';
+          A('.fcw-content2').style.display = '';
           A('.fcw-content').style.textAlign = 'center';
-          A('.fcw-content1').innerHTML = listData[index].li_title + ' | ';
+          A('.fcw-content1').innerHTML = listData[index].li_title;
         }
         else {
           A('.fcw-content1').style.display = '';

@@ -88,7 +88,7 @@ dynamic_widget = function() {
       }
 
     }
-    function httpGetData(query) {
+    function httpGetData(query, ignoreRandom) {
       if (l.dom == 'lasvegasnow.com') {
           s = true;
           o = 'finance.lasvegasnow.com'
@@ -96,7 +96,13 @@ dynamic_widget = function() {
       if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
           l.category = 'finance'
       }
-      var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
+      if(ignoreRandom == null) {
+        var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
+      }
+      else {
+        var e = Math.floor(Math.random() * 10);
+      }
+
       var i;
       if (window.XMLHttpRequest) {
           i = new XMLHttpRequest
@@ -516,6 +522,7 @@ function p() {
     c(h);
     return {
         carousel: w,
-        get_title: f
+        get_title: f,
+        httpGetData: httpGetData
     }
 }();
