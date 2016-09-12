@@ -2627,9 +2627,9 @@
               //Pre Game
               var gameObject = {
                 homeTeam: item.homeTeamInfo.abbreviation,
-                homeScore: '-',
+                homeScore: item.homeTeamInfo.winRecord + '-' + item.homeTeamInfo.lossRecord,
                 awayTeam: item.awayTeamInfo.abbreviation,
-                awayScore: '-',
+                awayScore: item.awayTeamInfo.winRecord + '-' + item.awayTeamInfo.lossRecord,
                 timestamp: item.gameInfo.startDateTimestamp,
                 datetime: convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev),
                 eventStatus: item.gameInfo.eventStatus,
@@ -2802,23 +2802,12 @@
 
           pre.push(gameObject);
         }else if(item.liveStatus === 'Y' && item.eventStartTime < now){
-          //Live Game
-          var homeTeam, awayTeam;
-          if(item.team1Abbreviation && item.team1Possession){
-            homeTeam = item.team1Abbreviation + ' <i class="ddb-icon ddb-icon-football"></i>';
-          }else{
-            homeTeam = item.team1Abbreviation;
-          }
-          if(item.team2Abbreviation && item.team2Possession){
-            awayTeam = item.team2Abbreviation + ' <i class="ddb-icon ddb-icon-football"></i>';
-          }else{
-            awayTeam = item.team2Abbreviation;
-          }
+          //Live Game=
 
           var gameObject = {
-            homeTeam: homeTeam,
+            homeTeam: item.team1Abbreviation,
             homeScore: item.team1Score ? item.team1Score : '-',
-            awayTeam: awayTeam,
+            awayTeam: item.team2Abbreviation,
             awayScore: item.team2Score ? item.team2Score: '-',
             timestamp: item.eventStartTime,
             datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
