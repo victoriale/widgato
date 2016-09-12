@@ -394,6 +394,7 @@ function p() {
             }
             var c = $('subimg');
             var n = c.getAttribute('onerror');
+            $('carousel').setAttribute('class', 'two');
             $('suburl').setAttribute('style', 'display: block');
             $('mainimg').setAttribute('style', 'left: 41px');
             $('num').setAttribute('style', 'left: 41px');
@@ -410,6 +411,7 @@ function p() {
             }
         }
         else {
+          $('carousel').setAttribute('class', 'one');
           $('suburl').setAttribute('style', 'display: none');
           $('mainimg').setAttribute('style', 'left: 78px');
           $('num').setAttribute('style', 'left: 78px');
