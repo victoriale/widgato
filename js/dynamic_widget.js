@@ -163,8 +163,22 @@ dynamic_widget = function() {
             document.body.insertBefore(t, e)
         }
         if (l.category == 'politics') {
+            console.log("called css");
             var i = r.l_title.indexOf('Republican') != -1 ? 'r' : r.l_title.indexOf('Independent') != -1 ? 'i' : 'd';
-            add_css_link('../css/dynamic_widget_politics_' + i + '.css')
+            var cssId = 'politicsCss';  // you could encode the css path itself to generate id..
+            if (document.getElementById(cssId))
+            {
+              var element = document.getElementById(cssId);
+              element.parentNode.removeChild(element);
+            }
+            var head  = document.getElementsByTagName('head')[0];
+            var link  = document.createElement('link');
+            link.id   = cssId;
+            link.rel  = 'stylesheet';
+            link.type = 'text/css';
+            link.href = '../css/dynamic_widget_politics_' + i + '.css';
+            link.media = 'all';
+            head.appendChild(link);
         }
         if (l.category == 'mlb') {
             r.l_title = r.l_title.replace("MLB","Baseball");
@@ -400,16 +414,16 @@ function p() {
             if (e.li_subimg.img == "//w1.synapsys.us/widgets/css/public/no_image.jpg") {
               $('carousel').setAttribute('class', 'one');
               $('suburl').setAttribute('style', 'display: none');
-              $('mainimg').setAttribute('style', 'left: 78px');
-              $('num').setAttribute('style', 'left: 78px');
+              // $('mainimg').setAttribute('style', 'left: 78px');
+              // $('num').setAttribute('style', 'left: 78px');
             }
             else {
               c.setAttribute('src', e.li_subimg.img);
               //set double image css to "on" if we have a double image for this list
               $('carousel').setAttribute('class', 'two');
               $('suburl').setAttribute('style', 'display: block');
-              $('mainimg').setAttribute('style', 'left: 41px');
-              $('num').setAttribute('style', 'left: 41px');
+              // $('mainimg').setAttribute('style', 'left: 41px');
+              // $('num').setAttribute('style', 'left: 41px');
             }
             setTimeout(function(e, t) {
                 t.setAttribute('onerror', e)
