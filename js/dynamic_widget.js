@@ -265,16 +265,12 @@ dynamic_widget = function() {
 function p() {
       if (l.category == "nfl" || l.category == "ncaaf") {
         var e = r.data.listData[i];
+        var v_link = '';
         if (e.rankType == "team") {
           $('line1').innerHTML = e.teamName;
           $('line2').innerHTML = "Division: <b>" + e.divisionName + "</b>";
           var a = "";
-          var v_link = '';
-          if(e.playerId == null){
-            v_link = "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
-          }else{
-            v_link = "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + e.playerFirstName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
-          }
+          v_link = "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
 
           if (SpecialDomain == "") {
                 a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+ v_link : nflPartnerDomain + l.dom + "/" +l.category+ v_link;
@@ -289,8 +285,9 @@ function p() {
           $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
           $('line2').innerHTML = "Team: <b>" + e.teamName + "</b>";
           var a = "";
+          v_link = "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + e.playerFirstName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
           if (SpecialDomain == "") {
-                a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+"/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId : nflPartnerDomain + l.dom + "/" + l.category+"/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.playerFirstName.toLowerCase() + "-" + e.playerLastName.toLowerCase() + "/" + e.playerId;
+                a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+v_link : nflPartnerDomain + l.dom + "/" + l.category+v_link;
           }
           else {
             a = SpecialDomain + "/" + l.category+v_link;
