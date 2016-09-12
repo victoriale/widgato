@@ -270,7 +270,7 @@ function p() {
           $('line2').innerHTML = "Division: <b>" + e.divisionName + "</b>";
           var a = "";
           var v_link = '';
-          if(playerId == null){
+          if(e.playerId == null){
             v_link = "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
           }else{
             v_link = "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + e.playerFirstName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
