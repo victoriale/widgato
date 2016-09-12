@@ -50,8 +50,8 @@ a:hover {
   border-color: black!important;
   background-color: black !important;
   color: white!important;
-  fill: white;
-  stroke: white;
+  fill: white!important;
+  stroke: white!important;
 }
 
 .hover {

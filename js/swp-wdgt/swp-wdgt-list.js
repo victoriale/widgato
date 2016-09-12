@@ -116,7 +116,7 @@ function RenderDynamicSide(protocolToUse){
     A('.fcw-list-next').style.borderColor = color;
 
     A(".fcw-list-next").onmouseover = function() {
-      A('.fcw-list-next').style.backgroundColor = color;
+      A('.fcw-list-next').style.backgroundColor = "#272727";
       A('.fcw-list-next').style.color = 'white';
       A('#nextlist-svg').style.fill = '#FFFFFF';
     }
@@ -203,7 +203,7 @@ function RenderDynamicSide(protocolToUse){
         A('#nextlist-svg').style.fill = 'white';
       }
       A(".fcw-list-next").onmouseout  = function() {
-        A('.fcw-list-next').style.bordercolor = color;
+        A('.fcw-list-next').style.borderColor = color;
         A('.fcw-list-next').style.backgroundColor = '';
         A('.fcw-list-next').style.color = '#000000';
         A('#nextlist-svg').style.fill = '#000000';
