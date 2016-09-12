@@ -31,9 +31,13 @@ a:hover {
     border-color: #ffd800!important;
     background-color: #ffd800 !important;
     color: #272727!important;
+    stroke: #272727!important;
+    fill: #272727!important;
 }
 #list-link .dw-btn:hover {
   color: white!important;
+  stroke: white!important;
+  fill: white!important;
 }
 #next-list-link .dw-btn{
   border-color: #ffd800!important;
