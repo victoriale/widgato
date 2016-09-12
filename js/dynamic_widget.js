@@ -79,12 +79,12 @@ dynamic_widget = function() {
       }
     }
 
-    function m() {
+    function m(ignoreRandom) {
       if (l.category == "nfl" || l.category == "ncaaf") {
         httpGetInitData(l.category);
       }
       else {
-        httpGetData();
+        httpGetData("",ignoreRandom);
       }
 
     }
@@ -96,7 +96,7 @@ dynamic_widget = function() {
       if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
           l.category = 'finance'
       }
-      if(ignoreRandom == null) {
+      if (ignoreRandom == null) {
         var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
       }
       else {
@@ -164,7 +164,20 @@ dynamic_widget = function() {
         }
         if (l.category == 'politics') {
             var i = r.l_title.indexOf('Republican') != -1 ? 'r' : r.l_title.indexOf('Independent') != -1 ? 'i' : 'd';
-            add_css_link('../css/dynamic_widget_politics_' + i + '.css')
+            var cssId = 'politicsCss';  // you could encode the css path itself to generate id..
+            if (document.getElementById(cssId))
+            {
+              var element = document.getElementById(cssId);
+              element.parentNode.removeChild(element);
+            }
+            var head  = document.getElementsByTagName('head')[0];
+            var link  = document.createElement('link');
+            link.id   = cssId;
+            link.rel  = 'stylesheet';
+            link.type = 'text/css';
+            link.href = '../css/dynamic_widget_politics_' + i + '.css';
+            link.media = 'all';
+            head.appendChild(link);
         }
         if (l.category == 'mlb') {
             r.l_title = r.l_title.replace("MLB","Baseball");
@@ -394,13 +407,23 @@ function p() {
             }
             var c = $('subimg');
             var n = c.getAttribute('onerror');
-            $('carousel').setAttribute('class', 'two');
-            $('suburl').setAttribute('style', 'display: block');
-            $('mainimg').setAttribute('style', 'left: 41px');
-            $('num').setAttribute('style', 'left: 41px');
             c.setAttribute('onerror', '');
             c.setAttribute('src', '');
-            c.setAttribute('src', e.li_subimg.img);
+            //hide double image if second image is blank for this profile
+            if (e.li_subimg.img == "//w1.synapsys.us/widgets/css/public/no_image.jpg") {
+              $('carousel').setAttribute('class', 'one');
+              $('suburl').setAttribute('style', 'display: none');
+              // $('mainimg').setAttribute('style', 'left: 78px');
+              // $('num').setAttribute('style', 'left: 78px');
+            }
+            else {
+              c.setAttribute('src', e.li_subimg.img);
+              //set double image css to "on" if we have a double image for this list
+              $('carousel').setAttribute('class', 'two');
+              $('suburl').setAttribute('style', 'display: block');
+              // $('mainimg').setAttribute('style', 'left: 41px');
+              // $('num').setAttribute('style', 'left: 41px');
+            }
             setTimeout(function(e, t) {
                 t.setAttribute('onerror', e)
             }.bind(null, n, c), 0);
@@ -411,6 +434,7 @@ function p() {
             }
         }
         else {
+          //set double image off if we dont have it for this list
           $('carousel').setAttribute('class', 'one');
           $('suburl').setAttribute('style', 'display: none');
           $('mainimg').setAttribute('style', 'left: 78px');
@@ -533,6 +557,6 @@ function p() {
     return {
         carousel: w,
         get_title: f,
-        httpGetData: httpGetData
+        m: m
     }
 }();

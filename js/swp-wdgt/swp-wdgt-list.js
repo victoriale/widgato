@@ -54,10 +54,10 @@ function RenderDynamicSide(protocolToUse){
   }
 
   var colorSchemes = {
-      nba: '#f7701d',
-      mlb: '#b31d24',
+      nba: '#f26f26',
+      mlb: '#bc2027',
       nfl: '#2d3e50',
-      college_basketball: '#f7701d',
+      college_basketball: '#f26f26',
       finance: '#3098ff',
       crime: '#f6af05',
       demographics: '#65398e',
@@ -116,7 +116,7 @@ function RenderDynamicSide(protocolToUse){
     A('.fcw-list-next').style.borderColor = color;
 
     A(".fcw-list-next").onmouseover = function() {
-      A('.fcw-list-next').style.backgroundColor = color;
+      A('.fcw-list-next').style.backgroundColor = "#272727";
       A('.fcw-list-next').style.color = 'white';
       A('#nextlist-svg').style.fill = '#FFFFFF';
     }
@@ -203,7 +203,7 @@ function RenderDynamicSide(protocolToUse){
         A('#nextlist-svg').style.fill = 'white';
       }
       A(".fcw-list-next").onmouseout  = function() {
-        A('.fcw-list-next').style.bordercolor = color;
+        A('.fcw-list-next').style.borderColor = color;
         A('.fcw-list-next').style.backgroundColor = '';
         A('.fcw-list-next').style.color = '#000000';
         A('#nextlist-svg').style.fill = '#000000';
@@ -444,14 +444,7 @@ function RenderDynamicSide(protocolToUse){
           var hoops = true;
         }
 
-       if (listType == 'college_basketball' && listData[index].li_title.length + listData[index].li_sub_txt.length >= 35) {
-         A('#fcw-content2b').style.fontSize = '10px';
-         A('.fcw-content1').style.fontSize = '12px';
-       }
-       else if(hoops = true){
-         A('#fcw-content2b').style.fontSize = '12px';
-         A('.fcw-content1').style.fontSize = '16px';
-       }
+       if (listType == 'college_basketball' && listData[index].li_title.length + listData[index].li_sub_txt.length >= 35)
 
         var listLink = buildListLink(listType, remnant, domain, curData);
         A('.fcw-list-list').setAttribute('href', listLink);

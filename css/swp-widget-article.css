@@ -147,6 +147,7 @@ i {
     width: 132px;
     color: #fff;
     border-radius: 3px;
+    border: 1px solid rgb(179, 29, 36);
 }
 
 .buttons-readstory:hover {
@@ -812,10 +813,6 @@ button:focus {
 
 .swp-dropdown.active .swp-top {
     background-color: rgba(45, 62, 80, 0.9);
-}
-
-.swp-dropdown.active .swp-top .ball {
-    background-color: #000;
 }
 
 .swp-dropdown.active .swp-top .fa {
