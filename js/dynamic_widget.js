@@ -269,11 +269,18 @@ function p() {
           $('line1').innerHTML = e.teamName;
           $('line2').innerHTML = "Division: <b>" + e.divisionName + "</b>";
           var a = "";
+          var v_link = '';
+          if(playerId == null){
+            v_link = "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
+          }else{
+            v_link = "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + e.playerFirstName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
+          }
+
           if (SpecialDomain == "") {
-                a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+"/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId : nflPartnerDomain + l.dom + "/" +l.category+"/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
+                a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+ v_link : nflPartnerDomain + l.dom + "/" +l.category+ v_link;
           }
           else {
-            a = SpecialDomain + "/" +l.category+"/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
+            a = SpecialDomain + "/" +l.category+ v_link;
           }
           $('mainurl').href = a;
           $('line1').href = a;
@@ -286,7 +293,7 @@ function p() {
                 a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+"/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId : nflPartnerDomain + l.dom + "/" + l.category+"/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.playerFirstName.toLowerCase() + "-" + e.playerLastName.toLowerCase() + "/" + e.playerId;
           }
           else {
-            a = SpecialDomain + "/" + l.category+"/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.playerFirstName.toLowerCase() + "-" + e.playerLastName.toLowerCase() + "/" + e.playerId;
+            a = SpecialDomain + "/" + l.category+v_link;
           }
           $('mainurl').href = a;
           $('line1').href = a;
