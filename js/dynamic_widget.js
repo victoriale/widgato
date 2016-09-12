@@ -96,7 +96,7 @@ dynamic_widget = function() {
       if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
           l.category = 'finance'
       }
-      var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
+      var e = /*typeof l.rand != 'undefined' && n == 0 ? l.rand :*/ Math.floor(Math.random() * 10);
       var i;
       if (window.XMLHttpRequest) {
           i = new XMLHttpRequest
