@@ -275,7 +275,7 @@ dynamic_widget = function() {
           a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
         }
         else {
-          a += "/"+l.category+"/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
+          a += "/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
         }
         if ($('list-link')) {
             $('list-link').href = a
@@ -291,7 +291,7 @@ function p() {
           $('line2').innerHTML = "Division: <b>" + e.divisionName + "</b>";
           var a = "";
 
-          if (SpecialDomain == "") {
+          if (SpecialDomain == "") {// if no special link then create
                 v_link = l.remn == 'true' ? "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId : "/t/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
                 a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+ v_link : nflPartnerDomain + l.dom + "/" +l.category+ v_link;
           }
