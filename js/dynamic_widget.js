@@ -413,7 +413,7 @@ function p() {
 
             //hide double image if second image is blank for this profile
             convertImage(l.category, c, e);
-
+            
             setTimeout(function(e, t) {
                 t.setAttribute('onerror', e)
             }.bind(null, n, c), 0);
@@ -427,8 +427,6 @@ function p() {
           //set double image off if we dont have it for this list
           $('carousel').setAttribute('class', 'one');
           $('suburl').setAttribute('style', 'display: none');
-          $('mainimg').setAttribute('style', 'left: 78px');
-          $('num').setAttribute('style', 'left: 78px');
         }
         if ($('list-link')) {
             var u = d.getElementsByClassName('dw-btn')[0];
@@ -465,17 +463,12 @@ function p() {
           c.setAttribute('src', e.li_subimg.img);
           $('carousel').setAttribute('class', 'two');
           $('suburl').setAttribute('style', 'display: block');
-          $('subimg').setAttribute('style', 'left: 115px');
-          $('mainimg').setAttribute('style', 'left: 41px');
-          $('num').setAttribute('style', 'left: 41px');
         }
         else {
           c.setAttribute('src', e.li_subimg.img);
           //set double image css to "on" if we have a double image for this list
           $('carousel').setAttribute('class', 'two');
           $('suburl').setAttribute('style', 'display: block');
-          $('mainimg').setAttribute('style', 'left: 41px');
-          $('num').setAttribute('style', 'left: 41px');
         }
         break;
       }
