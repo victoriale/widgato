@@ -210,17 +210,21 @@ i {
     font-size: 18px;
     line-height: 30px;
     overflow: hidden;
-    white-space: nowrap;
     text-overflow: ellipsis;
     text-align: left;
     font-weight: bold
 }
-#desc.dw-i-title {
+#desc {
   overflow: visible;
   white-space: normal;
-  padding-right: 5px;
+  font-size: 16px;
+  font-weight: 400;
   line-height: 15px;
-  margin-top: 15px;
+  margin-top: 20px;
+  display: inline-block;
+}
+#line4 {
+  display: inline-block;
 }
 
 .dw-i-title a {
@@ -234,9 +238,7 @@ i {
     font-weight: unset;
     color: #000!important
 }
-.dw-i-title#line2 {
-    margin-top: -8px;
-}
+
 
 #list-link {
     height: 0;
@@ -360,11 +362,12 @@ i {
     }
     .dw-i-title {
         font-size: 16px;
+        line-height: 15px;
     }
     .dw-i-title#line2,
     .dw-i-title#line4 {
         font-size: 14px;
-        line-height: 20px
+        line-height: 15px
     }
     #line4 {
         white-space: normal
@@ -387,7 +390,7 @@ i {
 
 @media screen and (max-width:410px) {
   .button-holder {
-    width: 120%;
+    width: 125%;
   }
   .dw-btn {
     width: 75px;
@@ -410,6 +413,9 @@ i {
   .dw-i-title#line4 {
       font-size: 12px;
       line-height: 14px;
+  }
+  #desc {
+        margin-top: 15px;
   }
 }
 

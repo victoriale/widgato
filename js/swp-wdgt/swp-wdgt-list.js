@@ -445,8 +445,6 @@ function RenderDynamicSide(protocolToUse){
           var hoops = true;
         }
 
-       if (listType == 'college_basketball' && listData[index].li_title.length + listData[index].li_sub_txt.length >= 35)
-
         var listLink = buildListLink(listType, remnant, domain, curData);
         A('.fcw-list-list').setAttribute('href', listLink);
 
