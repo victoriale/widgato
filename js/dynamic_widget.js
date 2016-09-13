@@ -254,10 +254,11 @@ dynamic_widget = function() {
                 $("carousel").className = "one";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.touchdownloyal.com' : nflPartnerDomain + l.dom + '/'+l.category+'/list';
+                      a = l.remn == 'true' ? 'http://www.touchdownloyal.com' : nflPartnerDomain + l.dom;
                 }
                 else {
-                  a = SpecialDomain + "/"+l.category+"/list";
+                  //for football.partnerdomain.com
+                  a = SpecialDomain;
                 }
                 var n = false
                 break;
@@ -275,7 +276,7 @@ dynamic_widget = function() {
           a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
         }
         else {
-          a += "/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
+          a += "/" + l.category + "/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
         }
         if ($('list-link')) {
             $('list-link').href = a
@@ -413,7 +414,7 @@ function p() {
 
             //hide double image if second image is blank for this profile
             convertImage(l.category, c, e);
-            
+
             setTimeout(function(e, t) {
                 t.setAttribute('onerror', e)
             }.bind(null, n, c), 0);

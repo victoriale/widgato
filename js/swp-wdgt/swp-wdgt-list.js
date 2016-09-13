@@ -117,11 +117,12 @@ function RenderDynamicSide(protocolToUse){
 
     A(".fcw-list-next").onmouseover = function() {
       A('.fcw-list-next').style.backgroundColor = "#272727";
+      A('.fcw-list-next').style.borderColor = "#272727";
       A('.fcw-list-next').style.color = 'white';
       A('#nextlist-svg').style.fill = '#FFFFFF';
     }
     A(".fcw-list-next").onmouseout  = function() {
-      A('.fcw-list-next').style.bordercolor = color;
+      A('.fcw-list-next').style.borderColor = color;
       A('.fcw-list-next').style.backgroundColor = '';
       A('.fcw-list-next').style.color = color;
       A('#nextlist-svg').style.fill = color;
@@ -443,8 +444,6 @@ function RenderDynamicSide(protocolToUse){
           A('.fcw-content1').innerHTML = listData[index].li_title;
           var hoops = true;
         }
-
-       if (listType == 'college_basketball' && listData[index].li_title.length + listData[index].li_sub_txt.length >= 35)
 
         var listLink = buildListLink(listType, remnant, domain, curData);
         A('.fcw-list-list').setAttribute('href', listLink);
