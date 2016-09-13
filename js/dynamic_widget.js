@@ -278,7 +278,6 @@ dynamic_widget = function() {
         else {
           a += "/" + l.category + "/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
         }
-        console.log(a);
         if ($('list-link')) {
             $('list-link').href = a
         }
