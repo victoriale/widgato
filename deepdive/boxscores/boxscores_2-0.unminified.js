@@ -144,23 +144,27 @@
       apiString = protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + boxscoresBar.todayObject.dateInput;
       domainList = ['mytouchdownzone.com', 'dev.mytouchdownzone.com', 'qa.mytouchdownzone.com'];
       barColor = '#272727';
-      arrowColor = '#44b244';
+      arrowColor = '#fc501d';
       barTitle = 'NFL THIS WEEK';
       gameBorderColor = '#000';
       formatData = function(data){
         return formatFootballData(data, 'nfl');
       };
+      //Reset offset to 0 since api returns in eastern time
+      boxscoresBar.easternTime.offset = 0;
     break;
     case 'ncaaf':
       apiString = protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + boxscoresBar.todayObject.dateInput;
       domainList = ['mytouchdownzone.com', 'dev.mytouchdownzone.com', 'qa.mytouchdownzone.com'];
       barColor = '#272727';
-      arrowColor = '#44b244';
+      arrowColor = '#fc501d';
       barTitle = 'NCAAF THIS WEEK';
       gameBorderColor = '#000';
       formatData = function(data){
         return formatFootballData(data, 'ncaaf');
       };
+      //Reset offset to 0 since api returns in eastern time
+      boxscoresBar.easternTime.offset = 0;
     break;
     default:
       apiString = protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + boxscoresBar.todayObject.dateInput;
