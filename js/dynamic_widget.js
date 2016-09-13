@@ -272,14 +272,12 @@ dynamic_widget = function() {
                 var a = l.remn == 'true' ? 'http://www.joyfulhome.com/wlist' : 'http://www.myhousekit.com/' + l.dom + '/wlist';
                 var n = false
         }
-        console.log(a);
         if (l.category != "nfl" && l.category != "ncaaf") {
           a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
         }
         else {
           a += "/" + l.category + "/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
         }
-        console.log(a);
         if ($('list-link')) {
             $('list-link').href = a
         }
