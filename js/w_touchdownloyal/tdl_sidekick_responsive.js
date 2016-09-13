@@ -1,8 +1,8 @@
 ai_widget = (function () {
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
     //switch url for live or testing environment
-    var tdlDomain = "http://dev.touchdownloyal.com/";
-    var tdlPartnerDomain = "http://dev.mytouchdownzone.com/";
+    var tdlDomain = "http://www.touchdownloyal.com/";
+    var tdlPartnerDomain = "http://www.mytouchdownzone.com/";
     //end switch
     var referrer = document.referrer;
     if (referrer.match(/football/g)) {
@@ -37,7 +37,7 @@ ai_widget = (function () {
 
     }
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/sidekick/' + league,
+    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick/' + league,
         AIData = {},
         gameID = -1,
         pageInd = -1,
@@ -100,7 +100,7 @@ ai_widget = (function () {
         });
         var arr = {
             keyword: dataArr[0].keyword,
-            date: dataArr[0].dateline,
+            date: dataArr[0].dateline.replace(/ /g,"/").replace(/,/g,"/").replace("//","/"),
             title: dataArr[0].displayHeadline,
             url: href + league + '/articles/' + dataArr[0].index + '/' + dataArr[0].eventId,
             content: dataArr[0].report + '<br>&nbsp; ',

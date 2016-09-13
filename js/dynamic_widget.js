@@ -4,6 +4,9 @@ var nflDomain        = "http://www.touchdownloyal.com/";
 var mlbPartnerDomain = "http://www.myhomerunzone.com/";
 var nflPartnerDomain = "http://www.mytouchdownzone.com/";
 var referrer = document.referrer;
+var season;
+var SpecialDomain = "";
+var currentDomain = "";
 if(referrer.match(/baseball/g)){
     mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
 }
@@ -24,7 +27,7 @@ dynamic_widget = function() {
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
-        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl'];
+        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf'];
     var s = false;
     var o = '';
     function c(e) {
@@ -40,8 +43,13 @@ dynamic_widget = function() {
             })
         }
     }
-    function httpGetInitData(){
-      var url = '../js/tdl_list_array.json';
+    function httpGetInitData(league){
+      if (league == "nfl") {
+        var url = '../js/tdl_list_array.json';
+      }
+      else {
+        var url = '../js/tdl_list_array_ncaaf.json';
+      }
       var xmlHttp = new XMLHttpRequest();
       xmlHttp.onreadystatechange = function(){
         if(xmlHttp.readyState === 4 && xmlHttp.status === 200){
@@ -55,19 +63,33 @@ dynamic_widget = function() {
     }
     function getRandList(initData) {
       rand = Math.floor((Math.random() * 140) + 1);
-      httpGetData(initData[rand]);
-    }
-
-    function m() {
-      if (l.category == "nfl") {
-        httpGetInitData();
+      var date = new Date;
+      var compareDate = new Date('09 15 ' + date.getFullYear());
+      if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
+        httpGetData(initData[rand] + "&season=" + date.getFullYear());
+        season = date.getFullYear();
+      }
+      else if (date.getMonth() > compareDate.getMonth()) {
+        httpGetData(initData[rand] + "&season=" + date.getFullYear());
+        season = date.getFullYear();
       }
       else {
-        httpGetData();
+        httpGetData(initData[rand] + "&season=" + (date.getFullYear() - 1));
+        season = (date.getFullYear() - 1);
+      }
+    }
+
+    function m(ignoreRandom) {
+      i = 0;// resets index count to 0 when swapping lists
+      if (l.category == "nfl" || l.category == "ncaaf") {
+        httpGetInitData(l.category);
+      }
+      else {
+        httpGetData("",ignoreRandom);
       }
 
     }
-    function httpGetData(query) {
+    function httpGetData(query, ignoreRandom) {
       if (l.dom == 'lasvegasnow.com') {
           s = true;
           o = 'finance.lasvegasnow.com'
@@ -75,7 +97,13 @@ dynamic_widget = function() {
       if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
           l.category = 'finance'
       }
-      var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
+      if (ignoreRandom == null) {
+        var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
+      }
+      else {
+        var e = Math.floor(Math.random() * 10);
+      }
+
       var i;
       if (window.XMLHttpRequest) {
           i = new XMLHttpRequest
@@ -104,8 +132,8 @@ dynamic_widget = function() {
               }
           }
       };
-      if (l.category == "nfl") {
-        i.open('GET', protocol + "://dev-touchdownloyal-api.synapsys.us/list/" + query , true);
+      if (l.category == "nfl" || l.category == "ncaaf") {
+        i.open('GET', protocol + "://prod-touchdownloyal-api.synapsys.us/list/" + query , true);
         i.send()
       }
       else {
@@ -137,12 +165,25 @@ dynamic_widget = function() {
         }
         if (l.category == 'politics') {
             var i = r.l_title.indexOf('Republican') != -1 ? 'r' : r.l_title.indexOf('Independent') != -1 ? 'i' : 'd';
-            add_css_link('../css/dynamic_widget_politics_' + i + '.css')
+            var cssId = 'politicsCss';  // you could encode the css path itself to generate id..
+            if (document.getElementById(cssId))
+            {
+              var element = document.getElementById(cssId);
+              element.parentNode.removeChild(element);
+            }
+            var head  = document.getElementsByTagName('head')[0];
+            var link  = document.createElement('link');
+            link.id   = cssId;
+            link.rel  = 'stylesheet';
+            link.type = 'text/css';
+            link.href = '../css/dynamic_widget_politics_' + i + '.css';
+            link.media = 'all';
+            head.appendChild(link);
         }
         if (l.category == 'mlb') {
             r.l_title = r.l_title.replace("MLB","Baseball");
         }
-        if (l.category == "nfl") {$('title').innerHTML = r.data.listInfo.listName;} else {$('title').innerHTML = r.l_title;}
+        if (l.category == "nfl" || l.category == "ncaaf") {$('title').innerHTML = r.data.listInfo.listName;} else {$('title').innerHTML = r.l_title;}
         if ($('line4') != null && d.getElementsByClassName('dw')[0].clientWidth == 350 && $('title').scrollHeight > 61) {
             $('title').setAttribute('style', 'font-size: 14px')
         }
@@ -164,8 +205,6 @@ dynamic_widget = function() {
           "capitalgazette.com",
           "chicagotribune.com"
         ];
-        var SpecialDomain = "";
-        var currentDomain = "";
         if (document.referrer == "") {
           currentDomain = window.location.hostname.toString();
         }
@@ -197,27 +236,28 @@ dynamic_widget = function() {
                 //  $("list-link").style.display = "none";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : PartnerDomain + l.dom + '/list';
+                      a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom +'/list';
                 }
                 else {
-                  a = SpecialDomain;
+                  a = SpecialDomain + '/list';
                 }
                 var n = false
                 break;
             case "nfl":
+            case "ncaaf":
                 for (i = 0; i <= specialDomains.length; i++) {
                   if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://football." + specialDomains[i] + "/nfl/list";
+                    SpecialDomain = "http://football." + specialDomains[i] ;
                   }
                 }
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
                 $("carousel").className = "one";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.touchdownloyal.com' : PartnerDomain + l.dom + '/nfl/list';
+                      a = l.remn == 'true' ? 'http://www.touchdownloyal.com' : nflPartnerDomain + l.dom + '/'+l.category+'/list';
                 }
                 else {
-                  a = SpecialDomain;
+                  a = SpecialDomain + "/"+l.category+"/list";
                 }
                 var n = false
                 break;
@@ -231,30 +271,49 @@ dynamic_widget = function() {
                 var a = l.remn == 'true' ? 'http://www.joyfulhome.com/wlist' : 'http://www.myhousekit.com/' + l.dom + '/wlist';
                 var n = false
         }
-        if (l.category != "nfl") {
+        if (l.category != "nfl" && l.category != "ncaaf") {
           a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
         }
         else {
-          a += "/nfl/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + "asc" + "/" + "10" + "/" + "1";
+          a += "/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
         }
         if ($('list-link')) {
             $('list-link').href = a
         }
         p()
-    }
-
-    function p() {
-      if (l.category == "nfl") {
+      }
+function p() {
+      if (l.category == "nfl" || l.category == "ncaaf") {
         var e = r.data.listData[i];
+        var v_link = '';
         if (e.rankType == "team") {
           $('line1').innerHTML = e.teamName;
-          $('line2').innerHTML = e.divisionName;
-          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/team/" + e.teamName.replace(/ /g, "").toLowerCase() + "/" + e.teamId;
+          $('line2').innerHTML = "Division: <b>" + e.divisionName + "</b>";
+          var a = "";
+
+          if (SpecialDomain == "") {// if no special link then create
+                v_link = l.remn == 'true' ? "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId : "/t/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
+                a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+ v_link : nflPartnerDomain + l.dom + "/" +l.category+ v_link;
+          }
+          else {
+            a = SpecialDomain + "/" +l.category+ v_link;
+          }
+          $('mainurl').href = a;
+          $('line1').href = a;
         }
         else {
           $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
-          $('line2').innerHTML = e.teamName;
-          $('mainurl').href = protocolToUse + "www.touchdownloyal.com/nfl/player/" + e.playerFirstName.toLowerCase() + e.playerLastName.toLowerCase() + "/" + e.playerId;
+          $('line2').innerHTML = "Team: <b>" + e.teamName + "</b>";
+          var a = "";
+          v_link = l.remn == 'true' ? "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId : "/p/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
+          if (SpecialDomain == "") {
+                a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+v_link : nflPartnerDomain + l.dom + "/" + l.category+v_link;
+          }
+          else {
+            a = SpecialDomain + "/" + l.category+v_link;
+          }
+          $('mainurl').href = a;
+          $('line1').href = a;
         }
         var statType = e.statType.replace(/_/g, " ");
         statType = statType.replace("player", "");
@@ -264,7 +323,6 @@ dynamic_widget = function() {
         });
         var stat = Math.floor(Number(e.stat));
         $('desc').innerHTML = stat + " " + statType;
-        $('line1').href =  e.li_line_url;
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
@@ -352,7 +410,10 @@ dynamic_widget = function() {
             var n = c.getAttribute('onerror');
             c.setAttribute('onerror', '');
             c.setAttribute('src', '');
-            c.setAttribute('src', e.li_subimg.img);
+
+            //hide double image if second image is blank for this profile
+            convertImage(l.category, c, e);
+
             setTimeout(function(e, t) {
                 t.setAttribute('onerror', e)
             }.bind(null, n, c), 0);
@@ -361,6 +422,13 @@ dynamic_widget = function() {
             if (m.className.indexOf('two') == -1) {
                 m.className += ' two'
             }
+        }
+        else {
+          //set double image off if we dont have it for this list
+          $('carousel').setAttribute('class', 'one');
+          $('suburl').setAttribute('style', 'display: none');
+          $('mainimg').setAttribute('style', 'left: 78px');
+          $('num').setAttribute('style', 'left: 78px');
         }
         if ($('list-link')) {
             var u = d.getElementsByClassName('dw-btn')[0];
@@ -382,9 +450,40 @@ dynamic_widget = function() {
 
     }
 
+    function convertImage(category, c, e){
+      switch(category){
+        case 'mlb':
+        case 'ncaaf':
+        case 'nfl':
+        case 'college_basketball':
+        case 'nba':
+        $("suburl").style.cssText += "pointer-events:none; cursor:default";
+        $("carousel").className = "one";
+        break;
+        case 'finance':
+        if (e.li_subimg.img == "//w1.synapsys.us/widgets/css/public/no_image.jpg") {
+          c.setAttribute('src', e.li_subimg.img);
+          $('carousel').setAttribute('class', 'two');
+          $('suburl').setAttribute('style', 'display: block');
+          $('subimg').setAttribute('style', 'left: 115px');
+          $('mainimg').setAttribute('style', 'left: 41px');
+          $('num').setAttribute('style', 'left: 41px');
+        }
+        else {
+          c.setAttribute('src', e.li_subimg.img);
+          //set double image css to "on" if we have a double image for this list
+          $('carousel').setAttribute('class', 'two');
+          $('suburl').setAttribute('style', 'display: block');
+          $('mainimg').setAttribute('style', 'left: 41px');
+          $('num').setAttribute('style', 'left: 41px');
+        }
+        break;
+      }
+    }
+
     function w(e) {
         i += e;
-        if (l.category = "nfl") {
+        if (l.category == "nfl" || l.category == "ncaaf") {
           i = i >= r.data.listData.length ? 0 : i < 0 ? r.data.listData.length - 1 : i;
         }
         else {
@@ -423,7 +522,7 @@ dynamic_widget = function() {
                 if (s) {
                     r = r.replace('www.myinvestkit.com', o)
                 }
-                hn = "Invest Kit";
+                hn = "Finance";
                 break;
             case 'nba':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NBA' : 'http://www.myhoopszone.com/' + l.dom + '/NBA';
@@ -431,7 +530,7 @@ dynamic_widget = function() {
                 break;
             case 'college_basketball':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA';
-                var hn = "Hoops Loyal";
+                var hn = "Basketball";
                 break;
             case "mlb":
                 var r = "";
@@ -440,29 +539,45 @@ dynamic_widget = function() {
                 }else{
                     r = mlbPartnerDomain;
                 }
-                var hn = "Home Run Loyal";
+                var hn = "Baseball";
               break;
             case "nfl":
+            case "ncaaf":
                 var r = "";
                 if( nflPartnerDomain == "http://www.mytouchdownzone.com/") {
                     r = l.remn == 'true' ? 'http://www.touchdownloyal.com/' : nflPartnerDomain + l.dom + '/';
                 }else{
                     r = nflPartnerDomain;
                 }
-                var hn = "Touchdown Loyal";
+                var hn = "Football";
+              break;
+            case "weather":
+              var hn = "Weather";
+              break;
+            case "politics":
+            var hn = "Politics";
+              break;
+            case "disaster":
+            var hn = "Disaster";
+              break;
+            case "demographics":
+            var hn = "Demographics";
+              break;
+            case "crime":
+            var hn = "Crime";
               break;
             default:
                 var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';
-                var hn = "My House Kit";
+                var hn = "Homes";
                 break
         }
-        $('homelink').href = r;
         $('verticalDisplayName').innerHTML = hn;
     }
     m();
     c(h);
     return {
         carousel: w,
-        get_title: f
+        get_title: f,
+        m: m
     }
 }();

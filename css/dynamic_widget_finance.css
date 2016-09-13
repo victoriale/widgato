@@ -1,11 +1,11 @@
 a:hover {
-    color: #3294ff;
+    color: #3098ff;
 }
 #verticalName {
-  background-color: #3294ff;
+  background-color: #3098ff;
 }
 .dw-nav{
-    background-color: #3294ff!important;
+    background-color: #3098ff!important;
 }
 .dw-btn:hover,
 .dw-nav:hover {
@@ -18,16 +18,16 @@ a:hover {
 }
 
 .dw-btn {
-    border-color: #3294ff!important;
-    background-color: #3294ff !important;
+    border-color: #3098ff!important;
+    background-color: #3098ff !important;
     color: white!important;
 }
 #next-list-link .dw-btn{
-  border-color: #3294ff!important;
+  border-color: #3098ff!important;
   background-color: white !important;
-  color: #3294ff!important;
-  fill: #3294ff;
-  stroke: #3294ff;
+  color: #3098ff!important;
+  fill: #3098ff;
+  stroke: #3098ff;
 }
 #next-list-link .dw-btn:hover{
   border-color: black!important;

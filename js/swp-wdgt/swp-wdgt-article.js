@@ -22,7 +22,7 @@ function RenderArticleSide(protocolToUse) {
     var APIUrl;
     var keyword;
     var dropdownCount = 0;
-    var catOptions = ['mlb', 'nfl', 'ncaa'];
+    var catOptions = ['mlb', /*'nfl', 'ncaa'*/];
     var isMlb = false;
 
     catOptions.sort(function () {
@@ -34,15 +34,15 @@ function RenderArticleSide(protocolToUse) {
         keyword = "MLB";
         isMlb = true;
     } else if (catOptions[0] == 'nfl') {
-        APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/sidekick/nfl';
+        APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick/nfl';
         keyword = "NFL";
         isMlb = false;
     } else if (catOptions[0] == 'ncaa') {
-        APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/sidekick/ncaa';
+        APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick/ncaa';
         keyword = "NCAAF";
         isMlb = false;
     } else {
-        APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/sidekick';
+        APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick';
         keyword = "MLB";
         isMlb = false;
     }

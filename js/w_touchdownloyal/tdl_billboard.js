@@ -1,8 +1,8 @@
 tdl_billboard = (function () {
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
     //switch url for live or testing environment
-    var tdlDomain = "http://dev.touchdownloyal.com/";
-    var tdlPartnerDomain = "http://dev.mytouchdownzone.com/";
+    var tdlDomain = "http://www.touchdownloyal.com/";
+    var tdlPartnerDomain = "http://www.mytouchdownzone.com/";
     //end switch
     var referrer = document.referrer;
     if (referrer.match(/football/g)) {
@@ -72,7 +72,7 @@ tdl_billboard = (function () {
 
     var teamId = query.team;
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/billboard/' + scope + '/' + teamId;
+    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/billboard/' + scope + '/' + teamId;
     var randomArticles = [];
     var teamData = [];
     var imageArr = [];
