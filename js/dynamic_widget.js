@@ -80,6 +80,7 @@ dynamic_widget = function() {
     }
 
     function m(ignoreRandom) {
+      i = 0;// resets index count to 0 when swapping lists
       if (l.category == "nfl" || l.category == "ncaaf") {
         httpGetInitData(l.category);
       }
@@ -235,7 +236,7 @@ dynamic_widget = function() {
                 //  $("list-link").style.display = "none";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom ;
+                      a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom +'/list';
                 }
                 else {
                   a = SpecialDomain + '/list';
@@ -274,7 +275,7 @@ dynamic_widget = function() {
           a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
         }
         else {
-          a += "/"+l.category+"/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
+          a += "/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + "asc" + "/" + "10" + "/" + "1";
         }
         if ($('list-link')) {
             $('list-link').href = a
@@ -289,9 +290,9 @@ function p() {
           $('line1').innerHTML = e.teamName;
           $('line2').innerHTML = "Division: <b>" + e.divisionName + "</b>";
           var a = "";
-          v_link = "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
 
-          if (SpecialDomain == "") {
+          if (SpecialDomain == "") {// if no special link then create
+                v_link = l.remn == 'true' ? "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId : "/t/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
                 a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+ v_link : nflPartnerDomain + l.dom + "/" +l.category+ v_link;
           }
           else {
@@ -304,7 +305,7 @@ function p() {
           $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
           $('line2').innerHTML = "Team: <b>" + e.teamName + "</b>";
           var a = "";
-          v_link = "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
+          v_link = l.remn == 'true' ? "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId : "/p/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
           if (SpecialDomain == "") {
                 a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+v_link : nflPartnerDomain + l.dom + "/" + l.category+v_link;
           }
@@ -409,21 +410,10 @@ function p() {
             var n = c.getAttribute('onerror');
             c.setAttribute('onerror', '');
             c.setAttribute('src', '');
+
             //hide double image if second image is blank for this profile
-            if (e.li_subimg.img == "//w1.synapsys.us/widgets/css/public/no_image.jpg") {
-              $('carousel').setAttribute('class', 'one');
-              $('suburl').setAttribute('style', 'display: none');
-              // $('mainimg').setAttribute('style', 'left: 78px');
-              // $('num').setAttribute('style', 'left: 78px');
-            }
-            else {
-              c.setAttribute('src', e.li_subimg.img);
-              //set double image css to "on" if we have a double image for this list
-              $('carousel').setAttribute('class', 'two');
-              $('suburl').setAttribute('style', 'display: block');
-              // $('mainimg').setAttribute('style', 'left: 41px');
-              // $('num').setAttribute('style', 'left: 41px');
-            }
+            convertImage(l.category, c, e);
+
             setTimeout(function(e, t) {
                 t.setAttribute('onerror', e)
             }.bind(null, n, c), 0);
@@ -458,6 +448,37 @@ function p() {
         }
       }
 
+    }
+
+    function convertImage(category, c, e){
+      switch(category){
+        case 'mlb':
+        case 'ncaaf':
+        case 'nfl':
+        case 'college_basketball':
+        case 'nba':
+        $("suburl").style.cssText += "pointer-events:none; cursor:default";
+        $("carousel").className = "one";
+        break;
+        case 'finance':
+        if (e.li_subimg.img == "//w1.synapsys.us/widgets/css/public/no_image.jpg") {
+          c.setAttribute('src', e.li_subimg.img);
+          $('carousel').setAttribute('class', 'two');
+          $('suburl').setAttribute('style', 'display: block');
+          $('subimg').setAttribute('style', 'left: 115px');
+          $('mainimg').setAttribute('style', 'left: 41px');
+          $('num').setAttribute('style', 'left: 41px');
+        }
+        else {
+          c.setAttribute('src', e.li_subimg.img);
+          //set double image css to "on" if we have a double image for this list
+          $('carousel').setAttribute('class', 'two');
+          $('suburl').setAttribute('style', 'display: block');
+          $('mainimg').setAttribute('style', 'left: 41px');
+          $('num').setAttribute('style', 'left: 41px');
+        }
+        break;
+      }
     }
 
     function w(e) {

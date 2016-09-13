@@ -480,7 +480,6 @@ function getRandomInt(min, max){
 
 /* -- Manipulation Functions  -- */
 function buildListLink(cat, remn, dom, widget_data){
-
   var specialDomains = [
     "latimes.com",
     "orlandosentinel.com",
