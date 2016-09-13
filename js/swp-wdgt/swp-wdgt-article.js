@@ -18,9 +18,11 @@ swp_wdgt = function () {
 
 function RenderArticleSide(protocolToUse) {
     var gameID;
+    var changedGameId;
     var gameData;
     var APIUrl;
     var keyword;
+    var hasChanged = false;
     var dropdownCount = 0;
     var catOptions = ['mlb', /*'nfl', 'ncaa'*/];
     var isMlb = false;
@@ -271,9 +273,12 @@ function RenderArticleSide(protocolToUse) {
             if (i > 0) {
                 ddStr += '<div class="divider"></div>';
             }
-            ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == gameID ? ' active" " onclick="switchGame(' + i + ')"' : '" onclick="switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
+            if (!hasChanged) {
+                ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == gameID ? ' active" " onclick="switchGame(' + i + ')"' : '" onclick="switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
+            } else {
+                ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == changedGameId ? ' active" " onclick="switchGame(' + i + ')"' : '" onclick="switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
+            }
         }
-
         // Create
         $('.container')[0].innerHTML = ddStr;
     } // --> createDropdown
@@ -285,7 +290,7 @@ function RenderArticleSide(protocolToUse) {
         var gameLength = gameArr.length;
         if (dropdownCount == 0) {
             for (var i = 0; i < gameLength; i++) {
-                if (gameArr[i].eventId == gameID) {
+                if (gameArr[i].eventId == gameID || gameArr[i].eventId == changedGameId) {
                     $('.home.team')[0].innerHTML = gameArr[i].home;
                     $('.away.team')[0].innerHTML = gameArr[i].away;
                     $('.header-right.team')[0].innerHTML = gameArr[i].eventTime;
@@ -299,9 +304,10 @@ function RenderArticleSide(protocolToUse) {
     // Switches the game
 
     switchGame = (function (gameNum) {
-        gameID = gameArr[parseInt(gameNum)].eventId;
+        hasChanged = true;
+        changedGameId = gameArr[parseInt(gameNum)].eventId;
         toggleDropDown();
-        getContent(gameID);
+        getContent(changedGameId);
         showGame();
         dropdownCount++;
     }); // --> switchGame
