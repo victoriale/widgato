@@ -54,10 +54,10 @@ function RenderDynamicSide(protocolToUse){
   }
 
   var colorSchemes = {
-      nba: '#f7701d',
-      mlb: '#b31d24',
+      nba: '#f26f26',
+      mlb: '#bc2027',
       nfl: '#2d3e50',
-      college_basketball: '#f7701d',
+      college_basketball: '#f26f26',
       finance: '#3098ff',
       crime: '#f6af05',
       demographics: '#65398e',
@@ -69,7 +69,7 @@ function RenderDynamicSide(protocolToUse){
       mlb:'../css/public/icons/Home-Run-Loyal_Icon 2.svg',
       nfl:'../css/public/Icon_Football.png',
       college_basketball:'../css/public/icons/Hoops-Loyal_Icon 2.svg',
-      finance:'../css/public/icons/Invest-Kit_Icon.svg',
+      finance:'../css/public/Invest-Kit_Icon.svg',
       crime:'../css/public/icons/Crime_Icon.svg',
       demographics:'../css/public/icons/Demographic_Icon.svg',
       disaster:'../css/public/icons/Disaster_Icon.svg',
@@ -87,15 +87,15 @@ function RenderDynamicSide(protocolToUse){
     weather: 'http://www.joyfulhome.com',
   };
   var siteName = {
-    nba: 'Hoops Loyal',
-    mlb: 'Home Run Loyal',
-    nfl: 'Touchdown Loyal',
-    college_basketball: 'Hoops Loyal',
-    finance: 'Invest Kit',
-    crime: 'House Kit',
-    demographics: 'House Kit',
-    disaster: 'House Kit',
-    weather: 'House Kit',
+    nba: 'Basketball',
+    mlb: 'Baseball',
+    nfl: 'Football',
+    college_basketball: 'Basketball',
+    finance: 'Finance',
+    crime: 'Crime',
+    demographics: 'Demographics',
+    disaster: 'Disaster',
+    weather: 'Weather',
   };
 
   var schemeToUse = colorSchemes[listType];
@@ -116,12 +116,13 @@ function RenderDynamicSide(protocolToUse){
     A('.fcw-list-next').style.borderColor = color;
 
     A(".fcw-list-next").onmouseover = function() {
-      A('.fcw-list-next').style.backgroundColor = color;
+      A('.fcw-list-next').style.backgroundColor = "#272727";
+      A('.fcw-list-next').style.borderColor = "#272727";
       A('.fcw-list-next').style.color = 'white';
       A('#nextlist-svg').style.fill = '#FFFFFF';
     }
     A(".fcw-list-next").onmouseout  = function() {
-      A('.fcw-list-next').style.bordercolor = color;
+      A('.fcw-list-next').style.borderColor = color;
       A('.fcw-list-next').style.backgroundColor = '';
       A('.fcw-list-next').style.color = color;
       A('#nextlist-svg').style.fill = color;
@@ -174,7 +175,19 @@ function RenderDynamicSide(protocolToUse){
       A('.fcw-content-top').style.overflow = 'hidden';
     }
 
+    A(".hover1").onmouseover = function() {
+      A('.hover1').style.backgroundColor = color;
+      A('.txt1').style.color = 'white';
+      A('.txt2').style.color = 'white';
+    }
+    A(".hover1").onmouseout  = function() {
+      A('.hover1').style.backgroundColor = '';
+      A('.txt1').style.color = 'white';
+      A('.txt2').style.color = 'white';
+    }
+
     if(type == "weather"){
+      A('#verticalName').style.color = "#272727";
       A('.fcw-content3').style.height = '25px';
       A('.fcw-content3').style.overflow = 'hidden';
       //yellow causes text colors to be black....
@@ -182,14 +195,16 @@ function RenderDynamicSide(protocolToUse){
       //A('#swoop-svg').style.fill = "#000000";
       A('#nextlist-svg').style.fill = "#000000";
       A('.fcw-list-next').style.color = '#000000';
+      A('.list-icon').style.fill = '#272727';
 
       A(".fcw-list-next").onmouseover = function() {
-        A('.fcw-list-next').style.backgroundColor = color;
-        A('.fcw-list-next').style.color = '#000000';
-        A('#nextlist-svg').style.fill = '#000000';
+        A('.fcw-list-next').style.backgroundColor = "black";
+        A('.fcw-list-next').style.borderColor = "black";
+        A('.fcw-list-next').style.color = 'white';
+        A('#nextlist-svg').style.fill = 'white';
       }
       A(".fcw-list-next").onmouseout  = function() {
-        A('.fcw-list-next').style.bordercolor = color;
+        A('.fcw-list-next').style.borderColor = color;
         A('.fcw-list-next').style.backgroundColor = '';
         A('.fcw-list-next').style.color = '#000000';
         A('#nextlist-svg').style.fill = '#000000';
@@ -207,24 +222,26 @@ function RenderDynamicSide(protocolToUse){
         A('.txt2').style.color = '#000000';
       }
 
+      A('.fcw-leftnav').style.stroke = "#272727";
+      A('.fcw-rightnav').style.stroke = "#272727";
 
       A(".fcw-leftnav").onmouseover = function(){
-        A('.fcw-leftnav').style.backgroundColor = color;
-        A('.fcw-leftnav').style.stroke = "#000000";
+        A('.fcw-leftnav').style.backgroundColor = "#272727";
+        A('.fcw-leftnav').style.stroke = "white";
       }
       A(".fcw-leftnav").onmouseout = function(){
-        A('.fcw-leftnav').style.backgroundColor = '';
-        A('.fcw-leftnav').style.stroke = "#FFFFFF";
+        A('.fcw-leftnav').style.backgroundColor = color;
+        A('.fcw-leftnav').style.stroke = "#272727";
       }
 
 
       A(".fcw-rightnav").onmouseover = function(){
-        A('.fcw-rightnav').style.backgroundColor = color;
-        A('.fcw-rightnav').style.stroke = "#000000";
+        A('.fcw-rightnav').style.backgroundColor = "#272727";
+        A('.fcw-rightnav').style.stroke = "white";
       }
       A(".fcw-rightnav").onmouseout = function(){
-        A('.fcw-rightnav').style.backgroundColor = '';
-        A('.fcw-rightnav').style.stroke = "#FFFFFF"
+        A('.fcw-rightnav').style.backgroundColor = color;
+        A('.fcw-rightnav').style.stroke = "#272727"
       }
 
 
@@ -232,13 +249,21 @@ function RenderDynamicSide(protocolToUse){
         A('.fcw-list-list').style.backgroundColor = '#272727';
         A('.fcw-list-list').style.borderColor = '#272727';
         A('.fcw-list-text').style.color = "#FFFFFF";
+        A('.list-icon').style.fill = 'white';
         //A('#swoop-svg').style.fill = "#FFFFFF";
       }
       A('.fcw-list-list').onmouseout = function(){
         A('.fcw-list-list').style.backgroundColor = color;
         A('.fcw-list-list').style.borderColor = color;
         A('.fcw-list-text').style.color = "#000000"
+        A('.list-icon').style.fill = '#272727';
         //A('#swoop-svg').style.fill = "#000000";
+      }
+      A(".fcw-content1").onmouseover = function() {
+        A('.fcw-content1').style.color = "black";
+      }
+      A(".fcw-content1").onmouseout  = function() {
+        A(".fcw-content1").style.color = 'black';
       }
     }
   }
@@ -408,10 +433,10 @@ function RenderDynamicSide(protocolToUse){
           }
         }
         else if (listData[index].li_str != null && listData[index].li_str.length >= 40) {
-          A('.fcw-content2').style.display = 'inline';
-          A('.fcw-content1').style.display = 'inline';
+          A('.fcw-content1').style.display = '';
+          A('.fcw-content2').style.display = '';
           A('.fcw-content').style.textAlign = 'center';
-          A('.fcw-content1').innerHTML = listData[index].li_title + ' | ';
+          A('.fcw-content1').innerHTML = listData[index].li_title;
         }
         else {
           A('.fcw-content1').style.display = '';
@@ -420,31 +445,27 @@ function RenderDynamicSide(protocolToUse){
           var hoops = true;
         }
 
-       if (listType == 'college_basketball' && listData[index].li_title.length + listData[index].li_sub_txt.length >= 35) {
-         A('#fcw-content2b').style.fontSize = '10px';
-         A('.fcw-content1').style.fontSize = '12px';
-       }
-       else if(hoops = true){
-         A('#fcw-content2b').style.fontSize = '12px';
-         A('.fcw-content1').style.fontSize = '16px';
-       }
-
         var listLink = buildListLink(listType, remnant, domain, curData);
         A('.fcw-list-list').setAttribute('href', listLink);
 
         if(remnant == 'true' || remnant == true){
           A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
+          A('.exec-link-text').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
           if (listType == "nfl" && listData[index].rankType == "team") {
             A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].teamId);
+            A('.exec-link-text').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].teamId);
           }
           else if (listType == "nfl" && listData[index].rankType == "player") {
             A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/player/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].playerFirstName.toLowerCase() + "-" + listData[index].playerLastName.toLowerCase() + "/" + listData[index].playerId);
+            A('.exec-link-text').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/player/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].playerFirstName.toLowerCase() + "-" + listData[index].playerLastName.toLowerCase() + "/" + listData[index].playerId);
           }
         }else{
           //partner site
           A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
+          A('.exec-link-text').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
           if (listType == "nfl") {
             A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
+            A('.exec-link-text').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
           }
         }
     }
@@ -458,7 +479,6 @@ function getRandomInt(min, max){
 
 /* -- Manipulation Functions  -- */
 function buildListLink(cat, remn, dom, widget_data){
-
   var specialDomains = [
     "latimes.com",
     "orlandosentinel.com",

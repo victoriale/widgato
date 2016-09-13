@@ -76,12 +76,13 @@ sup {
 }
 
 .aiw-top .ball {
-    width: 10px;
-    height: 10px;
+    width: 12px;
+    height: 12px;
     float: left;
-    padding: 7px;
-    margin: 5px 10px 5px 15px;
+    margin: 7px 10px;
     background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 100%;
 }
 
 .aiw-top span {
@@ -129,6 +130,29 @@ sup {
     overflow-x: hidden;
 }
 
+/* Dropdown bubble arrow */
+.dropdown .container:before, .dropdown .container:after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    top: -7px;
+    right: 7px;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 7px solid #2d3e50;
+}
+
+.dropdown .container:after {
+    border-bottom: 5px solid #FFFFFF;
+    top: -5.5px;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    right: 9px;
+}
+/* END Dropdown bubble arrow */
+
 [tooltip]:before {
     position: absolute;
     content: attr(tooltip);
@@ -143,7 +167,7 @@ sup {
     position: relative;
     width: 259px;
     border: 1px solid #2d3e50;
-    margin: 5px auto;
+    margin: 10px auto 5px;
     border-radius: 3px;
 }
 
@@ -309,7 +333,7 @@ sup {
 
 .aiw-next:hover {
     color: #fff;
-    background-color: rgba(45, 62, 80, 0.9);
+    background-color: #000;
 }
 
 .arrow {

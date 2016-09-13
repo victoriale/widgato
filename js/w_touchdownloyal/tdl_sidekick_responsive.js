@@ -105,7 +105,7 @@ ai_widget = (function () {
             url: href + league + '/articles/' + dataArr[0].index + '/' + dataArr[0].eventId,
             content: dataArr[0].report + '<br>&nbsp; ',
             img: protocolToUse + 'images.synapsys.us' + dataArr[0].articleImage,
-            icon: '../css/public/icons/Touchdown-Loyal_Icon.svg'
+            icon: '../css/public/Icon_Football.png'
         };
         // Set the data
         $('.aiw-title')[0].innerHTML = arr.title;

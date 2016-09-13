@@ -66,9 +66,6 @@ i {
     margin-right:5px;
 }
 
-#verticalName:hover {
-    background-color: #272727
-}
 
 #carousel {
     width: 300px;
@@ -208,7 +205,7 @@ i {
 }
 
 .dw-i-title#line2 {
-    line-height: 16px;
+    line-height: 17px;
     font-size: 12px;
     font-weight: 400;
 }
@@ -232,14 +229,18 @@ i {
   margin-left: 10px;
 }
 
+#next-list-link .dw-btn svg{
+  margin-bottom: 1px;
+}
+
 .dw-btn {
     display: inline-block;
     color: white;
     background-color: white;
     font-size: 11px;
-    line-height: 26px;
+    line-height: 28px;
     width: 118px;
-    height: 28px;
+    height: 30px;
     border-radius: 3px;
     position: relative;
     left: 25px;
