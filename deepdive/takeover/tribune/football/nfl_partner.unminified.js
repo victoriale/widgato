@@ -177,7 +177,7 @@
     leftRail = topWin.document.createElement('a');
     // leftRail.className = 'to-left-rail to-rail-visible';
     leftRail.className = 'to-left-rail';
-    leftRail.href = domain;
+    leftRail.href = domain + '/nfl';
     leftRail.target = '_blank';
     leftRail.innerHTML = `
       <div id="to-left-ad">
@@ -188,7 +188,7 @@
     rightRail = topWin.document.createElement('a');
     // rightRail.className = 'to-right-rail to-rail-visible';
     rightRail.className = 'to-right-rail';
-    rightRail.href = domain;
+    rightRail.href = domain + '/nfl';
     rightRail.target = '_blank';
     rightRail.innerHTML = `
       <div id="to-right-ad">
@@ -232,7 +232,7 @@
         </button>
         <div class="ddh-media-content">
           <div id="ddh-media-video"></div>
-          <a target="_blank" href="` + domain + `">
+          <a target="_blank" href="` + domain + `/nfl">
             <div class="ddh-media-right-content">
               <img width="260px" height="56px" src="` + imagePath + `/content_title.png?">
               <div class="ddh-media-right-title">
@@ -505,11 +505,16 @@
        //Game is Today
        if(item.liveStatus === 'N' && item.eventStartTime > now){
          //Pre Game
+         var homeRecord = item.team1Record.split('-');
+         var homeScore = homeRecord[0] + '-' + homeRecord[1];
+         var awayRecord = item.team2Record.split('-');
+         var awayScore = awayRecord[0] + '-' + awayRecord[1];
+
          var gameObject = {
            homeTeam: item.team1Abbreviation,
-           homeScore: '-',
+           homeScore: homeScore,
            awayTeam:item.team2Abbreviation,
-           awayScore: '-',
+           awayScore: awayScore,
            timestamp: item.eventStartTime,
            datetime: convertToEastern(item.eventStartTime),
            eventId: item.eventId,
@@ -568,11 +573,16 @@
        //Game is this week
        if(item.eventStartTime > now){
          //Pre Game
+         var homeRecord = item.team1Record.split('-');
+         var homeScore = homeRecord[0] + '-' + homeRecord[1];
+         var awayRecord = item.team2Record.split('-');
+         var awayScore = awayRecord[0] + '-' + awayRecord[1];
+
          var gameObject = {
            homeTeam: item.team1Abbreviation,
-           homeScore: '-',
+           homeScore: homeScore,
            awayTeam:item.team2Abbreviation,
-           awayScore: '-',
+           awayScore: awayScore,
            timestamp: item.eventStartTime,
            datetime: convertToEastern(item.eventStartTime),
            eventId: item.eventId,
@@ -996,7 +1006,7 @@
       display: block;
       width: 100%;
       height: 100%;
-      padding: 0 10px 0 15px;
+      padding: 0 10px 0 10px;
       box-sizing: border-box;
       text-decoration: none;
       color: #fff !important;
@@ -1005,7 +1015,7 @@
       list-style-type: none;
       margin: 0;
       padding: 0;
-      width: 57px;
+      width: 65px;
       line-height: normal;
       display: inline-block;
       vertical-align: middle;
