@@ -291,7 +291,7 @@ function p() {
           $('line1').innerHTML = e.teamName;
           $('line2').innerHTML = "Division: <b>" + e.divisionName + "</b>";
           var a = "";
-
+            v_link = l.remn == 'true' ? "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.teamId : "/t/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.teamId;
           if (SpecialDomain == "") {// if no special link then create
                 v_link = l.remn == 'true' ? "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId : "/t/" + e.teamName.replace(/ /g, "-").toLowerCase() + "/" + e.teamId;
                 a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+ v_link : nflPartnerDomain + l.dom + "/" +l.category+ v_link;
