@@ -116,7 +116,8 @@ sup {
     left: 20px;
     float: left;
     background-position: center;
-    background-size: contain;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .main-top-title {
@@ -238,7 +239,8 @@ a:hover .read-more {
     left: 20px;
     float: left;
     background-position: center;
-    background-size: contain;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .main-bottom-title {
@@ -800,6 +802,8 @@ a:hover .news-share-container {
 
     .news-hr {
         width: 180px;
+        /*needed to override javascript*/
+        padding-top: 15px !important;
     }
 
     .buttons {
