@@ -103,7 +103,6 @@ tdl_billboard = (function () {
     function displayMainArticles() {
         var mainArticles = [];
         var subArticles = [];
-        console.log(AIData);
         $.map(AIData['data'], function (val, index) {
             if (index != 'meta-data') {
                 if (index == 'about-the-teams' || index == 'pregame-report') {
@@ -298,7 +297,7 @@ tdl_billboard = (function () {
             //declare div for line count
             var line = $('.news-title')[i];
 
-            if ($(line).lineCount() < 2) {
+            if ($(line).lineCount() <= 1) {
                 $(subHrSmall).css({
                     "padding-top": "26px"
                 });
@@ -429,7 +428,7 @@ window.onresize = function (event) {
     var hr = $('.news-hr');
 
     for (var i = 0; i < line.length; i++) {
-        if ($(line[i]).lineCount() == 1) {
+        if ($(line[i]).lineCount() <= 1) {
             $(hr[i]).css({
                 "padding-top": "26px"
             });
