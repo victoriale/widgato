@@ -758,11 +758,22 @@
        //Game is Today
        if(item.liveStatus === 'N' && item.eventStartTime > now){
          //Pre Game
+         var homeRecord, homeScore, awayRecord, awayScore;
+         if(vertical === 'nfl'){
+           homeRecord = item.team1Record.split('-');
+           homeScore = homeRecord[0] + '-' + homeRecord[1];
+           awayRecord = item.team2Record.split('-');
+           awayScore = awayRecord[0] + '-' + awayRecord[1];
+         }else{
+           homeScore = '-';
+           awayScore = '-';
+         }
+
          var gameObject = {
            homeTeam: item.team1Abbreviation,
-           homeScore: '-',
+           homeScore: homeScore,
            awayTeam:item.team2Abbreviation,
-           awayScore: '-',
+           awayScore: awayScore,
            timestamp: item.eventStartTime,
            datetime: convertToEastern(item.eventStartTime),
            eventId: item.eventId,
@@ -839,11 +850,22 @@
        //Game is this week
        if(item.eventStartTime > now){
          //Pre Game
+         var homeRecord, homeScore, awayRecord, awayScore;
+         if(vertical === 'nfl'){
+           homeRecord = item.team1Record.split('-');
+           homeScore = homeRecord[0] + '-' + homeRecord[1];
+           awayRecord = item.team2Record.split('-');
+           awayScore = awayRecord[0] + '-' + awayRecord[1];
+         }else{
+           homeScore = '-';
+           awayScore = '-';
+         }
+
          var gameObject = {
            homeTeam: item.team1Abbreviation,
-           homeScore: '-',
+           homeScore: homeScore,
            awayTeam:item.team2Abbreviation,
-           awayScore: '-',
+           awayScore: awayScore,
            timestamp: item.eventStartTime,
            datetime: convertToEastern(item.eventStartTime),
            eventId: item.eventId,
