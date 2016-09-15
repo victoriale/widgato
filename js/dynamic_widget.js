@@ -27,7 +27,7 @@ dynamic_widget = function() {
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
-        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf'];
+        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
     var s = false;
     var o = '';
     function c(e) {
@@ -47,8 +47,19 @@ dynamic_widget = function() {
       if (league == "nfl") {
         var url = '../js/tdl_list_array.json';
       }
-      else {
+      else if (league == "ncaaf") {
         var url = '../js/tdl_list_array_ncaaf.json';
+      }
+      else if (league == "nflncaaf") {
+        rand = Math.floor((Math.random() * 2) + 1);
+        if (rand == 1) {
+          var url = '../js/tdl_list_array_ncaaf.json';
+          l.category = "ncaaf";
+        }
+        else {
+          var url = '../js/tdl_list_array.json';
+          l.category = "nfl";
+        }
       }
       var xmlHttp = new XMLHttpRequest();
       xmlHttp.onreadystatechange = function(){
@@ -81,7 +92,7 @@ dynamic_widget = function() {
 
     function m(ignoreRandom) {
       i = 0;// resets index count to 0 when swapping lists
-      if (l.category == "nfl" || l.category == "ncaaf") {
+      if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {
         httpGetInitData(l.category);
       }
       else {
@@ -132,7 +143,7 @@ dynamic_widget = function() {
               }
           }
       };
-      if (l.category == "nfl" || l.category == "ncaaf") {
+      if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {
         i.open('GET', protocol + "://prod-touchdownloyal-api.synapsys.us/list/" + query , true);
         i.send()
       }
@@ -183,7 +194,7 @@ dynamic_widget = function() {
         if (l.category == 'mlb') {
             r.l_title = r.l_title.replace("MLB","Baseball");
         }
-        if (l.category == "nfl" || l.category == "ncaaf") {$('title').innerHTML = r.data.listInfo.listName;} else {$('title').innerHTML = r.l_title;}
+        if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {$('title').innerHTML = r.data.listInfo.listName;} else {$('title').innerHTML = r.l_title;}
         if ($('line4') != null && d.getElementsByClassName('dw')[0].clientWidth == 350 && $('title').scrollHeight > 61) {
             $('title').setAttribute('style', 'font-size: 14px')
         }
@@ -245,6 +256,7 @@ dynamic_widget = function() {
                 break;
             case "nfl":
             case "ncaaf":
+            case "nflncaaf":
                 for (i = 0; i <= specialDomains.length; i++) {
                   if (currentDomain == specialDomains[i]) {
                     SpecialDomain = "http://football." + specialDomains[i] ;
@@ -272,7 +284,7 @@ dynamic_widget = function() {
                 var a = l.remn == 'true' ? 'http://www.joyfulhome.com/wlist' : 'http://www.myhousekit.com/' + l.dom + '/wlist';
                 var n = false
         }
-        if (l.category != "nfl" && l.category != "ncaaf") {
+        if (l.category != "nfl" && l.category != "ncaaf" && l.category != "nflncaaf") {
           a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
         }
         else {
@@ -284,7 +296,7 @@ dynamic_widget = function() {
         p()
       }
 function p() {
-      if (l.category == "nfl" || l.category == "ncaaf") {
+      if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {
         var e = r.data.listData[i];
         var v_link = '';
         if (e.rankType == "team") {
@@ -476,7 +488,7 @@ function p() {
 
     function w(e) {
         i += e;
-        if (l.category == "nfl" || l.category == "ncaaf") {
+        if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {
           i = i >= r.data.listData.length ? 0 : i < 0 ? r.data.listData.length - 1 : i;
         }
         else {
@@ -536,6 +548,7 @@ function p() {
               break;
             case "nfl":
             case "ncaaf":
+            case "nflncaaf":
                 var r = "";
                 if( nflPartnerDomain == "http://www.mytouchdownzone.com/") {
                     r = l.remn == 'true' ? 'http://www.touchdownloyal.com/' : nflPartnerDomain + l.dom + '/';
