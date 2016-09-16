@@ -203,7 +203,6 @@ function RenderArticleSide(protocolToUse) {
             A('#arrow').style.fill = '#b31d24';
         };
         gameID = isMlb ? gameData['current'].eventId : gameData['current'].eventID;
-        console.log(isMlb);
         if (isMlb) {
             $('.ball').css('background-image', 'url(../css/public/icons/Home-Run-Loyal_Icon%202.svg)');
             $('.swp-top').css('background-color', '#b31d24');
