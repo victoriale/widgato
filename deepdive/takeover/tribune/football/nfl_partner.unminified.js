@@ -163,9 +163,7 @@
   var bodyWidth = body.offsetWidth;
   var displayNumber = 4; //Amount of games displayed for box scores (changes based on browser width)
   var railsLoaded = false; //If rails have been built
-  var railsVisible = false; //If rails are visible
   var deepDiveLoaded = false; //If deep dive has been built
-  var deepDiveVisible = false; //If deep dive is visible
   var initialIndex = [], dataLength, processedData; //Variables for game data
 
   var videoApi = protocol + '://prod-touchdownloyal-api.synapsys.us/videoBatch/nfl/1/1/' + partnerState;
@@ -173,9 +171,7 @@
 
   //Build rails
   function buildRails(){
-    //console.log('BUILD RAILS');
     leftRail = topWin.document.createElement('a');
-    // leftRail.className = 'to-left-rail to-rail-visible';
     leftRail.className = 'to-left-rail';
     leftRail.href = domain + '/nfl';
     leftRail.target = '_blank';
@@ -186,7 +182,6 @@
     `;
 
     rightRail = topWin.document.createElement('a');
-    // rightRail.className = 'to-right-rail to-rail-visible';
     rightRail.className = 'to-right-rail';
     rightRail.href = domain + '/nfl';
     rightRail.target = '_blank';
@@ -195,10 +190,6 @@
         <img class="to-right-ad-presented" src="` + imagePath + `/presented_right.png">
       </div>
     `;
-
-    //Deprecated: Using css calc instead
-    // leftRail.style.left = getLeftRailPos();
-    // rightRail.style.left = getRightRailPos();
 
     body.insertBefore(rightRail, body.firstChild);
     body.insertBefore(leftRail, body.firstChild);
@@ -216,13 +207,10 @@
     rightAd.insertBefore(rightEmbed, rightAd.firstChild);
 
     railsLoaded = true;
-    // railsVisible = true;
   }
   //Build deep dive
   function buildDeepDive(){
-    //console.log('BUILD DEEPDIVE');
     deepDiveHero = topWin.document.createElement('div');
-    // deepDiveHero.className = 'ddh-container ddh-visible';
     deepDiveHero.className = 'ddh-container';
     deepDiveHero.innerHTML = `
       <div class="ddh-media">
@@ -315,7 +303,16 @@
 
         //Calculate bodyWidth to determine amount of games to display
         var contentWidth = contentEl.offsetWidth;
-        displayNumber = contentWidth >= 1080 ? 4 : 3;
+
+        if(contentWidth >= 1280){
+          displayNumber = 6;
+        }else if(contentWidth >= 1140){
+          displayNumber = 5;
+        }else if(contentWidth >= 990){
+          displayNumber = 4;
+        }else{
+          displayNumber = 4;
+        }
 
         //Get initial indexes to show
         for(var c = 0; c < displayNumber; c++){
@@ -334,10 +331,10 @@
         deepDiveBarNav.className = 'ddh-bar-nav';
         deepDiveBarNav.innerHTML = `
           <button class="ddh-bar-button ddh-prev" >
-            <span class="ddh-icon-angle-left"></span>
+            <i class="ddh-icon-angle-left"></i>
           </button>
           <button class="ddh-bar-button ddh-next">
-            <span class="ddh-icon-angle-right"></span>
+            <i class="ddh-icon-angle-right"></i>
           </button>
         `;
 
@@ -668,32 +665,50 @@
     var resizeBodyWidth = topWin.document.getElementsByTagName("body")[0].offsetWidth;
     var resizeContentWidth = contentEl.offsetWidth;
 
-    //JS responsiveness for boxscores games amount
-    if(resizeContentWidth < 1080 && displayNumber !== 3 && deepDiveLoaded){
-      //If resize is less than 1080 and display number is not 3, reformat games
-      displayNumber = 3;
-      //Remove last element from index array and remove last element from html markup
-      initialIndex.pop();
+    var addRemoveItem = function(){
       clearGames();
-      for(var i = 0, length = initialIndex.length; i < length; i++){
-        var nodeIndex = initialIndex[i];
-        var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
-        schedule.appendChild(processedData[nodeIndex].gameNode);
-      }
+      var diff = displayNumber - initialIndex.length;
+      if(diff > 0){
+        //Add items to array
 
-    }else if(resizeContentWidth >= 1080 && displayNumber !== 4 && deepDiveLoaded){
-      //If resize is greater than 1080 and display number is not 4, reformat games
-      displayNumber = 4;
-      //Add another item to index array
-      var lastIndex = initialIndex[initialIndex.length - 1];
-      initialIndex[initialIndex.length] = lastIndex + 1 >= dataLength ? 0 : lastIndex + 1;
-      clearGames();
-      for(var i = 0, length = initialIndex.length; i < length; i++){
-        var nodeIndex = initialIndex[i];
-        var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
-        schedule.appendChild(processedData[nodeIndex].gameNode);
+        for(var i = 0; i < diff; i++){
+          var lastIndex = initialIndex[initialIndex.length - 1];
+          initialIndex.push(lastIndex + 1 >= dataLength ? 0 : lastIndex + 1);
+        }
+        //Insert games
+        for(var c = 0, length = initialIndex.length; c < length; c++){
+          var nodeIndex = initialIndex[c];
+          var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+          schedule.appendChild(processedData[nodeIndex].gameNode);
+        }
+      }else{
+        //Remove items from array
+        diff = Math.abs(diff);
+
+        //Get new index values
+        for(var i = 0; i < diff; i ++){
+          initialIndex.pop();
+        }
+        //Insert games
+        for(var c = 0, length = initialIndex.length; c < length; c++){
+          var nodeIndex = initialIndex[c];
+          var schedule = document.getElementsByClassName('ddh-bar-schedule')[0];
+          schedule.appendChild(processedData[nodeIndex].gameNode);
+        }
       }
     }
+
+    if(resizeContentWidth >= 1280 && displayNumber !== 6){
+      displayNumber = 6;
+      addRemoveItem();
+    }else if(resizeContentWidth < 1280 && resizeContentWidth >= 1140 && displayNumber !== 5){
+      displayNumber = 5;
+      addRemoveItem();
+    }else if(resizeContentWidth < 1140 && resizeContentWidth >= 990 && displayNumber !== 4){
+      displayNumber = 4;
+      addRemoveItem();
+    }
+
     //If rails dont exist and body is big enough for rails, build rails
     if(!railsLoaded && (resizeBodyWidth - resizeContentWidth) >= 320){
       buildRails();
@@ -973,13 +988,13 @@
       box-sizing: border-box;
       height: 50px;
       line-height: 50px;
-      padding: 0 10px;
+      padding: 0 15px;
       width: auto;
       border-right: 1px solid #000;
     }
     .ddh-bar-title>img{
       vertical-align: middle;
-      margin-right: 3px;
+      margin-right: 7px;
       width: 22px;
       position: relative;
       top: -2px;
@@ -1060,7 +1075,7 @@
     .ddh-bar-button{
       width: 30px;
       height: 30px;
-      line-height: 30px;
+      line-height: normal;
       border-radius: 5px;
       background-color: #fff !important;
       border: none;
@@ -1070,9 +1085,15 @@
       vertical-align: middle;
       cursor: pointer;
       font-size: 24px;
+      position: relative;
     }
-    .ddh-bar-button>span{
-      vertical-align: middle;
+    .ddh-bar-button>i{
+      position: absolute;
+      top: 4px;
+      left: 4px;
+    }
+    .ddh-bar-button>i.ddh-icon-angle-left{
+      left: 3px;
     }
     .ddh-bar-button:focus{
       outline: none;
