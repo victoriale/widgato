@@ -340,10 +340,20 @@ function p() {
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
         if (e.rankType == "team") {
-          t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
+          if (e.teamLogo != null && e.teamLogo != "null") {
+            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
+          }
+          else {
+            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+          }
         }
         else {
-          t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl);
+          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null") {
+            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl);
+          }
+          else {
+            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+          }
         }
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
