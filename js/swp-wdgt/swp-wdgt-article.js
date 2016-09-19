@@ -291,6 +291,20 @@ function RenderArticleSide(protocolToUse) {
         }
         // Create
         $('.container')[0].innerHTML = ddStr;
+        var backgroundColor = isMlb ? '#b31d24' : 'rgba(45, 62, 80, 0.9)';
+        $('.dropdown-elem.active').css('background-color', backgroundColor);
+        $('.dropdown-elem').hover(function () {
+            $(this).css("background-color", backgroundColor);
+            $(this).css("color", "#fff");
+        }, function () {
+            $(this).css("background-color", "transparent");
+            $(this).css("color", "#000");
+        });
+        //prevents hover function from removing css of active element
+        $('.dropdown-elem.active').mouseout(function() {
+            $('.dropdown-elem.active').css('background-color', backgroundColor);
+            $('.dropdown-elem.active').css('color', '#fff');
+        });
     } // --> createDropdown
 
 
