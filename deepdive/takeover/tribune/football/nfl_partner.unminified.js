@@ -42,11 +42,13 @@
     if(currentUTC <= daylightStart || currentUTC > daylightEnd){
       //Standard Time
       offset = -5;
-      abbrev = 'EST';
+      // abbrev = 'EST';
+      abbrev = 'ET';
     }else{
       //Daylight Savings Time
       offset = -4;
-      abbrev = 'EDT';
+      // abbrev = 'EDT';
+      abbrev = 'ET';
     }
 
     return {
@@ -70,8 +72,6 @@
 
     return todayObject;
   })(easternTime.offset);
-  //Reset offset to 0 since api returns in eastern;
-  easternTime.offset = 0;
 
   //Google analytics tags
   // var gaRails = '/?utm_source=Tribune&utm_medium=Siderails&utm_campaign=Baseball%20Takeover';
@@ -548,9 +548,9 @@
          //Post Game
          var gameObject = {
            homeTeam: item.team1Abbreviation,
-           homeScore: '-',
+           homeScore: item.team1Score ? item.team1Score : '-',
            awayTeam:item.team2Abbreviation,
-           awayScore: '-',
+           awayScore: item.team2Score ? item.team2Score : '-',
            timestamp: item.eventStartTime,
            datetime: convertToEastern(item.eventStartTime),
            eventId: item.eventId,

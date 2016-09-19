@@ -150,8 +150,6 @@
       formatData = function(data){
         return formatFootballData(data, 'nfl');
       };
-      //Reset offset to 0 since api returns in eastern time
-      boxscoresBar.easternTime.offset = 0;
     break;
     case 'ncaaf':
       apiString = protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + boxscoresBar.todayObject.dateInput;
@@ -163,8 +161,6 @@
       formatData = function(data){
         return formatFootballData(data, 'ncaaf');
       };
-      //Reset offset to 0 since api returns in eastern time
-      boxscoresBar.easternTime.offset = 0;
     break;
     default:
       apiString = protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + boxscoresBar.todayObject.dateInput;
@@ -822,9 +818,9 @@
          //Post Game
          var gameObject = {
            homeTeam: item.team1Abbreviation,
-           homeScore: '-',
+           homeScore: item.team1Score ? item.team1Score : '-',
            awayTeam:item.team2Abbreviation,
-           awayScore: '-',
+           awayScore: item.team2Score ? item.team2Score : '-',
            timestamp: item.eventStartTime,
            datetime: convertToEastern(item.eventStartTime),
            eventId: item.eventId,
