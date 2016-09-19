@@ -213,6 +213,7 @@ function RenderArticleSide(protocolToUse) {
         gameID = isMlb ? gameData['current'].eventId : gameData['current'].eventID;
         if (isMlb) {
             $('.ball').css('background-image', 'url(../css/public/icons/Home-Run-Loyal_Icon%202.svg)');
+            $('.swp-top').css('background-color', '#b31d24');
             $('.buttons-readstory').css('background-color', '#b31d24');
             $('.buttons-nextlist').hover(function () {
                 $(this).css("background-color", '#b31d24');
@@ -221,6 +222,7 @@ function RenderArticleSide(protocolToUse) {
             });
         } else {
             $('.ball').css('background-image', 'url(../css/public/icons/Touchdown-Loyal_Icon.svg)');
+            $('.swp-top').css('background-color', 'rgb(45, 62, 80)');
             $('.buttons-readstory').css('background-color', 'rgba(45, 62, 80, 0.9)');
             $('.buttons-nextlist').hover(function () {
                 $(this).css("background-color", 'rgba(45, 62, 80, 0.9)');
