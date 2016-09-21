@@ -290,13 +290,20 @@ tdl_billboard = (function () {
             subContainerSmall.appendChild(subTitleSmall);
             subContainerSmall.appendChild(subDateSmall);
             subContainerSmall.appendChild(subHrSmall);
-            $(subContainer).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
-            $(subContainerSmall).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
+            var id = randomArticles[i].urlSegment != "player-fantasy" ? teamData[1].eventId : randomArticles[i].articleId;
+            $(subContainer).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + id+ '" />'));
+            $(subContainerSmall).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + id + '" />'));
             subTitleSmall.innerHTML = randomArticles[i].title;
             subContainer.appendChild(subHr);
-            if (randomArticles[i].title && randomArticles[i].title.length <= 40) {
+            //declare div for line count
+            var line = $('.news-title')[i];
+
+            if ($(line).lineCount() <= 1) {
                 $(subHrSmall).css({
-                    "padding-top": "25px"
+                    "padding-top": "26px"
+                });
+                $(subHr).css({
+                    "padding-top": "26px"
                 });
             }
         }
@@ -388,6 +395,15 @@ tdl_billboard = (function () {
         switchGame: switchGame
     };
 })();
+
+//jQuery plugin that creates a hidden temporary div that will return the number of lines generated.
+$.fn.lineCount = function () {
+    var temp = $('<div style="line-height:12px;visibility:hidden;">hidden temporary div to give line height</div>').appendTo(document.body);
+    var count = this.height() / temp.height();
+    temp.remove();
+    return count;
+};
+
 window.onresize = function (event) {
     var textDiv1 = $('.main-top-description');
     if (textDiv1[0].scrollHeight > textDiv1[0].clientHeight) {
@@ -407,6 +423,20 @@ window.onresize = function (event) {
             index++;
             original = original.substring(0, original.lastIndexOf(" "));
             textDiv2[0].innerHTML = original + '...';
+        }
+    }
+    var line = $('.news-title');
+    var hr = $('.news-hr');
+
+    for (var i = 0; i < line.length; i++) {
+        if ($(line[i]).lineCount() <= 1) {
+            $(hr[i]).css({
+                "padding-top": "26px"
+            });
+        } else {
+            $(hr[i]).css({
+                "padding-top": "15px"
+            });
         }
     }
 };
