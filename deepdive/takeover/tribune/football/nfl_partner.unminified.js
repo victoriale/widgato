@@ -453,7 +453,7 @@
       var timeClass = data.timeClass ? data.timeClass + ' ddh-bar-game-time' : 'ddh-bar-game-time';
       gameNode.className = data.gameClass ? data.gameClass + ' ddh-bar-game' : 'ddh-bar-game';
       gameNode.innerHTML = `
-        <a class="ddh-bar-game-link" href="` + data.link + `">
+        <a target="_blank" class="ddh-bar-game-link" href="` + data.link + `">
           <ul class="ddh-bar-game-teams">
             <li>
               ` + data.homeTeam + ` <span class="ddh-bar-game-teamscore">` + data.homeScore + `</span>
