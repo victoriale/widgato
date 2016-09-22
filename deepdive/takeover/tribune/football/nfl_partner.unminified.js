@@ -154,8 +154,8 @@
     break;
   }
   //Set microsite destination link
-  // domain = 'http://football.' + domain;
-  domain = 'http://mytouchdownzone.com/' + domain;
+  domain = 'http://football.' + domain;
+  // domain = 'http://mytouchdownzone.com/' + domain;
 
   var railWidth = 500; //Width of rails (width of rail images)
   var deepDiveHero, leftRail, rightRail;
