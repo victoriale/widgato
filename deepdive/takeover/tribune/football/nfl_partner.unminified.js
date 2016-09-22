@@ -1080,7 +1080,7 @@
       background-color: #fff !important;
       border: none;
       color: #fc501d !important;
-      paddicleg: 0;
+      padding: 0;
       margin: 0 3px 0 0;
       vertical-align: middle;
       cursor: pointer;
