@@ -248,10 +248,10 @@ dynamic_widget = function() {
                 //  $("list-link").style.display = "none";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom ;
+                      a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom +'/list';
                 }
                 else {
-                  a = SpecialDomain;
+                  a = SpecialDomain + '/list';
                 }
                 var n = false
                 break;
