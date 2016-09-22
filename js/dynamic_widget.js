@@ -235,7 +235,7 @@ dynamic_widget = function() {
             case "mlb":
                 for (i = 0; i <= specialDomains.length; i++) {
                   if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://baseball." + specialDomains[i] + "/list";
+                    SpecialDomain = "http://baseball." + specialDomains[i];
                   }
                 }
                 // var a = "/";
@@ -248,10 +248,10 @@ dynamic_widget = function() {
                 //  $("list-link").style.display = "none";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom +'/list';
+                      a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom ;
                 }
                 else {
-                  a = SpecialDomain + '/list';
+                  a = SpecialDomain;
                 }
                 var n = false
                 break;
