@@ -7,7 +7,8 @@ var referrer = document.referrer;
 var season;
 var SpecialDomain = "";
 var currentDomain = "";
-if(referrer.match(/baseball/g)){
+var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
+if(referrer.match(/\/\/baseball\./i)){
     mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
 }
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
@@ -386,30 +387,32 @@ function p() {
       }
       else {
         var e = r.l_data[i];
-        e.li_url = e.li_subimg !== false && e.li_subimg.switch ? l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
-        e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
-        e.li_url = "http:" + e.li_url;
-        e.li_line_url = "http:" + e.li_line_url;
-        if(referrer.match(/baseball/g)){
-            e.li_url = e.li_url.replace("www.myhomerunzone.com", referrer.split('/')[2]);
-            e.li_url = e.li_url.replace("myhomerunzone.com", referrer.split('/')[2]);
-            e.li_url = e.li_url.split("/");
-            e.li_url.splice(3,1);
-            e.li_url = e.li_url.join("/");
+        e.li_url = e.li_subimg !== false && e.li_subimg.switch ? l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
+        e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
+
+        //if we're on a site that uses a subdomain for this vetical's microsite, then use that
+        if(SpecialDomain && verticalsUsingSubdom.indexOf(l.category) != -1) {
+            switch (l.category) {
+                case 'mlb':
+                    e.li_url = e.li_url.replace(/(?:https?\:)?(?:\/\/)?(?:www\.)?myhomerunzone\.com\/\{partner\}/i, SpecialDomain);
             e.li_url = e.li_url.replace("/t/", "/team/");
             e.li_url = e.li_url.replace("/p/", "/player/");
-            e.li_line_url = e.li_line_url.replace("www.myhomerunzone.com", referrer.split('/')[2]);
-            e.li_line_url = e.li_line_url.replace("myhomerunzone.com", referrer.split('/')[2]);
-            e.li_line_url = e.li_line_url.split("/");
-            e.li_line_url.splice(3,1);
-            e.li_line_url = e.li_line_url.join("/");
+                    e.li_line_url = e.li_line_url.replace(/(?:https?\:)?(?:\/\/)?(?:www\.)?myhomerunzone\.com\/\{partner\}/i, SpecialDomain);
             e.li_line_url = e.li_line_url.replace("/t/", "/team/");
             e.li_line_url = e.li_line_url.replace("/p/", "/player/");
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            e.li_url = "http:" + e.li_url.replace('{partner}', l.dom);
+            e.li_line_url = "http:" + e.li_line_url.replace('{partner}', l.dom);
         }
         if (s) {
             e.li_url = e.li_url.replace('www.myinvestkit.com', o);
             e.li_line_url = e.li_line_url.replace('www.myinvestkit.com', o)
         }
+
         $('line1').innerHTML = e.li_title;
         $('line2').innerHTML = e.li_sub_txt;
         if ($('line4') == null) {
