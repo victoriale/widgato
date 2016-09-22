@@ -53,6 +53,12 @@ function RenderArticleSide(protocolToUse) {
     var data;
 
     function getContent(eventId) {
+        // Clear old data
+        if (gameID != -1) {
+            $('.section-text')[0].innerHTML = "Loading...";
+            $('.content-text')[0].innerHTML = '';
+            $('.dateline')[0].innerHTML = '';
+        }
         var locApiUrl = APIUrl;
         if (typeof eventId != "undefined") {
             locApiUrl += "/" + eventId;
@@ -179,10 +185,12 @@ function RenderArticleSide(protocolToUse) {
         A('.section-text').innerHTML = article.displayHeadline;
 
         //article url structure: /articles/:article_type/:event_id
+        //check if the id has been changed via the drop down selection; otherwise use the initial id.
+        var id = !changedGameId ? game.eventId : changedGameId;
         if (isMlb) {
-            var articleUrl = 'http://www.homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + game.eventId;
+            var articleUrl = 'http://www.homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + id;
         } else {
-            var articleUrl = 'http://www.touchdownloyal.com/' + catOptions[0] + '/articles/' + articleTypes[articleIndex] + '/' + game.eventID;
+            var articleUrl = 'http://www.touchdownloyal.com/' + catOptions[0] + '/articles/' + articleTypes[articleIndex] + '/' + id;
         }
         var articleText = isMlb ? article.article[0].substr(0, 150) : article.article.substr(0, 150);
         A('.content-text').innerHTML = articleText + '...<a target="_blank" href="' + articleUrl + '"></a>';
@@ -283,6 +291,20 @@ function RenderArticleSide(protocolToUse) {
         }
         // Create
         $('.container')[0].innerHTML = ddStr;
+        var backgroundColor = isMlb ? '#b31d24' : 'rgba(45, 62, 80, 0.9)';
+        $('.dropdown-elem.active').css('background-color', backgroundColor);
+        $('.dropdown-elem').hover(function () {
+            $(this).css("background-color", backgroundColor);
+            $(this).css("color", "#fff");
+        }, function () {
+            $(this).css("background-color", "transparent");
+            $(this).css("color", "#000");
+        });
+        //prevents hover function from removing css of active element
+        $('.dropdown-elem.active').mouseout(function() {
+            $('.dropdown-elem.active').css('background-color', backgroundColor);
+            $('.dropdown-elem.active').css('color', '#fff');
+        });
     } // --> createDropdown
 
 

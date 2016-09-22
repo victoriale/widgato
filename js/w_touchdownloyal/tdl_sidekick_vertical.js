@@ -94,9 +94,10 @@ ai_widget = (function () {
                 dataArr.push(val);
             }
         });
+        var id = dataArr[0].index != "player-fantasy" ? dataArr[0].eventId : dataArr[0].articleId;
         var arr = {
             title: dataArr[0].displayHeadline,
-            url: href + league + '/articles/' + dataArr[0].index + '/' + dataArr[0].eventId,
+            url: href + league + '/articles/' + dataArr[0].index + '/' + id,
             content: dataArr[0].report + '<br>&nbsp; ',
             img: protocolToUse + 'images.synapsys.us' + dataArr[0].articleImage,
             icon: '../css/public/Icon_Football.png'
