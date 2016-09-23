@@ -184,11 +184,11 @@ sup {
 }
 
 .dropdown .container:after {
-    border-bottom: 5px solid #FFFFFF;
+    border-bottom: 6px solid #FFF;
     top: -5.5px;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    right: 9px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    right: 8.5px;
 }
 
 /* END Dropdown bubble arrow */
@@ -216,6 +216,35 @@ sup {
     height: 40px;
     width: 100%;
     font-size: 14px;
+}
+
+.dropdown-elem.active:first-of-type .dropdown-elem.active:before, .dropdown-elem.active:after {
+    content: "";
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+}
+
+.dropdown-elem.active:first-of-type::after {
+    border-bottom: 8px solid #2d3e50;
+    top: -7px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    right: 6px;
+    z-index: 999;
+}
+
+.dropdown-elem:first-of-type:hover::after {
+    position: absolute;
+    content: "";
+    display: block;
+    border-bottom: 8px solid #2d3e50;
+    top: -7px;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    right: 6px;
+    z-index: 999;
 }
 
 .dropdown-elem.active {
