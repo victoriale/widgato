@@ -539,7 +539,7 @@
          };
 
          gameObject.bottomData = item.eventQuarter ? ordinalSuffix(item.eventQuarter) : gameObject.datetime;
-         gameObject.link = domain + '/nfl/articles/live-report/' + item.eventId;
+         gameObject.link = domain + '/nfl/articles/in-game-report/' + item.eventId;
 
          gameObject.gameNode = buildNode(gameObject);
 
