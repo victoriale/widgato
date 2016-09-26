@@ -135,8 +135,6 @@
 "scope=fbs&target=player&statName=returning_average_yards&ordering=desc&perPageCount=50&pageNumber=1",
 "scope=fbs&target=player&statName=returning_longest_return&ordering=asc&perPageCount=50&pageNumber=1",
 "scope=fbs&target=player&statName=returning_longest_return&ordering=desc&perPageCount=50&pageNumber=1",
-"scope=fbs&target=player&statName=returning_touchdowns&ordering=asc&perPageCount=50&pageNumber=1",
-"scope=fbs&target=player&statName=returning_touchdowns&ordering=desc&perPageCount=50&pageNumber=1",
 "scope=fbs&target=player&statName=receiving_yards_per_game&ordering=asc&perPageCount=50&pageNumber=1",
 "scope=fbs&target=player&statName=receiving_yards_per_game&ordering=desc&perPageCount=50&pageNumber=1"
 ]
