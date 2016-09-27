@@ -804,9 +804,9 @@
 
          gameObject.bottomData = item.eventQuarter ? ordinalSuffix(item.eventQuarter) : gameObject.datetime;
          if(vertical === 'nfl'){
-           gameObject.link = domain + '/nfl/articles/live-report/' + item.eventId;
+           gameObject.link = domain + '/nfl/articles/in-game-report/' + item.eventId;
          }else if(vertical === 'ncaaf'){
-           gameObject.link = domain + '/ncaaf/articles/live-report/' + item.eventId;
+           gameObject.link = domain + '/ncaaf/articles/in-game-report/' + item.eventId;
          }else{
            gameObject.link = '#';
          }
