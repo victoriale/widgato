@@ -227,7 +227,7 @@ sup {
 }
 
 .dropdown-elem.active:first-of-type::after {
-    border-bottom: 8px solid #2d3e50;
+    border-bottom: 8px solid rgba(45, 62, 80, 0.9);
     top: -7px;
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
@@ -239,7 +239,7 @@ sup {
     position: absolute;
     content: "";
     display: block;
-    border-bottom: 8px solid #2d3e50;
+    border-bottom: 8px solid rgba(45, 62, 80, 0.9);
     top: -7px;
     border-left: 7px solid transparent;
     border-right: 7px solid transparent;
