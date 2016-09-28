@@ -509,7 +509,7 @@ function p() {
     function w(e) {
         i += e;
         if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {
-          i = i >= r.data.listData.length ? 0 : i < 0 ? r.data.listData.length - 1 : i;
+          i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
         }
         else {
           i = i >= r.l_data.length ? 0 : i < 0 ? r.l_data.length - 1 : i;

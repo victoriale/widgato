@@ -121,7 +121,7 @@ i {
 
 .dw-big {
   width: 100%;
-  bottom: 0;
+  top: 0;
 }
 
 .dw-big span {
@@ -201,6 +201,8 @@ i {
     line-height: 16px;
     text-align: left;
     font-weight: 400;
+    max-height: 63px;
+    overflow: hidden;
 }
 #desc p {
   margin: 0;
