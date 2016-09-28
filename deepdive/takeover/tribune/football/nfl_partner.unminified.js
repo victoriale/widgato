@@ -154,8 +154,8 @@
     break;
   }
   //Set microsite destination link
-  // domain = 'http://football.' + domain;
-  domain = 'http://mytouchdownzone.com/' + domain;
+  domain = 'http://football.' + domain;
+  // domain = 'http://mytouchdownzone.com/' + domain;
 
   var railWidth = 500; //Width of rails (width of rail images)
   var deepDiveHero, leftRail, rightRail;
@@ -539,7 +539,7 @@
          };
 
          gameObject.bottomData = item.eventQuarter ? ordinalSuffix(item.eventQuarter) : gameObject.datetime;
-         gameObject.link = domain + '/nfl/articles/live-report/' + item.eventId;
+         gameObject.link = domain + '/nfl/articles/in-game-report/' + item.eventId;
 
          gameObject.gameNode = buildNode(gameObject);
 
