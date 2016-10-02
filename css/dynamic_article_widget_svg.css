@@ -1,0 +1,269 @@
+html,
+body {
+    margin: 0!important;
+    font-family: 'Lato', sans-serif;
+    width: 100%;
+    height: auto;
+    background-color: #ccc
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+a {
+    text-decoration: none;
+    outline: 0
+}
+i {
+  font-style: normal;
+  margin-left: 5px;
+  font-family: 'Source Sans Pro', Helvetica, Arial , sans-serif;
+  font-size: 15px;
+  vertical-align: top;
+}
+
+.dw {
+    width: 300px;
+    height: 350px;
+    background-color: #fafafa;
+    position: relative;
+    margin: 0 auto;
+    box-shadow: 0 0 0 1px #b7b7b7 inset
+}
+
+#title {
+    font-size: 14px;
+    font-weight: 800;
+    width: 300px;
+    min-height: 44px;
+    text-align: left;
+    padding: 10px 15px 10px 15px;
+}
+#verticalName {
+    font-size: 10px;
+    font-weight: 400;
+    width: 100%;
+    min-height: 10px;
+    text-align: left;
+    color:white;
+    padding: 5px 15px;
+}
+#verticalName a {
+  color: white;
+}
+
+#homelink > div {
+    height: 12px;
+    width: 12px;
+    vertical-align: top;
+    background-size: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-right:5px;
+}
+
+
+#carousel {
+    width: 300px;
+    height: 140px;
+    position: relative;
+    overflow: hidden;
+}
+
+.dw-nav {
+    height: 50px;
+    width: 20px;
+    position: absolute;
+    top: 40px;
+    color: white;
+    background-color: black;
+    display: block;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.dw-c-l {
+    left: 0;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px
+}
+
+.dw-c-r {
+    right: 0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px
+}
+
+.dw-c-img {
+    position: absolute;
+}
+
+.hover {
+    display: none;
+}
+
+.img-link:hover .hover {
+    display: none;
+}
+
+.img-link:hover .dw-big {
+    z-index: 2
+}
+
+.dw-big {
+  width: 100%;
+  top: 0;
+}
+
+.dw-big span {
+    font-size: 18px;
+    font-weight: bold
+}
+
+#num {
+    display:none;
+}
+
+.dw-c-sub {
+    position: absolute;
+    left: 115px;
+    border: 1px solid #ccc
+}
+
+#subimg {
+    display: none
+}
+
+.two #subimg {
+    display: block
+}
+
+.two .dw-c-img {
+}
+
+.two #num {
+    left: 41px
+}
+
+.one #subimg {
+    display: none !important
+}
+
+.one #num{
+  left: 78px !important
+}
+
+.one .dw-c-img {
+}
+
+.dw-info {
+    margin: 0px 15px 5px;
+}
+
+.dw-i-title {
+    font-size: 18px;
+    line-height: 22px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    font-weight: bold
+}
+
+.dw-i-title a {
+    color: inherit
+}
+#line1 {
+    display:none;
+}
+.dw-i-title#line2 {
+    display:none;
+}
+
+#list-link {
+    height: 0;
+    display: inline-block;
+}
+
+#desc {
+    margin-top: 2px;
+    width: 100%;
+    font-size: 12px;
+    line-height: 16px;
+    text-align: left;
+    font-weight: 400;
+    max-height: 63px;
+    overflow: hidden;
+}
+#desc p {
+  margin: 0;
+}
+
+#next-list-link .dw-btn{
+  display: inline-block;
+  margin-left: 10px;
+}
+
+#next-list-link .dw-btn svg{
+  margin-bottom: 1px;
+}
+
+.dw-btn {
+    display: inline-block;
+    color: white;
+    background-color: white;
+    font-size: 11px;
+    line-height: 28px;
+    width: 118px;
+    height: 30px;
+    border-radius: 3px;
+    position: relative;
+    left: 25px;
+    border: 1px solid #000;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 10px;
+    fill: white;
+    stroke: white
+}
+
+.dw-btn svg {
+    margin: 0 0 0 5px;
+    position: relative;
+    top: 2.5px
+}
+
+.dw-btn:hover {
+    color: white;
+    stroke: white;
+    fill: white
+}
+
+.dw-btn:active {
+    color: white;
+    stroke: white;
+    fill: white;
+    background-color: #272727
+}
+
+.presented {
+    position: absolute;
+    font-size: 10px;
+    line-height: 12px;
+    color: #999;
+    left: 4px;
+    bottom: 4px
+}
+/*fix for global css bleeding in from parent page*/
+.widget_zone iframe {
+  margin: 0;
+}
