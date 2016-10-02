@@ -1,0 +1,442 @@
+html, body {
+    margin: 0 !important;
+    font-family: Lato, sans-serif;
+    max-width: 952px;
+    min-width: 320px !important;
+    height: auto;
+    background-color: white;
+}
+
+div, span {
+    font-family: Lato, sans-serif;
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none !important;
+    color: #fff;
+}
+
+button:focus {
+    outline: 0;
+}
+
+sup {
+    vertical-align: baseline;
+    top: -0.5em;
+}
+
+.tri-title-container {
+    float: left;
+    left: 0;
+    padding-bottom: 5%;
+    margin-top: 5px;
+}
+
+.tri-title-container-stack {
+    float: left;
+    left: 0;
+    padding-bottom: 4%;
+    margin-top: 5px;
+}
+
+.tri-image-container {;
+    height: 0;
+    float: left;
+}
+
+.tri-image {
+    padding: 0 7px;
+}
+
+.tri-title {
+    font-size: 14px;
+    font-weight: 900;
+    margin: 0 7px;
+    color: #000;
+}
+
+.tri-title a {
+    text-decoration: none;
+}
+
+/*Overrides for bootstrap*/
+.left {
+    position: absolute !important;
+    left: -7px !important;
+}
+
+.center {
+    position: absolute !important;
+}
+
+.right {
+    position: absolute !important;
+    left: 7px !important;
+}
+
+/*end*/
+
+.cb {
+    height: 280px;
+    padding: 0;
+    margin: 0;
+}
+
+.cb-header {
+    height: 30px;
+    background-color: #00487d;
+}
+
+.tcx {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    padding: 18px;
+    margin: 7px;
+    background-repeat: no-repeat;
+    right: 15px;
+}
+
+.tab-container {
+    position: absolute;
+    left: 5px;
+}
+
+.tab-content {
+    font-size: 12px;
+    font-weight: 400;
+    color: #fff;
+    line-height: 30px;
+    float: left;
+    margin: 0 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+    height: 30px;
+}
+
+.tab-content-drop {
+    margin-left: 20px;
+}
+
+.tab-content .fa {
+    padding-right: 10px;
+    padding-left: 5px;
+}
+
+.tab-content.active {
+    border-bottom: 3px solid #f5a623;
+}
+
+/**** Title Portion of the widget ****/
+.cb-img {
+    height: 250px;
+    margin: 0;
+    padding: 0;
+    background-position: top center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: #222;
+    /*override bootstrap position*/
+    position: absolute !important;
+}
+
+.cb-img::before {
+    content: " ";
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0), #272727), linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+}
+
+.text-snippet {
+    width: 100%;
+    height: 15px;
+    font-size: 10px;
+    line-height: 10px;
+    text-align: right;
+    background-color: #f2f2f2;
+    color: #000;
+    padding: 3px 5px 3px 0;
+}
+
+.cb-top {
+    width: 100%;
+    height: 25px;
+    line-height: 21px;
+    background-color: #2d3e50;
+    color: #fff;
+    top: 0;
+    cursor: pointer !important;
+}
+
+.cb-top span {
+    font-size: 13px;
+}
+
+.cb-top span .team {
+    font-weight: 400;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.cb-top span .away, .cb-top span .home {
+    font-weight: 700;
+}
+
+.cb-top .fa {
+    color: #fff;
+    font-size: 18px;
+    margin-left: 5px;
+    height: 25px;
+    line-height: 27px;
+    right: 15px;
+    top: 0;
+}
+
+.container {
+    width: 97%;
+    border: 1px solid #2d3e50;
+    border-radius: 3px;
+    margin: 10px auto 5px;
+}
+
+[tooltip]:hover:before {
+    opacity: 1;
+}
+
+/**** Content Classes ****/
+.cb-bdy {
+    width: calc(100% - 300px);
+    height: 250px;
+    float: right;
+    top: 0;
+    color: #fff;
+}
+
+.text-wrapper {
+    top: 80px;
+    margin: 0 25px;
+    right: 0;
+}
+
+.cb-keyword {
+    font-weight: 400;
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.seperator {
+    font-weight: 400;
+    font-size: 10px;
+    padding: 0 3px;
+    color: #fff;
+}
+
+.cb-date {
+    font-weight: 400;
+    font-size: 10px;
+    color: #fff;
+}
+
+.cb-title {
+    font-weight: 900;
+    font-size: 22px;
+    line-height: 25px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    width: 100%;
+    color: #fff;
+}
+
+.cb-index {
+    font-size: 16px;
+    line-height: 33px;
+    float: right;
+    color: #999;
+    font-weight: 900;
+    padding-right: 1.5px;
+}
+
+.cb-txt {
+    width: 100%;
+    text-overflow: ellipsis;
+    font-size: 12px;
+    line-height: 15px;
+    overflow: hidden;
+    color: #fff;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+/**** Utility Classes ****/
+.ad_location {
+    width: 300px;
+    height: 250px;
+    background-color: #ccc;
+    position: relative;
+    bottom: 0;
+    float: left;
+}
+
+.noclick {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: default;
+}
+
+/*** Navigation ***/
+.fa.cb-btn {
+    width: 20px;
+    height: 50px;
+    position: absolute;
+    top: 100px;
+    background-color: rgba(255, 255, 255, 0.85);
+    line-height: 50px;
+    text-align: center;
+    color: #00487d;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.fa-angle-left.cb-btn {
+    left: 0;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.fa-angle-right.cb-btn {
+    right: 0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.fa.cb-btn:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: #fff;
+}
+
+/*** Dropdown ***/
+.cb-dropdown {
+    top: 40px;
+    left: 25px;
+    /*override bootstrap*/
+    display: none;
+    border: 1px solid #00487d;
+    background-color: #fff;
+    border-radius: 3px;
+    z-index: 99999;
+    /*overflow-y: scroll;*/
+    /*overflow-x: hidden;*/
+}
+
+.cb-dropdown.active {
+    display: block;
+}
+
+.dropdown-item {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.arrow-up {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #fff;
+    position: absolute;
+    top: -5px;
+    left: 3px;
+}
+
+.arrow-up:after {
+    content: '';
+    width: 1px;
+    height: 1px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-bottom: 5px solid #00487d;
+    position: absolute;
+    left: -5px;
+    top: -1px;
+    z-index: -1;
+}
+
+.first-elem:hover::after {
+    position: absolute;
+    content: "";
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #00487d;
+    top: -6px;
+    left: 1px;
+    z-index: 999;
+}
+
+.dropdown-item:hover {
+    background-color: #00487d;
+    color: #fff;
+    margin-top: -1px;
+    padding-top: 11px;
+}
+
+.dropdown-item:last-of-type {
+    border-bottom: none;
+}
+
+.arrow-up {
+    border-bottom: 5px solid #fff;
+}
+
+.dropdown-item .divider {
+    height: 1px;
+    background-color: #c2c2c2;
+}
+
+.cb-dropdown::-webkit-scrollbar {
+    width: 20px;
+}
+
+.cb-dropdown::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.cb-dropdown::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    background: rgba(45, 62, 80, 0.9);
+    border: 8px solid rgba(0, 0, 0, 0);
+    -webkit-box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.cb-dropdown::-webkit-scrollbar-thumb:window-inactive {
+    background: rgba(225, 225, 225, 0.75);
+}
+
+@media (max-width: 768px) {
+    .ad_location {
+        display: none;
+    }
+
+    .cb-bdy {
+        width: 100%;
+    }
+}
