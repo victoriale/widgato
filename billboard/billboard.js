@@ -197,10 +197,6 @@ billboard = (function () {
         var heightLarge = (Math.abs($('.description-top-large').offset().top - $('.main-hr').offset().top) - 20);
         var heightSmall = (Math.abs($('.description-top-small').offset().top - $('.main-hr').offset().top) - 20);
         //set max-height for text container.
-        $('.description-top-large').css('max-height', heightLarge + 'px');
-        $('.description-top-small').css('max-height', heightSmall + 'px');
-        $('.description-bottom-large').css('max-height', heightLarge + 'px');
-        $('.description-bottom-small').css('max-height', heightSmall + 'px');
         //Dynamically parse the number of lines by dividing the max-height of the container by the line height.
         var topSmall = document.getElementsByClassName('description-top-small')[0],
             lineHeight = parseInt(window.getComputedStyle(topSmall).getPropertyValue("line-height"));
@@ -214,11 +210,39 @@ billboard = (function () {
         var bottomLarge = document.getElementsByClassName('description-bottom-large')[0],
             lineHeight = parseInt(window.getComputedStyle(bottomLarge).getPropertyValue("line-height"));
         var linesLargeBottom = Math.floor(heightLarge / lineHeight);
-        //set the line clamp with the line number equation.
+        //set max-height for text container.
+        if (lineSmallTop == 1 || linesLargeTop == 1) {
+            $('.main-top-description').css('max-height', '1.3em');
+            $('.main-bottom-description').css('max-height', '1.3em');
+        } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 768 && window.innerWidth >= 758)) {
+            $('.main-top-description').css('max-height', '2.4em');
+            $('.main-bottom-description').css('max-height', '2.4em');
+        } else if (lineSmallTop == 3 || linesLargeTop == 3) {
+            $('.main-top-description').css('max-height', '3.5em');
+            $('.main-bottom-description').css('max-height', '3.5em');
+        } else if (lineSmallTop == 4 || linesLargeTop == 4) {
+            $('.main-top-description').css('max-height', '4.7em');
+            $('.main-bottom-description').css('max-height', '4.7em');
+        } else if (lineSmallTop == 5 || linesLargeTop == 5) {
+            $('.main-top-description').css('max-height', '5.9em');
+            $('.main-bottom-description').css('max-height', '5.9em');
+        } else if (lineSmallTop == 6 || linesLargeTop == 6) {
+            $('.main-top-description').css('max-height', '7em');
+            $('.main-bottom-description').css('max-height', '7em');
+        }
+        // line-clamp for chrome and safari
         topLarge.style['-webkit-line-clamp'] = linesLargeTop;
         topSmall.style['-webkit-line-clamp'] = lineSmallTop;
         bottomLarge.style['-webkit-line-clamp'] = linesLargeBottom;
         bottomSmall.style['-webkit-line-clamp'] = lineSmallBottom;
+        //add or remove box-shadow
+        if (window.innerWidth >= 768) {
+            $('.billboard').css('box-shadow', '0 0 10px 0 rgba(0, 0, 0, 0.2)');
+            $('.news').css('box-shadow', '-5px 0 30px 0 rgba(167, 167, 167, 0.5)');
+        } else {
+            $('.billboard').css('box-shadow', 'none');
+            $('.news').css('box-shadow', 'none');
+        }
     } // --> fitText
 
     function scrollDown() {
@@ -236,6 +260,18 @@ billboard = (function () {
         $('.news-container').remove();
         displaySubArticles();
     } // --> scrollUp
+
+    function toggleSearch() {
+        var search = $('.search-container');
+        var header = $('.search-button-small');
+        if (search.hasClass('active')) {
+            search.removeClass('active');
+            header.find('.fa').removeClass('fa-close').addClass('fa-search');
+        } else {
+            search.addClass('active');
+            header.find('.fa').removeClass('fa-search').addClass('fa-close');
+        }
+    }
 
     function processData() {
         // Check for data
@@ -284,7 +320,8 @@ billboard = (function () {
         getData: getData,
         scrollDown: scrollDown,
         scrollUp: scrollUp,
-        switchGame: switchGame
+        switchGame: switchGame,
+        toggleSearch: toggleSearch
     };
 })();
 
@@ -293,10 +330,6 @@ window.onresize = function (event) {
     var heightLarge = (Math.abs($('.description-top-large').offset().top - $('.main-hr').offset().top) - 20);
     var heightSmall = (Math.abs($('.description-top-small').offset().top - $('.main-hr').offset().top) - 20);
     //set max-height for text container.
-    $('.description-top-large').css('max-height', heightLarge + 'px');
-    $('.description-top-small').css('max-height', heightSmall + 'px');
-    $('.description-bottom-large').css('max-height', heightLarge + 'px');
-    $('.description-bottom-small').css('max-height', heightSmall + 'px');
     //Dynamically parse the number of lines by dividing the max-height of the container by the line height.
     var topSmall = document.getElementsByClassName('description-top-small')[0],
         lineHeight = parseInt(window.getComputedStyle(topSmall).getPropertyValue("line-height"));
@@ -310,9 +343,43 @@ window.onresize = function (event) {
     var bottomLarge = document.getElementsByClassName('description-bottom-large')[0],
         lineHeight = parseInt(window.getComputedStyle(bottomLarge).getPropertyValue("line-height"));
     var linesLargeBottom = Math.floor(heightLarge / lineHeight);
-    //set the line clamp with the line number equation.
+    //set max-height for text container.
+    if (lineSmallTop == 1 || linesLargeTop == 1) {
+        $('.main-top-description').css('max-height', '1.3em');
+        $('.main-bottom-description').css('max-height', '1.3em');
+    } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 768 && window.innerWidth >= 758)) {
+        $('.main-top-description').css('max-height', '2.4em');
+        $('.main-bottom-description').css('max-height', '2.4em');
+    } else if (lineSmallTop == 3 || linesLargeTop == 3) {
+        $('.main-top-description').css('max-height', '3.5em');
+        $('.main-bottom-description').css('max-height', '3.5em');
+    } else if (lineSmallTop == 4 || linesLargeTop == 4) {
+        $('.main-top-description').css('max-height', '4.7em');
+        $('.main-bottom-description').css('max-height', '4.7em');
+    } else if (lineSmallTop == 5 || linesLargeTop == 5) {
+        $('.main-top-description').css('max-height', '5.9em');
+        $('.main-bottom-description').css('max-height', '5.9em');
+    } else if (lineSmallTop == 6 || linesLargeTop == 6) {
+        $('.main-top-description').css('max-height', '7em');
+        $('.main-bottom-description').css('max-height', '7em');
+    }
+    // line-clamp for chrome and safari
     topLarge.style['-webkit-line-clamp'] = linesLargeTop;
     topSmall.style['-webkit-line-clamp'] = lineSmallTop;
     bottomLarge.style['-webkit-line-clamp'] = linesLargeBottom;
     bottomSmall.style['-webkit-line-clamp'] = lineSmallBottom;
+    //add or remove box-shadow
+    if (window.innerWidth >= 768) {
+        $('.billboard').css('box-shadow', '0 0 10px 0 rgba(0, 0, 0, 0.2)');
+        $('.news').css('box-shadow', '-5px 0 30px 0 rgba(167, 167, 167, 0.5)');
+        var search = $('.search-container');
+        var header = $('.search-button-small');
+        if (search.hasClass('active')) {
+            search.removeClass('active');
+            header.find('.fa').removeClass('fa-close').addClass('fa-search');
+        }
+    } else {
+        $('.billboard').css('box-shadow', 'none');
+        $('.news').css('box-shadow', 'none');
+    }
 };
