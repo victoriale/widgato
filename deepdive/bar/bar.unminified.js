@@ -2305,7 +2305,7 @@
     });
 
     //Build ad
-    // bootstrapAd();
+    bootstrapAd();
   }
   /**
    * Other functions
