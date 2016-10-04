@@ -18,6 +18,7 @@
   var partnerState; //State of partner needed for api
   var heroImage = protocol + '://w1.synapsys.us/widgets/deepdive/images/baseball_hero.jpg'; //Background Hero image of deepdive hero
   var contentEl; //Main node of the content. This is needed to calculate position of rails and to add deep dive hero
+  var deepDiveBarNav; //Nav buttons on boxscores bar
 
   //Google analytics tags
   var gaRails = '/?utm_source=Tribune&utm_medium=Siderails&utm_campaign=Baseball%20Takeover';
@@ -120,7 +121,7 @@
   // }
 
   //Build rails
-  var buildRails = function(){
+  function buildRails(){
     //console.log('BUILD RAILS');
     leftRail = topWin.document.createElement('a');
     // leftRail.className = 'to-left-rail to-rail-visible';
@@ -167,7 +168,7 @@
     // railsVisible = true;
   }
   //Build deep dive
-  var buildDeepDive = function(){
+  function buildDeepDive(){
     //console.log('BUILD DEEPDIVE');
     deepDiveHero = topWin.document.createElement('div');
     // deepDiveHero.className = 'ddh-container ddh-visible';
@@ -213,7 +214,7 @@
     deepDiveBar.innerHTML = `
       <div class="ddh-bar-title">
         <img src="` + protocol + `://w1.synapsys.us/widgets/deepdive/images/baseball_icon.png" >
-        TODAY'S MLB GAMES
+        <span id="ddh-bar-title-text">TODAY'S MLB GAMES</span>
       </div>
 
       <ul class="ddh-bar-schedule"></ul>
@@ -271,7 +272,13 @@
         var res = JSON.parse(xhttp.responseText);
         processedData = formatData(res.data, tz.offset, tz.tzAbbrev, date);
         dataLength = processedData.length;
-        //console.log('processedData', processedData);
+
+        if(dataLength === 0){
+          var titleText = document.getElementById('ddh-bar-title-text');
+          titleText.innerHTML = 'MLB THIS WEEK';
+          processedData = backupFormat(res.data, tz.offset, tz.tzAbbrev);
+          dataLength = processedData.length;
+        }
 
         //Calculate bodyWidth to determine amount of games to display
         var contentWidth = contentEl.offsetWidth;
@@ -294,7 +301,7 @@
           schedule.appendChild(gameNode);
         }
 
-        var deepDiveBarNav = topWin.document.createElement('div');
+        deepDiveBarNav = topWin.document.createElement('div');
         deepDiveBarNav.className = 'ddh-bar-nav';
         deepDiveBarNav.innerHTML = `
           <button class="ddh-bar-button ddh-prev" >
@@ -306,6 +313,13 @@
         `;
 
         deepDiveBar.appendChild(deepDiveBarNav);
+
+        //Hide nav buttons if not enough data
+        if(displayNumber === 4 && dataLength <= 4){
+          hideNavButtons();
+        }else if(displayNumber === 3 && dataLength <= 3){
+          hideNavButtons();
+        }
 
         //Listen for next button click
         var nextButton = topWin.document.getElementsByClassName('ddh-bar-button ddh-next')[0];
@@ -392,8 +406,20 @@
   //   return (contentLeft + contentWidth) + 'px';
   // }
 
+  //Functions to control visibility of nav buttons
+  function showNavButtons(){
+    if(typeof deepDiveBarNav !== 'undefined'){
+      deepDiveBarNav.style.display = 'block';
+    }
+  }
+  function hideNavButtons(){
+    if(typeof deepDiveBarNav !== 'undefined'){
+      deepDiveBarNav.style.display = 'none';
+    }
+  }
+
   //Get current timezone offset and timezone abbreviation (in eastern)
-  var getEasternTime = function(){
+  function getEasternTime(){
     //Grab current year
     var utcYear = new Date().getUTCFullYear();
     var daylightStart, daylightEnd, offset, abbrev;
@@ -429,7 +455,7 @@
   }
 
   //Convert unix timestamp to datetime [hour:minute meridian tzAbbrev]
-  var convertToEastern = function(date, offset, tzAbbrev){
+  function convertToEastern(date, offset, tzAbbrev){
     var date = new Date(date + offset * 3600 * 1000);
     var hour = date.getUTCHours();
     var meridian = hour >= 12 ? 'PM' : 'AM';
@@ -442,22 +468,44 @@
     return convertedDate;
   }
 
+  function getDay(date, offset, tzAbbrev){
+    var date = new Date(date + offset * 3600 * 1000);
+    var day = date.getUTCDate();
+    var month = date.getUTCMonth();
+    var monthArray = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'April',
+      'May',
+      'June',
+      'July',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
+    ];
+
+    return monthArray[month] + ' ' + ordinalSuffix(day);
+  }
+
   //Compare timestamp with a date value. This is used to filter out games that do not occur on the date given
-  var compareDate = function(timestamp, date, offset){
+  function compareDate(timestamp, date, offset){
     var timestampDate = new Date(timestamp + offset * 3600 * 1000);
     var timestampDate = timestampDate.getUTCDate();
     return date === timestampDate;
   }
 
   //Sort object by timestamp
-  var sortByTime = function(arr){
+  function sortByTime(arr){
     return arr.sort(function(a, b){
       return a.timestamp - b.timestamp;
     })
   }
 
   //Get ordinal suffix of a number (1st, 2nd, etc..)
-  var ordinalSuffix = function(i){
+  function ordinalSuffix(i){
     var j = i % 10,
         k = i % 100;
     if (j == 1 && k != 11) {
@@ -473,7 +521,7 @@
   }
 
   //Format boxscores data
-  var formatData = function(data, offset, tzAbbrev, todayDate){
+  function formatData(data, offset, tzAbbrev, todayDate){
     var pre = [], active = [], post = [];
 
     for(var index in data){
@@ -623,8 +671,92 @@
     return allGames;
   }
 
+  function backupFormat(data, offset, tzAbbrev){
+    var pre = [], post = [];
+
+    for(var index in data){
+      var item = data[index];
+
+      switch(item.gameInfo.eventStatus){
+        case 'pre-event':
+          if(item.gameInfo.live === false){
+            //Pre Game
+            pre.push({
+              homeTeam: item.homeTeamInfo.abbreviation,
+              homeScore: '-',
+              awayTeam: item.awayTeamInfo.abbreviation,
+              awayScore: '-',
+              timestamp: item.gameInfo.startDateTimestamp,
+              eventStatus: item.gameInfo.eventStatus,
+              htmlMarkup: `
+                <a href="http://` + domain + `/articles/pregame-report/` + item.gameInfo.eventId + `" class="ddh-bar-game-link">
+                  <ul class="ddh-bar-game-teams">
+                    <li>
+                      ` + item.homeTeamInfo.abbreviation + `
+                      <span class="ddh-bar-game-teamscore">
+                        -
+                      </span>
+                    </li>
+                    <li>
+                      ` + item.awayTeamInfo.abbreviation + `
+                      <span class="ddh-bar-game-teamscore">
+                        -
+                      </span>
+                    </li>
+                  </ul>
+                  <span class="ddh-bar-game-time">
+                    ` + getDay(item.gameInfo.startDateTimestamp, offset, tzAbbrev) +  `
+                  </span>
+                </a>
+              `
+            })
+          }
+        break;
+        case 'Final':
+        case 'post-event':
+          post.push({
+            homeTeam: item.homeTeamInfo.abbreviation,
+            homeScore: item.homeTeamInfo.score,
+            awayTeam: item.awayTeamInfo.abbreviation,
+            awayScore: item.awayTeamInfo.score,
+            timestamp: item.gameInfo.startDateTimestamp,
+            eventStatus: item.gameInfo.eventStatus,
+            htmlMarkup: `
+              <a ="_blank" href="http://` + domain + `/articles/postgame-report/` + item.gameInfo.eventId + `" class="ddh-bar-game-link">
+                <ul class="ddh-bar-game-teams">
+                  <li>
+                    ` + item.homeTeamInfo.abbreviation + `
+                    <span class="ddh-bar-game-teamscore">
+                      ` + (item.homeTeamInfo.score || '-') + `
+                    </span>
+                  </li>
+                  <li>
+                    ` + item.awayTeamInfo.abbreviation + `
+                    <span class="ddh-bar-game-teamscore">
+                      ` + (item.awayTeamInfo.score || '-') + `
+                    </span>
+                  </li>
+                </ul>
+                <span class="ddh-bar-game-time">
+                  FINAL
+                </span>
+              </a>
+            `
+          })
+        break;
+      }
+    };
+
+    pre = sortByTime(pre);
+    post = sortByTime(post);
+
+    var allGames = pre.concat(post);
+
+    return allGames;
+  }
+
   //Clear games from boxscores bar
-  var clearGames = function(){
+  function clearGames(){
     var schedule = topWin.document.getElementsByClassName('ddh-bar-schedule')[0];
     while(schedule.hasChildNodes()){
       schedule.removeChild(schedule.firstChild);
@@ -1035,8 +1167,13 @@
     var resizeContentWidth = contentEl.offsetWidth;
 
     //JS responsiveness for boxscores games amount
-    if(resizeContentWidth < 1080 && displayNumber !== 3 && deepDiveLoaded){
-      //If resize is less than 1080 and display number is not 3, reformat games
+    if(resizeContentWidth < 1080 && displayNumber !== 3 && deepDiveLoaded && dataLength >= 3){
+      if(dataLength > 3){
+        showNavButtons();
+      }else{
+        hideNavButtons();
+      }
+      //If resize is less than 1080 and display number is not 3, and enough data for resize, reformat games
       displayNumber = 3;
       //Remove last element from index array and remove last element from html markup
       initialIndex.pop();
@@ -1051,8 +1188,13 @@
         schedule.appendChild(gameNode);
       }
 
-    }else if(resizeContentWidth >= 1080 && displayNumber !== 4 && deepDiveLoaded){
-      //If resize is greater than 1080 and display number is not 4, reformat games
+    }else if(resizeContentWidth >= 1080 && displayNumber !== 4 && deepDiveLoaded && dataLength >= 4){
+      if(dataLength > 4){
+        showNavButtons();
+      }else{
+        hideNavButtons();
+      }
+      //If resize is greater than 1080 and display number is not 4, and enough data for resize, reformat games
       displayNumber = 4;
       //Add another item to index array
       var lastIndex = initialIndex[initialIndex.length - 1];
@@ -1076,35 +1218,6 @@
     if(!deepDiveLoaded && resizeBodyWidth >= 990){
       buildDeepDive();
     }
-
-    //Deprecated: Using media breaks instead
-    //Determines if deep dive hero should be shown or hidden
-    // if(deepDiveLoaded && deepDiveVisible && resizeContentWidth < 990){
-    //   deepDiveHero.className = 'ddh-container';
-    //   deepDiveVisible = false;
-    // }
-    // if(deepDiveLoaded && !deepDiveVisible && resizeContentWidth >= 990){
-    //   deepDiveHero.className = 'ddh-container ddh-visible';
-    //   deepDiveVisible = true;
-    // }
-    //Deprecated: Using media breaks instead
-    //Determines if rails should be shown or hidden
-    // if(railsLoaded && railsVisible && (resizeBodyWidth - resizeContentWidth) < 320){
-    //   railsVisible = false;
-    //   leftRail.className = 'to-left-rail';
-    //   rightRail.className = 'to-right-rail';
-    // }
-    // if(railsLoaded && !railsVisible && (resizeBodyWidth - resizeContentWidth) >= 320){
-    //   railsVisible = true;
-    //   leftRail.className = 'to-left-rail to-rail-visible';
-    //   rightRail.className = 'to-right-rail to-rail-visible';
-    // }
-    //Deprecated: Using css calc instead
-    //If rails exist, realign
-    // if(railsLoaded){
-    //   leftRail.style.left = getLeftRailPos();
-    //   rightRail.style.left = getRightRailPos();
-    // }
   });
 
 })();
