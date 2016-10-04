@@ -1057,6 +1057,9 @@ display: none;
   padding-top: 5px;
   box-sizing: border-box;
 }
+_:-ms-input-placeholder, :root .ddb-menu-ticker {
+  padding-top: 6px;
+}
 @media(min-width: 1280px){
   .ddb-menu-ticker{
     display: inline-block;
