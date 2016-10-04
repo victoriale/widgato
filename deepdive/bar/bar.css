@@ -892,7 +892,7 @@
   box-sizing: border-box;
   z-index: 100000;
 }
-@media(max-width: 640px){
+@media(max-width: 639px){
   .ddb-menu-search-dropdown{
     display: none !important;
   }
