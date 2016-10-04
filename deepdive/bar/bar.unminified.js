@@ -1,8 +1,8 @@
 (function(){
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http'; //Protocol of the domain the bar exist on
-  // var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
-  var resourceURL = protocol + '://localhost:8000/deepdive';
-  var embedURL = resourceURL + '/bar/bar.unminified.js'; //URL of script embed. This is used as a fallback if document.currentScript is not available
+  var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
+  // var resourceURL = protocol + '://localhost:8000/deepdive';
+  var embedURL = resourceURL + '/bar/bar.js'; //URL of script embed. This is used as a fallback if document.currentScript is not available
   /**
    * Global variables
    **/
