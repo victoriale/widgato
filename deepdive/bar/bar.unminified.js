@@ -355,7 +355,7 @@
             </a>
           </li>
           <li>
-            <a href="` + hoopsDomain + `"/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1>
+            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1">
               <i class="ddb-icon ddb-icon-thumbs-o-down"></i>
               Most Blocks
             </a>
@@ -373,7 +373,7 @@
         //If last dropdown that was hovered (or is currently hovered) is ncaam insert into dynamic dropdown
         //This is so if the user is currently hovering over ncaam (before the dropdown data is loaded the data will insert)
         var dynamicDropdown = document.getElementById('ddb-dynamic-dropdown');
-        if(dynamicDropdown.id === 'ddb-dropdown-ncaam'){
+        if(dynamicDropdown !== null && dynamicDropdown.id === 'ddb-dropdown-ncaam'){
           var dynamicNav = document.getElementById('ddb-dynamic-nav'); //Nav of dynamic dropdown
           var dynamicLinks = document.getElementById('ddb-dynamic-links'); //Links of dynamic dropdown
           clearInnerHTML(dynamicNav);
@@ -454,7 +454,7 @@
           item.href = touchdownDomain + '/ncaaf/schedules/league/' + footballLeagueYear + '/1';
         });
         [].forEach.call(navTopLists, function(item){
-          item.href = touchdownDomain + '/ncaaf/list-of-lists/league/10/1';
+          item.href = touchdownDomain + '/ncaaf/list-of-lists/league/' + footballLeagueYear + '/10/1';
         });
         [].forEach.call(navTeams, function(item){
           item.href = touchdownDomain + '/ncaaf/pick-a-team';
@@ -483,7 +483,7 @@
             </a>
           </li>
           <li>
-            <a href="` + touchdownDomain + `/ncaaf/list-of-lists/league/10/1">
+            <a href="` + touchdownDomain + `/ncaaf/list-of-lists/league/` + footballLeagueYear + `/10/1">
               <i class="ddb-icon ddb-icon-list"></i>
               Top Lists
             </a>
@@ -1015,7 +1015,7 @@
     ];
 
     var buildLink = function(data){
-      return homerunDomain + '/team/' + data.fullName + '/' + data.teamId;
+      return homerunDomain + '/t/' + data.fullName + '/' + data.teamId;
     }
 
     // var mlbAmerican = document.getElementById('mlb-american');
@@ -1346,7 +1346,7 @@
     ];
 
     var buildLink = function(data){
-      return touchdownDomain + '/nfl/team/' + data.fullName + '/' + data.teamId;
+      return touchdownDomain + '/nfl/t/' + data.fullName + '/' + data.teamId;
     }
 
     var linksEl = document.createElement('section');
@@ -1555,7 +1555,7 @@
       eventsOpen = !eventsOpen;
     })
     var eventsOptions = document.getElementById('ddb-boxscores-options');
-    eventsOptions.childNodes.forEach(function(item){
+    [].forEach.call(eventsOptions.childNodes, function(item){
       item.addEventListener('click', function(){
         var id = this.id;
         //Determine if data is loaded to allow/disallow click
@@ -2730,8 +2730,8 @@
            switch(item.gameInfo.eventStatus){
              case 'pre-event':
                 //Pre Game
-                let dateObj = new Date(item.gameInfo.startDateTimestamp);
-                let datetime = dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() + 1) + '-' + dateObj.getUTCDate();
+                var dateObj = new Date(item.gameInfo.startDateTimestamp);
+                var datetime = dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() + 1) + '-' + dateObj.getUTCDate();
 
                 var gameObject = {
                   homeTeam: item.homeTeamInfo.abbreviation,
@@ -2753,8 +2753,8 @@
              break;
              case 'post-event':
                 //Post Game
-                let dateObj2 = new Date(item.gameInfo.startDateTimestamp);
-                let datetime2 = dateObj2.getUTCFullYear() + '-' + (dateObj2.getUTCMonth() + 1) + '-' + dateObj2.getUTCDate();
+                var dateObj2 = new Date(item.gameInfo.startDateTimestamp);
+                var datetime2 = dateObj2.getUTCFullYear() + '-' + (dateObj2.getUTCMonth() + 1) + '-' + dateObj2.getUTCDate();
 
                 var gameObject = {
                   homeTeam: item.homeTeamInfo.abbreviation,
