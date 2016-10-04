@@ -1038,6 +1038,7 @@
 .ddb-search-dropdown li .ddb-icon{
   margin-right: 4px;
   color: #4a90e2;
+  font-size: 18px;
 }
 
 .ddb-search-dropdown li.ddb-no-results{
