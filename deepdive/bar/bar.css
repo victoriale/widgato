@@ -1014,6 +1014,9 @@
   right: 117px;
   z-index: 10;
 }
+#ddb-search-desktop::-ms-clear {
+display: none;
+}
 .ddb-search-active a{
   color: #fff !important;
   background-color: #4a90e2;
