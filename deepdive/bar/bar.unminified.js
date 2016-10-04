@@ -1893,13 +1893,13 @@
 
       switch(data.Scope){
         case 'MLB':
-          link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
+          link = homerunDomain + '/t/' + sanitizeTeamName + '/' + data.teamId;
         break;
         case 'NFL':
-          link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
+          link = touchdownDomain + '/nfl/t/' + sanitizeTeamName + '/' + data.teamId;
         break;
         case 'NCAAF':
-          link = touchdownDomain + '/ncaaf/team' + sanitizeTeamName + '/' + data.teamId;
+          link = touchdownDomain + '/ncaaf/t/' + sanitizeTeamName + '/' + data.teamId;
         break;
         case 'NBA':
           link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
@@ -2172,15 +2172,15 @@
       switch(data.Scope){
         case 'MLB':
           iconClass = 'ddb-icon-baseball';
-          link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
+          link = homerunDomain + '/t/' + sanitizeTeamName + '/' + data.teamId;
         break;
         case 'NFL':
           iconClass = 'ddb-icon-football';
-          link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
+          link = touchdownDomain + '/nfl/t/' + sanitizeTeamName + '/' + data.teamId;
         break;
         case 'NCAAF':
           iconClass = 'ddb-icon-football';
-          link = touchdownDomain + '/ncaaf/team' + sanitizeTeamName + '/' + data.teamId;
+          link = touchdownDomain + '/ncaaf/t/' + sanitizeTeamName + '/' + data.teamId;
         break;
         case 'NBA':
           iconClass = 'ddb-icon-basketball';
@@ -2528,7 +2528,7 @@
        full_name = full_name.replace(/[^\w\s]/gi, '');
        full_name = full_name.replace(/\s+/g, '-').toLowerCase();
 
-       return touchdownDomain + '/ncaaf/team/' + full_name + '/' + teamId;
+       return touchdownDomain + '/ncaaf/t/' + full_name + '/' + teamId;
      }
 
      //Limit amount of data to iterate through (max 2)
