@@ -1121,7 +1121,7 @@
   animation-play-state: paused;
 }
 .ddb-menu-ticker-separator{
-  display: inline-block;
+  /*display: inline-block;*/
   margin: 0 16px;
 }
 .ddb-menu-ticker-link{
