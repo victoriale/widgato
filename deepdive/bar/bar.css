@@ -248,8 +248,12 @@
 /*
   Mobile Nav Classes
 */
-
-.ddb-menu-mobile{
+@media(min-width: 640px){
+  .ddb-mobile-layout{
+    display: none;
+  }
+}
+.ddb-mobile-menu{
   width: 30px;
   height: 35px;
   border: none;
@@ -258,12 +262,7 @@
   font-size: 15px;
   cursor: pointer;
 }
-@media(min-width: 640px){
-  .ddb-menu-mobile{
-    display: none;
-  }
-}
-.ddb-menu-mobile.ddb-right{
+.ddb-mobile-menu.ddb-right{
   float: right;
 }
 #ddb-mobile-menu{
@@ -292,11 +291,6 @@
   width: 100%;
   display: none;
   z-index: 100000;
-}
-@media(min-width: 640px){
-  .ddb-mobile-dropdown{
-    display: none !important;
-  }
 }
 .ddb-mobile-dropdown#ddb-mobile-search-bar{
   padding: 0 35px;
@@ -851,27 +845,6 @@
   }
 }
 
-.ddb-menu-dropdown-takeover{
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 50;
-  background-color: rgba(255, 255, 255, 0.925);
-  text-align: center;
-  color: #000;
-}
-.ddb-menu-dropdown-takeover-text{
-  font-size: 32px;
-  margin-top: 100px;
-  font-weight: 300;
-}
-.ddb-menu-dropdown-takeover-text-line2{
-  color: #ccc;
-  font-size: 26px;
-}
-
 .ddb-menu-options{
   display: none;
   float: right;
@@ -1016,7 +989,7 @@
   z-index: 10;
 }
 #ddb-search-desktop::-ms-clear {
-display: none;
+  display: none;
 }
 .ddb-search-active a{
   color: #fff !important;
@@ -1058,6 +1031,7 @@ display: none;
   padding-top: 5px;
   box-sizing: border-box;
 }
+/* IE/Edge specific class to handle 1px padding-top issue */
 _:-ms-input-placeholder, :root .ddb-menu-ticker {
   padding-top: 6px;
 }
