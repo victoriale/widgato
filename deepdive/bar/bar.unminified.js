@@ -3,6 +3,48 @@
   var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
   // var resourceURL = protocol + '://localhost:8000/deepdive';
   var embedURL = resourceURL + '/bar/bar.js'; //URL of script embed. This is used as a fallback if document.currentScript is not available
+
+  //Grab current script element to know where to inject bar
+  var currentScript = document.currentScript || (function(){
+      var scripts = document.getElementsByTagName("script");
+      for (var i = scripts.length - 1; i >= 0; i--) {
+         if (scripts[i].src.indexOf(embedURL) != -1) {
+            return scripts[i];
+         }
+      }
+   })();
+
+  /**
+   * Get query parameters for script tag
+   **/
+  var params = {
+    baseballSubdomain: null,
+    basketballSubdomain: null,
+    footballSubdomain: null
+  };
+
+  var queryString = currentScript.src.split('?')[1];
+  if(typeof queryString === 'undefined'){
+    //No params passed in
+  }else{
+    //Parse query string
+    var queryParams = queryString.split('&');
+    queryParams.forEach(function(item){
+      var pair = item.split('=');
+      switch(pair[0]){
+        case 'baseballSubdomain':
+          params.baseballSubdomain = decodeURIComponent(pair[1]);
+        break;
+        case 'basketballSubdomain':
+          params.basketballSubdomain = decodeURIComponent(pair[1]);
+        break;
+        case 'footballSubdomain':
+          params.footballSubdomain = decodeURIComponent(pair[1]);
+        break;
+      }
+    })
+  }
+
   /**
    * Global variables
    **/
@@ -27,13 +69,13 @@
   var defaultState = 'ny'; //Default state used whenever state lookup fails (from api or from stateAbbrevToFull function)
 
   var domain = window.location.hostname; //Domain the bar exists on
-  domain = domain.replace(/www./, '');
-  //TODO: Test domain. Remove when product finished
-  // domain = 'latimes.com';
-  var homerunDomain = 'http://myhomerunzone.com/' + domain;
-  var hoopsDomain = 'http://myhoopszone.com/' + domain;
-  // var touchdownDomain = 'http://mytouchdownzone.com/' + domain;
-  var touchdownDomain = 'http://www.mytouchdownzone.com/' + domain;
+  var parts = domain.split('.');
+  //Grab second level domain
+  domain = parts.slice(-2).join('.');
+
+  var homerunDomain = params.baseballSubdomain !== null ? protocol + '://' + params.baseballSubdomain + '.' + domain : 'http://myhomerunzone.com/' + domain;
+  var hoopsDomain = params.basketballSubdomain !== null ? protocol + '://' + params.basketballSubdomain + '.' + domain : 'http://myhoopszone.com/' + domain;
+  var touchdownDomain = params.footballSubdomain !== null ? protocol + '://' + params.footballSubdomain + '.' + domain : 'http://www.mytouchdownzone.com/' + domain;
 
   var footballLeagueYear = 2016; //Year used by TDL sites for urls
 
@@ -52,15 +94,7 @@
         var template = document.createElement('section');
         template.className = 'ddb-container';
         template.innerHTML = res;
-        //Grab current script element to know where to inject bar
-        var currentScript = document.currentScript || (function() {
-            var scripts = document.getElementsByTagName("script");
-            for (var i = scripts.length - 1; i >= 0; i--) {
-               if (scripts[i].src.indexOf(embedURL) != -1) {
-                  return scripts[i];
-               }
-            }
-         })();
+
          var parentNode = currentScript.parentNode;
          //Inject HTML
          parentNode.insertBefore(template, currentScript);
@@ -1631,9 +1665,7 @@
     var mobileBoxscoresIndex = 0;
     var desktopBoxscoresIndex = 0;
 
-    var bootstrapMobileBoxscoresButtons = function(data){
-      // var mobileBoxscoresIndex = 0;
-      // var maxLength = index + (data.length);
+    var bootstapBoxscoresButtons = function(){
 
       var moveMobileLeft = function(){
         if(mobileBoxscoresIndex > 0){
@@ -1736,113 +1768,135 @@
       rightDesktopButton.addEventListener('click', moveDesktopRight);
     }
 
-    var xhttp = createRequestObject();
-    xhttp.onreadystatechange = function(){
-      if(xhttp.readyState === 4 && xhttp.status === 200){
-        //Success
-        var res = JSON.parse(xhttp.responseText);
-        //console.log('GET BOXSCORES SUCCESS', res);
-        var processedData;
-        processedData = processBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
-        //If no games found for today, search for games throughout the week
-        if(processedData.length === 0){
-          processedData = processBoxscoresData(res.data, tz.offset, tz.tzAbbrev, null);
+    //Promise for mlb boxscores
+    var promise1 = new Promise(function(resolve, reject){
+      var xhttp = createRequestObject();
+      xhttp.onreadystatechange = function(){
+        if(xhttp.readyState === 4 && xhttp.status === 200){
+          //Success
+          var res = JSON.parse(xhttp.responseText);
+          //console.log('GET BOXSCORES SUCCESS', res);
+          resolve(res);
+
+          var processedData;
+          processedData = processBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
+          //If no games found for today, search for games throughout the week
+          if(processedData.length === 0){
+            processedData = processBoxscoresData(res.data, tz.offset, tz.tzAbbrev, null);
+          }
+          //Reverse array so it is inserted correctly
+          // processedData.reverse();
+          //Add HTML to page
+          processedData.forEach(function(item){
+            // mobileBoxscoresMLB.parentNode.insertBefore(item.mobileNode, mobileBoxscoresMLB.nextSibling);
+            // desktopBoxscoresMLB.parentNode.insertBefore(item.desktopNode, desktopBoxscoresMLB.nextSibling);
+            mobileBoxscoresMLB.appendChild(item.mobileNode);
+            desktopBoxscoresMLB.appendChild(item.desktopNode);
+          })
+
+          totalMax += processedData.length;
+          totalMax += processedData.length;
+
+          mlbMax = processedData.length;
+
+          mlbLoaded = true;
+
+        }else if(xhttp.readyState === 4 && xhttp.status !== 200){
+          //Error
+          // console.log('GET MLB BOXSCORES ERROR');
+          reject(true);
         }
-        //Reverse array so it is inserted correctly
-        // processedData.reverse();
-        //Add HTML to page
-        processedData.forEach(function(item){
-          // mobileBoxscoresMLB.parentNode.insertBefore(item.mobileNode, mobileBoxscoresMLB.nextSibling);
-          // desktopBoxscoresMLB.parentNode.insertBefore(item.desktopNode, desktopBoxscoresMLB.nextSibling);
-          mobileBoxscoresMLB.appendChild(item.mobileNode);
-          desktopBoxscoresMLB.appendChild(item.desktopNode);
-        })
+      };
+      xhttp.open('GET', apiString, true);
+      xhttp.send();
+    });
+    //Promise for nfl boxscores
+    var promise2 = new Promise(function(resolve, reject){
+      var xhttp = createRequestObject();
+      xhttp.onreadystatechange = function(){
+        if(xhttp.readyState === 4 && xhttp.status === 200){
+          //Success
+          var res = JSON.parse(xhttp.responseText);
+          resolve(res);
 
-        totalMax += processedData.length;
-        totalMax += processedData.length;
+          var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'nfl');
 
-        mlbMax = processedData.length;
+          //Reverse array so it is inserted correctly
+          // processedData.reverse();
+          //Add HTML to page
+          processedData.forEach(function(item){
+            // mobileBoxscoresNFL.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNFL.nextSibling);
+            // desktopBoxscoresNFL.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNFL.nextSibling);
+            mobileBoxscoresNFL.appendChild(item.mobileNode);
+            desktopBoxscoresNFL.appendChild(item.desktopNode);
+          })
 
-        bootstrapMobileBoxscoresButtons(processedData);
+          totalMax += processedData.length;
+          totalMax += processedData.length;
 
-        mlbLoaded = true;
+          nflMax = processedData.length;
 
-      }else if(xhttp.readyState === 4 && xhttp.status !== 200){
-        //Error
-        // console.log('GET MLB BOXSCORES ERROR');
+          nflLoaded = true;
 
-      }
-    };
-    xhttp.open('GET', apiString, true);
-    xhttp.send();
+        }else if(xhttp.readyState === 4 & xhttp.status !== 200){
+          //Error
+          // console.log('GET NFL BOXSCORES ERROR');
+          reject(true);
+        }
+      };
+      xhttp.open('GET', apiString2, true);
+      xhttp.send();
+    });
+    //Promise for ncaaf boxscores
+    var promise3 = new Promise(function(resolve, reject){
+      var xhttp = createRequestObject();
+      xhttp.onreadystatechange = function(){
+        if(xhttp.readyState === 4 && xhttp.status === 200){
+          //Success
+          var res = JSON.parse(xhttp.responseText);
+          resolve(res);
 
-    var xhttp2 = createRequestObject();
-    xhttp2.onreadystatechange = function(){
-      if(xhttp2.readyState === 4 && xhttp2.status === 200){
-        //Success
-        var res = JSON.parse(xhttp2.responseText);
-        // console.log('xhttp2', res);
+          var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'ncaaf');
 
-        var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'nfl');
+          //Reverse array so it is inserted correctly
+          // processedData.reverse();
+          //Add HTML to page
+          processedData.forEach(function(item){
+            // mobileBoxscoresNCAAF.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNCAAF.nextSibling);
+            // desktopBoxscoresNCAAF.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNCAAF.nextSibling);
+            mobileBoxscoresNCAAF.appendChild(item.mobileNode);
+            desktopBoxscoresNCAAF.appendChild(item.desktopNode);
+          })
 
-        //Reverse array so it is inserted correctly
-        // processedData.reverse();
-        //Add HTML to page
-        processedData.forEach(function(item){
-          // mobileBoxscoresNFL.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNFL.nextSibling);
-          // desktopBoxscoresNFL.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNFL.nextSibling);
-          mobileBoxscoresNFL.appendChild(item.mobileNode);
-          desktopBoxscoresNFL.appendChild(item.desktopNode);
-        })
+          totalMax += processedData.length;
+          totalMax += processedData.length;
 
-        totalMax += processedData.length;
-        totalMax += processedData.length;
+          ncaafMax = processedData.length;
 
-        nflMax = processedData.length;
+          ncaafLoaded = true;
 
-        nflLoaded = true;
+        }else if(xhttp.readyState === 4 && xhttp.status !== 200){
+          //Error
+          console.log('GET NCAAF BOXSCORES ERROR');
+          reject(true);
+        }
+      };
+      xhttp.open('GET', apiString3, true);
+      xhttp.send();
+    });
+    //Wait for all three api calls to finish
+    Promise.all([promise1, promise2, promise3]).then(function(res){
+      var mlbData = res[0];
+      var nflData = res[1];
+      var ncaafData = res[2];
 
-      }else if(xhttp2.readyState === 4 & xhttp2.status !== 200){
-        //Error
-        // console.log('GET NFL BOXSCORES ERROR');
-      }
-    };
-    xhttp2.open('GET', apiString2, true);
-    xhttp2.send();
+      //Bootstrap boxscores button functionality
+      bootstapBoxscoresButtons();
+    }, function(err){
+      //Error, atleast 1 api failed
+    })
 
-    var xhttp3 = createRequestObject();
-    xhttp3.onreadystatechange = function(){
-      if(xhttp3.readyState === 4 && xhttp3.status === 200){
-        //Success
-        var res = JSON.parse(xhttp3.responseText);
-        // console.log('xhttp3', res);
 
-        var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'ncaaf');
-
-        //Reverse array so it is inserted correctly
-        // processedData.reverse();
-        //Add HTML to page
-        processedData.forEach(function(item){
-          // mobileBoxscoresNCAAF.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNCAAF.nextSibling);
-          // desktopBoxscoresNCAAF.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNCAAF.nextSibling);
-          mobileBoxscoresNCAAF.appendChild(item.mobileNode);
-          desktopBoxscoresNCAAF.appendChild(item.desktopNode);
-        })
-
-        totalMax += processedData.length;
-        totalMax += processedData.length;
-
-        ncaafMax = processedData.length;
-
-        ncaafLoaded = true;
-
-      }else if(xhttp3.readyState === 4 && xhttp3.status !== 200){
-        //Error
-        console.log('GET NCAAF BOXSCORES ERROR');
-      }
-    };
-    xhttp3.open('GET', apiString3, true);
-    xhttp3.send();
   }
 
   var bootstrapSearch = function(){
