@@ -224,6 +224,7 @@
 }
 .ddb-boxscores-content-game-teams{
   text-align: left;
+  white-space: normal;
 }
 .ddb-boxscores-content-game-teams .ddb-icon-football{
   color: #4a90e2;
