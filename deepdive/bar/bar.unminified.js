@@ -273,6 +273,10 @@
         var processedData = processTickerData(res);
 
         tickerContent.innerHTML = processedData;
+        //Add class so marquee scrolls correctly (safari)
+        setTimeout(function(){
+          addClass(tickerContent, 'ddb-ticker-animation');
+        }, 100);
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
@@ -327,7 +331,7 @@
           // ncaamLeagues.appendChild(item);
         })
         ncaamLinks += `
-          <a href="` + hoopsDomain + `/ncaa" class="ddb-menu-dropdown-all">
+          <a target="_blank" href="` + hoopsDomain + `/ncaa" class="ddb-menu-dropdown-all">
             SEE ALL CONFERENCES
           </a>
         `;
@@ -367,37 +371,37 @@
 
         var navHTML = `
           <li>
-            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1">
+            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1">
               <i class="ddb-icon ddb-icon-trophy"></i>
               Most Wins
             </a>
           </li>
           <li>
-            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1">
+            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1">
               <i class="ddb-icon ddb-icon-box-scores"></i>
               Most Turnovers
             </a>
           </li>
           <li>
-            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1">
+            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1">
               <i class="ddb-icon ddb-icon-dribbble"></i>
               Most Rebounds
             </a>
           </li>
           <li>
-            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1">
+            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1">
               <i class="ddb-icon ddb-icon-magic"></i>
               Most Steals
             </a>
           </li>
           <li>
-            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1">
+            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1">
               <i class="ddb-icon ddb-icon-thumbs-o-down"></i>
               Most Blocks
             </a>
           </li>
           <li>
-            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1">
+            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1">
               <i class="ddb-icon ddb-icon-life-ring"></i>
               Most Assists
             </a>
@@ -466,7 +470,7 @@
           // ncaafLeagues.appendChild(item);
         })
         ncaafLinks += `
-          <a href="` + touchdownDomain + `/ncaaf/pick-a-team" class="ddb-menu-dropdown-all">
+          <a target="_blank" href="` + touchdownDomain + `/ncaaf/pick-a-team" class="ddb-menu-dropdown-all">
             SEE ALL CONFERENCES
           </a>
         `;
@@ -501,31 +505,31 @@
 
         var navHTML = `
           <li>
-            <a href="` + touchdownDomain + `/ncaaf">
+            <a target="_blank" href="` + touchdownDomain + `/ncaaf">
               <i class="ddb-icon ddb-icon-news"></i>
               News
             </a>
           </li>
           <li>
-            <a href="` + touchdownDomain + `/ncaaf/standings">
+            <a target="_blank" href="` + touchdownDomain + `/ncaaf/standings">
               <i class="ddb-icon ddb-icon-trophy"></i>
               Standings
             </a>
           </li>
           <li>
-            <a href="` + touchdownDomain + `/ncaaf/schedules/league/` + footballLeagueYear + `/1">
+            <a target="_blank" href="` + touchdownDomain + `/ncaaf/schedules/league/` + footballLeagueYear + `/1">
               <i class="ddb-icon ddb-icon-calendar"></i>
               Schedule
             </a>
           </li>
           <li>
-            <a href="` + touchdownDomain + `/ncaaf/list-of-lists/league/` + footballLeagueYear + `/10/1">
+            <a target="_blank" href="` + touchdownDomain + `/ncaaf/list-of-lists/league/` + footballLeagueYear + `/10/1">
               <i class="ddb-icon ddb-icon-list"></i>
               Top Lists
             </a>
           </li>
           <li>
-            <a href="` + touchdownDomain + `/ncaaf/league">
+            <a target="_blank" href="` + touchdownDomain + `/ncaaf/league">
               <i class="ddb-icon ddb-icon-profile"></i>
               NCAA F Profile
             </a>
@@ -767,13 +771,13 @@
       easternHTML += `
         <tr>
           <td>
-            <a href="` + buildLink(atlanticDivision[index]) + `">` + atlanticDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(atlanticDivision[index]) + `">` + atlanticDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(centralDivision[index]) + `">` + centralDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(centralDivision[index]) + `">` + centralDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(southeastDivision[index]) + `">` + southeastDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(southeastDivision[index]) + `">` + southeastDivision[index].shortName + `</a>
           </td>
         </tr>
       `;
@@ -781,13 +785,13 @@
       westernHTML += `
         <tr>
           <td>
-            <a href="` + buildLink(pacificDivision[index]) + `">` + pacificDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(pacificDivision[index]) + `">` + pacificDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(southwestDivision[index]) + `">` + southwestDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(southwestDivision[index]) + `">` + southwestDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(northwestDivision[index]) + `">` + northwestDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(northwestDivision[index]) + `">` + northwestDivision[index].shortName + `</a>
           </td>
         </tr>
       `;
@@ -840,37 +844,37 @@
     var navEl = document.createElement('ul');
     navEl.innerHTML = `
       <li>
-        <a href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-wins/list/1/1">
+        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-wins/list/1/1">
           <i class="ddb-icon ddb-icon-trophy"></i>
           Most Wins
         </a>
       </li>
       <li>
-        <a href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-turnovers/list/12/1">
+        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-turnovers/list/12/1">
           <i class="ddb-icon ddb-icon-box-scores"></i>
           Most Turnovers
         </a>
       </li>
       <li>
-        <a href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-rebounds/list/11/1">
+        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-rebounds/list/11/1">
           <i class="ddb-icon ddb-icon-dribbble"></i>
           Most Rebounds
         </a>
       </li>
       <li>
-        <a href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-steals/list/15/1'">
+        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-steals/list/15/1'">
           <i class="ddb-icon ddb-icon-magic"></i>
           Most Steals
         </a>
       </li>
       <li>
-        <a href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-blocks/list/14/1">
+        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-blocks/list/14/1">
           <i class="ddb-icon ddb-icon-thumbs-o-down"></i>
           Most Blocks
         </a>
       </li>
       <li>
-        <a href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-assists-per-game/list/23/1">
+        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-assists-per-game/list/23/1">
           <i class="ddb-icon ddb-icon-life-ring"></i>
           Most Assists
         </a>
@@ -1051,7 +1055,11 @@
     ];
 
     var buildLink = function(data){
-      return homerunDomain + '/t/' + data.fullName + '/' + data.teamId;
+      if(params.baseballSubdomain !== null){
+        return homerunDomain + '/team/' + data.fullName + '/' + data.teamId;
+      }else{
+        return homerunDomain + '/t/' + data.fullName + '/' + data.teamId;
+      }
     }
 
     // var mlbAmerican = document.getElementById('mlb-american');
@@ -1096,13 +1104,13 @@
       americanHTML += `
         <tr>
           <td>
-            <a href="` + buildLink(alCentralDivision[index]) + `">` + alCentralDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(alCentralDivision[index]) + `">` + alCentralDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(alEastDivison[index]) + `">` + alEastDivison[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(alEastDivison[index]) + `">` + alEastDivison[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(alWestDivision[index]) + `">` + alWestDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(alWestDivision[index]) + `">` + alWestDivision[index].shortName + `</a>
           </td>
         </tr>
       `;
@@ -1110,13 +1118,13 @@
       nationalHTML += `
         <tr>
           <td>
-            <a href="` + buildLink(nlCentralDivision[index]) + `">` + nlCentralDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nlCentralDivision[index]) + `">` + nlCentralDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(nlEastDivision[index]) + `">` + nlEastDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nlEastDivision[index]) + `">` + nlEastDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(nlWestDivision[index]) + `">` + nlWestDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nlWestDivision[index]) + `">` + nlWestDivision[index].shortName + `</a>
           </td>
         </tr>
       `;
@@ -1165,31 +1173,31 @@
       var navEl = document.createElement('ul');
       navEl.innerHTML = `
         <li>
-          <a href="` + homerunDomain + `">
+          <a target="_blank" href="` + homerunDomain + `">
             <i class="ddb-icon ddb-icon-news"></i>
             News
           </a>
         </li>
         <li>
-          <a href="` + homerunDomain + `/standings">
+          <a target="_blank" href="` + homerunDomain + `/standings">
             <i class="ddb-icon ddb-icon-trophy"></i>
             Standings
           </a>
         </li>
         <li>
-          <a href="` + homerunDomain + `/schedules/mlb/1">
+          <a target="_blank" href="` + homerunDomain + `/schedules/mlb/1">
             <i class="ddb-icon ddb-icon-calendar"></i>
             Schedule
           </a>
         </li>
         <li>
-          <a href="` + homerunDomain + `/list-of-lists/league/10/1">
+          <a target="_blank" href="` + homerunDomain + `/list-of-lists/league/10/1">
             <i class="ddb-icon ddb-icon-list"></i>
             Top Lists
           </a>
         </li>
         <li>
-          <a href="` + homerunDomain + `/mlb">
+          <a target="_blank" href="` + homerunDomain + `/mlb">
             <i class="ddb-icon ddb-icon-profile"></i>
             MLB Profile
           </a>
@@ -1382,7 +1390,11 @@
     ];
 
     var buildLink = function(data){
-      return touchdownDomain + '/nfl/t/' + data.fullName + '/' + data.teamId;
+      if(params.footballSubdomain !== null){
+        return touchdownDomain + '/nfl/team/' + data.fullName + '/' + data.teamId;
+      }else{
+        return touchdownDomain + '/nfl/t/' + data.fullName + '/' + data.teamId;
+      }
     }
 
     var linksEl = document.createElement('section');
@@ -1431,32 +1443,32 @@
       afcHTML += `
         <tr>
           <td>
-            <a href="` + buildLink(afcNorth[index]) + `">` + afcNorth[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(afcNorth[index]) + `">` + afcNorth[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(afcEast[index]) + `">` + afcEast[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(afcEast[index]) + `">` + afcEast[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(afcSouth[index]) + `">` + afcSouth[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(afcSouth[index]) + `">` + afcSouth[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(afcWest[index]) + `">` + afcWest[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(afcWest[index]) + `">` + afcWest[index].shortName + `</a>
           </td>
         </tr>
       `;
       nfcHTML += `
         <tr>
           <td>
-            <a href="` + buildLink(nfcNorth[index]) + `">` + nfcNorth[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nfcNorth[index]) + `">` + nfcNorth[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(nfcEast[index]) + `">` + nfcEast[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nfcEast[index]) + `">` + nfcEast[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(nfcSouth[index]) + `">` + nfcSouth[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nfcSouth[index]) + `">` + nfcSouth[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(nfcWest[index]) + `">` + nfcWest[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nfcWest[index]) + `">` + nfcWest[index].shortName + `</a>
           </td>
         </tr>
       `;
@@ -1490,7 +1502,7 @@
         item.href = touchdownDomain + '/nfl/schedules/league/' + footballLeagueYear + '/1';
       });
       [].forEach.call(navTopLists, function(item){
-        item.href = touchdownDomain + '/nfl/list-of-lists/league/10/1';
+        item.href = touchdownDomain + '/nfl/list-of-lists/league/' + footballLeagueYear +  '/10/1';
       });
       [].forEach.call(navTeams, function(item){
         item.href = touchdownDomain + '/nfl/pick-a-team';
@@ -1502,31 +1514,31 @@
     var navEl = document.createElement('ul');
     navEl.innerHTML = `
       <li>
-        <a href="` + touchdownDomain + `/nfl">
+        <a target="_blank" href="` + touchdownDomain + `/nfl">
           <i class="ddb-icon ddb-icon-news"></i>
           News
         </a>
       </li>
       <li>
-        <a href="` + touchdownDomain + `/nfl/standings">
+        <a target="_blank" href="` + touchdownDomain + `/nfl/standings">
           <i class="ddb-icon ddb-icon-trophy"></i>
           Standings
         </a>
       </li>
       <li>
-        <a href="` + touchdownDomain + `/nfl/schedules/league/` + footballLeagueYear + `/1">
+        <a target="_blank" href="` + touchdownDomain + `/nfl/schedules/league/` + footballLeagueYear + `/1">
           <i class="ddb-icon ddb-icon-calendar"></i>
           Schedule
         </a>
       </li>
       <li>
-        <a href="` + touchdownDomain + `/nfl/list-of-lists/league/10/1">
+        <a target="_blank" href="` + touchdownDomain + `/nfl/list-of-lists/league/` + footballLeagueYear + `/10/1">
           <i class="ddb-icon ddb-icon-list"></i>
           Top Lists
         </a>
       </li>
       <li>
-        <a href="` + touchdownDomain + `/nfl/league">
+        <a target="_blank" href="` + touchdownDomain + `/nfl/league">
           <i class="ddb-icon ddb-icon-profile"></i>
           NFL Profile
         </a>
@@ -1879,7 +1891,7 @@
 
         }else if(xhttp.readyState === 4 && xhttp.status !== 200){
           //Error
-          console.log('GET NCAAF BOXSCORES ERROR');
+          // console.log('GET NCAAF BOXSCORES ERROR');
           reject(true);
         }
       };
@@ -1949,13 +1961,25 @@
 
       switch(data.Scope){
         case 'MLB':
-          link = homerunDomain + '/t/' + sanitizeTeamName + '/' + data.teamId;
+          if(params.baseballSubdomain !== null){
+            link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
+          }else{
+            link = homerunDomain + '/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NFL':
-          link = touchdownDomain + '/nfl/t/' + sanitizeTeamName + '/' + data.teamId;
+          if(params.footballSubdomain !== null){
+            link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
+          }else{
+            link = touchdownDomain + '/nfl/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NCAAF':
-          link = touchdownDomain + '/ncaaf/t/' + sanitizeTeamName + '/' + data.teamId;
+          if(params.footballSubdomain !== null){
+            link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
+          }else{
+            link = touchdownDomain + '/ncaaf/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NBA':
           link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
@@ -2228,15 +2252,27 @@
       switch(data.Scope){
         case 'MLB':
           iconClass = 'ddb-icon-baseball';
-          link = homerunDomain + '/t/' + sanitizeTeamName + '/' + data.teamId;
+          if(params.baseballSubdomain !== null){
+            link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
+          }else{
+            link = homerunDomain + '/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NFL':
           iconClass = 'ddb-icon-football';
-          link = touchdownDomain + '/nfl/t/' + sanitizeTeamName + '/' + data.teamId;
+          if(params.footballSubdomain !== null){
+            link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
+          }else{
+            link = touchdownDomain + '/nfl/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NCAAF':
           iconClass = 'ddb-icon-football';
-          link = touchdownDomain + '/ncaaf/t/' + sanitizeTeamName + '/' + data.teamId;
+          if(params.footballSubdomain !== null){
+            link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
+          }else{
+            link = touchdownDomain + '/ncaaf/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NBA':
           iconClass = 'ddb-icon-basketball';
@@ -2252,7 +2288,7 @@
         break;
       }
       el.innerHTML = `
-        <a href="` + link + `">
+        <a target="_blank" href="` + link + `">
           <i class="ddb-icon ` + iconClass + `"></i>
           ` + data.teamName + `
         </a>
@@ -2285,7 +2321,7 @@
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
-        console.log('SEARCH API ERROR');
+        // console.log('SEARCH API ERROR');
       }
     };
     xhttp.open('GET', apiString, true);
@@ -2311,7 +2347,15 @@
     var nbaDropdownElements = bootstrapNBADropdown();
     var nflDropdownElements = bootstrapNFLDropdown();
 
+    var adLoaded = false; //Determine if the ad has been built
+
     var mouseEnterEvent = function(evt){
+      //If the ad has not been loaded yet, bootstrap ad
+      if(!adLoaded){
+        adLoaded = true;
+        bootstrapAd();
+      }
+
       var id = this.id;
 
       clearInnerHTML(dynamicNav);
@@ -2359,9 +2403,6 @@
       item.addEventListener('mouseenter', mouseEnterEvent);
       item.addEventListener('mouseleave', mouseLeaveEvent)
     });
-
-    //Build ad
-    bootstrapAd();
   }
   /**
    * Other functions
@@ -2472,7 +2513,7 @@
 
        }else if(xhttp.readyState === 4 && xhttp.tatus !== 200){
          //Error
-         console.log('GET USER LOCATION ERROR');
+        //  console.log('GET USER LOCATION ERROR');
          var state = processLocationData(undefined);
          bootstrapTicker(state);
          bootstrapCollegeBasketballDropdown(state, false);
@@ -2578,13 +2619,13 @@
          //Add html accordingly
          if(mod === 0){
            //First Column
-           tableInnerHTML += '<tr><td><a href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
+           tableInnerHTML += '<tr><td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
          }else if(mod === 1){
            //Middle Column
-           tableInnerHTML += '<td><a href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
+           tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
          }else if(mod === 2){
            //Last Column
-           tableInnerHTML += '<td><a href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td></tr>';
+           tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td></tr>';
          }
 
        })
@@ -2611,7 +2652,11 @@
        full_name = full_name.replace(/[^\w\s]/gi, '');
        full_name = full_name.replace(/\s+/g, '-').toLowerCase();
 
-       return touchdownDomain + '/ncaaf/t/' + full_name + '/' + teamId;
+       if(params.footballSubdomain !== null){
+         return touchdownDomain + '/ncaaf/team/' + full_name + '/' + teamId;
+       }else{
+         return touchdownDomain + '/ncaaf/t/' + full_name + '/' + teamId;
+       }
      }
 
      //Limit amount of data to iterate through (max 2)
@@ -2646,13 +2691,13 @@
          //Add html accordingly
          if(mod === 0){
            //First Column
-           tableInnerHTML += '<tr><td><a href="' + buildLink(item.full_name, item.id) + '">' + item.full_name + '</a></td>';
+           tableInnerHTML += '<tr><td><a target="_blank" href="' + buildLink(item.full_name, item.id) + '">' + item.full_name + '</a></td>';
          }else if(mod === 1){
            //Middle Column
-           tableInnerHTML += '<td><a href="' + buildLink(item.full_name, item.id) + '">' + item.full_name + '</a></td>';
+           tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.id) + '">' + item.full_name + '</a></td>';
          }else if(mod === 2){
            //Last Column
-           tableInnerHTML += '<td><a href="' + buildLink(item.full_name, item.id) + '">' + item.full_name + '</a></td></tr>';
+           tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.id) + '">' + item.full_name + '</a></td></tr>';
          }
        })
 
@@ -2678,7 +2723,7 @@
        var gameNode = document.createElement('div');
        gameNode.className = 'ddb-boxscores-content-game';
        gameNode.innerHTML = `
-         <a class="ddb-boxscores-content-game-link" href="` + data.link + `">
+         <a target="_blank" class="ddb-boxscores-content-game-link" href="` + data.link + `">
            <ul class="ddb-boxscores-content-game-teams">
              <li class="` + (data.homeClass ? data.homeClass : '') + `">
                ` + data.homeTeam + ` <span class="ddb-boxscores-content-game-score">` + data.homeScore + `</span>
@@ -2886,7 +2931,7 @@
        var gameNode = document.createElement('div');
        gameNode.className = 'ddb-boxscores-content-game';
        gameNode.innerHTML = `
-         <a class="ddb-boxscores-content-game-link" href="` + data.link + `">
+         <a target="_blank" class="ddb-boxscores-content-game-link" href="` + data.link + `">
            <ul class="ddb-boxscores-content-game-teams">
              <li>
                ` + data.homeTeam + ` <span class="ddb-boxscores-content-game-score">` + data.homeScore + `</span>
