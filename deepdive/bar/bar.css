@@ -23,7 +23,7 @@
   height: 35px;
   background-color: #272727;
   min-width: 320px;
-  font-family: Lato;
+  font-family: Lato, Arial;
   font-size: 14px;
 }
 /* Disabled outline on focus */
@@ -1060,7 +1060,7 @@ _:-ms-input-placeholder, :root .ddb-menu-ticker {
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
+  left: -1px;
   width: 20px;
   height: 100%;
   background: transparent; /* For browsers that do not support gradients */
@@ -1075,7 +1075,7 @@ _:-ms-input-placeholder, :root .ddb-menu-ticker {
   content: '';
   position: absolute;
   top: 0;
-  right: 0;
+  right: -1px;
   width: 20px;
   height: 100%;
   background: transparent; /* For browsers that do not support gradients */
@@ -1091,15 +1091,14 @@ _:-ms-input-placeholder, :root .ddb-menu-ticker {
   padding-left: 100%;
   text-indent: 0;
   white-space: nowrap;
-
 }
 @media(min-width: 1280px){
-  .ddb-menu-ticker-content{
+  .ddb-menu-ticker-content.ddb-ticker-animation{
     -webkit-animation: ddbmarquee 30s linear infinite;
     animation: ddbmarquee 30s linear infinite;
   }
 }
-.ddb-menu-ticker-content:hover{
+.ddb-menu-ticker-content.ddb-ticker-animation:hover{
   animation-play-state: paused;
 }
 .ddb-menu-ticker-separator{
@@ -1123,6 +1122,8 @@ _:-ms-input-placeholder, :root .ddb-menu-ticker {
   100% {transform: translate(-100%, 0);}
 }
 @-webkit-keyframes ddbmarquee{
-  0% {text-indent: 100%;}
-  100% {text-indent: -100%;}
+  /*0% {text-indent: 100%;}
+  100% {text-indent: -100%;}*/
+  0% {transform: translate(0, 0);}
+  100% {transform: translate(-100%, 0);}
 }
