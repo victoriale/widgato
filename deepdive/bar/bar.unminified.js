@@ -48,6 +48,8 @@
   /**
    * Global variables
    **/
+  var Bluebird; //Namespace for bluebird library
+
   var mobileMenuButton; //DOM Element of mobile menu button
   var mobileDropdown; //DOM Elmenent of mobile menu dropdown
   var mobileSearchButton; //DOM Element of mobile search button
@@ -102,7 +104,7 @@
          loadScriptDependencies();
          //Continue building Bar
          getUserLocation();
-         bootstrapBoxscores();
+         //bootstrapBoxscores() is within loadScriptDependencies() function
          //bootstrapSearch() is within loadScriptDependencies() function
          bootstrapMobileMenu();
          bootstrapMobileSearch();
@@ -1811,7 +1813,7 @@
       xhttp.send();
     });
     //Promise for nfl boxscores
-    var promise2 = new Promise(function(resolve, reject){
+    var promise2 =  new Promise(function(resolve, reject){
       var xhttp = createRequestObject();
       xhttp.onreadystatechange = function(){
         if(xhttp.readyState === 4 && xhttp.status === 200){
@@ -1848,7 +1850,7 @@
       xhttp.send();
     });
     //Promise for ncaaf boxscores
-    var promise3 = new Promise(function(resolve, reject){
+    var promise3 =  new Promise(function(resolve, reject){
       var xhttp = createRequestObject();
       xhttp.onreadystatechange = function(){
         if(xhttp.readyState === 4 && xhttp.status === 200){
@@ -2423,6 +2425,33 @@
       };
     }
     document.head.appendChild(fuseJS);
+
+    var bluebird = document.createElement('script');
+    bluebird.type = 'text/javascript';
+    bluebird.dataset.resource_from = 'deepdive-bar-embed';
+    bluebird.src = resourceURL + '/lib/bluebird_3.4.5.min.js';
+    //Wait for bluebird js to load before bootstrapping boxscores
+    if (bluebird.readyState) { //IE
+     bluebird.onreadystatechange = function () {
+       if (bluebird.readyState == "loaded" || bluebird.readyState == "complete") {
+         bluebird.onreadystatechange = null;
+         bootstrapBoxscores();
+       }
+     };
+    } else { //Others
+     bluebird.onload = function (){
+        bootstrapBoxscores();
+      };
+    }
+
+    if(!window.Promise){
+      //If promise is not defined for browser load bluebird
+      document.head.appendChild(bluebird);
+    }else{
+      //Else start loading boxscores
+      bootstrapBoxscores();
+    }
+
    }
 
    //Gets state of user's isp
