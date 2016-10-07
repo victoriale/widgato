@@ -70,7 +70,8 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayDate;
+        // return protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayDate;
+        return protocol + '://dev-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
       }
     },
     //NFL boxscores
@@ -78,7 +79,8 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayDate;
+        // return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayDate;
+        return protocol + '://dev-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate;
       }
     },
     //NCAAF boxscores
@@ -86,7 +88,8 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayDate;
+        // return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayDate;
+        return protocol + '://dev-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate;
       }
     },
     //NCAAF teams
@@ -1732,12 +1735,18 @@
     var todayObject = getToday(tz.offset);
     var todayInput = todayObject.year + '-' + todayObject.month + '-' + todayObject.date;
 
-    var apiString = protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayInput;
-    var apiString2 = protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayInput;
-    var apiString3 = protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayInput;
+    // var apiString = protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayInput;
+    var apiString = apiConfig.boxscoresMLB.url(todayInput);
+    // var apiString2 = protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayInput;
+    var apiString2 = apiConfig.boxscoresNFL.url(todayInput);
+    // var apiString3 = protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayInput;
+    var apiString3 = apiConfig.boxscoresNCAAF.url(todayInput);
 
     var mobileBoxscores = document.getElementById('ddb-mobile-boxscores');
     var desktopBoxscores = document.getElementById('ddb-desktop-boxscores');
+
+    var mobileBoxscoresFrame = document.getElementById('ddb-mobile-boxscores-frame');
+    var desktopBoxscoresFrame = document.getElementById('ddb-desktop-boxscores-frame');
 
     var mobileBoxscoresMLB = document.getElementById('ddb-mobile-boxscores-mlb');
     var desktopBoxscoresMLB = document.getElementById('ddb-desktop-boxscores-mlb');
@@ -1755,11 +1764,8 @@
     var rightDesktopButton = document.getElementById('ddb-desktop-boxscores-right');
 
     var totalMax = 0,
-      mlbLoaded = false,
       mlbMax = 0,
-      nflLoaded = false,
       nflMax = 0,
-      ncaafLoaded = false,
       ncaafMax = 0;
     var desktopBoxscoresSelected = 'all';
     var desktopMax = 0;
@@ -1776,6 +1782,9 @@
         addClass(eventsContainer, 'ddb-active');
       }
       eventsOpen = !eventsOpen;
+      //Check status of left and right carousel buttons
+      checkRightDesktopButton();
+      checkLeftDesktopButton();
     })
     var eventsOptions = document.getElementById('ddb-boxscores-options');
     [].forEach.call(eventsOptions.childNodes, function(item){
@@ -1784,40 +1793,28 @@
         //Determine if data is loaded to allow/disallow click
         switch(id){
           case 'ddb-boxscores-options-mlb':
-            if(mlbLoaded){
-              desktopBoxscoresIndex = 0;
-              desktopBoxscores.style.left = 0;
-              desktopBoxscoresMLB.style.display = 'inline-block';
-              desktopBoxscoresNFL.style.display = 'none';
-              desktopBoxscoresNCAAF.style.display = 'none';
-              desktopBoxscoresSelected = 'mlb';
-            }else{
-              return false;
-            }
+            desktopBoxscoresIndex = 0;
+            desktopBoxscores.style.left = 0;
+            desktopBoxscoresMLB.style.display = 'inline-block';
+            desktopBoxscoresNFL.style.display = 'none';
+            desktopBoxscoresNCAAF.style.display = 'none';
+            desktopBoxscoresSelected = 'mlb';
           break;
           case 'ddb-boxscores-options-nfl':
-            if(nflLoaded){
-              desktopBoxscoresIndex = 0;
-              desktopBoxscores.style.left = 0;
-              desktopBoxscoresMLB.style.display = 'none';
-              desktopBoxscoresNFL.style.display = 'inline-block';
-              desktopBoxscoresNCAAF.style.display = 'none';
-              desktopBoxscoresSelected = 'nfl';
-            }else{
-              return false;
-            }
+            desktopBoxscoresIndex = 0;
+            desktopBoxscores.style.left = 0;
+            desktopBoxscoresMLB.style.display = 'none';
+            desktopBoxscoresNFL.style.display = 'inline-block';
+            desktopBoxscoresNCAAF.style.display = 'none';
+            desktopBoxscoresSelected = 'nfl';
           break;
           case 'ddb-boxscores-options-ncaaf':
-            if(ncaafLoaded){
-              desktopBoxscoresIndex = 0;
-              desktopBoxscores.style.left = 0;
-              desktopBoxscoresMLB.style.display = 'none';
-              desktopBoxscoresNFL.style.display = 'none';
-              desktopBoxscoresNCAAF.style.display = 'inline-block';
-              desktopBoxscoresSelected = 'ncaaf';
-            }else{
-              return false;
-            }
+            desktopBoxscoresIndex = 0;
+            desktopBoxscores.style.left = 0;
+            desktopBoxscoresMLB.style.display = 'none';
+            desktopBoxscoresNFL.style.display = 'none';
+            desktopBoxscoresNCAAF.style.display = 'inline-block';
+            desktopBoxscoresSelected = 'ncaaf';
           break;
           case 'ddb-boxscores-options-all':
             desktopBoxscoresIndex = 0;
@@ -1841,111 +1838,225 @@
         //Assign active class to button clicked
         addClass(this, 'ddb-active');
 
-        if(hasClass(leftDesktopButton, 'ddb-blue')){
-          removeClass(leftDesktopButton, 'ddb-blue');
-        }
-        if(!hasClass(rightDesktopButton, 'ddb-blue')){
-          addClass(rightDesktopButton, 'ddb-blue');
-        }
+        // if(hasClass(leftDesktopButton, 'ddb-blue')){
+        //   removeClass(leftDesktopButton, 'ddb-blue');
+        // }
+        // if(!hasClass(rightDesktopButton, 'ddb-blue')){
+        //   addClass(rightDesktopButton, 'ddb-blue');
+        // }
 
+        //Check status of left and right carousel buttons
+        checkRightDesktopButton();
+        checkLeftDesktopButton();
       })
     })
+
+    //Check to see if desktop boxscores buttons should be enabled or disabled
+    checkRightDesktopButton = function(){
+      switch(desktopBoxscoresSelected){
+        case 'mlb':
+          desktopMax = mlbMax;
+        break;
+        case 'nfl':
+          desktopMax = nflMax;
+        break;
+        case 'ncaaf':
+          desktopMax = ncaafMax;
+        break;
+        case 'all':
+          desktopMax = totalMax;
+        break;
+      }
+
+      var frameWidth = desktopBoxscoresFrame.offsetWidth;
+      var boxscoresPixelLeft = ((desktopMax) - (desktopBoxscoresIndex)) * 100; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
+      var whitespaceLeft = frameWidth - boxscoresPixelLeft;// How much whitespace is between the last item in boxscores and end of frame
+
+      //Add class to left button if not at beggining of list and left button does not have existing class
+      if(desktopBoxscoresIndex !== 0 && !hasClass(leftDesktopButton, 'ddb-blue')){
+        addClass(leftDesktopButton, 'ddb-blue');
+      }
+
+      if(whitespaceLeft >= 0){
+        removeClass(rightDesktopButton, 'ddb-blue');
+      }
+    }
+    canClickRightDesktopButton = function(){
+      switch(desktopBoxscoresSelected){
+        case 'mlb':
+          desktopMax = mlbMax;
+        break;
+        case 'nfl':
+          desktopMax = nflMax;
+        break;
+        case 'ncaaf':
+          desktopMax = ncaafMax;
+        break;
+        case 'all':
+          desktopMax = totalMax;
+        break;
+      }
+
+      var frameWidth = desktopBoxscoresFrame.offsetWidth;
+      var boxscoresPixelLeft = ((desktopMax) - (desktopBoxscoresIndex)) * 100; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
+      var whitespaceLeft = frameWidth - boxscoresPixelLeft;// How much whitespace is between the last item in boxscores and end of frame
+
+      if(whitespaceLeft >= 0){
+        return false;
+      }else{
+        return true;
+      }
+    }
+
+    checkLeftDesktopButton = function(){
+      switch(desktopBoxscoresSelected){
+        case 'mlb':
+          desktopMax = mlbMax;
+        break;
+        case 'nfl':
+          desktopMax = nflMax;
+        break;
+        case 'ncaaf':
+          desktopMax = ncaafMax;
+        break;
+        case 'all':
+          desktopMax = totalMax;
+        break;
+      }
+      var frameWidth = desktopBoxscoresFrame.offsetWidth;
+      var boxscoresPixelLeft = ((desktopMax) - desktopBoxscoresIndex) * 100; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
+      var whitespaceLeft = frameWidth - boxscoresPixelLeft;// How much whitespace is between the last item in boxscores and end of frame
+
+      //Add class to right button if not at end of list and right button doesnt not have existing class
+      if(whitespaceLeft < 0 && !hasClass(rightDesktopButton, 'ddb-blue')){
+        addClass(rightDesktopButton, 'ddb-blue');
+      }
+
+      if(desktopBoxscoresIndex === 0 && hasClass(leftDesktopButton, 'ddb-blue')){
+        removeClass(leftDesktopButton, 'ddb-blue');
+      }
+    }
+    canClickLeftDesktopButton = function(){
+      switch(desktopBoxscoresSelected){
+        case 'mlb':
+          desktopMax = mlbMax;
+        break;
+        case 'nfl':
+          desktopMax = nflMax;
+        break;
+        case 'ncaaf':
+          desktopMax = ncaafMax;
+        break;
+        case 'all':
+          desktopMax = totalMax;
+        break;
+      }
+
+      if(desktopBoxscoresIndex === 0){
+        return false;
+      }else{
+        return true;
+      }
+    }
+
+    //Check to see if mobile desktop boxscores buttons should be enabled or disabled
+    checkRightMobileButton = function(){
+      var frameWidth = mobileBoxscoresFrame.offsetWidth;
+      var boxscoresPixelLeft = ((totalMax) - (mobileBoxscoresIndex)) * 100; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
+      var whitespaceLeft = frameWidth - boxscoresPixelLeft;// How much whitespace is between the last item in boxscores and end of frame
+
+      //Add class to left button if not at beggining of list and left button does not have existing class
+      if(mobileBoxscoresIndex !== 0 && !hasClass(leftMobileButton, 'ddb-blue')){
+        addClass(leftMobileButton, 'ddb-blue');
+      }
+
+      if(whitespaceLeft >= 0){
+        removeClass(rightMobileButton, 'ddb-blue');
+      }
+    }
+    canClickRightMobileButton = function(){
+      var frameWidth = mobileBoxscoresFrame.offsetWidth;
+      var boxscoresPixelLeft = ((totalMax) - (mobileBoxscoresIndex)) * 100; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
+      var whitespaceLeft = frameWidth - boxscoresPixelLeft;// How much whitespace is between the last item in boxscores and end of frame
+
+      if(whitespaceLeft >= 0){
+        return false;
+      }else{
+        return true;
+      }
+    }
+
+    checkLeftMobileButton = function(){
+      var frameWidth = mobileBoxscoresFrame.offsetWidth;
+      var boxscoresPixelLeft = ((totalMax) - mobileBoxscoresIndex) * 100; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
+      var whitespaceLeft = frameWidth - boxscoresPixelLeft;// How much whitespace is between the last item in boxscores and end of frame
+
+      //Add class to right button if not at end of list and right button doesnt not have existing class
+      if(whitespaceLeft < 0 && !hasClass(rightMobileButton, 'ddb-blue')){
+        addClass(rightMobileButton, 'ddb-blue');
+      }
+
+      if(mobileBoxscoresIndex === 0 && hasClass(leftMobileButton, 'ddb-blue')){
+        removeClass(leftMobileButton, 'ddb-blue');
+      }
+    }
+    canClickLeftMobileButton = function(){
+      if(mobileBoxscoresIndex === 0){
+        return false;
+      }else{
+        return true;
+      }
+    }
 
     var mobileBoxscoresIndex = 0;
     var desktopBoxscoresIndex = 0;
 
     var bootstapBoxscoresButtons = function(){
-
+      //Event when mobile boxscores left button is clicked
       var moveMobileLeft = function(){
-        if(mobileBoxscoresIndex > 0){
+        var canClick = canClickLeftMobileButton();
 
+        if(canClick){
           mobileBoxscoresIndex--;
-
-          if(mobileBoxscoresIndex === 0){
-            removeClass(leftMobileButton, 'ddb-blue');
-            mobileBoxscores.style.left = '0';
-          }else if(mobileBoxscoresIndex === totalMax - 1){
-            addClass(rightMobileButton, 'ddb-blue');
-          }else{
-            if(!hasClass(leftMobileButton, 'ddb-blue')){
-              addClass(leftMobileButton, 'ddb-blue');
-            }
-            mobileBoxscores.style.left = (-100 + ((mobileBoxscoresIndex - 1) * -100)) + 'px';
-          }
-
-        }
-      }
-      var moveMobileRight = function(){
-        if(mobileBoxscoresIndex < totalMax){
-          mobileBoxscoresIndex++;
-
-          if(mobileBoxscoresIndex === totalMax){
-            removeClass(rightMobileButton, 'ddb-blue');
-          }else if(mobileBoxscoresIndex === 1){
-            addClass(leftMobileButton, 'ddb-blue');
-          }else if(!hasClass(rightMobileButton, 'ddb-blue')){
-            addClass(rightMobileButton, 'ddb-blue');
-          }
-
           mobileBoxscores.style.left = (-100 + ((mobileBoxscoresIndex - 1) * -100)) + 'px';
+          //Check to activate/disable button
+          checkLeftMobileButton();
         }
       }
+      //Event when mobile boxscores right button is clicked
+      var moveMobileRight = function(){
+
+        var canClick = canClickRightMobileButton();
+
+        if(canClick){
+          mobileBoxscoresIndex++;
+          mobileBoxscores.style.left = (-100 + ((mobileBoxscoresIndex - 1) * -100)) + 'px';
+          //Check to activate/disable button
+          checkRightMobileButton();
+        }
+      }
+      //Event when desktop boxscores left button is clicked
       var moveDesktopLeft = function(){
-        switch(desktopBoxscoresSelected){
-          case 'mlb':
-            desktopMax = mlbMax;
-          break;
-          case 'nfl':
-            desktopMax = nflMax;
-          break;
-          case 'ncaaf':
-            desktopMax = ncaafMax;
-          break;
-          case 'all':
-            desktopMax = totalMax;
-          break;
-        }
 
-        if(desktopBoxscoresIndex > 0){
+        var canClick = canClickLeftDesktopButton();
 
+        if(canClick){
           desktopBoxscoresIndex--;
-
-          if(desktopBoxscoresIndex === 0 && hasClass(leftDesktopButton, 'ddb-blue')){
-            removeClass(leftDesktopButton, 'ddb-blue');
-          }else if(desktopBoxscoresIndex === desktopMax - 1 && !hasClass(rightDesktopButton, 'ddb-blue')){
-            addClass(rightDesktopButton, 'ddb-blue');
-          }
-
           desktopBoxscores.style.left = (-100 + ((desktopBoxscoresIndex - 1) * -100)) + 'px';
+          //Check to activate/disable button
+          checkLeftDesktopButton();
         }
       }
+      //Event when desktop boxscores right button is clicked
       var moveDesktopRight = function(){
-        switch(desktopBoxscoresSelected){
-          case 'mlb':
-            desktopMax = mlbMax;
-          break;
-          case 'nfl':
-            desktopMax = nflMax;
-          break;
-          case 'ncaaf':
-            desktopMax = ncaafMax;
-          break;
-          case 'all':
-            desktopMax = totalMax;
-          break;
-        }
 
-        if(desktopBoxscoresIndex < desktopMax){
+        var canClick = canClickRightDesktopButton();
+
+        if(canClick){
           desktopBoxscoresIndex++;
-
-          if(desktopBoxscoresIndex === desktopMax && hasClass(rightDesktopButton, 'ddb-blue')){
-            removeClass(rightDesktopButton, 'ddb-blue');
-          }
-          if(desktopBoxscoresIndex === 1 && !hasClass(leftDesktopButton, 'ddb-blue')){
-            addClass(leftDesktopButton, 'ddb-blue');
-          }
-
           desktopBoxscores.style.left = (-100 + ((desktopBoxscoresIndex - 1) * -100)) + 'px';
+          //Check to activate/disable button
+          checkRightDesktopButton();
         }
       }
 
@@ -1968,27 +2079,11 @@
           resolve(res);
 
           var processedData;
-          processedData = processBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
+          processedData = processBaseballBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
           //If no games found for today, search for games throughout the week
           if(processedData.length === 0){
-            processedData = processBoxscoresData(res.data, tz.offset, tz.tzAbbrev, null);
+            processedData = processBaseballBoxscoresData(res.data, tz.offset, tz.tzAbbrev, null);
           }
-          //Reverse array so it is inserted correctly
-          // processedData.reverse();
-          //Add HTML to page
-          processedData.forEach(function(item){
-            // mobileBoxscoresMLB.parentNode.insertBefore(item.mobileNode, mobileBoxscoresMLB.nextSibling);
-            // desktopBoxscoresMLB.parentNode.insertBefore(item.desktopNode, desktopBoxscoresMLB.nextSibling);
-            mobileBoxscoresMLB.appendChild(item.mobileNode);
-            desktopBoxscoresMLB.appendChild(item.desktopNode);
-          })
-
-          totalMax += processedData.length;
-          totalMax += processedData.length;
-
-          mlbMax = processedData.length;
-
-          mlbLoaded = true;
 
         }else if(xhttp.readyState === 4 && xhttp.status !== 200){
           //Error
@@ -2008,24 +2103,7 @@
           var res = JSON.parse(xhttp.responseText);
           resolve(res);
 
-          var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'nfl');
-
-          //Reverse array so it is inserted correctly
-          // processedData.reverse();
-          //Add HTML to page
-          processedData.forEach(function(item){
-            // mobileBoxscoresNFL.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNFL.nextSibling);
-            // desktopBoxscoresNFL.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNFL.nextSibling);
-            mobileBoxscoresNFL.appendChild(item.mobileNode);
-            desktopBoxscoresNFL.appendChild(item.desktopNode);
-          })
-
-          totalMax += processedData.length;
-          totalMax += processedData.length;
-
-          nflMax = processedData.length;
-
-          nflLoaded = true;
+          var processedData = processFootballBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'nfl');
 
         }else if(xhttp.readyState === 4 & xhttp.status !== 200){
           //Error
@@ -2045,24 +2123,7 @@
           var res = JSON.parse(xhttp.responseText);
           resolve(res);
 
-          var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'ncaaf');
-
-          //Reverse array so it is inserted correctly
-          // processedData.reverse();
-          //Add HTML to page
-          processedData.forEach(function(item){
-            // mobileBoxscoresNCAAF.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNCAAF.nextSibling);
-            // desktopBoxscoresNCAAF.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNCAAF.nextSibling);
-            mobileBoxscoresNCAAF.appendChild(item.mobileNode);
-            desktopBoxscoresNCAAF.appendChild(item.desktopNode);
-          })
-
-          totalMax += processedData.length;
-          totalMax += processedData.length;
-
-          ncaafMax = processedData.length;
-
-          ncaafLoaded = true;
+          var processedData = processFootballBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'ncaaf');
 
         }else if(xhttp.readyState === 4 && xhttp.status !== 200){
           //Error
@@ -2075,9 +2136,38 @@
     });
     //Wait for all three api calls to finish
     Promise.all([promise1, promise2, promise3]).then(function(res){
-      var mlbData = res[0];
-      var nflData = res[1];
-      var ncaafData = res[2];
+      var mlbData = res[0].data || [];
+      var nflData = res[1].data || [];
+      var ncaafData = res[2].data || [];
+
+      //MLB Boxscores
+      var processedMLBData;
+      processedMLBData = processBaseballBoxscoresData(mlbData, tz.offset, tz.tzAbbrev, todayObject.date);
+      //If no games foound for today, search games throughout the week
+      if(processedMLBData.length === 0){
+        processedMLBData = processBaseballBoxscoresData(mlbData, tz.offset, tz.tzAbbrev, null);
+      }
+      processedMLBData.forEach(function(item){
+        mobileBoxscoresMLB.appendChild(item.mobileNode);
+        desktopBoxscoresMLB.appendChild(item.desktopNode);
+      })
+      mlbMax = processedMLBData.length + 1; //Plus one for category tile
+      //NFL Boxscores
+      var processedNFLData = processFootballBoxscoresData(nflData, tz.offset, tz.tzAbbrev, todayObject.date, 'nfl');
+      processedNFLData.forEach(function(item){
+        mobileBoxscoresNFL.appendChild(item.mobileNode);
+        desktopBoxscoresNFL.appendChild(item.desktopNode);
+      })
+      nflMax = processedNFLData.length + 1; //Plus one for category tile
+      //NCAAF Boxscores
+      var processedNCAAFData = processFootballBoxscoresData(ncaafData, tz.offset, tz.tzAbbrev, todayObject.date, 'ncaaf');
+      processedNCAAFData.forEach(function(item){
+        mobileBoxscoresNCAAF.appendChild(item.mobileNode);
+        desktopBoxscoresNCAAF.appendChild(item.desktopNode);
+      })
+      ncaafMax = processedNCAAFData.length + 1; //Plus one for category tile
+      //Total Boxscores
+      totalMax = mlbMax + nflMax + ncaafMax;
 
       //Bootstrap boxscores button functionality
       bootstapBoxscoresButtons();
@@ -2502,15 +2592,16 @@
     xhttp.open('GET', apiString, true);
     xhttp.send();
   }
+  // Deprecated - Removed
   //Builds static ad
-  var bootstrapAd = function(){
-
-    var adNode = document.getElementById('ddb-ad');
-    var adScript = document.createElement('script');
-    adScript.innerHTML = '';
-    adScript.src = protocol + '://content.synapsys.us/l/n/igloo.php?type=inline_ad&adW=300&adH=250&widW=0&widH=0&remn=false&rand=' + Math.floor((Math.random() * 10000000000) + 1) + '&dom=chicagotribune.com&norotate=true';
-    adNode.appendChild(adScript);
-  }
+  // var bootstrapAd = function(){
+  //
+  //   var adNode = document.getElementById('ddb-ad');
+  //   var adScript = document.createElement('script');
+  //   adScript.innerHTML = '';
+  //   adScript.src = protocol + '://content.synapsys.us/l/n/igloo.php?type=inline_ad&adW=300&adH=250&widW=0&widH=0&remn=false&rand=' + Math.floor((Math.random() * 10000000000) + 1) + '&dom=chicagotribune.com&norotate=true';
+  //   adNode.appendChild(adScript);
+  // }
   //Builds dynamic dropdown (1 dropdown to many tabs) that houses the ad
   var bootstrapDynamicDropdown = function(){
     var navItems = document.getElementsByClassName('ddb-menu-nav-item ddb-dynamic-item'); //Tab elements that the dynamic dropdown applies too
@@ -2522,14 +2613,16 @@
     var nbaDropdownElements = bootstrapNBADropdown();
     var nflDropdownElements = bootstrapNFLDropdown();
 
-    var adLoaded = false; //Determine if the ad has been built
+    // Deprecated: Removed
+    // var adLoaded = false; //Determine if the ad has been built
 
     var mouseEnterEvent = function(evt){
+      // Deprecated: Removed
       //If the ad has not been loaded yet, bootstrap ad
-      if(!adLoaded){
-        adLoaded = true;
-        bootstrapAd();
-      }
+      // if(!adLoaded){
+      //   adLoaded = true;
+      //   bootstrapAd();
+      // }
 
       var id = this.id;
 
@@ -2700,7 +2793,7 @@
         //Check for screen size to load certain modules
         resizeEvent();
         window.addEventListener('resize', resizeEvent);
-       }else if(xhttp.readyState === 4 && xhttp.tatus !== 200){
+      }else if(xhttp.readyState === 4 && xhttp.status !== 200){
          //Error
          //console.log('GET USER LOCATION ERROR');
          var state = processLocationData(undefined);
@@ -2909,7 +3002,7 @@
      return transform;
    }
 
-   var processBoxscoresData = function(data, offset, tzAbbrev, todayDate){
+   var processBaseballBoxscoresData = function(data, offset, tzAbbrev, todayDate){
      var pre = [], active = [], post = [];
 
      var buildNode = function(data){
@@ -3116,7 +3209,7 @@
      return allGames;
    }
 
-   var processNFLBoxscoresData = function(data, offset, tzAbbrev, todayDate, vertical){
+   var processFootballBoxscoresData = function(data, offset, tzAbbrev, todayDate, vertical){
      var pre = [], active = [], post = [];
      var wpre = [], wpost = [];
 
