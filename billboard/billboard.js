@@ -259,7 +259,7 @@ billboard = (function () {
         switch (verticalType) {
             case "football":
                 verticalColor = "#2d3e50";
-                verticalIcon = "../css/public/icons/Touchdown-Loyal_icon.svg";
+                verticalIcon = "../css/public/icons/Touchdown-Loyal_Icon.svg";
                 break;
             case "baseball":
                 verticalColor = "#bc2027";
