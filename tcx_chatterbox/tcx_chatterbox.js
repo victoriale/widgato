@@ -20,6 +20,7 @@ chatterbox = (function () {
     var dataArray = [];
     var imageArray = [];
     var isTabCovered = false;
+    var isScrolling = false;
 
     if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
@@ -254,27 +255,31 @@ chatterbox = (function () {
         var arrowDiv = document.createElement('div');
         arrowDiv.className = 'arrow-up';
         for (var i = 0; i < tabNames.length; i++) {
-            if (i > 0 && i < tabNames.length) {
-                ddStr += '<div class="divider"></div>';
-            }
             if (count == 0) {
                 ddStr += '<div class="dropDown-item">' + selectedTab + '</div>';
+                ddStr += '<div class="divider"></div>';
                 count++;
             }
             if (tabNames[i] != selectedTab) {
                 ddStr += '<div class="dropDown-item">' + tabNames[i] + '</div>';
-                $('.cb-dropDown')[0].addEventListener('click', tabSelect, false);
+                if (i != tabNames.length - 1) {
+                    ddStr += '<div class="divider"></div>';
+                }
             }
         }
         $('.cb-dropDown')[0].innerHTML = ddStr;
         $('.cb-dropDown').attr('container', 'true');
         scrollBar.initAll();
         $('.cb-dropDown')[0].appendChild(arrowDiv);
+        var item = document.getElementsByClassName('dropDown-item');
+        for (var j = 0; j < tabNames.length; j++) {
+            item[j].addEventListener('click', tabSelect, false);
+        }
     }
 
     // Toggle the dropDown
     function toggleDropdown() {
-        if (isTabCovered) {
+        if (isTabCovered && !isScrolling) {
             var cbdropDown = $('.tab-container');
             var cbdropDownDisplay = $('.cb-dropDown');
             if (cbdropDownDisplay.hasClass('active')) {
@@ -386,6 +391,7 @@ chatterbox = (function () {
         function mouseDrag(element, context) {
             var lastIndexY;
             element.addEventListener('mousedown', function (e) {
+                isScrolling = true;
                 //get position of mouse pointer
                 lastIndexY = e.pageY;
                 element.classList.add('selected');
@@ -409,6 +415,9 @@ chatterbox = (function () {
                 doc.body.classList.remove('selected');
                 doc.removeEventListener('mousemove', drag);
                 doc.removeEventListener('mouseup', stopDrag);
+                setTimeout(function () {
+                    isScrolling = false;
+                }, 10);
             }
         }
 
