@@ -92,7 +92,7 @@ chatterbox = (function () {
         }
         //setup tabs
         setTabs();
-        createDropdown();
+        createdropDown();
         // Check for data
         if (pageInd == -1 || tcxId == -1 || typeof availPages[pageInd] == "undefined") {
             return console.log('Invalid page or game ID', pageInd, tcxId);
@@ -117,8 +117,10 @@ chatterbox = (function () {
         // configure the data
         var id = dataArr[0][0] != "player-fantasy" ? dataArr[0].eventId : dataArr[0][1].articleId;
         var arr = {
-            keyword: dataArr[0].keyword,
-            date: dataArr[0][1].dateline.replace(/ /g, "/").replace(/,/g, "/").replace("//", "/"),
+            //to be replaced once data is coming in.
+            //keyword: dataArr[0].keyword,
+            keyword: 'football',
+            date: moment(dataArr[0][1].dateline).format("MMM DD, YYYY"),
             title: dataArr[0][1].displayHeadline,
             url: href + league + '/articles/' + dataArr[0][0] + '/' + id,
             content: dataArr[0].report + '<br>&nbsp; ',
@@ -147,10 +149,10 @@ chatterbox = (function () {
             var titleContainerSmall = document.createElement('div');
             var titleLarge = document.createElement('div');
             var titleSmall = document.createElement('div');
-            titleContainerLarge.className = 'col-sm-4 visible-sm visible-md visible-lg tri-title-container';
-            titleContainerSmall.className = 'col-sm-12 visible-xs tri-title-container-stack';
-            imageContainerLarge.className = 'col-xs-12 col-sm-4 visible-sm visible-md visible-lg embed-responsive embed-responsive-16by9-sub tri-image-container';
-            imageContainerSmall.className = 'col-xs-12 col-sm-4 visible-xs embed-responsive embed-responsive-16by9-triple-stack tri-image-container';
+            titleContainerLarge.className = 'col-sm-4 hidden-xs-down tri-title-container';
+            titleContainerSmall.className = 'col-sm-12 hidden-sm-up tri-title-container-stack';
+            imageContainerLarge.className = 'col-xs-12 col-sm-4 hidden-xs-down embed-responsive embed-responsive-16by9-sub tri-image-container';
+            imageContainerSmall.className = 'col-xs-12 col-md-4 hidden-sm-up embed-responsive embed-responsive-16by9-triple-stack tri-image-container';
             if (i == 0) {
                 imageLarge.className = 'embed-responsive-item tri-image left';
                 titleLarge.className = 'col-sm-11 tri-title left';
@@ -219,8 +221,9 @@ chatterbox = (function () {
                     var tabContent = document.createElement('div');
                     tabContent.className = 'tab-content tab-content-drop active';
                     tabContainer.appendChild(tabContent);
-                    tabContent.innerHTML = '<i class="fa fa-caret-up"></i>' + tabNames[j];
+                    tabContent.innerHTML = tabNames[j] + ' News' + '<i class="fa fa-caret-up"></i>';
                     $('.cb-header')[0].appendChild(tabContainer);
+                    $('.tab-content').css('width', '170px');
                 }
             }
         }
@@ -230,12 +233,12 @@ chatterbox = (function () {
     function tabSelect(event) {
         var target = event.target || event.srcElement;
         selectedTab = target.innerHTML;
+        createdropDown();
         $('.tab-content').remove();
         setTabs();
-        createDropdown();
     }
 
-    function createDropdown() {
+    function createdropDown() {
         var tabNames = [
             "Trending",
             "Entertainment",
@@ -248,41 +251,41 @@ chatterbox = (function () {
         }
         var ddStr = '';
         var count = 0;
+        var arrowDiv = document.createElement('div');
+        arrowDiv.className = 'arrow-up';
         for (var i = 0; i < tabNames.length; i++) {
-            if (i == 0) {
-                ddStr += '<div class="visible-xs arrow-up"></div>';
-            }
             if (i > 0 && i < tabNames.length) {
-                ddStr += '<div class="col-xs-11 visible-xs divider"></div>';
+                ddStr += '<div class="divider"></div>';
+            }
+            if (count == 0) {
+                ddStr += '<div class="dropDown-item">' + selectedTab + '</div>';
+                count++;
             }
             if (tabNames[i] != selectedTab) {
-                if (count == 0) {
-                    ddStr += '<div class="visible-xs dropdown-item first-elem">' + tabNames[i] + '</div>';
-                    $('.cb-dropdown')[0].addEventListener('click', tabSelect, false);
-                    count++;
-                } else {
-                    ddStr += '<div class="visible-xs dropdown-item">' + tabNames[i] + '</div>';
-                    $('.cb-dropdown')[0].addEventListener('click', tabSelect, false);
-                }
+                ddStr += '<div class="dropDown-item">' + tabNames[i] + '</div>';
+                $('.cb-dropDown')[0].addEventListener('click', tabSelect, false);
             }
         }
-        $('.cb-dropdown')[0].innerHTML = ddStr;
+        $('.cb-dropDown')[0].innerHTML = ddStr;
+        $('.cb-dropDown').attr('container', 'true');
+        scrollBar.initAll();
+        $('.cb-dropDown')[0].appendChild(arrowDiv);
     }
 
-    // Toggle the dropdown
-    function toggleDropDown() {
+    // Toggle the dropDown
+    function toggleDropdown() {
         if (isTabCovered) {
-            var cbDropdown = $('.tab-container');
-            var cbDropdownDisplay = $('.cb-dropdown');
-            if (cbDropdownDisplay.hasClass('active')) {
-                cbDropdownDisplay.removeClass('active');
-                cbDropdown.find('.fa').removeClass('fa-caret-down').addClass('fa-caret-up');
+            var cbdropDown = $('.tab-container');
+            var cbdropDownDisplay = $('.cb-dropDown');
+            if (cbdropDownDisplay.hasClass('active')) {
+                cbdropDownDisplay.removeClass('active');
+                cbdropDown.find('.fa').removeClass('fa-caret-down').addClass('fa-caret-up');
             } else {
-                cbDropdownDisplay.addClass('active');
-                cbDropdown.find('.fa').addClass('fa-caret-down').removeClass('fa-caret-up');
+                cbdropDownDisplay.addClass('active');
+                cbdropDown.find('.fa').addClass('fa-caret-down').removeClass('fa-caret-up');
             }
         }
-    } // --> toggleDropDown
+    } // --> toggleDropdown
 
     function nextPage() {
         // Exit if no pages
@@ -315,63 +318,166 @@ chatterbox = (function () {
 // **** PARSING FUNCTION ****
     function processData() {
         // Check for data
-        if (typeof tcxData != "object") {
-            return displayError('Invalid YSEOP Response');
-        }
-        //Function takes array, removes 3 random elements from array, and cuts the 3 random elements from the main array
-        Array.prototype.getRandomArt = function (number, cutIndex) {
-            var index = cutIndex ? this : this.slice(0);
-            index.sort(function () {
-                return .5 - Math.random();
+        try {
+            if (typeof tcxData != "object") {
+                return displayError('Invalid YSEOP Response');
+            }
+            //Function takes array, removes 3 random elements from array, and cuts the 3 random elements from the main array
+            Array.prototype.getRandomArt = function (number, cutIndex) {
+                var index = cutIndex ? this : this.slice(0);
+                index.sort(function () {
+                    return .5 - Math.random();
+                });
+                return index.splice(0, number);
+            };
+            //Converts object into array
+            dataArray = Object.keys(tcxData['data']).map(function (val) {
+                if (val != 'meta-data' && val != 'timestamp') {
+                    return [val, tcxData['data'][val]];
+                }
             });
-            return index.splice(0, number);
-        };
-        //Converts object into array
-        dataArray = Object.keys(tcxData['data']).map(function (val) {
-            if (val != 'meta-data' && val != 'timestamp') {
-                return [val, tcxData['data'][val]];
+            //Filters undefined elements from array
+            dataArray = dataArray.filter(function (val) {
+                return val != undefined;
+            });
+            //Get 3 random elements from parent array
+            imageArray = dataArray.getRandomArt(3, true);
+            // Get all the pages
+            var pages = [];
+            for (var i = 0; i < dataArray.length; i++) {
+                if (pages.indexOf(dataArray[i][0] > -1)) {
+                    availPages.push(dataArray[i][0]);
+                }
             }
-        });
-        //Filters undefined elements from array
-        dataArray = dataArray.filter(function (val) {
-            return val != undefined;
-        });
-        //Get 3 random elements from parent array
-        imageArray = dataArray.getRandomArt(3, true);
-        // Get all the pages
-        var pages = [];
-        for (var i = 0; i < dataArray.length; i++) {
-            if (pages.indexOf(dataArray[i][0] > -1)) {
-                availPages.push(dataArray[i][0]);
-            }
+            pageInd = 0;
+            // Get tcx Id
+            tcxId = tcxData['data']['meta-data']['current'].eventID;
+            displayPage();
+            setTriImage();
+        } catch (e) {
+            console.log('Error loading ChatterBox ' + e);
         }
-        pageInd = 0;
-        // Get tcx Id
-        tcxId = tcxData['data']['meta-data']['current'].eventID;
-        displayPage();
-        setTriImage();
     } // --> processData
     getContent();
 
     window.onresize = function (event) {
-        $('.tab-content').remove();
+        $('.tab-container').remove();
         var containerWidth = $('.cb').width() - 60;
         if (containerWidth <= 440) {
             isTabCovered = true
         } else {
             isTabCovered = false;
-            $('.cb-dropdown').removeClass('active');
+            $('.cb-dropDown').removeClass('active');
         }
         setTabs();
     };
+
+    (function (win, doc) {
+        //Letting browser know that it will need to perform animation
+        var animationFrame = win.requestAnimationFrame || function (e) {
+                return setTimeout(e, 0);
+            };
+        //define each new node
+        function initElement(element) {
+            Object.defineProperty(element, 'item-scrollBar', new scrollBar(element));
+        }
+
+        //Adding event listeners for mouse events
+        function mouseDrag(element, context) {
+            var lastIndexY;
+            element.addEventListener('mousedown', function (e) {
+                //get position of mouse pointer
+                lastIndexY = e.pageY;
+                element.classList.add('selected');
+                doc.body.classList.add('selected');
+                doc.addEventListener('mousemove', drag);
+                doc.addEventListener('mouseup', stopDrag);
+                return false;
+            });
+            //calculates scroll ratio
+            function drag(e) {
+                var drag = e.pageY - lastIndexY;
+                lastIndexY = e.pageY;
+                animationFrame(function () {
+                    context.element.scrollTop += drag / context.scrollRatio;
+                });
+            }
+
+            //removes all listeners and appropriate classes
+            function stopDrag() {
+                element.classList.remove('selected');
+                doc.body.classList.remove('selected');
+                doc.removeEventListener('mousemove', drag);
+                doc.removeEventListener('mouseup', stopDrag);
+            }
+        }
+
+        //constructor for scroll bar
+        function scroll(element) {
+            this.target = element;
+            this.bar = '<div class="scroll">';
+            this.wrapper = doc.createElement('div');
+            this.wrapper.setAttribute('class', 'scroll-wrapper');
+            this.element = doc.createElement('div');
+            this.element.setAttribute('class', 'scroll-content');
+            this.wrapper.appendChild(this.element);
+            while (this.target.firstChild) {
+                this.element.appendChild(this.target.firstChild);
+            }
+            this.target.appendChild(this.wrapper);
+            this.target.insertAdjacentHTML('beforeEnd', this.bar);
+            this.bar = this.target.lastChild;
+            mouseDrag(this.bar, this);
+            this.moveBar();
+            this.element.addEventListener('scroll', this.moveBar.bind(this));
+            this.element.addEventListener('mouseenter', this.moveBar.bind(this));
+            this.target.classList.add('container');
+            var css = window.getComputedStyle(element);
+            if (css['height'] === '0px' && css['max-height'] !== '0px') {
+                element.style.height = css['max-height'];
+            }
+        }
+
+        scroll.prototype = {
+            moveBar: function () {
+                var totalHeight = this.element.scrollHeight,
+                    parentHeight = this.element.clientHeight,
+                    _this = this;
+                this.scrollRatio = parentHeight / totalHeight;
+                animationFrame(function () {
+                    // hides scroll if not needed
+                    if (_this.scrollRatio === 1) {
+                        _this.bar.classList.add('hidden')
+                    } else {
+                        //setup for scroll bar positioning and height
+                        _this.bar.classList.remove('hidden');
+                        _this.bar.style.cssText = 'height:' + (_this.scrollRatio) * 100 + '%; top:' +
+                            (_this.element.scrollTop / totalHeight ) * 100 + '%;right:-' +
+                            (_this.target.clientWidth - _this.bar.clientWidth - 7) + 'px;';
+                    }
+                });
+            }
+        };
+        //initialize scroll bar
+        function initAll() {
+            var nodes = doc.querySelectorAll('*[container]');
+            for (var i = 0; i < nodes.length; i++) {
+                initElement(nodes[i]);
+            }
+        }
+
+        doc.addEventListener('DOMContentLoaded', initAll);
+        scroll.initElement = initElement;
+        scroll.initAll = initAll;
+        win.scrollBar = scroll;
+    })(window, document);
 
     return {
         getData: getData,
         nextPage: nextPage,
         prevPage: prevPage,
         tabSelect: tabSelect,
-        toggleDropDown: toggleDropDown
+        toggleDropdown: toggleDropdown
     };
 })
 ();
-

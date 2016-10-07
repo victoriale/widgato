@@ -19,6 +19,7 @@ billboard = (function () {
     }
 
     var domain, remnant, scope;
+    var verticalColor, verticalIcon, verticalName;
     var temp = location.search;
     var href;
     var query = {};
@@ -84,6 +85,7 @@ billboard = (function () {
             success: function (data) {
                 AIData = data;
                 processData();
+                fitText();
             },
             error: function (jqXHR, status, error) {
                 console.log(jqXHR, status, error);
@@ -143,9 +145,9 @@ billboard = (function () {
             url: href + scope + '/articles/' + mainArticles[1].urlSegment + '/' + teamData[1].eventId,
             img: mainArticles[1].articleImage
         };
-        $('.header-icon').css('background-image', 'url(' + '../css/public/Icon_Football.png' + ')');
-        $('.header-profile')[0].innerHTML = "{Profile Name} News";
-        $('.header-profile-small')[0].innerHTML = "{Profile Name} News";
+        $('.header-icon').css('background-image', 'url(' + verticalIcon + ')');
+        $('.header-profile')[0].innerHTML = verticalName + " News";
+        $('.header-profile-small')[0].innerHTML = verticalName + " News";
         $('#main-top-link').attr('href', arr1.url);
         $('.main-top-title')[0].innerHTML = arr1.title;
         $('.main-top-title-xs')[0].innerHTML = arr1.title;
@@ -158,16 +160,20 @@ billboard = (function () {
         $('.main-bottom-description')[0].innerHTML = arr2.content;
         $('.main-bottom-description')[1].innerHTML = arr2.content;
         $('.bottom-image').attr("src", arr2.img);
+        //set vertical colors and name:
+        $('.header, .search-button-small, .news-button-up, .news-button-down, .search-container').css('background', verticalColor);
+        $('.search-container-arrow').css('border-bottom', '8px solid ' + verticalColor);
+        $('.search-button, .search-button-small').css('color', verticalColor);
+        $('.news-button-down, .news-button-up').hover(function (e) {
+            $(this).css('background', e.type === "mouseenter" ? "#000" : verticalColor);
+        });
+        $('.main-top a, .main-bottom a, .news-container a').css('color', "#000");
+        $('.main-top a, .main-bottom a, .news-container a').hover(function (e) {
+            $(this).css('color', e.type === "mouseenter" ? verticalColor : "#000");
+        });
+        $('.search').attr('placeholder', 'Search for anything ' + verticalName);
         displaySubArticles();
-        fitText();
     } // --> displayPage
-
-    function toKebabCase(str) {
-        str = str.toLowerCase()
-            .replace(/\s+/g, '-')
-            .replace(/[\.,']/g, '');
-        return str;
-    }
 
     function displaySubArticles() {
         for (var i = 0; i < randomArticles.length; i++) {
@@ -190,60 +196,131 @@ billboard = (function () {
             $(subContainer).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
             subContainer.appendChild(subHr);
         }
+        $('.news-container a').css('color', "#000");
+        $('.news-container a').hover(function (e) {
+            $(this).css('color', e.type === "mouseenter" ? verticalColor : "#000");
+        });
     }
 
     function fitText() {
         //get vertical distance dynamically between the top of the image and the main horizontal rule.
         var heightLarge = (Math.abs($('.description-top-large').offset().top - $('.main-hr').offset().top) - 20);
         var heightSmall = (Math.abs($('.description-top-small').offset().top - $('.main-hr').offset().top) - 20);
+
         //set max-height for text container.
         //Dynamically parse the number of lines by dividing the max-height of the container by the line height.
         var topSmall = document.getElementsByClassName('description-top-small')[0],
             lineHeight = parseInt(window.getComputedStyle(topSmall).getPropertyValue("line-height"));
-        var lineSmallTop = Math.floor(heightSmall / lineHeight);
+        var lineSmallTop = Math.floor((heightSmall / lineHeight) + 1);
         var topLarge = document.getElementsByClassName('description-top-large')[0],
             lineHeight = parseInt(window.getComputedStyle(topLarge).getPropertyValue("line-height"));
-        var linesLargeTop = Math.floor(heightLarge / lineHeight);
+        var linesLargeTop = Math.floor((heightLarge / lineHeight) + 1);
         var bottomSmall = document.getElementsByClassName('description-bottom-small')[0],
             lineHeight = parseInt(window.getComputedStyle(bottomSmall).getPropertyValue("line-height"));
-        var lineSmallBottom = Math.floor(heightSmall / lineHeight);
+        var linesSmallBottom = Math.floor((heightSmall / lineHeight) + 1);
         var bottomLarge = document.getElementsByClassName('description-bottom-large')[0],
             lineHeight = parseInt(window.getComputedStyle(bottomLarge).getPropertyValue("line-height"));
-        var linesLargeBottom = Math.floor(heightLarge / lineHeight);
+        var linesLargeBottom = Math.floor((heightLarge / lineHeight) + 1);
         //set max-height for text container.
         if (lineSmallTop == 1 || linesLargeTop == 1) {
             $('.main-top-description').css('max-height', '1.3em');
             $('.main-bottom-description').css('max-height', '1.3em');
         } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 768 && window.innerWidth >= 758)) {
-            $('.main-top-description').css('max-height', '2.4em');
-            $('.main-bottom-description').css('max-height', '2.4em');
+            $('.main-top-description').css('max-height', '2.8em');
+            $('.main-bottom-description').css('max-height', '2.8em');
         } else if (lineSmallTop == 3 || linesLargeTop == 3) {
-            $('.main-top-description').css('max-height', '3.5em');
-            $('.main-bottom-description').css('max-height', '3.5em');
+            $('.main-top-description').css('max-height', '4.2em');
+            $('.main-bottom-description').css('max-height', '4.2em');
         } else if (lineSmallTop == 4 || linesLargeTop == 4) {
-            $('.main-top-description').css('max-height', '4.7em');
-            $('.main-bottom-description').css('max-height', '4.7em');
+            $('.main-top-description').css('max-height', '5.6em');
+            $('.main-bottom-description').css('max-height', '5.6em');
         } else if (lineSmallTop == 5 || linesLargeTop == 5) {
-            $('.main-top-description').css('max-height', '5.9em');
-            $('.main-bottom-description').css('max-height', '5.9em');
-        } else if (lineSmallTop == 6 || linesLargeTop == 6) {
-            $('.main-top-description').css('max-height', '7em');
-            $('.main-bottom-description').css('max-height', '7em');
+            $('.main-top-description').css('max-height', '5.6em');
+            $('.main-bottom-description').css('max-height', '5.6em');
+        } else {
+            $('.main-top-description').css('max-height', '1.3em');
+            $('.main-bottom-description').css('max-height', '1.3em');
         }
         // line-clamp for chrome and safari
         topLarge.style['-webkit-line-clamp'] = linesLargeTop;
         topSmall.style['-webkit-line-clamp'] = lineSmallTop;
         bottomLarge.style['-webkit-line-clamp'] = linesLargeBottom;
-        bottomSmall.style['-webkit-line-clamp'] = lineSmallBottom;
-        //add or remove box-shadow
-        if (window.innerWidth >= 768) {
-            $('.billboard').css('box-shadow', '0 0 10px 0 rgba(0, 0, 0, 0.2)');
-            $('.news').css('box-shadow', '-5px 0 30px 0 rgba(167, 167, 167, 0.5)');
-        } else {
-            $('.billboard').css('box-shadow', 'none');
-            $('.news').css('box-shadow', 'none');
-        }
+        bottomSmall.style['-webkit-line-clamp'] = linesSmallBottom;
     } // --> fitText
+
+    function getVerticalAttributes() {
+        var verticalType = 'football';
+        if (verticalType.indexOf('_') > -1 && verticalType != undefined) {
+            var string = verticalType.replace('_', ' ');
+            verticalName = capitalizeString(string);
+        } else {
+            verticalName = capitalizeString(verticalType);
+        }
+        switch (verticalType) {
+            case "football":
+                verticalColor = "#2d3e50";
+                verticalIcon = "../css/public/icons/Touchdown-Loyal_icon.svg";
+                break;
+            case "baseball":
+                verticalColor = "#bc2027";
+                verticalIcon = "../css/public/icons/Home-Run-Loyal_Icon%202.svg";
+                break;
+            case "basketball":
+                verticalColor = "#f26f26";
+                verticalIcon = "../css/public/icons/Hoops-Loyal_Icon%202.svg";
+                break;
+            case "business":
+                verticalColor = "#3098ff";
+                verticalIcon = "../css/public/icons/Invest-Kit_Icon.svg";
+                break;
+            case "real_estate":
+                verticalColor = "#44b224";
+                verticalIcon = "../css/public/icons/Joyful-Home_Icon.svg";
+                break;
+            case "demographics":
+                verticalColor = "#65398e";
+                verticalIcon = "../css/public/icons/Demographic_Icon.svg";
+                break;
+            case "disaster":
+                verticalColor = "#902d8e";
+                verticalIcon = "../css/public/icons/Disaster_Icon.svg";
+                break;
+            case "crime":
+                verticalColor = "#f6af05";
+                verticalIcon = "../css/public/icons/Crime_Icon.svg";
+                break;
+            case "independent":
+                verticalColor = "#249004";
+                verticalIcon = "../css/public/icons/Politics-Independent_Icon.svg";
+                break;
+            case "democratic":
+                verticalColor = "#0e477f";
+                verticalIcon = "../css/public/icons/Politics-Democrat_Icon.svg";
+                break;
+            case "republican":
+                verticalColor = "#ff0101";
+                verticalIcon = "../css/public/icons/Politics-Republican_Icon.svg";
+                break;
+            case "weather":
+                verticalColor = "#ffd800";
+                verticalIcon = "../css/public/icons/Weather_Icon.svg";
+                break;
+            case "global":
+                verticalColor = "#005eba";
+                verticalIcon = "../css/public/icons/Politics_Icon.svg";
+                break;
+            default:
+                verticalColor = "#00b9e3";
+                verticalIcon = "../css/public/icons/TCX-Trending.svg";
+                verticalName = "Trending";
+        }
+    }
+
+    function capitalizeString(string) {
+        return string.replace(/\w\S*/g, function (text) {
+            return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
+        });
+    }
 
     function scrollDown() {
         randomArticles.push(randomArticles.shift());
@@ -275,19 +352,26 @@ billboard = (function () {
 
     function processData() {
         // Check for data
-        if (typeof AIData != "object") {
-            return displayError('Invalid YSEOP Response');
-        }
-        // Get all the pages
-        for (var i = 0; i < AIData.length; i++) {
-            if (pages.indexOf(AIData[i].id) > -1) {
-                availPages.push(AIData[i].id);
+        try {
+            if (typeof AIData != "object") {
+                return displayError('Invalid YSEOP Response');
             }
+            // Get all the pages
+            for (var i = 0; i < AIData.length; i++) {
+                if (pages.indexOf(AIData[i].id) > -1) {
+                    availPages.push(AIData[i].id);
+                }
+            }
+            pageInd = 0;
+            getVerticalAttributes();
+            parseGames();
+            // Display first data
+            displayMainArticles();
+
+            $('.billboard').css('display', 'block');
+        } catch (e) {
+            console.log('Error loading Live Billboard ' + e);
         }
-        pageInd = 0;
-        parseGames();
-        // Display first data
-        displayMainArticles();
     } // --> processData
     // Parse the games into an array
     function parseGames() {
@@ -316,6 +400,7 @@ billboard = (function () {
         showGame();
     } // --> switchGame
     getContent();
+
     return {
         getData: getData,
         scrollDown: scrollDown,
@@ -324,6 +409,51 @@ billboard = (function () {
         toggleSearch: toggleSearch
     };
 })();
+//the window.onload is needed for Firefox to resize the text in conjunction with the fitText function
+window.onload = function () {
+    //get vertical distance dynamically between the top of the image and the main horizontal rule.
+    var heightLarge = (Math.abs($('.description-top-large').offset().top - $('.main-hr').offset().top) - 20);
+    var heightSmall = (Math.abs($('.description-top-small').offset().top - $('.main-hr').offset().top) - 20);
+    //set max-height for text container.
+    //Dynamically parse the number of lines by dividing the max-height of the container by the line height.
+    var topSmall = document.getElementsByClassName('description-top-small')[0],
+        lineHeight = parseInt(window.getComputedStyle(topSmall).getPropertyValue("line-height"));
+    var lineSmallTop = Math.floor((heightSmall / lineHeight) + 1);
+    var topLarge = document.getElementsByClassName('description-top-large')[0],
+        lineHeight = parseInt(window.getComputedStyle(topLarge).getPropertyValue("line-height"));
+    var linesLargeTop = Math.floor((heightLarge / lineHeight) + 1);
+    var bottomSmall = document.getElementsByClassName('description-bottom-small')[0],
+        lineHeight = parseInt(window.getComputedStyle(bottomSmall).getPropertyValue("line-height"));
+    var linesSmallBottom = Math.floor((heightSmall / lineHeight) + 1);
+    var bottomLarge = document.getElementsByClassName('description-bottom-large')[0],
+        lineHeight = parseInt(window.getComputedStyle(bottomLarge).getPropertyValue("line-height"));
+    var linesLargeBottom = Math.floor((heightLarge / lineHeight) + 1);
+    //set max-height for text container.
+    if (lineSmallTop == 1 || linesLargeTop == 1) {
+        $('.main-top-description').css('max-height', '1.3em');
+        $('.main-bottom-description').css('max-height', '1.3em');
+    } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 768 && window.innerWidth >= 758)) {
+        $('.main-top-description').css('max-height', '2.8em');
+        $('.main-bottom-description').css('max-height', '2.8em');
+    } else if (lineSmallTop == 3 || linesLargeTop == 3) {
+        $('.main-top-description').css('max-height', '4.2em');
+        $('.main-bottom-description').css('max-height', '4.2em');
+    } else if (lineSmallTop == 4 || linesLargeTop == 4) {
+        $('.main-top-description').css('max-height', '5.6em');
+        $('.main-bottom-description').css('max-height', '5.6em');
+    } else if (lineSmallTop == 5 || linesLargeTop == 5) {
+        $('.main-top-description').css('max-height', '5.6em');
+        $('.main-bottom-description').css('max-height', '5.6em');
+    } else {
+        $('.main-top-description').css('max-height', '1.3em');
+        $('.main-bottom-description').css('max-height', '1.3em');
+    }
+    // line-clamp for chrome and safari
+    topLarge.style['-webkit-line-clamp'] = linesLargeTop;
+    topSmall.style['-webkit-line-clamp'] = lineSmallTop;
+    bottomLarge.style['-webkit-line-clamp'] = linesLargeBottom;
+    bottomSmall.style['-webkit-line-clamp'] = linesSmallBottom;
+};
 
 window.onresize = function (event) {
     //get vertical distance dynamically between the top of the image and the main horizontal rule.
@@ -333,45 +463,43 @@ window.onresize = function (event) {
     //Dynamically parse the number of lines by dividing the max-height of the container by the line height.
     var topSmall = document.getElementsByClassName('description-top-small')[0],
         lineHeight = parseInt(window.getComputedStyle(topSmall).getPropertyValue("line-height"));
-    var lineSmallTop = Math.floor(heightSmall / lineHeight);
+    var lineSmallTop = Math.floor((heightSmall / lineHeight) + 1);
     var topLarge = document.getElementsByClassName('description-top-large')[0],
         lineHeight = parseInt(window.getComputedStyle(topLarge).getPropertyValue("line-height"));
-    var linesLargeTop = Math.floor(heightLarge / lineHeight);
+    var linesLargeTop = Math.floor((heightLarge / lineHeight) + 1);
     var bottomSmall = document.getElementsByClassName('description-bottom-small')[0],
         lineHeight = parseInt(window.getComputedStyle(bottomSmall).getPropertyValue("line-height"));
-    var lineSmallBottom = Math.floor(heightSmall / lineHeight);
+    var linesSmallBottom = Math.floor((heightSmall / lineHeight) + 1);
     var bottomLarge = document.getElementsByClassName('description-bottom-large')[0],
         lineHeight = parseInt(window.getComputedStyle(bottomLarge).getPropertyValue("line-height"));
-    var linesLargeBottom = Math.floor(heightLarge / lineHeight);
+    var linesLargeBottom = Math.floor((heightLarge / lineHeight) + 1);
     //set max-height for text container.
     if (lineSmallTop == 1 || linesLargeTop == 1) {
         $('.main-top-description').css('max-height', '1.3em');
         $('.main-bottom-description').css('max-height', '1.3em');
     } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 768 && window.innerWidth >= 758)) {
-        $('.main-top-description').css('max-height', '2.4em');
-        $('.main-bottom-description').css('max-height', '2.4em');
+        $('.main-top-description').css('max-height', '2.8em');
+        $('.main-bottom-description').css('max-height', '2.8em');
     } else if (lineSmallTop == 3 || linesLargeTop == 3) {
-        $('.main-top-description').css('max-height', '3.5em');
-        $('.main-bottom-description').css('max-height', '3.5em');
+        $('.main-top-description').css('max-height', '4.2em');
+        $('.main-bottom-description').css('max-height', '4.2em');
     } else if (lineSmallTop == 4 || linesLargeTop == 4) {
-        $('.main-top-description').css('max-height', '4.7em');
-        $('.main-bottom-description').css('max-height', '4.7em');
+        $('.main-top-description').css('max-height', '5.6em');
+        $('.main-bottom-description').css('max-height', '5.6em');
     } else if (lineSmallTop == 5 || linesLargeTop == 5) {
-        $('.main-top-description').css('max-height', '5.9em');
-        $('.main-bottom-description').css('max-height', '5.9em');
-    } else if (lineSmallTop == 6 || linesLargeTop == 6) {
-        $('.main-top-description').css('max-height', '7em');
-        $('.main-bottom-description').css('max-height', '7em');
+        $('.main-top-description').css('max-height', '5.6em');
+        $('.main-bottom-description').css('max-height', '5.6em');
+    } else {
+        $('.main-top-description').css('max-height', '1.3em');
+        $('.main-bottom-description').css('max-height', '1.3em');
     }
     // line-clamp for chrome and safari
     topLarge.style['-webkit-line-clamp'] = linesLargeTop;
     topSmall.style['-webkit-line-clamp'] = lineSmallTop;
     bottomLarge.style['-webkit-line-clamp'] = linesLargeBottom;
-    bottomSmall.style['-webkit-line-clamp'] = lineSmallBottom;
+    bottomSmall.style['-webkit-line-clamp'] = linesSmallBottom;
     //add or remove box-shadow
     if (window.innerWidth >= 768) {
-        $('.billboard').css('box-shadow', '0 0 10px 0 rgba(0, 0, 0, 0.2)');
-        $('.news').css('box-shadow', '-5px 0 30px 0 rgba(167, 167, 167, 0.5)');
         var search = $('.search-container');
         var header = $('.search-button-small');
         if (search.hasClass('active')) {

@@ -8,6 +8,7 @@
     <link rel="stylesheet" type="text/css" href="../tcx_chatterbox/tcx_chatterbox.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="../tcx_chatterbox/tcx_chatterbox.js"></script>
+    <script type="text/javascript" src="../js/moment/moment.min.js"></script>
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all"
           rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
@@ -15,21 +16,23 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-xs-12 tri">
-            <div class="row visible-sm visible-md visible-lg image-row"></div>
-            <div class="row visible-sm visible-md visible-lg title-row"></div>
-            <div class="row visible-xs triple-stack"></div>
-        </div>
-    </div>
     <div class="col-xs-12 cb">
         <div class="row">
-            <div class="row">
-                <div class="col-xs-12 cb-header" onclick="chatterbox.toggleDropDown()">
-                    <div class="col-xs-8 cb-dropdown">
-                    </div>
-                    <div class="tcx"></div>
+            <div class="col-xs-12 triple-stack">
+                <div class="row hidden-xs-down image-row">
                 </div>
+                <div class="row hidden-xs-down col-xs-12 title-row">
+                </div>
+                <div class="row">
+                    <div class="hidden-sm-up triple-stack"></div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 cb-header" onclick="chatterbox.toggleDropdown()">
+                <div class="col-xs-7 cb-dropDown">
+                </div>
+                <div class="tcx"></div>
             </div>
         </div>
         <div class="ad_location">Ad Zone</div>
@@ -39,12 +42,12 @@
                     <i class=" fa fa-angle-left cb-btn noclick" onclick="chatterbox.prevPage()"></i>
                     <i class="fa fa-angle-right cb-btn noclick" onclick="chatterbox.nextPage()"></i>
                     <a href="/" id="ai-link">
-                        <div class="col-xs-12 cb-img"></div>
-                        <div class="row">
-                            <div class="col-xs-10 col-xs-push-1 text-wrapper">
+                        <div class="col-xs-12 cb-img">
+                            <div class="col-xs-10 text-wrapper">
                                 <div class="row">
                                     <div class="col-xs-12">
-                                        <span class="cb-keyword"></span><span class="seperator"> | </span> <span
+                                        <span class="cb-keyword"></span><span
+                                            class="seperator"> | </span> <span
                                             class="cb-date"></span>
                                     </div>
                                 </div>
@@ -62,6 +65,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>
