@@ -15,9 +15,6 @@
 .ddb-bold{
   font-weight: 700;
 }
-.ddb-heavy{
-  font-weight: 900;
-}
 
 .ddb-container{
   height: 35px;
@@ -304,7 +301,6 @@
 
 .ddb-mobile-dropdown-list{
   color: #fff;
-  font-weight: 300;
   font-size: 16px;
 }
 .ddb-mobile-dropdown-list .ddb-icon{
@@ -418,7 +414,6 @@
 .ddb-menu-nav>li{
   display: inline-block;
   text-transform: uppercase;
-  font-weight: 300;
   cursor: pointer;
   padding: 0 15px;
   height: 35px;
@@ -1015,7 +1010,7 @@
 .ddb-search-dropdown li .ddb-icon{
   margin-right: 4px;
   color: #4a90e2;
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .ddb-search-dropdown li.ddb-no-results{
@@ -1028,11 +1023,7 @@
   color: #fff;
   font-size: 12px;
   background-color: #383838;
-  padding-top: 5px;
   box-sizing: border-box;
-}
-/* IE/Edge specific class to handle 1px padding-top issue */
-_:-ms-input-placeholder, :root .ddb-menu-ticker {
   padding-top: 6px;
 }
 @media(min-width: 1280px){

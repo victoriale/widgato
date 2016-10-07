@@ -46,6 +46,141 @@
   }
 
   /**
+   * API config, used to organize lazy loaded resources
+   **/
+  var apiConfig = {
+    //Frontend search lib
+    fuse: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(){
+        return resourceURL + '/lib/search_teams_middlelayer.php';
+      }
+    },
+    //JSON file for sports teams
+    searchTeams: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(){
+        return resourceURL + '/lib/search_teams_middlelayer.php';
+      }
+    },
+    //MLB Boxscores
+    boxscoresMLB: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(todayDate){
+        return protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayDate;
+      }
+    },
+    //NFL boxscores
+    boxscoresNFL: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(todayDate){
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayDate;
+      }
+    },
+    //NCAAF boxscores
+    boxscoresNCAAF: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(todayDate){
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayDate;
+      }
+    },
+    //NCAAF teams
+    teamsNCAAF: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(stateAbbrev){
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/landingPage/fbs/' + stateAbbrev;
+      }
+    },
+    //NCAAM teams
+    teamsNCAAM: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(fullState){
+        return protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=homepage&option=' + fullState;
+      },
+      res: null,
+      sucess: null
+    },
+    //MLB post game reports for ticker
+    tickerMLB: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(stateAbbrev){
+        return  protocol + '://prod-homerunloyal-ai.synapsys.us/recent-games/' + stateAbbrev;
+      }
+    },
+    //Current geographical state of user's IP address
+    getRemoteAddress: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(){
+        return protocol + '://w1.synapsys.us/listhuv/?action=get_remote_addr2';
+      },
+      res: null,
+      success: null
+    }
+  };
+
+  var easternTime = (function(){
+    //Grab current year
+    var utcYear = new Date().getUTCFullYear();
+    var daylightStart, daylightEnd, offset, abbrev;
+    var currentUTC = (new Date).getTime();
+
+    //Get second sunday of march 2:00 EST (beginning of daylight savings time)
+    daylightStart = new Date(utcYear, 2, 7, 0, 0, 0, 0);
+    daylightStart.setDate(7 + (7 - daylightStart.getDay()));
+    daylightStart.setUTCHours(7);
+    daylightStart = daylightStart.getTime();
+    //Get first sunday of november 2:00 EDT (end of daylight savings time)
+    daylightEnd = new Date(utcYear, 10, 1, 0, 0, 0, 0);
+    while(daylightEnd.getDay() !== 0){
+      daylightEnd.setDate(daylightEnd.getDate() + 1);
+    }
+    daylightEnd.setUTCHours(6);
+    daylightEnd = daylightEnd.getTime();
+
+    if(currentUTC <= daylightStart || currentUTC > daylightEnd){
+      //Standard Time
+      offset = -5;
+      // abbrev = 'EST';
+      abbrev = 'ET';
+    }else{
+      //Daylight Savings Time
+      offset = -4;
+      // abbrev = 'EDT';
+      abbrev = 'ET';
+    }
+
+    return {
+      offset: offset,
+      tzAbbrev: abbrev
+    };
+  })();
+
+  var dateObject = (function(offset, undefined){
+    var today = new Date(new Date().getTime() + offset * 3600 * 1000);
+    var month = today.getUTCMonth() + 1;
+    var date = today.getUTCDate();
+
+    var todayObject = {
+      today: today,
+      year: today.getUTCFullYear(),
+      month: month.toString().length === 1 ? '0' + month : month,
+      date: date.toString().length === 1 ? '0' + date : date
+    };
+    todayObject.dateInput = todayObject.year + '-' +  todayObject.month + '-' + todayObject.date;
+
+    return todayObject;
+  })(easternTime.offset);
+
+  /**
    * Global variables
    **/
   var Bluebird; //Namespace for bluebird library
@@ -110,6 +245,9 @@
          bootstrapMobileSearch();
          bootstrapSmallDesktopSearch();
          bootstrapDesktopBoxscores();
+
+         bootstrapStaticCollegeFootball();
+         bootstrapStaticCollegeBasketball();
          bootstrapDynamicDropdown();
       }else if(xhttp.readyState === 4 && xhttp.tatus !== 200){
         //Error
@@ -258,39 +396,91 @@
         item.addEventListener('mouseenter', hoverEvent);
     });
   }
+
   //UPDATED
-  var bootstrapTicker = function(state){
-    var tickerContent = document.getElementById('ddb-ticker-content');
+  var bootstrapTicker = function(){
 
-    var apiString = protocol + '://prod-homerunloyal-ai.synapsys.us/recent-games/' + state;
-    var xhttp = createRequestObject();
-    xhttp.onreadystatechange = function(){
-      if(xhttp.readyState === 4 && xhttp.status === 200){
-        //Success
-        var res = JSON.parse(xhttp.responseText);
-        //console.log('TICKER RESULTS API SUCCESS', res);
+    var tickerBuild = function(data){
+      var tickerContent = document.getElementById('ddb-ticker-content');
 
-        var processedData = processTickerData(res);
+      tickerContent.innerHTML = data;
 
-        tickerContent.innerHTML = processedData;
-        //Add class so marquee scrolls correctly (safari)
-        setTimeout(function(){
-          addClass(tickerContent, 'ddb-ticker-animation');
-        }, 100);
+      setTimeout(function(){
+        addClass(tickerContent, 'ddb-ticker-animation');
+      }, 100);
 
-      }else if(xhttp.readyState === 4 && xhttp.status !== 200){
-        //Error
-        // console.log('TICKER RESULTS API ERROR');
+      window.removeEventListener('resize', resizeEvent);
+    }
 
-        tickerContent.innerHTML = buildDefaultTickerData();
-      }
-    };
-    xhttp.open('GET', apiString, true);
-    xhttp.send();
+    if(apiConfig.tickerMLB.isLoading === false && apiConfig.tickerMLB.hasLoaded === false){
+
+      var apiString = apiConfig.tickerMLB.url(apiConfig.getRemoteAddress.res);
+      apiConfig.tickerMLB.isLoading = true;
+
+      var xhttp = createRequestObject();
+      xhttp.onreadystatechange = function(){
+        if(xhttp.readyState === 4 && xhttp.status === 200){
+          //Success
+          var res = JSON.parse(xhttp.responseText);
+          //console.log('TICKER RESULTS API SUCCESS', res);
+
+          var processedData = processTickerData(res);
+          apiConfig.tickerMLB.res = processedData;
+          apiConfig.tickerMLB.isLoading = false;
+          apiConfig.tickerMLB.hasLoaded = true;
+
+          tickerBuild(processedData);
+
+        }else if(xhttp.readyState === 4 && xhttp.status !== 200){
+          //Error
+          var defaultData = buildDefaultTickerData();
+          apiConfig.tickerMLB.res = defaultData;
+          apiConfig.tickerMLB.isLoading = false;
+          apiConfig.tickerMLB.hasLoaded = true;
+
+          tickerBuild(defaultData);
+        }
+      };
+      xhttp.open('GET', apiString, true);
+      xhttp.send();
+    }
 
   }
 
-  var bootstrapCollegeBasketballDropdown = function(state, userLocationFound){
+  var bootstrapStaticCollegeBasketball = function(){
+    //Link up nav items
+    var navMostWins = document.getElementsByClassName('ddb-ncaam-nav-most-wins'),
+      navMostTurnovers = document.getElementsByClassName('ddb-ncaam-nav-most-turnovers'),
+      navMostRebounds = document.getElementsByClassName('ddb-ncaam-nav-most-rebounds'),
+      navMostSteals = document.getElementsByClassName('ddb-ncaam-nav-most-steals'),
+      navMostBlocks = document.getElementsByClassName('ddb-ncaam-nav-most-blocks'),
+      navMostAssists = document.getElementsByClassName('ddb-ncaam-nav-most-assists'),
+      navTeams = document.getElementsByClassName('ddb-ncaam-nav-teams');
+
+    [].forEach.call(navMostWins, function(item){
+      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1';
+    });
+    [].forEach.call(navMostTurnovers, function(item){
+      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1';
+    });
+    [].forEach.call(navMostRebounds, function(item){
+      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1';
+    });
+    [].forEach.call(navMostSteals, function(item){
+      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1';
+    });
+    [].forEach.call(navMostBlocks, function(item){
+      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1';
+    });
+    [].forEach.call(navMostAssists, function(item){
+      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1';
+    });
+    [].forEach.call(navTeams, function(item){
+      item.href = hoopsDomain + '/NCAA';
+    });
+  }
+  //Bootstrap college basketball logic that has dependencies
+  var bootstrapDynamicCollegeBasketball = function(state, userLocationFound){
     //Convert state to full form
     var fullState = stateAbbrevToFull(state);
     var fullStateEncode = encodeURIComponent(fullState);
@@ -308,7 +498,7 @@
         NCAA Basketball Conferences ` + (userLocationFound ? 'in your area' : '') + `
       </h1>
       <h3 class="ddb-menu-dropdown-links-subtitle">
-        showing NCAA Basketball conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaam-state-map-marker" class="ddb-heavy">` + fullState + `</span>
+        showing NCAA Basketball conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaam-state-map-marker" class="ddb-bold">` + fullState + `</span>
       </h3>
     `;
 
@@ -316,7 +506,10 @@
     // var ncaamAllConferences = document.getElementById('ncaam-all-conferences');
     // ncaamAllConferences.href = hoopsDomain + '/ncaa';
 
-    var apiString = protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=homepage&option=' + fullStateEncode;
+    // var apiString = protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=homepage&option=' + fullStateEncode;
+    var apiString = apiConfig.teamsNCAAM.url(fullStateEncode);
+    apiConfig.teamsNCAAM.isLoading = true;
+
     var xhttp = createRequestObject()
     xhttp.onreadystatechange = function(){
       if(xhttp.readyState === 4 && xhttp.status === 200){
@@ -338,36 +531,10 @@
         //Save links innerHTML
         ncaamDropdownElements.links.innerHTML = ncaamLinks;
 
-        //Link up nav items
-        var navMostWins = document.getElementsByClassName('ddb-ncaam-nav-most-wins'),
-          navMostTurnovers = document.getElementsByClassName('ddb-ncaam-nav-most-turnovers'),
-          navMostRebounds = document.getElementsByClassName('ddb-ncaam-nav-most-rebounds'),
-          navMostSteals = document.getElementsByClassName('ddb-ncaam-nav-most-steals'),
-          navMostBlocks = document.getElementsByClassName('ddb-ncaam-nav-most-blocks'),
-          navMostAssists = document.getElementsByClassName('ddb-ncaam-nav-most-assists'),
-          navTeams = document.getElementsByClassName('ddb-ncaam-nav-teams');
-
-        [].forEach.call(navMostWins, function(item){
-          item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1';
-        });
-        [].forEach.call(navMostTurnovers, function(item){
-          item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1';
-        });
-        [].forEach.call(navMostRebounds, function(item){
-          item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1';
-        });
-        [].forEach.call(navMostSteals, function(item){
-          item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1';
-        });
-        [].forEach.call(navMostBlocks, function(item){
-          item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1';
-        });
-        [].forEach.call(navMostAssists, function(item){
-          item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1';
-        });
-        [].forEach.call(navTeams, function(item){
-          item.href = hoopsDomain + '/NCAA';
-        });
+        apiConfig.teamsNCAAM.res = processedData;
+        apiConfig.teamsNCAAM.isLoading = false;
+        apiConfig.teamsNCAAM.hasLoaded = true;
+        apiConfig.teamsNCAAM.success = true;
 
         var navHTML = `
           <li>
@@ -412,19 +579,23 @@
 
         //If last dropdown that was hovered (or is currently hovered) is ncaam insert into dynamic dropdown
         //This is so if the user is currently hovering over ncaam (before the dropdown data is loaded the data will insert)
-        var dynamicDropdown = document.getElementById('ddb-dynamic-dropdown');
-        if(dynamicDropdown !== null && dynamicDropdown.id === 'ddb-dropdown-ncaam'){
+        var dynamicDropdown = document.getElementsByClassName('ddb-dynamic-dropdown')[0];
+        if(dynamicDropdown !== null && dynamicDropdown.id === 'ddb-dynamic-ncaam'){
           var dynamicNav = document.getElementById('ddb-dynamic-nav'); //Nav of dynamic dropdown
           var dynamicLinks = document.getElementById('ddb-dynamic-links'); //Links of dynamic dropdown
           clearInnerHTML(dynamicNav);
           clearInnerHTML(dynamicLinks);
-          dynamicLinks.appendChild(ncaamDropdownElements.nav);
+          dynamicNav.appendChild(ncaamDropdownElements.nav);
           dynamicLinks.appendChild(ncaamDropdownElements.links);
         }
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
         // console.log('NCAA M API ERROR');
+        apiConfig.teamsNCAAM.res = false;
+        apiConfig.teamsNCAAM.isLoading = false;
+        apiConfig.teamsNCAAM.hasLoaded = true;
+        apiConfig.teamsNCAAM.success = false;
       }
     };
     xhttp.open('GET', apiString, true);
@@ -432,30 +603,51 @@
 
   }
 
-  var bootstrapCollegeFootballDropdown = function(state, userLocationFound){
+  //Bootstrap college football logic that has no dependencies
+  var bootstrapStaticCollegeFootball = function(){
+    var navNews = document.getElementsByClassName('ddb-ncaaf-nav-news'),
+      navStandings = document.getElementsByClassName('ddb-ncaaf-nav-standings'),
+      navSchedule = document.getElementsByClassName('ddb-ncaaf-nav-schedule'),
+      navTopLists = document.getElementsByClassName('ddb-ncaaf-nav-top-lists'),
+      navTeams = document.getElementsByClassName('ddb-ncaaf-nav-teams'),
+      navProfile = document.getElementsByClassName('ddb-ncaaf-nav-profile');
+
+    [].forEach.call(navNews, function(item){
+      item.href = touchdownDomain + '/ncaaf';
+    });
+    [].forEach.call(navStandings, function(item){
+      item.href = touchdownDomain + '/ncaaf/standings';
+    });
+    [].forEach.call(navSchedule, function(item){
+      item.href = touchdownDomain + '/ncaaf/schedules/league/' + footballLeagueYear + '/1';
+    });
+    [].forEach.call(navTopLists, function(item){
+      item.href = touchdownDomain + '/ncaaf/list-of-lists/league/' + footballLeagueYear + '/10/1';
+    });
+    [].forEach.call(navTeams, function(item){
+      item.href = touchdownDomain + '/ncaaf/pick-a-team';
+    });
+    [].forEach.call(navProfile, function(item){
+      item.href = touchdownDomain + '/ncaaf/league';
+    });
+  }
+  //Bootstrap college football logic that has dependencies
+  var bootstrapDynamicCollegeFootball = function(state, userLocationFound){
     //Convert state to full form
     var fullState = stateAbbrevToFull(state);
-
-    //Grab needed DOM Elements
-    // var stateMapMarker = document.getElementById('ncaaf-state-map-marker');
-    // stateMapMarker.innerHTML = fullState;
-    //If user location is not found from api clear out extra text ("in your area");
-    // if(!userLocationFound){
-    //   var ncaafTitle = document.getElementById('ncaaf-title');
-    //   ncaafTitle.innerHTML = 'NCAA Football Conferences';
-    // }
-    // var ncaafLeagues = document.getElementById('ncaaf-leagues');
 
     var ncaafLinks = `
       <h1 id="ncaaf-title" class="ddb-menu-dropdown-links-title">
         NCAA Football Conferences ` + (userLocationFound ? 'in your area': '') + `
       </h1>
       <h3 class="ddb-menu-dropdown-links-subtitle">
-        showing NCAA Football conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaaf-state-map-marker" class="ddb-heavy">` + fullState + `</span>
+        showing NCAA Football conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaaf-state-map-marker" class="ddb-bold">` + fullState + `</span>
       </h3>
     `;
 
-    var apiString = protocol + '://prod-touchdownloyal-api.synapsys.us/landingPage/fbs/' + state;
+    var apiString = apiConfig.teamsNCAAF.url(state);
+    apiConfig.teamsNCAAF.isLoading = true;
+
     var xhttp = createRequestObject();
     xhttp.onreadystatechange = function(){
       if(xhttp.readyState === 4 && xhttp.status === 200){
@@ -477,31 +669,10 @@
         //Save links innerHTML
         ncaafDropdownElements.links.innerHTML = ncaafLinks;
 
-        var navNews = document.getElementsByClassName('ddb-ncaaf-nav-news'),
-          navStandings = document.getElementsByClassName('ddb-ncaaf-nav-standings'),
-          navSchedule = document.getElementsByClassName('ddb-ncaaf-nav-schedule'),
-          navTopLists = document.getElementsByClassName('ddb-ncaaf-nav-top-lists'),
-          navTeams = document.getElementsByClassName('ddb-ncaaf-nav-teams'),
-          navProfile = document.getElementsByClassName('ddb-ncaaf-nav-profile');
-
-        [].forEach.call(navNews, function(item){
-          item.href = touchdownDomain + '/ncaaf';
-        });
-        [].forEach.call(navStandings, function(item){
-          item.href = touchdownDomain + '/ncaaf/standings';
-        });
-        [].forEach.call(navSchedule, function(item){
-          item.href = touchdownDomain + '/ncaaf/schedules/league/' + footballLeagueYear + '/1';
-        });
-        [].forEach.call(navTopLists, function(item){
-          item.href = touchdownDomain + '/ncaaf/list-of-lists/league/' + footballLeagueYear + '/10/1';
-        });
-        [].forEach.call(navTeams, function(item){
-          item.href = touchdownDomain + '/ncaaf/pick-a-team';
-        });
-        [].forEach.call(navProfile, function(item){
-          item.href = touchdownDomain + '/ncaaf/league';
-        });
+        apiConfig.teamsNCAAF.res = processedData;
+        apiConfig.teamsNCAAF.isLoading = false;
+        apiConfig.teamsNCAAF.hasLoaded = true;
+        apiConfig.teamsNCAAF.sucess = true;
 
         var navHTML = `
           <li>
@@ -538,19 +709,23 @@
 
         ncaafDropdownElements.nav.innerHTML = navHTML;
 
-        var dynamicDropdown = document.getElementById('ddb-dynamic-dropdown');
-        if(dynamicDropdown.id === 'ddb-dropdown-ncaaf'){
+        var dynamicDropdown = document.getElementsByClassName('ddb-dynamic-dropdown')[0];
+        if(dynamicDropdown !== null && dynamicDropdown.id === 'ddb-dynamic-ncaaf'){
           var dynamicNav = document.getElementById('ddb-dynamic-nav'); //Nav of dynamic dropdown
           var dynamicLinks = document.getElementById('ddb-dynamic-links'); //Links of dynamic dropdown
           clearInnerHTML(dynamicNav);
           clearInnerHTML(dynamicLinks);
-          dynamicLinks.appendChild(ncaafDropdownElements.nav);
+          dynamicNav.appendChild(ncaafDropdownElements.nav);
           dynamicLinks.appendChild(ncaafDropdownElements.links);
         }
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
         // console.log('NCAA F API ERROR');
+        apiConfig.teamsNCAAF.res = false;
+        apiConfig.teamsNCAAF.isLoading = false;
+        apiConfig.teamsNCAAF.hasLoaded = true;
+        apiConfig.teamsNCAAF.sucess = true;
       }
     };
     xhttp.open('GET', apiString, true);
@@ -2327,7 +2502,7 @@
     xhttp.open('GET', apiString, true);
     xhttp.send();
   }
-  //UPDATED
+  //Builds static ad
   var bootstrapAd = function(){
 
     var adNode = document.getElementById('ddb-ad');
@@ -2336,10 +2511,10 @@
     adScript.src = protocol + '://content.synapsys.us/l/n/igloo.php?type=inline_ad&adW=300&adH=250&widW=0&widH=0&remn=false&rand=' + Math.floor((Math.random() * 10000000000) + 1) + '&dom=chicagotribune.com&norotate=true';
     adNode.appendChild(adScript);
   }
-
+  //Builds dynamic dropdown (1 dropdown to many tabs) that houses the ad
   var bootstrapDynamicDropdown = function(){
     var navItems = document.getElementsByClassName('ddb-menu-nav-item ddb-dynamic-item'); //Tab elements that the dynamic dropdown applies too
-    var dynamicDropdown = document.getElementById('ddb-dynamic-dropdown'); //Dynamic dropdown element
+    var dynamicDropdown = document.getElementsByClassName('ddb-dynamic-dropdown')[0]; //Dynamic dropdown element
     var dynamicNav = document.getElementById('ddb-dynamic-nav'); //Nav of dynamic dropdown
     var dynamicLinks = document.getElementById('ddb-dynamic-links'); //Links of dynamic dropdown
 
@@ -2376,8 +2551,12 @@
         case 'ddb-dropdown-ncaam':
           dynamicDropdown.id = 'ddb-dynamic-ncaam';
 
-          dynamicNav.appendChild(ncaamDropdownElements.nav);
-          dynamicLinks.appendChild(ncaamDropdownElements.links);
+          if(apiConfig.getRemoteAddress.hasLoaded === true && apiConfig.teamsNCAAM.isLoading === false && apiConfig.teamsNCAAM.hasLoaded === false){
+            bootstrapDynamicCollegeBasketball(apiConfig.getRemoteAddress.res, apiConfig.getRemoteAddress.success);
+          }else if(apiConfig.teamsNCAAM.hasLoaded === true){
+            dynamicNav.appendChild(ncaamDropdownElements.nav);
+            dynamicLinks.appendChild(ncaamDropdownElements.links);
+          }
         break;
         case 'ddb-dropdown-nfl':
           dynamicDropdown.id = 'ddb-dynamic-nfl';
@@ -2388,8 +2567,12 @@
         case 'ddb-dropdown-ncaaf':
           dynamicDropdown.id = 'ddb-dynamic-ncaaf';
 
-          dynamicNav.appendChild(ncaafDropdownElements.nav);
-          dynamicLinks.appendChild(ncaafDropdownElements.links);
+          if(apiConfig.getRemoteAddress.hasLoaded === true && apiConfig.teamsNCAAF.isLoading === false && apiConfig.teamsNCAAF.hasLoaded === false){
+            bootstrapDynamicCollegeFootball(apiConfig.getRemoteAddress.res, apiConfig.getRemoteAddress.success);
+          }else if(apiConfig.teamsNCAAF.hasLoaded === true){
+            dynamicNav.appendChild(ncaafDropdownElements.nav);
+            dynamicLinks.appendChild(ncaafDropdownElements.links);
+          }
         break;
       }
 
@@ -2415,7 +2598,7 @@
      fontEl.rel = 'stylesheet';
      fontEl.type = 'text/css';
      fontEl.dataset.resource_from = 'deepdive-bar-embed';
-     fontEl.href = 'https://fonts.googleapis.com/css?family=Lato:300,400,700,900';
+     fontEl.href = 'https://fonts.googleapis.com/css?family=Lato:400,700';
      document.head.appendChild(fontEl);
      //Load styles
      var styleEl = document.createElement('link');
@@ -2498,7 +2681,9 @@
    //Gets state of user's isp
    var getUserLocation = function(){
 
-     var apiString = protocol + '://w1.synapsys.us/listhuv/?action=get_remote_addr2';
+     var apiString = apiConfig.getRemoteAddress.url();
+     apiConfig.getRemoteAddress.isLoading = true;
+
      var xhttp = createRequestObject();
      xhttp.onreadystatechange = function(){
        if(xhttp.readyState === 4 && xhttp.status === 200){
@@ -2507,18 +2692,26 @@
          //console.log('GET USER LOCATION SUCCESS', res);
 
          var state = processLocationData(res);
-         bootstrapTicker(state);
-         bootstrapCollegeBasketballDropdown(state, true);
-         bootstrapCollegeFootballDropdown(state, true);
+         apiConfig.getRemoteAddress.res = state;
+         apiConfig.getRemoteAddress.isLoading = false;
+         apiConfig.getRemoteAddress.hasLoaded = true;
+         apiConfig.getRemoteAddress.success = true;
 
+        //Check for screen size to load certain modules
+        resizeEvent();
+        window.addEventListener('resize', resizeEvent);
        }else if(xhttp.readyState === 4 && xhttp.tatus !== 200){
          //Error
-        //  console.log('GET USER LOCATION ERROR');
+         //console.log('GET USER LOCATION ERROR');
          var state = processLocationData(undefined);
-         bootstrapTicker(state);
-         bootstrapCollegeBasketballDropdown(state, false);
-         bootstrapCollegeFootballDropdown(state, false);
+         apiConfig.getRemoteAddress.res = state;
+         apiConfig.getRemoteAddress.isLoading = false;
+         apiConfig.getRemoteAddress.hasLoaded = true;
+         apiConfig.getRemoteAddress.success = false;
 
+         //Check for screen size to load certain modules
+         resizeEvent();
+         window.addEventListener('resize', resizeEvent);
        }
      };
      xhttp.open('GET', apiString, true);
@@ -3145,6 +3338,15 @@
 
      return allGames;
    }
+
+   var resizeEvent = throttle(function(){
+     var windowWidth = window.innerWidth;
+
+     //If window is large enough and get remote address api has finsihed
+     if(windowWidth >= 1280 && apiConfig.tickerMLB.isLoading === false && apiConfig.tickerMLB.hasLoaded === false){
+       bootstrapTicker();
+     }
+   }, 100);
   /**
    * Global event functions
    **/
@@ -3505,6 +3707,29 @@
   		if (callNow) func.apply(context, args);
   	};
   };
+  //Throttle function
+  function throttle(fn, threshhold, scope){
+    threshhold || (threshhold = 250);
+    var last,
+        deferTimer;
+    return function () {
+      var context = scope || this;
+
+      var now = +new Date,
+          args = arguments;
+      if (last && now < last + threshhold) {
+        // hold on to it
+        clearTimeout(deferTimer);
+        deferTimer = setTimeout(function () {
+          last = now;
+          fn.apply(context, args);
+        }, threshhold + last - now);
+      } else {
+        last = now;
+        fn.apply(context, args);
+      }
+    };
+  }
   //Clear innerHTML of item
   function clearInnerHTML(el){
     while (el.firstChild) el.removeChild(el.firstChild);
