@@ -1852,7 +1852,7 @@
     })
 
     //Check to see if desktop boxscores buttons should be enabled or disabled
-    checkRightDesktopButton = function(){
+    var checkRightDesktopButton = function(){
       switch(desktopBoxscoresSelected){
         case 'mlb':
           desktopMax = mlbMax;
@@ -1881,7 +1881,7 @@
         removeClass(rightDesktopButton, 'ddb-blue');
       }
     }
-    canClickRightDesktopButton = function(){
+    var canClickRightDesktopButton = function(){
       switch(desktopBoxscoresSelected){
         case 'mlb':
           desktopMax = mlbMax;
@@ -1908,7 +1908,7 @@
       }
     }
 
-    checkLeftDesktopButton = function(){
+    var checkLeftDesktopButton = function(){
       switch(desktopBoxscoresSelected){
         case 'mlb':
           desktopMax = mlbMax;
@@ -1936,7 +1936,7 @@
         removeClass(leftDesktopButton, 'ddb-blue');
       }
     }
-    canClickLeftDesktopButton = function(){
+    var canClickLeftDesktopButton = function(){
       switch(desktopBoxscoresSelected){
         case 'mlb':
           desktopMax = mlbMax;
@@ -1960,7 +1960,7 @@
     }
 
     //Check to see if mobile desktop boxscores buttons should be enabled or disabled
-    checkRightMobileButton = function(){
+    var checkRightMobileButton = function(){
       var frameWidth = mobileBoxscoresFrame.offsetWidth;
       var boxscoresPixelLeft = ((totalMax) - (mobileBoxscoresIndex)) * 100; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
       var whitespaceLeft = frameWidth - boxscoresPixelLeft;// How much whitespace is between the last item in boxscores and end of frame
@@ -1974,7 +1974,7 @@
         removeClass(rightMobileButton, 'ddb-blue');
       }
     }
-    canClickRightMobileButton = function(){
+    var canClickRightMobileButton = function(){
       var frameWidth = mobileBoxscoresFrame.offsetWidth;
       var boxscoresPixelLeft = ((totalMax) - (mobileBoxscoresIndex)) * 100; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
       var whitespaceLeft = frameWidth - boxscoresPixelLeft;// How much whitespace is between the last item in boxscores and end of frame
@@ -1986,7 +1986,7 @@
       }
     }
 
-    checkLeftMobileButton = function(){
+    var checkLeftMobileButton = function(){
       var frameWidth = mobileBoxscoresFrame.offsetWidth;
       var boxscoresPixelLeft = ((totalMax) - mobileBoxscoresIndex) * 100; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
       var whitespaceLeft = frameWidth - boxscoresPixelLeft;// How much whitespace is between the last item in boxscores and end of frame
@@ -2000,7 +2000,7 @@
         removeClass(leftMobileButton, 'ddb-blue');
       }
     }
-    canClickLeftMobileButton = function(){
+    var canClickLeftMobileButton = function(){
       if(mobileBoxscoresIndex === 0){
         return false;
       }else{
