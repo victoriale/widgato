@@ -15,15 +15,12 @@
 .ddb-bold{
   font-weight: 700;
 }
-.ddb-heavy{
-  font-weight: 900;
-}
 
 .ddb-container{
   height: 35px;
   background-color: #272727;
   min-width: 320px;
-  font-family: Lato;
+  font-family: Lato, Arial;
   font-size: 14px;
 }
 /* Disabled outline on focus */
@@ -224,6 +221,7 @@
 }
 .ddb-boxscores-content-game-teams{
   text-align: left;
+  white-space: normal;
 }
 .ddb-boxscores-content-game-teams .ddb-icon-football{
   color: #4a90e2;
@@ -247,8 +245,12 @@
 /*
   Mobile Nav Classes
 */
-
-.ddb-menu-mobile{
+@media(min-width: 640px){
+  .ddb-mobile-layout{
+    display: none;
+  }
+}
+.ddb-mobile-menu{
   width: 30px;
   height: 35px;
   border: none;
@@ -257,12 +259,7 @@
   font-size: 15px;
   cursor: pointer;
 }
-@media(min-width: 640px){
-  .ddb-menu-mobile{
-    display: none;
-  }
-}
-.ddb-menu-mobile.ddb-right{
+.ddb-mobile-menu.ddb-right{
   float: right;
 }
 #ddb-mobile-menu{
@@ -292,11 +289,6 @@
   display: none;
   z-index: 100000;
 }
-@media(min-width: 640px){
-  .ddb-mobile-dropdown{
-    display: none !important;
-  }
-}
 .ddb-mobile-dropdown#ddb-mobile-search-bar{
   padding: 0 35px;
   box-sizing: border-box;
@@ -309,7 +301,6 @@
 
 .ddb-mobile-dropdown-list{
   color: #fff;
-  font-weight: 300;
   font-size: 16px;
 }
 .ddb-mobile-dropdown-list .ddb-icon{
@@ -423,7 +414,6 @@
 .ddb-menu-nav>li{
   display: inline-block;
   text-transform: uppercase;
-  font-weight: 300;
   cursor: pointer;
   padding: 0 15px;
   height: 35px;
@@ -758,7 +748,7 @@
 }
 @media(min-width: 978px){
   .ddb-menu-dropdown-links{
-    width: 460px;
+    width: 465px;
   }
 }
 .ddb-menu-dropdown-links-title{
@@ -850,27 +840,6 @@
   }
 }
 
-.ddb-menu-dropdown-takeover{
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 50;
-  background-color: rgba(255, 255, 255, 0.925);
-  text-align: center;
-  color: #000;
-}
-.ddb-menu-dropdown-takeover-text{
-  font-size: 32px;
-  margin-top: 100px;
-  font-weight: 300;
-}
-.ddb-menu-dropdown-takeover-text-line2{
-  color: #ccc;
-  font-size: 26px;
-}
-
 .ddb-menu-options{
   display: none;
   float: right;
@@ -892,7 +861,7 @@
   box-sizing: border-box;
   z-index: 100000;
 }
-@media(max-width: 640px){
+@media(max-width: 639px){
   .ddb-menu-search-dropdown{
     display: none !important;
   }
@@ -1014,6 +983,9 @@
   right: 117px;
   z-index: 10;
 }
+#ddb-search-desktop::-ms-clear {
+  display: none;
+}
 .ddb-search-active a{
   color: #fff !important;
   background-color: #4a90e2;
@@ -1038,6 +1010,7 @@
 .ddb-search-dropdown li .ddb-icon{
   margin-right: 4px;
   color: #4a90e2;
+  font-size: 14px;
 }
 
 .ddb-search-dropdown li.ddb-no-results{
@@ -1050,8 +1023,8 @@
   color: #fff;
   font-size: 12px;
   background-color: #383838;
-  padding-top: 5px;
   box-sizing: border-box;
+  padding-top: 6px;
 }
 @media(min-width: 1280px){
   .ddb-menu-ticker{
@@ -1078,7 +1051,7 @@
   content: '';
   position: absolute;
   top: 0;
-  left: 0;
+  left: -1px;
   width: 20px;
   height: 100%;
   background: transparent; /* For browsers that do not support gradients */
@@ -1093,7 +1066,7 @@
   content: '';
   position: absolute;
   top: 0;
-  right: 0;
+  right: -1px;
   width: 20px;
   height: 100%;
   background: transparent; /* For browsers that do not support gradients */
@@ -1109,19 +1082,18 @@
   padding-left: 100%;
   text-indent: 0;
   white-space: nowrap;
-
 }
 @media(min-width: 1280px){
-  .ddb-menu-ticker-content{
+  .ddb-menu-ticker-content.ddb-ticker-animation{
     -webkit-animation: ddbmarquee 30s linear infinite;
     animation: ddbmarquee 30s linear infinite;
   }
 }
-.ddb-menu-ticker-content:hover{
+.ddb-menu-ticker-content.ddb-ticker-animation:hover{
   animation-play-state: paused;
 }
 .ddb-menu-ticker-separator{
-  display: inline-block;
+  /*display: inline-block;*/
   margin: 0 16px;
 }
 .ddb-menu-ticker-link{
@@ -1141,6 +1113,8 @@
   100% {transform: translate(-100%, 0);}
 }
 @-webkit-keyframes ddbmarquee{
-  0% {text-indent: 100%;}
-  100% {text-indent: -100%;}
+  /*0% {text-indent: 100%;}
+  100% {text-indent: -100%;}*/
+  0% {transform: translate(0, 0);}
+  100% {transform: translate(-100%, 0);}
 }

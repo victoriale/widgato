@@ -3,9 +3,188 @@
   var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
   // var resourceURL = protocol + '://localhost:8000/deepdive';
   var embedURL = resourceURL + '/bar/bar.js'; //URL of script embed. This is used as a fallback if document.currentScript is not available
+
+  //Grab current script element to know where to inject bar
+  var currentScript = document.currentScript || (function(){
+      var scripts = document.getElementsByTagName("script");
+      for (var i = scripts.length - 1; i >= 0; i--) {
+         if (scripts[i].src.indexOf(embedURL) != -1) {
+            return scripts[i];
+         }
+      }
+   })();
+
+  /**
+   * Get query parameters for script tag
+   **/
+  var params = {
+    baseballSubdomain: null,
+    basketballSubdomain: null,
+    footballSubdomain: null
+  };
+
+  var queryString = currentScript.src.split('?')[1];
+  if(typeof queryString === 'undefined'){
+    //No params passed in
+  }else{
+    //Parse query string
+    var queryParams = queryString.split('&');
+    queryParams.forEach(function(item){
+      var pair = item.split('=');
+      switch(pair[0]){
+        case 'baseballSubdomain':
+          params.baseballSubdomain = decodeURIComponent(pair[1]);
+        break;
+        case 'basketballSubdomain':
+          params.basketballSubdomain = decodeURIComponent(pair[1]);
+        break;
+        case 'footballSubdomain':
+          params.footballSubdomain = decodeURIComponent(pair[1]);
+        break;
+      }
+    })
+  }
+
+  /**
+   * API config, used to organize lazy loaded resources
+   **/
+  var apiConfig = {
+    //Frontend search lib
+    fuse: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(){
+        return resourceURL + '/lib/search_teams_middlelayer.php';
+      }
+    },
+    //JSON file for sports teams
+    searchTeams: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(){
+        return resourceURL + '/lib/search_teams_middlelayer.php';
+      }
+    },
+    //MLB Boxscores
+    boxscoresMLB: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(todayDate){
+        return protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayDate;
+      }
+    },
+    //NFL boxscores
+    boxscoresNFL: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(todayDate){
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayDate;
+      }
+    },
+    //NCAAF boxscores
+    boxscoresNCAAF: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(todayDate){
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayDate;
+      }
+    },
+    //NCAAF teams
+    teamsNCAAF: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(stateAbbrev){
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/landingPage/fbs/' + stateAbbrev;
+      }
+    },
+    //NCAAM teams
+    teamsNCAAM: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(fullState){
+        return protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=homepage&option=' + fullState;
+      },
+      res: null,
+      sucess: null
+    },
+    //MLB post game reports for ticker
+    tickerMLB: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(stateAbbrev){
+        return  protocol + '://prod-homerunloyal-ai.synapsys.us/recent-games/' + stateAbbrev;
+      }
+    },
+    //Current geographical state of user's IP address
+    getRemoteAddress: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(){
+        return protocol + '://w1.synapsys.us/listhuv/?action=get_remote_addr2';
+      },
+      res: null,
+      success: null
+    }
+  };
+
+  var easternTime = (function(){
+    //Grab current year
+    var utcYear = new Date().getUTCFullYear();
+    var daylightStart, daylightEnd, offset, abbrev;
+    var currentUTC = (new Date).getTime();
+
+    //Get second sunday of march 2:00 EST (beginning of daylight savings time)
+    daylightStart = new Date(utcYear, 2, 7, 0, 0, 0, 0);
+    daylightStart.setDate(7 + (7 - daylightStart.getDay()));
+    daylightStart.setUTCHours(7);
+    daylightStart = daylightStart.getTime();
+    //Get first sunday of november 2:00 EDT (end of daylight savings time)
+    daylightEnd = new Date(utcYear, 10, 1, 0, 0, 0, 0);
+    while(daylightEnd.getDay() !== 0){
+      daylightEnd.setDate(daylightEnd.getDate() + 1);
+    }
+    daylightEnd.setUTCHours(6);
+    daylightEnd = daylightEnd.getTime();
+
+    if(currentUTC <= daylightStart || currentUTC > daylightEnd){
+      //Standard Time
+      offset = -5;
+      // abbrev = 'EST';
+      abbrev = 'ET';
+    }else{
+      //Daylight Savings Time
+      offset = -4;
+      // abbrev = 'EDT';
+      abbrev = 'ET';
+    }
+
+    return {
+      offset: offset,
+      tzAbbrev: abbrev
+    };
+  })();
+
+  var dateObject = (function(offset, undefined){
+    var today = new Date(new Date().getTime() + offset * 3600 * 1000);
+    var month = today.getUTCMonth() + 1;
+    var date = today.getUTCDate();
+
+    var todayObject = {
+      today: today,
+      year: today.getUTCFullYear(),
+      month: month.toString().length === 1 ? '0' + month : month,
+      date: date.toString().length === 1 ? '0' + date : date
+    };
+    todayObject.dateInput = todayObject.year + '-' +  todayObject.month + '-' + todayObject.date;
+
+    return todayObject;
+  })(easternTime.offset);
+
   /**
    * Global variables
    **/
+  var Bluebird; //Namespace for bluebird library
+
   var mobileMenuButton; //DOM Element of mobile menu button
   var mobileDropdown; //DOM Elmenent of mobile menu dropdown
   var mobileSearchButton; //DOM Element of mobile search button
@@ -27,20 +206,20 @@
   var defaultState = 'ny'; //Default state used whenever state lookup fails (from api or from stateAbbrevToFull function)
 
   var domain = window.location.hostname; //Domain the bar exists on
-  domain = domain.replace(/www./, '');
-  //TODO: Test domain. Remove when product finished
-  // domain = 'latimes.com';
-  var homerunDomain = 'http://baseball.' + domain;
-  var hoopsDomain = 'http://myhoopszone.com/' + domain;
-  // var touchdownDomain = 'http://mytouchdownzone.com/' + domain;
-  var touchdownDomain = 'http://www.mytouchdownzone.com/' + domain;
+  var parts = domain.split('.');
+  //Grab second level domain
+  domain = parts.slice(-2).join('.');
+
+  var homerunDomain = params.baseballSubdomain !== null ? protocol + '://' + params.baseballSubdomain + '.' + domain : 'http://myhomerunzone.com/' + domain;
+  var hoopsDomain = params.basketballSubdomain !== null ? protocol + '://' + params.basketballSubdomain + '.' + domain : 'http://myhoopszone.com/' + domain;
+  var touchdownDomain = params.footballSubdomain !== null ? protocol + '://' + params.footballSubdomain + '.' + domain : 'http://www.mytouchdownzone.com/' + domain;
 
   var footballLeagueYear = 2016; //Year used by TDL sites for urls
 
   /**
    * Bootstrap functions
    **/
-  var bootstrapApp = function(){
+  function bootstrapApp(){
     var apiString = resourceURL + '/bar/template_middlelayer.php';
     var xhttp = createRequestObject();
 
@@ -52,15 +231,7 @@
         var template = document.createElement('section');
         template.className = 'ddb-container';
         template.innerHTML = res;
-        //Grab current script element to know where to inject bar
-        var currentScript = document.currentScript || (function() {
-            var scripts = document.getElementsByTagName("script");
-            for (var i = scripts.length - 1; i >= 0; i--) {
-               if (scripts[i].src.indexOf(embedURL) != -1) {
-                  return scripts[i];
-               }
-            }
-         })();
+
          var parentNode = currentScript.parentNode;
          //Inject HTML
          parentNode.insertBefore(template, currentScript);
@@ -68,15 +239,15 @@
          loadScriptDependencies();
          //Continue building Bar
          getUserLocation();
-         // bootstrapAd();
-         bootstrapBoxscores();
+         //bootstrapBoxscores() is within loadScriptDependencies() function
          //bootstrapSearch() is within loadScriptDependencies() function
          bootstrapMobileMenu();
          bootstrapMobileSearch();
          bootstrapSmallDesktopSearch();
          bootstrapDesktopBoxscores();
-         //bootstrapNBADropdown();
-         //bootstrapMLBDropdown();
+
+         bootstrapStaticCollegeFootball();
+         bootstrapStaticCollegeBasketball();
          bootstrapDynamicDropdown();
       }else if(xhttp.readyState === 4 && xhttp.tatus !== 200){
         //Error
@@ -85,7 +256,6 @@
       }
     };
     xhttp.open('GET', apiString, true);
-    //xhttp.setRequestHeader('Content-type', 'text/html');
     xhttp.send();
   }
 
@@ -226,35 +396,91 @@
         item.addEventListener('mouseenter', hoverEvent);
     });
   }
+
   //UPDATED
-  var bootstrapTicker = function(state){
-    var tickerContent = document.getElementById('ddb-ticker-content');
+  var bootstrapTicker = function(){
 
-    var apiString = protocol + '://prod-homerunloyal-ai.synapsys.us/recent-games/' + state;
-    var xhttp = createRequestObject();
-    xhttp.onreadystatechange = function(){
-      if(xhttp.readyState === 4 && xhttp.status === 200){
-        //Success
-        var res = JSON.parse(xhttp.responseText);
-        //console.log('TICKER RESULTS API SUCCESS', res);
+    var tickerBuild = function(data){
+      var tickerContent = document.getElementById('ddb-ticker-content');
 
-        var processedData = processTickerData(res);
+      tickerContent.innerHTML = data;
 
-        tickerContent.innerHTML = processedData;
+      setTimeout(function(){
+        addClass(tickerContent, 'ddb-ticker-animation');
+      }, 100);
 
-      }else if(xhttp.readyState === 4 && xhttp.status !== 200){
-        //Error
-        // console.log('TICKER RESULTS API ERROR');
+      window.removeEventListener('resize', resizeEvent);
+    }
 
-        tickerContent.innerHTML = buildDefaultTickerData();
-      }
-    };
-    xhttp.open('GET', apiString, true);
-    xhttp.send();
+    if(apiConfig.tickerMLB.isLoading === false && apiConfig.tickerMLB.hasLoaded === false){
+
+      var apiString = apiConfig.tickerMLB.url(apiConfig.getRemoteAddress.res);
+      apiConfig.tickerMLB.isLoading = true;
+
+      var xhttp = createRequestObject();
+      xhttp.onreadystatechange = function(){
+        if(xhttp.readyState === 4 && xhttp.status === 200){
+          //Success
+          var res = JSON.parse(xhttp.responseText);
+          //console.log('TICKER RESULTS API SUCCESS', res);
+
+          var processedData = processTickerData(res);
+          apiConfig.tickerMLB.res = processedData;
+          apiConfig.tickerMLB.isLoading = false;
+          apiConfig.tickerMLB.hasLoaded = true;
+
+          tickerBuild(processedData);
+
+        }else if(xhttp.readyState === 4 && xhttp.status !== 200){
+          //Error
+          var defaultData = buildDefaultTickerData();
+          apiConfig.tickerMLB.res = defaultData;
+          apiConfig.tickerMLB.isLoading = false;
+          apiConfig.tickerMLB.hasLoaded = true;
+
+          tickerBuild(defaultData);
+        }
+      };
+      xhttp.open('GET', apiString, true);
+      xhttp.send();
+    }
 
   }
 
-  var bootstrapCollegeBasketballDropdown = function(state, userLocationFound){
+  var bootstrapStaticCollegeBasketball = function(){
+    //Link up nav items
+    var navMostWins = document.getElementsByClassName('ddb-ncaam-nav-most-wins'),
+      navMostTurnovers = document.getElementsByClassName('ddb-ncaam-nav-most-turnovers'),
+      navMostRebounds = document.getElementsByClassName('ddb-ncaam-nav-most-rebounds'),
+      navMostSteals = document.getElementsByClassName('ddb-ncaam-nav-most-steals'),
+      navMostBlocks = document.getElementsByClassName('ddb-ncaam-nav-most-blocks'),
+      navMostAssists = document.getElementsByClassName('ddb-ncaam-nav-most-assists'),
+      navTeams = document.getElementsByClassName('ddb-ncaam-nav-teams');
+
+    [].forEach.call(navMostWins, function(item){
+      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1';
+    });
+    [].forEach.call(navMostTurnovers, function(item){
+      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1';
+    });
+    [].forEach.call(navMostRebounds, function(item){
+      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1';
+    });
+    [].forEach.call(navMostSteals, function(item){
+      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1';
+    });
+    [].forEach.call(navMostBlocks, function(item){
+      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1';
+    });
+    [].forEach.call(navMostAssists, function(item){
+      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1';
+    });
+    [].forEach.call(navTeams, function(item){
+      item.href = hoopsDomain + '/NCAA';
+    });
+  }
+  //Bootstrap college basketball logic that has dependencies
+  var bootstrapDynamicCollegeBasketball = function(state, userLocationFound){
     //Convert state to full form
     var fullState = stateAbbrevToFull(state);
     var fullStateEncode = encodeURIComponent(fullState);
@@ -272,7 +498,7 @@
         NCAA Basketball Conferences ` + (userLocationFound ? 'in your area' : '') + `
       </h1>
       <h3 class="ddb-menu-dropdown-links-subtitle">
-        showing NCAA Basketball conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaam-state-map-marker" class="ddb-heavy">` + fullState + `</span>
+        showing NCAA Basketball conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaam-state-map-marker" class="ddb-bold">` + fullState + `</span>
       </h3>
     `;
 
@@ -280,7 +506,10 @@
     // var ncaamAllConferences = document.getElementById('ncaam-all-conferences');
     // ncaamAllConferences.href = hoopsDomain + '/ncaa';
 
-    var apiString = protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=homepage&option=' + fullStateEncode;
+    // var apiString = protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=homepage&option=' + fullStateEncode;
+    var apiString = apiConfig.teamsNCAAM.url(fullStateEncode);
+    apiConfig.teamsNCAAM.isLoading = true;
+
     var xhttp = createRequestObject()
     xhttp.onreadystatechange = function(){
       if(xhttp.readyState === 4 && xhttp.status === 200){
@@ -295,77 +524,51 @@
           // ncaamLeagues.appendChild(item);
         })
         ncaamLinks += `
-          <a href="` + hoopsDomain + `/ncaa" class="ddb-menu-dropdown-all">
+          <a target="_blank" href="` + hoopsDomain + `/ncaa" class="ddb-menu-dropdown-all">
             SEE ALL CONFERENCES
           </a>
         `;
         //Save links innerHTML
         ncaamDropdownElements.links.innerHTML = ncaamLinks;
 
-        //Link up nav items
-        var navMostWins = document.getElementsByClassName('ddb-ncaam-nav-most-wins'),
-          navMostTurnovers = document.getElementsByClassName('ddb-ncaam-nav-most-turnovers'),
-          navMostRebounds = document.getElementsByClassName('ddb-ncaam-nav-most-rebounds'),
-          navMostSteals = document.getElementsByClassName('ddb-ncaam-nav-most-steals'),
-          navMostBlocks = document.getElementsByClassName('ddb-ncaam-nav-most-blocks'),
-          navMostAssists = document.getElementsByClassName('ddb-ncaam-nav-most-assists'),
-          navTeams = document.getElementsByClassName('ddb-ncaam-nav-teams');
-
-        [].forEach.call(navMostWins, function(item){
-          item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1';
-        });
-        [].forEach.call(navMostTurnovers, function(item){
-          item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1';
-        });
-        [].forEach.call(navMostRebounds, function(item){
-          item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1';
-        });
-        [].forEach.call(navMostSteals, function(item){
-          item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1';
-        });
-        [].forEach.call(navMostBlocks, function(item){
-          item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1';
-        });
-        [].forEach.call(navMostAssists, function(item){
-          item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1';
-        });
-        [].forEach.call(navTeams, function(item){
-          item.href = hoopsDomain + '/NCAA';
-        });
+        apiConfig.teamsNCAAM.res = processedData;
+        apiConfig.teamsNCAAM.isLoading = false;
+        apiConfig.teamsNCAAM.hasLoaded = true;
+        apiConfig.teamsNCAAM.success = true;
 
         var navHTML = `
           <li>
-            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1">
+            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1">
               <i class="ddb-icon ddb-icon-trophy"></i>
               Most Wins
             </a>
           </li>
           <li>
-            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1">
+            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1">
               <i class="ddb-icon ddb-icon-box-scores"></i>
               Most Turnovers
             </a>
           </li>
           <li>
-            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1">
+            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1">
               <i class="ddb-icon ddb-icon-dribbble"></i>
               Most Rebounds
             </a>
           </li>
           <li>
-            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1">
+            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1">
               <i class="ddb-icon ddb-icon-magic"></i>
               Most Steals
             </a>
           </li>
           <li>
-            <a href="` + hoopsDomain + `"/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1>
+            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1">
               <i class="ddb-icon ddb-icon-thumbs-o-down"></i>
               Most Blocks
             </a>
           </li>
           <li>
-            <a href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1">
+            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1">
               <i class="ddb-icon ddb-icon-life-ring"></i>
               Most Assists
             </a>
@@ -376,19 +579,23 @@
 
         //If last dropdown that was hovered (or is currently hovered) is ncaam insert into dynamic dropdown
         //This is so if the user is currently hovering over ncaam (before the dropdown data is loaded the data will insert)
-        var dynamicDropdown = document.getElementById('ddb-dynamic-dropdown');
-        if(dynamicDropdown.id === 'ddb-dropdown-ncaam'){
+        var dynamicDropdown = document.getElementsByClassName('ddb-dynamic-dropdown')[0];
+        if(dynamicDropdown !== null && dynamicDropdown.id === 'ddb-dynamic-ncaam'){
           var dynamicNav = document.getElementById('ddb-dynamic-nav'); //Nav of dynamic dropdown
           var dynamicLinks = document.getElementById('ddb-dynamic-links'); //Links of dynamic dropdown
           clearInnerHTML(dynamicNav);
           clearInnerHTML(dynamicLinks);
-          dynamicLinks.appendChild(ncaamDropdownElements.nav);
+          dynamicNav.appendChild(ncaamDropdownElements.nav);
           dynamicLinks.appendChild(ncaamDropdownElements.links);
         }
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
         // console.log('NCAA M API ERROR');
+        apiConfig.teamsNCAAM.res = false;
+        apiConfig.teamsNCAAM.isLoading = false;
+        apiConfig.teamsNCAAM.hasLoaded = true;
+        apiConfig.teamsNCAAM.success = false;
       }
     };
     xhttp.open('GET', apiString, true);
@@ -396,30 +603,51 @@
 
   }
 
-  var bootstrapCollegeFootballDropdown = function(state, userLocationFound){
+  //Bootstrap college football logic that has no dependencies
+  var bootstrapStaticCollegeFootball = function(){
+    var navNews = document.getElementsByClassName('ddb-ncaaf-nav-news'),
+      navStandings = document.getElementsByClassName('ddb-ncaaf-nav-standings'),
+      navSchedule = document.getElementsByClassName('ddb-ncaaf-nav-schedule'),
+      navTopLists = document.getElementsByClassName('ddb-ncaaf-nav-top-lists'),
+      navTeams = document.getElementsByClassName('ddb-ncaaf-nav-teams'),
+      navProfile = document.getElementsByClassName('ddb-ncaaf-nav-profile');
+
+    [].forEach.call(navNews, function(item){
+      item.href = touchdownDomain + '/ncaaf';
+    });
+    [].forEach.call(navStandings, function(item){
+      item.href = touchdownDomain + '/ncaaf/standings';
+    });
+    [].forEach.call(navSchedule, function(item){
+      item.href = touchdownDomain + '/ncaaf/schedules/league/' + footballLeagueYear + '/1';
+    });
+    [].forEach.call(navTopLists, function(item){
+      item.href = touchdownDomain + '/ncaaf/list-of-lists/league/' + footballLeagueYear + '/10/1';
+    });
+    [].forEach.call(navTeams, function(item){
+      item.href = touchdownDomain + '/ncaaf/pick-a-team';
+    });
+    [].forEach.call(navProfile, function(item){
+      item.href = touchdownDomain + '/ncaaf/league';
+    });
+  }
+  //Bootstrap college football logic that has dependencies
+  var bootstrapDynamicCollegeFootball = function(state, userLocationFound){
     //Convert state to full form
     var fullState = stateAbbrevToFull(state);
-
-    //Grab needed DOM Elements
-    // var stateMapMarker = document.getElementById('ncaaf-state-map-marker');
-    // stateMapMarker.innerHTML = fullState;
-    //If user location is not found from api clear out extra text ("in your area");
-    // if(!userLocationFound){
-    //   var ncaafTitle = document.getElementById('ncaaf-title');
-    //   ncaafTitle.innerHTML = 'NCAA Football Conferences';
-    // }
-    // var ncaafLeagues = document.getElementById('ncaaf-leagues');
 
     var ncaafLinks = `
       <h1 id="ncaaf-title" class="ddb-menu-dropdown-links-title">
         NCAA Football Conferences ` + (userLocationFound ? 'in your area': '') + `
       </h1>
       <h3 class="ddb-menu-dropdown-links-subtitle">
-        showing NCAA Football conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaaf-state-map-marker" class="ddb-heavy">` + fullState + `</span>
+        showing NCAA Football conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaaf-state-map-marker" class="ddb-bold">` + fullState + `</span>
       </h3>
     `;
 
-    var apiString = protocol + '://prod-touchdownloyal-api.synapsys.us/landingPage/fbs/' + state;
+    var apiString = apiConfig.teamsNCAAF.url(state);
+    apiConfig.teamsNCAAF.isLoading = true;
+
     var xhttp = createRequestObject();
     xhttp.onreadystatechange = function(){
       if(xhttp.readyState === 4 && xhttp.status === 200){
@@ -434,66 +662,45 @@
           // ncaafLeagues.appendChild(item);
         })
         ncaafLinks += `
-          <a href="` + touchdownDomain + `/ncaaf/pick-a-team" class="ddb-menu-dropdown-all">
+          <a target="_blank" href="` + touchdownDomain + `/ncaaf/pick-a-team" class="ddb-menu-dropdown-all">
             SEE ALL CONFERENCES
           </a>
         `;
         //Save links innerHTML
         ncaafDropdownElements.links.innerHTML = ncaafLinks;
 
-        var navNews = document.getElementsByClassName('ddb-ncaaf-nav-news'),
-          navStandings = document.getElementsByClassName('ddb-ncaaf-nav-standings'),
-          navSchedule = document.getElementsByClassName('ddb-ncaaf-nav-schedule'),
-          navTopLists = document.getElementsByClassName('ddb-ncaaf-nav-top-lists'),
-          navTeams = document.getElementsByClassName('ddb-ncaaf-nav-teams'),
-          navProfile = document.getElementsByClassName('ddb-ncaaf-nav-profile');
-
-        [].forEach.call(navNews, function(item){
-          item.href = touchdownDomain + '/ncaaf';
-        });
-        [].forEach.call(navStandings, function(item){
-          item.href = touchdownDomain + '/ncaaf/standings';
-        });
-        [].forEach.call(navSchedule, function(item){
-          item.href = touchdownDomain + '/ncaaf/schedules/league/' + footballLeagueYear + '/1';
-        });
-        [].forEach.call(navTopLists, function(item){
-          item.href = touchdownDomain + '/ncaaf/list-of-lists/league/10/1';
-        });
-        [].forEach.call(navTeams, function(item){
-          item.href = touchdownDomain + '/ncaaf/pick-a-team';
-        });
-        [].forEach.call(navProfile, function(item){
-          item.href = touchdownDomain + '/ncaaf/league';
-        });
+        apiConfig.teamsNCAAF.res = processedData;
+        apiConfig.teamsNCAAF.isLoading = false;
+        apiConfig.teamsNCAAF.hasLoaded = true;
+        apiConfig.teamsNCAAF.sucess = true;
 
         var navHTML = `
           <li>
-            <a href="` + touchdownDomain + `/ncaaf">
+            <a target="_blank" href="` + touchdownDomain + `/ncaaf">
               <i class="ddb-icon ddb-icon-news"></i>
               News
             </a>
           </li>
           <li>
-            <a href="` + touchdownDomain + `/ncaaf/standings">
+            <a target="_blank" href="` + touchdownDomain + `/ncaaf/standings">
               <i class="ddb-icon ddb-icon-trophy"></i>
               Standings
             </a>
           </li>
           <li>
-            <a href="` + touchdownDomain + `/ncaaf/schedules/league/` + footballLeagueYear + `/1">
+            <a target="_blank" href="` + touchdownDomain + `/ncaaf/schedules/league/` + footballLeagueYear + `/1">
               <i class="ddb-icon ddb-icon-calendar"></i>
               Schedule
             </a>
           </li>
           <li>
-            <a href="` + touchdownDomain + `/ncaaf/list-of-lists/league/10/1">
+            <a target="_blank" href="` + touchdownDomain + `/ncaaf/list-of-lists/league/` + footballLeagueYear + `/10/1">
               <i class="ddb-icon ddb-icon-list"></i>
               Top Lists
             </a>
           </li>
           <li>
-            <a href="` + touchdownDomain + `/ncaaf/league">
+            <a target="_blank" href="` + touchdownDomain + `/ncaaf/league">
               <i class="ddb-icon ddb-icon-profile"></i>
               NCAA F Profile
             </a>
@@ -502,19 +709,23 @@
 
         ncaafDropdownElements.nav.innerHTML = navHTML;
 
-        var dynamicDropdown = document.getElementById('ddb-dynamic-dropdown');
-        if(dynamicDropdown.id === 'ddb-dropdown-ncaaf'){
+        var dynamicDropdown = document.getElementsByClassName('ddb-dynamic-dropdown')[0];
+        if(dynamicDropdown !== null && dynamicDropdown.id === 'ddb-dynamic-ncaaf'){
           var dynamicNav = document.getElementById('ddb-dynamic-nav'); //Nav of dynamic dropdown
           var dynamicLinks = document.getElementById('ddb-dynamic-links'); //Links of dynamic dropdown
           clearInnerHTML(dynamicNav);
           clearInnerHTML(dynamicLinks);
-          dynamicLinks.appendChild(ncaafDropdownElements.nav);
+          dynamicNav.appendChild(ncaafDropdownElements.nav);
           dynamicLinks.appendChild(ncaafDropdownElements.links);
         }
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
         // console.log('NCAA F API ERROR');
+        apiConfig.teamsNCAAF.res = false;
+        apiConfig.teamsNCAAF.isLoading = false;
+        apiConfig.teamsNCAAF.hasLoaded = true;
+        apiConfig.teamsNCAAF.sucess = true;
       }
     };
     xhttp.open('GET', apiString, true);
@@ -735,13 +946,13 @@
       easternHTML += `
         <tr>
           <td>
-            <a href="` + buildLink(atlanticDivision[index]) + `">` + atlanticDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(atlanticDivision[index]) + `">` + atlanticDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(centralDivision[index]) + `">` + centralDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(centralDivision[index]) + `">` + centralDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(southeastDivision[index]) + `">` + southeastDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(southeastDivision[index]) + `">` + southeastDivision[index].shortName + `</a>
           </td>
         </tr>
       `;
@@ -749,13 +960,13 @@
       westernHTML += `
         <tr>
           <td>
-            <a href="` + buildLink(pacificDivision[index]) + `">` + pacificDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(pacificDivision[index]) + `">` + pacificDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(southwestDivision[index]) + `">` + southwestDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(southwestDivision[index]) + `">` + southwestDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(northwestDivision[index]) + `">` + northwestDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(northwestDivision[index]) + `">` + northwestDivision[index].shortName + `</a>
           </td>
         </tr>
       `;
@@ -808,37 +1019,37 @@
     var navEl = document.createElement('ul');
     navEl.innerHTML = `
       <li>
-        <a href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-wins/list/1/1">
+        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-wins/list/1/1">
           <i class="ddb-icon ddb-icon-trophy"></i>
           Most Wins
         </a>
       </li>
       <li>
-        <a href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-turnovers/list/12/1">
+        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-turnovers/list/12/1">
           <i class="ddb-icon ddb-icon-box-scores"></i>
           Most Turnovers
         </a>
       </li>
       <li>
-        <a href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-rebounds/list/11/1">
+        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-rebounds/list/11/1">
           <i class="ddb-icon ddb-icon-dribbble"></i>
           Most Rebounds
         </a>
       </li>
       <li>
-        <a href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-steals/list/15/1'">
+        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-steals/list/15/1'">
           <i class="ddb-icon ddb-icon-magic"></i>
           Most Steals
         </a>
       </li>
       <li>
-        <a href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-blocks/list/14/1">
+        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-blocks/list/14/1">
           <i class="ddb-icon ddb-icon-thumbs-o-down"></i>
           Most Blocks
         </a>
       </li>
       <li>
-        <a href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-assists-per-game/list/23/1">
+        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-assists-per-game/list/23/1">
           <i class="ddb-icon ddb-icon-life-ring"></i>
           Most Assists
         </a>
@@ -1019,7 +1230,11 @@
     ];
 
     var buildLink = function(data){
-      return homerunDomain + '/team/' + data.fullName + '/' + data.teamId;
+      if(params.baseballSubdomain !== null){
+        return homerunDomain + '/team/' + data.fullName + '/' + data.teamId;
+      }else{
+        return homerunDomain + '/t/' + data.fullName + '/' + data.teamId;
+      }
     }
 
     // var mlbAmerican = document.getElementById('mlb-american');
@@ -1064,13 +1279,13 @@
       americanHTML += `
         <tr>
           <td>
-            <a href="` + buildLink(alCentralDivision[index]) + `">` + alCentralDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(alCentralDivision[index]) + `">` + alCentralDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(alEastDivison[index]) + `">` + alEastDivison[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(alEastDivison[index]) + `">` + alEastDivison[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(alWestDivision[index]) + `">` + alWestDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(alWestDivision[index]) + `">` + alWestDivision[index].shortName + `</a>
           </td>
         </tr>
       `;
@@ -1078,13 +1293,13 @@
       nationalHTML += `
         <tr>
           <td>
-            <a href="` + buildLink(nlCentralDivision[index]) + `">` + nlCentralDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nlCentralDivision[index]) + `">` + nlCentralDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(nlEastDivision[index]) + `">` + nlEastDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nlEastDivision[index]) + `">` + nlEastDivision[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(nlWestDivision[index]) + `">` + nlWestDivision[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nlWestDivision[index]) + `">` + nlWestDivision[index].shortName + `</a>
           </td>
         </tr>
       `;
@@ -1133,31 +1348,31 @@
       var navEl = document.createElement('ul');
       navEl.innerHTML = `
         <li>
-          <a href="` + homerunDomain + `">
+          <a target="_blank" href="` + homerunDomain + `">
             <i class="ddb-icon ddb-icon-news"></i>
             News
           </a>
         </li>
         <li>
-          <a href="` + homerunDomain + `/standings">
+          <a target="_blank" href="` + homerunDomain + `/standings">
             <i class="ddb-icon ddb-icon-trophy"></i>
             Standings
           </a>
         </li>
         <li>
-          <a href="` + homerunDomain + `/schedules/mlb/1">
+          <a target="_blank" href="` + homerunDomain + `/schedules/mlb/1">
             <i class="ddb-icon ddb-icon-calendar"></i>
             Schedule
           </a>
         </li>
         <li>
-          <a href="` + homerunDomain + `/list-of-lists/league/10/1">
+          <a target="_blank" href="` + homerunDomain + `/list-of-lists/league/10/1">
             <i class="ddb-icon ddb-icon-list"></i>
             Top Lists
           </a>
         </li>
         <li>
-          <a href="` + homerunDomain + `/mlb">
+          <a target="_blank" href="` + homerunDomain + `/mlb">
             <i class="ddb-icon ddb-icon-profile"></i>
             MLB Profile
           </a>
@@ -1350,7 +1565,11 @@
     ];
 
     var buildLink = function(data){
-      return touchdownDomain + '/nfl/team/' + data.fullName + '/' + data.teamId;
+      if(params.footballSubdomain !== null){
+        return touchdownDomain + '/nfl/team/' + data.fullName + '/' + data.teamId;
+      }else{
+        return touchdownDomain + '/nfl/t/' + data.fullName + '/' + data.teamId;
+      }
     }
 
     var linksEl = document.createElement('section');
@@ -1399,32 +1618,32 @@
       afcHTML += `
         <tr>
           <td>
-            <a href="` + buildLink(afcNorth[index]) + `">` + afcNorth[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(afcNorth[index]) + `">` + afcNorth[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(afcEast[index]) + `">` + afcEast[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(afcEast[index]) + `">` + afcEast[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(afcSouth[index]) + `">` + afcSouth[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(afcSouth[index]) + `">` + afcSouth[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(afcWest[index]) + `">` + afcWest[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(afcWest[index]) + `">` + afcWest[index].shortName + `</a>
           </td>
         </tr>
       `;
       nfcHTML += `
         <tr>
           <td>
-            <a href="` + buildLink(nfcNorth[index]) + `">` + nfcNorth[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nfcNorth[index]) + `">` + nfcNorth[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(nfcEast[index]) + `">` + nfcEast[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nfcEast[index]) + `">` + nfcEast[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(nfcSouth[index]) + `">` + nfcSouth[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nfcSouth[index]) + `">` + nfcSouth[index].shortName + `</a>
           </td>
           <td>
-            <a href="` + buildLink(nfcWest[index]) + `">` + nfcWest[index].shortName + `</a>
+            <a target="_blank" href="` + buildLink(nfcWest[index]) + `">` + nfcWest[index].shortName + `</a>
           </td>
         </tr>
       `;
@@ -1458,7 +1677,7 @@
         item.href = touchdownDomain + '/nfl/schedules/league/' + footballLeagueYear + '/1';
       });
       [].forEach.call(navTopLists, function(item){
-        item.href = touchdownDomain + '/nfl/list-of-lists/league/10/1';
+        item.href = touchdownDomain + '/nfl/list-of-lists/league/' + footballLeagueYear +  '/10/1';
       });
       [].forEach.call(navTeams, function(item){
         item.href = touchdownDomain + '/nfl/pick-a-team';
@@ -1470,31 +1689,31 @@
     var navEl = document.createElement('ul');
     navEl.innerHTML = `
       <li>
-        <a href="` + touchdownDomain + `/nfl">
+        <a target="_blank" href="` + touchdownDomain + `/nfl">
           <i class="ddb-icon ddb-icon-news"></i>
           News
         </a>
       </li>
       <li>
-        <a href="` + touchdownDomain + `/nfl/standings">
+        <a target="_blank" href="` + touchdownDomain + `/nfl/standings">
           <i class="ddb-icon ddb-icon-trophy"></i>
           Standings
         </a>
       </li>
       <li>
-        <a href="` + touchdownDomain + `/nfl/schedules/league/` + footballLeagueYear + `/1">
+        <a target="_blank" href="` + touchdownDomain + `/nfl/schedules/league/` + footballLeagueYear + `/1">
           <i class="ddb-icon ddb-icon-calendar"></i>
           Schedule
         </a>
       </li>
       <li>
-        <a href="` + touchdownDomain + `/nfl/list-of-lists/league/10/1">
+        <a target="_blank" href="` + touchdownDomain + `/nfl/list-of-lists/league/` + footballLeagueYear + `/10/1">
           <i class="ddb-icon ddb-icon-list"></i>
           Top Lists
         </a>
       </li>
       <li>
-        <a href="` + touchdownDomain + `/nfl/league">
+        <a target="_blank" href="` + touchdownDomain + `/nfl/league">
           <i class="ddb-icon ddb-icon-profile"></i>
           NFL Profile
         </a>
@@ -1559,7 +1778,7 @@
       eventsOpen = !eventsOpen;
     })
     var eventsOptions = document.getElementById('ddb-boxscores-options');
-    eventsOptions.childNodes.forEach(function(item){
+    [].forEach.call(eventsOptions.childNodes, function(item){
       item.addEventListener('click', function(){
         var id = this.id;
         //Determine if data is loaded to allow/disallow click
@@ -1635,9 +1854,7 @@
     var mobileBoxscoresIndex = 0;
     var desktopBoxscoresIndex = 0;
 
-    var bootstrapMobileBoxscoresButtons = function(data){
-      // var mobileBoxscoresIndex = 0;
-      // var maxLength = index + (data.length);
+    var bootstapBoxscoresButtons = function(){
 
       var moveMobileLeft = function(){
         if(mobileBoxscoresIndex > 0){
@@ -1740,109 +1957,135 @@
       rightDesktopButton.addEventListener('click', moveDesktopRight);
     }
 
-    var xhttp = createRequestObject();
-    xhttp.onreadystatechange = function(){
-      if(xhttp.readyState === 4 && xhttp.status === 200){
-        //Success
-        var res = JSON.parse(xhttp.responseText);
-        //console.log('GET BOXSCORES SUCCESS', res);
+    //Promise for mlb boxscores
+    var promise1 = new Promise(function(resolve, reject){
+      var xhttp = createRequestObject();
+      xhttp.onreadystatechange = function(){
+        if(xhttp.readyState === 4 && xhttp.status === 200){
+          //Success
+          var res = JSON.parse(xhttp.responseText);
+          //console.log('GET BOXSCORES SUCCESS', res);
+          resolve(res);
 
-        var processedData = processBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
-        //Reverse array so it is inserted correctly
-        // processedData.reverse();
-        //Add HTML to page
-        processedData.forEach(function(item){
-          // mobileBoxscoresMLB.parentNode.insertBefore(item.mobileNode, mobileBoxscoresMLB.nextSibling);
-          // desktopBoxscoresMLB.parentNode.insertBefore(item.desktopNode, desktopBoxscoresMLB.nextSibling);
-          mobileBoxscoresMLB.appendChild(item.mobileNode);
-          desktopBoxscoresMLB.appendChild(item.desktopNode);
-        })
+          var processedData;
+          processedData = processBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
+          //If no games found for today, search for games throughout the week
+          if(processedData.length === 0){
+            processedData = processBoxscoresData(res.data, tz.offset, tz.tzAbbrev, null);
+          }
+          //Reverse array so it is inserted correctly
+          // processedData.reverse();
+          //Add HTML to page
+          processedData.forEach(function(item){
+            // mobileBoxscoresMLB.parentNode.insertBefore(item.mobileNode, mobileBoxscoresMLB.nextSibling);
+            // desktopBoxscoresMLB.parentNode.insertBefore(item.desktopNode, desktopBoxscoresMLB.nextSibling);
+            mobileBoxscoresMLB.appendChild(item.mobileNode);
+            desktopBoxscoresMLB.appendChild(item.desktopNode);
+          })
 
-        totalMax += processedData.length;
-        totalMax += processedData.length;
+          totalMax += processedData.length;
+          totalMax += processedData.length;
 
-        mlbMax = processedData.length;
+          mlbMax = processedData.length;
 
-        bootstrapMobileBoxscoresButtons(processedData);
+          mlbLoaded = true;
 
-        mlbLoaded = true;
+        }else if(xhttp.readyState === 4 && xhttp.status !== 200){
+          //Error
+          // console.log('GET MLB BOXSCORES ERROR');
+          reject(true);
+        }
+      };
+      xhttp.open('GET', apiString, true);
+      xhttp.send();
+    });
+    //Promise for nfl boxscores
+    var promise2 =  new Promise(function(resolve, reject){
+      var xhttp = createRequestObject();
+      xhttp.onreadystatechange = function(){
+        if(xhttp.readyState === 4 && xhttp.status === 200){
+          //Success
+          var res = JSON.parse(xhttp.responseText);
+          resolve(res);
 
-      }else if(xhttp.readyState === 4 && xhttp.status !== 200){
-        //Error
-        // console.log('GET MLB BOXSCORES ERROR');
+          var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'nfl');
 
-      }
-    };
-    xhttp.open('GET', apiString, true);
-    xhttp.send();
+          //Reverse array so it is inserted correctly
+          // processedData.reverse();
+          //Add HTML to page
+          processedData.forEach(function(item){
+            // mobileBoxscoresNFL.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNFL.nextSibling);
+            // desktopBoxscoresNFL.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNFL.nextSibling);
+            mobileBoxscoresNFL.appendChild(item.mobileNode);
+            desktopBoxscoresNFL.appendChild(item.desktopNode);
+          })
 
-    var xhttp2 = createRequestObject();
-    xhttp2.onreadystatechange = function(){
-      if(xhttp2.readyState === 4 && xhttp2.status === 200){
-        //Success
-        var res = JSON.parse(xhttp2.responseText);
-        // console.log('xhttp2', res);
+          totalMax += processedData.length;
+          totalMax += processedData.length;
 
-        var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'nfl');
+          nflMax = processedData.length;
 
-        //Reverse array so it is inserted correctly
-        // processedData.reverse();
-        //Add HTML to page
-        processedData.forEach(function(item){
-          // mobileBoxscoresNFL.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNFL.nextSibling);
-          // desktopBoxscoresNFL.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNFL.nextSibling);
-          mobileBoxscoresNFL.appendChild(item.mobileNode);
-          desktopBoxscoresNFL.appendChild(item.desktopNode);
-        })
+          nflLoaded = true;
 
-        totalMax += processedData.length;
-        totalMax += processedData.length;
+        }else if(xhttp.readyState === 4 & xhttp.status !== 200){
+          //Error
+          // console.log('GET NFL BOXSCORES ERROR');
+          reject(true);
+        }
+      };
+      xhttp.open('GET', apiString2, true);
+      xhttp.send();
+    });
+    //Promise for ncaaf boxscores
+    var promise3 =  new Promise(function(resolve, reject){
+      var xhttp = createRequestObject();
+      xhttp.onreadystatechange = function(){
+        if(xhttp.readyState === 4 && xhttp.status === 200){
+          //Success
+          var res = JSON.parse(xhttp.responseText);
+          resolve(res);
 
-        nflMax = processedData.length;
+          var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'ncaaf');
 
-        nflLoaded = true;
+          //Reverse array so it is inserted correctly
+          // processedData.reverse();
+          //Add HTML to page
+          processedData.forEach(function(item){
+            // mobileBoxscoresNCAAF.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNCAAF.nextSibling);
+            // desktopBoxscoresNCAAF.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNCAAF.nextSibling);
+            mobileBoxscoresNCAAF.appendChild(item.mobileNode);
+            desktopBoxscoresNCAAF.appendChild(item.desktopNode);
+          })
 
-      }else if(xhttp2.readyState === 4 & xhttp2.status !== 200){
-        //Error
-        // console.log('GET NFL BOXSCORES ERROR');
-      }
-    };
-    xhttp2.open('GET', apiString2, true);
-    xhttp2.send();
+          totalMax += processedData.length;
+          totalMax += processedData.length;
 
-    var xhttp3 = createRequestObject();
-    xhttp3.onreadystatechange = function(){
-      if(xhttp3.readyState === 4 && xhttp3.status === 200){
-        //Success
-        var res = JSON.parse(xhttp3.responseText);
-        // console.log('xhttp3', res);
+          ncaafMax = processedData.length;
 
-        var processedData = processNFLBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date, 'ncaaf');
+          ncaafLoaded = true;
 
-        //Reverse array so it is inserted correctly
-        // processedData.reverse();
-        //Add HTML to page
-        processedData.forEach(function(item){
-          // mobileBoxscoresNCAAF.parentNode.insertBefore(item.mobileNode, mobileBoxscoresNCAAF.nextSibling);
-          // desktopBoxscoresNCAAF.parentNode.insertBefore(item.desktopNode, desktopBoxscoresNCAAF.nextSibling);
-          mobileBoxscoresNCAAF.appendChild(item.mobileNode);
-          desktopBoxscoresNCAAF.appendChild(item.desktopNode);
-        })
+        }else if(xhttp.readyState === 4 && xhttp.status !== 200){
+          //Error
+          // console.log('GET NCAAF BOXSCORES ERROR');
+          reject(true);
+        }
+      };
+      xhttp.open('GET', apiString3, true);
+      xhttp.send();
+    });
+    //Wait for all three api calls to finish
+    Promise.all([promise1, promise2, promise3]).then(function(res){
+      var mlbData = res[0];
+      var nflData = res[1];
+      var ncaafData = res[2];
 
-        totalMax += processedData.length;
-        totalMax += processedData.length;
+      //Bootstrap boxscores button functionality
+      bootstapBoxscoresButtons();
+    }, function(err){
+      //Error, atleast 1 api failed
+    })
 
-        ncaafMax = processedData.length;
 
-        ncaafLoaded = true;
-
-      }else if(xhttp3.readyState === 4 && xhttp3.status !== 200){
-        //Error
-        console.log('GET NCAAF BOXSCORES ERROR');
-      }
-    };
-    xhttp3.open('GET', apiString3, true);
-    xhttp3.send();
   }
 
   var bootstrapSearch = function(){
@@ -1893,13 +2136,25 @@
 
       switch(data.Scope){
         case 'MLB':
-          link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
+          if(params.baseballSubdomain !== null){
+            link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
+          }else{
+            link = homerunDomain + '/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NFL':
-          link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
+          if(params.footballSubdomain !== null){
+            link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
+          }else{
+            link = touchdownDomain + '/nfl/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NCAAF':
-          link = touchdownDomain + '/ncaaf/team' + sanitizeTeamName + '/' + data.teamId;
+          if(params.footballSubdomain !== null){
+            link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
+          }else{
+            link = touchdownDomain + '/ncaaf/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NBA':
           link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
@@ -2172,15 +2427,27 @@
       switch(data.Scope){
         case 'MLB':
           iconClass = 'ddb-icon-baseball';
-          link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
+          if(params.baseballSubdomain !== null){
+            link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
+          }else{
+            link = homerunDomain + '/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NFL':
           iconClass = 'ddb-icon-football';
-          link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
+          if(params.footballSubdomain !== null){
+            link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
+          }else{
+            link = touchdownDomain + '/nfl/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NCAAF':
           iconClass = 'ddb-icon-football';
-          link = touchdownDomain + '/ncaaf/team' + sanitizeTeamName + '/' + data.teamId;
+          if(params.footballSubdomain !== null){
+            link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
+          }else{
+            link = touchdownDomain + '/ncaaf/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NBA':
           iconClass = 'ddb-icon-basketball';
@@ -2196,7 +2463,7 @@
         break;
       }
       el.innerHTML = `
-        <a href="` + link + `">
+        <a target="_blank" href="` + link + `">
           <i class="ddb-icon ` + iconClass + `"></i>
           ` + data.teamName + `
         </a>
@@ -2229,13 +2496,13 @@
 
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
         //Error
-        console.log('SEARCH API ERROR');
+        // console.log('SEARCH API ERROR');
       }
     };
     xhttp.open('GET', apiString, true);
     xhttp.send();
   }
-  //UPDATED
+  //Builds static ad
   var bootstrapAd = function(){
 
     var adNode = document.getElementById('ddb-ad');
@@ -2244,10 +2511,10 @@
     adScript.src = protocol + '://content.synapsys.us/l/n/igloo.php?type=inline_ad&adW=300&adH=250&widW=0&widH=0&remn=false&rand=' + Math.floor((Math.random() * 10000000000) + 1) + '&dom=chicagotribune.com&norotate=true';
     adNode.appendChild(adScript);
   }
-
+  //Builds dynamic dropdown (1 dropdown to many tabs) that houses the ad
   var bootstrapDynamicDropdown = function(){
     var navItems = document.getElementsByClassName('ddb-menu-nav-item ddb-dynamic-item'); //Tab elements that the dynamic dropdown applies too
-    var dynamicDropdown = document.getElementById('ddb-dynamic-dropdown'); //Dynamic dropdown element
+    var dynamicDropdown = document.getElementsByClassName('ddb-dynamic-dropdown')[0]; //Dynamic dropdown element
     var dynamicNav = document.getElementById('ddb-dynamic-nav'); //Nav of dynamic dropdown
     var dynamicLinks = document.getElementById('ddb-dynamic-links'); //Links of dynamic dropdown
 
@@ -2255,7 +2522,15 @@
     var nbaDropdownElements = bootstrapNBADropdown();
     var nflDropdownElements = bootstrapNFLDropdown();
 
+    var adLoaded = false; //Determine if the ad has been built
+
     var mouseEnterEvent = function(evt){
+      //If the ad has not been loaded yet, bootstrap ad
+      if(!adLoaded){
+        adLoaded = true;
+        bootstrapAd();
+      }
+
       var id = this.id;
 
       clearInnerHTML(dynamicNav);
@@ -2276,8 +2551,12 @@
         case 'ddb-dropdown-ncaam':
           dynamicDropdown.id = 'ddb-dynamic-ncaam';
 
-          dynamicNav.appendChild(ncaamDropdownElements.nav);
-          dynamicLinks.appendChild(ncaamDropdownElements.links);
+          if(apiConfig.getRemoteAddress.hasLoaded === true && apiConfig.teamsNCAAM.isLoading === false && apiConfig.teamsNCAAM.hasLoaded === false){
+            bootstrapDynamicCollegeBasketball(apiConfig.getRemoteAddress.res, apiConfig.getRemoteAddress.success);
+          }else if(apiConfig.teamsNCAAM.hasLoaded === true){
+            dynamicNav.appendChild(ncaamDropdownElements.nav);
+            dynamicLinks.appendChild(ncaamDropdownElements.links);
+          }
         break;
         case 'ddb-dropdown-nfl':
           dynamicDropdown.id = 'ddb-dynamic-nfl';
@@ -2288,8 +2567,12 @@
         case 'ddb-dropdown-ncaaf':
           dynamicDropdown.id = 'ddb-dynamic-ncaaf';
 
-          dynamicNav.appendChild(ncaafDropdownElements.nav);
-          dynamicLinks.appendChild(ncaafDropdownElements.links);
+          if(apiConfig.getRemoteAddress.hasLoaded === true && apiConfig.teamsNCAAF.isLoading === false && apiConfig.teamsNCAAF.hasLoaded === false){
+            bootstrapDynamicCollegeFootball(apiConfig.getRemoteAddress.res, apiConfig.getRemoteAddress.success);
+          }else if(apiConfig.teamsNCAAF.hasLoaded === true){
+            dynamicNav.appendChild(ncaafDropdownElements.nav);
+            dynamicLinks.appendChild(ncaafDropdownElements.links);
+          }
         break;
       }
 
@@ -2303,22 +2586,19 @@
       item.addEventListener('mouseenter', mouseEnterEvent);
       item.addEventListener('mouseleave', mouseLeaveEvent)
     });
-
-    //Build ad
-    bootstrapAd();
   }
   /**
    * Other functions
    **/
 
    //Load any style/link dependencies. This is called before the dom content is loaded
-   var loadLinkDependencies = function(){
+  function loadLinkDependencies(){
      //Load font
      var fontEl = document.createElement('link');
      fontEl.rel = 'stylesheet';
      fontEl.type = 'text/css';
      fontEl.dataset.resource_from = 'deepdive-bar-embed';
-     fontEl.href = 'https://fonts.googleapis.com/css?family=Lato:300,400,700,900';
+     fontEl.href = 'https://fonts.googleapis.com/css?family=Lato:400,700';
      document.head.appendChild(fontEl);
      //Load styles
      var styleEl = document.createElement('link');
@@ -2349,7 +2629,7 @@
    }
 
    //Load any script dependencies. This is fired after the dom content is loaded
-   var loadScriptDependencies = function(){
+   function loadScriptDependencies(){
      //Load fuse.js
      var fuseJS = document.createElement('script');
      fuseJS.type='text/javascript';
@@ -2369,12 +2649,41 @@
       };
     }
     document.head.appendChild(fuseJS);
+
+    var bluebird = document.createElement('script');
+    bluebird.type = 'text/javascript';
+    bluebird.dataset.resource_from = 'deepdive-bar-embed';
+    bluebird.src = resourceURL + '/lib/bluebird_3.4.5.min.js';
+    //Wait for bluebird js to load before bootstrapping boxscores
+    if (bluebird.readyState) { //IE
+     bluebird.onreadystatechange = function () {
+       if (bluebird.readyState == "loaded" || bluebird.readyState == "complete") {
+         bluebird.onreadystatechange = null;
+         bootstrapBoxscores();
+       }
+     };
+    } else { //Others
+     bluebird.onload = function (){
+        bootstrapBoxscores();
+      };
+    }
+
+    if(!window.Promise){
+      //If promise is not defined for browser load bluebird
+      document.head.appendChild(bluebird);
+    }else{
+      //Else start loading boxscores
+      bootstrapBoxscores();
+    }
+
    }
 
    //Gets state of user's isp
    var getUserLocation = function(){
 
-     var apiString = protocol + '://w1.synapsys.us/listhuv/?action=get_remote_addr2';
+     var apiString = apiConfig.getRemoteAddress.url();
+     apiConfig.getRemoteAddress.isLoading = true;
+
      var xhttp = createRequestObject();
      xhttp.onreadystatechange = function(){
        if(xhttp.readyState === 4 && xhttp.status === 200){
@@ -2383,18 +2692,26 @@
          //console.log('GET USER LOCATION SUCCESS', res);
 
          var state = processLocationData(res);
-         bootstrapTicker(state);
-         bootstrapCollegeBasketballDropdown(state, true);
-         bootstrapCollegeFootballDropdown(state, true);
+         apiConfig.getRemoteAddress.res = state;
+         apiConfig.getRemoteAddress.isLoading = false;
+         apiConfig.getRemoteAddress.hasLoaded = true;
+         apiConfig.getRemoteAddress.success = true;
 
+        //Check for screen size to load certain modules
+        resizeEvent();
+        window.addEventListener('resize', resizeEvent);
        }else if(xhttp.readyState === 4 && xhttp.tatus !== 200){
          //Error
-         console.log('GET USER LOCATION ERROR');
+         //console.log('GET USER LOCATION ERROR');
          var state = processLocationData(undefined);
-         bootstrapTicker(state);
-         bootstrapCollegeBasketballDropdown(state, false);
-         bootstrapCollegeFootballDropdown(state, false);
+         apiConfig.getRemoteAddress.res = state;
+         apiConfig.getRemoteAddress.isLoading = false;
+         apiConfig.getRemoteAddress.hasLoaded = true;
+         apiConfig.getRemoteAddress.success = false;
 
+         //Check for screen size to load certain modules
+         resizeEvent();
+         window.addEventListener('resize', resizeEvent);
        }
      };
      xhttp.open('GET', apiString, true);
@@ -2412,7 +2729,7 @@
      var defaultTickerData = '';
 
      defaultTickerItems.forEach(function(item, index){
-      defaultTickerData += '<a class="ddb-menu-ticker-link" href="' + item.route + '">' + item.text + '</a>';
+      defaultTickerData += '<a class="ddb-menu-ticker-link" target="_blank" href="' + item.route + '">' + item.text + '</a>';
       //Add separator bullet if item is not the last item in the default ticker
       if(index !== defaultTickerItems.length - 1){
         defaultTickerData += '<span class="ddb-menu-ticker-separator">&#8226;</span>';
@@ -2440,7 +2757,7 @@
         if(item.featuredReport.hasOwnProperty('postgame-report')){
           var headline = item.featuredReport['postgame-report'].displayHeadline;
           var link = homerunDomain + '/articles/postgame-report/' + eventId;
-          transform += index !== (dataLength - 1) ?  '<a class="ddb-menu-ticker-link" href="' + link + '">' + headline + '</a><span class="ddb-menu-ticker-separator">&#8226;</span>': '<a class="ddb-menu-ticker-link" href="' + link + '">' + headline + '</a>';
+          transform += index !== (dataLength - 1) ?  '<a class="ddb-menu-ticker-link" target="_blank" href="' + link + '">' + headline + '</a><span class="ddb-menu-ticker-separator">&#8226;</span>': '<a class="ddb-menu-ticker-link" target="_blank" href="' + link + '">' + headline + '</a>';
         }
      })
 
@@ -2495,13 +2812,13 @@
          //Add html accordingly
          if(mod === 0){
            //First Column
-           tableInnerHTML += '<tr><td><a href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
+           tableInnerHTML += '<tr><td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
          }else if(mod === 1){
            //Middle Column
-           tableInnerHTML += '<td><a href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
+           tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
          }else if(mod === 2){
            //Last Column
-           tableInnerHTML += '<td><a href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td></tr>';
+           tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td></tr>';
          }
 
        })
@@ -2528,7 +2845,11 @@
        full_name = full_name.replace(/[^\w\s]/gi, '');
        full_name = full_name.replace(/\s+/g, '-').toLowerCase();
 
-       return touchdownDomain + '/ncaaf/team/' + full_name + '/' + teamId;
+       if(params.footballSubdomain !== null){
+         return touchdownDomain + '/ncaaf/team/' + full_name + '/' + teamId;
+       }else{
+         return touchdownDomain + '/ncaaf/t/' + full_name + '/' + teamId;
+       }
      }
 
      //Limit amount of data to iterate through (max 2)
@@ -2537,7 +2858,13 @@
      //Loop through each league
      for(var i = 0; i < dataLength; i++){
        var leagueName = objectKeys[i];
-       var leagueData = data[leagueName][leagueName];
+       var league = data[leagueName];
+
+       var leagueData = [];
+       //Build array of teams in league (regardless of division)
+       for(var division in league){
+         leagueData = leagueData.concat(league[division]);
+       }
       //  var tableHTML = document.createElement('table');
       //  tableHTML.className = 'ddb-menu-dropdown-table ddb-col-3';
        var tableInnerHTML = `
@@ -2557,13 +2884,13 @@
          //Add html accordingly
          if(mod === 0){
            //First Column
-           tableInnerHTML += '<tr><td><a href="' + buildLink(item.full_name, item.id) + '">' + item.full_name + '</a></td>';
+           tableInnerHTML += '<tr><td><a target="_blank" href="' + buildLink(item.full_name, item.id) + '">' + item.full_name + '</a></td>';
          }else if(mod === 1){
            //Middle Column
-           tableInnerHTML += '<td><a href="' + buildLink(item.full_name, item.id) + '">' + item.full_name + '</a></td>';
+           tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.id) + '">' + item.full_name + '</a></td>';
          }else if(mod === 2){
            //Last Column
-           tableInnerHTML += '<td><a href="' + buildLink(item.full_name, item.id) + '">' + item.full_name + '</a></td></tr>';
+           tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.id) + '">' + item.full_name + '</a></td></tr>';
          }
        })
 
@@ -2589,7 +2916,7 @@
        var gameNode = document.createElement('div');
        gameNode.className = 'ddb-boxscores-content-game';
        gameNode.innerHTML = `
-         <a class="ddb-boxscores-content-game-link" href="` + data.link + `">
+         <a target="_blank" class="ddb-boxscores-content-game-link" href="` + data.link + `">
            <ul class="ddb-boxscores-content-game-teams">
              <li class="` + (data.homeClass ? data.homeClass : '') + `">
                ` + data.homeTeam + ` <span class="ddb-boxscores-content-game-score">` + data.homeScore + `</span>
@@ -2607,117 +2934,182 @@
        return gameNode;
      }
 
-     for(var index in data){
-       var item = data[index];
-       //Determine if game is today (Also allow games that are live, but the day has rolled over past midnight)
-       var gameIsToday = false;
-       var timestampDate = new Date(item.gameInfo.startDateTimestamp + offset * 3600 * 1000).getUTCDate();
-       if(timestampDate == todayDate){
-         gameIsToday = true;
-       }else if(item.gameInfo.live){
-         gameIsToday = true;
-       }
+     if(typeof todayDate !== 'undefined' && todayDate !== null){
 
-       //If game is today or live, push to return array
-       if(gameIsToday){
-
-         switch(item.gameInfo.eventStatus){
-           case 'pre-event':
-            if(item.gameInfo.live === false){
-              //Pre Game
-              var gameObject = {
-                homeTeam: item.homeTeamInfo.abbreviation,
-                homeScore: item.homeTeamInfo.winRecord + '-' + item.homeTeamInfo.lossRecord,
-                awayTeam: item.awayTeamInfo.abbreviation,
-                awayScore: item.awayTeamInfo.winRecord + '-' + item.awayTeamInfo.lossRecord,
-                timestamp: item.gameInfo.startDateTimestamp,
-                datetime: convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev),
-                eventStatus: item.gameInfo.eventStatus,
-                eventId: item.gameInfo.eventId
-              };
-              gameObject.bottomData = gameObject.datetime;
-              gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
-
-              gameObject.mobileNode = buildNode(gameObject);
-              gameObject.desktopNode = buildNode(gameObject);
-
-              pre.push(gameObject);
-            }else{
-              //Live Game
-              var gameObject = {
-                homeTeam: item.homeTeamInfo.abbreviation,
-                homeScore: item.homeTeamInfo.score,
-                awayTeam: item.awayTeamInfo.abbreviation,
-                awayScore: item.awayTeamInfo.score,
-                timestamp: item.gameInfo.startDateTimestamp,
-                datetime: convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev),
-                eventStatus: item.gameInfo.eventStatus,
-                eventId: item.gameInfo.eventId
-              };
-
-              gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
-              gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
-
-              if(item.gameInfo.inningHalf === 'top'){
-                gameObject.bottomData = '<i class="ddb-icon ddb-icon-caret-up"></i>' + (item.gameInfo.inningsPlayed ? ordinalSuffix(item.gameInfo.inningsPlayed) : gameObject.datetime);
-              }else if(item.gameInfo.inningHalf === 'bottom'){
-                gameObject.bottomData = '<i class="ddb-icon ddb-icon-caret-down"></i>' + (item.gameInfo.inningsPlayed ? ordinalSuffix(item.gameInfo.inningsPlayed) : gameObject.datetime);
-              }else{
-                gameObject.bottomData = '';
-              }
-
-              if(item.gameInfo.inningsPlayed <= 3){
-                gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
-              }else if(item.gameInfo.inningsPlayed > 3 && item.gameInfo.inningsPlayed <= 5){
-                gameObject.link = homerunDomain + '/articles/third-inning-report/' + gameObject.eventId;
-              }else if(item.gameInfo.inningsPlayed > 5 && item.gameInfo.inningsPlayed <= 7){
-                gameObject.link = homerunDomain + '/articles/fifth-inning-report/' + gameObject.eventId;
-              }else if(item.gameInfo.inningsPlayed > 7){
-                gameObject.link = homerunDomain + '/articles/seventh-inning-report/' + gameObject.eventId;
-              }
-
-              gameObject.mobileNode = buildNode(gameObject);
-              gameObject.desktopNode = buildNode(gameObject);
-
-              active.push(gameObject)
-            }
-           break;
-           case 'post-event':
-              //Post Game
-              var gameObject = {
-                homeTeam: item.homeTeamInfo.abbreviation,
-                homeScore: item.homeTeamInfo.score,
-                awayTeam: item.awayTeamInfo.abbreviation,
-                awayScore: item.awayTeamInfo.score,
-                timestamp: item.gameInfo.startDateTimestamp,
-                datetime: convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev),
-                eventStatus: item.gameInfo.eventStatus,
-                eventId: item.gameInfo.eventId
-              };
-
-              gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
-              gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
-
-              gameObject.bottomData = 'Final';
-              gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
-
-              gameObject.mobileNode = buildNode(gameObject);
-              gameObject.desktopNode = buildNode(gameObject);
-
-              post.push(gameObject);
-           break;
-           default:
-            //Do nothing
-           break;
+       for(var index in data){
+         var item = data[index];
+         //Determine if game is today (Also allow games that are live, but the day has rolled over past midnight)
+         var gameIsToday = false;
+         var timestampDate = new Date(item.gameInfo.startDateTimestamp + offset * 3600 * 1000).getUTCDate();
+         if(timestampDate == todayDate){
+           gameIsToday = true;
+         }else if(item.gameInfo.live){
+           gameIsToday = true;
          }
 
+         //If game is today or live, push to return array
+         if(gameIsToday){
+
+           switch(item.gameInfo.eventStatus){
+             case 'pre-event':
+              if(item.gameInfo.live === false){
+                //Pre Game
+                var gameObject = {
+                  homeTeam: item.homeTeamInfo.abbreviation,
+                  homeScore: item.homeTeamInfo.winRecord + '-' + item.homeTeamInfo.lossRecord,
+                  awayTeam: item.awayTeamInfo.abbreviation,
+                  awayScore: item.awayTeamInfo.winRecord + '-' + item.awayTeamInfo.lossRecord,
+                  timestamp: item.gameInfo.startDateTimestamp,
+                  datetime: convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev),
+                  eventStatus: item.gameInfo.eventStatus,
+                  eventId: item.gameInfo.eventId
+                };
+                gameObject.bottomData = gameObject.datetime;
+                gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+
+                gameObject.mobileNode = buildNode(gameObject);
+                gameObject.desktopNode = buildNode(gameObject);
+
+                pre.push(gameObject);
+              }else{
+                //Live Game
+                var gameObject = {
+                  homeTeam: item.homeTeamInfo.abbreviation,
+                  homeScore: item.homeTeamInfo.score,
+                  awayTeam: item.awayTeamInfo.abbreviation,
+                  awayScore: item.awayTeamInfo.score,
+                  timestamp: item.gameInfo.startDateTimestamp,
+                  datetime: convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev),
+                  eventStatus: item.gameInfo.eventStatus,
+                  eventId: item.gameInfo.eventId
+                };
+
+                gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
+                gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
+
+                if(item.gameInfo.inningHalf === 'top'){
+                  gameObject.bottomData = '<i class="ddb-icon ddb-icon-caret-up"></i>' + (item.gameInfo.inningsPlayed ? ordinalSuffix(item.gameInfo.inningsPlayed) : gameObject.datetime);
+                }else if(item.gameInfo.inningHalf === 'bottom'){
+                  gameObject.bottomData = '<i class="ddb-icon ddb-icon-caret-down"></i>' + (item.gameInfo.inningsPlayed ? ordinalSuffix(item.gameInfo.inningsPlayed) : gameObject.datetime);
+                }else{
+                  gameObject.bottomData = '';
+                }
+
+                if(item.gameInfo.inningsPlayed <= 3){
+                  gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+                }else if(item.gameInfo.inningsPlayed > 3 && item.gameInfo.inningsPlayed <= 5){
+                  gameObject.link = homerunDomain + '/articles/third-inning-report/' + gameObject.eventId;
+                }else if(item.gameInfo.inningsPlayed > 5 && item.gameInfo.inningsPlayed <= 7){
+                  gameObject.link = homerunDomain + '/articles/fifth-inning-report/' + gameObject.eventId;
+                }else if(item.gameInfo.inningsPlayed > 7){
+                  gameObject.link = homerunDomain + '/articles/seventh-inning-report/' + gameObject.eventId;
+                }
+
+                gameObject.mobileNode = buildNode(gameObject);
+                gameObject.desktopNode = buildNode(gameObject);
+
+                active.push(gameObject)
+              }
+             break;
+             case 'post-event':
+                //Post Game
+                var gameObject = {
+                  homeTeam: item.homeTeamInfo.abbreviation,
+                  homeScore: item.homeTeamInfo.score,
+                  awayTeam: item.awayTeamInfo.abbreviation,
+                  awayScore: item.awayTeamInfo.score,
+                  timestamp: item.gameInfo.startDateTimestamp,
+                  datetime: convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev),
+                  eventStatus: item.gameInfo.eventStatus,
+                  eventId: item.gameInfo.eventId
+                };
+
+                gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
+                gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
+
+                gameObject.bottomData = 'Final';
+                gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
+
+                gameObject.mobileNode = buildNode(gameObject);
+                gameObject.desktopNode = buildNode(gameObject);
+
+                post.push(gameObject);
+             break;
+             default:
+              //Do nothing
+             break;
+           }
+
+         }
+
+        };
+
+       }else{
+
+         for(var index in data){
+           var item = data[index];
+           switch(item.gameInfo.eventStatus){
+             case 'pre-event':
+                //Pre Game
+                var dateObj = new Date(item.gameInfo.startDateTimestamp);
+                var datetime = dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() + 1) + '-' + dateObj.getUTCDate();
+
+                var gameObject = {
+                  homeTeam: item.homeTeamInfo.abbreviation,
+                  homeScore: item.homeTeamInfo.winRecord + '-' + item.homeTeamInfo.lossRecord,
+                  awayTeam: item.awayTeamInfo.abbreviation,
+                  awayScore: item.awayTeamInfo.winRecord + '-' + item.awayTeamInfo.lossRecord,
+                  timestamp: item.gameInfo.startDateTimestamp,
+                  datetime: prettyDatetime(datetime),
+                  eventStatus: item.gameInfo.eventStatus,
+                  eventId: item.gameInfo.eventId
+                };
+                gameObject.bottomData = gameObject.datetime;
+                gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+
+                gameObject.mobileNode = buildNode(gameObject);
+                gameObject.desktopNode = buildNode(gameObject);
+
+                pre.push(gameObject);
+             break;
+             case 'post-event':
+                //Post Game
+                var dateObj2 = new Date(item.gameInfo.startDateTimestamp);
+                var datetime2 = dateObj2.getUTCFullYear() + '-' + (dateObj2.getUTCMonth() + 1) + '-' + dateObj2.getUTCDate();
+
+                var gameObject = {
+                  homeTeam: item.homeTeamInfo.abbreviation,
+                  homeScore: item.homeTeamInfo.score,
+                  awayTeam: item.awayTeamInfo.abbreviation,
+                  awayScore: item.awayTeamInfo.score,
+                  timestamp: item.gameInfo.startDateTimestamp,
+                  datetime: prettyDatetime(datetime2),
+                  eventStatus: item.gameInfo.eventStatus,
+                  eventId: item.gameInfo.eventId
+                };
+
+                gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
+                gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
+
+                gameObject.bottomData = 'Final';
+                gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
+
+                gameObject.mobileNode = buildNode(gameObject);
+                gameObject.desktopNode = buildNode(gameObject);
+
+                post.push(gameObject);
+             break;
+             default:
+              //Do nothing
+             break;
+           }
+         }
        }
 
-     };
 
-     pre = array_sort(pre, 1, 'timestamp');
-     active = array_sort(active, 1, 'timestamp');
-     post = array_sort(post, 1, 'timestamp');
+     pre = arraySort(pre, 1, 'timestamp');
+     active = arraySort(active, 1, 'timestamp');
+     post = arraySort(post, 1, 'timestamp');
 
      var allGames = active.concat(pre, post);
 
@@ -2732,7 +3124,7 @@
        var gameNode = document.createElement('div');
        gameNode.className = 'ddb-boxscores-content-game';
        gameNode.innerHTML = `
-         <a class="ddb-boxscores-content-game-link" href="` + data.link + `">
+         <a target="_blank" class="ddb-boxscores-content-game-link" href="` + data.link + `">
            <ul class="ddb-boxscores-content-game-teams">
              <li>
                ` + data.homeTeam + ` <span class="ddb-boxscores-content-game-score">` + data.homeScore + `</span>
@@ -2936,16 +3328,25 @@
 
      }; //End for
 
-     pre = array_sort(pre, 1, 'timestamp');
-     active = array_sort(active, 1, 'timestamp');
-     post = array_sort(post, 1, 'timestamp');
-     wpre = array_sort(wpre, 1, 'timestamp');
-     wpost = array_sort(wpost, 1, 'timestamp');
+     pre = arraySort(pre, 1, 'timestamp');
+     active = arraySort(active, 1, 'timestamp');
+     post = arraySort(post, 1, 'timestamp');
+     wpre = arraySort(wpre, 1, 'timestamp');
+     wpost = arraySort(wpost, 1, 'timestamp');
 
      var allGames = active.concat(pre, post, wpre, wpost);
 
      return allGames;
    }
+
+   var resizeEvent = throttle(function(){
+     var windowWidth = window.innerWidth;
+
+     //If window is large enough and get remote address api has finsihed
+     if(windowWidth >= 1280 && apiConfig.tickerMLB.isLoading === false && apiConfig.tickerMLB.hasLoaded === false){
+       bootstrapTicker();
+     }
+   }, 100);
   /**
    * Global event functions
    **/
@@ -3066,7 +3467,7 @@
    **/
 
   //Creates Request Object. Has polyfill for old ie
-  var createRequestObject = function() {
+  function createRequestObject() {
     var obj;
     var browser = navigator.appName;
     if (browser == "Microsoft Internet Explorer") {
@@ -3077,7 +3478,7 @@
     return obj;
   }
   //Determine if element has class
-  var hasClass = function(element, className){
+  function hasClass(element, className){
     if(element.classList){
       // console.log('has class classList');
       return element.classList.contains(className);
@@ -3088,7 +3489,7 @@
     }
   }
   //Add class to element
-  var addClass = function(element, className){
+  function addClass(element, className){
     if(element.classList){
       // console.log('add class classList');
       element.classList.add(className);
@@ -3099,7 +3500,7 @@
     }
   }
   //Remove class from element
-  var removeClass = function(element, className){
+  function removeClass(element, className){
     if(element.classList){
       // console.log('remove class classList');
       element.classList.remove(className);
@@ -3111,11 +3512,11 @@
     }
   }
   //Determine if a string ends with suffix
-  var endsWith = function(string, suffix){
+  function endsWith(string, suffix){
     return string.indexOf(suffix, string.length - suffix.length) !== -1;
   }
   //Get ordinal suffix of a number (1st, 2nd, etc..)
-  var ordinalSuffix = function(i){
+  function ordinalSuffix(i){
     var j = i % 10,
         k = i % 100;
     if (j == 1 && k != 11) {
@@ -3130,7 +3531,7 @@
     return i + "th";
   }
   //Get current timezone offset and timezone abbreviation (in eastern)
-  var getEasternTime = function(){
+  function getEasternTime(){
     //Grab current year
     var utcYear = new Date().getUTCFullYear();
     var daylightStart, daylightEnd, offset, abbrev;
@@ -3165,7 +3566,7 @@
     };
   }
   //Get today's date
-  var getToday = function(offset){
+  function getToday(offset){
     var today = new Date(new Date().getTime() + offset * 3600 * 1000);
     var month = today.getUTCMonth() + 1;
     var date = today.getUTCDate();
@@ -3180,7 +3581,7 @@
     return todayObject;
   }
   //Convert unix timestamp to datetime [hour:minute meridian tzAbbrev]
-  var convertToEastern = function(date, offset, tzAbbrev){
+  function convertToEastern(date, offset, tzAbbrev){
     var date = new Date(date + offset * 3600 * 1000);
     var hour = date.getUTCHours();
     var meridian = hour >= 12 ? 'PM' : 'AM';
@@ -3193,7 +3594,7 @@
     return convertedDate;
   }
 
-  var prettyDatetime = function(date){
+  function prettyDatetime(date){
     var dates = date.split('-');
     var months = [
       'Jan',
@@ -3213,7 +3614,7 @@
     return months[(Number(dates[1]) - 1)] + ' ' + ordinalSuffix(dates[2]);
   }
   //Function to sort array (ascending or descending) in a particular order (1 for ascending, 0 for descending)
-  var array_sort = function(arr, ascending, attr){
+  function arraySort(arr, ascending, attr){
     arr = arr.sort(function(a, b){
       if(ascending > 0){
         if(a[attr] < b[attr])
@@ -3232,7 +3633,7 @@
     return arr;
   }
   //Convert state abbreviation to full form
-  var stateAbbrevToFull = function(abbrev){
+  function stateAbbrevToFull(abbrev){
     abbrev = abbrev.toLowerCase();
 
     var map = {
@@ -3292,7 +3693,7 @@
     return typeof map[abbrev] !== 'undefined' ? map[abbrev] : defaultState;
   }
   //Debounce function
-  var debounce = function(func, wait, immediate){
+  function debounce(func, wait, immediate){
   	var timeout;
   	return function() {
   		var context = this, args = arguments;
@@ -3306,8 +3707,31 @@
   		if (callNow) func.apply(context, args);
   	};
   };
+  //Throttle function
+  function throttle(fn, threshhold, scope){
+    threshhold || (threshhold = 250);
+    var last,
+        deferTimer;
+    return function () {
+      var context = scope || this;
+
+      var now = +new Date,
+          args = arguments;
+      if (last && now < last + threshhold) {
+        // hold on to it
+        clearTimeout(deferTimer);
+        deferTimer = setTimeout(function () {
+          last = now;
+          fn.apply(context, args);
+        }, threshhold + last - now);
+      } else {
+        last = now;
+        fn.apply(context, args);
+      }
+    };
+  }
   //Clear innerHTML of item
-  var clearInnerHTML = function(el){
+  function clearInnerHTML(el){
     while (el.firstChild) el.removeChild(el.firstChild);
   }
 
