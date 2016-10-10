@@ -38,9 +38,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.ddb-icon-baseball:before {
-  content: "\61";
-}
 .ddb-icon-news:before {
   content: "\62";
 }
@@ -61,9 +58,6 @@
 }
 .ddb-icon-profile:before {
   content: "\68";
-}
-.ddb-icon-basketball:before {
-  content: "\69";
 }
 .ddb-icon-football:before {
   content: "\6a";
@@ -106,4 +100,10 @@
 }
 .ddb-icon-magic:before {
   content: "\77";
+}
+.ddb-icon-basketball:before {
+  content: "\61";
+}
+.ddb-icon-baseball:before {
+  content: "\69";
 }
