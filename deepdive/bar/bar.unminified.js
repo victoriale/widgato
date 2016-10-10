@@ -71,7 +71,7 @@
       isLoading: false,
       url: function(todayDate){
         // return protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayDate;
-        return protocol + '://qa-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
+        return protocol + '://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
       }
     },
     //NFL boxscores
@@ -80,7 +80,7 @@
       isLoading: false,
       url: function(todayDate){
         // return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayDate;
-        return protocol + '://qa-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate;
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate;
       }
     },
     //NCAAF boxscores
@@ -89,7 +89,7 @@
       isLoading: false,
       url: function(todayDate){
         // return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayDate;
-        return protocol + '://qa-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate;
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate;
       }
     },
     //NCAAF teams
