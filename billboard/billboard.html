@@ -16,113 +16,113 @@
 </head>
 
 <body>
-<div class="billboard">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-12 header">
-                <div class="row">
-                    <div class="col-xs-2 col-sm-1 header-icon"></div>
-                    <div class=" visible-sm visible-md visible-lg col-sm-4 header-profile"></div>
-                    <div class=" visible-xs col-xs-9 header-profile-small"></div>
-                    <div class="col-sm-4 col-sm-offset-3 visible-sm visible-md visible-lg header-search">
-                        <input class="search" placeholder="Search for anything {vertical type}..."/>
-                        <button type="submit" class="search-button searchcheck">
-                            <i class="fa fa-search"></i>
-                        </button>
-                    </div>
-                    <div class="col-xs-1 visible-xs">
-                        <button type="submit" class="search-button-small searchcheck">
-                            <i class="fa fa-search" onclick="billboard.toggleSearch()" style="color: #fff;"></i>
-                        </button>
-                    </div>
-                    <div class="col-xs-12 visible-xs">
-                        <div class="col-xs-12 search-container">
-                            <div class="col-xs-10 col-xs-push-1 header-search-drop">
-                                <input class="search" placeholder="Search for anything {vertical type}..."/>
-                                <button type="submit" class="search-button searchcheck">
-                                    <i class="fa fa-search"></i>
-                                </button>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 billboard">
+            <div class="row">
+                <div class="col-xs-12 header">
+                    <div class="row">
+                        <div class="col-xs-2 col-md-1 header-icon"></div>
+                        <div class="hidden-sm-down header-profile"></div>
+                        <div class="hidden-md-up header-profile-small"></div>
+                        <div class="hidden-sm-down header-search">
+                            <input class="search"/>
+                            <button type="submit" class="search-button searchcheck">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <div class="hidden-md-up">
+                            <button type="submit" class="search-button-small searchcheck"
+                                    onclick="billboard.toggleSearch()">
+                                <div class="fa fa-search" style="color: #fff;"></div>
+                            </button>
+                        </div>
+                        <div class="col-xs-12 hidden-md-up">
+                            <div class="col-xs-12 search-container">
+                                <div class="search-container-arrow"></div>
+                                <div class="header-search-drop">
+                                    <input class="search"/>
+                                    <button type="submit" class="search-button searchcheck">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-sm-8 main">
-                <div class="col-sm-12 main-top">
-                    <a href="javascript:void(0)" id="main-top-link">
-                        <div class="visible-sm visible-md visible-lg">
-                            <div class="row">
-                                <div class="col-sm-4 embed-responsive embed-responsive-16by9-sub main-top-image">
-                                    <img class="top-image embed-responsive-item"/>
+            <div class="row">
+                <div class="col-md-8 main">
+                    <div class="col-md-12 main-top">
+                        <a href="javascript:void(0)" id="main-top-link">
+                            <div class="hidden-sm-down">
+                                <div class="row">
+                                    <div class="col-md-4 embed-responsive embed-responsive-16by9-sub main-top-image">
+                                        <img class="top-image embed-responsive-item"/>
+                                    </div>
+                                    <div class="col-md-7 main-top-title">
+                                    </div>
                                 </div>
-                                <div class="col-sm-7 main-top-title">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-11 main-top-description description-top-large">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="visible-xs">
-                            <div class="row">
-                                <div class="col-xs-4 embed-responsive embed-responsive-16by9-sub main-top-image">
-                                    <img class="top-image embed-responsive-item"/>
-                                </div>
-                                <div class="col-xs-7 main-top-title-xs">
+                                <div class="row">
+                                    <div class="col-xs-11 main-top-description description-top-large">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <p class="col-xs-11 main-top-description description-top-small">
-                                </p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="col-xs-11 main-hr"></div>
-                <div class="col-sm-12 main-bottom">
-                    <a href="javascript:void(0)" id="main-bottom-link">
-                        <div class="visible-sm visible-md visible-lg">
-                            <div class="row">
-                                <div class="col-sm-4 embed-responsive embed-responsive-16by9-sub main-bottom-image">
-                                    <img class="bottom-image embed-responsive-item"/>
+                            <div class="hidden-md-up">
+                                <div class="row">
+                                    <div class="col-xs-4 embed-responsive embed-responsive-16by9-sub main-top-image">
+                                        <img class="top-image embed-responsive-item"/>
+                                    </div>
+                                    <div class="col-xs-7 main-top-title-xs">
+                                    </div>
                                 </div>
-                                <div class="col-sm-7 main-bottom-title">
+                                <div class="row">
+                                    <div class="col-xs-11 main-top-description description-top-small">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-xs-11 main-bottom-description description-bottom-large">
+                        </a>
+                    </div>
+                    <div class="col-xs-12 main-hr"></div>
+                    <div class="col-md-12 main-bottom">
+                        <a href="javascript:void(0)" id="main-bottom-link">
+                            <div class="hidden-sm-down">
+                                <div class="row">
+                                    <div class="col-md-4 embed-responsive embed-responsive-16by9-sub main-bottom-image">
+                                        <img class="bottom-image embed-responsive-item"/>
+                                    </div>
+                                    <div class="col-md-7 main-bottom-title">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-11 main-bottom-description description-bottom-large">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="visible-xs">
-                            <div class="row">
+                            <div class="hidden-md-up">
                                 <div class="col-xs-4 embed-responsive embed-responsive-16by9-sub main-bottom-image">
                                     <img class="bottom-image embed-responsive-item"/>
                                 </div>
                                 <div class="col-xs-7 main-bottom-title-xs">
                                 </div>
+                                <div class="col-xs-11 main-bottom-description description-bottom-small">
+                                </div>
                             </div>
-                            <div class="row">
-                                <p class="col-xs-11 main-bottom-description description-bottom-small">
-                                </p>
-                            </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-xs-12 col-sm-4 news">
-                <div class="col-xs-12 news-notification"><i class="fa fa-heart" style="color: #bc2027;"></i> Other
-                    Content You May Love
-                </div>
-                <div class="col-xs-12 news-updates">
-                </div>
-                <div class="col-xs-12 buttons">
-                    <div class="col-xs-6 news-button-up noclick" onclick="billboard.scrollUp()">UP <i
-                            class="fa fa-caret-up button"></i></div>
-                    <div class="col-xs-6 news-button-down noclick" onclick="billboard.scrollDown()">DOWN <span
-                            class="fa fa-caret-down button"></span></div>
+                <div class="col-xs-12 col-md-4 news">
+                    <div class="col-xs-12 news-notification"><i class="fa fa-heart" style="color: #ff4e52;"></i> Other
+                        Content You May Love
+                    </div>
+                    <div class="col-xs-12 news-updates">
+                    </div>
+                    <div class="col-xs-12 buttons">
+                        <div class="col-xs-6 news-button-up noclick" onclick="billboard.scrollUp()">UP <i
+                                class="fa fa-caret-up button"></i></div>
+                        <div class="col-xs-6 news-button-down noclick" onclick="billboard.scrollDown()">DOWN <span
+                                class="fa fa-caret-down button"></span></div>
+                    </div>
                 </div>
             </div>
         </div>
