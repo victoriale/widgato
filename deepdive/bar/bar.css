@@ -1028,8 +1028,8 @@
   color: #fff;
   font-size: 12px;
   background-color: #383838;
-  box-sizing: border-box;
   padding-top: 6px;
+  box-sizing: border-box;
 }
 @media(min-width: 1280px){
   .ddb-menu-ticker{
