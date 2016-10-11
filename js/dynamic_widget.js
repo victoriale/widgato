@@ -78,17 +78,14 @@ dynamic_widget = function() {
       var date = new Date;
       var compareDate = new Date('09/15/' + date.getFullYear());
       if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
-        console.log("1",date.getFullYear());
         httpGetData(initData[rand] + "&season=" + date.getFullYear());
         season = date.getFullYear();
       }
       else if (date.getMonth() > compareDate.getMonth()) {
-        console.log("2",date.getFullYear());
         httpGetData(initData[rand] + "&season=" + date.getFullYear());
         season = date.getFullYear();
       }
       else {
-        console.log("3",(date.getFullYear() - 1));
         httpGetData(initData[rand] + "&season=" + (date.getFullYear() - 1));
         season = (date.getFullYear() - 1);
       }
