@@ -168,10 +168,26 @@ billboard = (function () {
             $(this).css('background', e.type === "mouseenter" ? "#000" : verticalColor);
         });
         $('.main-top a, .main-bottom a, .news-container a').css('color', "#000");
-        $('.main-top a, .main-bottom a, .news-container a').hover(function (e) {
-            $(this).css('color', e.type === "mouseenter" ? verticalColor : "#000");
-        });
-        $('.search').attr('placeholder', 'Search for anything ' + verticalName);
+        if (verticalName.toLowerCase() != 'weather') {
+            $('.main-top a, .main-bottom a, .news-container a').hover(function (e) {
+                $(this).css('color', e.type === "mouseenter" ? verticalColor : "#000");
+            });
+        } else {
+            $('.main-top a, .main-bottom a, .news-container a').hover(function (e) {
+                $(this).css('color', e.type === "mouseenter" ? '#444' : "#000");
+            });
+            $('.header-profile, .header-profile-small, .news-button-up, .news-button-down, .button').css('color', '#272727');
+            $('.news-button-up').hover(function (e) {
+                $(this).css('color', e.type === "mouseenter" ? '#fff' : "#272727");
+                $('.up').css('color', e.type === "mouseenter" ? '#fff' : "#272727");
+            });
+            $('.news-button-down').hover(function (e) {
+                $(this).css('color', e.type === "mouseenter" ? '#fff' : "#272727");
+                $('.down').css('color', e.type === "mouseenter" ? '#fff' : "#272727");
+            });
+
+        }
+        $('.search').attr('placeholder', 'Search for anything ' + verticalName.toLowerCase());
         displaySubArticles();
     } // --> displayPage
 
@@ -197,9 +213,15 @@ billboard = (function () {
             subContainer.appendChild(subHr);
         }
         $('.news-container a').css('color', "#000");
-        $('.news-container a').hover(function (e) {
-            $(this).css('color', e.type === "mouseenter" ? verticalColor : "#000");
-        });
+        if (verticalName.toLowerCase() != 'weather') {
+            $('.news-container a').hover(function (e) {
+                $(this).css('color', e.type === "mouseenter" ? verticalColor : "#000");
+            });
+        } else {
+            $('.news-container a').hover(function (e) {
+                $(this).css('color', e.type === "mouseenter" ? '#444' : "#000");
+            });
+        }
     }
 
     function fitText() {
