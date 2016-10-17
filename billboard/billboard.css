@@ -343,7 +343,7 @@ sup {
     position: relative;
     border-bottom: 1px solid rgba(167, 167, 167, 0.5);
     left: 25px;
-    width: calc(100% - 40px) !important;;
+    width: calc(100% - 40px) !important;
 }
 
 .news {
@@ -477,7 +477,7 @@ sup {
     }
 
     .main-hr {
-        width: calc(100% - 10px) !important;;
+        width: calc(100% - 10px) !important;
     }
 
     .main-top-title-xs, .main-bottom-title-xs {
