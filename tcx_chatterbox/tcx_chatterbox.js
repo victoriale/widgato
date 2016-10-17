@@ -11,7 +11,7 @@ chatterbox = (function () {
 
     // Declare variables
     var event = '';
-    var domain, remnant, scope;
+    var domain, remnant, league;
     var temp = location.search;
     var query = {};
     var target;
@@ -26,7 +26,7 @@ chatterbox = (function () {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         domain = query.dom;
         remnant = query.remn;
-        scope = query.scope;
+        league = query.league;
         target = query.targ;
 
         if (remnant == 'true') {
@@ -43,7 +43,7 @@ chatterbox = (function () {
     }
 
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick/' + scope,
+    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick/' + league,
         tcxData = {},
         tcxId = -1,
         pageInd = -1,
@@ -117,7 +117,7 @@ chatterbox = (function () {
             keyword: 'football',
             date: moment(dataArr[0][1].dateline).format("MMM DD, YYYY"),
             title: dataArr[0][1].displayHeadline,
-            url: href + scope + '/articles/' + dataArr[0][0] + '/' + id,
+            url: href + league + '/articles/' + dataArr[0][0] + '/' + id,
             content: dataArr[0].report + '<br>&nbsp; ',
             img: protocolToUse + 'images.synapsys.us' + dataArr[0].articleImage,
             icon: '../css/public/Icon_Football.png'
@@ -172,10 +172,10 @@ chatterbox = (function () {
             imageSmall.src = protocolToUse + 'images.synapsys.us' + imageArray[i][1].image;
             titleLarge.innerHTML = imageArray[i][1].displayHeadline;
             titleSmall.innerHTML = imageArray[i][1].displayHeadline;
-            $(imageContainerLarge).wrapInner($('<a href="' + href + scope + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
-            $(titleContainerLarge).wrapInner($('<a href="' + href + scope + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
-            $(imageContainerSmall).wrapInner($('<a href="' + href + scope + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
-            $(titleContainerSmall).wrapInner($('<a href="' + href + scope + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
+            $(imageContainerLarge).wrapInner($('<a href="' + href + league + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
+            $(titleContainerLarge).wrapInner($('<a href="' + href + league + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
+            $(imageContainerSmall).wrapInner($('<a href="' + href + league + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
+            $(titleContainerSmall).wrapInner($('<a href="' + href + league + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
         }
     }
 
@@ -243,10 +243,17 @@ chatterbox = (function () {
 
     //onclick event to change tabs
     function tabSelect(event) {
+        var moreTab = $('.tab-more');
+        var cbdropDownDisplay = $('.cb-dropDown');
+        var topic = $('.more-topic');
+        if (cbdropDownDisplay.hasClass('active')) {
+            cbdropDownDisplay.removeClass('active');
+            topic.removeClass('active');
+            moreTab.find('.fa').removeClass('fa-caret-down').addClass('fa-caret-up');
+        }
         var target = event.target || event.srcElement;
         selectedTab = target.innerHTML;
         isCreated = false;
-        toggleDropdown();
         if (event.target.className.indexOf("open") == -1) {
             createdropDown();
         } else {
