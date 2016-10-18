@@ -257,11 +257,17 @@
   border: none;
   background-color: #383838;
   color: #fff;
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
+}
+.ddb-mobile-menu.ddb-left{
+    width: 150px;
 }
 .ddb-mobile-menu.ddb-right{
   float: right;
+}
+.ddb-mobile-menu>.ddb-icon{
+    font-size: 15px;
 }
 #ddb-mobile-menu{
   background-color: #4a90e2;
