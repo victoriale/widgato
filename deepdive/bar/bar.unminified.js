@@ -70,13 +70,8 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-<<<<<<< HEAD
-        // return protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayDate;
-        return protocol + '://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
-=======
         return protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayDate;
         // return protocol + '://qa-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
->>>>>>> 41d46a5... deepdive bar - point boxscores to prod instead of qa
       }
     },
     //NFL boxscores
@@ -84,13 +79,8 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-<<<<<<< HEAD
-        // return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayDate;
-        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate;
-=======
         return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayDate;
         // return protocol + '://qa-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate;
->>>>>>> 41d46a5... deepdive bar - point boxscores to prod instead of qa
       }
     },
     //NCAAF boxscores
@@ -98,13 +88,8 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-<<<<<<< HEAD
-        // return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayDate;
-        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate;
-=======
         return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayDate;
         // return protocol + '://qa-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate;
->>>>>>> 41d46a5... deepdive bar - point boxscores to prod instead of qa
       }
     },
     //NCAAF teams
