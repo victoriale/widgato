@@ -138,6 +138,9 @@
 .ddb-boxscores-button.ddb-blue{
   background-color: #4a90e2;
 }
+.ddb-boxscores-button.ddb-blue:hover{
+    background-color: #000 !important;
+}
 
 .ddb-boxscores-frame{
   position: absolute;
@@ -158,10 +161,10 @@
   width: 40px;
   height: 100%;
   background: transparent;
-  background: -webkit-linear-gradient(left, transparent , #fff);
-  background: -o-linear-gradient(right, transparent, #fff);
-  background: -moz-linear-gradient(right, transparent, #fff);
-  background: linear-gradient(to right, transparent , #fff);
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) , #fff);
+  background: -o-linear-gradient(right, rgba(255, 255, 255, 0), #fff);
+  background: -moz-linear-gradient(right, rgba(255, 255, 255, 0), #fff);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) , #fff);
   z-index: 10;
   pointer-events: none;
 }
@@ -252,16 +255,45 @@
   }
 }
 .ddb-mobile-menu{
-  width: 30px;
   height: 35px;
   border: none;
   background-color: #383838;
   color: #fff;
-  font-size: 15px;
+  font-size: 14px;
   cursor: pointer;
 }
+.ddb-mobile-menu.ddb-left{
+    margin: 0 8px;
+    padding: 0 15px;
+    width: 150px;
+    transform: skew(25deg);
+    -webkit-transform: skew(25deg);
+    -moz-transform: skew(25deg);
+    -o-transform: skew(25deg);
+}
+.ddb-mobile-menu.ddb-left>.ddb-mobile-parbutton{
+    transform: skew(-25deg);
+    -webkit-transform: skew(-25deg);
+    -moz-transform: skew(-25deg);
+    -o-transform: skew(-25deg);
+}
 .ddb-mobile-menu.ddb-right{
-  float: right;
+    margin: 0 8px;
+    padding: 0 15px;
+    float: right;
+    transform: skew(-25deg);
+    -webkit-transform: skew(-25deg);
+    -moz-transform: skew(-25deg);
+    -o-transform: skew(-25deg);
+}
+.ddb-mobile-menu.ddb-right>.ddb-mobile-parbutton{
+    transform: skew(25deg);
+    -webkit-transform: skew(25deg);
+    -moz-transform: skew(25deg);
+    -o-transform: skew(25deg);
+}
+.ddb-mobile-menu>.ddb-icon{
+    font-size: 15px;
 }
 #ddb-mobile-menu{
   background-color: #4a90e2;
@@ -375,7 +407,15 @@
   background-color: #fff;
   position: relative;
 }
-.ddb-mobile-dropdown-search:after{
+.ddb-mobile-dropdown-search>.ddb-icon-search{
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: #4a90e2;
+    pointer-events: none;
+}
+/* Deprecated - Removed for branding ability */
+/*.ddb-mobile-dropdown-search:after{
   content: '\6e';
   font-family: deepdive-bar;
   position: absolute;
@@ -383,7 +423,7 @@
   right: 10px;
   color: #4a90e2;
   pointer-events: none;
-}
+}*/
 .ddb-mobile-dropdown-search input{
   width: 100%;
   height: 100%;
@@ -416,10 +456,15 @@
   display: inline-block;
   text-transform: uppercase;
   cursor: pointer;
-  padding: 0 15px;
+  padding: 0 22px;
   height: 35px;
   position: relative;
   font-size: 14px;
+}
+@media(min-width: 992px){
+    .ddb-menu-nav>li{
+        padding: 0 30px;
+    }
 }
 .ddb-menu-nav>li.ddb-blue{
   background-color: #4a90e2;
@@ -433,16 +478,29 @@
 }
 .ddb-menu-nav>li#ddb-dropdown-boxscores{
   padding: 0;
+  margin: 0 8px;
 }
 /*.ddb-menu-nav>li:hover .ddb-menu-dropdown{
   display: block;
 }*/
 #ddb-dropdown-boxscores-button{
-  padding: 0 10px;
+  /*padding: 0 10px;*/
   background-color: #4a90e2;
+  transform: skew(25deg);
+  -webkit-transform: skew(25deg);
+  -moz-transform: skew(25deg);
+  -o-transform: skew(25deg);
 }
 #ddb-dropdown-boxscores-button.ddb-desktop-boxscores-open .ddb-icon:before{
   content: '\6c';
+}
+
+.ddb-parbutton{
+    padding: 0 15px;
+    transform: skew(-25deg);
+    -webkit-transform: skew(-25deg);
+    -moz-transform: skew(-25deg);
+    -o-transform: skew(-25deg);
 }
 
 .ddb-menu-nav-dynamic{
@@ -457,20 +515,61 @@
   z-index: 100000;
 }
 .ddb-menu-nav-dynamic#ddb-dynamic-mlb:after{
-  left: 209px;
+  left: 203px;
 }
 .ddb-menu-nav-dynamic#ddb-dynamic-nba:after{
-  left: 267px;
+  left: 274px;
 }
 .ddb-menu-nav-dynamic#ddb-dynamic-ncaam:after{
-  left: 338px;
+  left: 362px;
 }
 .ddb-menu-nav-dynamic#ddb-dynamic-nfl:after{
-  left: 408px;
+  left: 445px;
 }
 .ddb-menu-nav-dynamic#ddb-dynamic-ncaaf:after{
-  left: 475px;
+  left: 527px;
 }
+@media(min-width: 768px){
+    .ddb-menu-nav-dynamic{
+        left: 60px;
+    }
+    .ddb-menu-nav-dynamic#ddb-dynamic-mlb:after{
+      left: 143px;
+    }
+    .ddb-menu-nav-dynamic#ddb-dynamic-nba:after{
+      left: 214px;
+    }
+    .ddb-menu-nav-dynamic#ddb-dynamic-ncaam:after{
+      left: 302px;
+    }
+    .ddb-menu-nav-dynamic#ddb-dynamic-nfl:after{
+      left: 385px;
+    }
+    .ddb-menu-nav-dynamic#ddb-dynamic-ncaaf:after{
+      left: 467px;
+    }
+}
+@media(min-width: 992px){
+    .ddb-menu-nav-dynamic{
+        left: 100px;
+    }
+    .ddb-menu-nav-dynamic#ddb-dynamic-mlb:after{
+      left: 111px;
+    }
+    .ddb-menu-nav-dynamic#ddb-dynamic-nba:after{
+      left: 199px;
+    }
+    .ddb-menu-nav-dynamic#ddb-dynamic-ncaam:after{
+      left: 302px;
+    }
+    .ddb-menu-nav-dynamic#ddb-dynamic-nfl:after{
+      left: 401px;
+    }
+    .ddb-menu-nav-dynamic#ddb-dynamic-ncaaf:after{
+      left: 500px;
+    }
+}
+
 .ddb-menu-nav-dynamic:hover{
   display: block;
 }
@@ -556,10 +655,10 @@
 }
 
 .ddb-menu-dropdown#ddb-boxscores-dropdown{
-  left: -15px;
+  left: -23px;
 }
 .ddb-menu-dropdown#ddb-boxscores-dropdown:after{
-  left: 103px;
+  left: 93px;
 }
 .ddb-menu-dropdown#ddb-boxscores-dropdown:before{
   content: '';
@@ -570,7 +669,7 @@
   border-color: transparent transparent #f2f2f2 transparent;
   position: absolute;
   top: 2px;
-  left: 104px;
+  left: 94px;
   z-index: 10;
 }
 
@@ -784,7 +883,7 @@
 }
 .ddb-menu-dropdown-table tbody td {
   font-size: 12px;
-  padding: 3px 0;
+  padding: 3px;
   vertical-align: top;
 }
 .ddb-menu-dropdown-table tbody td a{
@@ -912,20 +1011,36 @@
 }
 
 .ddb-menu-search-large{
-  width: 250px;
-  height: 25px;
-  border-radius: 25px;
-  border: none;
-  position: relative;
-  display: none;
-  margin-top: 5px;
+    height: 35px;
+    padding: 0 15px;
+    margin: 0 8px;
+    background-color: #444444;
+    display: none;
+
+    transform: skew(-25deg);
+    -webkit-transform: skew(-25deg);
+    -moz-transform: skew(-25deg);
+    -o-transform: skew(-25deg);
 }
 @media(min-width: 992px){
   .ddb-menu-search-large{
     display: inline-block;
   }
 }
-.ddb-menu-search-large input{
+.ddb-menu-search-large-content{
+  width: 250px;
+  height: 25px;
+  border-radius: 25px;
+  border: none;
+  position: relative;
+  margin-top: 5px;
+
+  transform: skew(25deg);
+  -webkit-transform: skew(25deg);
+  -moz-transform: skew(25deg);
+  -o-transform: skew(25deg);
+}
+.ddb-menu-search-large-content input{
   width: 100%;
   height: 100%;
   padding: 0 35px 0 15px;
@@ -934,7 +1049,8 @@
   box-sizing: border-box;
   font-family: Lato;
 }
-.ddb-menu-search-large:after{
+/* Deprecated - Removed for dynamic color branding */
+/*.ddb-menu-search-large:after{
   content: '\6e';
   font-family: deepdive-bar;
   position: absolute;
@@ -942,6 +1058,13 @@
   right: 10px;
   color: #4a90e2;
   pointer-events: none;
+}*/
+.ddb-menu-search-large-content>.ddb-icon-search{
+    position: absolute;
+    top: 4px;
+    right: 10px;
+    color: #4a90e2;
+    pointer-events: none;
 }
 
 /* Mobile Search */
