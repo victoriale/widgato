@@ -145,7 +145,7 @@ dynamic_widget = function() {
           }
       };
       if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {
-        i.open('GET', protocol + "://dev-touchdownloyal-api.synapsys.us/articleBatch/nfl/20/1" , true);
+        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=sports&subCategory=nfl&metaDataOnly=1&count=20" , true);
         i.send()
       }
       else {
@@ -351,16 +351,16 @@ function p() {
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
         if (e.rankType == "team") {
-          if (e.imagePath != null && e.imagePath != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.imagePath);
+          if (e.image_url != null && e.image_url != "null") {
+            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url);
           }
           else {
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
           }
         }
         else {
-          if (e.imagePath != null && e.imagePath != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.imagePath);
+          if (e.image_url != null && e.image_url != "null") {
+            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url);
           }
           else {
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
