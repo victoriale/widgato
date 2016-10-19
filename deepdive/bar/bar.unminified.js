@@ -536,7 +536,7 @@
           // ncaamLeagues.appendChild(item);
         })
         ncaamLinks += `
-          <a target="_blank" href="` + hoopsDomain + `/ncaa" class="ddb-menu-dropdown-all ddb-brand-text ddb-brand-border">
+          <a target="_blank" href="` + hoopsDomain + `/NCAA" class="ddb-menu-dropdown-all ddb-brand-all-conferences">
             SEE ALL CONFERENCES
           </a>
         `;
@@ -674,7 +674,7 @@
           // ncaafLeagues.appendChild(item);
         })
         ncaafLinks += `
-          <a target="_blank" href="` + touchdownDomain + `/ncaaf/pick-a-team" class="ddb-menu-dropdown-all ddb-brand-text ddb-brand-border">
+          <a target="_blank" href="` + touchdownDomain + `/ncaaf/pick-a-team" class="ddb-menu-dropdown-all ddb-brand-all-conferences">
             SEE ALL CONFERENCES
           </a>
         `;
@@ -2562,8 +2562,8 @@
         break;
       }
       el.innerHTML = `
-        <a target="_blank" href="` + link + `">
-          <i class="ddb-icon ` + iconClass + ` ddb-brand-text"></i>
+        <a target="_blank" href="` + link + `" class="ddb-brand-search-result">
+          <i class="ddb-icon ` + iconClass + `"></i>
           ` + data.teamName + `
         </a>
       `;
@@ -2724,7 +2724,7 @@
             border-color: ` + brandHex + ` !important;
         }
         .ddb-boxscores-button.ddb-blue.ddb-brand-boxscores-button{
-            background-color: ` + brandHex + ` !important;
+            background-color: ` + brandHex + `;
         }
         .ddb-brand-menu-hover:hover{
             background-color: ` + brandHex + ` !important;
@@ -2734,6 +2734,23 @@
         }
         .ddb-brand-menu-hover:hover:after{
             background-color: ` + brandHex + ` !important;
+        }
+        .ddb-brand-all-conferences{
+            border-color: ` + brandHex + ` !important;
+            color: ` + brandHex + ` !important;
+        }
+        .ddb-brand-all-conferences:hover{
+            background-color: ` + brandHex + ` !important;
+            color: #fff !important;
+        }
+        .ddb-brand-search-result .ddb-icon{
+            color: ` + brandHex + ` !important;
+        }
+        .ddb-brand-search-result:hover, .ddb-search-active>.ddb-brand-search-result{
+            background-color: ` + brandHex + ` !important;
+        }
+        .ddb-brand-search-result:hover .ddb-icon, .ddb-search-active>.ddb-brand-search-result .ddb-icon{
+            color: #fff !important;
         }
       `;
       document.head.appendChild(brandStyleEl);
