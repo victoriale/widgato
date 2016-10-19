@@ -20,29 +20,34 @@
   var params = {
     baseballSubdomain: null,
     basketballSubdomain: null,
-    footballSubdomain: null
+    footballSubdomain: null,
+    brandHex: null
   };
 
   var queryString = currentScript.src.split('?')[1];
   if(typeof queryString === 'undefined'){
     //No params passed in
   }else{
-    //Parse query string
-    var queryParams = queryString.split('&');
-    queryParams.forEach(function(item){
-      var pair = item.split('=');
-      switch(pair[0]){
-        case 'baseballSubdomain':
-          params.baseballSubdomain = decodeURIComponent(pair[1]);
-        break;
-        case 'basketballSubdomain':
-          params.basketballSubdomain = decodeURIComponent(pair[1]);
-        break;
-        case 'footballSubdomain':
-          params.footballSubdomain = decodeURIComponent(pair[1]);
-        break;
-      }
-    })
+      // TODO : Validate query params
+      //Parse query string
+      var queryParams = queryString.split('&');
+      queryParams.forEach(function(item){
+         var pair = item.split('=');
+         switch(pair[0]){
+            case 'baseballSubdomain':
+                params.baseballSubdomain = decodeURIComponent(pair[1]);
+            break;
+            case 'basketballSubdomain':
+                params.basketballSubdomain = decodeURIComponent(pair[1]);
+            break;
+            case 'footballSubdomain':
+                params.footballSubdomain = decodeURIComponent(pair[1]);
+            break;
+            case 'brandHex':
+                params.brandHex = '#' + decodeURIComponent(pair[1]);
+            break;
+         }
+      })
   }
 
   /**
@@ -70,8 +75,8 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        // return protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayDate;
-        return protocol + '://qa-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
+        return protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayDate;
+        // return protocol + '://qa-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
       }
     },
     //NFL boxscores
@@ -79,8 +84,8 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        // return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayDate;
-        return protocol + '://qa-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate;
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayDate;
+        // return protocol + '://qa-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate;
       }
     },
     //NCAAF boxscores
@@ -88,8 +93,8 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        // return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayDate;
-        return protocol + '://qa-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate;
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayDate;
+        // return protocol + '://qa-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate;
       }
     },
     //NCAAF teams
@@ -130,6 +135,9 @@
     }
   };
 
+  /**
+   * Global time objects
+   **/
   var easternTime = (function(){
     //Grab current year
     var utcYear = new Date().getUTCFullYear();
@@ -400,55 +408,56 @@
     });
   }
 
-  //UPDATED
-  var bootstrapTicker = function(){
-
-    var tickerBuild = function(data){
-      var tickerContent = document.getElementById('ddb-ticker-content');
-
-      tickerContent.innerHTML = data;
-
-      setTimeout(function(){
-        addClass(tickerContent, 'ddb-ticker-animation');
-      }, 100);
-
-      window.removeEventListener('resize', resizeEvent);
-    }
-
-    if(apiConfig.tickerMLB.isLoading === false && apiConfig.tickerMLB.hasLoaded === false){
-
-      var apiString = apiConfig.tickerMLB.url(apiConfig.getRemoteAddress.res);
-      apiConfig.tickerMLB.isLoading = true;
-
-      var xhttp = createRequestObject();
-      xhttp.onreadystatechange = function(){
-        if(xhttp.readyState === 4 && xhttp.status === 200){
-          //Success
-          var res = JSON.parse(xhttp.responseText);
-          //console.log('TICKER RESULTS API SUCCESS', res);
-
-          var processedData = processTickerData(res);
-          apiConfig.tickerMLB.res = processedData;
-          apiConfig.tickerMLB.isLoading = false;
-          apiConfig.tickerMLB.hasLoaded = true;
-
-          tickerBuild(processedData);
-
-        }else if(xhttp.readyState === 4 && xhttp.status !== 200){
-          //Error
-          var defaultData = buildDefaultTickerData();
-          apiConfig.tickerMLB.res = defaultData;
-          apiConfig.tickerMLB.isLoading = false;
-          apiConfig.tickerMLB.hasLoaded = true;
-
-          tickerBuild(defaultData);
-        }
-      };
-      xhttp.open('GET', apiString, true);
-      xhttp.send();
-    }
-
-  }
+  // Deprecated : Ticker removed
+  // TODO : remove
+  // var bootstrapTicker = function(){
+  //
+  //   var tickerBuild = function(data){
+  //     var tickerContent = document.getElementById('ddb-ticker-content');
+  //
+  //     tickerContent.innerHTML = data;
+  //
+  //     setTimeout(function(){
+  //       addClass(tickerContent, 'ddb-ticker-animation');
+  //     }, 100);
+  //
+  //     window.removeEventListener('resize', resizeEvent);
+  //   }
+  //
+  //   if(apiConfig.tickerMLB.isLoading === false && apiConfig.tickerMLB.hasLoaded === false){
+  //
+  //     var apiString = apiConfig.tickerMLB.url(apiConfig.getRemoteAddress.res);
+  //     apiConfig.tickerMLB.isLoading = true;
+  //
+  //     var xhttp = createRequestObject();
+  //     xhttp.onreadystatechange = function(){
+  //       if(xhttp.readyState === 4 && xhttp.status === 200){
+  //         //Success
+  //         var res = JSON.parse(xhttp.responseText);
+  //         //console.log('TICKER RESULTS API SUCCESS', res);
+  //
+  //         var processedData = processTickerData(res);
+  //         apiConfig.tickerMLB.res = processedData;
+  //         apiConfig.tickerMLB.isLoading = false;
+  //         apiConfig.tickerMLB.hasLoaded = true;
+  //
+  //         tickerBuild(processedData);
+  //
+  //       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
+  //         //Error
+  //         var defaultData = buildDefaultTickerData();
+  //         apiConfig.tickerMLB.res = defaultData;
+  //         apiConfig.tickerMLB.isLoading = false;
+  //         apiConfig.tickerMLB.hasLoaded = true;
+  //
+  //         tickerBuild(defaultData);
+  //       }
+  //     };
+  //     xhttp.open('GET', apiString, true);
+  //     xhttp.send();
+  //   }
+  //
+  // }
 
   var bootstrapStaticCollegeBasketball = function(){
     //Link up nav items
@@ -501,7 +510,7 @@
         NCAA Basketball Conferences ` + (userLocationFound ? 'in your area' : '') + `
       </h1>
       <h3 class="ddb-menu-dropdown-links-subtitle">
-        showing NCAA Basketball conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaam-state-map-marker" class="ddb-bold">` + fullState + `</span>
+        showing NCAA Basketball conferences located in <i class="ddb-icon-map-marker ddb-brand-text"></i> <span id="ncaam-state-map-marker" class="ddb-bold">` + fullState + `</span>
       </h3>
     `;
 
@@ -527,7 +536,7 @@
           // ncaamLeagues.appendChild(item);
         })
         ncaamLinks += `
-          <a target="_blank" href="` + hoopsDomain + `/ncaa" class="ddb-menu-dropdown-all">
+          <a target="_blank" href="` + hoopsDomain + `/NCAA" class="ddb-menu-dropdown-all ddb-brand-all-conferences">
             SEE ALL CONFERENCES
           </a>
         `;
@@ -540,39 +549,39 @@
         apiConfig.teamsNCAAM.success = true;
 
         var navHTML = `
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1">
-              <i class="ddb-icon ddb-icon-trophy"></i>
+              <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
               Most Wins
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1">
-              <i class="ddb-icon ddb-icon-box-scores"></i>
+              <i class="ddb-icon ddb-icon-box-scores ddb-brand-text"></i>
               Most Turnovers
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1">
-              <i class="ddb-icon ddb-icon-dribbble"></i>
+              <i class="ddb-icon ddb-icon-dribbble ddb-brand-text"></i>
               Most Rebounds
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1">
-              <i class="ddb-icon ddb-icon-magic"></i>
+              <i class="ddb-icon ddb-icon-magic ddb-brand-text"></i>
               Most Steals
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1">
-              <i class="ddb-icon ddb-icon-thumbs-o-down"></i>
+              <i class="ddb-icon ddb-icon-thumbs-o-down ddb-brand-text"></i>
               Most Blocks
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1">
-              <i class="ddb-icon ddb-icon-life-ring"></i>
+              <i class="ddb-icon ddb-icon-life-ring ddb-brand-text"></i>
               Most Assists
             </a>
           </li>
@@ -644,7 +653,7 @@
         NCAA Football Conferences ` + (userLocationFound ? 'in your area': '') + `
       </h1>
       <h3 class="ddb-menu-dropdown-links-subtitle">
-        showing NCAA Football conferences located in <i class="ddb-icon-map-marker"></i> <span id="ncaaf-state-map-marker" class="ddb-bold">` + fullState + `</span>
+        showing NCAA Football conferences located in <i class="ddb-icon-map-marker ddb-brand-text"></i> <span id="ncaaf-state-map-marker" class="ddb-bold">` + fullState + `</span>
       </h3>
     `;
 
@@ -665,7 +674,7 @@
           // ncaafLeagues.appendChild(item);
         })
         ncaafLinks += `
-          <a target="_blank" href="` + touchdownDomain + `/ncaaf/pick-a-team" class="ddb-menu-dropdown-all">
+          <a target="_blank" href="` + touchdownDomain + `/ncaaf/pick-a-team" class="ddb-menu-dropdown-all ddb-brand-all-conferences">
             SEE ALL CONFERENCES
           </a>
         `;
@@ -678,33 +687,33 @@
         apiConfig.teamsNCAAF.sucess = true;
 
         var navHTML = `
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + touchdownDomain + `/ncaaf">
-              <i class="ddb-icon ddb-icon-news"></i>
+              <i class="ddb-icon ddb-icon-news ddb-brand-text"></i>
               News
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + touchdownDomain + `/ncaaf/standings">
-              <i class="ddb-icon ddb-icon-trophy"></i>
+              <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
               Standings
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + touchdownDomain + `/ncaaf/schedules/league/` + footballLeagueYear + `/1">
-              <i class="ddb-icon ddb-icon-calendar"></i>
+              <i class="ddb-icon ddb-icon-calendar ddb-brand-text"></i>
               Schedule
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + touchdownDomain + `/ncaaf/list-of-lists/league/` + footballLeagueYear + `/10/1">
-              <i class="ddb-icon ddb-icon-list"></i>
+              <i class="ddb-icon ddb-icon-list ddb-brand-text"></i>
               Top Lists
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + touchdownDomain + `/ncaaf/league">
-              <i class="ddb-icon ddb-icon-profile"></i>
+              <i class="ddb-icon ddb-icon-profile ddb-brand-text"></i>
               NCAA F Profile
             </a>
           </li>
@@ -734,7 +743,7 @@
     xhttp.open('GET', apiString, true);
     xhttp.send();
   }
-  //UPDATED
+
   var bootstrapNBADropdown = function(){
     //Static data for eastern conference
     var atlanticDivision = [
@@ -914,13 +923,13 @@
       <table class="ddb-menu-dropdown-table ddb-col-3">
         <thead>
           <tr>
-            <td>
+            <td class="ddb-brand-text">
               ATLANTIC
             </td>
-            <td>
+            <td class="ddb-brand-text">
               CENTRAL
             </td>
-            <td>
+            <td class="ddb-brand-text">
               SOUTHEAST
             </td>
           </tr>
@@ -931,13 +940,13 @@
       <table class="ddb-menu-dropdown-table ddb-col-3">
         <thead>
           <tr>
-            <td>
+            <td class="ddb-brand-text">
               PACIFIC
             </td>
-            <td>
+            <td class="ddb-brand-text">
               SOUTHWEST
             </td>
-            <td>
+            <td class="ddb-brand-text">
               NORTHWEST
             </td>
           </tr>
@@ -1021,39 +1030,39 @@
 
     var navEl = document.createElement('ul');
     navEl.innerHTML = `
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-wins/list/1/1">
-          <i class="ddb-icon ddb-icon-trophy"></i>
+          <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
           Most Wins
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-turnovers/list/12/1">
-          <i class="ddb-icon ddb-icon-box-scores"></i>
+          <i class="ddb-icon ddb-icon-box-scores ddb-brand-text"></i>
           Most Turnovers
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-rebounds/list/11/1">
-          <i class="ddb-icon ddb-icon-dribbble"></i>
+          <i class="ddb-icon ddb-icon-dribbble ddb-brand-text"></i>
           Most Rebounds
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-steals/list/15/1'">
-          <i class="ddb-icon ddb-icon-magic"></i>
+          <i class="ddb-icon ddb-icon-magic ddb-brand-text"></i>
           Most Steals
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-blocks/list/14/1">
-          <i class="ddb-icon ddb-icon-thumbs-o-down"></i>
+          <i class="ddb-icon ddb-icon-thumbs-o-down ddb-brand-text"></i>
           Most Blocks
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-assists-per-game/list/23/1">
-          <i class="ddb-icon ddb-icon-life-ring"></i>
+          <i class="ddb-icon ddb-icon-life-ring ddb-brand-text"></i>
           Most Assists
         </a>
       </li>
@@ -1065,7 +1074,7 @@
       links: linksEl
     }
   }
-  //UPDATED
+
   var bootstrapMLBDropdown = function(){
     //Static data for american league
     var alCentralDivision = [
@@ -1248,13 +1257,13 @@
       <table class="ddb-menu-dropdown-table ddb-col-3">
         <thead>
           <tr>
-            <td>
+            <td class="ddb-brand-text">
               AL Central
             </td>
-            <td>
+            <td class="ddb-brand-text">
               AL East
             </td>
-            <td>
+            <td class="ddb-brand-text">
               AL West
             </td>
           </tr>
@@ -1265,13 +1274,13 @@
       <table class="ddb-menu-dropdown-table ddb-col-3">
         <thead>
           <tr>
-            <td>
+            <td class="ddb-brand-text">
               NL Central
             </td>
-            <td>
+            <td class="ddb-brand-text">
               NL East
             </td>
-            <td>
+            <td class="ddb-brand-text">
               NL West
             </td>
           </tr>
@@ -1350,33 +1359,33 @@
 
       var navEl = document.createElement('ul');
       navEl.innerHTML = `
-        <li>
+        <li class="ddb-brand-menu-hover">
           <a target="_blank" href="` + homerunDomain + `">
-            <i class="ddb-icon ddb-icon-news"></i>
+            <i class="ddb-icon ddb-icon-news ddb-brand-text"></i>
             News
           </a>
         </li>
-        <li>
+        <li class="ddb-brand-menu-hover">
           <a target="_blank" href="` + homerunDomain + `/standings">
-            <i class="ddb-icon ddb-icon-trophy"></i>
+            <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
             Standings
           </a>
         </li>
-        <li>
+        <li class="ddb-brand-menu-hover">
           <a target="_blank" href="` + homerunDomain + `/schedules/mlb/1">
-            <i class="ddb-icon ddb-icon-calendar"></i>
+            <i class="ddb-icon ddb-icon-calendar ddb-brand-text"></i>
             Schedule
           </a>
         </li>
-        <li>
+        <li class="ddb-brand-menu-hover">
           <a target="_blank" href="` + homerunDomain + `/list-of-lists/league/10/1">
-            <i class="ddb-icon ddb-icon-list"></i>
+            <i class="ddb-icon ddb-icon-list ddb-brand-text"></i>
             Top Lists
           </a>
         </li>
-        <li>
+        <li class="ddb-brand-menu-hover">
           <a target="_blank" href="` + homerunDomain + `/mlb">
-            <i class="ddb-icon ddb-icon-profile"></i>
+            <i class="ddb-icon ddb-icon-profile ddb-brand-text"></i>
             MLB Profile
           </a>
         </li>
@@ -1388,7 +1397,7 @@
       }
 
   };
-  //UPDATED
+
   var bootstrapNFLDropdown = function(){
     var afcNorth = [
       {
@@ -1581,16 +1590,16 @@
       <table class="ddb-menu-dropdown-table ddb-col-4">
         <thead>
           <tr>
-            <td>
+            <td class="ddb-brand-text">
               AFC North
             </td>
-            <td>
+            <td class="ddb-brand-text">
               AFC East
             </td>
-            <td>
+            <td class="ddb-brand-text">
               AFC South
             </td>
-            <td>
+            <td class="ddb-brand-text">
               AFC West
             </td>
           </tr>
@@ -1601,16 +1610,16 @@
     <table class="ddb-menu-dropdown-table ddb-col-4">
       <thead>
         <tr>
-          <td>
+          <td class="ddb-brand-text">
             NFC North
           </td>
-          <td>
+          <td class="ddb-brand-text">
             NFC East
           </td>
-          <td>
+          <td class="ddb-brand-text">
             NFC South
           </td>
-          <td>
+          <td class="ddb-brand-text">
             NFC West
           </td>
         </tr>
@@ -1691,33 +1700,33 @@
 
     var navEl = document.createElement('ul');
     navEl.innerHTML = `
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + touchdownDomain + `/nfl">
-          <i class="ddb-icon ddb-icon-news"></i>
+          <i class="ddb-icon ddb-icon-news ddb-brand-text"></i>
           News
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + touchdownDomain + `/nfl/standings">
-          <i class="ddb-icon ddb-icon-trophy"></i>
+          <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
           Standings
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + touchdownDomain + `/nfl/schedules/league/` + footballLeagueYear + `/1">
-          <i class="ddb-icon ddb-icon-calendar"></i>
+          <i class="ddb-icon ddb-icon-calendar ddb-brand-text"></i>
           Schedule
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + touchdownDomain + `/nfl/list-of-lists/league/` + footballLeagueYear + `/10/1">
-          <i class="ddb-icon ddb-icon-list"></i>
+          <i class="ddb-icon ddb-icon-list ddb-brand-text"></i>
           Top Lists
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + touchdownDomain + `/nfl/league">
-          <i class="ddb-icon ddb-icon-profile"></i>
+          <i class="ddb-icon ddb-icon-profile ddb-brand-text"></i>
           NFL Profile
         </a>
       </li>
@@ -2553,7 +2562,7 @@
         break;
       }
       el.innerHTML = `
-        <a target="_blank" href="` + link + `">
+        <a target="_blank" href="` + link + `" class="ddb-brand-search-result">
           <i class="ddb-icon ` + iconClass + `"></i>
           ` + data.teamName + `
         </a>
@@ -2684,6 +2693,69 @@
    * Other functions
    **/
 
+  //Applies branding stylesheet for certain elements
+  var brandBar = function(){
+      var brandHex = params.brandHex;
+      //Check if brand hex exists
+      if(brandHex === null){
+          return false;
+      }
+      var brandStyleEl = document.createElement('style');
+      brandStyleEl.dataset.resource_from = 'deepdive-bar-embed';
+      brandStyleEl.innerHTML = `
+        .ddb-brand-text{
+            color: ` + brandHex + ` !important;
+        }
+        .ddb-brand-background{
+            background-color: ` + brandHex + ` !important;
+        }
+        .ddb-brand-border{
+            border-color: ` + brandHex + ` !important;
+        }
+        .ddb-menu-dropdown-events.ddb-active .ddb-menu-dropdown-events-button.ddb-brand-boxscores-filter{
+            background-color: ` + brandHex + ` !important;
+            border-color: ` + brandHex + ` !important;
+        }
+        .ddb-menu-dropdown-events-options-list>li.ddb-active.ddb-brand-boxscores-option{
+            background-color: ` + brandHex + ` !important;
+            border-color: ` + brandHex + ` !important;
+        }
+        .ddb-menu-dropdown-events-options-list>li.ddb-brand-boxscores-option:hover{
+            border-color: ` + brandHex + ` !important;
+        }
+        .ddb-boxscores-button.ddb-blue.ddb-brand-boxscores-button{
+            background-color: ` + brandHex + `;
+        }
+        .ddb-brand-menu-hover:hover{
+            background-color: ` + brandHex + ` !important;
+        }
+        .ddb-brand-menu-hover:hover i{
+            color: #fff !important;
+        }
+        .ddb-brand-menu-hover:hover:after{
+            background-color: ` + brandHex + ` !important;
+        }
+        .ddb-brand-all-conferences{
+            border-color: ` + brandHex + ` !important;
+            color: ` + brandHex + ` !important;
+        }
+        .ddb-brand-all-conferences:hover{
+            background-color: ` + brandHex + ` !important;
+            color: #fff !important;
+        }
+        .ddb-brand-search-result .ddb-icon{
+            color: ` + brandHex + ` !important;
+        }
+        .ddb-brand-search-result:hover, .ddb-search-active>.ddb-brand-search-result{
+            background-color: ` + brandHex + ` !important;
+        }
+        .ddb-brand-search-result:hover .ddb-icon, .ddb-search-active>.ddb-brand-search-result .ddb-icon{
+            color: #fff !important;
+        }
+      `;
+      document.head.appendChild(brandStyleEl);
+  }
+
    //Load any style/link dependencies. This is called before the dom content is loaded
   function loadLinkDependencies(){
      //Load font
@@ -2693,6 +2765,10 @@
      fontEl.dataset.resource_from = 'deepdive-bar-embed';
      fontEl.href = 'https://fonts.googleapis.com/css?family=Lato:400,700';
      document.head.appendChild(fontEl);
+     //Brand Bar
+     if(params.brandHex !== null){
+         brandBar();
+     }
      //Load styles
      var styleEl = document.createElement('link');
      styleEl.rel = 'stylesheet';
@@ -2790,9 +2866,11 @@
          apiConfig.getRemoteAddress.hasLoaded = true;
          apiConfig.getRemoteAddress.success = true;
 
-        //Check for screen size to load certain modules
-        resizeEvent();
-        window.addEventListener('resize', resizeEvent);
+         // Deprecated : Ticker removed
+         // TODO : remove
+         //Check for screen size to load certain modules
+         // resizeEvent();
+         // window.addEventListener('resize', resizeEvent);
       }else if(xhttp.readyState === 4 && xhttp.status !== 200){
          //Error
          //console.log('GET USER LOCATION ERROR');
@@ -2802,9 +2880,11 @@
          apiConfig.getRemoteAddress.hasLoaded = true;
          apiConfig.getRemoteAddress.success = false;
 
+         // Deprecated : Ticker removed
+         // TODO : remove
          //Check for screen size to load certain modules
-         resizeEvent();
-         window.addEventListener('resize', resizeEvent);
+         //  resizeEvent();
+         //  window.addEventListener('resize', resizeEvent);
        }
      };
      xhttp.open('GET', apiString, true);
@@ -2892,7 +2972,7 @@
         <table class="ddb-menu-dropdown-table ddb-col-3">
           <thead>
             <tr>
-              <td colspan="3">
+              <td colspan="3" class="ddb-brand-text">
                 ` + leagueName + `
               </td>
             </tr>
@@ -2964,7 +3044,7 @@
         <table class="ddb-menu-dropdown-table ddb-col-3">
           <thead>
             <tr>
-              <td colspan="3">
+              <td colspan="3" class="ddb-brand-text">
                 ` + leagueName + `
               </td>
             </tr>
@@ -3432,14 +3512,16 @@
      return allGames;
    }
 
-   var resizeEvent = throttle(function(){
-     var windowWidth = window.innerWidth;
-
-     //If window is large enough and get remote address api has finsihed
-     if(windowWidth >= 1280 && apiConfig.tickerMLB.isLoading === false && apiConfig.tickerMLB.hasLoaded === false){
-       bootstrapTicker();
-     }
-   }, 100);
+   // Deprecated : Ticker removed
+   // TODO : remove
+   // var resizeEvent = throttle(function(){
+   //   var windowWidth = window.innerWidth;
+   //
+   //   //If window is large enough and get remote address api has finsihed
+   //   if(windowWidth >= 1280 && apiConfig.tickerMLB.isLoading === false && apiConfig.tickerMLB.hasLoaded === false){
+   //     bootstrapTicker();
+   //   }
+   // }, 100);
   /**
    * Global event functions
    **/
