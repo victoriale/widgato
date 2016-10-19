@@ -549,37 +549,37 @@
         apiConfig.teamsNCAAM.success = true;
 
         var navHTML = `
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1">
               <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
               Most Wins
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1">
               <i class="ddb-icon ddb-icon-box-scores ddb-brand-text"></i>
               Most Turnovers
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1">
               <i class="ddb-icon ddb-icon-dribbble ddb-brand-text"></i>
               Most Rebounds
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1">
               <i class="ddb-icon ddb-icon-magic ddb-brand-text"></i>
               Most Steals
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1">
               <i class="ddb-icon ddb-icon-thumbs-o-down ddb-brand-text"></i>
               Most Blocks
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1">
               <i class="ddb-icon ddb-icon-life-ring ddb-brand-text"></i>
               Most Assists
@@ -687,31 +687,31 @@
         apiConfig.teamsNCAAF.sucess = true;
 
         var navHTML = `
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + touchdownDomain + `/ncaaf">
               <i class="ddb-icon ddb-icon-news ddb-brand-text"></i>
               News
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + touchdownDomain + `/ncaaf/standings">
               <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
               Standings
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + touchdownDomain + `/ncaaf/schedules/league/` + footballLeagueYear + `/1">
               <i class="ddb-icon ddb-icon-calendar ddb-brand-text"></i>
               Schedule
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + touchdownDomain + `/ncaaf/list-of-lists/league/` + footballLeagueYear + `/10/1">
               <i class="ddb-icon ddb-icon-list ddb-brand-text"></i>
               Top Lists
             </a>
           </li>
-          <li>
+          <li class="ddb-brand-menu-hover">
             <a target="_blank" href="` + touchdownDomain + `/ncaaf/league">
               <i class="ddb-icon ddb-icon-profile ddb-brand-text"></i>
               NCAA F Profile
@@ -1030,37 +1030,37 @@
 
     var navEl = document.createElement('ul');
     navEl.innerHTML = `
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-wins/list/1/1">
           <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
           Most Wins
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-turnovers/list/12/1">
           <i class="ddb-icon ddb-icon-box-scores ddb-brand-text"></i>
           Most Turnovers
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-rebounds/list/11/1">
           <i class="ddb-icon ddb-icon-dribbble ddb-brand-text"></i>
           Most Rebounds
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-steals/list/15/1'">
           <i class="ddb-icon ddb-icon-magic ddb-brand-text"></i>
           Most Steals
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-blocks/list/14/1">
           <i class="ddb-icon ddb-icon-thumbs-o-down ddb-brand-text"></i>
           Most Blocks
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-assists-per-game/list/23/1">
           <i class="ddb-icon ddb-icon-life-ring ddb-brand-text"></i>
           Most Assists
@@ -1359,31 +1359,31 @@
 
       var navEl = document.createElement('ul');
       navEl.innerHTML = `
-        <li>
+        <li class="ddb-brand-menu-hover">
           <a target="_blank" href="` + homerunDomain + `">
             <i class="ddb-icon ddb-icon-news ddb-brand-text"></i>
             News
           </a>
         </li>
-        <li>
+        <li class="ddb-brand-menu-hover">
           <a target="_blank" href="` + homerunDomain + `/standings">
             <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
             Standings
           </a>
         </li>
-        <li>
+        <li class="ddb-brand-menu-hover">
           <a target="_blank" href="` + homerunDomain + `/schedules/mlb/1">
             <i class="ddb-icon ddb-icon-calendar ddb-brand-text"></i>
             Schedule
           </a>
         </li>
-        <li>
+        <li class="ddb-brand-menu-hover">
           <a target="_blank" href="` + homerunDomain + `/list-of-lists/league/10/1">
             <i class="ddb-icon ddb-icon-list ddb-brand-text"></i>
             Top Lists
           </a>
         </li>
-        <li>
+        <li class="ddb-brand-menu-hover">
           <a target="_blank" href="` + homerunDomain + `/mlb">
             <i class="ddb-icon ddb-icon-profile ddb-brand-text"></i>
             MLB Profile
@@ -1700,31 +1700,31 @@
 
     var navEl = document.createElement('ul');
     navEl.innerHTML = `
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + touchdownDomain + `/nfl">
           <i class="ddb-icon ddb-icon-news ddb-brand-text"></i>
           News
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + touchdownDomain + `/nfl/standings">
           <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
           Standings
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + touchdownDomain + `/nfl/schedules/league/` + footballLeagueYear + `/1">
           <i class="ddb-icon ddb-icon-calendar ddb-brand-text"></i>
           Schedule
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + touchdownDomain + `/nfl/list-of-lists/league/` + footballLeagueYear + `/10/1">
           <i class="ddb-icon ddb-icon-list ddb-brand-text"></i>
           Top Lists
         </a>
       </li>
-      <li>
+      <li class="ddb-brand-menu-hover">
         <a target="_blank" href="` + touchdownDomain + `/nfl/league">
           <i class="ddb-icon ddb-icon-profile ddb-brand-text"></i>
           NFL Profile
@@ -2724,6 +2724,15 @@
             border-color: ` + brandHex + ` !important;
         }
         .ddb-boxscores-button.ddb-blue.ddb-brand-boxscores-button{
+            background-color: ` + brandHex + ` !important;
+        }
+        .ddb-brand-menu-hover:hover{
+            background-color: ` + brandHex + ` !important;
+        }
+        .ddb-brand-menu-hover:hover i{
+            color: #fff !important;
+        }
+        .ddb-brand-menu-hover:hover:after{
             background-color: ` + brandHex + ` !important;
         }
       `;
