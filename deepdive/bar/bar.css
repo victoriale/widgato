@@ -138,6 +138,9 @@
 .ddb-boxscores-button.ddb-blue{
   background-color: #4a90e2;
 }
+.ddb-boxscores-button.ddb-blue:hover{
+    background-color: #000 !important;
+}
 
 .ddb-boxscores-frame{
   position: absolute;
@@ -158,10 +161,10 @@
   width: 40px;
   height: 100%;
   background: transparent;
-  background: -webkit-linear-gradient(left, transparent , #fff);
-  background: -o-linear-gradient(right, transparent, #fff);
-  background: -moz-linear-gradient(right, transparent, #fff);
-  background: linear-gradient(to right, transparent , #fff);
+  background: -webkit-linear-gradient(left, rgba(255, 255, 255, 0) , #fff);
+  background: -o-linear-gradient(right, rgba(255, 255, 255, 0), #fff);
+  background: -moz-linear-gradient(right, rgba(255, 255, 255, 0), #fff);
+  background: linear-gradient(to right, rgba(255, 255, 255, 0) , #fff);
   z-index: 10;
   pointer-events: none;
 }
