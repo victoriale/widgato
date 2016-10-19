@@ -194,6 +194,11 @@ i {
     display: inline-block;
 }
 
+#title-link {
+  color: black;
+  cursor: pointer;
+}
+
 #desc {
     margin-top: 2px;
     width: 100%;
@@ -210,11 +215,17 @@ i {
 
 #next-list-link .dw-btn{
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 165px;
+  width: 119px;
 }
 
 #next-list-link .dw-btn svg{
   margin-bottom: 1px;
+}
+
+#list-link .dw-btn {
+  width: 137px;
+  margin-left: 15px;
 }
 
 .dw-btn {
@@ -223,11 +234,10 @@ i {
     background-color: white;
     font-size: 11px;
     line-height: 28px;
-    width: 118px;
     height: 30px;
     border-radius: 3px;
-    position: relative;
-    left: 25px;
+    position: absolute;
+    bottom: 18px;
     border: 1px solid #000;
     cursor: pointer;
     text-align: center;
