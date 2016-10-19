@@ -624,14 +624,12 @@ chatterbox = (function () {
 ();
 //function to send a message to the chatterbox module. This should bypass the iframe security.
 function postHeight() {
-    var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
-    if (typeof target != "undefined" && document.body.scrollHeight) {
-        setTimeout(function () {
+    setTimeout(function () {
+        var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
+        if (typeof target != "undefined" && document.body.scrollHeight) {
             target.postMessage(document.getElementById("wrapper").scrollHeight, "*");
-            //This is temporary. I just want to see if the code is firing at the top level. It will be removed once confirmed.
-            console.log(document.getElementById("wrapper").scrollHeight);
-        }, 100);
-    }
+        }
+    }, 100);
 }
-window.addEventListener("load", postHeight, false);
 window.addEventListener("resize", postHeight, false);
+window.addEventListener("load", postHeight, false);
