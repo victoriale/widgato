@@ -214,20 +214,30 @@ function RenderArticleSide(protocolToUse) {
         if (isMlb) {
             $('.ball').css('background-image', 'url(../css/public/icons/Home-Run-Loyal_Icon%202.svg)');
             $('.swp-top').css('background-color', '#b31d24');
-            $('.buttons-readstory').css('background-color', '#b31d24');
-            $('.buttons-nextlist').hover(function () {
-                $(this).css("background-color", '#b31d24');
+            $('.buttons-readstory').css({'background-color': '#b31d24', 'border': '1px solid #b31d24'});
+            $('.buttons-readstory').hover(function () {
+                $(this).css({'background-color': '#000', 'border': '1px solid #000'});
             }, function () {
-                $(this).css("background-color", "transparent");
+                $(this).css({'background-color': '#b31d24', 'border': '1px solid #b31d24'});
+            });
+            $('.buttons-nextlist').hover(function () {
+                $(this).css({'background-color': '#000', 'border': '1px solid #000'});
+            }, function () {
+                $(this).css({'background-color': 'transparent', 'border': '1px solid #fff'});
             });
         } else {
             $('.ball').css('background-image', 'url(../css/public/icons/Touchdown-Loyal_Icon.svg)');
             $('.swp-top').css('background-color', 'rgb(45, 62, 80)');
-            $('.buttons-readstory').css('background-color', 'rgba(45, 62, 80, 0.9)');
-            $('.buttons-nextlist').hover(function () {
-                $(this).css("background-color", 'rgba(45, 62, 80, 0.9)');
+            $('.buttons-readstory').css({'background-color': 'rgba(45, 62, 80, 0.9)', 'border': '1px solid rgba(45, 62, 80, 0.9)'});
+            $('.buttons-readstory').hover(function () {
+                $(this).css({'background-color': '#000', 'border': '1px solid #000'});
             }, function () {
-                $(this).css("background-color", "transparent");
+                $(this).css({'background-color': 'rgba(45, 62, 80, 0.9)', 'border': '1px solid rgba(45, 62, 80, 0.9)'});
+            });
+            $('.buttons-nextlist').hover(function () {
+                $(this).css({'background-color': '#000', 'border': '1px solid #000'});
+            }, function () {
+                $(this).css({'background-color': 'transparent', 'border': '1px solid #fff'});
             });
         }
         parseGames();
