@@ -145,7 +145,7 @@ dynamic_widget = function() {
           }
       };
       if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {
-        i.open('GET', protocol + "://dev-touchdownloyal-api.synapsys.us/articleBatch/nfl/20/1" , true);
+        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=sports&subCategory=nfl&metaDataOnly=1&count=20" , true);
         i.send()
       }
       else {
@@ -194,10 +194,6 @@ dynamic_widget = function() {
         }
         if (l.category == 'mlb') {
             r.l_title = r.l_title.replace("MLB","Baseball");
-        }
-
-        if ($('line4') != null && d.getElementsByClassName('dw')[0].clientWidth == 350 && $('title').scrollHeight > 61) {
-            $('title').setAttribute('style', 'font-size: 14px')
         }
         var n = true;
         var specialDomains = [
@@ -351,16 +347,16 @@ function p() {
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
         if (e.rankType == "team") {
-          if (e.imagePath != null && e.imagePath != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.imagePath);
+          if (e.image_url != null && e.image_url != "null") {
+            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url);
           }
           else {
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
           }
         }
         else {
-          if (e.imagePath != null && e.imagePath != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.imagePath);
+          if (e.image_url != null && e.image_url != "null") {
+            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url);
           }
           else {
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
@@ -374,20 +370,11 @@ function p() {
 
         if ($('list-link')) {
             var u = d.getElementsByClassName('dw-btn')[0];
-            if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight) {
-                $('title').setAttribute('style', 'font-size: 14px');
-                if (d.getElementsByClassName('dw')[0].clientHeight <= 250) {
-                    $('title').setAttribute('style', 'font-size: 12px')
-                }
-            }
             if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight - 10 && d.getElementsByClassName('dw')[0].clientHeight <= 250) {
                 d.getElementsByClassName('dw-btn')[0].setAttribute('style', 'margin-top: 0')
             }
         }
         var p = $('title');
-        if (p.offsetTop + p.scrollHeight > $('carousel').offsetTop) {
-            $('title').setAttribute('style', 'font-size: 14px')
-        }
       }
       else {
         var e = r.l_data[i];
@@ -465,20 +452,11 @@ function p() {
         }
         if ($('list-link')) {
             var u = d.getElementsByClassName('dw-btn')[0];
-            if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight) {
-                $('title').setAttribute('style', 'font-size: 14px');
-                if (d.getElementsByClassName('dw')[0].clientHeight <= 250) {
-                    $('title').setAttribute('style', 'font-size: 12px')
-                }
-            }
             if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight - 10 && d.getElementsByClassName('dw')[0].clientHeight <= 250) {
                 d.getElementsByClassName('dw-btn')[0].setAttribute('style', 'margin-top: 0')
             }
         }
         var p = $('title');
-        if (p.offsetTop + p.scrollHeight > $('carousel').offsetTop) {
-            $('title').setAttribute('style', 'font-size: 14px')
-        }
       }
 
     }
