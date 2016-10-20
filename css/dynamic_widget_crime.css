@@ -37,5 +37,36 @@ a:hover {
   stroke: white
 }
 
+.bg-img .dw-btn {
+    border-color: #f2f2f2!important;
+    background-color: #f2f2f2 !important;
+    color: #f6af05!important;
+    fill: #f6af05;
+    stroke: #f6af05;
+}
+
+.bg-img .dw-btn:hover {
+  background-color: #272727!important;
+  border-color: #272727!important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+
+.bg-img #next-list-link .dw-btn{
+  border-color: white!important;
+  background-color: transparent !important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+.bg-img #next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
 .hover {
     background: rgba(246,175,5,0.85)!important;
