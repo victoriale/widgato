@@ -244,8 +244,8 @@ function p() {
         var e = r.data[i];
         var v_link = '';
         $('title-text').innerHTML = e.title;
-        if ($('keyword') && e.article_type) {
-          $('keyword').innerHTML = e.article_type.replace(/-/g," ");
+        if ($('keyword') && e.category) {
+          $('keyword').innerHTML = e.category.replace(/-/g," ");
         }
 
         var date = new Date(e.last_updated*1000);
@@ -261,7 +261,6 @@ function p() {
         var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
         if ($('date')) {
           $('date').innerHTML = formattedDate;
-
         }
           // var a = "";
           // if (SpecialDomain == "") {
