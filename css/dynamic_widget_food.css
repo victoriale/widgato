@@ -1,11 +1,11 @@
 a:hover {
-    color: #2d3e50;
+    color: #00c5a0;
 }
 #verticalName {
-  background-color: #2d3e50;
+  background-color: #00c5a0;
 }
 .dw-nav{
-    background-color: #2d3e50!important;
+    background-color: #00c5a0!important;
 }
 .dw-btn:hover,
 .dw-nav:hover {
@@ -14,20 +14,20 @@ a:hover {
 }
 
 #homelink>div {
-    background-image: url(../css/public/Icon_Football.svg);
+    background-image: url(../css/public/Icon_food.svg);
 }
 
 .dw-btn {
-    border-color: #2d3e50!important;
-    background-color: #2d3e50 !important;
+    border-color: #00c5a0!important;
+    background-color: #00c5a0 !important;
     color: white!important;
 }
 #next-list-link .dw-btn{
-  border-color: #2d3e50!important;
+  border-color: #00c5a0!important;
   background-color: white !important;
-  color: #2d3e50!important;
-  fill: #2d3e50;
-  stroke: #2d3e50;
+  color: #00c5a0!important;
+  fill: #00c5a0;
+  stroke: #00c5a0;
 }
 #next-list-link .dw-btn:hover{
   border-color: #272727!important;
@@ -40,9 +40,9 @@ a:hover {
 .bg-img .dw-btn {
     border-color: #f2f2f2!important;
     background-color: #f2f2f2 !important;
-    color: #2d3e50!important;
-    fill: #2d3e50;
-    stroke: #2d3e50;
+    color: #00c5a0!important;
+    fill: #00c5a0;
+    stroke: #00c5a0;
 }
 
 .bg-img .dw-btn:hover {
@@ -69,7 +69,7 @@ a:hover {
 }
 
 #line1:hover {
-  color: #2d3e50;
+  color: #00c5a0;
 }
 .hover {
-    background: rgba(45, 62, 80, 0.75)!important;
+    background: rgba(0, 197, 160, 0.75)!important;

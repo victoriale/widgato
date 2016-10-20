@@ -28,7 +28,7 @@ dynamic_widget = function() {
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
-        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
+        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','tcx','entertainment','food','travel','health','sports','lifestyle','breaking','ipo','automotive'];
     var s = false;
     var o = '';
     function c(e) {
@@ -244,18 +244,25 @@ function p() {
         var e = r.data[i];
         var v_link = '';
         $('title-text').innerHTML = e.title;
-        $('keyword').innerHTML = e.article_type.replace(/-/g," ");
+        if ($('keyword') && e.article_type) {
+          $('keyword').innerHTML = e.article_type.replace(/-/g," ");
+        }
 
         var date = new Date(e.last_updated*1000);
-        var monthNames = ["January", "February", "March", "April", "May", "June",
-          "July", "August", "September", "October", "November", "December"
+        var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+        var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+          "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"
         ];
         var month = date.getMonth();
         var day = date.getDate();
+        var dayofWeek = date.getDay();
         var year = date.getFullYear();
 
-        var formattedDate = monthNames[month] + " " + day + ", " + year;
-        $('date').innerHTML = formattedDate;
+        var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
+        if ($('date')) {
+          $('date').innerHTML = formattedDate;
+
+        }
           // var a = "";
           // if (SpecialDomain == "") {
           //   v_link = l.remn == 'true' ? "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId : "/p/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
@@ -372,19 +379,21 @@ function p() {
                 var hn = "Football";
               break;
             case "weather":
-              var hn = "Weather";
-              break;
             case "politics":
-            var hn = "Politics";
-              break;
             case "disaster":
-            var hn = "Disaster";
-              break;
             case "demographics":
-            var hn = "Demographics";
-              break;
             case "crime":
-            var hn = "Crime";
+            case "tcx":
+            case "entertainment":
+            case "food":
+            case "travel":
+            case "health":
+            case "sports":
+            case "lifestyle":
+            case "breaking":
+            case "ipo":
+            case "automotive":
+              var hn = l.category;
               break;
             default:
                 var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';

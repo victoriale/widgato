@@ -52,10 +52,9 @@
             </a>
             <img class="dw-big dw-c-img" id=mainimg onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;">
 
-            <div class=dw-info>
+            <div class="dw-info bg-img">
               <div class="meta-info">
                 <span id="keyword">[KEYWORD]</span>
-                &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
                 <span id="date">[MM] [DD], [YYYY]</span>
               </div>
               <a target=_blank id=title-link href="">
@@ -104,14 +103,24 @@
                     nba: "sports",
                     college_basketball: "sports",
                     mlb: "mlb",
+                    nfl: "nfl",
+                    ncaaf: "ncaaf",
+                    nflncaaf: "nflncaaf",
                     finance: "finance",
                     crime: "crime",
                     demographics: "demographics",
                     disaster: "disaster",
                     weather: "weather",
-                    nfl: "nfl",
-                    ncaaf: "ncaaf",
-                    nflncaaf: "nflncaaf"
+                    tcx: "tcx",
+                    entertainment: "entertainment",
+                    food: "food",
+                    travel: "travel",
+                    health: "health",
+                    sports: "sports",
+                    lifestyle: "lifestyle",
+                    breaking: "breaking",
+                    ipo: "ipo",
+                    automotive: "automotive"
                 };
             return "politics" == t.category ? !1 : (("undefined" == typeof t.category || "undefined" == typeof n[t.category]) && (t.category = "finance"), e += n[t.category] + ".css", void add_css_link(e))
         }();
