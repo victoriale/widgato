@@ -153,13 +153,13 @@ billboard = (function () {
         $('.main-top-title-xs')[0].innerHTML = arr1.title;
         $('.main-top-description')[0].innerHTML = arr1.content;
         $('.main-top-description')[1].innerHTML = arr1.content;
-        $('.top-image').attr("src", arr1.img);
+        $('.top-image').css("background-image", 'url(' + arr1.img + ')');
         $('#main-bottom-link').attr('href', arr2.url);
         $('.main-bottom-title')[0].innerHTML = arr2.title;
         $('.main-bottom-title-xs')[0].innerHTML = arr2.title;
         $('.main-bottom-description')[0].innerHTML = arr2.content;
         $('.main-bottom-description')[1].innerHTML = arr2.content;
-        $('.bottom-image').attr("src", arr2.img);
+        $('.bottom-image').css("background-image", 'url(' + arr2.img + ')');
         //set vertical colors and name:
         $('.header, .search-button-small, .news-button-up, .news-button-down, .search-container').css('background', verticalColor);
         $('.search-container-arrow').css('border-bottom', '8px solid ' + verticalColor);
@@ -194,13 +194,13 @@ billboard = (function () {
     function displaySubArticles() {
         for (var i = 0; i < randomArticles.length; i++) {
             var subContainer = document.createElement('div');
-            var subImage = document.createElement('img');
+            var subImage = document.createElement('div');
             var subTitle = document.createElement('div');
             var subHr = document.createElement('div');
             var subImgContainer = document.createElement('div');
             subContainer.className = 'col-xs-12 news-container';
             subImgContainer.className = 'col-xs-3 embed-responsive embed-responsive-16by9-sub news-image';
-            subImage.className = 'embed-responsive-item';
+            subImage.className = 'embed-responsive-item sub-image';
             subTitle.className = 'col-xs-7 news-title';
             subHr.className = 'col-xs-11 news-hr';
             $('.news-updates')[0].appendChild(subContainer);
@@ -208,7 +208,7 @@ billboard = (function () {
             subImgContainer.appendChild(subImage);
             subContainer.appendChild(subTitle);
             subTitle.innerHTML = randomArticles[i].title;
-            subImage.src = randomArticles[i].articleImage;
+            subImage.style.backgroundImage = "url('" + randomArticles[i].articleImage + "')";
             $(subContainer).wrapInner($('<a href="' + href + league + '/articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
             subContainer.appendChild(subHr);
         }

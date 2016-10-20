@@ -115,7 +115,7 @@ chatterbox = (function () {
             //to be replaced once data is coming in.
             //keyword: dataArr[0].keyword,
             keyword: 'football',
-            date: moment(dataArr[0][1].dateline).format("MMM DD, YYYY"),
+            date: moment(dataArr[0][1].dateline).format("dddd, MMM. DD, YYYY"),
             title: dataArr[0][1].displayHeadline,
             url: href + league + '/articles/' + dataArr[0][0] + '/' + id,
             content: dataArr[0].report + '<br>&nbsp; ',
@@ -249,7 +249,6 @@ chatterbox = (function () {
         if (cbdropDownDisplay.hasClass('active')) {
             cbdropDownDisplay.removeClass('active');
             topic.removeClass('active');
-            moreTab.find('.fa').removeClass('fa-caret-down').addClass('fa-caret-up');
         }
         var target = event.target || event.srcElement;
         selectedTab = target.innerHTML;
@@ -404,11 +403,9 @@ chatterbox = (function () {
             if (cbdropDownDisplay.hasClass('active')) {
                 cbdropDownDisplay.removeClass('active');
                 topic.removeClass('active');
-                moreTab.find('.fa').removeClass('fa-caret-down').addClass('fa-caret-up');
             } else {
                 cbdropDownDisplay.addClass('active');
                 topic.addClass('active');
-                moreTab.find('.fa').addClass('fa-caret-down').removeClass('fa-caret-up');
                 if (!isCreated) {
                     scrollBar.initAll();
                     isCreated = true;
@@ -505,7 +502,6 @@ chatterbox = (function () {
         if (cbdropDownDisplay.hasClass('active')) {
             cbdropDownDisplay.removeClass('active');
             topic.removeClass('active');
-            moreTab.find('.fa').removeClass('fa-caret-down').addClass('fa-caret-up');
         }
     };
 
@@ -590,12 +586,17 @@ chatterbox = (function () {
                     _this = this;
                 this.scrollRatio = parentHeight / totalHeight;
                 animationFrame(function () {
+                    var scrollOffset = 6;
+                    var scrollPercentage = _this.element.scrollTop / totalHeight;
+                    var topPosition = scrollPercentage * totalHeight;
+                    topPosition += scrollOffset;
                     // hides scroll if not needed
                     //setup for scroll bar positioning and height
                     _this.bar.style.cssText = 'height:' + (_this.scrollRatio) * 85 + '%; top:' +
                         ((_this.element.scrollTop + 15) / totalHeight ) * 100 + '%;right:-' +
                         (_this.target.clientWidth - _this.bar.clientWidth - 7) + 'px;';
-                    _this.trackBar.style.cssText = 'height:' + (_this.element.scrollHeight - 15) + 'px';
+                    _this.trackBar.style.cssText = 'height:' + (parentHeight - 15) + 'px;' +
+                        'top:' + (topPosition) + 'px;';
                 });
             }
         };
