@@ -34,7 +34,7 @@ i {
     box-shadow: 0 0 0 1px #b7b7b7 inset
 }
 
-#title {
+#title-text {
     font-size: 16px;
     font-weight: 800;
     width: 300px;
@@ -69,7 +69,7 @@ i {
 
 #carousel {
     width: 300px;
-    height: 160px;
+    height: 155px;
     position: relative;
     overflow: hidden;
 }
@@ -200,7 +200,6 @@ i {
 }
 
 #desc {
-    margin-top: 2px;
     width: 100%;
     font-size: 12px;
     line-height: 16px;
@@ -211,6 +210,11 @@ i {
 }
 #desc p {
   margin: 0;
+}
+.line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
 }
 
 #next-list-link .dw-btn{

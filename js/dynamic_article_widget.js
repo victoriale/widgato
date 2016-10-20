@@ -44,62 +44,27 @@ dynamic_widget = function() {
             })
         }
     }
-    function httpGetInitData(league){
-      if (league == "nfl") {
-        var url = '../js/tdl_list_array.json';
-      }
-      else if (league == "ncaaf") {
-        var url = '../js/tdl_list_array_ncaaf.json';
-      }
-      else if (league == "nflncaaf") {
-        rand = Math.floor((Math.random() * 2) + 1);
-        if (rand == 1) {
-          var url = '../js/tdl_list_array_ncaaf.json';
-          l.category = "ncaaf";
-        }
-        else {
-          var url = '../js/tdl_list_array.json';
-          l.category = "nfl";
-        }
-      }
-      var xmlHttp = new XMLHttpRequest();
-      xmlHttp.onreadystatechange = function(){
-        if(xmlHttp.readyState === 4 && xmlHttp.status === 200){
-          //On complete function
-          initData = JSON.parse(xmlHttp.responseText);
-          getRandList(initData);
-        }
-      }
-      xmlHttp.open( "GET", url, true ); // false for synchronous request
-      xmlHttp.send( null );
-    }
-    function getRandList(initData) {
+    function getRandList() {
       rand = Math.floor((Math.random() * 138) + 1);
       var date = new Date;
       var compareDate = new Date('09 15 ' + date.getFullYear());
       if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
-        httpGetData(initData[rand] + "&season=" + date.getFullYear());
+        httpGetData("&season=" + date.getFullYear());
         season = date.getFullYear();
       }
       else if (date.getMonth() > compareDate.getMonth()) {
-        httpGetData(initData[rand] + "&season=" + date.getFullYear());
+        httpGetData("&season=" + date.getFullYear());
         season = date.getFullYear();
       }
       else {
-        httpGetData(initData[rand] + "&season=" + (date.getFullYear() - 1));
+        httpGetData("&season=" + (date.getFullYear() - 1));
         season = (date.getFullYear() - 1);
       }
     }
 
     function m(ignoreRandom) {
       i = 0;// resets index count to 0 when swapping lists
-      if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {
-        httpGetInitData(l.category);
-      }
-      else {
-        httpGetData("",ignoreRandom);
-      }
-
+        getRandList();
     }
     function httpGetData(query, ignoreRandom) {
       if (l.dom == 'lasvegasnow.com') {
@@ -144,14 +109,8 @@ dynamic_widget = function() {
               }
           }
       };
-      if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {
-        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=sports&subCategory=nfl&metaDataOnly=1&count=20" , true);
+        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=sports&subCategory=nfl&metaDataOnly=1&readyToPublish=true&count=20" , true);
         i.send()
-      }
-      else {
-        i.open('GET', t + '?partner=' + (typeof l.dom != 'undefined' ? l.dom : '') + '&cat=' + l.category + '&rand=' + e, true);
-        i.send()
-      }
     }
 
     function u() {
@@ -160,20 +119,6 @@ dynamic_widget = function() {
                 event: 'widget-title',
                 eventAction: dynamic_widget.get_title()
             })
-        }
-        if (l.dom == 'nydailynews.com') {
-            var e = document.getElementsByClassName('dw')[0];
-            e.style.height = '340px';
-            var t = document.createElement('div');
-            t.style.width = '100%';
-            t.style.height = '10px';
-            t.style.color = '#999';
-            t.style['text-align'] = 'center';
-            t.style['line-height'] = '10px';
-            t.style['font-size'] = '10px';
-            t.style['background-color'] = '#fff';
-            t.innerHTML = 'PAID CONTENT';
-            document.body.insertBefore(t, e)
         }
         if (l.category == 'politics') {
             var i = r.l_title.indexOf('Republican') != -1 ? 'r' : r.l_title.indexOf('Independent') != -1 ? 'i' : 'd';
@@ -296,30 +241,21 @@ dynamic_widget = function() {
         p()
       }
 function p() {
-      if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {
         var e = r.data[i];
         var v_link = '';
-        $('title').innerHTML = e.title;
-        if (e.rankType == "team") {
-          $('line1').innerHTML = e.teamName;
-          $('line2').innerHTML = "Division: <b>" + e.divisionName + "</b>";
-          var a = "";
-          if (SpecialDomain == "") {// if no special link then create
-            v_link = l.remn == 'true' ? "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.teamId : "/t/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.teamId;
+        $('title-text').innerHTML = e.title;
+        $('keyword').innerHTML = e.article_type.replace(/-/g," ");
 
-            a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+ v_link : nflPartnerDomain + l.dom + "/" +l.category+ v_link;
-          }
-          else {
-            v_link = "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.teamId;
+        var date = new Date(e.last_updated*1000);
+        var monthNames = ["January", "February", "March", "April", "May", "June",
+          "July", "August", "September", "October", "November", "December"
+        ];
+        var month = date.getMonth();
+        var day = date.getDate();
+        var year = date.getFullYear();
 
-            a = SpecialDomain + "/" +l.category+ v_link;
-          }
-          $('mainurl').href = a;
-          $('line1').href = a;
-        }
-        else {
-          $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
-          $('line2').innerHTML = "Team: <b>" + e.teamName + "</b>";
+        var formattedDate = monthNames[month] + " " + day + ", " + year;
+        $('date').innerHTML = formattedDate;
           // var a = "";
           // if (SpecialDomain == "") {
           //   v_link = l.remn == 'true' ? "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId : "/p/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
@@ -333,7 +269,6 @@ function p() {
           // }
           // $('mainurl').href = a;
           // $('line1').href = a;
-        }
         var statType = "";
         statType = statType.replace("player", "");
         statType = statType.replace("team", "");
@@ -346,27 +281,15 @@ function p() {
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
-        if (e.rankType == "team") {
           if (e.image_url != null && e.image_url != "null") {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url);
           }
           else {
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
           }
-        }
-        else {
-          if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url);
-          }
-          else {
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
-          }
-        }
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
-
-        $('num').innerHTML = '#' + e.rank;
 
         if ($('list-link')) {
             var u = d.getElementsByClassName('dw-btn')[0];
@@ -374,117 +297,7 @@ function p() {
                 d.getElementsByClassName('dw-btn')[0].setAttribute('style', 'margin-top: 0')
             }
         }
-        var p = $('title');
-      }
-      else {
-        var e = r.l_data[i];
-        e.li_url = e.li_subimg !== false && e.li_subimg.switch ? l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
-        e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
-
-        //if we're on a site that uses a subdomain for this vetical's microsite, then use that
-        if(SpecialDomain && verticalsUsingSubdom.indexOf(l.category) != -1) {
-            switch (l.category) {
-                case 'mlb':
-                    e.li_url = e.li_url.replace(/(?:https?\:)?(?:\/\/)?(?:www\.)?myhomerunzone\.com\/\{partner\}/i, SpecialDomain);
-            e.li_url = e.li_url.replace("/t/", "/team/");
-            e.li_url = e.li_url.replace("/p/", "/player/");
-                    e.li_line_url = e.li_line_url.replace(/(?:https?\:)?(?:\/\/)?(?:www\.)?myhomerunzone\.com\/\{partner\}/i, SpecialDomain);
-            e.li_line_url = e.li_line_url.replace("/t/", "/team/");
-            e.li_line_url = e.li_line_url.replace("/p/", "/player/");
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            e.li_url = "http:" + e.li_url.replace('{partner}', l.dom);
-            e.li_line_url = "http:" + e.li_line_url.replace('{partner}', l.dom);
-        }
-        if (s) {
-            e.li_url = e.li_url.replace('www.myinvestkit.com', o);
-            e.li_line_url = e.li_line_url.replace('www.myinvestkit.com', o)
-        }
-
-        $('line1').innerHTML = e.li_title;
-        $('line2').innerHTML = e.li_sub_txt;
-        if ($('line4') == null) {
-            $('desc').innerHTML = e.li_str
-        } else {
-            $('desc').innerHTML = e.li_value;
-            $('line4').innerHTML = e.li_tag
-        }
-        $('line1').href = e.li_line_url;
-        var t = $('mainimg');
-        var n = t.getAttribute('onerror');
-        t.setAttribute('onerror', '');
-        t.setAttribute('src', '');
-        t.setAttribute('src', e.li_img);
-        setTimeout(function(e, t) {
-            t.setAttribute('onerror', e)
-        }.bind(undefined, n, t), 0);
-        $('mainurl').href = e.li_url;
-        $('num').innerHTML = '#' + e.li_rank;
-        if (e.li_subimg !== false) {
-            var a = e.li_subimg.switch ? l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom);
-            if (s) {
-                a = a.replace('www.myinvestkit.com', o)
-            }
-            var c = $('subimg');
-            var n = c.getAttribute('onerror');
-            c.setAttribute('onerror', '');
-            c.setAttribute('src', '');
-
-            //hide double image if second image is blank for this profile
-            convertImage(l.category, c, e);
-
-            setTimeout(function(e, t) {
-                t.setAttribute('onerror', e)
-            }.bind(null, n, c), 0);
-            $('suburl').href = "http:"+a;
-            var m = $('carousel');
-            if (m.className.indexOf('two') == -1) {
-                m.className += ' two'
-            }
-        }
-        else {
-          //set double image off if we dont have it for this list
-          $('carousel').setAttribute('class', 'one');
-          $('suburl').setAttribute('style', 'display: none');
-        }
-        if ($('list-link')) {
-            var u = d.getElementsByClassName('dw-btn')[0];
-            if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight - 10 && d.getElementsByClassName('dw')[0].clientHeight <= 250) {
-                d.getElementsByClassName('dw-btn')[0].setAttribute('style', 'margin-top: 0')
-            }
-        }
-        var p = $('title');
-      }
-
-    }
-
-    function convertImage(category, c, e){
-      switch(category){
-        case 'mlb':
-        case 'ncaaf':
-        case 'nfl':
-        case 'college_basketball':
-        case 'nba':
-        $("suburl").style.cssText += "pointer-events:none; cursor:default";
-        $("carousel").className = "one";
-        break;
-        case 'finance':
-        if (e.li_subimg.img == "//w1.synapsys.us/widgets/css/public/no_image.jpg") {
-          c.setAttribute('src', e.li_subimg.img);
-          $('carousel').setAttribute('class', 'two');
-          $('suburl').setAttribute('style', 'display: block');
-        }
-        else {
-          c.setAttribute('src', e.li_subimg.img);
-          //set double image css to "on" if we have a double image for this list
-          $('carousel').setAttribute('class', 'two');
-          $('suburl').setAttribute('style', 'display: block');
-        }
-        break;
-      }
+        var p = $('title-text');
     }
 
     function w(e) {
