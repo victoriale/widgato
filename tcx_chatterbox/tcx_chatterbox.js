@@ -115,7 +115,7 @@ chatterbox = (function () {
             //to be replaced once data is coming in.
             //keyword: dataArr[0].keyword,
             keyword: 'football',
-            date: moment(dataArr[0][1].dateline).format("dddd, MMM. DD, YYYY"),
+            date: moment(dataArr[0][1].dateline).format("dddd, MMM. DD, YYYY").toUpperCase(),
             title: dataArr[0][1].displayHeadline,
             url: href + league + '/articles/' + dataArr[0][0] + '/' + id,
             content: dataArr[0].report + '<br>&nbsp; ',
@@ -138,8 +138,8 @@ chatterbox = (function () {
         for (var i = 0; i < imageArray.length; i++) {
             var imageContainerLarge = document.createElement('div');
             var imageContainerSmall = document.createElement('div');
-            var imageLarge = document.createElement('img');
-            var imageSmall = document.createElement('img');
+            var imageLarge = document.createElement('div');
+            var imageSmall = document.createElement('div');
             var titleContainerLarge = document.createElement('div');
             var titleContainerSmall = document.createElement('div');
             var titleLarge = document.createElement('div');
@@ -168,8 +168,8 @@ chatterbox = (function () {
             $('.triple-stack')[0].appendChild(titleContainerSmall);
             titleContainerLarge.appendChild(titleLarge);
             titleContainerSmall.appendChild(titleSmall);
-            imageLarge.src = protocolToUse + 'images.synapsys.us' + imageArray[i][1].image;
-            imageSmall.src = protocolToUse + 'images.synapsys.us' + imageArray[i][1].image;
+            imageLarge.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[i][1].image + "')";
+            imageSmall.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[i][1].image + "')";
             titleLarge.innerHTML = imageArray[i][1].displayHeadline;
             titleSmall.innerHTML = imageArray[i][1].displayHeadline;
             $(imageContainerLarge).wrapInner($('<a href="' + href + league + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
