@@ -57,6 +57,9 @@ sup {
 }
 
 .tri-image {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
     padding: 0 7px;
 }
 
@@ -261,7 +264,6 @@ sup {
     font-weight: 400;
     font-size: 10px;
     color: #fff;
-    padding-left: 10px;
 }
 
 .cb-title {
