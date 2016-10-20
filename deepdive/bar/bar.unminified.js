@@ -75,8 +75,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + todayDate;
-        // return protocol + '://qa-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
+        return protocol + '://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
       }
     },
     //NFL boxscores
@@ -84,8 +83,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/' + todayDate;
-        // return protocol + '://qa-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate;
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate;
       }
     },
     //NCAAF boxscores
@@ -93,8 +91,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayDate;
-        // return protocol + '://qa-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate;
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate;
       }
     },
     //NCAAF teams
@@ -196,6 +193,8 @@
    **/
   var Bluebird; //Namespace for bluebird library
 
+  var boxscoresInitialized = false; //Boolean to determine if boxscores loading has been initialized. Used for lazy loading of boxscores
+
   var mobileMenuButton; //DOM Element of mobile menu button
   var mobileDropdown; //DOM Elmenent of mobile menu dropdown
   var mobileSearchButton; //DOM Element of mobile search button
@@ -252,10 +251,10 @@
          getUserLocation();
          //bootstrapBoxscores() is within loadScriptDependencies() function
          //bootstrapSearch() is within loadScriptDependencies() function
-         bootstrapMobileMenu();
+         //bootstrapMobileMenu(); is within loadScriptDependencies() function
          bootstrapMobileSearch();
          bootstrapSmallDesktopSearch();
-         bootstrapDesktopBoxscores();
+         //bootstrapDesktopBoxscores(); is within loadScriptDependencies() function
 
          bootstrapStaticCollegeFootball();
          bootstrapStaticCollegeBasketball();
@@ -302,6 +301,12 @@
         closeDropdowns();
       }else{
         //Dropdown is hidden, show dropdown
+
+        if(boxscoresInitialized === false){
+            bootstrapBoxscores();
+            boxscoresInitialized = true;
+        }
+
         closeDropdowns();
         addClass(mobileMenuButton, 'ddb-mobile-menu-open');
         addClass(mobileDropdown, 'ddb-show');
@@ -384,6 +389,12 @@
         closeDropdowns();
       }else{
         //Dropdown is hidden, show dropdown
+
+        if(boxscoresInitialized === false){
+            bootstrapBoxscores();
+            boxscoresInitialized = true;
+        }
+
         closeDropdowns();
         addClass(desktopBoxscoresButton, 'ddb-desktop-boxscores-open');
         addClass(desktopBoxscoresDropdown, 'ddb-show');
@@ -1739,6 +1750,8 @@
   }
 
   var bootstrapBoxscores = function(){
+
+
     //Get timezone abbreviations and offset
     var tz = getEasternTime();
     var todayObject = getToday(tz.offset);
@@ -2756,7 +2769,7 @@
       document.head.appendChild(brandStyleEl);
   }
 
-   //Load any style/link dependencies. This is called before the dom content is loaded
+  //Load any style/link dependencies. This is called before the dom content is loaded
   function loadLinkDependencies(){
      //Load font
      var fontEl = document.createElement('link');
@@ -2795,7 +2808,7 @@
      iconEl.dataset.resource_from = 'deepdive-bar-embed';
      iconEl.href = resourceURL + '/fonts/deepdive_bar/styles.css';
      document.head.appendChild(iconEl);
-   }
+  }
 
    //Load any script dependencies. This is fired after the dom content is loaded
    function loadScriptDependencies(){
@@ -2828,12 +2841,16 @@
      bluebird.onreadystatechange = function () {
        if (bluebird.readyState == "loaded" || bluebird.readyState == "complete") {
          bluebird.onreadystatechange = null;
-         bootstrapBoxscores();
+         //bootstrapBoxscores(); now within bootstrapMobileMnue and bootstrapDesktopBoxscores
+         bootstrapMobileMenu();
+         bootstrapDesktopBoxscores();
        }
      };
     } else { //Others
      bluebird.onload = function (){
-        bootstrapBoxscores();
+        //bootstrapBoxscores(); now within bootstrapMobileMnue and bootstrapDesktopBoxscores
+        bootstrapMobileMenu();
+        bootstrapDesktopBoxscores();
       };
     }
 
@@ -2842,7 +2859,9 @@
       document.head.appendChild(bluebird);
     }else{
       //Else start loading boxscores
-      bootstrapBoxscores();
+      //bootstrapBoxscores(); now within bootstrapMobileMnue and bootstrapDesktopBoxscores
+      bootstrapMobileMenu();
+      bootstrapDesktopBoxscores();
     }
 
    }
