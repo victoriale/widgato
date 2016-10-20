@@ -15,51 +15,57 @@
     <base target="_blank">
 </head>
 <body>
-<div class="container-fluid">
-    <div class="col-xs-12 cb">
-        <div class="row">
-            <div class="col-xs-12 triple-stack">
-                <div class="row hidden-xs-down image-row">
-                </div>
-                <div class="row hidden-xs-down col-xs-12 title-row">
-                </div>
-                <div class="row">
-                    <div class="hidden-sm-up triple-stack"></div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-xs-12 cb-header" onclick="chatterbox.toggleDropdown()">
-                <div class="col-xs-7 cb-dropDown">
-                </div>
-                <div class="tcx"></div>
-            </div>
-        </div>
-        <div class="ad_location">Ad Zone</div>
-        <div class="cb-bdy">
+<div class="chatterBox" id="wrapper">
+    <div class="container-fluid">
+        <div class="col-xs-12 cb">
             <div class="row">
-                <div class="col-xs-12">
-                    <i class=" fa fa-angle-left cb-btn noclick" onclick="chatterbox.prevPage()"></i>
-                    <i class="fa fa-angle-right cb-btn noclick" onclick="chatterbox.nextPage()"></i>
-                    <a href="/" id="ai-link">
-                        <div class="col-xs-12 cb-img">
-                            <div class="col-xs-10 text-wrapper">
-                                <div class="row">
-                                    <div class="col-xs-12">
-                                        <span class="cb-keyword"></span><span
-                                            class="seperator"> | </span> <span
-                                            class="cb-date"></span>
+                <div class="col-xs-12 triple-stack">
+                    <div class="row hidden-xs-down image-row">
+                    </div>
+                    <div class="row hidden-xs-down col-xs-12 title-row">
+                    </div>
+                    <div class="row">
+                        <div class="hidden-sm-up triple-stack"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 cb-header">
+                    <div class="tab-container"></div>
+                    <div class="tab-more" onclick="chatterbox.toggleDropdown()">MORE&nbsp;&nbsp;&nbsp;<i
+                            class="fa fa-caret-up"></i></div>
+                    <div class="more-topic">More Topics</div>
+                    <div class="col-xs-12 cb-dropDown">
+                    </div>
+                    <div class="tcx"></div>
+                </div>
+            </div>
+            <div class="ad_location">Ad Zone</div>
+            <div class="cb-bdy">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <i class=" fa fa-angle-left cb-btn noclick" onclick="chatterbox.prevPage()"></i>
+                        <i class="fa fa-angle-right cb-btn noclick" onclick="chatterbox.nextPage()"></i>
+                        <a href="/" id="ai-link">
+                            <div class="col-xs-12 cb-img">
+                                <div class="col-xs-10 text-wrapper">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <span class="cb-keyword"></span><span
+                                                class="seperator"> | </span> <span
+                                                class="cb-date"></span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-11 cb-title"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-12 col-xs-11 cb-txt"></div>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-xs-11 cb-title"></div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-xs-11 cb-txt"></div>
-                                </div>
                             </div>
-                        </div>
-                    </a>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

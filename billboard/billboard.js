@@ -18,7 +18,7 @@ billboard = (function () {
         return protocolToUse + domain;
     }
 
-    var domain, remnant, scope;
+    var domain, remnant, league;
     var verticalColor, verticalIcon, verticalName;
     var temp = location.search;
     var href;
@@ -44,7 +44,7 @@ billboard = (function () {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         domain = query.dom;
         remnant = query.remn;
-        scope = query.scope;
+        league = query.league;
         var mlbSpecialDomain = "";
         var currentDomain = window.location.hostname.toString();
         currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, "");
@@ -73,7 +73,7 @@ billboard = (function () {
 
     var teamId = query.team;
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/billboard/' + scope + '/' + teamId;
+    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/billboard/' + league + '/' + teamId;
     var randomArticles = [];
     var teamData = [];
     var imageArr = [];
@@ -136,13 +136,13 @@ billboard = (function () {
         var arr1 = {
             title: mainArticles[0].displayHeadline,
             content: mainArticles[0].article + '<br>&nbsp; ',
-            url: href + scope + '/articles/' + mainArticles[0].urlSegment + '/' + teamData[1].eventId,
+            url: href + league + '/articles/' + mainArticles[0].urlSegment + '/' + teamData[1].eventId,
             img: mainArticles[0].articleImage
         };
         var arr2 = {
             title: mainArticles[1].displayHeadline,
             content: mainArticles[1].article + '<br>&nbsp; ',
-            url: href + scope + '/articles/' + mainArticles[1].urlSegment + '/' + teamData[1].eventId,
+            url: href + league + '/articles/' + mainArticles[1].urlSegment + '/' + teamData[1].eventId,
             img: mainArticles[1].articleImage
         };
         $('.header-icon').css('background-image', 'url(' + verticalIcon + ')');
@@ -168,10 +168,26 @@ billboard = (function () {
             $(this).css('background', e.type === "mouseenter" ? "#000" : verticalColor);
         });
         $('.main-top a, .main-bottom a, .news-container a').css('color', "#000");
-        $('.main-top a, .main-bottom a, .news-container a').hover(function (e) {
-            $(this).css('color', e.type === "mouseenter" ? verticalColor : "#000");
-        });
-        $('.search').attr('placeholder', 'Search for anything ' + verticalName);
+        if (verticalName.toLowerCase() != 'weather') {
+            $('.main-top a, .main-bottom a, .news-container a').hover(function (e) {
+                $(this).css('color', e.type === "mouseenter" ? verticalColor : "#000");
+            });
+        } else {
+            $('.main-top a, .main-bottom a, .news-container a').hover(function (e) {
+                $(this).css('color', e.type === "mouseenter" ? '#444' : "#000");
+            });
+            $('.header-profile, .header-profile-small, .news-button-up, .news-button-down, .button').css('color', '#272727');
+            $('.news-button-up').hover(function (e) {
+                $(this).css('color', e.type === "mouseenter" ? '#fff' : "#272727");
+                $('.up').css('color', e.type === "mouseenter" ? '#fff' : "#272727");
+            });
+            $('.news-button-down').hover(function (e) {
+                $(this).css('color', e.type === "mouseenter" ? '#fff' : "#272727");
+                $('.down').css('color', e.type === "mouseenter" ? '#fff' : "#272727");
+            });
+
+        }
+        $('.search').attr('placeholder', 'Search for anything ' + verticalName.toLowerCase());
         displaySubArticles();
     } // --> displayPage
 
@@ -193,13 +209,19 @@ billboard = (function () {
             subContainer.appendChild(subTitle);
             subTitle.innerHTML = randomArticles[i].title;
             subImage.src = randomArticles[i].articleImage;
-            $(subContainer).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
+            $(subContainer).wrapInner($('<a href="' + href + league + '/articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
             subContainer.appendChild(subHr);
         }
         $('.news-container a').css('color', "#000");
-        $('.news-container a').hover(function (e) {
-            $(this).css('color', e.type === "mouseenter" ? verticalColor : "#000");
-        });
+        if (verticalName.toLowerCase() != 'weather') {
+            $('.news-container a').hover(function (e) {
+                $(this).css('color', e.type === "mouseenter" ? verticalColor : "#000");
+            });
+        } else {
+            $('.news-container a').hover(function (e) {
+                $(this).css('color', e.type === "mouseenter" ? '#444' : "#000");
+            });
+        }
     }
 
     function fitText() {

@@ -19,8 +19,8 @@ chatterbox = (function () {
     var selectedTab;
     var dataArray = [];
     var imageArray = [];
-    var isTabCovered = false;
     var isScrolling = false;
+    var isCreated = false;
 
     if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
@@ -85,12 +85,6 @@ chatterbox = (function () {
     } // --> getData
 
     function displayPage() {
-        var containerWidth = $('.cb').width() - 60;
-        if (containerWidth <= 440) {
-            isTabCovered = true;
-        } else {
-            isTabCovered = false;
-        }
         //setup tabs
         setTabs();
         createdropDown();
@@ -189,105 +183,239 @@ chatterbox = (function () {
     function setTabs() {
         var tabNames = [
             "Trending",
-            "Entertainment",
-            "Sports",
+            "Breaking",
+            {
+                Sports: [
+                    "NFL",
+                    "NCAAF",
+                    "NBA",
+                    "NCAAM",
+                    "MLB"
+                ]
+            },
+            "Business",
             "Politics",
+            {
+                Entertainment: [
+                    "TVs",
+                    "Movies",
+                    "Music",
+                    "Celebrities"
+                ]
+            },
+            "Food",
+            "Health",
+            "Lifestyle",
+            "Real Estate",
+            "Travel",
+            "Weather",
             "Automotive"
         ];
-        var tabContainer = document.createElement('div');
-        tabContainer.className = 'tab-container';
+        var tabContainer = $('.tab-container');
         if (selectedTab == undefined) {
             selectedTab = tabNames[0];
-        }
-        if (!isTabCovered) {
-            for (var i = 0; i < tabNames.length; i++) {
-                var tabContent = document.createElement('div');
-                if (selectedTab == undefined && i == 0) {
-                    tabContent.className = 'tab-content active';
-                    tabContent.addEventListener('click', tabSelect, false);
-                } else if (tabNames[i] == selectedTab) {
-                    tabContent.className = 'tab-content active';
-                    tabContent.addEventListener('click', tabSelect, false);
-                } else {
-                    tabContent.className = 'tab-content';
-                    tabContent.addEventListener('click', tabSelect, false);
-                }
-                tabContainer.appendChild(tabContent);
-                tabContent.innerHTML = tabNames[i];
-            }
-            $('.cb-header')[0].appendChild(tabContainer);
         } else {
-            for (var j = 0; j < tabNames.length; j++) {
-                if (tabNames[j] == selectedTab) {
-                    var tabContent = document.createElement('div');
-                    tabContent.className = 'tab-content tab-content-drop active';
-                    tabContainer.appendChild(tabContent);
-                    tabContent.innerHTML = tabNames[j] + ' News' + '<i class="fa fa-caret-up"></i>';
-                    $('.cb-header')[0].appendChild(tabContainer);
-                    $('.tab-content').css('width', '170px');
-                }
-            }
+            tabNames.unshift(selectedTab);
         }
+        for (var i = 0; i < tabNames.length; i++) {
+            var category;
+            if (typeof tabNames[i] == 'object') {
+                category = Object.getOwnPropertyNames(tabNames[i]);
+            } else {
+                category = tabNames[i];
+            }
+            var tabContent = document.createElement('div');
+            if (selectedTab == undefined && i == 0) {
+                tabContent.className = 'tab-content active';
+                tabContent.innerHTML = category + "<span class='tab-news'>&nbsp;News</span>";
+            } else if (selectedTab != undefined && i == 0) {
+                tabContent.className = 'tab-content active';
+                tabContent.innerHTML = category + "<span class='tab-news'>&nbsp;News</span>";
+            } else if (category != selectedTab) {
+                tabContent.className = 'tab-content';
+                tabContent.innerHTML = category;
+                tabContent.addEventListener('click', tabSelect, false);
+            }
+            tabContainer[0].appendChild(tabContent);
+        }
+        $('.cb-header')[0].appendChild(tabContainer[0]);
     }
 
     //onclick event to change tabs
     function tabSelect(event) {
+        var moreTab = $('.tab-more');
+        var cbdropDownDisplay = $('.cb-dropDown');
+        var topic = $('.more-topic');
+        if (cbdropDownDisplay.hasClass('active')) {
+            cbdropDownDisplay.removeClass('active');
+            topic.removeClass('active');
+            moreTab.find('.fa').removeClass('fa-caret-down').addClass('fa-caret-up');
+        }
         var target = event.target || event.srcElement;
         selectedTab = target.innerHTML;
-        createdropDown();
+        isCreated = false;
+        if (event.target.className.indexOf("open") == -1) {
+            createdropDown();
+        } else {
+            var parent = document.getElementsByClassName("dropDown-item");
+            for (var i = 0; i < parent.length; i++) {
+                parent[i].classList.remove('active');
+            }
+            event.target.classList.add('active');
+        }
         $('.tab-content').remove();
         setTabs();
+    }
+
+    function subSelect(event) {
+        var target = event.target || event.srcElement;
+        if (target.id.indexOf("-svg") == -1) {
+            selectedTab = target.outerText;
+            isCreated = false;
+            toggleDropdown();
+            createdropDown();
+            $('.tab-content').remove();
+            setTabs();
+        }
     }
 
     function createdropDown() {
         var tabNames = [
             "Trending",
-            "Entertainment",
-            "Sports",
+            "Breaking",
+            {
+                Sports: [
+                    "NFL",
+                    "NCAAF",
+                    "NBA",
+                    "NCAAM",
+                    "MLB"
+                ]
+            },
+            "Business",
             "Politics",
+            {
+                Entertainment: [
+                    "TVs",
+                    "Movies",
+                    "Music",
+                    "Celebrities"
+                ]
+            },
+            "Food",
+            "Health",
+            "Lifestyle",
+            "Real Estate",
+            "Travel",
+            "Weather",
             "Automotive"
         ];
         if (selectedTab == undefined) {
             selectedTab = tabNames[0];
         }
         var ddStr = '';
-        var count = 0;
-        var arrowDiv = document.createElement('div');
-        arrowDiv.className = 'arrow-up';
+        var idName = [];
+        if (!$('.cb-dropDown')[0]) {
+            var dropDown = document.createElement('div');
+            dropDown.className = 'col-xs-12 cb-dropDown';
+            $('.cb-header')[0].appendChild(dropDown);
+        }
         for (var i = 0; i < tabNames.length; i++) {
-            if (count == 0) {
-                ddStr += '<div class="dropDown-item">' + selectedTab + '</div>';
-                ddStr += '<div class="divider"></div>';
-                count++;
-            }
-            if (tabNames[i] != selectedTab) {
+            if (selectedTab == tabNames[i]) {
+                ddStr += '<div class="dropDown-item active">' + tabNames[i] + '</div>';
+            } else if (typeof tabNames[i] != 'object') {
                 ddStr += '<div class="dropDown-item">' + tabNames[i] + '</div>';
-                if (i != tabNames.length - 1) {
-                    ddStr += '<div class="divider"></div>';
+            } else {
+                var id = Object.getOwnPropertyNames(tabNames[i]);
+                var svgId = Object.getOwnPropertyNames(tabNames[i]) + "-svg";
+                if (selectedTab == id) {
+                    ddStr += "<div class='dropDown-item active " + id + "' id='" + id +
+                        "'>" + Object.getOwnPropertyNames(tabNames[i]) +
+                        '<img class="dropDown-icon" id="' + svgId + '" src="../css/public/icons/Open_Icon_Hover.svg" /></div>';
+                } else {
+                    ddStr += "<div class='dropDown-item " + id + "' id='" + id +
+                        "'>" + Object.getOwnPropertyNames(tabNames[i]) +
+                        '<img class="dropDown-icon" id="' + svgId + '" src="../css/public/icons/Open_Icon.svg" /></div>';
                 }
+                idName.push('#' + id);
+                Object.keys(tabNames[i]).map(function (obj) {
+                    var index = obj;
+                    if (obj = tabNames[i]) {
+                        obj[index].map(function (val) {
+                            ddStr += '<div class="dropDown-item sub ' + id + '">' + val + '</div>';
+                        });
+                    }
+                });
             }
         }
         $('.cb-dropDown')[0].innerHTML = ddStr;
-        $('.cb-dropDown').attr('container', 'true');
-        scrollBar.initAll();
-        $('.cb-dropDown')[0].appendChild(arrowDiv);
+        $('.cb-dropDown').attr('scrollContainer', 'true');
         var item = document.getElementsByClassName('dropDown-item');
+        var count = 0;
+        var hasId = false;
         for (var j = 0; j < tabNames.length; j++) {
-            item[j].addEventListener('click', tabSelect, false);
+            var element = $(".dropDown-item")[j];
+            if (element.id) {
+                hasId = true
+            }
+            count++;
+            if (!hasId) {
+                item[j].addEventListener('click', tabSelect, false);
+            }
+            hasId = false;
+        }
+        for (var x = 0; x < idName.length; x++) {
+            $(idName[x])[0].addEventListener('click', subSelect, false);
+        }
+        $('.dropDown-icon').click(function (e) {
+            e.preventDefault();
+            openSubMenu(e)
+        });
+    }
+
+    function openSubMenu(event) {
+        var index = event.target.id.split('-')[0];
+        var parents = document.getElementsByClassName("dropDown-item sub " + index);
+        if ((event.target.src.indexOf("Open_Icon.svg") != -1) || (event.target.src.indexOf("Open_Icon_Hover.svg") != -1)) {
+            event.target.parentNode.classList.add('openParent');
+            event.target['src'] = "../css/public/icons/Close_Icon.svg";
+            for (var i = 0; i < parents.length; i++) {
+                parents[i].classList.add('open');
+                var close = parents[i].getElementsByClassName("dropDown-icon");
+                for (var u = 0; u < close.length; u++) {
+                    close[u]['src'] = "../css/public/icons/Open_Icon.svg";
+                }
+            }
+        } else {
+            event.target.parentNode.classList.remove('openParent');
+            event.target['src'] = "../css/public/icons/Open_Icon.svg";
+            for (var j = 0; j < parents.length; j++) {
+                parents[j].classList.remove('open');
+            }
         }
     }
 
     // Toggle the dropDown
     function toggleDropdown() {
-        if (isTabCovered && !isScrolling) {
-            var cbdropDown = $('.tab-container');
+        if (!isScrolling) {
+            var moreTab = $('.tab-more');
             var cbdropDownDisplay = $('.cb-dropDown');
+            var topic = $('.more-topic');
             if (cbdropDownDisplay.hasClass('active')) {
                 cbdropDownDisplay.removeClass('active');
-                cbdropDown.find('.fa').removeClass('fa-caret-down').addClass('fa-caret-up');
+                topic.removeClass('active');
+                moreTab.find('.fa').removeClass('fa-caret-down').addClass('fa-caret-up');
             } else {
                 cbdropDownDisplay.addClass('active');
-                cbdropDown.find('.fa').addClass('fa-caret-down').removeClass('fa-caret-up');
+                topic.addClass('active');
+                moreTab.find('.fa').addClass('fa-caret-down').removeClass('fa-caret-up');
+                if (!isCreated) {
+                    scrollBar.initAll();
+                    isCreated = true;
+                }
+                var arrowDiv = document.createElement('div');
+                arrowDiv.className = 'arrow-up';
+                $('.cb-dropDown')[0].appendChild(arrowDiv);
             }
         }
     } // --> toggleDropdown
@@ -304,6 +432,8 @@ chatterbox = (function () {
         }
         // Create page
         displayPage();
+        $('.tab-content').remove();
+        setTabs();
     } // --> npextPage
 
     function prevPage() {
@@ -318,6 +448,8 @@ chatterbox = (function () {
         }
         // Create page
         displayPage();
+        $('.tab-content').remove();
+        setTabs();
     } // --> prevPage
 
 // **** PARSING FUNCTION ****
@@ -359,6 +491,7 @@ chatterbox = (function () {
             tcxId = tcxData['data']['meta-data']['current'].eventID;
             displayPage();
             setTriImage();
+            $('.chatterBox').css('display', 'block');
         } catch (e) {
             console.log('Error loading ChatterBox ' + e);
         }
@@ -366,15 +499,14 @@ chatterbox = (function () {
     getContent();
 
     window.onresize = function (event) {
-        $('.tab-container').remove();
-        var containerWidth = $('.cb').width() - 60;
-        if (containerWidth <= 440) {
-            isTabCovered = true
-        } else {
-            isTabCovered = false;
-            $('.cb-dropDown').removeClass('active');
+        var moreTab = $('.tab-more');
+        var cbdropDownDisplay = $('.cb-dropDown');
+        var topic = $('.more-topic');
+        if (cbdropDownDisplay.hasClass('active')) {
+            cbdropDownDisplay.removeClass('active');
+            topic.removeClass('active');
+            moreTab.find('.fa').removeClass('fa-caret-down').addClass('fa-caret-up');
         }
-        setTabs();
     };
 
     (function (win, doc) {
@@ -429,6 +561,9 @@ chatterbox = (function () {
             this.wrapper.setAttribute('class', 'scroll-wrapper');
             this.element = doc.createElement('div');
             this.element.setAttribute('class', 'scroll-content');
+            this.trackBar = doc.createElement('div');
+            this.trackBar.setAttribute('class', 'scroll-track');
+            this.element.appendChild(this.trackBar);
             this.wrapper.appendChild(this.element);
             while (this.target.firstChild) {
                 this.element.appendChild(this.target.firstChild);
@@ -440,10 +575,11 @@ chatterbox = (function () {
             this.moveBar();
             this.element.addEventListener('scroll', this.moveBar.bind(this));
             this.element.addEventListener('mouseenter', this.moveBar.bind(this));
-            this.target.classList.add('container');
+            this.element.addEventListener('mouseleave', this.moveBar.bind(this));
+            this.target.classList.add('scrollContainer');
             var css = window.getComputedStyle(element);
             if (css['height'] === '0px' && css['max-height'] !== '0px') {
-                element.style.height = css['max-height'];
+                element.style.height = css['max-height'] - 50;
             }
         }
 
@@ -455,21 +591,17 @@ chatterbox = (function () {
                 this.scrollRatio = parentHeight / totalHeight;
                 animationFrame(function () {
                     // hides scroll if not needed
-                    if (_this.scrollRatio === 1) {
-                        _this.bar.classList.add('hidden')
-                    } else {
-                        //setup for scroll bar positioning and height
-                        _this.bar.classList.remove('hidden');
-                        _this.bar.style.cssText = 'height:' + (_this.scrollRatio) * 100 + '%; top:' +
-                            (_this.element.scrollTop / totalHeight ) * 100 + '%;right:-' +
-                            (_this.target.clientWidth - _this.bar.clientWidth - 7) + 'px;';
-                    }
+                    //setup for scroll bar positioning and height
+                    _this.bar.style.cssText = 'height:' + (_this.scrollRatio) * 85 + '%; top:' +
+                        ((_this.element.scrollTop + 15) / totalHeight ) * 100 + '%;right:-' +
+                        (_this.target.clientWidth - _this.bar.clientWidth - 7) + 'px;';
+                    _this.trackBar.style.cssText = 'height:' + (_this.element.scrollHeight - 15) + 'px';
                 });
             }
         };
         //initialize scroll bar
         function initAll() {
-            var nodes = doc.querySelectorAll('*[container]');
+            var nodes = doc.querySelectorAll('*[scrollContainer]');
             for (var i = 0; i < nodes.length; i++) {
                 initElement(nodes[i]);
             }
@@ -490,3 +622,14 @@ chatterbox = (function () {
     };
 })
 ();
+//function to send a message to the chatterbox module. This should bypass the iframe security.
+function postHeight() {
+    setTimeout(function () {
+        var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
+        if (typeof target != "undefined" && document.body.scrollHeight) {
+            target.postMessage(document.getElementById("wrapper").scrollHeight, "*");
+        }
+    }, 100);
+}
+window.addEventListener("resize", postHeight, false);
+window.addEventListener("load", postHeight, false);

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="12px" viewBox="0 0 12 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 40.2 (33826) - http://www.bohemiancoding.com/sketch -->
+    <title>323C7850-34DE-4865-BED5-288FC6B3E386</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <path d="M5.44983068,4.7427239 L9.34334373,0.849210846 C9.53292026,0.659634322 9.53418012,0.341791967 9.33891798,0.146529821 C9.1493664,-0.0430217524 8.82905482,-0.0507138032 8.63623695,0.142104065 L4.7427239,4.03561712 L0.849210846,0.142104065 C0.659634322,-0.0474724596 0.341791967,-0.0487323246 0.146529821,0.146529821 C-0.0430217524,0.336081395 -0.0507138032,0.656392978 0.142104065,0.849210846 L4.03561712,4.7427239 L0.142104065,8.63623695 C-0.0474724596,8.82581348 -0.0487323246,9.14365583 0.146529821,9.33891798 C0.336081395,9.52846955 0.656392978,9.5361616 0.849210846,9.34334373 L4.7427239,5.44983068 L8.63623695,9.34334373 C8.82581348,9.53292026 9.14365583,9.53418012 9.33891798,9.33891798 C9.52846955,9.1493664 9.5361616,8.82905482 9.34334373,8.63623695 L5.44983068,4.7427239 Z" id="path-5"></path>
+    </defs>
+    <g id="Sidekicks" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Chatter-Box:-Exagerated-Dropdown" transform="translate(-894.000000, -198.000000)">
+            <g id="Dropdown" transform="translate(633.000000, 19.000000)">
+                <use id="Dropdown-BG" mask="url(#mask-2)" stroke-width="2" xlink:href="#path-1"></use>
+                <g id="Option-2" transform="translate(5.000000, 166.000000)">
+                    <g id="Dropdown-BG">
+                        <use fill-rule="evenodd" xlink:href="#path-3"></use>
+                        <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-3"></use>
+                    </g>
+                    <g id="Icon:-x" transform="translate(256.000000, 13.000000)">
+                        <g id="Icon:-+" transform="translate(1.000000, 1.000000)">
+                            <g id="Combined-Shape">
+                                <use fill="#00487D" fill-rule="evenodd" xlink:href="#path-5"></use>
+                                <use stroke="#00487D" mask="url(#mask-6)" stroke-width="0.2" xlink:href="#path-5"></use>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
