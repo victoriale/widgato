@@ -382,7 +382,6 @@ chatterbox = (function () {
                 parents[i].classList.add('open');
                 var close = parents[i].getElementsByClassName("dropDown-icon");
                 for (var u = 0; u < close.length; u++) {
-                    console.log('closeMenu');
                     close[u].style.background = "url(../css/public/icons/Open_Icon.svg) center no-repeat";
                 }
             }
