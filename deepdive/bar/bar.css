@@ -1013,7 +1013,7 @@
 .ddb-menu-search-large{
     height: 35px;
     padding: 0 15px;
-    margin: 0 8px;
+    margin: 0 8px 0 0;
     background-color: #444444;
     display: none;
 
