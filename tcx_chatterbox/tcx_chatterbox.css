@@ -397,19 +397,19 @@ sup {
 }
 
 .dropDown-item:hover .dropDown-icon {
-    content: url("../css/public/icons/Open_Icon_Hover.svg");
+    background: url("../css/public/icons/Open_Icon_Hover.svg") center no-repeat !important;
 }
 
 .dropDown-item.active .dropDown-icon {
-    content: url("../css/public/icons/Open_Icon_Hover.svg");
+    background: url("../css/public/icons/Open_Icon_Hover.svg") center no-repeat !important;
 }
 
 .dropDown-item.openParent:hover .dropDown-icon {
-    content: url("../css/public/icons/Close_Icon_Hover.svg");
+    background: url("../css/public/icons/Close_Icon_Hover.svg") center no-repeat !important;
 }
 
 .dropDown-item.openParent.active .dropDown-icon {
-    content: url("../css/public/icons/Close_Icon_Hover.svg");
+    background: url("../css/public/icons/Close_Icon_Hover.svg") center no-repeat !important;
 }
 
 .sub {
@@ -514,8 +514,8 @@ sup {
 
 .dropDown-icon {
     position: relative;
-    height: 12px;
-    width: 14px;
+    height: 13px;
+    width: 15px;
     float: right;
     top: 5px;
     right: 15px;
