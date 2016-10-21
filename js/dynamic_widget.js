@@ -550,7 +550,7 @@ function p() {
                 break;
             case 'nba':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NBA' : 'http://www.myhoopszone.com/' + l.dom + '/NBA';
-                var hn = "Hoops Loyal";
+                var hn = "Basketball";
                 break;
             case 'college_basketball':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA';

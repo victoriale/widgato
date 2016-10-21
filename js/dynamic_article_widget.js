@@ -28,7 +28,7 @@ dynamic_widget = function() {
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
-        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','tcx','entertainment','food','travel','health','sports','lifestyle','breaking','ipo','automotive'];
+        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','entertainment','realestate','food','travel','health','sports','lifestyle','breaking','automotive'];
     var s = false;
     var o = '';
     function c(e) {
@@ -121,6 +121,7 @@ dynamic_widget = function() {
             })
         }
         if (l.category == 'politics') {
+
             var i = r.l_title.indexOf('Republican') != -1 ? 'r' : r.l_title.indexOf('Independent') != -1 ? 'i' : 'd';
             var cssId = 'politicsCss';  // you could encode the css path itself to generate id..
             if (document.getElementById(cssId))
@@ -346,7 +347,7 @@ function p() {
                 break;
             case 'nba':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NBA' : 'http://www.myhoopszone.com/' + l.dom + '/NBA';
-                var hn = "Hoops Loyal";
+                var hn = "Basketball";
                 break;
             case 'college_basketball':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA';
@@ -388,6 +389,9 @@ function p() {
             case "ipo":
             case "automotive":
               var hn = l.category;
+              break;
+            case "realestate":
+            var hn = "Real Estate";
               break;
             default:
                 var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';

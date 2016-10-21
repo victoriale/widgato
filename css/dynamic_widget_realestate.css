@@ -1,41 +1,37 @@
 a:hover {
-    color: #f6af05;
+    color: #44b224;
 }
 #verticalName {
-  background-color: #f6af05;
-}
-#verticalName a {
-  color: #272727!important;
+  background-color: #44b224;
 }
 .dw-nav{
-    background-color: #f6af05!important;
+    background-color: #44b224!important;
 }
 .dw-btn:hover,
 .dw-nav:hover {
-    background-color: black!important;
-    border-color: black!important;
+    background-color: #272727!important;
+    border-color: #272727!important;
 }
 
 #homelink>div {
-  background-image:url(../css/public/Icon_Crime.svg);
-  margin-top: -1px;
+    background-image: url(../css/public/Icon_Realestate.svg);
 }
 
 .dw-btn {
-    border-color: #f6af05!important;
-    background-color: #f6af05 !important;
+    border-color: #44b224!important;
+    background-color: #44b224 !important;
     color: white!important;
 }
 #next-list-link .dw-btn{
-  border-color: #f6af05!important;
+  border-color: #44b224!important;
   background-color: white !important;
-  color: #f6af05!important;
-  fill: #f6af05;
-  stroke: #f6af05;
+  color: #44b224!important;
+  fill: #44b224;
+  stroke: #44b224;
 }
 #next-list-link .dw-btn:hover{
-  border-color: black!important;
-  background-color: black !important;
+  border-color: #272727!important;
+  background-color: #272727 !important;
   color: white!important;
   fill: white;
   stroke: white
@@ -44,9 +40,9 @@ a:hover {
 .bg-img .dw-btn {
     border-color: #f2f2f2!important;
     background-color: #f2f2f2 !important;
-    color: #272727!important;
-    fill: #272727;
-    stroke: #272727;
+    color: #44b224!important;
+    fill: #44b224;
+    stroke: #44b224;
 }
 
 .bg-img .dw-btn:hover {
@@ -72,5 +68,8 @@ a:hover {
   stroke: white
 }
 
+#line1:hover {
+  color: #44b224;
+}
 .hover {
-    background: rgba(246,175,5,0.85)!important;
+    background: rgba(68, 178, 36, 0.75)!important;
