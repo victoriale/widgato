@@ -186,7 +186,8 @@ function RenderArticleSide(protocolToUse) {
 
         //article url structure: /articles/:article_type/:event_id
         //check if the id has been changed via the drop down selection; otherwise use the initial id.
-        var id = !changedGameId ? game.eventId : changedGameId;
+        var checkId = !game.eventId  ? game.eventID : game.eventId ;
+        var id = !changedGameId ? checkId: changedGameId;
         if (isMlb) {
             var articleUrl = 'http://www.homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + id;
         } else {
