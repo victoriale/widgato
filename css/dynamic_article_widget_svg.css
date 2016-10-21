@@ -40,7 +40,7 @@ i {
     width: 300px;
     /*min-height: 44px;*/
     text-align: left;
-    padding: 10px 15px 5px 15px;
+    padding: 10px 15px 5px 0px;
 }
 #verticalName {
     font-size: 10px;
@@ -168,6 +168,8 @@ i {
 
 .dw-info {
     margin: 0px 15px 5px;
+    max-height: 120px;
+    overflow: hidden;
 }
 
 .dw-i-title {

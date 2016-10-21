@@ -121,8 +121,9 @@ dynamic_widget = function() {
             })
         }
         if (l.category == 'politics') {
-
-            var i = r.l_title.indexOf('Republican') != -1 ? 'r' : r.l_title.indexOf('Independent') != -1 ? 'i' : 'd';
+            var polOptions = ['i','r','d'];
+            var rand = Math.floor((Math.random() * 3) + 1)-1;
+            var i = polOptions[rand];
             var cssId = 'politicsCss';  // you could encode the css path itself to generate id..
             if (document.getElementById(cssId))
             {
