@@ -195,10 +195,17 @@ function RenderArticleSide(protocolToUse) {
           var id = !changedGameId ? checkId: changedGameId;  //if regular article use event id
         }
 
+        if(catOptions[0] == "ncaa") {
+          var cat = "ncaaf";
+        }
+        else {
+          var cat = catOptions[0];
+        }
+
         if (isMlb) {
             var articleUrl = 'http://www.homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + id;
         } else {
-            var articleUrl = 'http://www.touchdownloyal.com/' + catOptions[0] + '/articles/' + articleTypes[articleIndex] + '/' + id;
+            var articleUrl = 'http://www.touchdownloyal.com/' + cat + '/articles/' + articleTypes[articleIndex] + '/' + id;
         }
         var articleText = isMlb ? article.article[0].substr(0, 150) : article.article.substr(0, 150);
         A('.content-text').innerHTML = articleText + '...<a target="_blank" href="' + articleUrl + '"></a>';
