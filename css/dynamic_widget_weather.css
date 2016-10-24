@@ -25,6 +25,8 @@ a:hover {
 
 #homelink>div {
     background-image: url(../css/public/Icon_Weather.svg);
+    width: 13px!important;
+    margin-top: -1px;
 }
 
 .dw-btn {
@@ -52,6 +54,37 @@ a:hover {
   color: white!important;
   fill: white!important;
   stroke: white!important;
+}
+
+.bg-img .dw-btn {
+    border-color: white!important;
+    background-color: white !important;
+    color: #272727!important;
+    stroke: #272727!important;
+    fill: #272727!important;
+}
+
+.bg-img .dw-btn:hover {
+  background-color: #272727!important;
+  border-color: #272727!important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+
+.bg-img #next-list-link .dw-btn{
+  border-color: white!important;
+  background-color: transparent !important;
+  color: white!important;
+  fill: white !important;
+  stroke: white !important;
+}
+.bg-img #next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white !important;
+  stroke: white !important;
 }
 
 .hover {

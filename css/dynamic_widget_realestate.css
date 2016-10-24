@@ -1,11 +1,11 @@
 a:hover {
-    color: #f91d38;
+    color: #44b224;
 }
 #verticalName {
-  background-color: #f91d38;
+  background-color: #44b224;
 }
 .dw-nav{
-    background-color: #f91d38!important;
+    background-color: #44b224!important;
 }
 .dw-btn:hover,
 .dw-nav:hover {
@@ -14,23 +14,20 @@ a:hover {
 }
 
 #homelink>div {
-    background-image: url(../css/public/Icon_automotive.svg);
-    height: 15px!important;
-    width: 16px!important;
-    margin-top:-1px;
+    background-image: url(../css/public/Icon_Realestate.svg);
 }
 
 .dw-btn {
-    border-color: #f91d38!important;
-    background-color: #f91d38 !important;
+    border-color: #44b224!important;
+    background-color: #44b224 !important;
     color: white!important;
 }
 #next-list-link .dw-btn{
-  border-color: #f91d38!important;
+  border-color: #44b224!important;
   background-color: white !important;
-  color: #f91d38!important;
-  fill: #f91d38;
-  stroke: #f91d38;
+  color: #44b224!important;
+  fill: #44b224;
+  stroke: #44b224;
 }
 #next-list-link .dw-btn:hover{
   border-color: #272727!important;
@@ -43,9 +40,9 @@ a:hover {
 .bg-img .dw-btn {
     border-color: #f2f2f2!important;
     background-color: #f2f2f2 !important;
-    color: #f91d38!important;
-    fill: #f91d38;
-    stroke: #f91d38;
+    color: #44b224!important;
+    fill: #44b224;
+    stroke: #44b224;
 }
 
 .bg-img .dw-btn:hover {
@@ -72,7 +69,7 @@ a:hover {
 }
 
 #line1:hover {
-  color: #f91d38;
+  color: #44b224;
 }
 .hover {
-    background: rgba(249, 29, 56, 0.75)!important;
+    background: rgba(68, 178, 36, 0.75)!important;

@@ -186,11 +186,26 @@ function RenderArticleSide(protocolToUse) {
 
         //article url structure: /articles/:article_type/:event_id
         //check if the id has been changed via the drop down selection; otherwise use the initial id.
-        var id = !changedGameId ? game.eventId : changedGameId;
+        var checkId = !game.eventId  ? game.eventID : game.eventId ;
+
+        if (data.data && data.data['player-fantasy'] && data.data['player-fantasy'].articleId == article.articleId) {
+          var id = article.articleId;  //if fantasy article use article id
+        }
+        else {
+          var id = !changedGameId ? checkId: changedGameId;  //if regular article use event id
+        }
+
+        if(catOptions[0] == "ncaa") {
+          var cat = "ncaaf";
+        }
+        else {
+          var cat = catOptions[0];
+        }
+
         if (isMlb) {
             var articleUrl = 'http://www.homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + id;
         } else {
-            var articleUrl = 'http://www.touchdownloyal.com/' + catOptions[0] + '/articles/' + articleTypes[articleIndex] + '/' + id;
+            var articleUrl = 'http://www.touchdownloyal.com/' + cat + '/articles/' + articleTypes[articleIndex] + '/' + id;
         }
         var articleText = isMlb ? article.article[0].substr(0, 150) : article.article.substr(0, 150);
         A('.content-text').innerHTML = articleText + '...<a target="_blank" href="' + articleUrl + '"></a>';

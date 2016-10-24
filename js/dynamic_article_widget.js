@@ -1,3 +1,38 @@
+//todo: use this function for all category specific logic
+function getCategoryMetadata (category) {
+  var globalMeta = {
+    trending: {
+      displayName: "Football",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "trending",
+      subCategory: ""
+    },
+    nfl: {
+      displayName: "Football",
+      domain: "www.touchdownloyal.com",
+      partnerDomain: "www.mytouchdownzone.com"
+      usesPartnerSubdomain: true,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "nfl"
+    },
+    ncaaf: {
+      displayName: "Football",
+      domain: "www.touchdownloyal.com",
+      partnerDomain: "www.mytouchdownzone.com"
+      usesPartnerSubdomain: true,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "ncaaf"
+    }
+  };
+  return globalMeta[category];
+}
+
+
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var mlbDomain        = "http://www.homerunloyal.com/";
 var nflDomain        = "http://www.touchdownloyal.com/";
@@ -28,7 +63,7 @@ dynamic_widget = function() {
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
-        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','tcx','entertainment','food','travel','health','sports','lifestyle','breaking','ipo','automotive'];
+        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','entertainment','realestate','food','travel','health','sports','lifestyle','breaking','automotive'];
     var s = false;
     var o = '';
     function c(e) {
@@ -109,7 +144,54 @@ dynamic_widget = function() {
               }
           }
       };
-        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=sports&subCategory=nfl&metaDataOnly=1&readyToPublish=true&count=20" , true);
+        var cat = "";
+        var subCat = "";
+        switch(l.category) {
+            case "trending":
+            case "breaking":
+            case "food":
+            case "health":
+            case "lifestyle":
+            case "realestate":
+            case "travel":
+            case "weather":
+            case "automotive":
+            case "business":
+            case "politics":
+              cat = l.category;
+              subCat = "";
+              break;
+
+            //sports
+            case "sports":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "nfl":
+            case "ncaaf":
+            case "nba":
+            case "ncaam":
+            case "mlb":
+            case "nhl":
+              cat = "sports";
+              subCat = l.category;
+              break;
+
+            //entertainment
+            case "entertainment":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "tv":
+            case "movies":
+            case "music":
+            case "celebrities":
+              cat = "entertainment";
+              subCat = l.category;
+              break;
+
+        }
+        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + cat + "&subCategory=" + subCat + "&metaDataOnly=1&readyToPublish=true&count=20" , true); //todo: change to prod on deployment
         i.send()
     }
 
@@ -121,7 +203,9 @@ dynamic_widget = function() {
             })
         }
         if (l.category == 'politics') {
-            var i = r.l_title.indexOf('Republican') != -1 ? 'r' : r.l_title.indexOf('Independent') != -1 ? 'i' : 'd';
+            var polOptions = ['i','r','d'];
+            var rand = Math.floor((Math.random() * 3) + 1)-1;
+            var i = polOptions[rand];
             var cssId = 'politicsCss';  // you could encode the css path itself to generate id..
             if (document.getElementById(cssId))
             {
@@ -179,14 +263,8 @@ dynamic_widget = function() {
                     SpecialDomain = "http://baseball." + specialDomains[i];
                   }
                 }
-                // var a = "/";
-                // var n = false
-                // $("mainurl").style.cssText += "pointer-events:none; cursor:default",
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
                 $("carousel").className = "one";
-                // $("line1").style.cssText += "pointer-events:none; cursor:default",
-                // $("homelink").style.cssText += "pointer-events:none; cursor:default",
-                //  $("list-link").style.display = "none";
                 var a = "";
                 if (SpecialDomain == "") {
                       a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom +'/list';
@@ -244,10 +322,11 @@ function p() {
         var e = r.data[i];
         var v_link = '';
         $('title-text').innerHTML = e.title;
-        if ($('keyword') && e.article_type) {
-          $('keyword').innerHTML = e.article_type.replace(/-/g," ");
+        if ($('keyword') && e.category) {
+          $('keyword').innerHTML = e.category.replace(/-/g," ");
         }
 
+        //todo: possibly make this a function
         var date = new Date(e.last_updated*1000);
         var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
         var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
@@ -261,7 +340,6 @@ function p() {
         var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
         if ($('date')) {
           $('date').innerHTML = formattedDate;
-
         }
           // var a = "";
           // if (SpecialDomain == "") {
@@ -347,7 +425,7 @@ function p() {
                 break;
             case 'nba':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NBA' : 'http://www.myhoopszone.com/' + l.dom + '/NBA';
-                var hn = "Hoops Loyal";
+                var hn = "Basketball";
                 break;
             case 'college_basketball':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA';
@@ -389,6 +467,9 @@ function p() {
             case "ipo":
             case "automotive":
               var hn = l.category;
+              break;
+            case "realestate":
+            var hn = "Real Estate";
               break;
             default:
                 var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';

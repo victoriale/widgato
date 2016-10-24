@@ -4,45 +4,57 @@ a:hover {
 #verticalName {
   background-color: #f6af05;
 }
+#verticalName a {
+  color: #272727!important;
+}
 .dw-nav{
     background-color: #f6af05!important;
 }
-.dw-btn:hover,
 .dw-nav:hover {
     background-color: black!important;
     border-color: black!important;
 }
 
 #homelink>div {
-  background-image:url(../css/public/Crime_Icon_White.png);
+  background-image:url(../css/public/Icon_Crime.svg);
+  margin-top: -1px;
 }
 
 .dw-btn {
     border-color: #f6af05!important;
     background-color: #f6af05 !important;
+    color: #272727!important;
+    fill: #272727!important;
+    stroke: #272727!important;
+}
+.dw-btn:hover {
+    border-color: black!important;
+    background-color: black !important;
     color: white!important;
+    fill: white!important;
+    stroke: white!important;
 }
 #next-list-link .dw-btn{
   border-color: #f6af05!important;
   background-color: white !important;
-  color: #f6af05!important;
-  fill: #f6af05;
-  stroke: #f6af05;
+  color: #272727!important;
+  fill: #272727!important;
+  stroke: #272727!important;
 }
 #next-list-link .dw-btn:hover{
   border-color: black!important;
   background-color: black !important;
   color: white!important;
-  fill: white;
-  stroke: white
+  fill: white!important;
+  stroke: white!important;
 }
 
 .bg-img .dw-btn {
     border-color: #f2f2f2!important;
     background-color: #f2f2f2 !important;
-    color: #f6af05!important;
-    fill: #f6af05;
-    stroke: #f6af05;
+    color: #272727!important;
+    fill: #272727;
+    stroke: #272727;
 }
 
 .bg-img .dw-btn:hover {
