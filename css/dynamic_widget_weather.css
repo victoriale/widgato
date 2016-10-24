@@ -25,6 +25,7 @@ a:hover {
 
 #homelink>div {
     background-image: url(../css/public/Icon_Weather.svg);
+    width: 13px!important;
     margin-top: -1px;
 }
 
