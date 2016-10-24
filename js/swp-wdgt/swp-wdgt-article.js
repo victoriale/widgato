@@ -187,7 +187,14 @@ function RenderArticleSide(protocolToUse) {
         //article url structure: /articles/:article_type/:event_id
         //check if the id has been changed via the drop down selection; otherwise use the initial id.
         var checkId = !game.eventId  ? game.eventID : game.eventId ;
-        var id = !changedGameId ? checkId: changedGameId;
+
+        if (data.data && data.data['player-fantasy'] && data.data['player-fantasy'].articleId == article.articleId) {
+          var id = article.articleId;  //if fantasy article use article id
+        }
+        else {
+          var id = !changedGameId ? checkId: changedGameId;  //if regular article use event id
+        }
+
         if (isMlb) {
             var articleUrl = 'http://www.homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + id;
         } else {

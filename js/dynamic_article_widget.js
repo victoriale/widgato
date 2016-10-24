@@ -109,7 +109,112 @@ dynamic_widget = function() {
               }
           }
       };
-        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=sports&subCategory=nfl&metaDataOnly=1&readyToPublish=true&count=20" , true);
+        var cat = "";
+        var subCat = "";
+        switch(l.category) {
+            case "trending":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "breaking":
+              cat = l.category;
+              subCat = "";
+              break;
+
+            //sports
+            case "sports":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "nfl":
+              cat = "sports";
+              subCat = l.category;
+              break;
+            case "ncaaf":
+              cat = "sports";
+              subCat = l.category;
+              break;
+            case "nba":
+              cat = "sports";
+              subCat = l.category;
+              break;
+            case "ncaam":
+              cat = "sports";
+              subCat = l.category;
+              break;
+            case "mlb":
+              cat = "sports";
+              subCat = l.category;
+              break;
+            case "nhl":
+              cat = "sports";
+              subCat = l.category;
+              break;
+
+
+            case "business":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "politics":
+              cat = l.category;
+              subCat = "";
+              break;
+
+
+            //entertainment
+            case "entertainment":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "tv":
+              cat = "entertainment";
+              subCat = l.category;
+              break;
+            case "movies":
+              cat = "entertainment";
+              subCat = l.category;
+              break;
+            case "music":
+              cat = "entertainment";
+              subCat = l.category;
+              break;
+            case "celebrities":
+              cat = "entertainment";
+              subCat = l.category;
+              break;
+
+
+            case "food":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "health":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "lifestyle":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "realestate":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "travel":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "weather":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "automotive":
+              cat = l.category;
+              subCat = "";
+              break;
+        }
+        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + cat + "&subCategory=" + subCat + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
         i.send()
     }
 
@@ -121,8 +226,9 @@ dynamic_widget = function() {
             })
         }
         if (l.category == 'politics') {
-
-            var i = r.l_title.indexOf('Republican') != -1 ? 'r' : r.l_title.indexOf('Independent') != -1 ? 'i' : 'd';
+            var polOptions = ['i','r','d'];
+            var rand = Math.floor((Math.random() * 3) + 1)-1;
+            var i = polOptions[rand];
             var cssId = 'politicsCss';  // you could encode the css path itself to generate id..
             if (document.getElementById(cssId))
             {
