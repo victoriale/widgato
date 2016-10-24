@@ -1,3 +1,38 @@
+//todo: use this function for all category specific logic
+function getCategoryMetadata (category) {
+  var globalMeta = {
+    trending: {
+      displayName: "Football",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "trending",
+      subCategory: ""
+    },
+    nfl: {
+      displayName: "Football",
+      domain: "www.touchdownloyal.com",
+      partnerDomain: "www.mytouchdownzone.com"
+      usesPartnerSubdomain: true,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "nfl"
+    },
+    ncaaf: {
+      displayName: "Football",
+      domain: "www.touchdownloyal.com",
+      partnerDomain: "www.mytouchdownzone.com"
+      usesPartnerSubdomain: true,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "ncaaf"
+    }
+  };
+  return globalMeta[category];
+}
+
+
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var mlbDomain        = "http://www.homerunloyal.com/";
 var nflDomain        = "http://www.touchdownloyal.com/";
@@ -113,10 +148,16 @@ dynamic_widget = function() {
         var subCat = "";
         switch(l.category) {
             case "trending":
-              cat = l.category;
-              subCat = "";
-              break;
             case "breaking":
+            case "food":
+            case "health":
+            case "lifestyle":
+            case "realestate":
+            case "travel":
+            case "weather":
+            case "automotive":
+            case "business":
+            case "politics":
               cat = l.category;
               subCat = "";
               break;
@@ -127,40 +168,14 @@ dynamic_widget = function() {
               subCat = "";
               break;
             case "nfl":
-              cat = "sports";
-              subCat = l.category;
-              break;
             case "ncaaf":
-              cat = "sports";
-              subCat = l.category;
-              break;
             case "nba":
-              cat = "sports";
-              subCat = l.category;
-              break;
             case "ncaam":
-              cat = "sports";
-              subCat = l.category;
-              break;
             case "mlb":
-              cat = "sports";
-              subCat = l.category;
-              break;
             case "nhl":
               cat = "sports";
               subCat = l.category;
               break;
-
-
-            case "business":
-              cat = l.category;
-              subCat = "";
-              break;
-            case "politics":
-              cat = l.category;
-              subCat = "";
-              break;
-
 
             //entertainment
             case "entertainment":
@@ -168,53 +183,15 @@ dynamic_widget = function() {
               subCat = "";
               break;
             case "tv":
-              cat = "entertainment";
-              subCat = l.category;
-              break;
             case "movies":
-              cat = "entertainment";
-              subCat = l.category;
-              break;
             case "music":
-              cat = "entertainment";
-              subCat = l.category;
-              break;
             case "celebrities":
               cat = "entertainment";
               subCat = l.category;
               break;
 
-
-            case "food":
-              cat = l.category;
-              subCat = "";
-              break;
-            case "health":
-              cat = l.category;
-              subCat = "";
-              break;
-            case "lifestyle":
-              cat = l.category;
-              subCat = "";
-              break;
-            case "realestate":
-              cat = l.category;
-              subCat = "";
-              break;
-            case "travel":
-              cat = l.category;
-              subCat = "";
-              break;
-            case "weather":
-              cat = l.category;
-              subCat = "";
-              break;
-            case "automotive":
-              cat = l.category;
-              subCat = "";
-              break;
         }
-        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + cat + "&subCategory=" + subCat + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
+        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + cat + "&subCategory=" + subCat + "&metaDataOnly=1&readyToPublish=true&count=20" , true); //todo: change to prod on deployment
         i.send()
     }
 
@@ -286,14 +263,8 @@ dynamic_widget = function() {
                     SpecialDomain = "http://baseball." + specialDomains[i];
                   }
                 }
-                // var a = "/";
-                // var n = false
-                // $("mainurl").style.cssText += "pointer-events:none; cursor:default",
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
                 $("carousel").className = "one";
-                // $("line1").style.cssText += "pointer-events:none; cursor:default",
-                // $("homelink").style.cssText += "pointer-events:none; cursor:default",
-                //  $("list-link").style.display = "none";
                 var a = "";
                 if (SpecialDomain == "") {
                       a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom +'/list';
@@ -355,6 +326,7 @@ function p() {
           $('keyword').innerHTML = e.category.replace(/-/g," ");
         }
 
+        //todo: possibly make this a function
         var date = new Date(e.last_updated*1000);
         var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
         var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
