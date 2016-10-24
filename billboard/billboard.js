@@ -1,81 +1,21 @@
 billboard = (function () {
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-    //switch url for live or testing environment
-    var tdlDomain = "http://www.touchdownloyal.com/";
-    var tdlPartnerDomain = "http://www.mytouchdownzone.com/";
-    //end switch
-    var referrer = document.referrer;
-    if (referrer.match(/football/g)) {
-        tdlPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
-    }
-
-    // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
-    var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
-
-    function getBaseUrl(string) {
-        var urlArray = string.split("/");
-        var domain = urlArray[2];
-        return protocolToUse + domain;
-    }
-
-    var domain, remnant, league;
+    var category, keyword, sub_category;
     var verticalColor, verticalIcon, verticalName;
     var temp = location.search;
-    var href;
     var query = {};
-    var tdlspecialDomains = [
-        "latimes.com",
-        "orlandosentinel.com",
-        "sun-sentinel.com",
-        "baltimoresun.com",
-        "mcall.com",
-        "courant.com",
-        "dailypress.com",
-        "southflorida.com",
-        "citypaper.com",
-        "themash.com",
-        "coastlinepilot.com",
-        "sandiegouniontribune.com",
-        "ramonasentinel.com",
-        "capitalgazette.com",
-        "chicagotribune.com"
-    ];
     if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
-        domain = query.dom;
-        remnant = query.remn;
-        league = query.league;
-        var mlbSpecialDomain = "";
-        var currentDomain = window.location.hostname.toString();
-        currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, "");
-        for (i = 0; i <= tdlspecialDomains.length; i++) {
-            if (currentDomain == tdlspecialDomains[i]) {
-                mlbSpecialDomain = "http://baseball." + tdlspecialDomains[i] + "/";
-            }
-        }
-        if (mlbSpecialDomain == "") {
-            if (remnant == 'true') {
-                href = tdlDomain;
-                $("base").attr("href", tdlDomain);
-            } else if (referrer.match(/baseball/g)) {
-                $("base").attr("href", tdlPartnerDomain);
-                href = tdlPartnerDomain;
-            } else {
-                $("base").attr("href", tdlPartnerDomain + domain + "/");
-                href = tdlPartnerDomain + domain + "/";
-            }
-        }
-        else {
-            $("base").attr("href", mlbSpecialDomain);
-            href = mlbSpecialDomain;
-        }
+        keyword = query.keyword;
+        category = query.category;
+        sub_category = query.sub_category;
     }
 
-    var teamId = query.team;
+    var verticalType = sub_category == "" ? category : sub_category;
+    verticalType = verticalType != "" ? verticalType : keyword;
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/billboard/' + league + '/' + teamId;
+    var APIUrl = protocolToUse + 'dev-tcxmedia-api.synapsys.us/articles?keyword[]=' + verticalType + '&count=15&metaDataOnly=1';
     var randomArticles = [];
-    var teamData = [];
     var imageArr = [];
 
     function getContent(eventId) {
@@ -104,45 +44,58 @@ billboard = (function () {
         var mainArticles = [];
         var subArticles = [];
         $.map(AIData['data'], function (val, index) {
-            if (index != 'meta-data') {
-                if (index == 'about-the-teams' || index == 'pregame-report') {
-                    if (index == 'pregame-report') {
-                        val.title = val.eventID;
+            if (index == 0 || index == 1) {
+                val.title = val.title;
+                val.content = val.teaser;
+                if (val.source == "snt_ai") {
+                    if (val.scope) {
+                        val.urlSegment = getOffsiteLink(val.scope, val.article_url);
                     } else {
-                        val.title = val.displayHeadline;
+                        val.urlSegment = getOffsiteLink(val.category, val.article_url);
                     }
-                    val.content = val.metaHeadline;
-                    val.urlSegment = index;
-                    val.articleImage = protocolToUse + 'images.synapsys.us' + val.image;
                 } else {
-                    val.title = val.displayHeadline;
-                    val.content = val.metaHeadline;
-                    val.urlSegment = index;
-                    val.articleImage = protocolToUse + 'images.synapsys.us' + val.image;
-                    subArticles.push(val);
+                    if (val.scope) {
+                        val.urlSegment = getOffsiteLink(val.scope, val.article_url, val.article_id);
+                    } else {
+                        val.urlSegment = getOffsiteLink(val.category, val.article_url, val.article_id);
+                    }
                 }
-                mainArticles.push(val);
+                val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
             } else {
-                teamData.push(val);
+                val.title = val.title;
+                val.content = val.teaser;
+                if (val.source == "snt_ai") {
+                    if (val.scope) {
+                        val.urlSegment = getOffsiteLink(val.scope, val.article_url);
+                    } else {
+                        val.urlSegment = getOffsiteLink(val.category, val.article_url);
+                    }
+                } else {
+                    if (val.scope) {
+                        val.urlSegment = getOffsiteLink(val.scope, val.article_url, val.article_id);
+                    } else {
+                        val.urlSegment = getOffsiteLink(val.category, val.article_url, val.article_id);
+                    }
+                }
+                val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
+                subArticles.push(val);
             }
-        });
-        $.map(AIData['data']['meta-data'], function (val) {
-            teamData.push(val);
+            mainArticles.push(val);
         });
         subArticles.sort(function () {
             return 0.5 - Math.random()
         });
         randomArticles = subArticles;
         var arr1 = {
-            title: mainArticles[0].displayHeadline,
-            content: mainArticles[0].article + '<br>&nbsp; ',
-            url: href + league + '/articles/' + mainArticles[0].urlSegment + '/' + teamData[1].eventId,
+            title: mainArticles[0].title,
+            content: mainArticles[0].teaser + '<br>&nbsp; ',
+            url: mainArticles[0].urlSegment,
             img: mainArticles[0].articleImage
         };
         var arr2 = {
-            title: mainArticles[1].displayHeadline,
-            content: mainArticles[1].article + '<br>&nbsp; ',
-            url: href + league + '/articles/' + mainArticles[1].urlSegment + '/' + teamData[1].eventId,
+            title: mainArticles[1].title,
+            content: mainArticles[1].teaser + '<br>&nbsp; ',
+            url: mainArticles[1].urlSegment,
             img: mainArticles[1].articleImage
         };
         $('.header-icon').css('background-image', 'url(' + verticalIcon + ')');
@@ -209,7 +162,7 @@ billboard = (function () {
             subContainer.appendChild(subTitle);
             subTitle.innerHTML = randomArticles[i].title;
             subImage.style.backgroundImage = "url('" + randomArticles[i].articleImage + "')";
-            $(subContainer).wrapInner($('<a href="' + href + league + '/articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
+            $(subContainer).wrapInner($('<a href="' + randomArticles[i].urlSegment + '" />'));
             subContainer.appendChild(subHr);
         }
         $('.news-container a').css('color', "#000");
@@ -271,23 +224,29 @@ billboard = (function () {
     } // --> fitText
 
     function getVerticalAttributes() {
-        var verticalType = 'football';
         if (verticalType.indexOf('_') > -1 && verticalType != undefined) {
             var string = verticalType.replace('_', ' ');
             verticalName = capitalizeString(string);
         } else {
             verticalName = capitalizeString(verticalType);
         }
+
         switch (verticalType) {
             case "football":
+            case "nfl":
+            case "ncaaf":
+            case "fbs":
                 verticalColor = "#2d3e50";
                 verticalIcon = "../css/public/icons/Touchdown-Loyal_Icon.svg";
                 break;
             case "baseball":
+            case "mlb":
                 verticalColor = "#bc2027";
                 verticalIcon = "../css/public/icons/Home-Run-Loyal_Icon%202.svg";
                 break;
             case "basketball":
+            case "nba":
+            case "ncaam":
                 verticalColor = "#f26f26";
                 verticalIcon = "../css/public/icons/Hoops-Loyal_Icon%202.svg";
                 break;
@@ -295,9 +254,69 @@ billboard = (function () {
                 verticalColor = "#3098ff";
                 verticalIcon = "../css/public/icons/Invest-Kit_Icon.svg";
                 break;
+            case "real-estate":
             case "real_estate":
+            case "real estate":
                 verticalColor = "#44b224";
                 verticalIcon = "../css/public/icons/Joyful-Home_Icon.svg";
+                break;
+            case "global":
+            case "politics":
+                verticalColor = "#005eba";
+                verticalIcon = "../css/public/icons/Politics_Icon.svg";
+                break;
+            case "weather":
+                verticalColor = "#ffd800";
+                verticalIcon = "../css/public/icons/Weather_Icon.svg";
+                break;
+            case "tcx":
+                verticalColor = "#00b9e3";
+                verticalIcon = "../css/public/icons/TCX-Trending.svg";
+                break;
+            case "entertainment":
+            case "tv":
+            case "tvs":
+            case "movies":
+            case "music":
+            case "celebrities":
+                verticalColor = "#5c52bd";
+                verticalIcon = "../css/public/icons/Entertainment_Icon.svg";
+                break;
+            case "food":
+                verticalColor = "#00c5a0";
+                verticalIcon = "../css/public/icons/Icon_Food.svg";
+                break;
+            case "travel":
+                verticalColor = "#0a55a0";
+                verticalIcon = "../css/public/icons/Icon_Travel.svg";
+                break;
+            case "health":
+                verticalColor = "#d0122c";
+                verticalIcon = "../css/public/icons/Icon_Health.svg";
+                break;
+            case "trending":
+                verticalColor = "#36bac7";
+                verticalIcon = "../css/public/icons/TCX-Trending.svg";
+                break;
+            case "sports":
+                verticalColor = "#ce3b27";
+                verticalIcon = "../css/public/icons/Icon_Sports.svg";
+                break;
+            case "lifestyle":
+                verticalColor = "#65398e";
+                verticalIcon = "../css/public/icons/Icon_Lifestyle.svg";
+                break;
+            case "breaking":
+                verticalColor = "#911000";
+                verticalIcon = "../css/public/icons/Icon_Breaking.svg";
+                break;
+            case "ipo":
+                verticalColor = "#3098ff";
+                verticalIcon = "../css/public/icons/Invest-Kit_Icon.svg";
+                break;
+            case "automotive":
+                verticalColor = "#f91d38";
+                verticalIcon = "../css/public/icons/Icon_Car.svg";
                 break;
             case "demographics":
                 verticalColor = "#65398e";
@@ -323,14 +342,7 @@ billboard = (function () {
                 verticalColor = "#ff0101";
                 verticalIcon = "../css/public/icons/Politics-Republican_Icon.svg";
                 break;
-            case "weather":
-                verticalColor = "#ffd800";
-                verticalIcon = "../css/public/icons/Weather_Icon.svg";
-                break;
-            case "global":
-                verticalColor = "#005eba";
-                verticalIcon = "../css/public/icons/Politics_Icon.svg";
-                break;
+
             default:
                 verticalColor = "#00b9e3";
                 verticalIcon = "../css/public/icons/TCX-Trending.svg";
@@ -339,6 +351,18 @@ billboard = (function () {
     }
 
     function capitalizeString(string) {
+        switch (string) {
+            case "nfl":
+                return "NFL";
+            case "ncaaf":
+                return "NCAAF";
+            case "nba":
+                return "NBA";
+            case "ncaam":
+                return "NCAAM";
+            case "mlb":
+                return "MLB";
+        }
         return string.replace(/\w\S*/g, function (text) {
             return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
         });
@@ -372,6 +396,151 @@ billboard = (function () {
         }
     }
 
+    function getHomeInfo() {
+        //grabs the domain name of the site and sees if it is our partner page
+        var partner = false;
+        var isHome = false;
+        var hide = false;
+        var hostname = window.location.hostname;
+        var partnerPage = /mytcxzone/.test(hostname) || /^newspaper\./.test(hostname); //todo: change to correct domain not localhost
+        var urlSplit = window.location.pathname.split('/');
+        var name = "";
+        var partnerName = "";
+        var isSubdomainPartner = /^newspaper\./.test(hostname);
+        if (partnerPage) {
+            partner = partnerPage;
+            partnerName = urlSplit[1];
+            name = urlSplit[2];
+        }
+        else {
+            name = urlSplit[1];
+        }
+        //PLEASE REVISIT and change
+        if (partnerPage && (name == '' || name == 'news')) {
+            hide = true;
+            isHome = true;
+        } else if (!partnerPage && (name == '' || name == 'deep-dive')) {
+            hide = false;
+            isHome = true;
+        } else {
+            hide = false;
+            isHome = false;
+        }
+
+        return {
+            isPartner: partner,
+            hide: hide,
+            isHome: isHome,
+            partnerName: partnerName,
+            isSubdomainPartner: isSubdomainPartner
+        };
+    }
+
+    function checkPartnerDomain(partnerCode) {
+        var result = false;
+        var specialDomains = [
+            "latimes.com",
+            "orlandosentinel.com",
+            "sun-sentinel.com",
+            "baltimoresun.com",
+            "mcall.com",
+            "courant.com",
+            "dailypress.com",
+            "southflorida.com",
+            "citypaper.com",
+            "themash.com",
+            "coastlinepilot.com",
+            "sandiegouniontribune.com",
+            "ramonasentinel.com",
+            "capitalgazette.com",
+            "chicagotribune.com"
+        ];
+        for (var i = 0; i < specialDomains.length; i++) {
+            if (specialDomains[i] == partnerCode) {
+                result = true;
+                return result;
+            }
+        }
+        return result;
+    }
+
+    function getOffsiteLink(scope, relativeUrl, id) {
+        var link = "";
+        var siteVars = getHomeInfo();
+        var partnerCode;
+        if (siteVars.isPartner) {
+            partnerCode = siteVars.partnerName;
+        }
+        switch (scope) {
+            //FOOTBALL URL
+            case 'nfl':
+            case 'ncaaf':
+                if (partnerCode != null) {
+                    if (checkPartnerDomain(partnerCode)) {
+                        link = protocolToUse + "//football." + partnerCode + relativeUrl;
+                    }
+                    else {
+                        link = protocolToUse + "//mytouchdownzone.com/" + partnerCode + relativeUrl;
+                    }
+                }
+                else {
+                    link = protocolToUse + "//touchdownloyal.com" + relativeUrl;
+                }
+                break;
+            //BASKETBALL URL
+            case 'nba':
+            case 'ncaam':
+                if (partnerCode != null) {
+                    link = protocolToUse + "//myhoopszone.com/" + partnerCode + relativeUrl;
+                }
+                else {
+                    link = protocolToUse + "//hoopsloyal.com" + relativeUrl;
+                }
+                break;
+            //BASEBALL URL
+            case 'mlb':
+                if (partnerCode != null) {
+                    if (checkPartnerDomain(partnerCode)) {
+                        link = protocolToUse + "//baseball." + partnerCode + relativeUrl;
+                    }
+                    else {
+                        link = protocolToUse + "//myhomerunzone.com/" + partnerCode + relativeUrl;
+                    }
+                }
+                else {
+                    link = protocolToUse + "//homerunloyal.com" + relativeUrl;
+                }
+                break;
+            //FINANCE URL
+            case 'business':
+                if (partnerCode != null) {
+                    link = protocolToUse + "//myinvestkit.com/" + partnerCode + relativeUrl;
+                }
+                else {
+
+                    link = protocolToUse + "//www.investkit.com" + relativeUrl;
+                }
+                break;
+            //REALESTATE URL
+            case 'real-estate':
+                if (partnerCode != null) {
+                    link = protocolToUse + "//myhousekit.com/" + partnerCode + relativeUrl;
+                }
+                else {
+                    link = protocolToUse + "//joyfulhome.com" + relativeUrl;
+                }
+                break;
+            default:
+                if (partnerCode != null) {
+                    link = protocolToUse + "//dev.tcxmedia.com/deep-dive/" + partnerCode + relativeUrl;
+                }
+                else {
+                    link = protocolToUse + "//dev.tcxmedia.com/deep-dive/" + scope + "/article/story/" + id;
+                }
+        }
+        return link;
+    }
+
     function processData() {
         // Check for data
         try {
@@ -391,6 +560,7 @@ billboard = (function () {
             displayMainArticles();
 
             $('.billboard').css('display', 'block');
+            postHeight();
         } catch (e) {
             console.log('Error loading Live Billboard ' + e);
         }
@@ -401,7 +571,6 @@ billboard = (function () {
         gameArr = [];
         // Function for the parser
         var parseGame = function (articles) {
-            // Team names
             $.map(articles, function (val, index) {
                 var gameData = {};
                 gameArr.push(gameData);
@@ -533,3 +702,14 @@ window.onresize = function (event) {
         $('.news').css('box-shadow', 'none');
     }
 };
+//function to send a message to the billboard module. This should bypass the iframe security.
+function postHeight() {
+    setTimeout(function () {
+        var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
+        if (typeof target != "undefined" && document.body.scrollHeight) {
+            //Added "billboard" to postMessage so the component will know the messages origin.
+            target.postMessage(document.getElementById("wrapper").scrollHeight + " billboard", "*");
+        }
+    }, 100);
+}
+window.addEventListener("resize", postHeight, false);
