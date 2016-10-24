@@ -115,7 +115,7 @@ chatterbox = (function () {
             //to be replaced once data is coming in.
             //keyword: dataArr[0].keyword,
             keyword: 'football',
-            date: moment(dataArr[0][1].dateline).format("dddd, MMM. DD, YYYY"),
+            date: moment(dataArr[0][1].dateline).format("dddd, MMM. DD, YYYY").toUpperCase(),
             title: dataArr[0][1].displayHeadline,
             url: href + league + '/articles/' + dataArr[0][0] + '/' + id,
             content: dataArr[0].report + '<br>&nbsp; ',
@@ -138,8 +138,8 @@ chatterbox = (function () {
         for (var i = 0; i < imageArray.length; i++) {
             var imageContainerLarge = document.createElement('div');
             var imageContainerSmall = document.createElement('div');
-            var imageLarge = document.createElement('img');
-            var imageSmall = document.createElement('img');
+            var imageLarge = document.createElement('div');
+            var imageSmall = document.createElement('div');
             var titleContainerLarge = document.createElement('div');
             var titleContainerSmall = document.createElement('div');
             var titleLarge = document.createElement('div');
@@ -168,8 +168,8 @@ chatterbox = (function () {
             $('.triple-stack')[0].appendChild(titleContainerSmall);
             titleContainerLarge.appendChild(titleLarge);
             titleContainerSmall.appendChild(titleSmall);
-            imageLarge.src = protocolToUse + 'images.synapsys.us' + imageArray[i][1].image;
-            imageSmall.src = protocolToUse + 'images.synapsys.us' + imageArray[i][1].image;
+            imageLarge.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[i][1].image + "')";
+            imageSmall.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[i][1].image + "')";
             titleLarge.innerHTML = imageArray[i][1].displayHeadline;
             titleSmall.innerHTML = imageArray[i][1].displayHeadline;
             $(imageContainerLarge).wrapInner($('<a href="' + href + league + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
@@ -269,7 +269,7 @@ chatterbox = (function () {
     function subSelect(event) {
         var target = event.target || event.srcElement;
         if (target.id.indexOf("-svg") == -1) {
-            selectedTab = target.outerText;
+            selectedTab = target.textContent;
             isCreated = false;
             toggleDropdown();
             createdropDown();
@@ -330,11 +330,11 @@ chatterbox = (function () {
                 if (selectedTab == id) {
                     ddStr += "<div class='dropDown-item active " + id + "' id='" + id +
                         "'>" + Object.getOwnPropertyNames(tabNames[i]) +
-                        '<img class="dropDown-icon" id="' + svgId + '" src="../css/public/icons/Open_Icon_Hover.svg" /></div>';
+                        '<div class="dropDown-icon" id="' + svgId + '" style="background: url(../css/public/icons/Open_Icon_Hover.svg) center no-repeat;"></div></div>';
                 } else {
                     ddStr += "<div class='dropDown-item " + id + "' id='" + id +
                         "'>" + Object.getOwnPropertyNames(tabNames[i]) +
-                        '<img class="dropDown-icon" id="' + svgId + '" src="../css/public/icons/Open_Icon.svg" /></div>';
+                        '<div class="dropDown-icon" id="' + svgId + '" style="background: url(../css/public/icons/Open_Icon.svg) center no-repeat;"></div></div>';
                 }
                 idName.push('#' + id);
                 Object.keys(tabNames[i]).map(function (obj) {
@@ -375,19 +375,19 @@ chatterbox = (function () {
     function openSubMenu(event) {
         var index = event.target.id.split('-')[0];
         var parents = document.getElementsByClassName("dropDown-item sub " + index);
-        if ((event.target.src.indexOf("Open_Icon.svg") != -1) || (event.target.src.indexOf("Open_Icon_Hover.svg") != -1)) {
+        if ((event.target.style.background.indexOf("Open_Icon.svg") != -1) || (event.target.style.background.indexOf("Open_Icon_Hover.svg") != -1)) {
             event.target.parentNode.classList.add('openParent');
-            event.target['src'] = "../css/public/icons/Close_Icon.svg";
+            event.target.style.background = "url(../css/public/icons/Close_Icon.svg) center no-repeat";
             for (var i = 0; i < parents.length; i++) {
                 parents[i].classList.add('open');
                 var close = parents[i].getElementsByClassName("dropDown-icon");
                 for (var u = 0; u < close.length; u++) {
-                    close[u]['src'] = "../css/public/icons/Open_Icon.svg";
+                    close[u].style.background = "url(../css/public/icons/Open_Icon.svg) center no-repeat";
                 }
             }
         } else {
             event.target.parentNode.classList.remove('openParent');
-            event.target['src'] = "../css/public/icons/Open_Icon.svg";
+            event.target.style.background = "url(../css/public/icons/Open_Icon.svg) center no-repeat";
             for (var j = 0; j < parents.length; j++) {
                 parents[j].classList.remove('open');
             }
@@ -571,7 +571,6 @@ chatterbox = (function () {
             this.moveBar();
             this.element.addEventListener('scroll', this.moveBar.bind(this));
             this.element.addEventListener('mouseenter', this.moveBar.bind(this));
-            this.element.addEventListener('mouseleave', this.moveBar.bind(this));
             this.target.classList.add('scrollContainer');
             var css = window.getComputedStyle(element);
             if (css['height'] === '0px' && css['max-height'] !== '0px') {
@@ -584,7 +583,9 @@ chatterbox = (function () {
                 var totalHeight = this.element.scrollHeight,
                     parentHeight = this.element.clientHeight,
                     _this = this;
-                this.scrollRatio = parentHeight / totalHeight;
+                if (parentHeight !=0 && totalHeight != 0) {
+                    this.scrollRatio = parentHeight / totalHeight;
+                }
                 animationFrame(function () {
                     var scrollOffset = 6;
                     var scrollPercentage = _this.element.scrollTop / totalHeight;
@@ -592,11 +593,13 @@ chatterbox = (function () {
                     topPosition += scrollOffset;
                     // hides scroll if not needed
                     //setup for scroll bar positioning and height
-                    _this.bar.style.cssText = 'height:' + (_this.scrollRatio) * 85 + '%; top:' +
-                        ((_this.element.scrollTop + 15) / totalHeight ) * 100 + '%;right:-' +
-                        (_this.target.clientWidth - _this.bar.clientWidth - 7) + 'px;';
-                    _this.trackBar.style.cssText = 'height:' + (parentHeight - 15) + 'px;' +
-                        'top:' + (topPosition) + 'px;';
+                    if (_this.scrollRatio != 1) {
+                        _this.bar.style.cssText = 'height:' + (_this.scrollRatio) * 85 + '%; top:' +
+                            ((_this.element.scrollTop + 15) / totalHeight ) * 100 + '%;right:-' +
+                            (_this.target.clientWidth - _this.bar.clientWidth - 7) + 'px;';
+                        _this.trackBar.style.cssText = 'height:' + (parentHeight - 15) + 'px;' +
+                            'top:' + (topPosition) + 'px;';
+                    }
                 });
             }
         };
