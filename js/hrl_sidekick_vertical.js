@@ -124,7 +124,7 @@ ai_widget = (function() {
     var textDiv = $('.aiw-txt');
     if (textDiv[0].scrollHeight > textDiv[0].clientHeight) {
       var original = textDiv[0].innerHTML.substring(0, 400),
-          index = 0;
+        index = 0;
       while (index < 500 && textDiv[0].scrollHeight > textDiv[0].clientHeight) {
         index++;
         original = original.substring(0, original.lastIndexOf(" "));

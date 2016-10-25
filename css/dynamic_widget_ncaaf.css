@@ -30,12 +30,44 @@ a:hover {
   stroke: #2d3e50;
 }
 #next-list-link .dw-btn:hover{
-  border-color: #2d3e50!important;
-  background-color: #2d3e50 !important;
+  border-color: #272727!important;
+  background-color: #272727 !important;
   color: white!important;
   fill: white;
   stroke: white
 }
+
+.bg-img .dw-btn {
+    border-color: #f2f2f2!important;
+    background-color: #f2f2f2 !important;
+    color: #2d3e50!important;
+    fill: #2d3e50;
+    stroke: #2d3e50;
+}
+
+.bg-img .dw-btn:hover {
+  background-color: #272727!important;
+  border-color: #272727!important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+
+.bg-img #next-list-link .dw-btn{
+  border-color: white!important;
+  background-color: transparent !important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+.bg-img #next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
 #line1:hover {
   color: #2d3e50;
 }

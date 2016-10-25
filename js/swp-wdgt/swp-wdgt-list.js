@@ -40,8 +40,7 @@ function RenderDynamicSide(protocolToUse){
   // var domain = '';
   // var remnant = '';
   // var bord = false;
-  var possibleTypes = [/*'nba',*/ 'mlb', /*'college_basketball',*/ 'finance', 'crime', 'demographics', 'disaster', 'weather'/*, 'nfl'*/];
-  // var possibleTypes = ['weather'];
+  var possibleTypes = [/*'nba',*/ 'mlb', /*'college_basketball',*/ 'finance', 'crime', 'demographics', 'disaster', 'weather', 'nfl'];
   var listType = possibleTypes[getRandomInt(0,possibleTypes.length)];
   var listRand = getRandomInt(0,10);
 
@@ -389,14 +388,35 @@ function RenderDynamicSide(protocolToUse){
         A('.fcw-t2-num').innerHTML = '#' + (index+1);
         if (listType == "nfl") {
           if (listData[index].rankType == "team") {
-            A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "images.synapsys.us" + listData[index].teamLogo +')';
+
+            if (listData[index].teamLogo != null) {
+              A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "images.synapsys.us" + listData[index].teamLogo +')';
+            }
+            else {
+              A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg" + ')';
+            }
+
           }
           else {
-            A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "images.synapsys.us" + listData[index].playerHeadshotUrl +')';
+
+            if (listData[index].playerHeadshotUrl != null) {
+              A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "images.synapsys.us" + listData[index].playerHeadshotUrl +')';
+            }
+            else {
+              A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg" + ')';
+            }
+
           }
         }
         else {
-          A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + listData[index].li_img +')';
+
+          if (listData[index].li_img != null) {
+            A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + listData[index].li_img.replace("//","") +')';
+          }
+          else {
+            A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg" + ')';
+          }
+
         }
         A('.fcw-image').style.backgroundRepeat = 'no-repeat';
 

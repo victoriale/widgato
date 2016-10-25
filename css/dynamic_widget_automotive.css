@@ -1,0 +1,78 @@
+a:hover {
+    color: #f91d38;
+}
+#verticalName {
+  background-color: #f91d38;
+}
+.dw-nav{
+    background-color: #f91d38!important;
+}
+.dw-btn:hover,
+.dw-nav:hover {
+    background-color: #272727!important;
+    border-color: #272727!important;
+}
+
+#homelink>div {
+    background-image: url(../css/public/Icon_automotive.svg);
+    height: 15px!important;
+    width: 16px!important;
+    margin-top:-1px;
+}
+
+.dw-btn {
+    border-color: #f91d38!important;
+    background-color: #f91d38 !important;
+    color: white!important;
+}
+#next-list-link .dw-btn{
+  border-color: #f91d38!important;
+  background-color: white !important;
+  color: #f91d38!important;
+  fill: #f91d38;
+  stroke: #f91d38;
+}
+#next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+.bg-img .dw-btn {
+    border-color: #f2f2f2!important;
+    background-color: #f2f2f2 !important;
+    color: #f91d38!important;
+    fill: #f91d38;
+    stroke: #f91d38;
+}
+
+.bg-img .dw-btn:hover {
+  background-color: #272727!important;
+  border-color: #272727!important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+
+.bg-img #next-list-link .dw-btn{
+  border-color: white!important;
+  background-color: transparent !important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+.bg-img #next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+#line1:hover {
+  color: #f91d38;
+}
+.hover {
+    background: rgba(249, 29, 56, 0.75)!important;

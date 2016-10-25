@@ -50,6 +50,7 @@ i {
     text-align: left;
     color:white;
     padding: 5px 15px;
+    text-transform: uppercase;
 }
 #verticalName a {
   color: white;

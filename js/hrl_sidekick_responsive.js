@@ -22,11 +22,11 @@ ai_widget = (function() {
   }
   var protocolToUse = (location.protocol == "https:") ? "https" : "http";
   var APIUrl = protocolToUse + '://prod-homerunloyal-ai.synapsys.us/sidekick',
-      AIData = {},
-      gameID = -1,
-      pageInd = -1,
-      availPages = [],
-      gameArr = [];
+    AIData = {},
+    gameID = -1,
+    pageInd = -1,
+    availPages = [],
+    gameArr = [];
 
   function getContent(eventId) {
     // Clear old data
@@ -112,7 +112,7 @@ ai_widget = (function() {
     var textDiv = $('.aiw-txt');
     if (textDiv[0].scrollHeight > textDiv[0].clientHeight) {
       var original = textDiv[0].innerHTML.substring(0, 400),
-          index = 0;
+        index = 0;
       while (index < 500 && textDiv[0].scrollHeight > textDiv[0].clientHeight) {
         index++;
         original = original.substring(0, original.lastIndexOf(" "));
@@ -256,7 +256,7 @@ window.onresize = function(event) {
   var textDiv = $('.aiw-txt');
   if (textDiv[0].scrollHeight > textDiv[0].clientHeight) {
     var original = textDiv[0].innerHTML.substring(0, 400),
-        index = 0;
+      index = 0;
     while (index < 500 && textDiv[0].scrollHeight > textDiv[0].clientHeight) {
       index++;
       original = original.substring(0, original.lastIndexOf(" "));

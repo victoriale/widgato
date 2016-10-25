@@ -1,0 +1,75 @@
+a:hover {
+    color: #d0122c;
+}
+#verticalName {
+  background-color: #d0122c;
+}
+.dw-nav{
+    background-color: #d0122c!important;
+}
+.dw-btn:hover,
+.dw-nav:hover {
+    background-color: #272727!important;
+    border-color: #272727!important;
+}
+
+#homelink>div {
+    background-image: url(../css/public/Icon_health.svg);
+}
+
+.dw-btn {
+    border-color: #d0122c!important;
+    background-color: #d0122c !important;
+    color: white!important;
+}
+#next-list-link .dw-btn{
+  border-color: #d0122c!important;
+  background-color: white !important;
+  color: #d0122c!important;
+  fill: #d0122c;
+  stroke: #d0122c;
+}
+#next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+.bg-img .dw-btn {
+    border-color: #f2f2f2!important;
+    background-color: #f2f2f2 !important;
+    color: #d0122c!important;
+    fill: #d0122c;
+    stroke: #d0122c;
+}
+
+.bg-img .dw-btn:hover {
+  background-color: #272727!important;
+  border-color: #272727!important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+
+.bg-img #next-list-link .dw-btn{
+  border-color: white!important;
+  background-color: transparent !important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+.bg-img #next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+#line1:hover {
+  color: #d0122c;
+}
+.hover {
+    background: rgba(208, 18, 44, 0.75)!important;

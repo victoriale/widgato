@@ -52,6 +52,7 @@ i {
     text-align: left;
     color:white;
     padding: 5px 15px;
+    text-transform: uppercase;
 }
 #verticalName a {
   color: white;
@@ -362,7 +363,7 @@ i {
     }
     .dw-i-title {
         font-size: 16px;
-        line-height: 15px;
+        line-height: 20px;
     }
     .dw-i-title#line2,
     .dw-i-title#line4 {

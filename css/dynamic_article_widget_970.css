@@ -1,0 +1,336 @@
+html,
+body {
+    margin: 0!important;
+    font-family: Lato;
+    width: 100%;
+    height: auto;
+    background-color: #ccc
+}
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+a {
+    text-decoration: none;
+    outline: 0
+}
+i {
+  font-style: normal;
+  margin-left: 5px;
+  font-family: 'Source Sans Pro', Helvetica, Arial , sans-serif;
+  font-size: 15px;
+  vertical-align: top;
+}
+
+.dw {
+    width: 668px;
+    height: 248px;
+    box-shadow: 0 0 0 1px #b7b7b7 inset;
+    background-color: #fafafa;
+    position: relative;
+    margin: 0 auto
+}
+
+
+#verticalName {
+    font-size: 10px;
+    font-weight: 400;
+    width: 100%;
+    min-height: 10px;
+    text-align: left;
+    color:white;
+    padding: 5px 15px;
+    text-transform: uppercase;
+}
+#verticalName a {
+  color: white;
+}
+
+#homelink > div {
+  height: 12px;
+  width: 12px;
+  vertical-align: top;
+  background-size: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: inline-block;
+  margin-right:5px;
+}
+
+#carousel {
+    width: 100%;
+    height: calc(100% - 22px);
+    position: absolute;
+    top:22px;
+    overflow: hidden;
+}
+.car-shader {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0), #272727), linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
+  z-index: 1;
+}
+
+.dw-nav {
+  height: 50px;
+  width: 20px;
+    position: absolute;
+    top: 100px;
+    color: white;
+    background-color: black;
+    display: block;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+
+.dw-c-l {
+    left: 0;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px
+}
+
+.dw-c-r {
+    right: 0;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px
+}
+
+.dw-c-img {
+    position: absolute;
+}
+
+.hover {
+    display: none;
+    padding: 43px 0;
+    font-size: 32px;
+    line-height: 24px;
+    text-align: center;
+    color: white
+}
+
+.img-link:hover .hover {
+    display: block;
+    z-index: 3
+}
+
+.img-link:hover .dw-big {
+    z-index: 2
+}
+
+.dw-big {
+  width: 100%;
+  top: 0;
+}
+
+.dw-big span {
+    font-size: 18px;
+    font-weight: bold
+}
+
+#num {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    position: absolute;
+    font-size: 12px;
+    line-height: 38px;
+    text-align: center;
+    top: 0;
+    left: 60px;
+    background-color: white;
+    z-index: 4
+}
+
+.dw-c-sub {
+    position: absolute;
+    left: 140px;
+    border: 1px solid #ccc
+}
+
+#subimg {
+    display: none
+}
+
+.dw-c-sub svg {
+    color: white;
+    fill: white;
+    stroke: white;
+    display: none;
+    margin: 7px 8px
+}
+
+.two #subimg {
+    display: none;
+}
+
+.two .dw-info {
+    left: 320px;
+    width: 320px
+}
+
+.one #subimg {
+    display: none!important
+}
+
+.dw-info {
+    z-index: 2;
+    position: absolute!important;
+    left: 25px!important;
+    width: calc(100% - 50px)!important;
+    color: white;
+    bottom: 10px;
+}
+.meta-info {
+  font-size: 10px;
+  margin-bottom: 5px;
+}
+#keyword {
+  text-transform: uppercase;
+  margin-right: 10px;
+}
+.dw-i-title {
+    width: 100%;
+    font-size: 18px;
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: left;
+    font-weight: bold
+}
+#title-text {
+    font-size: 22px;
+    font-weight: 800;
+    text-align: left;
+    padding: 0px 15px 5px 0;
+}
+#title-link {
+  color: white;
+  cursor: pointer;
+}
+#desc {
+  overflow: hidden;
+  white-space: normal;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15px;
+  height: 30px;
+}
+.line-clamp {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+#line4 {
+  display: inline-block;
+}
+
+.dw-i-title a {
+    color: inherit
+}
+
+.dw-i-title#line2,
+.dw-i-title#line4 {
+    line-height: 20px;
+    font-size: 14px;
+    font-weight: unset;
+    color: #000!important
+}
+
+
+#list-link {
+}
+
+#list-link .dw-btn {
+  margin-right: 7px;
+  max-width: 190px;
+  width: 52%;
+}
+
+#next-list-link .dw-btn{
+  display: inline-block;
+  margin-left: 0px;
+  max-width: 166px;
+  width: calc(45% - 3px);
+}
+
+#next-list-link .dw-btn svg{
+  margin-bottom: 1px;
+}
+
+.dw-btn {
+  display: inline-block;
+  color: white;
+  background-color: white;
+  font-size: 11px;
+  line-height: 26px;
+  height: 28px;
+  border-radius: 3px;
+  position: relative;
+  left: 0px;
+  border: 1px solid #000;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 10px;
+  fill: white;
+  stroke: white;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.dw-btn svg {
+    margin: 0 0 0 5px;
+    position: relative;
+    top: 2.5px
+}
+
+.dw-btn:hover {
+    color: white;
+    stroke: white;
+    fill: white
+}
+
+.dw-btn:active {
+    color: white;
+    stroke: white;
+    fill: white;
+    background-color: black
+}
+
+.presented {
+    text-align: right;
+    position: absolute;
+    font-size: 10px;
+    line-height: 12px;
+    color: #999;
+    left: 5px;
+    top: 5px
+}
+
+@media screen and (max-width:665px) {
+    .dw {
+        width: calc(100% - 2px);
+    }
+}
+
+@media screen and (max-width:430px) {
+    .line-clamp {
+        -webkit-line-clamp: 3;
+    }
+    #desc {
+      height: 45px;
+    }
+    #title-text {
+      font-size: 16px;
+    }
+}

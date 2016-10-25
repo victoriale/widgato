@@ -1,0 +1,75 @@
+a:hover {
+    color: #5c52bd;
+}
+#verticalName {
+  background-color: #5c52bd;
+}
+.dw-nav{
+    background-color: #5c52bd!important;
+}
+.dw-btn:hover,
+.dw-nav:hover {
+    background-color: #272727!important;
+    border-color: #272727!important;
+}
+
+#homelink>div {
+    background-image: url(../css/public/Icon_Entertainment.svg);
+}
+
+.dw-btn {
+    border-color: #5c52bd!important;
+    background-color: #5c52bd !important;
+    color: white!important;
+}
+#next-list-link .dw-btn{
+  border-color: #5c52bd!important;
+  background-color: white !important;
+  color: #5c52bd!important;
+  fill: #5c52bd;
+  stroke: #5c52bd;
+}
+#next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+.bg-img .dw-btn {
+    border-color: #f2f2f2!important;
+    background-color: #f2f2f2 !important;
+    color: #5c52bd!important;
+    fill: #5c52bd;
+    stroke: #5c52bd;
+}
+
+.bg-img .dw-btn:hover {
+  background-color: #272727!important;
+  border-color: #272727!important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+
+.bg-img #next-list-link .dw-btn{
+  border-color: white!important;
+  background-color: transparent !important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+.bg-img #next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+#line1:hover {
+  color: #5c52bd;
+}
+.hover {
+    background: rgba(92, 82, 189, 0.75)!important;

@@ -74,9 +74,9 @@ dynamic_widget = function() {
       xmlHttp.send( null );
     }
     function getRandList(initData) {
-      rand = Math.floor((Math.random() * 140) + 1);
+      rand = Math.floor((Math.random() * (initData.length - 1)) + 1);
       var date = new Date;
-      var compareDate = new Date('09 15 ' + date.getFullYear());
+      var compareDate = new Date('09/15/' + date.getFullYear());
       if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
         httpGetData(initData[rand] + "&season=" + date.getFullYear());
         season = date.getFullYear();
@@ -550,7 +550,7 @@ function p() {
                 break;
             case 'nba':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NBA' : 'http://www.myhoopszone.com/' + l.dom + '/NBA';
-                var hn = "Hoops Loyal";
+                var hn = "Basketball";
                 break;
             case 'college_basketball':
                 var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA';

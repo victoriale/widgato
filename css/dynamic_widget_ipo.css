@@ -1,0 +1,75 @@
+a:hover {
+    color: #3098ff;
+}
+#verticalName {
+  background-color: #3098ff;
+}
+.dw-nav{
+    background-color: #3098ff!important;
+}
+.dw-btn:hover,
+.dw-nav:hover {
+    background-color: #272727!important;
+    border-color: #272727!important;
+}
+
+#homelink>div {
+    background-image: url(../css/public/Icon_ipo.svg);
+}
+
+.dw-btn {
+    border-color: #3098ff!important;
+    background-color: #3098ff !important;
+    color: white!important;
+}
+#next-list-link .dw-btn{
+  border-color: #3098ff!important;
+  background-color: white !important;
+  color: #3098ff!important;
+  fill: #3098ff;
+  stroke: #3098ff;
+}
+#next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+.bg-img .dw-btn {
+    border-color: #f2f2f2!important;
+    background-color: #f2f2f2 !important;
+    color: #3098ff!important;
+    fill: #3098ff;
+    stroke: #3098ff;
+}
+
+.bg-img .dw-btn:hover {
+  background-color: #272727!important;
+  border-color: #272727!important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+
+.bg-img #next-list-link .dw-btn{
+  border-color: white!important;
+  background-color: transparent !important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+.bg-img #next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+#line1:hover {
+  color: #3098ff;
+}
+.hover {
+    background: rgba(48, 152, 255, 0.75)!important;

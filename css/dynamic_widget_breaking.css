@@ -1,0 +1,75 @@
+a:hover {
+    color: #911000;
+}
+#verticalName {
+  background-color: #911000;
+}
+.dw-nav{
+    background-color: #911000!important;
+}
+.dw-btn:hover,
+.dw-nav:hover {
+    background-color: #272727!important;
+    border-color: #272727!important;
+}
+
+#homelink>div {
+    background-image: url(../css/public/Icon_breaking.svg);
+}
+
+.dw-btn {
+    border-color: #911000!important;
+    background-color: #911000 !important;
+    color: white!important;
+}
+#next-list-link .dw-btn{
+  border-color: #911000!important;
+  background-color: white !important;
+  color: #911000!important;
+  fill: #911000;
+  stroke: #911000;
+}
+#next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+.bg-img .dw-btn {
+    border-color: #f2f2f2!important;
+    background-color: #f2f2f2 !important;
+    color: #911000!important;
+    fill: #911000;
+    stroke: #911000;
+}
+
+.bg-img .dw-btn:hover {
+  background-color: #272727!important;
+  border-color: #272727!important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+
+.bg-img #next-list-link .dw-btn{
+  border-color: white!important;
+  background-color: transparent !important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+.bg-img #next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+#line1:hover {
+  color: #911000;
+}
+.hover {
+    background: rgba(145, 16, 0, 0.75)!important;

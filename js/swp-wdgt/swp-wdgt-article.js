@@ -24,7 +24,7 @@ function RenderArticleSide(protocolToUse) {
     var keyword;
     var hasChanged = false;
     var dropdownCount = 0;
-    var catOptions = ['mlb', /*'nfl', 'ncaa'*/];
+    var catOptions = ['mlb', 'nfl', 'ncaa'];
     var isMlb = false;
 
     catOptions.sort(function () {
@@ -186,11 +186,26 @@ function RenderArticleSide(protocolToUse) {
 
         //article url structure: /articles/:article_type/:event_id
         //check if the id has been changed via the drop down selection; otherwise use the initial id.
-        var id = !changedGameId ? game.eventId : changedGameId;
+        var checkId = !game.eventId  ? game.eventID : game.eventId ;
+
+        if (data.data && data.data['player-fantasy'] && data.data['player-fantasy'].articleId == article.articleId) {
+          var id = article.articleId;  //if fantasy article use article id
+        }
+        else {
+          var id = !changedGameId ? checkId: changedGameId;  //if regular article use event id
+        }
+
+        if(catOptions[0] == "ncaa") {
+          var cat = "ncaaf";
+        }
+        else {
+          var cat = catOptions[0];
+        }
+
         if (isMlb) {
             var articleUrl = 'http://www.homerunloyal.com/articles/' + articleTypes[articleIndex] + '/' + id;
         } else {
-            var articleUrl = 'http://www.touchdownloyal.com/' + catOptions[0] + '/articles/' + articleTypes[articleIndex] + '/' + id;
+            var articleUrl = 'http://www.touchdownloyal.com/' + cat + '/articles/' + articleTypes[articleIndex] + '/' + id;
         }
         var articleText = isMlb ? article.article[0].substr(0, 150) : article.article.substr(0, 150);
         A('.content-text').innerHTML = articleText + '...<a target="_blank" href="' + articleUrl + '"></a>';
@@ -214,20 +229,30 @@ function RenderArticleSide(protocolToUse) {
         if (isMlb) {
             $('.ball').css('background-image', 'url(../css/public/icons/Home-Run-Loyal_Icon%202.svg)');
             $('.swp-top').css('background-color', '#b31d24');
-            $('.buttons-readstory').css('background-color', '#b31d24');
-            $('.buttons-nextlist').hover(function () {
-                $(this).css("background-color", '#b31d24');
+            $('.buttons-readstory').css({'background-color': '#b31d24', 'border': '1px solid #b31d24'});
+            $('.buttons-readstory').hover(function () {
+                $(this).css({'background-color': '#000', 'border': '1px solid #000'});
             }, function () {
-                $(this).css("background-color", "transparent");
+                $(this).css({'background-color': '#b31d24', 'border': '1px solid #b31d24'});
+            });
+            $('.buttons-nextlist').hover(function () {
+                $(this).css({'background-color': '#000', 'border': '1px solid #000'});
+            }, function () {
+                $(this).css({'background-color': 'transparent', 'border': '1px solid #fff'});
             });
         } else {
             $('.ball').css('background-image', 'url(../css/public/icons/Touchdown-Loyal_Icon.svg)');
             $('.swp-top').css('background-color', 'rgb(45, 62, 80)');
-            $('.buttons-readstory').css('background-color', 'rgba(45, 62, 80, 0.9)');
-            $('.buttons-nextlist').hover(function () {
-                $(this).css("background-color", 'rgba(45, 62, 80, 0.9)');
+            $('.buttons-readstory').css({'background-color': 'rgba(45, 62, 80, 0.9)', 'border': '1px solid rgba(45, 62, 80, 0.9)'});
+            $('.buttons-readstory').hover(function () {
+                $(this).css({'background-color': '#000', 'border': '1px solid #000'});
             }, function () {
-                $(this).css("background-color", "transparent");
+                $(this).css({'background-color': 'rgba(45, 62, 80, 0.9)', 'border': '1px solid rgba(45, 62, 80, 0.9)'});
+            });
+            $('.buttons-nextlist').hover(function () {
+                $(this).css({'background-color': '#000', 'border': '1px solid #000'});
+            }, function () {
+                $(this).css({'background-color': 'transparent', 'border': '1px solid #fff'});
             });
         }
         parseGames();

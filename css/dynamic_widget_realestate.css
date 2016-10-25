@@ -1,0 +1,75 @@
+a:hover {
+    color: #44b224;
+}
+#verticalName {
+  background-color: #44b224;
+}
+.dw-nav{
+    background-color: #44b224!important;
+}
+.dw-btn:hover,
+.dw-nav:hover {
+    background-color: #272727!important;
+    border-color: #272727!important;
+}
+
+#homelink>div {
+    background-image: url(../css/public/Icon_Realestate.svg);
+}
+
+.dw-btn {
+    border-color: #44b224!important;
+    background-color: #44b224 !important;
+    color: white!important;
+}
+#next-list-link .dw-btn{
+  border-color: #44b224!important;
+  background-color: white !important;
+  color: #44b224!important;
+  fill: #44b224;
+  stroke: #44b224;
+}
+#next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+.bg-img .dw-btn {
+    border-color: #f2f2f2!important;
+    background-color: #f2f2f2 !important;
+    color: #44b224!important;
+    fill: #44b224;
+    stroke: #44b224;
+}
+
+.bg-img .dw-btn:hover {
+  background-color: #272727!important;
+  border-color: #272727!important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+
+.bg-img #next-list-link .dw-btn{
+  border-color: white!important;
+  background-color: transparent !important;
+  color: white!important;
+  fill: white;
+  stroke: white;
+}
+.bg-img #next-list-link .dw-btn:hover{
+  border-color: #272727!important;
+  background-color: #272727 !important;
+  color: white!important;
+  fill: white;
+  stroke: white
+}
+
+#line1:hover {
+  color: #44b224;
+}
+.hover {
+    background: rgba(68, 178, 36, 0.75)!important;
