@@ -9,6 +9,8 @@ a:hover {
 }
 .dw-nav{
     background-color: #f6af05!important;
+    fill: #272727;
+    stroke: #272727;
 }
 .dw-nav:hover {
     background-color: black!important;
