@@ -74,7 +74,7 @@ dynamic_widget = function() {
       xmlHttp.send( null );
     }
     function getRandList(initData) {
-      rand = Math.floor((Math.random() * 137) + 1);
+      rand = Math.floor((Math.random() * initData.length) + 1);
       var date = new Date;
       var compareDate = new Date('09/15/' + date.getFullYear());
       if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
