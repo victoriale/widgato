@@ -22,16 +22,16 @@ a:hover {
     background-color: #2d3e50 !important;
     color: white!important;
 }
+#next-list-link .dw-btn{
+  border-color: #2d3e50!important;
+  background-color: white !important;
+  color: #2d3e50!important;
+  fill: #2d3e50;
+  stroke: #2d3e50;
+}
 #next-list-link .dw-btn:hover{
   border-color: #272727!important;
   background-color: #272727 !important;
-  color: white!important;
-  fill: white;
-  stroke: white
-}
-#next-list-link .dw-btn:hover{
-  border-color: #2d3e50!important;
-  background-color: #2d3e50 !important;
   color: white!important;
   fill: white;
   stroke: white
