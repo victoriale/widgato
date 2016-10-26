@@ -15,6 +15,9 @@ a:hover {
 
 #homelink>div {
     background-image: url(../css/public/Icon_automotive.svg);
+    height: 15px!important;
+    width: 16px!important;
+    margin-top:-1px;
 }
 
 .dw-btn {

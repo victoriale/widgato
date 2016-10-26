@@ -1,3 +1,182 @@
+//todo: use this function for all category specific logic
+function getCategoryMetadata (category) {
+  var globalMeta = {
+    trending: {
+      displayName: "Trending",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "trending",
+      subCategory: ""
+    },
+    breaking: {
+      displayName: "Breaking",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "breaking",
+      subCategory: ""
+    },
+    sports: {
+      displayName: "Sports",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "sports",
+      subCategory: ""
+    },
+    nfl: {
+      displayName: "Football",
+      domain: "www.touchdownloyal.com",
+      partnerDomain: "www.mytouchdownzone.com"
+      usesPartnerSubdomain: true,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "nfl"
+    },
+    ncaaf: {
+      displayName: "Football",
+      domain: "www.touchdownloyal.com",
+      partnerDomain: "www.mytouchdownzone.com"
+      usesPartnerSubdomain: true,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "ncaaf"
+    },
+    nba: {
+      displayName: "Basketball",
+      domain: "www.hoopsdownloyal.com",
+      partnerDomain: "www.myhoopszone.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "nba"
+    },
+    ncaam: {
+      displayName: "Basketball",
+      domain: "www.hoopsdownloyal.com",
+      partnerDomain: "www.myhoopszone.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "ncaam"
+    },
+    mlb: {
+      displayName: "Baseball",
+      domain: "www.homerunloyal.com",
+      partnerDomain: "www.myhomereunzone.com"
+      usesPartnerSubdomain: true,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "mlb"
+    },
+    nhl: {
+      displayName: "Hockey",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "sports",
+      subCategory: "nhl"
+    },
+    business: {
+      displayName: "Business",
+      domain: "www.investkit.com",
+      partnerDomain: "www.myinvestkit.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "business",
+      subCategory: ""
+    },
+    politics: {
+      displayName: "Politics",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "politics",
+      subCategory: ""
+    },
+    entertainment: {
+      displayName: "Entertainment",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "entertainment",
+      subCategory: ""
+    },
+    food: {
+      displayName: "Food",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "food",
+      subCategory: ""
+    },
+    health: {
+      displayName: "Health",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "health",
+      subCategory: ""
+    },
+    lifestyle: {
+      displayName: "Lifestyle",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "lifestyle",
+      subCategory: ""
+    },
+    realestate: {
+      displayName: "Real Estate",
+      domain: "www.joyfulhome.com",
+      partnerDomain: "www.myhousekit.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: true,
+      category: "realestate",
+      subCategory: ""
+    },
+    travel: {
+      displayName: "Travel",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "travel",
+      subCategory: ""
+    },
+    weather: {
+      displayName: "Weather",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "weather",
+      subCategory: ""
+    },
+    automotive: {
+      displayName: "Automotive",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "automotive",
+      subCategory: ""
+    },
+  };
+  return globalMeta[category];
+}
+
+
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var mlbDomain        = "http://www.homerunloyal.com/";
 var nflDomain        = "http://www.touchdownloyal.com/";
@@ -109,7 +288,54 @@ dynamic_widget = function() {
               }
           }
       };
-        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=sports&subCategory=nfl&metaDataOnly=1&readyToPublish=true&count=20" , true);
+        var cat = "";
+        var subCat = "";
+        switch(l.category) {
+            case "trending":
+            case "breaking":
+            case "food":
+            case "health":
+            case "lifestyle":
+            case "realestate":
+            case "travel":
+            case "weather":
+            case "automotive":
+            case "business":
+            case "politics":
+              cat = l.category;
+              subCat = "";
+              break;
+
+            //sports
+            case "sports":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "nfl":
+            case "ncaaf":
+            case "nba":
+            case "ncaam":
+            case "mlb":
+            case "nhl":
+              cat = "sports";
+              subCat = l.category;
+              break;
+
+            //entertainment
+            case "entertainment":
+              cat = l.category;
+              subCat = "";
+              break;
+            case "tv":
+            case "movies":
+            case "music":
+            case "celebrities":
+              cat = "entertainment";
+              subCat = l.category;
+              break;
+
+        }
+        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + cat + "&subCategory=" + subCat + "&metaDataOnly=1&readyToPublish=true&count=20" , true); //todo: change to prod on deployment
         i.send()
     }
 
@@ -121,8 +347,9 @@ dynamic_widget = function() {
             })
         }
         if (l.category == 'politics') {
-
-            var i = r.l_title.indexOf('Republican') != -1 ? 'r' : r.l_title.indexOf('Independent') != -1 ? 'i' : 'd';
+            var polOptions = ['i','r','d'];
+            var rand = Math.floor((Math.random() * 3) + 1)-1;
+            var i = polOptions[rand];
             var cssId = 'politicsCss';  // you could encode the css path itself to generate id..
             if (document.getElementById(cssId))
             {
@@ -180,14 +407,8 @@ dynamic_widget = function() {
                     SpecialDomain = "http://baseball." + specialDomains[i];
                   }
                 }
-                // var a = "/";
-                // var n = false
-                // $("mainurl").style.cssText += "pointer-events:none; cursor:default",
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
                 $("carousel").className = "one";
-                // $("line1").style.cssText += "pointer-events:none; cursor:default",
-                // $("homelink").style.cssText += "pointer-events:none; cursor:default",
-                //  $("list-link").style.display = "none";
                 var a = "";
                 if (SpecialDomain == "") {
                       a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom +'/list';
@@ -249,6 +470,7 @@ function p() {
           $('keyword').innerHTML = e.category.replace(/-/g," ");
         }
 
+        //todo: possibly make this a function
         var date = new Date(e.last_updated*1000);
         var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
         var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
