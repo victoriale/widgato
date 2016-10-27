@@ -334,7 +334,7 @@ function p() {
           $('mainurl').href = a;
           $('line1').href = a;
         }
-        var statType = e.statType.replace(/_/g, " ");
+        var statType = e.statDescription.replace(/_/g, " ");
         statType = statType.replace("player", "");
         statType = statType.replace("team", "");
         statType = statType.replace(/(^| )(\w)/g, function(x) {
