@@ -305,7 +305,7 @@ function RenderDynamicSide(protocolToUse){
     function getRandList(initData) {
       rand = Math.floor((Math.random() * 140) + 1);
       var date = new Date;
-      var compareDate = new Date('09 15 ' + date.getFullYear());
+      var compareDate = new Date('09/15/' + date.getFullYear());
       if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
         httpGetData("",initData[rand] + "&season=" + date.getFullYear());
         season = date.getFullYear();
