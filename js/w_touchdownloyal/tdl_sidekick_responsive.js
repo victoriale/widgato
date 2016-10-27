@@ -144,6 +144,9 @@ ai_widget = (function () {
                 availPages.push(Object.keys(AIData['data'])[i]);
             }
         }
+        availPages.sort(function () {
+            return 0.5 - Math.random()
+        });
         pageInd = 0;
         // Get game ID
         gameID = AIData['data']['meta-data']['current'].eventID;
