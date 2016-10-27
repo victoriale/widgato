@@ -347,19 +347,21 @@ function p() {
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
         if (e.rankType == "team") {
-          if (e.teamLogo != null && e.teamLogo != "null") {
+          if (e.teamLogo != null && e.teamLogo != "null" && !e.teamLogo.includes('no_image')) {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
           }
           else {
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no-image-football.svg");
           }
         }
         else {
-          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null") {
+          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && !e.teamLogo.includes('no_image')) {
+            console.log("set");
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl);
           }
           else {
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+            console.log("image error");
+            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no-image-football.svg");
           }
         }
         setTimeout(function(e, t) {
