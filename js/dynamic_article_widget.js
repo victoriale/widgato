@@ -2,12 +2,30 @@
 function getCategoryMetadata (category) {
   var globalMeta = {
     trending: {
-      displayName: "Football",
+      displayName: "Trending",
       domain: "www.tcxmedia.com",
       partnerDomain: "www.tcxnews.com"
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "trending",
+      subCategory: ""
+    },
+    breaking: {
+      displayName: "Breaking",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "breaking",
+      subCategory: ""
+    },
+    sports: {
+      displayName: "Sports",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "sports",
       subCategory: ""
     },
     nfl: {
@@ -27,7 +45,133 @@ function getCategoryMetadata (category) {
       hasAiArticles: true,
       category: "sports",
       subCategory: "ncaaf"
-    }
+    },
+    nba: {
+      displayName: "Basketball",
+      domain: "www.hoopsdownloyal.com",
+      partnerDomain: "www.myhoopszone.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "nba"
+    },
+    ncaam: {
+      displayName: "Basketball",
+      domain: "www.hoopsdownloyal.com",
+      partnerDomain: "www.myhoopszone.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "ncaam"
+    },
+    mlb: {
+      displayName: "Baseball",
+      domain: "www.homerunloyal.com",
+      partnerDomain: "www.myhomereunzone.com"
+      usesPartnerSubdomain: true,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "mlb"
+    },
+    nhl: {
+      displayName: "Hockey",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "sports",
+      subCategory: "nhl"
+    },
+    business: {
+      displayName: "Business",
+      domain: "www.investkit.com",
+      partnerDomain: "www.myinvestkit.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "business",
+      subCategory: ""
+    },
+    politics: {
+      displayName: "Politics",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "politics",
+      subCategory: ""
+    },
+    entertainment: {
+      displayName: "Entertainment",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "entertainment",
+      subCategory: ""
+    },
+    food: {
+      displayName: "Food",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "food",
+      subCategory: ""
+    },
+    health: {
+      displayName: "Health",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "health",
+      subCategory: ""
+    },
+    lifestyle: {
+      displayName: "Lifestyle",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "lifestyle",
+      subCategory: ""
+    },
+    realestate: {
+      displayName: "Real Estate",
+      domain: "www.joyfulhome.com",
+      partnerDomain: "www.myhousekit.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: true,
+      category: "realestate",
+      subCategory: ""
+    },
+    travel: {
+      displayName: "Travel",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "travel",
+      subCategory: ""
+    },
+    weather: {
+      displayName: "Weather",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "weather",
+      subCategory: ""
+    },
+    automotive: {
+      displayName: "Automotive",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com"
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "automotive",
+      subCategory: ""
+    },
   };
   return globalMeta[category];
 }

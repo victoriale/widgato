@@ -9,10 +9,14 @@ a:hover {
 }
 .dw-nav{
     background-color: #f6af05!important;
+    fill: #272727;
+    stroke: #272727;
 }
 .dw-nav:hover {
-    background-color: black!important;
-    border-color: black!important;
+    background-color: #272727!important;
+    border-color: #272727!important;
+    fill: white;
+    stroke: white;
 }
 
 #homelink>div {

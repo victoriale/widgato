@@ -303,9 +303,9 @@ function RenderDynamicSide(protocolToUse){
     httpGetInitData();
 
     function getRandList(initData) {
-      rand = Math.floor((Math.random() * 140) + 1);
+      rand = Math.floor((Math.random() * (initData.length - 1)) + 1);
       var date = new Date;
-      var compareDate = new Date('09 15 ' + date.getFullYear());
+      var compareDate = new Date('09/15/' + date.getFullYear());
       if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
         httpGetData("",initData[rand] + "&season=" + date.getFullYear());
         season = date.getFullYear();
@@ -430,7 +430,7 @@ function RenderDynamicSide(protocolToUse){
           listData[index].li_str = listData[index].li_str.replace('Reported', '');
         }
         if (listType == "nfl") {
-          var statType = listData[index].statType.replace(/_/g, " ");
+          var statType = listData[index].statDescription.replace(/_/g, " ");
           statType = statType.replace("player", "");
           statType = statType.replace("team", "");
           statType = statType.replace(/(^| )(\w)/g, function(x) {

@@ -3126,6 +3126,20 @@
        return gameNode;
      }
 
+     var getDatetime = function(timestamp, offset){
+         var datetime; //Built datetie
+         var dateString = new Date(timestamp + offset * 3600 * 1000);
+         var year = dateString.getUTCFullYear();
+         var month = dateString.getUTCMonth() + 1;
+         month = month.toString().length === 1 ? '0' + month.toString() : month;
+         var date = dateString.getUTCDate();
+         date = date.toString().length === 1 ? '0' + date.toString() : date;
+
+         datetime = year + '-' + month + '-' + date;
+
+         return datetime;
+     }
+
      if(typeof todayDate !== 'undefined' && todayDate !== null){
 
        for(var index in data){
@@ -3243,8 +3257,7 @@
            switch(item.gameInfo.eventStatus){
              case 'pre-event':
                 //Pre Game
-                var dateObj = new Date(item.gameInfo.startDateTimestamp);
-                var datetime = dateObj.getUTCFullYear() + '-' + (dateObj.getUTCMonth() + 1) + '-' + dateObj.getUTCDate();
+                var datetime = getDatetime(item.gameInfo.startDateTimestamp, easternTime.offset);
 
                 var gameObject = {
                   homeTeam: item.homeTeamInfo.abbreviation,
@@ -3266,8 +3279,7 @@
              break;
              case 'post-event':
                 //Post Game
-                var dateObj2 = new Date(item.gameInfo.startDateTimestamp);
-                var datetime2 = dateObj2.getUTCFullYear() + '-' + (dateObj2.getUTCMonth() + 1) + '-' + dateObj2.getUTCDate();
+                var datetime2 = getDatetime(item.gameInfo.startDateTimestamp, easternTime.offset);
 
                 var gameObject = {
                   homeTeam: item.homeTeamInfo.abbreviation,

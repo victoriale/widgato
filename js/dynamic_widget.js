@@ -74,7 +74,7 @@ dynamic_widget = function() {
       xmlHttp.send( null );
     }
     function getRandList(initData) {
-      rand = Math.floor((Math.random() * 138) + 1);
+      rand = Math.floor((Math.random() * (initData.length - 1)) + 1);
       var date = new Date;
       var compareDate = new Date('09/15/' + date.getFullYear());
       if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
@@ -334,7 +334,7 @@ function p() {
           $('mainurl').href = a;
           $('line1').href = a;
         }
-        var statType = e.statType.replace(/_/g, " ");
+        var statType = e.statDescription.replace(/_/g, " ");
         statType = statType.replace("player", "");
         statType = statType.replace("team", "");
         statType = statType.replace(/(^| )(\w)/g, function(x) {
@@ -347,19 +347,21 @@ function p() {
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
         if (e.rankType == "team") {
-          if (e.teamLogo != null && e.teamLogo != "null") {
+          if (e.teamLogo != null && e.teamLogo != "null" && !e.teamLogo.includes('no_image')) {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
           }
           else {
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no-image-football.svg");
           }
         }
         else {
-          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null") {
+          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && !e.teamLogo.includes('no_image')) {
+            console.log("set");
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl);
           }
           else {
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+            console.log("image error");
+            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no-image-football.svg");
           }
         }
         setTimeout(function(e, t) {
