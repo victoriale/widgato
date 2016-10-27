@@ -302,7 +302,7 @@ function RenderDynamicSide(protocolToUse){
     }
     httpGetInitData();
 
-    function getRandList(initData) {
+    function getRandList(initData) { 
       rand = Math.floor((Math.random() * (initData.length - 1)) + 1);
       var date = new Date;
       var compareDate = new Date('09/15/' + date.getFullYear());
