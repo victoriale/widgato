@@ -177,7 +177,9 @@ ai_widget = (function () {
                 // Event ID
                 gameData.eventId = val.eventID;
                 // Date
-                gameData.eventDate = val['startDateTime'].dateTime.toUpperCase() + ' EDT';
+                var date = moment(val['startDateTime'].date);
+                var time = val['startDateTime'].time;
+                gameData.eventDate = moment(date).format("MMM. DD ") + time.toUpperCase() + ' ET';
                 gameData.eventTime = ' - ' + val['startDateTime'].time + ' EDT';
                 gameArr.push(gameData);
             });
