@@ -355,12 +355,10 @@ function p() {
           }
         }
         else {
-          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && !e.teamLogo.includes('no_image')) {
-            console.log("set");
+          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && !e.playerHeadshotUrl.includes('no_image')) {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl);
           }
           else {
-            console.log("image error");
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no-image-football.svg");
           }
         }
