@@ -351,7 +351,7 @@ function p() {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
           }
           else {
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no-image-football.svg");
+            t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
           }
         }
         else {
@@ -359,7 +359,7 @@ function p() {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl);
           }
           else {
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no-image-football.svg");
+            t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
           }
         }
         setTimeout(function(e, t) {
