@@ -341,7 +341,13 @@ function p() {
           return x.toUpperCase();
         });
         var stat = Math.floor(Number(e.stat));
-        $('desc').innerHTML = stat + " " + statType;
+        switch(e.statType) {
+            case "player_kicking_longest_field_goal_made":
+                $('desc').innerHTML = statType + ": " + stat + " yards";
+                break;
+            default:
+                $('desc').innerHTML = stat + " " + statType;
+        }
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
