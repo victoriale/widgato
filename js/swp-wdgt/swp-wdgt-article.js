@@ -282,17 +282,16 @@ function RenderArticleSide(protocolToUse) {
                 // Date
                 if (isMlb) {
                     var dateArray = val['startDateTime'].split(' ');
-                    var date = val['startDateTime'];
-                    var time = ' - ' + dateArray[1] + ' EDT';
+                    var time = dateArray[1] + ' ET';
+                    var date = moment(val['startDateTime'].date).format("MMM. DD ") + time.toUpperCase();
                 } else {
-                    var date = val['startDateTime'].dateTime + ' EDT';
-                    var time = ' - ' + val['startDateTime'].time + ' EDT';
+                    var time = val['startDateTime'].time + ' ET';
+                    var date = moment(val['startDateTime'].date).format("MMM. DD ") + time.toUpperCase();
                 }
                 gameData.eventDate = date;
                 gameData.eventTime = time;
                 gameArr.push(gameData);
             });
-
             return gameArr;
         };
         var games = gameData.games;

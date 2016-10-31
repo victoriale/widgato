@@ -149,6 +149,9 @@ ai_widget = (function () {
                 availPages.push(Object.keys(AIData['data'])[i]);
             }
         }
+        availPages.sort(function () {
+            return 0.5 - Math.random()
+        });
         pageInd = 0;
         // Get game ID
         gameID = AIData['data']['meta-data']['current'].eventID;
@@ -174,7 +177,9 @@ ai_widget = (function () {
                 // Event ID
                 gameData.eventId = val.eventID;
                 // Date
-                gameData.eventDate = val['startDateTime'].dateTime.toUpperCase() + ' EDT';
+                var date = moment(val['startDateTime'].date);
+                var time = val['startDateTime'].time;
+                gameData.eventDate = moment(date).format("MMM. DD ") + time.toUpperCase() + ' ET';
                 gameData.eventTime = ' - ' + val['startDateTime'].time + ' EDT';
                 gameArr.push(gameData);
             });
