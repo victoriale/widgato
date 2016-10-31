@@ -345,8 +345,11 @@ function p() {
             case "player_kicking_longest_field_goal_made":
                 $('desc').innerHTML = statType + ": " + stat + " yards";
                 break;
+            case "player_punting_longest_punt":
+                $('desc').innerHTML = statType + ": " + stat + " yards";
+                break;
             default:
-                $('desc').innerHTML = stat + " " + statType;
+                $('desc').innerHTML = statType + ": " + stat;
         }
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
