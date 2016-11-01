@@ -334,32 +334,44 @@ function p() {
           $('mainurl').href = a;
           $('line1').href = a;
         }
-        var statType = e.statType.replace(/_/g, " ");
+        var statType = e.statDescription.replace(/_/g, " ");
         statType = statType.replace("player", "");
         statType = statType.replace("team", "");
         statType = statType.replace(/(^| )(\w)/g, function(x) {
           return x.toUpperCase();
         });
         var stat = Math.floor(Number(e.stat));
-        $('desc').innerHTML = stat + " " + statType;
+        switch(e.statType) {
+            case "player_kicking_longest_field_goal_made":
+                $('desc').innerHTML = statType + ": " + stat + " yards";
+                break;
+            case "player_punting_longest_punt":
+                $('desc').innerHTML = statType + ": " + stat + " yards";
+                break;
+            case "player_returning_longest_return":
+                $('desc').innerHTML = statType + ": " + stat + " yards";
+                break;
+            default:
+                $('desc').innerHTML = statType + ": " + stat;
+        }
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
         if (e.rankType == "team") {
-          if (e.teamLogo != null && e.teamLogo != "null") {
+          if (e.teamLogo != null && e.teamLogo != "null" && !e.teamLogo.includes('no_image')) {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
           }
           else {
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+            t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
           }
         }
         else {
-          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null") {
+          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && !e.playerHeadshotUrl.includes('no_image')) {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl);
           }
           else {
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+            t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
           }
         }
         setTimeout(function(e, t) {
