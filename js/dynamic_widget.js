@@ -348,6 +348,9 @@ function p() {
             case "player_punting_longest_punt":
                 $('desc').innerHTML = statType + ": " + stat + " yards";
                 break;
+            case "player_returning_longest_return":
+                $('desc').innerHTML = statType + ": " + stat + " yards";
+                break;
             default:
                 $('desc').innerHTML = statType + ": " + stat;
         }
