@@ -220,9 +220,24 @@
   //Grab second level domain
   domain = parts.slice(-2).join('.');
 
-  var homerunDomain = params.baseballSubdomain !== null ? protocol + '://' + params.baseballSubdomain + '.' + domain : 'http://myhomerunzone.com/' + domain;
-  var hoopsDomain = params.basketballSubdomain !== null ? protocol + '://' + params.basketballSubdomain + '.' + domain : 'http://myhoopszone.com/' + domain;
-  var touchdownDomain = params.footballSubdomain !== null ? protocol + '://' + params.footballSubdomain + '.' + domain : 'http://www.mytouchdownzone.com/' + domain;
+  if (domain.includes('homerun')) {
+    var homerunDomain = "http://homerunloyal.com";
+  }
+  else {
+    var homerunDomain = params.baseballSubdomain !== null ? protocol + '://' + params.baseballSubdomain + '.' + domain : 'http://myhomerunzone.com/' + domain;
+  }
+  if (domain.includes('hoops')) {
+    var hoopsDomain = "http://hoopsloyal.com";
+  }
+  else {
+    var hoopsDomain = params.basketballSubdomain !== null ? protocol + '://' + params.basketballSubdomain + '.' + domain : 'http://myhoopszone.com/' + domain;
+  }
+  if (domain.includes('touchdown')) {
+    var touchdownDomain = "http://touchdownloyal.com";
+  }
+  else {
+    var touchdownDomain = params.footballSubdomain !== null ? protocol + '://' + params.footballSubdomain + '.' + domain : 'http://www.mytouchdownzone.com/' + domain;
+  }
 
   var footballLeagueYear = 2016; //Year used by TDL sites for urls
 
