@@ -392,7 +392,7 @@ chatterbox[chatterbox.length] = (function(chatter_id) {
         "rand": e_q.rand,
         "dom": domain
       };
-      ad_script.src = "//content.synapsys.us/l/n/igloo" + (['sun-sentinel.com','chicagotribune.com'].indexOf(domain) != -1 ? "-pb" : "") + ".php?" + Object.keys(e_q).map(function(k){return encodeURIComponent(k)+"="+encodeURIComponent(e_q[k])}).join("&");
+      ad_script.src = "//content.synapsys.us/l/n/igloo" + (['baltimoresun.com','capitalgazette.com','carrollcountytimes.com','chicagotribune.com','citypaper.com','courant.com','dailypress.com','forsalebyowner.com','latimes.com','mcall.com','orlandosentinel.com','pacificsandiego.com','sandiegouniontribune.com','southflorida.com','sun-sentinel.com','trbdevcloud.com','trbprodcloud.com','tribdev.com'].indexOf(domain) != -1 ? "-pb" : "") + ".php?" + Object.keys(e_q).map(function(k){return encodeURIComponent(k)+"="+encodeURIComponent(e_q[k])}).join("&");
       ad_stack_div.appendChild(ad_script);
 
       // Create the dynamic widget

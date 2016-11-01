@@ -341,7 +341,16 @@ function p() {
           return x.toUpperCase();
         });
         var stat = Math.floor(Number(e.stat));
-        $('desc').innerHTML = stat + " " + statType;
+        switch(e.statType) {
+            case "player_kicking_longest_field_goal_made":
+                $('desc').innerHTML = statType + ": " + stat + " yards";
+                break;
+            case "player_punting_longest_punt":
+                $('desc').innerHTML = statType + ": " + stat + " yards";
+                break;
+            default:
+                $('desc').innerHTML = statType + ": " + stat;
+        }
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
@@ -351,7 +360,7 @@ function p() {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
           }
           else {
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no-image-football.svg");
+            t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
           }
         }
         else {
@@ -359,7 +368,7 @@ function p() {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl);
           }
           else {
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no-image-football.svg");
+            t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
           }
         }
         setTimeout(function(e, t) {
