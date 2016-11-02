@@ -216,26 +216,29 @@
   var defaultState = 'ny'; //Default state used whenever state lookup fails (from api or from stateAbbrevToFull function)
 
   var domain = window.location.hostname; //Domain the bar exists on
+  var path = window.location.pathname;
   var parts = domain.split('.');
   //Grab second level domain
   domain = parts.slice(-2).join('.');
 
-  if (domain.includes('homerun')) {
+  if (domain.includes('homerunloyal') || domain.includes('hoopsloyal') || domain.includes('touchdownloyal')) {
+    var houseSite = true;
     var homerunDomain = "http://homerunloyal.com";
-  }
-  else {
-    var homerunDomain = params.baseballSubdomain !== null ? protocol + '://' + params.baseballSubdomain + '.' + domain : 'http://myhomerunzone.com/' + domain;
-  }
-  if (domain.includes('hoops')) {
     var hoopsDomain = "http://hoopsloyal.com";
-  }
-  else {
-    var hoopsDomain = params.basketballSubdomain !== null ? protocol + '://' + params.basketballSubdomain + '.' + domain : 'http://myhoopszone.com/' + domain;
-  }
-  if (domain.includes('touchdown')) {
     var touchdownDomain = "http://touchdownloyal.com";
   }
+  else if (domain.includes('homerunzone') || domain.includes('hoopszone') || domain.includes('touchdownzone')) {
+    var houseSite = false;
+    var partnerName = path.split('/').slice(1);
+    partnerName = partnerName[0];
+    var homerunDomain = "http://myhomerunzone.com/" + partnerName + "/";
+    var hoopsDomain = "http://myhoopszone.com/" + partnerName + "/";
+    var touchdownDomain = "http://www.mytouchdownzone.com/" + partnerName + "/";
+  }
   else {
+    var houseSite = false;
+    var homerunDomain = params.baseballSubdomain !== null ? protocol + '://' + params.baseballSubdomain + '.' + domain : 'http://myhomerunzone.com/' + domain;
+    var hoopsDomain = params.basketballSubdomain !== null ? protocol + '://' + params.basketballSubdomain + '.' + domain : 'http://myhoopszone.com/' + domain;
     var touchdownDomain = params.footballSubdomain !== null ? protocol + '://' + params.footballSubdomain + '.' + domain : 'http://www.mytouchdownzone.com/' + domain;
   }
 
@@ -937,7 +940,12 @@
     ];
 
     var buildLink = function(data){
-      return hoopsDomain + '/NBA/t/' + data.fullName + '/' + data.teamId;
+      if (houseSite == true) {
+        return hoopsDomain + '/NBA/team/' + data.fullName + '/' + data.teamId;
+      }
+      else {
+        return hoopsDomain + '/NBA/t/' + data.fullName + '/' + data.teamId;
+      }
     }
 
     // var nbaEastern = document.getElementById('nba-eastern');
@@ -1271,7 +1279,12 @@
       if(params.baseballSubdomain !== null){
         return homerunDomain + '/team/' + data.fullName + '/' + data.teamId;
       }else{
-        return homerunDomain + '/t/' + data.fullName + '/' + data.teamId;
+        if (houseSite == true) {
+          return homerunDomain + '/team/' + data.fullName + '/' + data.teamId;
+        }
+        else {
+          return homerunDomain + '/t/' + data.fullName + '/' + data.teamId;
+        }
       }
     }
 
@@ -1606,7 +1619,12 @@
       if(params.footballSubdomain !== null){
         return touchdownDomain + '/nfl/team/' + data.fullName + '/' + data.teamId;
       }else{
-        return touchdownDomain + '/nfl/t/' + data.fullName + '/' + data.teamId;
+        if (houseSite == true) {
+          return touchdownDomain + '/nfl/team/' + data.fullName + '/' + data.teamId;
+        }
+        else {
+          return touchdownDomain + '/nfl/t/' + data.fullName + '/' + data.teamId;
+        }
       }
     }
 
@@ -2266,28 +2284,53 @@
           if(params.baseballSubdomain !== null){
             link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
-            link = homerunDomain + '/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (houseSite == true) {
+              link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = homerunDomain + '/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         case 'NFL':
           if(params.footballSubdomain !== null){
             link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
-            link = touchdownDomain + '/nfl/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (houseSite == true) {
+              link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = touchdownDomain + '/nfl/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         case 'NCAAF':
           if(params.footballSubdomain !== null){
             link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
-            link = touchdownDomain + '/ncaaf/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (houseSite == true) {
+              link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = touchdownDomain + '/ncaaf/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         case 'NBA':
-          link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+          if (houseSite == true) {
+            link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
+          }
+          else {
+            link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NCAAB':
-          link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+          if (houseSite == true) {
+            link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
+          }
+          else {
+            link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         default:
           link = '#';
@@ -2557,7 +2600,12 @@
           if(params.baseballSubdomain !== null){
             link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
-            link = homerunDomain + '/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (houseSite == true) {
+              link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = homerunDomain + '/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         case 'NFL':
@@ -2565,7 +2613,12 @@
           if(params.footballSubdomain !== null){
             link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
-            link = touchdownDomain + '/nfl/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (houseSite == true) {
+              link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = touchdownDomain + '/nfl/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         case 'NCAAF':
@@ -2573,16 +2626,31 @@
           if(params.footballSubdomain !== null){
             link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
-            link = touchdownDomain + '/ncaaf/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (houseSite == true) {
+              link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = touchdownDomain + '/ncaaf/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         case 'NBA':
           iconClass = 'ddb-icon-basketball';
-          link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+          if (houseSite == true) {
+            link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
+          }
+          else {
+            link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         case 'NCAAB':
           iconClass = 'ddb-icon-basketball';
-          link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+          if (houseSite == true) {
+            link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
+          }
+          else {
+            link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+          }
         break;
         default:
           iconClass = 'ddb-icon-list'
@@ -2990,7 +3058,13 @@
        full_name = full_name.replace(/[^\w\s]/gi, '');
        full_name = full_name.replace(/\s+/g, '-').toLowerCase();
 
-       return hoopsDomain + '/NCAA/t/' + full_name + '/' + teamId;
+       if (houseSite == true) {
+         return hoopsDomain + '/NCAA/team/' + full_name + '/' + teamId;
+       }
+       else {
+         return hoopsDomain + '/NCAA/t/' + full_name + '/' + teamId;
+       }
+
      }
 
      //Limit amount of data to iterate through (max 2)
