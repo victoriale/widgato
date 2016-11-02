@@ -345,7 +345,7 @@
 
     var toggleButton = '';
     if (toggleTitle) {
-      toggleButton = `<a href="`+ toggleLink +`" target="_parent"><div class="boxscores-e-scope-toggle">
+      toggleButton = `<a href="`+ toggleLink +`" target="_self"><div class="boxscores-e-scope-toggle">
         ` + toggleTitle + `
       </div></a>`
     }
@@ -507,9 +507,13 @@
       .boxscores-e-scope-toggle {
         background-color: white;
         border-radius: 3px;
-        padding: 17px 20px;
+        padding: 0px 15px;
+        float: left;
         display: inline-block;
+        height: calc(100% - 20px);
+        margin: 10px 20px;
         color: #f26f26;
+        line-height: 30px;
       }
       .boxscores-e-bar{
         width: 100%;
