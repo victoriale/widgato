@@ -515,6 +515,11 @@
         color: #f26f26;
         line-height: 30px;
       }
+      @media (max-width: 767px) {
+        .boxscores-e-scope-toggle {
+          display: none;
+        }
+      }
       .boxscores-e-bar{
         width: 100%;
         min-width: 640px;
@@ -531,6 +536,14 @@
         padding: 0 10px;
         box-sizing: border-box;
         line-height: 48px;
+      }
+      @media (max-width: 767px) {
+        .boxscores-e-title{
+          font-size: 14px;
+          padding: 2px 5px;
+          line-height: 15px;
+          width: 85px;
+        }
       }
       .boxscores-e-schedule{
         list-style-type: none;
