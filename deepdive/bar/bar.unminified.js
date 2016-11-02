@@ -231,9 +231,9 @@
     var houseSite = false;
     var partnerName = path.split('/').slice(1);
     partnerName = partnerName[0];
-    var homerunDomain = "http://myhomerunzone.com/" + partnerName + "/";
-    var hoopsDomain = "http://myhoopszone.com/" + partnerName + "/";
-    var touchdownDomain = "http://www.mytouchdownzone.com/" + partnerName + "/";
+    var homerunDomain = "http://myhomerunzone.com/" + partnerName;
+    var hoopsDomain = "http://myhoopszone.com/" + partnerName;
+    var touchdownDomain = "http://www.mytouchdownzone.com/" + partnerName;
   }
   else {
     var houseSite = false;
