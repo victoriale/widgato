@@ -203,7 +203,7 @@
 
     if(boxscoresBar.boxscoresLoaded){
 
-      if(parentNodeWidth >= 1170 && displayNumber !== 5){
+      if(parentNodeWidth >= 1310 && displayNumber !== 5){
         displayNumber = 5;
         clearGames();
 
@@ -228,7 +228,7 @@
           //Since this is the max, this case will never be hit
         }
 
-      }else if(parentNodeWidth < 1170 && parentNodeWidth >= 1010 && displayNumber !== 4){
+      }else if(parentNodeWidth < 1310 && parentNodeWidth >= 1180 && displayNumber !== 4){
         displayNumber = 4;
         clearGames();
 
@@ -265,7 +265,7 @@
 
         }
 
-      }else if(parentNodeWidth < 1010 && parentNodeWidth >= 820 && displayNumber !== 3){
+      }else if(parentNodeWidth < 1180 && parentNodeWidth >= 990 && displayNumber !== 3){
         displayNumber = 3;
         clearGames();
 
@@ -303,8 +303,34 @@
 
         }
 
-      }else if(parentNodeWidth < 820 && displayNumber !== 2){
+      }else if(parentNodeWidth < 990 && parentNodeWidth >= 640 && displayNumber !== 2){
         displayNumber = 2;
+        clearGames();
+
+        var diff = displayNumber - initialIndex.length;
+        if(diff > 0){
+          //Add items to array
+          //Since this is the min, this case will never be hit
+        }else{
+          //Remove items from array
+
+          diff = Math.abs(diff);
+
+          //Get new index values
+          for(var i = 0; i < diff; i ++){
+            initialIndex.pop();
+          }
+          //Insert games
+          for(var c = 0, length = initialIndex.length; c < length; c++){
+            var nodeIndex = initialIndex[c];
+            var schedule = document.getElementsByClassName('boxscores-e-schedule')[0];
+            schedule.appendChild(processedData[nodeIndex].gameNode);
+          }
+
+        }
+
+      }else if(parentNodeWidth < 640 && displayNumber !== 1){
+        displayNumber = 1;
         clearGames();
 
         var diff = displayNumber - initialIndex.length;
@@ -389,7 +415,7 @@
 
         //Calculate parentNodeWith to determine amount of games to display
         parentNodeWidth = parentNode.offsetWidth;
-        if(parentNodeWidth >= 1340){
+        if(parentNodeWidth >= 1310){
           displayNumber = 5;
         }else if(parentNodeWidth >= 1180){
           displayNumber = 4;
@@ -398,7 +424,7 @@
         }else if(parentNodeWidth >= 640){
           displayNumber = 2;
         }else{
-          displayNumber = 2;
+          displayNumber = 1;
         }
 
         //Get initial indexes to show
