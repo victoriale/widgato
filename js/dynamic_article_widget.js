@@ -4,7 +4,7 @@ function getCategoryMetadata (category) {
     trending: {
       displayName: "Trending",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "trending",
@@ -13,7 +13,7 @@ function getCategoryMetadata (category) {
     breaking: {
       displayName: "Breaking",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "breaking",
@@ -22,7 +22,7 @@ function getCategoryMetadata (category) {
     sports: {
       displayName: "Sports",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "sports",
@@ -31,7 +31,7 @@ function getCategoryMetadata (category) {
     nfl: {
       displayName: "Football",
       domain: "www.touchdownloyal.com",
-      partnerDomain: "www.mytouchdownzone.com"
+      partnerDomain: "www.mytouchdownzone.com",
       usesPartnerSubdomain: true,
       hasAiArticles: true,
       category: "sports",
@@ -40,7 +40,7 @@ function getCategoryMetadata (category) {
     ncaaf: {
       displayName: "Football",
       domain: "www.touchdownloyal.com",
-      partnerDomain: "www.mytouchdownzone.com"
+      partnerDomain: "www.mytouchdownzone.com",
       usesPartnerSubdomain: true,
       hasAiArticles: true,
       category: "sports",
@@ -49,7 +49,7 @@ function getCategoryMetadata (category) {
     nba: {
       displayName: "Basketball",
       domain: "www.hoopsdownloyal.com",
-      partnerDomain: "www.myhoopszone.com"
+      partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
       category: "sports",
@@ -58,7 +58,7 @@ function getCategoryMetadata (category) {
     ncaam: {
       displayName: "Basketball",
       domain: "www.hoopsdownloyal.com",
-      partnerDomain: "www.myhoopszone.com"
+      partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
       category: "sports",
@@ -67,7 +67,7 @@ function getCategoryMetadata (category) {
     mlb: {
       displayName: "Baseball",
       domain: "www.homerunloyal.com",
-      partnerDomain: "www.myhomereunzone.com"
+      partnerDomain: "www.myhomereunzone.com",
       usesPartnerSubdomain: true,
       hasAiArticles: true,
       category: "sports",
@@ -76,7 +76,7 @@ function getCategoryMetadata (category) {
     nhl: {
       displayName: "Hockey",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "sports",
@@ -85,7 +85,7 @@ function getCategoryMetadata (category) {
     business: {
       displayName: "Business",
       domain: "www.investkit.com",
-      partnerDomain: "www.myinvestkit.com"
+      partnerDomain: "www.myinvestkit.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "business",
@@ -94,7 +94,7 @@ function getCategoryMetadata (category) {
     politics: {
       displayName: "Politics",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "politics",
@@ -103,7 +103,7 @@ function getCategoryMetadata (category) {
     entertainment: {
       displayName: "Entertainment",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "entertainment",
@@ -112,7 +112,7 @@ function getCategoryMetadata (category) {
     food: {
       displayName: "Food",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "food",
@@ -121,7 +121,7 @@ function getCategoryMetadata (category) {
     health: {
       displayName: "Health",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "health",
@@ -130,7 +130,7 @@ function getCategoryMetadata (category) {
     lifestyle: {
       displayName: "Lifestyle",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "lifestyle",
@@ -139,7 +139,7 @@ function getCategoryMetadata (category) {
     realestate: {
       displayName: "Real Estate",
       domain: "www.joyfulhome.com",
-      partnerDomain: "www.myhousekit.com"
+      partnerDomain: "www.myhousekit.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
       category: "realestate",
@@ -148,7 +148,7 @@ function getCategoryMetadata (category) {
     travel: {
       displayName: "Travel",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "travel",
@@ -157,7 +157,7 @@ function getCategoryMetadata (category) {
     weather: {
       displayName: "Weather",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "weather",
@@ -166,7 +166,7 @@ function getCategoryMetadata (category) {
     automotive: {
       displayName: "Automotive",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "automotive",
