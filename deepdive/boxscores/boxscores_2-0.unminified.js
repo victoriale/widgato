@@ -147,7 +147,7 @@
       domainList = ['mytouchdownzone.com', 'dev.mytouchdownzone.com', 'qa.mytouchdownzone.com'];
       barColor = '#272727';
       arrowColor = '#fc501d';
-      barTitle = 'NFL GAMES THIS WEEK';
+      barTitle = '<b>NFL</b> GAMES THIS WEEK';
       toggleTitle = "College Football";
       toggleLink = "/app/fe-core/ads/ncaafbluebar.html"
       gameBorderColor = '#000';
@@ -160,7 +160,7 @@
       domainList = ['mytouchdownzone.com', 'dev.mytouchdownzone.com', 'qa.mytouchdownzone.com'];
       barColor = '#272727';
       arrowColor = '#fc501d';
-      barTitle = 'NCAAF GAMES THIS WEEK';
+      barTitle = '<b>NCAAF</b> GAMES THIS WEEK';
       toggleTitle = "Pro Football";
       toggleLink = "/app/fe-core/ads/nflbluebar.html";
       gameBorderColor = '#000';
