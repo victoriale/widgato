@@ -30,7 +30,7 @@ function RenderArticleSide(protocolToUse) {
     catOptions.sort(function () {
         return 0.5 - Math.random()
     });
-
+    
     if (catOptions[0] == 'mlb') {
         APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
         keyword = "MLB";
@@ -283,7 +283,7 @@ function RenderArticleSide(protocolToUse) {
                 if (isMlb) {
                     var dateArray = val['startDateTime'].split(' ');
                     var time = dateArray[1] + ' ET';
-                    var date = moment(val['startDateTime'].date).format("MMM. DD ") + time.toUpperCase();
+                    var date = moment(dateArray[0]).format("MMM. DD ") + time.toUpperCase();
                 } else {
                     var time = val['startDateTime'].time + ' ET';
                     var date = moment(val['startDateTime'].date).format("MMM. DD ") + time.toUpperCase();
