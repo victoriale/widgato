@@ -507,13 +507,15 @@
       .boxscores-e-scope-toggle {
         background-color: white;
         border-radius: 3px;
-        padding: 0px 15px;
+        width: 130px;
         float: left;
         display: inline-block;
-        height: calc(100% - 20px);
+        height: 30px;
         margin: 10px 20px;
         color: #f26f26;
+        text-align: center;
         line-height: 30px;
+        font-weight: normal;
       }
       @media (max-width: 767px) {
         .boxscores-e-scope-toggle {
@@ -543,6 +545,21 @@
           padding: 2px 5px;
           line-height: 15px;
           width: 85px;
+        }
+      }
+      @media (min-width: 768px) {
+        .boxscores-e-title{
+          font-size: 14px;
+        }
+      }
+      @media (min-width: 992px) {
+        .boxscores-e-title{
+          font-size: 16px;
+        }
+      }
+      @media (min-width: 1280px) {
+        .boxscores-e-title{
+          font-size: 18px;
         }
       }
       .boxscores-e-schedule{
