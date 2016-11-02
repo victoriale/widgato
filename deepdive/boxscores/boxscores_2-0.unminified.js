@@ -126,6 +126,8 @@
     barColor, //Background color of bar
     arrowColor, //Color of bar arrows
     barTitle, //Title of bar
+    toggleTitle, //Title of the toggle scope button
+    toggleLink,
     gameBorderColor, //Color of border for games
     formatData; //Function to format the data
   switch(vertical){
@@ -145,7 +147,9 @@
       domainList = ['mytouchdownzone.com', 'dev.mytouchdownzone.com', 'qa.mytouchdownzone.com'];
       barColor = '#272727';
       arrowColor = '#fc501d';
-      barTitle = 'NFL THIS WEEK';
+      barTitle = 'NFL GAMES THIS WEEK';
+      toggleTitle = "College Football";
+      toggleLink = "/app/fe-core/ads/ncaafbluebar.html"
       gameBorderColor = '#000';
       formatData = function(data){
         return formatFootballData(data, 'nfl');
@@ -156,7 +160,9 @@
       domainList = ['mytouchdownzone.com', 'dev.mytouchdownzone.com', 'qa.mytouchdownzone.com'];
       barColor = '#272727';
       arrowColor = '#fc501d';
-      barTitle = 'NCAAF THIS WEEK';
+      barTitle = 'NCAAF GAMES THIS WEEK';
+      toggleTitle = "Pro Football";
+      toggleLink = "/app/fe-core/ads/nflbluebar.html";
       gameBorderColor = '#000';
       formatData = function(data){
         return formatFootballData(data, 'ncaaf');
@@ -337,10 +343,18 @@
     var boxscoresContainer = document.createElement('section');
     boxscoresContainer.className = 'boxscores-e-bar';
 
+    var toggleButton = '';
+    if (toggleTitle) {
+      toggleButton = `<a href="`+ toggleLink +`" target="_parent"><div class="boxscores-e-scope-toggle">
+        ` + toggleTitle + `
+      </div></a>`
+    }
+
     boxscoresContainer.innerHTML = `
       <div class="boxscores-e-title">
         ` + barTitle + `
       </div>
+      `+ toggleButton +`
 
       <ul class="boxscores-e-schedule"></ul>
 
@@ -490,6 +504,13 @@
     var styleEl = document.createElement('style');
     styleEl.dataset.resource_from = 'boxscores-embed';
     styleEl.innerHTML = `
+      .boxscores-e-scope-toggle {
+        background-color: white;
+        border-radius: 3px;
+        padding: 17px 20px;
+        display: inline-block;
+        color: #f26f26;
+      }
       .boxscores-e-bar{
         width: 100%;
         min-width: 640px;
