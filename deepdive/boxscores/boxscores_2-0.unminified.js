@@ -773,10 +773,10 @@
       <a class="boxscores-e-game-link" href="` + data.link + `">
         <ul class="boxscores-e-game-teams">
           <li>
-            ` + data.homeTeam + ` <span class="boxscores-e-game-teamscore">` + data.homeScore + `</span>
+            <b>` + data.homeTeam + `</b> <span class="boxscores-e-game-teamscore">` + data.homeScore + `</span>
           </li>
           <li>
-            ` + data.awayTeam + ` <span class="boxscores-e-game-teamscore">` + data.awayScore + `</span>
+            <b>` + data.awayTeam + `</b> <span class="boxscores-e-game-teamscore">` + data.awayScore + `</span>
           </li>
         </ul>
         <span class="` + timeClass + `">
