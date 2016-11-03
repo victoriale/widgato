@@ -228,7 +228,7 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn)
     output = baseUrl + "/" + scope + "/news/story/" + destinationId;
   }
   else if (linkType = "ai") {
-    output = baseUrl + "/" + scope + "/" + articleType + "/" + destinationId;
+    output = baseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
   }
   return output;
 }
