@@ -206,7 +206,7 @@ var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 function generateArticleLink (scope, linkType, destinationId, articleType, house) {
   var baseUrl;
   var output = "";
-  if (house == false) { //if partner
+  if (house == "false") { //if partner
     if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
       for (var i = 0; i < specialDomains.length; i++) {
         if (referrer.includes(specialDomains[i])) {
