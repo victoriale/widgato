@@ -607,7 +607,7 @@
         margin: 0 5px 0 0;
         padding: 0;
         height: 100%;
-        max-width: calc(100% - 390px);
+        max-width: calc(100% - 420px);
         white-space: nowrap;
       }
       .boxscores-e-game{
