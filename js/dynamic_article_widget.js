@@ -209,7 +209,7 @@ function generateArticleLink (scope, linkType, destinationId, articleType?) {
   if (l.remn != true) { //if partner
     if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
       for (var i = 0; i < specialDomains.length; i++) {
-        if (referrer.icludes(specialDomains[i])) {
+        if (referrer.includes(specialDomains[i])) {
           baseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
           break;
         }
