@@ -203,10 +203,10 @@ var specialDomains = [
 ];
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
-function generateArticleLink (scope, linkType, destinationId, articleType, house) {
+function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
   var baseUrl;
   var output = "";
-  if (house == "false") { //if partner
+  if (remn == "false") { //if partner
     if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
       for (var i = 0; i < specialDomains.length; i++) {
         if (referrer.includes(specialDomains[i])) {
