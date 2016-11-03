@@ -634,7 +634,7 @@
         color: #fff;
       }
       .boxscores-e-football .boxscores-e-game-link{
-        padding: 0 7px 0 15px;
+        padding: 0 15px;
       }
       .boxscores-e-game-link:hover{
         color: #fff;
