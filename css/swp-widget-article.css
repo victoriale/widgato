@@ -738,7 +738,7 @@ button:focus {
 .dropdown {
     position: absolute;
     top: 25px;
-    height: 250px;
+    height: 225px;
     width: 300px;
     display: none;
     color: #000;
