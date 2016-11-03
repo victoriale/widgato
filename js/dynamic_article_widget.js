@@ -374,18 +374,18 @@ function p() {
         }
 
         //todo: possibly make this a function
-        var date = new Date(e.last_updated*1000);
-        var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
-        var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-          "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"
-        ];
-        var month = date.getMonth();
-        var day = date.getDate();
-        var dayofWeek = date.getDay();
-        var year = date.getFullYear();
-
-        var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
         if ($('date')) {
+          var date = new Date(e.last_updated*1000);
+          var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+          var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+            "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"
+          ];
+          var month = date.getMonth();
+          var day = date.getDate();
+          var dayofWeek = date.getDay();
+          var year = date.getFullYear();
+
+          var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
           $('date').innerHTML = formattedDate;
         }
         var stat = Math.floor(Number(e.stat));
