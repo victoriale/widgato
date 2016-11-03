@@ -310,7 +310,19 @@
         var diff = displayNumber - initialIndex.length;
         if(diff > 0){
           //Add items to array
-          //Since this is the min, this case will never be hit
+
+          //Get new index values
+          for(var i = 0; i < diff; i++){
+            var lastIndex = initialIndex[initialIndex.length - 1];
+            initialIndex.push(lastIndex + 1 >= dataLength ? 0 : lastIndex + 1);
+          }
+          //Insert games
+          for(var c = 0, length = initialIndex.length; c < length; c++){
+            var nodeIndex = initialIndex[c];
+            var schedule = document.getElementsByClassName('boxscores-e-schedule')[0];
+            schedule.appendChild(processedData[nodeIndex].gameNode);
+          }
+
         }else{
           //Remove items from array
 
@@ -568,9 +580,9 @@
       @media (max-width: 767px) {
         .boxscores-e-title{
           font-size: 14px;
-          padding: 2px 5px;
+          padding: 9px 5px;
           line-height: 15px;
-          width: 85px;
+          width: 90px;
         }
       }
       @media (min-width: 768px) {
