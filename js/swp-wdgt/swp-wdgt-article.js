@@ -24,13 +24,13 @@ function RenderArticleSide(protocolToUse) {
     var keyword;
     var hasChanged = false;
     var dropdownCount = 0;
-    var catOptions = ['mlb', 'nfl', 'ncaa'];
+    var catOptions = [/*'mlb',*/ 'nfl', 'ncaa'];
     var isMlb = false;
 
     catOptions.sort(function () {
         return 0.5 - Math.random()
     });
-    
+
     if (catOptions[0] == 'mlb') {
         APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
         keyword = "MLB";
