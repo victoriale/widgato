@@ -687,7 +687,7 @@
       .boxscores-e-nav{
         position: absolute;
         right: 0;
-        padding-right: 5px;
+        padding-right: 7px;
         line-height: 50px;
         background-color: #272727;
         box-shadow: -20px 0px 20px 0px #272727;
