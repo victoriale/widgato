@@ -1,4 +1,3 @@
-//todo: use this function for all category specific logic
 function getCategoryMetadata (category) {
   var globalMeta = {
     trending: {
@@ -33,6 +32,7 @@ function getCategoryMetadata (category) {
       domain: "www.touchdownloyal.com",
       partnerDomain: "www.mytouchdownzone.com",
       usesPartnerSubdomain: true,
+      partnerSubdomain: "football",
       hasAiArticles: true,
       category: "sports",
       subCategory: "nfl"
@@ -42,6 +42,7 @@ function getCategoryMetadata (category) {
       domain: "www.touchdownloyal.com",
       partnerDomain: "www.mytouchdownzone.com",
       usesPartnerSubdomain: true,
+      partnerSubdomain: "football",
       hasAiArticles: true,
       category: "sports",
       subCategory: "ncaaf"
@@ -69,6 +70,7 @@ function getCategoryMetadata (category) {
       domain: "www.homerunloyal.com",
       partnerDomain: "www.myhomereunzone.com",
       usesPartnerSubdomain: true,
+      partnerSubdomain: "baseball",
       hasAiArticles: true,
       category: "sports",
       subCategory: "mlb"
@@ -200,17 +202,35 @@ var specialDomains = [
   "chicagotribune.com"
 ];
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
-if(referrer.match(/\/\/baseball\./i)){
-    // todo: use this in a global function to create links
-    // mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
-}
-// if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
-var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
 
-function getBaseUrl(string){
-    var urlArray = string.split("/");
-    var domain = urlArray[2];
-    return protocolToUse + "//" + domain;
+function generateArticleLink (scope, linkType, destinationId, articleType?) {
+  var baseUrl;
+  var output = "";
+  if (l.remn != true) { //if partner
+    if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
+      for (var i = 0; i < specialDomains.length; i++) {
+        if (referrer.icludes(specialDomains[i])) {
+          baseUrl = "http://" + specialDomains[i];
+          break;
+        }
+      }
+    }
+    else { //only partner, not subdomain
+      baseUrl = "http://" + currentConfig.partnerDomain;
+    }
+  }
+  else { // not partner site and not partner domain
+    baseUrl = "http://" + currentConfig.domain;
+  }
+
+  // now that we have the base Url, format the rest of the link
+  if (linkType == "syndicated") {
+    output = baseUrl + "/" + scope + "/news/story/" + destinationId;
+  }
+  else if (linkType = "ai") {
+    output = baseUrl + "/" + scope + "/" + articleType + "/" + destinationId;
+  }
+  return output;
 }
 
 dynamic_widget = function() {
