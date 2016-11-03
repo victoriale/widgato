@@ -607,7 +607,7 @@
         margin: 0 5px 0 0;
         padding: 0;
         height: 100%;
-        max-width: calc(100% - 390px);
+        max-width: calc(100% - 420px);
         white-space: nowrap;
       }
       .boxscores-e-game{
@@ -634,7 +634,7 @@
         color: #fff;
       }
       .boxscores-e-football .boxscores-e-game-link{
-        padding: 0 7px 0 15px;
+        padding: 0 15px;
       }
       .boxscores-e-game-link:hover{
         color: #fff;
