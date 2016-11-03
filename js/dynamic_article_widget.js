@@ -177,10 +177,6 @@ function getCategoryMetadata (category) {
 }
 
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-var mlbDomain        = "http://www.homerunloyal.com/";
-var nflDomain        = "http://www.touchdownloyal.com/";
-var mlbPartnerDomain = "http://www.myhomerunzone.com/";
-var nflPartnerDomain = "http://www.mytouchdownzone.com/";
 var currentConfig;
 var referrer = document.referrer;
 var season;
@@ -205,7 +201,8 @@ var specialDomains = [
 ];
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 if(referrer.match(/\/\/baseball\./i)){
-    mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
+    // todo: use this in a global function to create links
+    // mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
 }
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
 var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
@@ -380,25 +377,6 @@ function p() {
         if ($('date')) {
           $('date').innerHTML = formattedDate;
         }
-          // var a = "";
-          // if (SpecialDomain == "") {
-          //   v_link = l.remn == 'true' ? "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId : "/p/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
-          //
-          //   a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+v_link : nflPartnerDomain + l.dom + "/" + l.category+v_link;
-          // }
-          // else {
-          //   v_link = "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
-          //
-          //   a = SpecialDomain + "/" + l.category+v_link;
-          // }
-          // $('mainurl').href = a;
-          // $('line1').href = a;
-        var statType = "";
-        statType = statType.replace("player", "");
-        statType = statType.replace("team", "");
-        statType = statType.replace(/(^| )(\w)/g, function(x) {
-          return x.toUpperCase();
-        });
         var stat = Math.floor(Number(e.stat));
         $('desc').innerHTML = e.teaser;
         var t = $('mainimg');
