@@ -112,6 +112,10 @@ ai_widget = (function () {
         $('.aiw-title')[0].innerHTML = arr.title;
         $('.aiw-keyword')[0].innerHTML = arr.keyword;
         $('.aiw-date')[0].innerHTML = arr.date;
+        $('#ai-link-img').attr('href', arr.url);
+        $('#ai-link-img').attr('target', target);
+        $('#ai-link-text').attr('href', arr.url);
+        $('#ai-link-text').attr('target', target);
         $('#ai-link').attr('href', arr.url);
         $('#ai-link').attr('target', target);
         $('.aiw-txt')[0].innerHTML = arr.content;
