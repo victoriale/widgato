@@ -176,16 +176,33 @@ function getCategoryMetadata (category) {
   return globalMeta[category];
 }
 
-
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var mlbDomain        = "http://www.homerunloyal.com/";
 var nflDomain        = "http://www.touchdownloyal.com/";
 var mlbPartnerDomain = "http://www.myhomerunzone.com/";
 var nflPartnerDomain = "http://www.mytouchdownzone.com/";
+var currentConfig;
 var referrer = document.referrer;
 var season;
 var SpecialDomain = "";
 var currentDomain = "";
+var specialDomains = [
+  "latimes.com",
+  "orlandosentinel.com",
+  "sun-sentinel.com",
+  "baltimoresun.com",
+  "mcall.com",
+  "courant.com",
+  "dailypress.com",
+  "southflorida.com",
+  "citypaper.com",
+  "themash.com",
+  "coastlinepilot.com",
+  "sandiegouniontribune.com",
+  "ramonasentinel.com",
+  "capitalgazette.com",
+  "chicagotribune.com"
+];
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 if(referrer.match(/\/\/baseball\./i)){
     mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
@@ -259,6 +276,7 @@ dynamic_widget = function() {
       else {
         var e = Math.floor(Math.random() * 10);
       }
+      currentConfig = getCategoryMetadata(l.category);
 
       var i;
       if (window.XMLHttpRequest) {
@@ -288,54 +306,7 @@ dynamic_widget = function() {
               }
           }
       };
-        var cat = "";
-        var subCat = "";
-        switch(l.category) {
-            case "trending":
-            case "breaking":
-            case "food":
-            case "health":
-            case "lifestyle":
-            case "realestate":
-            case "travel":
-            case "weather":
-            case "automotive":
-            case "business":
-            case "politics":
-              cat = l.category;
-              subCat = "";
-              break;
-
-            //sports
-            case "sports":
-              cat = l.category;
-              subCat = "";
-              break;
-            case "nfl":
-            case "ncaaf":
-            case "nba":
-            case "ncaam":
-            case "mlb":
-            case "nhl":
-              cat = "sports";
-              subCat = l.category;
-              break;
-
-            //entertainment
-            case "entertainment":
-              cat = l.category;
-              subCat = "";
-              break;
-            case "tv":
-            case "movies":
-            case "music":
-            case "celebrities":
-              cat = "entertainment";
-              subCat = l.category;
-              break;
-
-        }
-        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + cat + "&subCategory=" + subCat + "&metaDataOnly=1&readyToPublish=true&count=20" , true); //todo: change to prod on deployment
+        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true); //todo: change to prod on deployment
         i.send()
     }
 
@@ -369,23 +340,6 @@ dynamic_widget = function() {
             r.l_title = r.l_title.replace("MLB","Baseball");
         }
         var n = true;
-        var specialDomains = [
-          "latimes.com",
-          "orlandosentinel.com",
-          "sun-sentinel.com",
-          "baltimoresun.com",
-          "mcall.com",
-          "courant.com",
-          "dailypress.com",
-          "southflorida.com",
-          "citypaper.com",
-          "themash.com",
-          "coastlinepilot.com",
-          "sandiegouniontribune.com",
-          "ramonasentinel.com",
-          "capitalgazette.com",
-          "chicagotribune.com"
-        ];
         if (document.referrer == "") {
           currentDomain = window.location.hostname.toString();
         }
@@ -394,66 +348,7 @@ dynamic_widget = function() {
           currentDomain = currentDomain.split('/')[2];
         }
         currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
-        switch (l.category) {
-            case 'nba':
-                var a = l.remn == 'true' ? 'http://www.hoopsloyal.com/NBA/widget-list' : 'http://www.myhoopszone.com/' + l.dom + '/NBA/w-list';
-                break;
-            case 'college_basketball':
-                var a = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA/widget-list' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA/w-list';
-                break;
-            case "mlb":
-                for (i = 0; i <= specialDomains.length; i++) {
-                  if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://baseball." + specialDomains[i];
-                  }
-                }
-                $("suburl").style.cssText += "pointer-events:none; cursor:default";
-                $("carousel").className = "one";
-                var a = "";
-                if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom +'/list';
-                }
-                else {
-                  a = SpecialDomain + '/list';
-                }
-                var n = false
-                break;
-            case "nfl":
-            case "ncaaf":
-            case "nflncaaf":
-                for (i = 0; i <= specialDomains.length; i++) {
-                  if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://football." + specialDomains[i] ;
-                  }
-                }
-                $("suburl").style.cssText += "pointer-events:none; cursor:default";
-                $("carousel").className = "one";
-                var a = "";
-                if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.touchdownloyal.com' : nflPartnerDomain + l.dom;
-                }
-                else {
-                  //for football.partnerdomain.com
-                  a = SpecialDomain;
-                }
-                var n = false
-                break;
-            case 'finance':
-                var a = l.remn == 'true' ? 'http://www.investkit.com/widget-list' : 'http://www.myinvestkit.com/' + l.dom + '/w-list';
-                if (s) {
-                    a = a.replace('www.myinvestkit.com', o)
-                }
-                break;
-            default:
-                var a = l.remn == 'true' ? 'http://www.joyfulhome.com/wlist' : 'http://www.myhousekit.com/' + l.dom + '/wlist';
-                var n = false
-        }
-        if (l.category != "nfl" && l.category != "ncaaf" && l.category != "nflncaaf") {
-          a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
-        }
-        else {
-          a += "/" + l.category + "/"; //todo: add link structure logic for both ai and syndicated articles
-        }
+        a = protocolToUse + currentConfig.domain; //todo: add in rest of link structure in a function to create links
         if ($('list-link')) {
             $('list-link').href = a
         }
@@ -513,7 +408,7 @@ function p() {
           if (e.image_url != null && e.image_url != "null") {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url);
           }
-          else {
+          else { //todo: use placeholder images as fallback for articles instead of no-image image
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
           }
         setTimeout(function(e, t) {
@@ -559,68 +454,7 @@ function p() {
             $('list-link').parentNode.removeChild($('list-link'));
             return false
         }
-        switch (l.category) {
-            case 'finance':
-                var r = l.remn == 'true' ? 'http://www.investkit.com/' : 'http://www.myinvestkit.com/' + l.dom + '/';
-                if (s) {
-                    r = r.replace('www.myinvestkit.com', o)
-                }
-                hn = "Finance";
-                break;
-            case 'nba':
-                var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NBA' : 'http://www.myhoopszone.com/' + l.dom + '/NBA';
-                var hn = "Basketball";
-                break;
-            case 'college_basketball':
-                var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA';
-                var hn = "Basketball";
-                break;
-            case "mlb":
-                var r = "";
-                if( mlbPartnerDomain == "http://www.myhomerunzone.com/") {
-                    r = l.remn == 'true' ? 'http://www.homerunloyal.com/' : mlbPartnerDomain + l.dom + '/';
-                }else{
-                    r = mlbPartnerDomain;
-                }
-                var hn = "Baseball";
-              break;
-            case "nfl":
-            case "ncaaf":
-            case "nflncaaf":
-                var r = "";
-                if( nflPartnerDomain == "http://www.mytouchdownzone.com/") {
-                    r = l.remn == 'true' ? 'http://www.touchdownloyal.com/' : nflPartnerDomain + l.dom + '/';
-                }else{
-                    r = nflPartnerDomain;
-                }
-                var hn = "Football";
-              break;
-            case "weather":
-            case "politics":
-            case "disaster":
-            case "demographics":
-            case "crime":
-            case "tcx":
-            case "entertainment":
-            case "food":
-            case "travel":
-            case "health":
-            case "sports":
-            case "lifestyle":
-            case "breaking":
-            case "ipo":
-            case "automotive":
-              var hn = l.category;
-              break;
-            case "realestate":
-            var hn = "Real Estate";
-              break;
-            default:
-                var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';
-                var hn = "Homes";
-                break
-        }
-        $('verticalDisplayName').innerHTML = hn;
+        $('verticalDisplayName').innerHTML = currentConfig.displayName;
     }
     m();
     c(h);
