@@ -257,29 +257,11 @@ dynamic_widget = function() {
             })
         }
     }
-    function getRandList() {
-      rand = Math.floor((Math.random() * 138) + 1);
-      var date = new Date;
-      var compareDate = new Date('09 15 ' + date.getFullYear());
-      if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
-        httpGetData("&season=" + date.getFullYear());
-        season = date.getFullYear();
-      }
-      else if (date.getMonth() > compareDate.getMonth()) {
-        httpGetData("&season=" + date.getFullYear());
-        season = date.getFullYear();
-      }
-      else {
-        httpGetData("&season=" + (date.getFullYear() - 1));
-        season = (date.getFullYear() - 1);
-      }
-    }
-
     function m(ignoreRandom) {
       i = 0;// resets index count to 0 when swapping lists
-        getRandList();
+      httpGetData(ignoreRandom);
     }
-    function httpGetData(query, ignoreRandom) {
+    function httpGetData(ignoreRandom) {
       if (l.dom == 'lasvegasnow.com') {
           s = true;
           o = 'finance.lasvegasnow.com'
@@ -403,14 +385,6 @@ function p() {
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
-
-        if ($('list-link')) {
-            var u = d.getElementsByClassName('dw-btn')[0];
-            if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight - 10 && d.getElementsByClassName('dw')[0].clientHeight <= 250) {
-                d.getElementsByClassName('dw-btn')[0].setAttribute('style', 'margin-top: 0')
-            }
-        }
-        var p = $('title-text');
     }
 
     function w(e) {
