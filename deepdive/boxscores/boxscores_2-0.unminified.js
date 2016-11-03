@@ -398,10 +398,10 @@
 
       <div class="boxscores-e-nav">
         <button id="boxscores-e-left" class="boxscores-e-nav-button boxscores-e-prev">
-          <i class="ddh-icon-angle-left"></i>
+          <i class="ddh-icon-chevron-left"></i>
         </button>
         <button id="boxscores-e-right" class="boxscores-e-nav-button boxscores-e-next">
-          <i class="ddh-icon-angle-right"></i>
+          <i class="ddh-icon-chevron-right"></i>
         </button>
       </div>
     `;
@@ -529,7 +529,7 @@
     fontEl.rel = 'stylesheet';
     fontEl.type = 'text/css';
     fontEl.dataset.resource_from = 'boxscores-embed';
-    fontEl.href = 'https://fonts.googleapis.com/css?family=Lato:300,400';
+    fontEl.href = 'https://fonts.googleapis.com/css?family=Lato:300,400,800,900';
     document.head.appendChild(fontEl);
     //Build and load icons
     var iconEl = document.createElement('link');
@@ -561,6 +561,7 @@
         }
       }
       .boxscores-e-bar{
+        font-weight: 300;
         width: 100%;
         min-width: 640px;
         height: 50px;
@@ -573,7 +574,7 @@
       .boxscores-e-title{
         font-size: 18px;
         float: left;
-        padding: 0 10px;
+        padding: 0 20px;
         box-sizing: border-box;
         line-height: 48px;
       }
@@ -606,7 +607,7 @@
         margin: 0 5px 0 0;
         padding: 0;
         height: 100%;
-        max-width: calc(100% - 370px);
+        max-width: calc(100% - 390px);
         white-space: nowrap;
       }
       .boxscores-e-game{
@@ -616,6 +617,9 @@
         border-right: 1px solid` + gameBorderColor + `;
         box-sizing: border-box;
         overflow: hidden;
+      }
+      .boxscores-e-game:first-child{
+        border-left: 1px solid` + gameBorderColor + `;
       }
       .boxscores-e-game:last-child{
         border-right: none;
@@ -630,7 +634,7 @@
         color: #fff;
       }
       .boxscores-e-football .boxscores-e-game-link{
-        padding: 0 7px 0 10px;
+        padding: 0 7px 0 15px;
       }
       .boxscores-e-game-link:hover{
         color: #fff;
@@ -687,7 +691,7 @@
       .boxscores-e-nav{
         position: absolute;
         right: 0;
-        padding-right: 7px;
+        padding-right: 18px;
         line-height: 50px;
         background-color: #272727;
         box-shadow: -20px 0px 20px 0px #272727;
