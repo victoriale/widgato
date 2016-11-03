@@ -49,7 +49,7 @@ function getCategoryMetadata (category) {
     },
     nba: {
       displayName: "Basketball",
-      domain: "www.hoopsdownloyal.com",
+      domain: "www.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
@@ -58,7 +58,7 @@ function getCategoryMetadata (category) {
     },
     ncaam: {
       displayName: "Basketball",
-      domain: "www.hoopsdownloyal.com",
+      domain: "www.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
@@ -203,10 +203,10 @@ var specialDomains = [
 ];
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
-function generateArticleLink (scope, linkType, destinationId, articleType) {
+function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
   var baseUrl;
   var output = "";
-  if (l.remn != true) { //if partner
+  if (remn == "false") { //if partner
     if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
       for (var i = 0; i < specialDomains.length; i++) {
         if (referrer.includes(specialDomains[i])) {
@@ -357,26 +357,17 @@ dynamic_widget = function() {
             r.l_title = r.l_title.replace("MLB","Baseball");
         }
         var n = true;
-        if (document.referrer == "") {
-          currentDomain = window.location.hostname.toString();
-        }
-        else {
-          currentDomain = document.referrer;
-          currentDomain = currentDomain.split('/')[2];
-        }
-        currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
-        a = protocolToUse + currentConfig.domain; //todo: add in rest of link structure in a function to create links
+        p()
+      }
+function p() {
+        var e = r.data[i];
+        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
         if ($('list-link')) {
             $('list-link').href = a
         }
         if ($('title-link')) {
             $('title-link').href = a
         }
-        p()
-      }
-function p() {
-        var e = r.data[i];
-        var v_link = '';
         $('title-text').innerHTML = e.title;
         if ($('keyword') && e.category) {
           $('keyword').innerHTML = e.category.replace(/-/g," ");
