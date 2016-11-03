@@ -430,13 +430,13 @@
         if(parentNodeWidth >= 1310){
           displayNumber = 5;
         }else if(parentNodeWidth >= 1100){
-          displayNumber = 4;
+          displayNumber = 5;
         }else if(parentNodeWidth >= 935){
-          displayNumber = 3;
+          displayNumber = 4;
         }else if(parentNodeWidth >= 495){
-          displayNumber = 2;
+          displayNumber = 3;
         }else{
-          displayNumber = 1;
+          displayNumber = 2;
         }
 
         //Get initial indexes to show
