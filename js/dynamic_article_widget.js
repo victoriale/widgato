@@ -203,7 +203,7 @@ var specialDomains = [
 ];
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
-function generateArticleLink (scope, linkType, destinationId, articleType?) {
+function generateArticleLink (scope, linkType, destinationId, articleType) {
   var baseUrl;
   var output = "";
   if (l.remn != true) { //if partner
