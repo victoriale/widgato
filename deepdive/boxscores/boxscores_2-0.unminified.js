@@ -228,7 +228,7 @@
           //Since this is the max, this case will never be hit
         }
 
-      }else if(parentNodeWidth < 1310 && parentNodeWidth >= 1180 && displayNumber !== 4){
+      }else if(parentNodeWidth < 1100 && parentNodeWidth >= 935 && displayNumber !== 4){
         displayNumber = 4;
         clearGames();
 
@@ -265,7 +265,7 @@
 
         }
 
-      }else if(parentNodeWidth < 1180 && parentNodeWidth >= 990 && displayNumber !== 3){
+      }else if(parentNodeWidth < 935 && parentNodeWidth >= 495 && displayNumber !== 3){
         displayNumber = 3;
         clearGames();
 
@@ -303,7 +303,7 @@
 
         }
 
-      }else if(parentNodeWidth < 990 && parentNodeWidth >= 640 && displayNumber !== 2){
+      }else if(parentNodeWidth < 495 && parentNodeWidth >= 330 && displayNumber !== 2){
         displayNumber = 2;
         clearGames();
 
@@ -341,7 +341,7 @@
 
         }
 
-      }else if(parentNodeWidth < 640 && displayNumber !== 1){
+      }else if(parentNodeWidth < 330 && displayNumber !== 1){
         displayNumber = 1;
         clearGames();
 
@@ -429,14 +429,14 @@
         parentNodeWidth = parentNode.offsetWidth;
         if(parentNodeWidth >= 1310){
           displayNumber = 5;
-        }else if(parentNodeWidth >= 1180){
+        }else if(parentNodeWidth >= 1100){
+          displayNumber = 5;
+        }else if(parentNodeWidth >= 935){
           displayNumber = 4;
-        }else if(parentNodeWidth >= 990){
+        }else if(parentNodeWidth >= 495){
           displayNumber = 3;
-        }else if(parentNodeWidth >= 640){
-          displayNumber = 2;
         }else{
-          displayNumber = 1;
+          displayNumber = 2;
         }
 
         //Get initial indexes to show
@@ -606,6 +606,8 @@
         margin: 0 5px 0 0;
         padding: 0;
         height: 100%;
+        max-width: calc(100% - 370px);
+        white-space: nowrap;
       }
       .boxscores-e-game{
         display: inline-block;
@@ -683,9 +685,12 @@
         padding-top: 10px;
       }
       .boxscores-e-nav{
-        float: left;
-        margin-right: 5px;
+        position: absolute;
+        right: 0;
+        padding-right: 7px;
         line-height: 50px;
+        background-color: #272727;
+        box-shadow: -20px 0px 20px 0px #272727;
       }
       .boxscores-e-nav-button{
         width: 30px;
