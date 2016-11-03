@@ -361,7 +361,6 @@ dynamic_widget = function() {
       }
 function p() {
         var e = r.data[i];
-        var v_link = '';
         a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
         if ($('list-link')) {
             $('list-link').href = a
