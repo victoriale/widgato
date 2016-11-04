@@ -1,4 +1,114 @@
+// todo: use this function for all global settings
+function getCategoryMetadata (category) {
+  var globalMeta = {
+    finance: {
+      displayName: "Finance",
+      domain: "www.investkit.com",
+      partnerDomain: "www.myinvestkit.com",
+      usesPartnerSubdomain: false,
+      hasAiArticles: true,
+      category: "finance",
+      subCategory: ""
+    },
+    nfl: {
+      displayName: "Football",
+      domain: "www.touchdownloyal.com",
+      partnerDomain: "www.mytouchdownzone.com",
+      usesPartnerSubdomain: true,
+      partnerSubdomain: "football",
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "nfl"
+    },
+    ncaaf: {
+      displayName: "Football",
+      domain: "www.touchdownloyal.com",
+      partnerDomain: "www.mytouchdownzone.com",
+      usesPartnerSubdomain: true,
+      partnerSubdomain: "football",
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "ncaaf"
+    },
+    nba: {
+      displayName: "Basketball",
+      domain: "www.hoopsloyal.com",
+      partnerDomain: "www.myhoopszone.com",
+      usesPartnerSubdomain: false,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "nba"
+    },
+    college_basketball: {
+      displayName: "Basketball",
+      domain: "www.hoopsloyal.com",
+      partnerDomain: "www.myhoopszone.com",
+      usesPartnerSubdomain: false,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "ncaam"
+    },
+    mlb: {
+      displayName: "Baseball",
+      domain: "www.homerunloyal.com",
+      partnerDomain: "www.myhomereunzone.com",
+      usesPartnerSubdomain: true,
+      partnerSubdomain: "baseball",
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "mlb"
+    },
+    politics: {
+      displayName: "Politics",
+      domain: "www.joyfulhome.com",
+      partnerDomain: "www.myhousekit.com",
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "politics",
+      subCategory: ""
+    },
+    weather: {
+      displayName: "Weather",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com",
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "weather",
+      subCategory: ""
+    },
+    crime: {
+      displayName: "Crime",
+      domain: "www.joyfulhome.com",
+      partnerDomain: "www.myhousekit.com",
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "crime",
+      subCategory: ""
+    },
+    demographics: {
+      displayName: "Demographics",
+      domain: "www.joyfulhome.com",
+      partnerDomain: "www.myhousekit.com",
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "demographics",
+      subCategory: ""
+    },
+    disaster: {
+      displayName: "Disaster",
+      domain: "www.joyfulhome.com",
+      partnerDomain: "www.myhousekit.com",
+      usesPartnerSubdomain: false,
+      hasAiArticles: false,
+      category: "disaster",
+      subCategory: ""
+    }
+  };
+  return globalMeta[category];
+}
+
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+var currentConfig;
 var mlbDomain        = "http://www.homerunloyal.com/";
 var nflDomain        = "http://www.touchdownloyal.com/";
 var mlbPartnerDomain = "http://www.myhomerunzone.com/";
@@ -8,6 +118,34 @@ var season;
 var SpecialDomain = "";
 var currentDomain = "";
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
+
+//todo: use this for formatting all links
+function generateListLink (scope, destinationId, subject, season, listType, ordering, remn) {
+  var baseUrl;
+  var output = "";
+  if (remn == "false") { //if partner
+    if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
+      for (var i = 0; i < specialDomains.length; i++) {
+        if (referrer.includes(specialDomains[i])) {
+          baseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
+          break;
+        }
+      }
+    }
+    else { //only partner, not subdomain
+      baseUrl = "http://" + currentConfig.partnerDomain;
+    }
+  }
+  else { // not partner site and not partner domain
+    baseUrl = "http://" + currentConfig.domain;
+  }
+
+  // now that we have the base Url, format the rest of the link
+  output = baseUrl + "/" + scope + "/list/" + subject + "/" + listType + "/" + season + "/" + destinationId;
+
+  return output;
+}
+
 if(referrer.match(/\/\/baseball\./i)){
     mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
 }
@@ -29,6 +167,7 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
+        currentConfig = getCategoryMetadata(l.category);
     var s = false;
     var o = '';
     function c(e) {
@@ -115,7 +254,6 @@ dynamic_widget = function() {
       else {
         var e = Math.floor(Math.random() * 10);
       }
-
       var i;
       if (window.XMLHttpRequest) {
           i = new XMLHttpRequest
@@ -539,7 +677,6 @@ function p() {
     }
 
     function h() {
-      var hn = "";
         if (l.carousel == true) {
             var e = d.getElementsByTagName('a');
             for (var t = 0; t < e.length; t++) {
@@ -552,63 +689,7 @@ function p() {
             $('list-link').parentNode.removeChild($('list-link'));
             return false
         }
-        switch (l.category) {
-            case 'finance':
-                var r = l.remn == 'true' ? 'http://www.investkit.com/' : 'http://www.myinvestkit.com/' + l.dom + '/';
-                if (s) {
-                    r = r.replace('www.myinvestkit.com', o)
-                }
-                hn = "Finance";
-                break;
-            case 'nba':
-                var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NBA' : 'http://www.myhoopszone.com/' + l.dom + '/NBA';
-                var hn = "Basketball";
-                break;
-            case 'college_basketball':
-                var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA';
-                var hn = "Basketball";
-                break;
-            case "mlb":
-                var r = "";
-                if( mlbPartnerDomain == "http://www.myhomerunzone.com/") {
-                    r = l.remn == 'true' ? 'http://www.homerunloyal.com/' : mlbPartnerDomain + l.dom + '/';
-                }else{
-                    r = mlbPartnerDomain;
-                }
-                var hn = "Baseball";
-              break;
-            case "nfl":
-            case "ncaaf":
-            case "nflncaaf":
-                var r = "";
-                if( nflPartnerDomain == "http://www.mytouchdownzone.com/") {
-                    r = l.remn == 'true' ? 'http://www.touchdownloyal.com/' : nflPartnerDomain + l.dom + '/';
-                }else{
-                    r = nflPartnerDomain;
-                }
-                var hn = "Football";
-              break;
-            case "weather":
-              var hn = "Weather";
-              break;
-            case "politics":
-            var hn = "Politics";
-              break;
-            case "disaster":
-            var hn = "Disaster";
-              break;
-            case "demographics":
-            var hn = "Demographics";
-              break;
-            case "crime":
-            var hn = "Crime";
-              break;
-            default:
-                var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';
-                var hn = "Homes";
-                break
-        }
-        $('verticalDisplayName').innerHTML = hn;
+        $('verticalDisplayName').innerHTML = currentConfig.displayName;
     }
     m();
     c(h);
