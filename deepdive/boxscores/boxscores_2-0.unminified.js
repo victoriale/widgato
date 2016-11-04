@@ -549,7 +549,7 @@
         float: left;
         display: inline-block;
         height: 30px;
-        margin: 10px 20px;
+        margin: 10px 20px 10px 0;
         color: #f26f26;
         text-align: center;
         line-height: 30px;
@@ -581,9 +581,9 @@
       @media (max-width: 767px) {
         .boxscores-e-title{
           font-size: 14px;
-          padding: 9px 5px;
+          padding: 9px 10px;
           line-height: 15px;
-          width: 90px;
+          width: 100px;
         }
       }
       @media (min-width: 768px) {
@@ -653,9 +653,6 @@
         box-sizing: border-box;
         float: left;
       }
-      .boxscores-e-football .boxscores-e-game-teams{
-        width: 70px;
-      }
       .boxscores-e-game-inning-top:before{
         content: '';
         width: 0;
@@ -691,10 +688,16 @@
       .boxscores-e-nav{
         position: absolute;
         right: 0;
-        padding-right: 18px;
+        padding: 0 18px;
         line-height: 50px;
         background-color: #272727;
+        border-left: 1px solid` + gameBorderColor + `;
         box-shadow: -20px 0px 20px 0px #272727;
+      }
+      @media (max-width: 992px) {
+        .boxscores-e-nav{
+          padding: 0 10px;
+        }
       }
       .boxscores-e-nav-button{
         width: 30px;
