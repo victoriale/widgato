@@ -41,21 +41,12 @@
 .ddh-icon-arrow-right:before {
   content: "\61";
 }
-.ddh-icon-arrow-left:before {
+.ddh-icon-angle-right:before {
   content: "\62";
 }
-.ddh-icon-times:before {
+.ddh-icon-angle-left:before {
   content: "\63";
 }
-.ddh-icon-angle-left:before {
+.ddh-icon-times:before {
   content: "\64";
-}
-.ddh-icon-chevron-left:before {
-  content: "\65";
-}
-.ddh-icon-chevron-right:before {
-  content: "\66";
-}
-.ddh-icon-angle-right:before {
-  content: "\67";
 }
