@@ -56,3 +56,6 @@
 .ddh-icon-chevron-right:before {
   content: "\66";
 }
+.ddh-icon-angle-right:before {
+  content: "\67";
+}
