@@ -709,7 +709,7 @@
         margin: 0 3px 0 0;
         vertical-align: middle;
         cursor: pointer;
-        font-size: 24px;
+        font-size: 16px;
         padding: 0;
         line-height: normal;
       }
