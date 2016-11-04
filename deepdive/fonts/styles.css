@@ -50,3 +50,9 @@
 .ddh-icon-times:before {
   content: "\64";
 }
+.ddh-icon-chevron-left:before {
+  content: "\65";
+}
+.ddh-icon-chevron-right:before {
+  content: "\66";
+}

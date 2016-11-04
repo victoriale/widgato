@@ -536,7 +536,7 @@
     iconEl.rel = 'stylesheet';
     iconEl.type = 'text/css';
     iconEl.dataset.resource_from = 'boxscores-embed';
-    iconEl.href = protocol + '://w1.synapsys.us/widgets/deepdive/fonts/styles.css';
+    iconEl.href = protocol + '://devapi.synapsys.us/widgets/deepdive/fonts/styles.css';
     document.head.appendChild(iconEl);
     //Build and load stylesheet
     var styleEl = document.createElement('style');
