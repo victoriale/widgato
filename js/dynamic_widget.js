@@ -17,7 +17,7 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: true,
       partnerSubdomain: "football",
       hasAiArticles: true,
-      category: "sports",
+      category: "football",
       subCategory: "nfl"
     },
     ncaaf: {
@@ -27,7 +27,7 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: true,
       partnerSubdomain: "football",
       hasAiArticles: true,
-      category: "sports",
+      category: "football",
       subCategory: "ncaaf"
     },
     nflncaaf: {
@@ -37,7 +37,7 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: true,
       partnerSubdomain: "football",
       hasAiArticles: true,
-      category: "sports",
+      category: "football",
       subCategory: "nfl, ncaaf"
     },
     nba: {
@@ -46,7 +46,7 @@ function getCategoryMetadata (category) {
       partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
-      category: "sports",
+      category: "football",
       subCategory: "nba"
     },
     college_basketball: {
@@ -242,7 +242,7 @@ dynamic_widget = function() {
 
     function m(ignoreRandom) {
       i = 0;// resets index count to 0 when swapping lists
-      if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {
+      if (currentConfig.category == "football") {
         httpGetInitData(l.category);
       }
       else {
@@ -292,7 +292,7 @@ dynamic_widget = function() {
               }
           }
       };
-      if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {
+      if (currentConfig.category == "football") {
         i.open('GET', protocol + "://prod-touchdownloyal-api.synapsys.us/list/" + query , true);
         i.send()
       }
@@ -343,7 +343,7 @@ dynamic_widget = function() {
         if (l.category == 'mlb') {
             r.l_title = r.l_title.replace("MLB","Baseball");
         }
-        if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {$('title').innerHTML = r.data.listInfo.listName;} else {$('title').innerHTML = r.l_title;}
+        if (currentConfig.category == "football") {$('title').innerHTML = r.data.listInfo.listName;} else {$('title').innerHTML = r.l_title;}
         if ($('line4') != null && d.getElementsByClassName('dw')[0].clientWidth == 350 && $('title').scrollHeight > 61) {
             $('title').setAttribute('style', 'font-size: 14px')
         }
@@ -386,14 +386,8 @@ dynamic_widget = function() {
                     SpecialDomain = "http://baseball." + specialDomains[i];
                   }
                 }
-                // var a = "/";
-                // var n = false
-                // $("mainurl").style.cssText += "pointer-events:none; cursor:default",
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
                 $("carousel").className = "one";
-                // $("line1").style.cssText += "pointer-events:none; cursor:default",
-                // $("homelink").style.cssText += "pointer-events:none; cursor:default",
-                //  $("list-link").style.display = "none";
                 var a = "";
                 if (SpecialDomain == "") {
                       a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom +'/list';
@@ -445,7 +439,7 @@ dynamic_widget = function() {
         p()
       }
 function p() {
-      if (l.category == "nfl" || l.category == "ncaaf" || l.category == "nflncaaf") {
+      if (currentConfig.category == "football") {
         var e = r.data.listData[i];
         var v_link = '';
         if (e.rankType == "team") {
