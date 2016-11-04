@@ -107,3 +107,9 @@
 .ddb-icon-baseball:before {
   content: "\69";
 }
+.ddb-icon-chevron-left:before {
+  content: "\78";
+}
+.ddb-icon-chevron-right:before {
+  content: "\79";
+}
