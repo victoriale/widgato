@@ -30,6 +30,16 @@ function getCategoryMetadata (category) {
       category: "sports",
       subCategory: "ncaaf"
     },
+    nflncaaf: {
+      displayName: "Football",
+      domain: "www.touchdownloyal.com",
+      partnerDomain: "www.mytouchdownzone.com",
+      usesPartnerSubdomain: true,
+      partnerSubdomain: "football",
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "nfl, ncaaf"
+    },
     nba: {
       displayName: "Basketball",
       domain: "www.hoopsloyal.com",
