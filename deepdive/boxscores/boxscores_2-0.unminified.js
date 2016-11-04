@@ -398,10 +398,10 @@
 
       <div class="boxscores-e-nav">
         <button id="boxscores-e-left" class="boxscores-e-nav-button boxscores-e-prev">
-          <i class="ddh-icon-chevron-left"></i>
+          <i class="ddh-icon-angle-left"></i>
         </button>
         <button id="boxscores-e-right" class="boxscores-e-nav-button boxscores-e-next">
-          <i class="ddh-icon-chevron-right"></i>
+          <i class="ddh-icon-angle-right"></i>
         </button>
       </div>
     `;
