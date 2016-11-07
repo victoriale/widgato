@@ -203,12 +203,12 @@
 
     if(boxscoresBar.boxscoresLoaded){
 
-      if(parentNodeWidth >= 1310 && displayNumber !== 5){
-        displayNumber = 5;
+      if(parentNodeWidth >= 1310 && displayNumber !== Math.round((window.innerWidth - 520) / 150)){
+        displayNumber = Math.round((window.innerWidth - 520) / 150);
         clearGames();
 
         var diff = displayNumber - initialIndex.length;
-        if(diff > 0){
+        if(diff){
           //Add items to array
 
           //Get new index values
@@ -428,7 +428,7 @@
         //Calculate parentNodeWith to determine amount of games to display
         parentNodeWidth = parentNode.offsetWidth;
         if(parentNodeWidth >= 1310){
-          displayNumber = 5;
+          displayNumber = Math.round((window.innerWidth - 520) / 150);
         }else if(parentNodeWidth >= 1100){
           displayNumber = 5;
         }else if(parentNodeWidth >= 935){
@@ -458,7 +458,7 @@
           clearGames();
 
           for(var z = 0; z < displayNumber; z++){
-            var newIndex = initialIndex[z] + displayNumber;
+            var newIndex = initialIndex[z] + 1;
             //If index is greater than amount of data, wrap around to beginning of array;
             if(newIndex >= dataLength){
               newIndex = newIndex - dataLength;
@@ -483,7 +483,7 @@
           clearGames();
 
           for(var z = 0; z < displayNumber; z++){
-            var newIndex = initialIndex[z] - displayNumber;
+            var newIndex = initialIndex[z] - 1;
             //If index is less than 0, wrap around to end of array
             if(newIndex < 0){
               newIndex = newIndex + dataLength;
