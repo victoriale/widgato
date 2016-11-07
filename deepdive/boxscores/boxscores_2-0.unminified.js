@@ -707,7 +707,7 @@
         color: ` + arrowColor + `;
         border: none;
         margin: 0 3px 0 0;
-        vertical-align: -3px;
+        vertical-align: -1px;
         cursor: pointer;
         font-size: 25px;
         padding: 0;
