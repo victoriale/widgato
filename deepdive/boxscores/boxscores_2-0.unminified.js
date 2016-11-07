@@ -389,7 +389,7 @@
     }
 
     boxscoresContainer.innerHTML = `
-      <div class="boxscores-e-title">
+      <div class="boxscores-e-title ` + vertical + `">
         ` + barTitle + `
       </div>
       `+ toggleButton +`
@@ -583,7 +583,12 @@
           font-size: 14px;
           padding: 9px 10px;
           line-height: 15px;
+        }
+        .boxscores-e-title.nfl{
           width: 100px;
+        }
+        .boxscores-e-title.ncaaf{
+          width: 120px;
         }
       }
       @media (min-width: 768px) {
