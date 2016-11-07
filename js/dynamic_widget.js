@@ -371,10 +371,8 @@ dynamic_widget = function() {
         currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
         switch (l.category) {
             case 'nba':
-                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/NBA/widget-list' : 'http://' + currentConfig.partnerdomain + '/' + l.dom + '/NBA/w-list';
-                break;
             case 'college_basketball':
-                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/NCAA/widget-list' : 'http://' + currentConfig.partnerdomain + '/' + l.dom + '/NCAA/w-list';
+                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + currentConfig.partnerdomain + '/' + l.dom + '/' + currentConfig.subCategory + '/w-list';
                 break;
             case "mlb":
                 for (i = 0; i <= specialDomains.length; i++) {
