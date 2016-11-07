@@ -45,7 +45,7 @@ function getCategoryMetadata (category) {
       partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
-      category: "football",
+      category: "basketball",
       subCategory: "nba"
     },
     college_basketball: {
@@ -54,7 +54,7 @@ function getCategoryMetadata (category) {
       partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
-      category: "sports",
+      category: "basketball",
       subCategory: "ncaam"
     },
     mlb: {
@@ -64,7 +64,7 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: true,
       partnerSubdomain: "baseball",
       hasAiArticles: true,
-      category: "sports",
+      category: "football",
       subCategory: "mlb"
     },
     politics: {
