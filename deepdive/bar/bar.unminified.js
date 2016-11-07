@@ -3202,222 +3202,233 @@
    }
 
    var processBaseballBoxscoresData = function(data, offset, tzAbbrev, todayDate){
+     var error = false;
+     for(var index in data){
+       if (!data[index].gameInfo) {
+         error = true;
+       }
+       break;
+     }
      var pre = [], active = [], post = [];
+     if (error == false) {
+       var buildNode = function(data){
+         var gameNode = document.createElement('div');
+         gameNode.className = 'ddb-boxscores-content-game';
+         gameNode.innerHTML = `
+           <a target="_blank" class="ddb-boxscores-content-game-link" href="` + data.link + `">
+             <ul class="ddb-boxscores-content-game-teams">
+               <li class="` + (data.homeClass ? data.homeClass : '') + `">
+                 ` + data.homeTeam + ` <span class="ddb-boxscores-content-game-score">` + data.homeScore + `</span>
+               </li>
+               <li class="` + (data.awayClass ? data.awayClass : '') + `">
+                 ` + data.awayTeam + ` <span class="ddb-boxscores-content-game-score">` + data.awayScore + `</span>
+               </li>
+             </ul>
+             <span class="ddb-boxscores-content-game-bottom">
+               ` + data.bottomData + `
+             </span>
+           </a>
+         `;
 
-     var buildNode = function(data){
-       var gameNode = document.createElement('div');
-       gameNode.className = 'ddb-boxscores-content-game';
-       gameNode.innerHTML = `
-         <a target="_blank" class="ddb-boxscores-content-game-link" href="` + data.link + `">
-           <ul class="ddb-boxscores-content-game-teams">
-             <li class="` + (data.homeClass ? data.homeClass : '') + `">
-               ` + data.homeTeam + ` <span class="ddb-boxscores-content-game-score">` + data.homeScore + `</span>
-             </li>
-             <li class="` + (data.awayClass ? data.awayClass : '') + `">
-               ` + data.awayTeam + ` <span class="ddb-boxscores-content-game-score">` + data.awayScore + `</span>
-             </li>
-           </ul>
-           <span class="ddb-boxscores-content-game-bottom">
-             ` + data.bottomData + `
-           </span>
-         </a>
-       `;
+         return gameNode;
+       }
 
-       return gameNode;
-     }
+       var getDatetime = function(timestamp, offset){
+           var datetime; //Built datetie
+           var dateString = new Date(timestamp + offset * 3600 * 1000);
+           var year = dateString.getUTCFullYear();
+           var month = dateString.getUTCMonth() + 1;
+           month = month.toString().length === 1 ? '0' + month.toString() : month;
+           var date = dateString.getUTCDate();
+           date = date.toString().length === 1 ? '0' + date.toString() : date;
 
-     var getDatetime = function(timestamp, offset){
-         var datetime; //Built datetie
-         var dateString = new Date(timestamp + offset * 3600 * 1000);
-         var year = dateString.getUTCFullYear();
-         var month = dateString.getUTCMonth() + 1;
-         month = month.toString().length === 1 ? '0' + month.toString() : month;
-         var date = dateString.getUTCDate();
-         date = date.toString().length === 1 ? '0' + date.toString() : date;
+           datetime = year + '-' + month + '-' + date;
 
-         datetime = year + '-' + month + '-' + date;
+           return datetime;
+       }
 
-         return datetime;
-     }
-
-     if(typeof todayDate !== 'undefined' && todayDate !== null){
-
-       for(var index in data){
-         var item = data[index];
-         //Determine if game is today (Also allow games that are live, but the day has rolled over past midnight)
-         var gameIsToday = false;
-         var timestampDate = new Date(item.gameInfo.startDateTimestamp + offset * 3600 * 1000).getUTCDate();
-         if(timestampDate == todayDate){
-           gameIsToday = true;
-         }else if(item.gameInfo.live){
-           gameIsToday = true;
-         }
-
-         //If game is today or live, push to return array
-         if(gameIsToday){
-
-           switch(item.gameInfo.eventStatus){
-             case 'pre-event':
-              if(item.gameInfo.live === false){
-                //Pre Game
-                var gameObject = {
-                  homeTeam: item.homeTeamInfo.abbreviation,
-                  homeScore: item.homeTeamInfo.winRecord + '-' + item.homeTeamInfo.lossRecord,
-                  awayTeam: item.awayTeamInfo.abbreviation,
-                  awayScore: item.awayTeamInfo.winRecord + '-' + item.awayTeamInfo.lossRecord,
-                  timestamp: item.gameInfo.startDateTimestamp,
-                  datetime: convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev),
-                  eventStatus: item.gameInfo.eventStatus,
-                  eventId: item.gameInfo.eventId
-                };
-                gameObject.bottomData = gameObject.datetime;
-                gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
-
-                gameObject.mobileNode = buildNode(gameObject);
-                gameObject.desktopNode = buildNode(gameObject);
-
-                pre.push(gameObject);
-              }else{
-                //Live Game
-                var gameObject = {
-                  homeTeam: item.homeTeamInfo.abbreviation,
-                  homeScore: item.homeTeamInfo.score,
-                  awayTeam: item.awayTeamInfo.abbreviation,
-                  awayScore: item.awayTeamInfo.score,
-                  timestamp: item.gameInfo.startDateTimestamp,
-                  datetime: convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev),
-                  eventStatus: item.gameInfo.eventStatus,
-                  eventId: item.gameInfo.eventId
-                };
-
-                gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
-                gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
-
-                if(item.gameInfo.inningHalf === 'top'){
-                  gameObject.bottomData = '<i class="ddb-icon ddb-icon-caret-up"></i>' + (item.gameInfo.inningsPlayed ? ordinalSuffix(item.gameInfo.inningsPlayed) : gameObject.datetime);
-                }else if(item.gameInfo.inningHalf === 'bottom'){
-                  gameObject.bottomData = '<i class="ddb-icon ddb-icon-caret-down"></i>' + (item.gameInfo.inningsPlayed ? ordinalSuffix(item.gameInfo.inningsPlayed) : gameObject.datetime);
-                }else{
-                  gameObject.bottomData = '';
-                }
-
-                if(item.gameInfo.inningsPlayed <= 3){
-                  gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
-                }else if(item.gameInfo.inningsPlayed > 3 && item.gameInfo.inningsPlayed <= 5){
-                  gameObject.link = homerunDomain + '/articles/third-inning-report/' + gameObject.eventId;
-                }else if(item.gameInfo.inningsPlayed > 5 && item.gameInfo.inningsPlayed <= 7){
-                  gameObject.link = homerunDomain + '/articles/fifth-inning-report/' + gameObject.eventId;
-                }else if(item.gameInfo.inningsPlayed > 7){
-                  gameObject.link = homerunDomain + '/articles/seventh-inning-report/' + gameObject.eventId;
-                }
-
-                gameObject.mobileNode = buildNode(gameObject);
-                gameObject.desktopNode = buildNode(gameObject);
-
-                active.push(gameObject)
-              }
-             break;
-             case 'post-event':
-                //Post Game
-                var gameObject = {
-                  homeTeam: item.homeTeamInfo.abbreviation,
-                  homeScore: item.homeTeamInfo.score,
-                  awayTeam: item.awayTeamInfo.abbreviation,
-                  awayScore: item.awayTeamInfo.score,
-                  timestamp: item.gameInfo.startDateTimestamp,
-                  datetime: convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev),
-                  eventStatus: item.gameInfo.eventStatus,
-                  eventId: item.gameInfo.eventId
-                };
-
-                gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
-                gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
-
-                gameObject.bottomData = 'Final';
-                gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
-
-                gameObject.mobileNode = buildNode(gameObject);
-                gameObject.desktopNode = buildNode(gameObject);
-
-                post.push(gameObject);
-             break;
-             default:
-              //Do nothing
-             break;
-           }
-
-         }
-
-        };
-
-       }else{
+       if(typeof todayDate !== 'undefined' && todayDate !== null){
 
          for(var index in data){
            var item = data[index];
-           switch(item.gameInfo.eventStatus){
-             case 'pre-event':
-                //Pre Game
-                var datetime = getDatetime(item.gameInfo.startDateTimestamp, easternTime.offset);
+           //Determine if game is today (Also allow games that are live, but the day has rolled over past midnight)
+           var gameIsToday = false;
+           var timestampDate = new Date(item.gameInfo.startDateTimestamp + offset * 3600 * 1000).getUTCDate();
+           if(timestampDate == todayDate){
+             gameIsToday = true;
+           }else if(item.gameInfo.live){
+             gameIsToday = true;
+           }
 
-                var gameObject = {
-                  homeTeam: item.homeTeamInfo.abbreviation,
-                  homeScore: item.homeTeamInfo.winRecord + '-' + item.homeTeamInfo.lossRecord,
-                  awayTeam: item.awayTeamInfo.abbreviation,
-                  awayScore: item.awayTeamInfo.winRecord + '-' + item.awayTeamInfo.lossRecord,
-                  timestamp: item.gameInfo.startDateTimestamp,
-                  datetime: prettyDatetime(datetime),
-                  eventStatus: item.gameInfo.eventStatus,
-                  eventId: item.gameInfo.eventId
-                };
-                gameObject.bottomData = gameObject.datetime;
-                gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+           //If game is today or live, push to return array
+           if(gameIsToday){
 
-                gameObject.mobileNode = buildNode(gameObject);
-                gameObject.desktopNode = buildNode(gameObject);
+             switch(item.gameInfo.eventStatus){
+               case 'pre-event':
+                if(item.gameInfo.live === false){
+                  //Pre Game
+                  var gameObject = {
+                    homeTeam: item.homeTeamInfo.abbreviation,
+                    homeScore: item.homeTeamInfo.winRecord + '-' + item.homeTeamInfo.lossRecord,
+                    awayTeam: item.awayTeamInfo.abbreviation,
+                    awayScore: item.awayTeamInfo.winRecord + '-' + item.awayTeamInfo.lossRecord,
+                    timestamp: item.gameInfo.startDateTimestamp,
+                    datetime: convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev),
+                    eventStatus: item.gameInfo.eventStatus,
+                    eventId: item.gameInfo.eventId
+                  };
+                  gameObject.bottomData = gameObject.datetime;
+                  gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
 
-                pre.push(gameObject);
-             break;
-             case 'post-event':
-                //Post Game
-                var datetime2 = getDatetime(item.gameInfo.startDateTimestamp, easternTime.offset);
+                  gameObject.mobileNode = buildNode(gameObject);
+                  gameObject.desktopNode = buildNode(gameObject);
 
-                var gameObject = {
-                  homeTeam: item.homeTeamInfo.abbreviation,
-                  homeScore: item.homeTeamInfo.score,
-                  awayTeam: item.awayTeamInfo.abbreviation,
-                  awayScore: item.awayTeamInfo.score,
-                  timestamp: item.gameInfo.startDateTimestamp,
-                  datetime: prettyDatetime(datetime2),
-                  eventStatus: item.gameInfo.eventStatus,
-                  eventId: item.gameInfo.eventId
-                };
+                  pre.push(gameObject);
+                }else{
+                  //Live Game
+                  var gameObject = {
+                    homeTeam: item.homeTeamInfo.abbreviation,
+                    homeScore: item.homeTeamInfo.score,
+                    awayTeam: item.awayTeamInfo.abbreviation,
+                    awayScore: item.awayTeamInfo.score,
+                    timestamp: item.gameInfo.startDateTimestamp,
+                    datetime: convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev),
+                    eventStatus: item.gameInfo.eventStatus,
+                    eventId: item.gameInfo.eventId
+                  };
 
-                gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
-                gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
+                  gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
+                  gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
-                gameObject.bottomData = 'Final';
-                gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
+                  if(item.gameInfo.inningHalf === 'top'){
+                    gameObject.bottomData = '<i class="ddb-icon ddb-icon-caret-up"></i>' + (item.gameInfo.inningsPlayed ? ordinalSuffix(item.gameInfo.inningsPlayed) : gameObject.datetime);
+                  }else if(item.gameInfo.inningHalf === 'bottom'){
+                    gameObject.bottomData = '<i class="ddb-icon ddb-icon-caret-down"></i>' + (item.gameInfo.inningsPlayed ? ordinalSuffix(item.gameInfo.inningsPlayed) : gameObject.datetime);
+                  }else{
+                    gameObject.bottomData = '';
+                  }
 
-                gameObject.mobileNode = buildNode(gameObject);
-                gameObject.desktopNode = buildNode(gameObject);
+                  if(item.gameInfo.inningsPlayed <= 3){
+                    gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+                  }else if(item.gameInfo.inningsPlayed > 3 && item.gameInfo.inningsPlayed <= 5){
+                    gameObject.link = homerunDomain + '/articles/third-inning-report/' + gameObject.eventId;
+                  }else if(item.gameInfo.inningsPlayed > 5 && item.gameInfo.inningsPlayed <= 7){
+                    gameObject.link = homerunDomain + '/articles/fifth-inning-report/' + gameObject.eventId;
+                  }else if(item.gameInfo.inningsPlayed > 7){
+                    gameObject.link = homerunDomain + '/articles/seventh-inning-report/' + gameObject.eventId;
+                  }
 
-                post.push(gameObject);
-             break;
-             default:
-              //Do nothing
-             break;
+                  gameObject.mobileNode = buildNode(gameObject);
+                  gameObject.desktopNode = buildNode(gameObject);
+
+                  active.push(gameObject)
+                }
+               break;
+               case 'post-event':
+                  //Post Game
+                  var gameObject = {
+                    homeTeam: item.homeTeamInfo.abbreviation,
+                    homeScore: item.homeTeamInfo.score,
+                    awayTeam: item.awayTeamInfo.abbreviation,
+                    awayScore: item.awayTeamInfo.score,
+                    timestamp: item.gameInfo.startDateTimestamp,
+                    datetime: convertToEastern(item.gameInfo.startDateTimestamp, offset, tzAbbrev),
+                    eventStatus: item.gameInfo.eventStatus,
+                    eventId: item.gameInfo.eventId
+                  };
+
+                  gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
+                  gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
+
+                  gameObject.bottomData = 'Final';
+                  gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
+
+                  gameObject.mobileNode = buildNode(gameObject);
+                  gameObject.desktopNode = buildNode(gameObject);
+
+                  post.push(gameObject);
+               break;
+               default:
+                //Do nothing
+               break;
+             }
+
+           }
+
+          };
+
+         }else{
+
+           for(var index in data){
+             var item = data[index];
+             switch(item.gameInfo.eventStatus){
+               case 'pre-event':
+                  //Pre Game
+                  var datetime = getDatetime(item.gameInfo.startDateTimestamp, easternTime.offset);
+
+                  var gameObject = {
+                    homeTeam: item.homeTeamInfo.abbreviation,
+                    homeScore: item.homeTeamInfo.winRecord + '-' + item.homeTeamInfo.lossRecord,
+                    awayTeam: item.awayTeamInfo.abbreviation,
+                    awayScore: item.awayTeamInfo.winRecord + '-' + item.awayTeamInfo.lossRecord,
+                    timestamp: item.gameInfo.startDateTimestamp,
+                    datetime: prettyDatetime(datetime),
+                    eventStatus: item.gameInfo.eventStatus,
+                    eventId: item.gameInfo.eventId
+                  };
+                  gameObject.bottomData = gameObject.datetime;
+                  gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+
+                  gameObject.mobileNode = buildNode(gameObject);
+                  gameObject.desktopNode = buildNode(gameObject);
+
+                  pre.push(gameObject);
+               break;
+               case 'post-event':
+                  //Post Game
+                  var datetime2 = getDatetime(item.gameInfo.startDateTimestamp, easternTime.offset);
+
+                  var gameObject = {
+                    homeTeam: item.homeTeamInfo.abbreviation,
+                    homeScore: item.homeTeamInfo.score,
+                    awayTeam: item.awayTeamInfo.abbreviation,
+                    awayScore: item.awayTeamInfo.score,
+                    timestamp: item.gameInfo.startDateTimestamp,
+                    datetime: prettyDatetime(datetime2),
+                    eventStatus: item.gameInfo.eventStatus,
+                    eventId: item.gameInfo.eventId
+                  };
+
+                  gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
+                  gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
+
+                  gameObject.bottomData = 'Final';
+                  gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
+
+                  gameObject.mobileNode = buildNode(gameObject);
+                  gameObject.desktopNode = buildNode(gameObject);
+
+                  post.push(gameObject);
+               break;
+               default:
+                //Do nothing
+               break;
+             }
            }
          }
-       }
 
 
-     pre = arraySort(pre, 1, 'timestamp');
-     active = arraySort(active, 1, 'timestamp');
-     post = arraySort(post, 1, 'timestamp');
+       pre = arraySort(pre, 1, 'timestamp');
+       active = arraySort(active, 1, 'timestamp');
+       post = arraySort(post, 1, 'timestamp');
 
-     var allGames = active.concat(pre, post);
+       var allGames = active.concat(pre, post);
 
-     return allGames;
+       return allGames;
+     }
+     else {
+       return [];
+     }
    }
 
    var processFootballBoxscoresData = function(data, offset, tzAbbrev, todayDate, vertical){
