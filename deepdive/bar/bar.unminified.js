@@ -3202,8 +3202,15 @@
    }
 
    var processBaseballBoxscoresData = function(data, offset, tzAbbrev, todayDate){
+     var error = false;
+     for(var index in data){
+       if (!data[index].gameInfo) {
+         error = true;
+       }
+       break;
+     }
      var pre = [], active = [], post = [];
-
+     if (error == false) {
      var buildNode = function(data){
        var gameNode = document.createElement('div');
        gameNode.className = 'ddb-boxscores-content-game';
@@ -3418,6 +3425,10 @@
      var allGames = active.concat(pre, post);
 
      return allGames;
+   }
+   else {
+     return [];
+   }
    }
 
    var processFootballBoxscoresData = function(data, offset, tzAbbrev, todayDate, vertical){
