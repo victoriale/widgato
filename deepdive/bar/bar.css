@@ -223,6 +223,9 @@
 .ddb-boxscores-content-game-link:hover{
   color: #000;
 }
+.ddb-menu-dropdown-nav a:hover {
+  color: white;
+}
 .ddb-boxscores-content-game-teams{
   text-align: left;
   white-space: normal;
