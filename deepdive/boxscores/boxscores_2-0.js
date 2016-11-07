@@ -41,7 +41,7 @@ L,//Title of the toggle scope button
 M,N,//Color of border for games
 O;//Function to format the data
 switch(F){case'mlb':G=u+'://prod-homerunloyal-api.synapsys.us/league/boxScores/'+d.todayObject.dateInput,H=['myhomerunzone.com','dev.myhomerunzone.com','qa.myhomerunzone.com'],I='#004e87',J='#000',K='TODAY\'S MLB GAMES',N='#2c2c2c',O=function O(U){return p(U)};break;case'nfl':G=u+'://prod-touchdownloyal-api.synapsys.us/boxScores/league/nfl/'+d.todayObject.dateInput,H=['mytouchdownzone.com','dev.mytouchdownzone.com','qa.mytouchdownzone.com'],I='#272727',J='#fc501d',K='<b>NFL</b> GAMES THIS WEEK',L='College Football',M='/app/fe-core/ads/ncaafbluebar.html',N='#000',O=function O(U){return o(U,'nfl')};break;case'ncaaf':G=u+'://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/'+d.todayObject.dateInput,H=['mytouchdownzone.com','dev.mytouchdownzone.com','qa.mytouchdownzone.com'],I='#272727',J='#fc501d',K='<b>NCAAF</b> GAMES THIS WEEK',L='Pro Football',M='/app/fe-core/ads/nflbluebar.html',N='#000',O=function O(U){return o(U,'ncaaf')};break;default:G=u+'://prod-homerunloyal-api.synapsys.us/league/boxScores/'+d.todayObject.dateInput,H=['myhomerunzone.com','dev.myhomerunzone.com','qa.myhomerunzone.com'],I='#004e87',J='#000',K='TODAY\'S MLB GAMES',N='#2c2c2c',O=function O(U){return p(data)};}//Check to see if embed lives on partner site
-var P=!1;for(var Q=0,R=H.length;Q<R;Q++)if(H[Q]===s){P=!0;break}if(P){var S=r.pathname.split('/'),T=S[1];s+='/'+T}s=u+'://'+s,d.resize=function(){if(w=v.offsetWidth,d.boxscoresLoaded)if(1310<=w&&5!==x){x=5,g();var U=x-y.length;if(0<U){//Add items to array
+var P=!1;for(var Q=0,R=H.length;Q<R;Q++)if(H[Q]===s){P=!0;break}if(P){var S=r.pathname.split('/'),T=S[1];s+='/'+T}s=u+'://'+s,d.resize=function(){if(w=v.offsetWidth,d.boxscoresLoaded)if(1310<=w&&x!==Math.round((window.innerWidth-520)/150)){x=Math.round((window.innerWidth-520)/150),g();var U=x-y.length;if(U){//Add items to array
 //Get new index values
 for(var V=0;V<U;V++){var W=y[y.length-1];y.push(W+1>=A?0:W+1)}//Insert games
 for(var X=0,Y=y.length;X<Y;X++){var Z=y[X],$=document.getElementsByClassName('boxscores-e-schedule')[0];$.appendChild(B[Z].gameNode)}}}else if(1100>w&&935<=w&&4!==x){x=4,g();var U=x-y.length;if(0<U){//Add items to array
@@ -66,12 +66,12 @@ if(d.boxscoresLoaded)return!1;var U=document.createElement('section');U.classNam
 var X=JSON.parse(W.responseText);//console.log('ajax complete', res);
 //If 1 or 0 games, remove arrows
 if(B=O(X.data),A=B.length,v.insertBefore(U,C),1>=A){var Y=document.getElementsByClassName('boxscores-e-nav')[0];Y.parentNode.removeChild(Y)}//Calculate parentNodeWith to determine amount of games to display
-w=v.offsetWidth,x=1310<=w?5:1100<=w?5:935<=w?4:495<=w?3:2;//Get initial indexes to show
+w=v.offsetWidth,x=1310<=w?Math.round((window.innerWidth-520)/150):1100<=w?5:935<=w?4:495<=w?3:2;//Get initial indexes to show
 for(var Z=0;Z<x;Z++)'undefined'!=typeof B[Z]&&y.push(Z);//Display initial games
 for(var $=0,_=y.length;$<_;$++){var aa=y[$],ba=document.getElementsByClassName('boxscores-e-schedule')[0];ba.appendChild(B[aa].gameNode)}//Configure next button
-var ca=document.getElementById('boxscores-e-right');ca.addEventListener('click',function(){g();for(var ea=0;ea<x;ea++){var fa=y[ea]+x;//If index is greater than amount of data, wrap around to beginning of array;
+var ca=document.getElementById('boxscores-e-right');ca.addEventListener('click',function(){g();for(var ea=0;ea<x;ea++){var fa=y[ea]+1;//If index is greater than amount of data, wrap around to beginning of array;
 fa>=A&&(fa=fa-A),'undefined'!=typeof B[fa]&&(y[ea]=fa)}for(var ga=0,ha=y.length;ga<ha;ga++){var ia=y[ga],ja=document.getElementsByClassName('boxscores-e-schedule')[0];ja.appendChild(B[ia].gameNode)}});//Confgure prev button
-var da=document.getElementById('boxscores-e-left');da.addEventListener('click',function(){g();for(var ea=0;ea<x;ea++){var fa=y[ea]-x;//If index is less than 0, wrap around to end of array
+var da=document.getElementById('boxscores-e-left');da.addEventListener('click',function(){g();for(var ea=0;ea<x;ea++){var fa=y[ea]-1;//If index is less than 0, wrap around to end of array
 0>fa&&(fa=fa+A),'undefined'!=typeof B[fa]&&(y[ea]=fa)}for(var ga=0,ha=y.length;ga<ha;ga++){var ia=y[ga],ja=document.getElementsByClassName('boxscores-e-schedule')[0];ja.appendChild(B[ia].gameNode)}}),d.boxscoresLoaded=!0}else if(4===W.readyState&&200!==W.status);},W.open('GET',G,!0),W.send()},//Load Dependencies
 function(){//Build base tag
 var V=document.createElement('base');V.target='_parent',document.head.appendChild(V);//Build and load font
