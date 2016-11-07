@@ -113,7 +113,12 @@ function getCategoryMetadata (category) {
       subCategory: ""
     }
   };
-  return globalMeta[category];
+  if (globalMeta[category]) {
+    return globalMeta[category];
+  }
+  else {
+    return globalMeta['finance'];
+  }
 }
 var specialDomains = [
   "latimes.com",
