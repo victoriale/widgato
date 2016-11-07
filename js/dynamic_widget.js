@@ -64,7 +64,7 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: true,
       partnerSubdomain: "baseball",
       hasAiArticles: true,
-      category: "football",
+      category: "baseball",
       subCategory: "mlb"
     },
     politics: {
