@@ -372,7 +372,7 @@ dynamic_widget = function() {
         switch (l.category) {
             case 'nba':
             case 'college_basketball':
-                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + currentConfig.partnerdomain + '/' + l.dom + '/' + currentConfig.subCategory + '/w-list';
+                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/' + currentConfig.subCategory + '/w-list';
                 break;
             case "mlb":
                 for (i = 0; i <= specialDomains.length; i++) {
@@ -384,7 +384,7 @@ dynamic_widget = function() {
                 $("carousel").className = "one";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/list' : "http://" + currentConfig.partnerdomain + l.dom +'/list';
+                      a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/list' : "http://" + currentConfig.partnerDomain + "/" + l.dom +'/list';
                 }
                 else {
                   a = SpecialDomain + '/list';
@@ -403,7 +403,7 @@ dynamic_widget = function() {
                 $("carousel").className = "one";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://' + currentConfig.domain : "http://" + currentConfig.partnerdomain + l.dom;
+                      a = l.remn == 'true' ? 'http://' + currentConfig.domain : "http://" + currentConfig.partnerDomain + "/" + l.dom;
                 }
                 else {
                   //for football.partnerdomain.com
@@ -412,13 +412,13 @@ dynamic_widget = function() {
                 var n = false
                 break;
             case 'finance':
-                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/widget-list' : 'http://' + currentConfig.partnerdomain + '/' + l.dom + '/w-list';
+                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/widget-list' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/w-list';
                 if (s) {
-                    a = a.replace('www.myinvestkit.com', o)
+                    a = a.replace(currentConfig.partnerDomain, o)
                 }
                 break;
             default:
-                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/wlist' : 'http://' + currentConfig.partnerdomain + '/' + l.dom + '/wlist';
+                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/wlist' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/wlist';
                 var n = false
         }
         if (currentConfig.category != "football") {
@@ -443,7 +443,7 @@ function p() {
           if (SpecialDomain == "") {// if no special link then create
             v_link = l.remn == 'true' ? "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.teamId : "/t/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.teamId;
 
-            a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" +l.category+ v_link : "http://" + currentConfig.partnerdomain + l.dom + "/" +l.category+ v_link;
+            a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" +l.category+ v_link : "http://" + currentConfig.partnerDomain + "/" + l.dom + "/" +l.category+ v_link;
           }
           else {
             v_link = "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.teamId;
@@ -460,7 +460,7 @@ function p() {
           if (SpecialDomain == "") {
             v_link = l.remn == 'true' ? "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId : "/p/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
 
-            a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" + l.category + v_link : "http://" + currentConfig.partnerdomain + l.dom + "/" + l.category + v_link;
+            a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" + l.category + v_link : "http://" + currentConfig.partnerDomain + "/" + l.dom + "/" + l.category + v_link;
           }
           else {
             v_link = "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
