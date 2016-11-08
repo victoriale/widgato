@@ -377,14 +377,14 @@ dynamic_widget = function() {
             case "mlb":
                 for (i = 0; i <= specialDomains.length; i++) {
                   if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://" + currentConfig.partnerSubdomain + "." + specialDomains[i];
+                    SpecialDomain = "http://" + currentConfig.partnerSubdomain + "/" + specialDomains[i];
                   }
                 }
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
                 $("carousel").className = "one";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/list' : "http://" + currentConfig.partnerdomain + l.dom +'/list';
+                      a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/list' : "http://" + currentConfig.partnerdomain + "/" + l.dom +'/list';
                 }
                 else {
                   a = SpecialDomain + '/list';
@@ -403,7 +403,7 @@ dynamic_widget = function() {
                 $("carousel").className = "one";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://' + currentConfig.domain : "http://" + currentConfig.partnerdomain + l.dom;
+                      a = l.remn == 'true' ? 'http://' + currentConfig.domain : "http://" + currentConfig.partnerDomain + "/" + l.dom;
                 }
                 else {
                   //for football.partnerdomain.com
@@ -414,7 +414,7 @@ dynamic_widget = function() {
             case 'finance':
                 var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/widget-list' : 'http://' + currentConfig.partnerdomain + '/' + l.dom + '/w-list';
                 if (s) {
-                    a = a.replace('www.myinvestkit.com', o)
+                    a = a.replace(currentConfig.partnerdomain, o)
                 }
                 break;
             default:
