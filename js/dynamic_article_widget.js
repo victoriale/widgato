@@ -305,7 +305,7 @@ dynamic_widget = function() {
               }
           }
       };
-        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true); //todo: change to prod on deployment
+        i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true); //todo: change to prod on deployment
         i.send()
     }
 
