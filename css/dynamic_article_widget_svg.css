@@ -73,7 +73,10 @@ i {
     position: relative;
     overflow: hidden;
 }
-
+.disabled-button {
+  opacity: 0.3;
+  pointer-events: none;
+}
 .dw-nav {
     height: 50px;
     width: 20px;
