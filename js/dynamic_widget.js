@@ -372,7 +372,7 @@ dynamic_widget = function() {
         switch (l.category) {
             case 'nba':
             case 'college_basketball':
-                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + currentConfig.partnerdomain + '/' + l.dom + '/' + currentConfig.subCategory + '/w-list';
+                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/' + currentConfig.subCategory + '/w-list';
                 break;
             case "mlb":
                 for (i = 0; i <= specialDomains.length; i++) {
@@ -384,7 +384,7 @@ dynamic_widget = function() {
                 $("carousel").className = "one";
                 var a = "";
                 if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/list' : "http://" + currentConfig.partnerdomain + "/" + l.dom +'/list';
+                      a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/list' : "http://" + currentConfig.partnerDomain + "/" + l.dom +'/list';
                 }
                 else {
                   a = SpecialDomain + '/list';
