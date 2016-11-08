@@ -180,7 +180,13 @@ function getCategoryMetadata (category) {
 
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var currentConfig;
-var referrer = document.referrer;
+var referrer;
+if (document.referrer != "" && document.referrer != null) {
+  referrer = document.referrer;
+}
+else {
+  referrer = window.location.href;
+}
 var season;
 var SpecialDomain = "";
 var currentDomain = "";
@@ -306,7 +312,7 @@ dynamic_widget = function() {
           }
       };
       //i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
-        i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true); //todo: change to prod on deployment
+        i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=" + "http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true); //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
         i.send()
     }
 
@@ -343,6 +349,12 @@ dynamic_widget = function() {
         p()
       }
 function p() {
+        if (r.data.length <= 1) {
+          $('next-list-link').classList.add("disabled-button");
+        }
+        else {
+          $('next-list-link').classList.remove("disabled-button");
+        }
         var e = r.data[i];
         a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
         if ($('list-link')) {
