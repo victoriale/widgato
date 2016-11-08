@@ -414,7 +414,7 @@ dynamic_widget = function() {
             case 'finance':
                 var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/widget-list' : 'http://' + currentConfig.partnerdomain + '/' + l.dom + '/w-list';
                 if (s) {
-                    a = a.replace(currentConfig.partnerdomain, o)
+                    a = a.replace(currentConfig.partnerDomain, o)
                 }
                 break;
             default:
