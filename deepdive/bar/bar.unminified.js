@@ -3140,7 +3140,12 @@
        if(params.footballSubdomain !== null){
          return touchdownDomain + '/ncaaf/team/' + full_name + '/' + teamId;
        }else{
-         return touchdownDomain + '/ncaaf/t/' + full_name + '/' + teamId;
+         if (houseSite == true) {
+           return touchdownDomain + '/ncaaf/team/' + full_name + '/' + teamId;
+         }
+         else {
+           return touchdownDomain + '/ncaaf/t/' + full_name + '/' + teamId;
+         }
        }
      }
 

@@ -657,6 +657,7 @@
         padding-top: 8px;
         box-sizing: border-box;
         float: left;
+        white-space: normal;
       }
       .boxscores-e-game-inning-top:before{
         content: '';
