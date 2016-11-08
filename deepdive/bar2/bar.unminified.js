@@ -1,7 +1,7 @@
 (function(){
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http'; //Protocol of the domain the bar exist on
   var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
-  var resourceURL2 = protocol + '://localhost:8000/deepdive';
+  //var resourceURL = protocol + '://localhost:8000/deepdive';
   var embedURL = resourceURL + '/bar/bar.min.js'; //URL of script embed. This is used as a fallback if document.currentScript is not available
 
   //Grab current script element to know where to inject bar
@@ -2792,7 +2792,7 @@
      styleEl.rel = 'stylesheet';
      styleEl.type = 'text/css';
      styleEl.dataset.resource_from = 'deepdive-bar-embed';
-     styleEl.href = resourceURL2 + '/bar/bar.min.css';
+     styleEl.href = resourceURL + '/bar/bar.min.css';
      if(styleEl.readyState){ //IE
        styleEl.onreadystatechange = function (){
          if(styleEl.readyState === 'loaded' || styleEl.readyState === 'complete'){
