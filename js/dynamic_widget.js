@@ -78,8 +78,8 @@ function getCategoryMetadata (category) {
     },
     weather: {
       displayName: "Weather",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      domain: "www.joyfulhome.com",
+      partnerDomain: "www.myhousekit.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "weather",
