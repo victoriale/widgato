@@ -1,10 +1,9 @@
-//todo: use this function for all category specific logic
 function getCategoryMetadata (category) {
   var globalMeta = {
     trending: {
       displayName: "Trending",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "trending",
@@ -13,7 +12,7 @@ function getCategoryMetadata (category) {
     breaking: {
       displayName: "Breaking",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "breaking",
@@ -22,7 +21,7 @@ function getCategoryMetadata (category) {
     sports: {
       displayName: "Sports",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "sports",
@@ -31,8 +30,9 @@ function getCategoryMetadata (category) {
     nfl: {
       displayName: "Football",
       domain: "www.touchdownloyal.com",
-      partnerDomain: "www.mytouchdownzone.com"
+      partnerDomain: "www.mytouchdownzone.com",
       usesPartnerSubdomain: true,
+      partnerSubdomain: "football",
       hasAiArticles: true,
       category: "sports",
       subCategory: "nfl"
@@ -40,16 +40,17 @@ function getCategoryMetadata (category) {
     ncaaf: {
       displayName: "Football",
       domain: "www.touchdownloyal.com",
-      partnerDomain: "www.mytouchdownzone.com"
+      partnerDomain: "www.mytouchdownzone.com",
       usesPartnerSubdomain: true,
+      partnerSubdomain: "football",
       hasAiArticles: true,
       category: "sports",
       subCategory: "ncaaf"
     },
     nba: {
       displayName: "Basketball",
-      domain: "www.hoopsdownloyal.com",
-      partnerDomain: "www.myhoopszone.com"
+      domain: "www.hoopsloyal.com",
+      partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
       category: "sports",
@@ -57,8 +58,8 @@ function getCategoryMetadata (category) {
     },
     ncaam: {
       displayName: "Basketball",
-      domain: "www.hoopsdownloyal.com",
-      partnerDomain: "www.myhoopszone.com"
+      domain: "www.hoopsloyal.com",
+      partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
       category: "sports",
@@ -67,8 +68,9 @@ function getCategoryMetadata (category) {
     mlb: {
       displayName: "Baseball",
       domain: "www.homerunloyal.com",
-      partnerDomain: "www.myhomereunzone.com"
+      partnerDomain: "www.myhomereunzone.com",
       usesPartnerSubdomain: true,
+      partnerSubdomain: "baseball",
       hasAiArticles: true,
       category: "sports",
       subCategory: "mlb"
@@ -76,7 +78,7 @@ function getCategoryMetadata (category) {
     nhl: {
       displayName: "Hockey",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "sports",
@@ -85,7 +87,7 @@ function getCategoryMetadata (category) {
     business: {
       displayName: "Business",
       domain: "www.investkit.com",
-      partnerDomain: "www.myinvestkit.com"
+      partnerDomain: "www.myinvestkit.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "business",
@@ -94,7 +96,7 @@ function getCategoryMetadata (category) {
     politics: {
       displayName: "Politics",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "politics",
@@ -103,7 +105,7 @@ function getCategoryMetadata (category) {
     entertainment: {
       displayName: "Entertainment",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "entertainment",
@@ -112,7 +114,7 @@ function getCategoryMetadata (category) {
     food: {
       displayName: "Food",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "food",
@@ -121,7 +123,7 @@ function getCategoryMetadata (category) {
     health: {
       displayName: "Health",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "health",
@@ -130,7 +132,7 @@ function getCategoryMetadata (category) {
     lifestyle: {
       displayName: "Lifestyle",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "lifestyle",
@@ -139,7 +141,7 @@ function getCategoryMetadata (category) {
     realestate: {
       displayName: "Real Estate",
       domain: "www.joyfulhome.com",
-      partnerDomain: "www.myhousekit.com"
+      partnerDomain: "www.myhousekit.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
       category: "realestate",
@@ -148,7 +150,7 @@ function getCategoryMetadata (category) {
     travel: {
       displayName: "Travel",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "travel",
@@ -157,7 +159,7 @@ function getCategoryMetadata (category) {
     weather: {
       displayName: "Weather",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "weather",
@@ -166,7 +168,7 @@ function getCategoryMetadata (category) {
     automotive: {
       displayName: "Automotive",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com"
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "automotive",
@@ -176,27 +178,59 @@ function getCategoryMetadata (category) {
   return globalMeta[category];
 }
 
-
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-var mlbDomain        = "http://www.homerunloyal.com/";
-var nflDomain        = "http://www.touchdownloyal.com/";
-var mlbPartnerDomain = "http://www.myhomerunzone.com/";
-var nflPartnerDomain = "http://www.mytouchdownzone.com/";
+var currentConfig;
 var referrer = document.referrer;
 var season;
 var SpecialDomain = "";
 var currentDomain = "";
+var specialDomains = [
+  "latimes.com",
+  "orlandosentinel.com",
+  "sun-sentinel.com",
+  "baltimoresun.com",
+  "mcall.com",
+  "courant.com",
+  "dailypress.com",
+  "southflorida.com",
+  "citypaper.com",
+  "themash.com",
+  "coastlinepilot.com",
+  "sandiegouniontribune.com",
+  "ramonasentinel.com",
+  "capitalgazette.com",
+  "chicagotribune.com"
+];
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
-if(referrer.match(/\/\/baseball\./i)){
-    mlbPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
-}
-// if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
-var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
 
-function getBaseUrl(string){
-    var urlArray = string.split("/");
-    var domain = urlArray[2];
-    return protocolToUse + "//" + domain;
+function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
+  var baseUrl;
+  var output = "";
+  if (remn == "false") { //if partner
+    if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
+      for (var i = 0; i < specialDomains.length; i++) {
+        if (referrer.includes(specialDomains[i])) {
+          baseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
+          break;
+        }
+      }
+    }
+    else { //only partner, not subdomain
+      baseUrl = "http://" + currentConfig.partnerDomain;
+    }
+  }
+  else { // not partner site and not partner domain
+    baseUrl = "http://" + currentConfig.domain;
+  }
+
+  // now that we have the base Url, format the rest of the link
+  if (linkType == "syndicated") {
+    output = baseUrl + "/" + scope + "/news/story/" + destinationId;
+  }
+  else if (linkType = "ai") {
+    output = baseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
+  }
+  return output;
 }
 
 dynamic_widget = function() {
@@ -223,29 +257,11 @@ dynamic_widget = function() {
             })
         }
     }
-    function getRandList() {
-      rand = Math.floor((Math.random() * 138) + 1);
-      var date = new Date;
-      var compareDate = new Date('09 15 ' + date.getFullYear());
-      if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
-        httpGetData("&season=" + date.getFullYear());
-        season = date.getFullYear();
-      }
-      else if (date.getMonth() > compareDate.getMonth()) {
-        httpGetData("&season=" + date.getFullYear());
-        season = date.getFullYear();
-      }
-      else {
-        httpGetData("&season=" + (date.getFullYear() - 1));
-        season = (date.getFullYear() - 1);
-      }
-    }
-
     function m(ignoreRandom) {
       i = 0;// resets index count to 0 when swapping lists
-        getRandList();
+      httpGetData(ignoreRandom);
     }
-    function httpGetData(query, ignoreRandom) {
+    function httpGetData(ignoreRandom) {
       if (l.dom == 'lasvegasnow.com') {
           s = true;
           o = 'finance.lasvegasnow.com'
@@ -259,6 +275,7 @@ dynamic_widget = function() {
       else {
         var e = Math.floor(Math.random() * 10);
       }
+      currentConfig = getCategoryMetadata(l.category);
 
       var i;
       if (window.XMLHttpRequest) {
@@ -288,54 +305,7 @@ dynamic_widget = function() {
               }
           }
       };
-        var cat = "";
-        var subCat = "";
-        switch(l.category) {
-            case "trending":
-            case "breaking":
-            case "food":
-            case "health":
-            case "lifestyle":
-            case "realestate":
-            case "travel":
-            case "weather":
-            case "automotive":
-            case "business":
-            case "politics":
-              cat = l.category;
-              subCat = "";
-              break;
-
-            //sports
-            case "sports":
-              cat = l.category;
-              subCat = "";
-              break;
-            case "nfl":
-            case "ncaaf":
-            case "nba":
-            case "ncaam":
-            case "mlb":
-            case "nhl":
-              cat = "sports";
-              subCat = l.category;
-              break;
-
-            //entertainment
-            case "entertainment":
-              cat = l.category;
-              subCat = "";
-              break;
-            case "tv":
-            case "movies":
-            case "music":
-            case "celebrities":
-              cat = "entertainment";
-              subCat = l.category;
-              break;
-
-        }
-        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + cat + "&subCategory=" + subCat + "&metaDataOnly=1&readyToPublish=true&count=20" , true); //todo: change to prod on deployment
+        i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true); //todo: change to prod on deployment
         i.send()
     }
 
@@ -369,141 +339,37 @@ dynamic_widget = function() {
             r.l_title = r.l_title.replace("MLB","Baseball");
         }
         var n = true;
-        var specialDomains = [
-          "latimes.com",
-          "orlandosentinel.com",
-          "sun-sentinel.com",
-          "baltimoresun.com",
-          "mcall.com",
-          "courant.com",
-          "dailypress.com",
-          "southflorida.com",
-          "citypaper.com",
-          "themash.com",
-          "coastlinepilot.com",
-          "sandiegouniontribune.com",
-          "ramonasentinel.com",
-          "capitalgazette.com",
-          "chicagotribune.com"
-        ];
-        if (document.referrer == "") {
-          currentDomain = window.location.hostname.toString();
-        }
-        else {
-          currentDomain = document.referrer;
-          currentDomain = currentDomain.split('/')[2];
-        }
-        currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
-        switch (l.category) {
-            case 'nba':
-                var a = l.remn == 'true' ? 'http://www.hoopsloyal.com/NBA/widget-list' : 'http://www.myhoopszone.com/' + l.dom + '/NBA/w-list';
-                break;
-            case 'college_basketball':
-                var a = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA/widget-list' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA/w-list';
-                break;
-            case "mlb":
-                for (i = 0; i <= specialDomains.length; i++) {
-                  if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://baseball." + specialDomains[i];
-                  }
-                }
-                $("suburl").style.cssText += "pointer-events:none; cursor:default";
-                $("carousel").className = "one";
-                var a = "";
-                if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.homerunloyal.com/list' : mlbPartnerDomain + l.dom +'/list';
-                }
-                else {
-                  a = SpecialDomain + '/list';
-                }
-                var n = false
-                break;
-            case "nfl":
-            case "ncaaf":
-            case "nflncaaf":
-                for (i = 0; i <= specialDomains.length; i++) {
-                  if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://football." + specialDomains[i] ;
-                  }
-                }
-                $("suburl").style.cssText += "pointer-events:none; cursor:default";
-                $("carousel").className = "one";
-                var a = "";
-                if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://www.touchdownloyal.com' : nflPartnerDomain + l.dom;
-                }
-                else {
-                  //for football.partnerdomain.com
-                  a = SpecialDomain;
-                }
-                var n = false
-                break;
-            case 'finance':
-                var a = l.remn == 'true' ? 'http://www.investkit.com/widget-list' : 'http://www.myinvestkit.com/' + l.dom + '/w-list';
-                if (s) {
-                    a = a.replace('www.myinvestkit.com', o)
-                }
-                break;
-            default:
-                var a = l.remn == 'true' ? 'http://www.joyfulhome.com/wlist' : 'http://www.myhousekit.com/' + l.dom + '/wlist';
-                var n = false
-        }
-        if (l.category != "nfl" && l.category != "ncaaf" && l.category != "nflncaaf") {
-          a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
-        }
-        else {
-          a += "/" + l.category + "/"; //todo: add link structure logic for both ai and syndicated articles
-        }
+        p()
+      }
+function p() {
+        var e = r.data[i];
+        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
         if ($('list-link')) {
             $('list-link').href = a
         }
         if ($('title-link')) {
             $('title-link').href = a
         }
-        p()
-      }
-function p() {
-        var e = r.data[i];
-        var v_link = '';
         $('title-text').innerHTML = e.title;
         if ($('keyword') && e.category) {
           $('keyword').innerHTML = e.category.replace(/-/g," ");
         }
 
         //todo: possibly make this a function
-        var date = new Date(e.last_updated*1000);
-        var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
-        var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-          "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"
-        ];
-        var month = date.getMonth();
-        var day = date.getDate();
-        var dayofWeek = date.getDay();
-        var year = date.getFullYear();
-
-        var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
         if ($('date')) {
+          var date = new Date(e.last_updated*1000);
+          var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+          var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+            "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"
+          ];
+          var month = date.getMonth();
+          var day = date.getDate();
+          var dayofWeek = date.getDay();
+          var year = date.getFullYear();
+
+          var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
           $('date').innerHTML = formattedDate;
         }
-          // var a = "";
-          // if (SpecialDomain == "") {
-          //   v_link = l.remn == 'true' ? "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId : "/p/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
-          //
-          //   a = l.remn == 'true' ? 'http://www.touchdownloyal.com' + "/" +l.category+v_link : nflPartnerDomain + l.dom + "/" + l.category+v_link;
-          // }
-          // else {
-          //   v_link = "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
-          //
-          //   a = SpecialDomain + "/" + l.category+v_link;
-          // }
-          // $('mainurl').href = a;
-          // $('line1').href = a;
-        var statType = "";
-        statType = statType.replace("player", "");
-        statType = statType.replace("team", "");
-        statType = statType.replace(/(^| )(\w)/g, function(x) {
-          return x.toUpperCase();
-        });
         var stat = Math.floor(Number(e.stat));
         $('desc').innerHTML = e.teaser;
         var t = $('mainimg');
@@ -513,20 +379,12 @@ function p() {
           if (e.image_url != null && e.image_url != "null") {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url);
           }
-          else {
+          else { //todo: use placeholder images as fallback for articles instead of no-image image
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
           }
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
-
-        if ($('list-link')) {
-            var u = d.getElementsByClassName('dw-btn')[0];
-            if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight - 10 && d.getElementsByClassName('dw')[0].clientHeight <= 250) {
-                d.getElementsByClassName('dw-btn')[0].setAttribute('style', 'margin-top: 0')
-            }
-        }
-        var p = $('title-text');
     }
 
     function w(e) {
@@ -559,68 +417,7 @@ function p() {
             $('list-link').parentNode.removeChild($('list-link'));
             return false
         }
-        switch (l.category) {
-            case 'finance':
-                var r = l.remn == 'true' ? 'http://www.investkit.com/' : 'http://www.myinvestkit.com/' + l.dom + '/';
-                if (s) {
-                    r = r.replace('www.myinvestkit.com', o)
-                }
-                hn = "Finance";
-                break;
-            case 'nba':
-                var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NBA' : 'http://www.myhoopszone.com/' + l.dom + '/NBA';
-                var hn = "Basketball";
-                break;
-            case 'college_basketball':
-                var r = l.remn == 'true' ? 'http://www.hoopsloyal.com/NCAA' : 'http://www.myhoopszone.com/' + l.dom + '/NCAA';
-                var hn = "Basketball";
-                break;
-            case "mlb":
-                var r = "";
-                if( mlbPartnerDomain == "http://www.myhomerunzone.com/") {
-                    r = l.remn == 'true' ? 'http://www.homerunloyal.com/' : mlbPartnerDomain + l.dom + '/';
-                }else{
-                    r = mlbPartnerDomain;
-                }
-                var hn = "Baseball";
-              break;
-            case "nfl":
-            case "ncaaf":
-            case "nflncaaf":
-                var r = "";
-                if( nflPartnerDomain == "http://www.mytouchdownzone.com/") {
-                    r = l.remn == 'true' ? 'http://www.touchdownloyal.com/' : nflPartnerDomain + l.dom + '/';
-                }else{
-                    r = nflPartnerDomain;
-                }
-                var hn = "Football";
-              break;
-            case "weather":
-            case "politics":
-            case "disaster":
-            case "demographics":
-            case "crime":
-            case "tcx":
-            case "entertainment":
-            case "food":
-            case "travel":
-            case "health":
-            case "sports":
-            case "lifestyle":
-            case "breaking":
-            case "ipo":
-            case "automotive":
-              var hn = l.category;
-              break;
-            case "realestate":
-            var hn = "Real Estate";
-              break;
-            default:
-                var r = l.remn == 'true' ? 'http://www.joyfulhome.com/' : 'http://www.myhousekit.com/' + l.dom + '/loc/';
-                var hn = "Homes";
-                break
-        }
-        $('verticalDisplayName').innerHTML = hn;
+        $('verticalDisplayName').innerHTML = currentConfig.displayName;
     }
     m();
     c(h);

@@ -126,6 +126,8 @@
     barColor, //Background color of bar
     arrowColor, //Color of bar arrows
     barTitle, //Title of bar
+    toggleTitle, //Title of the toggle scope button
+    toggleLink,
     gameBorderColor, //Color of border for games
     formatData; //Function to format the data
   switch(vertical){
@@ -145,7 +147,9 @@
       domainList = ['mytouchdownzone.com', 'dev.mytouchdownzone.com', 'qa.mytouchdownzone.com'];
       barColor = '#272727';
       arrowColor = '#fc501d';
-      barTitle = 'NFL THIS WEEK';
+      barTitle = '<b>NFL</b> GAMES THIS WEEK';
+      toggleTitle = "College Football";
+      toggleLink = "/app/fe-core/ads/ncaafbluebar.html"
       gameBorderColor = '#000';
       formatData = function(data){
         return formatFootballData(data, 'nfl');
@@ -156,7 +160,9 @@
       domainList = ['mytouchdownzone.com', 'dev.mytouchdownzone.com', 'qa.mytouchdownzone.com'];
       barColor = '#272727';
       arrowColor = '#fc501d';
-      barTitle = 'NCAAF THIS WEEK';
+      barTitle = '<b>NCAAF</b> GAMES THIS WEEK';
+      toggleTitle = "Pro Football";
+      toggleLink = "/app/fe-core/ads/nflbluebar.html";
       gameBorderColor = '#000';
       formatData = function(data){
         return formatFootballData(data, 'ncaaf');
@@ -197,12 +203,12 @@
 
     if(boxscoresBar.boxscoresLoaded){
 
-      if(parentNodeWidth >= 1170 && displayNumber !== 5){
-        displayNumber = 5;
+      if(parentNodeWidth >= 1310 && displayNumber !== Math.round((window.innerWidth - 520) / 150)){
+        displayNumber = Math.round((window.innerWidth - 520) / 150);
         clearGames();
 
         var diff = displayNumber - initialIndex.length;
-        if(diff > 0){
+        if(diff){
           //Add items to array
 
           //Get new index values
@@ -222,7 +228,7 @@
           //Since this is the max, this case will never be hit
         }
 
-      }else if(parentNodeWidth < 1170 && parentNodeWidth >= 1010 && displayNumber !== 4){
+      }else if(parentNodeWidth < 1100 && parentNodeWidth >= 935 && displayNumber !== 4){
         displayNumber = 4;
         clearGames();
 
@@ -259,7 +265,7 @@
 
         }
 
-      }else if(parentNodeWidth < 1010 && parentNodeWidth >= 820 && displayNumber !== 3){
+      }else if(parentNodeWidth < 935 && parentNodeWidth >= 495 && displayNumber !== 3){
         displayNumber = 3;
         clearGames();
 
@@ -297,8 +303,46 @@
 
         }
 
-      }else if(parentNodeWidth < 820 && displayNumber !== 2){
+      }else if(parentNodeWidth < 495 && parentNodeWidth >= 330 && displayNumber !== 2){
         displayNumber = 2;
+        clearGames();
+
+        var diff = displayNumber - initialIndex.length;
+        if(diff > 0){
+          //Add items to array
+
+          //Get new index values
+          for(var i = 0; i < diff; i++){
+            var lastIndex = initialIndex[initialIndex.length - 1];
+            initialIndex.push(lastIndex + 1 >= dataLength ? 0 : lastIndex + 1);
+          }
+          //Insert games
+          for(var c = 0, length = initialIndex.length; c < length; c++){
+            var nodeIndex = initialIndex[c];
+            var schedule = document.getElementsByClassName('boxscores-e-schedule')[0];
+            schedule.appendChild(processedData[nodeIndex].gameNode);
+          }
+
+        }else{
+          //Remove items from array
+
+          diff = Math.abs(diff);
+
+          //Get new index values
+          for(var i = 0; i < diff; i ++){
+            initialIndex.pop();
+          }
+          //Insert games
+          for(var c = 0, length = initialIndex.length; c < length; c++){
+            var nodeIndex = initialIndex[c];
+            var schedule = document.getElementsByClassName('boxscores-e-schedule')[0];
+            schedule.appendChild(processedData[nodeIndex].gameNode);
+          }
+
+        }
+
+      }else if(parentNodeWidth < 330 && displayNumber !== 1){
+        displayNumber = 1;
         clearGames();
 
         var diff = displayNumber - initialIndex.length;
@@ -337,10 +381,18 @@
     var boxscoresContainer = document.createElement('section');
     boxscoresContainer.className = 'boxscores-e-bar';
 
+    var toggleButton = '';
+    if (toggleTitle) {
+      toggleButton = `<a href="`+ toggleLink +`" target="_self"><div class="boxscores-e-scope-toggle">
+        ` + toggleTitle + `
+      </div></a>`
+    }
+
     boxscoresContainer.innerHTML = `
-      <div class="boxscores-e-title">
+      <div class="boxscores-e-title ` + vertical + `">
         ` + barTitle + `
       </div>
+      `+ toggleButton +`
 
       <ul class="boxscores-e-schedule"></ul>
 
@@ -375,14 +427,14 @@
 
         //Calculate parentNodeWith to determine amount of games to display
         parentNodeWidth = parentNode.offsetWidth;
-        if(parentNodeWidth >= 1340){
+        if(parentNodeWidth >= 1310){
+          displayNumber = Math.round((window.innerWidth - 520) / 150);
+        }else if(parentNodeWidth >= 1100){
           displayNumber = 5;
-        }else if(parentNodeWidth >= 1180){
+        }else if(parentNodeWidth >= 935){
           displayNumber = 4;
-        }else if(parentNodeWidth >= 990){
+        }else if(parentNodeWidth >= 495){
           displayNumber = 3;
-        }else if(parentNodeWidth >= 640){
-          displayNumber = 2;
         }else{
           displayNumber = 2;
         }
@@ -406,7 +458,7 @@
           clearGames();
 
           for(var z = 0; z < displayNumber; z++){
-            var newIndex = initialIndex[z] + displayNumber;
+            var newIndex = initialIndex[z] + 1;
             //If index is greater than amount of data, wrap around to beginning of array;
             if(newIndex >= dataLength){
               newIndex = newIndex - dataLength;
@@ -431,7 +483,7 @@
           clearGames();
 
           for(var z = 0; z < displayNumber; z++){
-            var newIndex = initialIndex[z] - displayNumber;
+            var newIndex = initialIndex[z] - 1;
             //If index is less than 0, wrap around to end of array
             if(newIndex < 0){
               newIndex = newIndex + dataLength;
@@ -477,7 +529,7 @@
     fontEl.rel = 'stylesheet';
     fontEl.type = 'text/css';
     fontEl.dataset.resource_from = 'boxscores-embed';
-    fontEl.href = 'https://fonts.googleapis.com/css?family=Lato:300,400';
+    fontEl.href = 'https://fonts.googleapis.com/css?family=Lato:300,400,800,900';
     document.head.appendChild(fontEl);
     //Build and load icons
     var iconEl = document.createElement('link');
@@ -490,7 +542,26 @@
     var styleEl = document.createElement('style');
     styleEl.dataset.resource_from = 'boxscores-embed';
     styleEl.innerHTML = `
+      .boxscores-e-scope-toggle {
+        background-color: white;
+        border-radius: 3px;
+        width: 130px;
+        float: left;
+        display: inline-block;
+        height: 30px;
+        margin: 10px 20px 10px 0;
+        color: #f26f26;
+        text-align: center;
+        line-height: 30px;
+        font-weight: normal;
+      }
+      @media (max-width: 767px) {
+        .boxscores-e-scope-toggle {
+          display: none;
+        }
+      }
       .boxscores-e-bar{
+        font-weight: 300;
         width: 100%;
         min-width: 640px;
         height: 50px;
@@ -503,9 +574,37 @@
       .boxscores-e-title{
         font-size: 18px;
         float: left;
-        padding: 0 10px;
+        padding: 0 20px;
         box-sizing: border-box;
         line-height: 48px;
+      }
+      @media (max-width: 767px) {
+        .boxscores-e-title{
+          font-size: 14px;
+          padding: 9px 10px;
+          line-height: 15px;
+        }
+        .boxscores-e-title.nfl{
+          width: 100px;
+        }
+        .boxscores-e-title.ncaaf{
+          width: 120px;
+        }
+      }
+      @media (min-width: 768px) {
+        .boxscores-e-title{
+          font-size: 14px;
+        }
+      }
+      @media (min-width: 992px) {
+        .boxscores-e-title{
+          font-size: 16px;
+        }
+      }
+      @media (min-width: 1280px) {
+        .boxscores-e-title{
+          font-size: 18px;
+        }
       }
       .boxscores-e-schedule{
         list-style-type: none;
@@ -513,6 +612,8 @@
         margin: 0 5px 0 0;
         padding: 0;
         height: 100%;
+        max-width: calc(100% - 420px);
+        white-space: nowrap;
       }
       .boxscores-e-game{
         display: inline-block;
@@ -521,6 +622,9 @@
         border-right: 1px solid` + gameBorderColor + `;
         box-sizing: border-box;
         overflow: hidden;
+      }
+      .boxscores-e-game:first-child{
+        border-left: 1px solid` + gameBorderColor + `;
       }
       .boxscores-e-game:last-child{
         border-right: none;
@@ -535,7 +639,7 @@
         color: #fff;
       }
       .boxscores-e-football .boxscores-e-game-link{
-        padding: 0 7px 0 10px;
+        padding: 0 15px;
       }
       .boxscores-e-game-link:hover{
         color: #fff;
@@ -553,9 +657,6 @@
         padding-top: 8px;
         box-sizing: border-box;
         float: left;
-      }
-      .boxscores-e-football .boxscores-e-game-teams{
-        width: 70px;
       }
       .boxscores-e-game-inning-top:before{
         content: '';
@@ -590,9 +691,18 @@
         padding-top: 10px;
       }
       .boxscores-e-nav{
-        float: left;
-        margin-right: 5px;
+        position: absolute;
+        right: 0;
+        padding: 0 18px;
         line-height: 50px;
+        background-color: #272727;
+        border-left: 1px solid` + gameBorderColor + `;
+        box-shadow: -20px 0px 20px 0px #272727;
+      }
+      @media (max-width: 992px) {
+        .boxscores-e-nav{
+          padding: 0 10px;
+        }
       }
       .boxscores-e-nav-button{
         width: 30px;
@@ -602,9 +712,9 @@
         color: ` + arrowColor + `;
         border: none;
         margin: 0 3px 0 0;
-        vertical-align: middle;
+        vertical-align: -1px;
         cursor: pointer;
-        font-size: 24px;
+        font-size: 25px;
         padding: 0;
         line-height: normal;
       }
@@ -692,10 +802,10 @@
       <a class="boxscores-e-game-link" href="` + data.link + `">
         <ul class="boxscores-e-game-teams">
           <li>
-            ` + data.homeTeam + ` <span class="boxscores-e-game-teamscore">` + data.homeScore + `</span>
+            <b>` + data.homeTeam + `</b> <span class="boxscores-e-game-teamscore">` + data.homeScore + `</span>
           </li>
           <li>
-            ` + data.awayTeam + ` <span class="boxscores-e-game-teamscore">` + data.awayScore + `</span>
+            <b>` + data.awayTeam + `</b> <span class="boxscores-e-game-teamscore">` + data.awayScore + `</span>
           </li>
         </ul>
         <span class="` + timeClass + `">

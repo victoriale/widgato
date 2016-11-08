@@ -29,6 +29,9 @@ sup {
     position: relative;
     top: -0.5em;
 }
+#ai-link {
+  color: black;
+}
 
 .aiw {
     width: 300px;

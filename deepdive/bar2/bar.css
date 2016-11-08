@@ -1,14 +1,157 @@
-.ddb-icon{
-  vertical-align: middle;
+@charset "UTF-8";
+
+/* latin-ext */
+@font-face {
+  font-family: 'Lato';
   font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/8qcEw_nrk_5HEcCpYdJu8BTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v11/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+/* latin-ext */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/rZPI2gHXi8zxUjnybc2ZQFKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v11/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+@font-face {
+  font-family: "deepdive-bar";
+  src:url("http://w1.synapsys.us/widgets/deepdive/fonts/deepdive_bar/font_middlelayer.php?type=eot");
+  src:url("http://w1.synapsys.us/widgets/deepdive/fonts/deepdive_bar/font_middlelayer.php?type=eot_iefix") format("embedded-opentype"),
+    url("http://w1.synapsys.us/widgets/deepdive/fonts/deepdive_bar/font_middlelayer.php?type=woff") format("woff"),
+    url("http://w1.synapsys.us/widgets/deepdive/fonts/deepdive_bar/font_middlelayer.php?type=ttf") format("truetype"),
+    url("http://w1.synapsys.us/widgets/deepdive/fonts/deepdive_bar/font_middlelayer.php?type=svg") format("svg");
   font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
+  font-style: normal;
+
+}
+
+[data-icon]:before {
+  font-family: "deepdive-bar" !important;
+  content: attr(data-icon);
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
   speak: none;
   line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+[class^="ddb-icon-"]:before,
+[class*=" ddb-icon-"]:before {
+  font-family: "deepdive-bar" !important;
+  font-style: normal !important;
+  font-weight: normal !important;
+  font-variant: normal !important;
+  text-transform: none !important;
+  speak: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.ddb-icon-news:before {
+  content: "\62";
+}
+.ddb-icon-box-scores:before {
+  content: "\63";
+}
+.ddb-icon-trophy:before {
+  content: "\64";
+}
+.ddb-icon-calendar:before {
+  content: "\65";
+}
+.ddb-icon-list:before {
+  content: "\66";
+}
+.ddb-icon-team:before {
+  content: "\67";
+}
+.ddb-icon-profile:before {
+  content: "\68";
+}
+.ddb-icon-football:before {
+  content: "\6a";
+}
+.ddb-icon-bars:before {
+  content: "\6b";
+}
+.ddb-icon-close-round:before {
+  content: "\6c";
+}
+.ddb-icon-search:before {
+  content: "\6e";
+}
+.ddb-icon-angle-left:before {
+  content: "\6f";
+}
+.ddb-icon-angle-right:before {
+  content: "\70";
+}
+.ddb-icon-plus:before {
+  content: "\71";
+}
+.ddb-icon-map-marker:before {
+  content: "\6d";
+}
+.ddb-icon-caret-down:before {
+  content: "\72";
+}
+.ddb-icon-caret-up:before {
+  content: "\73";
+}
+.ddb-icon-thumbs-o-down:before {
+  content: "\74";
+}
+.ddb-icon-dribbble:before {
+  content: "\75";
+}
+.ddb-icon-life-ring:before {
+  content: "\76";
+}
+.ddb-icon-magic:before {
+  content: "\77";
+}
+.ddb-icon-basketball:before {
+  content: "\61";
+}
+.ddb-icon-baseball:before {
+  content: "\69";
+}
+.ddb-icon-chevron-left:before {
+  content: "\78";
+}
+.ddb-icon-chevron-right:before {
+  content: "\79";
+}
+
+
+
+
+
+
 .ddb-show{
   display: block !important;
 }
@@ -247,6 +390,8 @@
 .ddb-boxscores-content-game-bottom .ddb-icon{
   font-size: 14px;
 }
+
+
 
 
 /*
@@ -1249,3 +1394,8 @@
   0% {transform: translate(0, 0);}
   100% {transform: translate(-100%, 0);}
 }
+
+
+
+
+
