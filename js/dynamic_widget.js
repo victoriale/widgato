@@ -153,7 +153,7 @@ function generateListLink (scope, destinationId, subject, season, listType, orde
   if (remn == "false") { //if partner
     if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
       for (var i = 0; i < specialDomains.length; i++) {
-        if (referrer.includes(specialDomains[i])) {
+        if (referrer.indexOf(specialDomains[i]) >= 0) {
           baseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
           break;
         }
@@ -495,7 +495,7 @@ function p() {
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
         if (e.rankType == "team") {
-          if (e.teamLogo != null && e.teamLogo != "null" && !e.teamLogo.includes('no_image')) {
+          if (e.teamLogo != null && e.teamLogo != "null" && !e.teamLogo.indexOf('no_image') >= 0) {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
           }
           else {
@@ -503,7 +503,7 @@ function p() {
           }
         }
         else {
-          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && !e.playerHeadshotUrl.includes('no_image')) {
+          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && !e.playerHeadshotUrl.indexOf('no_image') >= 0) {
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl);
           }
           else {
