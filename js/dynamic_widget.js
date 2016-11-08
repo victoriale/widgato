@@ -377,7 +377,7 @@ dynamic_widget = function() {
             case "mlb":
                 for (i = 0; i <= specialDomains.length; i++) {
                   if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://" + currentConfig.partnerSubdomain + "/" + specialDomains[i];
+                    SpecialDomain = "http://" + currentConfig.partnerSubdomain + "." + specialDomains[i];
                   }
                 }
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
