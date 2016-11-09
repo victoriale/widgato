@@ -1,7 +1,7 @@
 (function(){
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http'; //Protocol of the domain the bar exist on
-  var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
-  // var resourceURL = protocol + '://localhost:8000/deepdive';
+  // var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
+  var resourceURL = protocol + '://localhost:8000/deepdive';
   var embedURL = resourceURL + '/bar/bar.js'; //URL of script embed. This is used as a fallback if document.currentScript is not available
 
   //Grab current script element to know where to inject bar
@@ -279,7 +279,7 @@
          //Inject HTML
          parentNode.insertBefore(template, currentScript);
          bootstrapMenuList(params.sportOrder);
-
+         bootstrapDynamicBoxscores(params.sportOrder);
          //Load script dependencies
          loadScriptDependencies();
          //Continue building Bar
@@ -357,6 +357,56 @@
       }
     }
     menu.innerHTML += finalOrder;
+  }
+
+  var bootstrapDynamicBoxscores = function(ordering) {
+    var boxscores = document.getElementById('ddb-desktop-boxscores');
+    console.log(boxscores);
+    var finalOrder = "";
+    var blocks = {
+      mlb: `
+      <li id="ddb-desktop-boxscores-mlb">
+        <div class="ddb-boxscores-content-category">
+          <span class="ddb-title">MLB</span>
+          <!-- <br>
+          <a class="ddb-link ddb-mlb-nav-box-scores">View All</a> -->
+        </div>
+      </li>`,
+      nba: `
+      <!-- NBA -->
+      `,
+      ncaam: `
+      <!-- NCAA -->
+      `,
+      nfl: `
+      <li id="ddb-desktop-boxscores-nfl">
+        <div id="ddb-desktop-boxscores-nfl" class="ddb-boxscores-content-category">
+          <span class="ddb-title">NFL</span>
+          <!-- <br>
+          <a class="ddb-link ddb-nfl-nav-box-scores">View All</a> -->
+        </div>
+      </li>`,
+      ncaaf: `
+      <li id="ddb-desktop-boxscores-ncaaf">
+        <div class="ddb-boxscores-content-category">
+          <span class="ddb-title">NCAA F</span>
+          <!-- <br>
+          <a class="ddb-link ddb-nfl-nav-box-scores">View All</a> -->
+        </div>
+      </li>`
+    };
+
+    if (ordering) {
+      for (i = 0; i < ordering.length; i++) {
+        finalOrder += blocks[ordering[i]];
+      }
+    }
+    else {
+      for (var item in blocks) {
+        finalOrder += blocks[item];
+      }
+    }
+    boxscores.innerHTML += finalOrder;
   }
 
   var bootstrapMobileMenu = function(){
