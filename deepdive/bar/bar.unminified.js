@@ -366,8 +366,6 @@
       <li id="ddb-desktop-boxscores-mlb">
         <div class="ddb-boxscores-content-category">
           <span class="ddb-title">MLB</span>
-          <!-- <br>
-          <a class="ddb-link ddb-mlb-nav-box-scores">View All</a> -->
         </div>
       </li>`,
       nba: `
@@ -380,16 +378,12 @@
       <li id="ddb-desktop-boxscores-nfl">
         <div id="ddb-desktop-boxscores-nfl" class="ddb-boxscores-content-category">
           <span class="ddb-title">NFL</span>
-          <!-- <br>
-          <a class="ddb-link ddb-nfl-nav-box-scores">View All</a> -->
         </div>
       </li>`,
       ncaaf: `
       <li id="ddb-desktop-boxscores-ncaaf">
         <div class="ddb-boxscores-content-category">
           <span class="ddb-title">NCAA F</span>
-          <!-- <br>
-          <a class="ddb-link ddb-nfl-nav-box-scores">View All</a> -->
         </div>
       </li>`
     };
