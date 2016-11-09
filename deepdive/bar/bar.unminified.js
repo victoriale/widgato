@@ -293,9 +293,9 @@
          var parentNode = currentScript.parentNode;
          //Inject HTML
          parentNode.insertBefore(template, currentScript);
+         //Load script dependencies
          bootstrapMenuList(params.sportOrder);
          bootstrapDynamicBoxscores(params.sportOrder);
-         //Load script dependencies
          loadScriptDependencies();
          //Continue building Bar
          getUserLocation();
