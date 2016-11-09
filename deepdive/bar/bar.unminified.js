@@ -360,7 +360,6 @@
 
   var bootstrapDynamicBoxscores = function(ordering) {
     var boxscores = document.getElementById('ddb-desktop-boxscores');
-    console.log(boxscores);
     var finalOrder = "";
     var blocks = {
       mlb: `
