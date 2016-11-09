@@ -517,7 +517,7 @@
   font-weight: normal;
   z-index: 100000;
 }
-.ddb-menu-nav-dynamic#ddb-dynamic-mlb:after{
+/*.ddb-menu-nav-dynamic#ddb-dynamic-mlb:after{
   left: 203px;
 }
 .ddb-menu-nav-dynamic#ddb-dynamic-nba:after{
@@ -531,7 +531,7 @@
 }
 .ddb-menu-nav-dynamic#ddb-dynamic-ncaaf:after{
   left: 527px;
-}
+}*/
 @media(min-width: 768px){
     .ddb-menu-nav-dynamic{
         left: 60px;
