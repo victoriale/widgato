@@ -53,7 +53,6 @@
          }
       })
   }
-  console.log("params",params);
 
   /**
    * API config, used to organize lazy loaded resources
