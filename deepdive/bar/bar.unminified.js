@@ -21,7 +21,8 @@
     baseballSubdomain: null,
     basketballSubdomain: null,
     footballSubdomain: null,
-    brandHex: null
+    brandHex: null,
+    sportOrder: null
   };
 
   var queryString = currentScript.src.split('?')[1];
@@ -45,6 +46,9 @@
             break;
             case 'brandHex':
                 params.brandHex = '#' + decodeURIComponent(pair[1]);
+            break;
+            case 'sportOrder':
+                params.sportOrder = JSON.parse(decodeURIComponent(pair[1]));
             break;
          }
       })
@@ -270,10 +274,11 @@
         var template = document.createElement('section');
         template.className = 'ddb-container';
         template.innerHTML = res;
-
          var parentNode = currentScript.parentNode;
          //Inject HTML
          parentNode.insertBefore(template, currentScript);
+         bootstrapMenuList(params.sportOrder);
+         bootstrapDynamicBoxscores(params.sportOrder);
          //Load script dependencies
          loadScriptDependencies();
          //Continue building Bar
@@ -296,6 +301,104 @@
     };
     xhttp.open('GET', apiString, true);
     xhttp.send();
+  }
+
+  var bootstrapMenuList = function(ordering) {
+    var menu = document.getElementsByClassName('ddb-menu-nav')[0];
+    var finalOrder = "";
+    var dropdowns = {
+      mlb: `
+      <!-- MLB -->
+      <li id="ddb-dropdown-mlb" class="ddb-menu-nav-item ddb-dynamic-item">
+        MLB
+      </li>`,
+      nba: `
+      <!-- NBA -->
+      <li id="ddb-dropdown-nba" class="ddb-menu-nav-item ddb-dynamic-item">
+        NBA
+      </li>`,
+      ncaam: `
+      <!-- NCAA -->
+      <li id="ddb-dropdown-ncaam" class="ddb-menu-nav-item ddb-dynamic-item">
+        NCAA M
+      </li>`,
+      nfl: `
+      <!-- NFL -->
+      <li id="ddb-dropdown-nfl" class="ddb-menu-nav-item ddb-dynamic-item">
+        NFL
+      </li>`,
+      ncaaf: `
+      <!-- NCAA F -->
+      <li id="ddb-dropdown-ncaaf" class="ddb-menu-nav-item ddb-dynamic-item">
+        NCAA F
+      </li>`
+    };
+    if (ordering) {
+      var left = 132;
+      for (i = 0; i < ordering.length; i++) {
+        finalOrder += dropdowns[ordering[i]];
+        left = left + 68 + ((ordering[i].length - 3)* 8);
+        document.styleSheets[0].addRule('.ddb-menu-nav-dynamic#ddb-dynamic-'+ordering[i]+':after','left: '+left+'px;');
+        if (ordering[i].length - 3 > 0) {
+          left = left + ((ordering[i].length - 3)* 8);
+        }
+      }
+    }
+    else {
+      var left = 132;
+      for (var item in dropdowns) {
+        finalOrder += dropdowns[item];
+        left = left + 68 + ((item.length - 3)* 8);
+        document.styleSheets[0].addRule('.ddb-menu-nav-dynamic#ddb-dynamic-'+item+':after','left: '+left+'px;');
+        if (item.length - 3 > 0) {
+          left = left + ((item.length - 3)* 8);
+        }
+      }
+    }
+    menu.innerHTML += finalOrder;
+  }
+
+  var bootstrapDynamicBoxscores = function(ordering) {
+    var boxscores = document.getElementById('ddb-desktop-boxscores');
+    var finalOrder = "";
+    var blocks = {
+      mlb: `
+      <li id="ddb-desktop-boxscores-mlb">
+        <div class="ddb-boxscores-content-category">
+          <span class="ddb-title">MLB</span>
+        </div>
+      </li>`,
+      nba: `
+      <!-- NBA -->
+      `,
+      ncaam: `
+      <!-- NCAA -->
+      `,
+      nfl: `
+      <li id="ddb-desktop-boxscores-nfl">
+        <div class="ddb-boxscores-content-category">
+          <span class="ddb-title">NFL</span>
+        </div>
+      </li>`,
+      ncaaf: `
+      <li id="ddb-desktop-boxscores-ncaaf">
+        <div class="ddb-boxscores-content-category">
+          <span class="ddb-title">NCAA F</span>
+        </div>
+      </li>`
+    };
+
+    if (ordering) {
+      for (i = 0; i < ordering.length; i++) {
+        finalOrder += blocks[ordering[i]];
+      }
+    }
+    else {
+      for (var item in blocks) {
+        finalOrder += blocks[item];
+      }
+    }
+    boxscores.innerHTML += finalOrder;
   }
 
   var bootstrapMobileMenu = function(){
