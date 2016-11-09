@@ -1,7 +1,7 @@
 (function(){
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http'; //Protocol of the domain the bar exist on
-  var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
-  // var resourceURL = protocol + '://localhost:8000/deepdive';
+  // var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
+  var resourceURL = protocol + '://localhost:8000/deepdive';
   var embedURL = resourceURL + '/bar/bar.js'; //URL of script embed. This is used as a fallback if document.currentScript is not available
 
   //Grab current script element to know where to inject bar
@@ -72,6 +72,22 @@
       isLoading: false,
       url: function(){
         return resourceURL + '/lib/search_teams_middlelayer.php';
+      }
+    },
+    //nba Boxscores
+    boxscoresNBA: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(todayDate){
+        return protocol + '://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
+      }
+    },
+    //ncaam Boxscores
+    boxscoresNCAAM: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(todayDate){
+        return protocol + '://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
       }
     },
     //MLB Boxscores
