@@ -191,7 +191,6 @@ dynamic_widget = function() {
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
         currentConfig = getCategoryMetadata(l.category);
-        console.log("options", l);
     var s = false;
     var o = '';
     function c(e) {
