@@ -19,7 +19,7 @@ gulp.task('clean', function() {
 
 gulp.task('sportsbar-css', function() {
   return gulp
-  .src(['deepdive/bar/bar.css', 'deepdive/fonts/styles.css','deepdive/bar/lato.css'])
+  .src(['deepdive/bar/bar.css', 'deepdive/fonts/deepdive_bar/styles.css','deepdive/bar/lato.css'])
   .pipe(concatCss('bar.min.css'))
   .pipe(cleanCSS())
   .pipe(gulp.dest('deepdive/bar'));
