@@ -13,7 +13,7 @@ var rename            = require('gulp-rename');
 
 gulp.task('clean', function() {
   return gulp
-        .src('deepdive/bar/bar.min.js', {read: false})
+        .src('deepdive/bar/bar.js', {read: false})
         .pipe(clean({force: true}))
 });
 
@@ -33,13 +33,13 @@ gulp.task('sportsbar-babel', function(){
   .pipe(removeEmptyLines())
   .pipe(strip())
   .pipe(trimLines())
-  .pipe(rename('bar.min.js'))
+  .pipe(rename('bar.js'))
   .pipe(gulp.dest('deepdive/bar/'));
 });
 
 gulp.task('sportsbar-scripts', ['sportsbar-babel'], function() {
   return gulp
-  .src(['deepdive/lib/fuse_2.5.0.min.js','deepdive/bar/bar.min.js'])
+  .src(['deepdive/lib/fuse_2.5.0.min.js','deepdive/bar/bar.js'])
   .pipe(concat('bar.min.js'))
   .pipe(gulp.dest('deepdive/bar/'));
 });
