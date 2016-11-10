@@ -1,3 +1,4 @@
+var query = {};
 swp_wdgt = function(){
   A = function(id) {
     var d = document;
@@ -11,7 +12,6 @@ swp_wdgt = function(){
   }
 
   var temp = location.search;
-  var query = {};
   var season;
 
   if(temp !== null && temp !== ""){
@@ -24,7 +24,6 @@ swp_wdgt = function(){
     remnant = 'true';
     bord = false;
   }
-
 
   var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 
@@ -108,7 +107,6 @@ function RenderDynamicSide(protocolToUse){
     A('.fcw-icon').style.backgroundColor = color;
     A('.fcw-icon').style.zIndex = "5";
     A('.fcw-icon').style.cursor = "pointer";
-    A('.fcw-icon').href = url;
 
     A('.fcw-icon').style.backgroundImage = "url('" + icons + "')";
     A('.fcw-list-next').style.color = color;
@@ -466,26 +464,34 @@ function RenderDynamicSide(protocolToUse){
         }
 
         var listLink = buildListLink(listType, remnant, domain, curData);
-        A('.fcw-list-list').setAttribute('href', listLink);
-
-        if(remnant == 'true' || remnant == true){
-          A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
-          A('.exec-link-text').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
-          if (listType == "nfl" && listData[index].rankType == "team") {
-            A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].teamId);
-            A('.exec-link-text').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].teamId);
+        if (query.showLink != "false") {
+          A('.fcw-list-list').setAttribute('href', listLink);
+          if(remnant == 'true' || remnant == true){
+            A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
+            A('.exec-link-text').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
+            if (listType == "nfl" && listData[index].rankType == "team") {
+              A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].teamId);
+              A('.exec-link-text').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].teamId);
+            }
+            else if (listType == "nfl" && listData[index].rankType == "player") {
+              A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/player/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].playerFirstName.toLowerCase() + "-" + listData[index].playerLastName.toLowerCase() + "/" + listData[index].playerId);
+              A('.exec-link-text').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/player/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].playerFirstName.toLowerCase() + "-" + listData[index].playerLastName.toLowerCase() + "/" + listData[index].playerId);
+            }
+          }else{
+            //partner site
+            A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
+            A('.exec-link-text').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
+            if (listType == "nfl") {
+              A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
+              A('.exec-link-text').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
+            }
           }
-          else if (listType == "nfl" && listData[index].rankType == "player") {
-            A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/player/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].playerFirstName.toLowerCase() + "-" + listData[index].playerLastName.toLowerCase() + "/" + listData[index].playerId);
-            A('.exec-link-text').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/player/" + listData[index].teamName.replace(/ /g, "-").toLowerCase() + "/" + listData[index].playerFirstName.toLowerCase() + "-" + listData[index].playerLastName.toLowerCase() + "/" + listData[index].playerId);
-          }
-        }else{
-          //partner site
-          A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
-          A('.exec-link-text').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
-          if (listType == "nfl") {
-            A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
-            A('.exec-link-text').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
+        }
+        else {
+          document.getElementsByClassName("fcw-list-list")[0].style.display = "none";
+          var linkHovers = document.getElementsByClassName("hover1");
+          for (i = 0; i < linkHovers.length; i++) {
+            linkHovers[i].style.display = "none";
           }
         }
     }
