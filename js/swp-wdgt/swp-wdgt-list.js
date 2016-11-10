@@ -106,7 +106,6 @@ function RenderDynamicSide(protocolToUse){
     A('#nextlist-svg').style.fill = color;
     A('.fcw-icon').style.backgroundColor = color;
     A('.fcw-icon').style.zIndex = "5";
-    A('.fcw-icon').style.cursor = "pointer";
 
     A('.fcw-icon').style.backgroundImage = "url('" + icons + "')";
     A('.fcw-list-next').style.color = color;
@@ -160,12 +159,15 @@ function RenderDynamicSide(protocolToUse){
     A(".hover1").onmouseout  = function() {
       A(".hover1").style.Color = '';
     }
-    A(".fcw-content1").onmouseover = function() {
-      A('.fcw-content1').style.color = color;
+    if (query.showLink != "false") {
+      A(".fcw-content1").onmouseover = function() {
+        A('.fcw-content1').style.color = color;
+      }
+      A(".fcw-content1").onmouseout  = function() {
+        A(".fcw-content1").style.color = '';
+      }
     }
-    A(".fcw-content1").onmouseout  = function() {
-      A(".fcw-content1").style.color = '';
-    }
+
 
     if(type == "college_basketball"){
       A('.fcw-content-top').style.height = '25px';
