@@ -3561,6 +3561,9 @@
 
      var buildNode = function(data){
        var gameNode = document.createElement('div');
+       var date = new Date(data.timestamp*1000);
+       var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+       var DOW = days[date.getDay()];
        gameNode.className = 'ddb-boxscores-content-game';
        gameNode.innerHTML = `
          <a target="_blank" class="ddb-boxscores-content-game-link" href="` + data.link + `">
@@ -3573,6 +3576,7 @@
              </li>
            </ul>
            <span class="ddb-boxscores-content-game-bottom">
+            ` + DOW + `<br>
              ` + data.bottomData + `
            </span>
          </a>
