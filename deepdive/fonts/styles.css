@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 @font-face {
-  font-family: "takeover-deep-dive";
+  font-family: "deepdive-bar";
   src:url("font_middlelayer.php?type=eot");
   src:url("font_middlelayer.php?type=eot_iefix") format("embedded-opentype"),
     url("font_middlelayer.php?type=woff") format("woff"),
@@ -13,7 +13,7 @@
 }
 
 [data-icon]:before {
-  font-family: "takeover-deep-dive" !important;
+  font-family: "deepdive-bar" !important;
   content: attr(data-icon);
   font-style: normal !important;
   font-weight: normal !important;
@@ -25,9 +25,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-[class^="ddh-icon-"]:before,
-[class*=" ddh-icon-"]:before {
-  font-family: "takeover-deep-dive" !important;
+[class^="ddb-icon-"]:before,
+[class*=" ddb-icon-"]:before {
+  font-family: "deepdive-bar" !important;
   font-style: normal !important;
   font-weight: normal !important;
   font-variant: normal !important;
@@ -38,15 +38,78 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.ddh-icon-arrow-right:before {
-  content: "\61";
-}
-.ddh-icon-angle-right:before {
+.ddb-icon-news:before {
   content: "\62";
 }
-.ddh-icon-angle-left:before {
+.ddb-icon-box-scores:before {
   content: "\63";
 }
-.ddh-icon-times:before {
+.ddb-icon-trophy:before {
   content: "\64";
+}
+.ddb-icon-calendar:before {
+  content: "\65";
+}
+.ddb-icon-list:before {
+  content: "\66";
+}
+.ddb-icon-team:before {
+  content: "\67";
+}
+.ddb-icon-profile:before {
+  content: "\68";
+}
+.ddb-icon-football:before {
+  content: "\6a";
+}
+.ddb-icon-bars:before {
+  content: "\6b";
+}
+.ddb-icon-close-round:before {
+  content: "\6c";
+}
+.ddb-icon-search:before {
+  content: "\6e";
+}
+.ddb-icon-angle-left:before {
+  content: "\6f";
+}
+.ddb-icon-angle-right:before {
+  content: "\70";
+}
+.ddb-icon-plus:before {
+  content: "\71";
+}
+.ddb-icon-map-marker:before {
+  content: "\6d";
+}
+.ddb-icon-caret-down:before {
+  content: "\72";
+}
+.ddb-icon-caret-up:before {
+  content: "\73";
+}
+.ddb-icon-thumbs-o-down:before {
+  content: "\74";
+}
+.ddb-icon-dribbble:before {
+  content: "\75";
+}
+.ddb-icon-life-ring:before {
+  content: "\76";
+}
+.ddb-icon-magic:before {
+  content: "\77";
+}
+.ddb-icon-basketball:before {
+  content: "\61";
+}
+.ddb-icon-baseball:before {
+  content: "\69";
+}
+.ddb-icon-chevron-left:before {
+  content: "\78";
+}
+.ddb-icon-chevron-right:before {
+  content: "\79";
 }
