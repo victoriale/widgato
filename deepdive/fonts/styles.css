@@ -2,11 +2,11 @@
 
 @font-face {
   font-family: "deepdive-bar";
-  src:url("http://w1.synapsys.us/widgets/deepdive/fonts/deepdive_bar/font_middlelayer.php?type=eot");
-  src:url("http://w1.synapsys.us/widgets/deepdive/fonts/deepdive_bar/font_middlelayer.php?type=eot_iefix") format("embedded-opentype"),
-    url("http://w1.synapsys.us/widgets/deepdive/fonts/deepdive_bar/font_middlelayer.php?type=woff") format("woff"),
-    url("http://w1.synapsys.us/widgets/deepdive/fonts/deepdive_bar/font_middlelayer.php?type=ttf") format("truetype"),
-    url("http://w1.synapsys.us/widgets/deepdive/fonts/deepdive_bar/font_middlelayer.php?type=svg") format("svg");
+  src:url("font_middlelayer.php?type=eot");
+  src:url("font_middlelayer.php?type=eot_iefix") format("embedded-opentype"),
+    url("font_middlelayer.php?type=woff") format("woff"),
+    url("font_middlelayer.php?type=ttf") format("truetype"),
+    url("font_middlelayer.php?type=svg") format("svg");
   font-weight: normal;
   font-style: normal;
 
