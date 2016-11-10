@@ -374,27 +374,7 @@ var res = `
             <div id="ddb-desktop-boxscores-frame" class="ddb-boxscores-frame">
               <ul id="ddb-desktop-boxscores" class="ddb-boxscores-content">
                 <!-- Category -->
-                <li id="ddb-desktop-boxscores-mlb">
-                  <div class="ddb-boxscores-content-category">
-                    <span class="ddb-title">MLB</span>
-                    <!-- <br>
-                    <a class="ddb-link ddb-mlb-nav-box-scores">View All</a> -->
-                  </div>
-                </li>
-                <li id="ddb-desktop-boxscores-nfl">
-                  <div id="ddb-desktop-boxscores-nfl" class="ddb-boxscores-content-category">
-                    <span class="ddb-title">NFL</span>
-                    <!-- <br>
-                    <a class="ddb-link ddb-nfl-nav-box-scores">View All</a> -->
-                  </div>
-                </li>
-                <li id="ddb-desktop-boxscores-ncaaf">
-                  <div class="ddb-boxscores-content-category">
-                    <span class="ddb-title">NCAA F</span>
-                    <!-- <br>
-                    <a class="ddb-link ddb-nfl-nav-box-scores">View All</a> -->
-                  </div>
-                </li>
+                <!-- dynamically ordered box scores go here -->
               </ul>
             </div>
             <!-- Right Button -->
@@ -405,26 +385,7 @@ var res = `
         </div>
       </div>
     </li>
-    <!-- MLB -->
-    <li id="ddb-dropdown-mlb" class="ddb-menu-nav-item ddb-dynamic-item">
-      MLB
-    </li>
-    <!-- NBA -->
-    <li id="ddb-dropdown-nba" class="ddb-menu-nav-item ddb-dynamic-item">
-      NBA
-    </li>
-    <!-- NCAA -->
-    <li id="ddb-dropdown-ncaam" class="ddb-menu-nav-item ddb-dynamic-item">
-      NCAA M
-    </li>
-    <!-- NFL -->
-    <li id="ddb-dropdown-nfl" class="ddb-menu-nav-item ddb-dynamic-item">
-      NFL
-    </li>
-    <!-- NCAA F -->
-    <li id="ddb-dropdown-ncaaf" class="ddb-menu-nav-item ddb-dynamic-item">
-      NCAA F
-    </li>
+    <!-- dynamically ordered menu list here -->
   </ul>
   <!-- Dynamic Dropdown -->
   <div class="ddb-menu-nav-dynamic ddb-dynamic-dropdown">
