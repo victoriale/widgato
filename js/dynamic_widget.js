@@ -427,8 +427,16 @@ dynamic_widget = function() {
         else {
           a += "/" + l.category + "/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + r.data.listInfo.ordering + "/" + "10" + "/" + "1";
         }
-        if ($('list-link')) {
-            $('list-link').href = a
+        if ($('list-link') && l.showLink != 'false') {
+            $('list-link').href = a;
+        }
+        if (l.showLink == 'false') {
+          $('list-link').style.display = "none";
+          $('next-list-link').getElementsByClassName("dw-btn")[0].style.marginLeft = "calc(50% - 85px)";
+          var linkHovers = document.getElementsByClassName("hover");
+          for (i = 0; i < linkHovers.length; i++) {
+            linkHovers[i].style.display = "none";
+          }
         }
         p()
       }
@@ -450,8 +458,10 @@ function p() {
 
             a = SpecialDomain + "/" +l.category+ v_link;
           }
-          $('mainurl').href = a;
-          $('line1').href = a;
+          if (l.showLink != 'false') {
+            $('mainurl').href = a;
+            $('line1').href = a;
+          }
         }
         else {
           $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
@@ -467,8 +477,10 @@ function p() {
 
             a = SpecialDomain + "/" + l.category+v_link;
           }
-          $('mainurl').href = a;
-          $('line1').href = a;
+          if (l.showLink != 'false') {
+            $('mainurl').href = a;
+            $('line1').href = a;
+          }
         }
         var statType = e.statDescription.replace(/_/g, " ");
         statType = statType.replace("player", "");
@@ -569,7 +581,10 @@ function p() {
             $('desc').innerHTML = e.li_value;
             $('line4').innerHTML = e.li_tag
         }
-        $('line1').href = e.li_line_url;
+        if (l.showLink != 'false') {
+          $('line1').href = e.li_line_url;
+          $('mainurl').href = e.li_url;
+        }
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
@@ -578,7 +593,6 @@ function p() {
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
-        $('mainurl').href = e.li_url;
         $('num').innerHTML = '#' + e.li_rank;
         if (e.li_subimg !== false) {
             var a = e.li_subimg.switch ? l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom);

@@ -74,6 +74,22 @@
         return resourceURL + '/lib/search_teams_middlelayer.php';
       }
     },
+    //nba Boxscores
+    boxscoresNBA: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(todayDate){
+        return protocol + '://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
+      }
+    },
+    //ncaam Boxscores
+    boxscoresNCAAM: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(todayDate){
+        return protocol + '://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
+      }
+    },
     //MLB Boxscores
     boxscoresMLB: {
       hasLoaded: false,
@@ -277,9 +293,9 @@
          var parentNode = currentScript.parentNode;
          //Inject HTML
          parentNode.insertBefore(template, currentScript);
+         //Load script dependencies
          bootstrapMenuList(params.sportOrder);
          bootstrapDynamicBoxscores(params.sportOrder);
-         //Load script dependencies
          loadScriptDependencies();
          //Continue building Bar
          getUserLocation();

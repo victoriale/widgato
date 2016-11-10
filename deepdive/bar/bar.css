@@ -464,11 +464,11 @@
   position: relative;
   font-size: 14px;
 }
-@media(min-width: 992px){
+/*@media(min-width: 992px){
     .ddb-menu-nav>li{
         padding: 0 30px;
     }
-}
+}*/
 .ddb-menu-nav>li.ddb-blue{
   background-color: #4a90e2;
   padding: 0 10px;
@@ -533,10 +533,10 @@
   left: 527px;
 }*/
 @media(min-width: 768px){
-    .ddb-menu-nav-dynamic{
+    /*.ddb-menu-nav-dynamic{
         left: 60px;
-    }
-    .ddb-menu-nav-dynamic#ddb-dynamic-mlb:after{
+    }*/
+    /*.ddb-menu-nav-dynamic#ddb-dynamic-mlb:after{
       left: 143px;
     }
     .ddb-menu-nav-dynamic#ddb-dynamic-nba:after{
@@ -550,13 +550,13 @@
     }
     .ddb-menu-nav-dynamic#ddb-dynamic-ncaaf:after{
       left: 467px;
-    }
+    }*/
 }
 @media(min-width: 992px){
-    .ddb-menu-nav-dynamic{
+    /*.ddb-menu-nav-dynamic{
         left: 100px;
-    }
-    .ddb-menu-nav-dynamic#ddb-dynamic-mlb:after{
+    }*/
+    /*.ddb-menu-nav-dynamic#ddb-dynamic-mlb:after{
       left: 111px;
     }
     .ddb-menu-nav-dynamic#ddb-dynamic-nba:after{
@@ -570,7 +570,7 @@
     }
     .ddb-menu-nav-dynamic#ddb-dynamic-ncaaf:after{
       left: 500px;
-    }
+    }*/
 }
 
 .ddb-menu-nav-dynamic:hover{
