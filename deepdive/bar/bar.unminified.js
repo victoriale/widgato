@@ -1871,7 +1871,7 @@
     var apiString2 = apiConfig.boxscoresNFL.url(todayInput);
     // var apiString3 = protocol + '://prod-touchdownloyal-api.synapsys.us/boxScores/league/fbs/' + todayInput;
     var apiString3 = apiConfig.boxscoresNCAAF.url(todayInput);
-    var apiString4 = apiConfig.boxscoresNBA.url(todayInput);
+    var apiString5 = apiConfig.boxscoresNBA.url(todayInput);
     var apiString4 = apiConfig.boxscoresNCAAM.url(todayInput);
 
     var mobileBoxscores = document.getElementById('ddb-mobile-boxscores');
@@ -2206,6 +2206,31 @@
       rightDesktopButton.addEventListener('click', moveDesktopRight);
     }
     //Promise for NBA boxscores
+    var promise5 = new Promise(function(resolve, reject){
+      var xhttp = createRequestObject();
+      xhttp.onreadystatechange = function(){
+        if(xhttp.readyState === 4 && xhttp.status === 200){
+          //Success
+          var res = JSON.parse(xhttp.responseText);
+          //console.log('GET BOXSCORES SUCCESS', res);
+          resolve(res);
+          var processedData;
+          processedData = processBasketballBoxscoresData(res.data.data, tz.offset, tz.tzAbbrev, todayObject.date);
+          //If no games found for today, search for games throughout the week
+          if(processedData.length === 0){
+            processedData = processBasketballBoxscoresData(res.data.data, tz.offset, tz.tzAbbrev, null);
+          }
+
+        }else if(xhttp.readyState === 4 && xhttp.status !== 200){
+          //Error
+          // console.log('GET MLB BOXSCORES ERROR');
+          reject(true);
+        }
+      };
+      xhttp.open('GET', apiString5, true);
+      xhttp.send();
+    });
+    //Promise for NCAAM boxscores
     var promise4 = new Promise(function(resolve, reject){
       var xhttp = createRequestObject();
       xhttp.onreadystatechange = function(){
@@ -2297,16 +2322,29 @@
       xhttp.send();
     });
     //Wait for all three api calls to finish
-    Promise.all([promise1, promise2, promise3, promise4]).then(function(res){
+    Promise.all([promise1, promise2, promise3, promise4, promise5]).then(function(res){
       var mlbData = res[0].data || [];
       var nflData = res[1].data || [];
       var ncaafData = res[2].data || [];
       var ncaamData = res[3].data.data || [];
+      var nbaData = res[4].data.data || [];
+
+      //NBA Boxscores
+      var processedNBAData;
+      processedNBAData = processBasketballBoxscoresData(nbaData, tz.offset, tz.tzAbbrev, todayObject.date);
+      //If no games foound for today, search games throughout the week
+      if(processedNBAData.length === 0){
+        processedNBAData = processBasketballBoxscoresData(nbaData, tz.offset, tz.tzAbbrev, null);
+      }
+      processedNBAData.forEach(function(item){
+        // mobileBoxscoresNBA.appendChild(item.mobileNode);
+        desktopBoxscoresNBA.appendChild(item.desktopNode);
+      })
+      nbaMax = processedNBAData.length + 1; //Plus one for category tile
 
       //NCAAM Boxscores
       var processedNCAAMData;
       processedNCAAMData = processBasketballBoxscoresData(ncaamData, tz.offset, tz.tzAbbrev, todayObject.date);
-      console.log("foreach",res);
       //If no games foound for today, search games throughout the week
       if(processedNCAAMData.length === 0){
         processedNCAAMData = processBasketballBoxscoresData(ncaamData, tz.offset, tz.tzAbbrev, null);
@@ -3274,7 +3312,6 @@
 
    var processBasketballBoxscoresData = function(data, offset, tzAbbrev, todayDate){
      var error = false;
-     console.log(data);
        if (!data) {
          error = true;
        }
@@ -3282,6 +3319,9 @@
      if (error == false) {
        var buildNode = function(data){
          var gameNode = document.createElement('div');
+         var date = new Date(data.timestamp*1000);
+         var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+         var DOW = days[date.getDay()];
          gameNode.className = 'ddb-boxscores-content-game';
          gameNode.innerHTML = `
            <a target="_blank" class="ddb-boxscores-content-game-link" href="` + data.link + `">
@@ -3294,6 +3334,7 @@
                </li>
              </ul>
              <span class="ddb-boxscores-content-game-bottom">
+             ` + DOW + `<br>
                ` + data.bottomData + `
              </span>
            </a>
@@ -3327,6 +3368,34 @@
              gameIsToday = true;
            }else if(item.liveStatus){
              gameIsToday = true;
+           }
+
+           if (item.winsHome == null || item.winsHome == "null") {
+             item.winsHome = "0";
+           }
+           if (item.lossHome == null || item.lossHome == "null") {
+             item.lossHome = "0";
+           }
+
+           if (item.winsAway == null || item.winsAway == "null") {
+             item.winsAway = "0";
+           }
+           if (item.lossAway == null || item.lossAway == "null") {
+             item.lossAway = "0";
+           }
+
+           if (item.abbreviationHome != null) {
+             item.abbreviationHome = item.abbreviationHome.substring(0, 4);
+           }
+           else {
+             item.abbreviationHome = "N/A"
+           }
+
+           if (item.abbreviationAway != null) {
+             item.abbreviationAway = item.abbreviationAway.substring(0, 4);
+           }
+           else {
+             item.abbreviationAway = "N/A"
            }
 
            //If game is today or live, push to return array

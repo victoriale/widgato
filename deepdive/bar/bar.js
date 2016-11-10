@@ -2078,7 +2078,7 @@ var todayInput = todayObject.year + '-' + todayObject.month + '-' + todayObject.
 var apiString = apiConfig.boxscoresMLB.url(todayInput);
 var apiString2 = apiConfig.boxscoresNFL.url(todayInput);
 var apiString3 = apiConfig.boxscoresNCAAF.url(todayInput);
-var apiString4 = apiConfig.boxscoresNBA.url(todayInput);
+var apiString5 = apiConfig.boxscoresNBA.url(todayInput);
 var apiString4 = apiConfig.boxscoresNCAAM.url(todayInput);
 var mobileBoxscores = document.getElementById('ddb-mobile-boxscores');
 var desktopBoxscores = document.getElementById('ddb-desktop-boxscores');
@@ -2343,6 +2343,24 @@ rightMobileButton.addEventListener('click', moveMobileRight);
 leftDesktopButton.addEventListener('click', moveDesktopLeft);
 rightDesktopButton.addEventListener('click', moveDesktopRight);
 }
+var promise5 = new Promise(function(resolve, reject){
+var xhttp = createRequestObject();
+xhttp.onreadystatechange = function(){
+if(xhttp.readyState === 4 && xhttp.status === 200){
+var res = JSON.parse(xhttp.responseText);
+resolve(res);
+var processedData;
+processedData = processBasketballBoxscoresData(res.data.data, tz.offset, tz.tzAbbrev, todayObject.date);
+if(processedData.length === 0){
+processedData = processBasketballBoxscoresData(res.data.data, tz.offset, tz.tzAbbrev, null);
+}
+}else if(xhttp.readyState === 4 && xhttp.status !== 200){
+reject(true);
+}
+};
+xhttp.open('GET', apiString5, true);
+xhttp.send();
+});
 var promise4 = new Promise(function(resolve, reject){
 var xhttp = createRequestObject();
 xhttp.onreadystatechange = function(){
@@ -2407,14 +2425,23 @@ reject(true);
 xhttp.open('GET', apiString3, true);
 xhttp.send();
 });
-Promise.all([promise1, promise2, promise3, promise4]).then(function(res){
+Promise.all([promise1, promise2, promise3, promise4, promise5]).then(function(res){
 var mlbData = res[0].data || [];
 var nflData = res[1].data || [];
 var ncaafData = res[2].data || [];
 var ncaamData = res[3].data.data || [];
+var nbaData = res[4].data.data || [];
+var processedNBAData;
+processedNBAData = processBasketballBoxscoresData(nbaData, tz.offset, tz.tzAbbrev, todayObject.date);
+if(processedNBAData.length === 0){
+processedNBAData = processBasketballBoxscoresData(nbaData, tz.offset, tz.tzAbbrev, null);
+}
+processedNBAData.forEach(function(item){
+desktopBoxscoresNBA.appendChild(item.desktopNode);
+})
+nbaMax = processedNBAData.length + 1;
 var processedNCAAMData;
 processedNCAAMData = processBasketballBoxscoresData(ncaamData, tz.offset, tz.tzAbbrev, todayObject.date);
-console.log("foreach",res);
 if(processedNCAAMData.length === 0){
 processedNCAAMData = processBasketballBoxscoresData(ncaamData, tz.offset, tz.tzAbbrev, null);
 }
@@ -3158,7 +3185,6 @@ return transform;
 }
 var processBasketballBoxscoresData = function(data, offset, tzAbbrev, todayDate){
 var error = false;
-console.log(data);
 if (!data) {
 error = true;
 }
@@ -3166,6 +3192,9 @@ var pre = [], active = [], post = [];
 if (error == false) {
 var buildNode = function(data){
 var gameNode = document.createElement('div');
+var date = new Date(data.timestamp*1000);
+var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+var DOW = days[date.getDay()];
 gameNode.className = 'ddb-boxscores-content-game';
 gameNode.innerHTML = `
 <a target="_blank" class="ddb-boxscores-content-game-link" href="` + data.link + `">
@@ -3178,6 +3207,7 @@ gameNode.innerHTML = `
 </li>
 </ul>
 <span class="ddb-boxscores-content-game-bottom">
+` + DOW + `<br>
 ` + data.bottomData + `
 </span>
 </a>
@@ -3204,6 +3234,30 @@ if(timestampDate == todayDate || timestampDate == (todayDate + 1)){
 gameIsToday = true;
 }else if(item.liveStatus){
 gameIsToday = true;
+}
+if (item.winsHome == null || item.winsHome == "null") {
+item.winsHome = "0";
+}
+if (item.lossHome == null || item.lossHome == "null") {
+item.lossHome = "0";
+}
+if (item.winsAway == null || item.winsAway == "null") {
+item.winsAway = "0";
+}
+if (item.lossAway == null || item.lossAway == "null") {
+item.lossAway = "0";
+}
+if (item.abbreviationHome != null) {
+item.abbreviationHome = item.abbreviationHome.substring(0, 4);
+}
+else {
+item.abbreviationHome = "N/A"
+}
+if (item.abbreviationAway != null) {
+item.abbreviationAway = item.abbreviationAway.substring(0, 4);
+}
+else {
+item.abbreviationAway = "N/A"
 }
 if(gameIsToday){
 switch(item.eventStatus){
