@@ -2206,7 +2206,6 @@
       rightDesktopButton.addEventListener('click', moveDesktopRight);
     }
     //Promise for NBA boxscores
-    console.log("promise4");
     var promise4 = new Promise(function(resolve, reject){
       var xhttp = createRequestObject();
       xhttp.onreadystatechange = function(){
@@ -2215,7 +2214,6 @@
           var res = JSON.parse(xhttp.responseText);
           //console.log('GET BOXSCORES SUCCESS', res);
           resolve(res);
-          console.log(res);
           var processedData;
           processedData = processBasketballBoxscoresData(res.data.data, tz.offset, tz.tzAbbrev, todayObject.date);
           //If no games found for today, search for games throughout the week
@@ -3485,7 +3483,6 @@
        post = arraySort(post, 1, 'timestamp');
 
        var allGames = active.concat(pre, post);
-       console.log("bbal output",allGames);
        return allGames;
      }
      else {
