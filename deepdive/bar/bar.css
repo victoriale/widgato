@@ -32,6 +32,8 @@
   margin: 0;
   padding: 0;
   list-style-type: none;
+
+
 }
 
 .ddb-parleft{
@@ -205,11 +207,14 @@
   color: #000;
 }
 .ddb-boxscores-content-game{
-  width: 100px;
+  width: 196px;
   background-color: #fff;
-  font-size: 12px;
+  font-size: 14px;
   text-align: center;
   font-weight: 700;
+}
+.ddb-boxscores-content-game:hover {
+  background-color: #f2f2f2;
 }
 .ddb-boxscores-content-game .ddb-grey{
   color: #999;
@@ -229,6 +234,12 @@
 .ddb-boxscores-content-game-teams{
   text-align: left;
   white-space: normal;
+  display: inline-block;
+  width: 65px;
+}
+.ddb-boxscores-content-game-teams li:first-of-type{
+  margin-bottom: 5px;
+  margin-top: 3px;
 }
 .ddb-boxscores-content-game-teams .ddb-icon-football{
   color: #4a90e2;
@@ -237,12 +248,16 @@
 }
 .ddb-boxscores-content-game-score{
   float: right;
+  font-weight: normal;
 }
 .ddb-boxscores-content-game-bottom{
   font-weight: 400;
   display: inline-block;
-  margin-top: 2px;
+  margin-top: 5px;
   color: #444;
+  vertical-align: top;
+  text-align: left;
+  margin-left: 15px;
 }
 .ddb-boxscores-content-game-bottom .ddb-icon{
   font-size: 14px;
@@ -464,11 +479,11 @@
   position: relative;
   font-size: 14px;
 }
-@media(min-width: 992px){
+/*@media(min-width: 992px){
     .ddb-menu-nav>li{
         padding: 0 30px;
     }
-}
+}*/
 .ddb-menu-nav>li.ddb-blue{
   background-color: #4a90e2;
   padding: 0 10px;
@@ -533,10 +548,10 @@
   left: 527px;
 }*/
 @media(min-width: 768px){
-    .ddb-menu-nav-dynamic{
+    /*.ddb-menu-nav-dynamic{
         left: 60px;
-    }
-    .ddb-menu-nav-dynamic#ddb-dynamic-mlb:after{
+    }*/
+    /*.ddb-menu-nav-dynamic#ddb-dynamic-mlb:after{
       left: 143px;
     }
     .ddb-menu-nav-dynamic#ddb-dynamic-nba:after{
@@ -550,13 +565,13 @@
     }
     .ddb-menu-nav-dynamic#ddb-dynamic-ncaaf:after{
       left: 467px;
-    }
+    }*/
 }
 @media(min-width: 992px){
-    .ddb-menu-nav-dynamic{
+    /*.ddb-menu-nav-dynamic{
         left: 100px;
-    }
-    .ddb-menu-nav-dynamic#ddb-dynamic-mlb:after{
+    }*/
+    /*.ddb-menu-nav-dynamic#ddb-dynamic-mlb:after{
       left: 111px;
     }
     .ddb-menu-nav-dynamic#ddb-dynamic-nba:after{
@@ -570,7 +585,7 @@
     }
     .ddb-menu-nav-dynamic#ddb-dynamic-ncaaf:after{
       left: 500px;
-    }
+    }*/
 }
 
 .ddb-menu-nav-dynamic:hover{

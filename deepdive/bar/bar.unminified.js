@@ -74,6 +74,22 @@
         return resourceURL + '/lib/search_teams_middlelayer.php';
       }
     },
+    //nba Boxscores
+    boxscoresNBA: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(todayDate){
+        return protocol + '://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
+      }
+    },
+    //ncaam Boxscores
+    boxscoresNCAAM: {
+      hasLoaded: false,
+      isLoading: false,
+      url: function(todayDate){
+        return protocol + '://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
+      }
+    },
     //MLB Boxscores
     boxscoresMLB: {
       hasLoaded: false,
@@ -3435,6 +3451,9 @@
 
      var buildNode = function(data){
        var gameNode = document.createElement('div');
+       var date = new Date(data.timestamp*1000);
+       var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+       var DOW = days[date.getDay()];
        gameNode.className = 'ddb-boxscores-content-game';
        gameNode.innerHTML = `
          <a target="_blank" class="ddb-boxscores-content-game-link" href="` + data.link + `">
@@ -3447,6 +3466,7 @@
              </li>
            </ul>
            <span class="ddb-boxscores-content-game-bottom">
+            ` + DOW + `<br>
              ` + data.bottomData + `
            </span>
          </a>
