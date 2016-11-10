@@ -2343,14 +2343,12 @@ rightMobileButton.addEventListener('click', moveMobileRight);
 leftDesktopButton.addEventListener('click', moveDesktopLeft);
 rightDesktopButton.addEventListener('click', moveDesktopRight);
 }
-console.log("promise4");
 var promise4 = new Promise(function(resolve, reject){
 var xhttp = createRequestObject();
 xhttp.onreadystatechange = function(){
 if(xhttp.readyState === 4 && xhttp.status === 200){
 var res = JSON.parse(xhttp.responseText);
 resolve(res);
-console.log(res);
 var processedData;
 processedData = processBasketballBoxscoresData(res.data.data, tz.offset, tz.tzAbbrev, todayObject.date);
 if(processedData.length === 0){
@@ -3327,7 +3325,6 @@ pre = arraySort(pre, 1, 'timestamp');
 active = arraySort(active, 1, 'timestamp');
 post = arraySort(post, 1, 'timestamp');
 var allGames = active.concat(pre, post);
-console.log("bbal output",allGames);
 return allGames;
 }
 else {
