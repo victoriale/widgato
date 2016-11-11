@@ -1,18 +1,18 @@
 (function(){
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http'; //Protocol of the domain the bar exist on
   var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
+  var fileName = '/bar/bar.js';
   // var resourceURL = protocol + '://localhost:8000/deepdive';
-  var embedURL = resourceURL + '/bar/bar.js'; //URL of script embed. This is used as a fallback if document.currentScript is not available
+  var embedURL = resourceURL + fileName; //URL of script embed. This is used as a fallback if document.currentScript is not available
 
   //Grab current script element to know where to inject bar
-  var currentScript = document.currentScript || (function(){
       var scripts = document.getElementsByTagName("script");
       for (var i = scripts.length - 1; i >= 0; i--) {
-         if (scripts[i].src.indexOf(embedURL) != -1) {
-            return scripts[i];
+         if (scripts[i].src.indexOf(fileName) != -1) {
+            var currentScript =  scripts[i];
          }
       }
-   })();
+
 
   /**
    * Get query parameters for script tag
