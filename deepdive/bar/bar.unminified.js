@@ -241,13 +241,13 @@
   //Grab second level domain
   domain = parts.slice(-2).join('.');
 
-  if (domain.includes('homerunloyal') || domain.includes('hoopsloyal') || domain.includes('touchdownloyal')) {
+  if (domain.indexOf('homerunloyal') !== -1 || domain.indexOf('hoopsloyal') !== -1|| domain.indexOf('touchdownloyal') !== -1) {
     var houseSite = true;
     var homerunDomain = "http://homerunloyal.com";
     var hoopsDomain = "http://hoopsloyal.com";
     var touchdownDomain = "http://touchdownloyal.com";
   }
-  else if (domain.includes('homerunzone') || domain.includes('hoopszone') || domain.includes('touchdownzone')) {
+  else if (domain.indexOf('homerunzone') !== -1|| domain.indexOf('hoopszone') !== -1|| domain.indexOf('touchdownzone') !== -1) {
     var houseSite = false;
     var partnerName = path.split('/').slice(1);
     partnerName = partnerName[0];
