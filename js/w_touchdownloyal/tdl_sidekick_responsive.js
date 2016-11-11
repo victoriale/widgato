@@ -54,7 +54,7 @@ ai_widget = (function () {
         }
         var locApiUrl = APIUrl;
         if (typeof eventId != "undefined") {
-            locApiUrl += "/" + eventId;
+            locApiUrl += "&event=" + eventId;
             event = eventId;
         }
         $.ajax({
@@ -98,7 +98,7 @@ ai_widget = (function () {
                 dataArr.push(val);
             }
         });
-        var id = dataArr[0].index != "player-fantasy" ? dataArr[0].eventId : dataArr[0].articleId;
+        var id = dataArr[0].index != "player-fantasy" ? dataArr[0].event_id : dataArr[0].article_id;
         var date = moment.unix(dataArr[0].last_updated).format();
         date = moment(date).format("MM/DD/YYYY");
         var arr = {

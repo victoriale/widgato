@@ -154,7 +154,7 @@ tdl_billboard = (function () {
         var homeLastName = teamData[1].home_team_name;
         var awayLastName = teamData[1].away_team_name;
         $('.header-teams')[0].innerHTML = awayLastName + ' vs ' + homeLastName + ":";
-        $('.header-date')[0].innerHTML = teamData[1].gameFlag + " Game - " + teamData[1]['start_date_time'].date_time;
+        $('.header-date')[0].innerHTML = teamData[1].game_flag + " Game - " + teamData[1]['start_date_time'].date_time;
         $('#main-top-link').attr('href', arr1.url);
         $('.main-top-title')[0].innerHTML = arr1.title;
         $('.main-top-description')[0].innerHTML = arr1.content;
@@ -291,7 +291,7 @@ tdl_billboard = (function () {
             subContainerSmall.appendChild(subTitleSmall);
             subContainerSmall.appendChild(subDateSmall);
             subContainerSmall.appendChild(subHrSmall);
-            var id = randomArticles[i].urlSegment != "player-fantasy" ? teamData[1].eventId : randomArticles[i].articleId;
+            var id = randomArticles[i].urlSegment != "player-fantasy" ? teamData[1].event_id : randomArticles[i].article_id;
             $(subContainer).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + id+ '" />'));
             $(subContainerSmall).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + id + '" />'));
             subTitleSmall.innerHTML = randomArticles[i].title;
