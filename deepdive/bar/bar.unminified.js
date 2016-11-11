@@ -2007,9 +2007,8 @@
       }
 
       var frameWidth = desktopBoxscoresFrame.offsetWidth;
-      var boxscoresPixelLeft = ((desktopMax) - (desktopBoxscoresIndex)) * 100; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
+      var boxscoresPixelLeft = ((desktopMax) - (desktopBoxscoresIndex)) * 196; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
       var whitespaceLeft = frameWidth - boxscoresPixelLeft;// How much whitespace is between the last item in boxscores and end of frame
-
       //Add class to left button if not at beggining of list and left button does not have existing class
       if(desktopBoxscoresIndex !== 0 && !hasClass(leftDesktopButton, 'ddb-blue')){
         addClass(leftDesktopButton, 'ddb-blue');
@@ -2036,7 +2035,7 @@
       }
 
       var frameWidth = desktopBoxscoresFrame.offsetWidth;
-      var boxscoresPixelLeft = ((desktopMax) - (desktopBoxscoresIndex)) * 100; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
+      var boxscoresPixelLeft = ((desktopMax) - (desktopBoxscoresIndex)) * 196; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
       var whitespaceLeft = frameWidth - boxscoresPixelLeft;// How much whitespace is between the last item in boxscores and end of frame
 
       if(whitespaceLeft >= 0){
@@ -2062,7 +2061,7 @@
         break;
       }
       var frameWidth = desktopBoxscoresFrame.offsetWidth;
-      var boxscoresPixelLeft = ((desktopMax) - desktopBoxscoresIndex) * 100; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
+      var boxscoresPixelLeft = ((desktopMax) - desktopBoxscoresIndex) * 196; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
       var whitespaceLeft = frameWidth - boxscoresPixelLeft;// How much whitespace is between the last item in boxscores and end of frame
 
       //Add class to right button if not at end of list and right button doesnt not have existing class
@@ -2180,7 +2179,7 @@
 
         if(canClick){
           desktopBoxscoresIndex--;
-          desktopBoxscores.style.left = (-100 + ((desktopBoxscoresIndex - 1) * -100)) + 'px';
+          desktopBoxscores.style.left = (-196 + ((desktopBoxscoresIndex - 1) * -196)) + 'px';
           //Check to activate/disable button
           checkLeftDesktopButton();
         }
@@ -2192,7 +2191,7 @@
 
         if(canClick){
           desktopBoxscoresIndex++;
-          desktopBoxscores.style.left = (-100 + ((desktopBoxscoresIndex - 1) * -100)) + 'px';
+          desktopBoxscores.style.left = (-196 + ((desktopBoxscoresIndex - 1) * -196)) + 'px';
           //Check to activate/disable button
           checkRightDesktopButton();
         }
@@ -2382,7 +2381,7 @@
       })
       ncaafMax = processedNCAAFData.length + 1; //Plus one for category tile
       //Total Boxscores
-      totalMax = mlbMax + nflMax + ncaafMax;
+      totalMax = mlbMax + nflMax + ncaafMax + nbaMax + ncaamMax;
 
       //Bootstrap boxscores button functionality
       bootstapBoxscoresButtons();
@@ -3358,8 +3357,9 @@
        }
 
        if(typeof todayDate !== 'undefined' && todayDate !== null){
-
+         var count = 0;
          for(var index in data){
+           count++;
            var item = data[index];
            //Determine if game is today (Also allow games that are live, but the day has rolled over past midnight)
            var gameIsToday = false;
@@ -3399,7 +3399,7 @@
            }
 
            //If game is today or live, push to return array
-           if(gameIsToday){
+           if(gameIsToday && count < 10){
              switch(item.eventStatus){
                case 'pre-event':
                 if(item.liveStatus === false){
@@ -3606,8 +3606,9 @@
        }
 
        if(typeof todayDate !== 'undefined' && todayDate !== null){
-
+         var count = 0;
          for(var index in data){
+           count++;
            var item = data[index];
            //Determine if game is today (Also allow games that are live, but the day has rolled over past midnight)
            var gameIsToday = false;
@@ -3619,7 +3620,7 @@
            }
 
            //If game is today or live, push to return array
-           if(gameIsToday){
+           if(gameIsToday && count < 10){
 
              switch(item.gameInfo.eventStatus){
                case 'pre-event':
@@ -3818,8 +3819,9 @@
 
        return gameNode;
      }
-
+     var count = 0;
      for(var index in data){
+       count++;
        var item = data[index];
        var gameIsToday = false;
        var timestampDate = new Date(item.eventStartTime + offset * 3600 * 1000).getUTCDate();
@@ -3829,7 +3831,7 @@
          gameIsToday = true;
        }
 
-       if(gameIsToday){
+       if(gameIsToday && count < 10){
         //Game is Today
         if(item.liveStatus === 'N' && item.eventStartTime > now){
           //Pre Game
@@ -3929,7 +3931,7 @@
           post.push(gameObject);
         }
 
-       }else{
+      }else if (count < 10) {
         //Game is this week
         if(item.eventStartTime > now){
           //Pre Game

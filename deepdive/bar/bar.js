@@ -2185,7 +2185,7 @@ desktopMax = totalMax;
 break;
 }
 var frameWidth = desktopBoxscoresFrame.offsetWidth;
-var boxscoresPixelLeft = ((desktopMax) - (desktopBoxscoresIndex)) * 100;
+var boxscoresPixelLeft = ((desktopMax) - (desktopBoxscoresIndex)) * 196;
 var whitespaceLeft = frameWidth - boxscoresPixelLeft;
 if(desktopBoxscoresIndex !== 0 && !hasClass(leftDesktopButton, 'ddb-blue')){
 addClass(leftDesktopButton, 'ddb-blue');
@@ -2210,7 +2210,7 @@ desktopMax = totalMax;
 break;
 }
 var frameWidth = desktopBoxscoresFrame.offsetWidth;
-var boxscoresPixelLeft = ((desktopMax) - (desktopBoxscoresIndex)) * 100;
+var boxscoresPixelLeft = ((desktopMax) - (desktopBoxscoresIndex)) * 196;
 var whitespaceLeft = frameWidth - boxscoresPixelLeft;
 if(whitespaceLeft >= 0){
 return false;
@@ -2234,7 +2234,7 @@ desktopMax = totalMax;
 break;
 }
 var frameWidth = desktopBoxscoresFrame.offsetWidth;
-var boxscoresPixelLeft = ((desktopMax) - desktopBoxscoresIndex) * 100;
+var boxscoresPixelLeft = ((desktopMax) - desktopBoxscoresIndex) * 196;
 var whitespaceLeft = frameWidth - boxscoresPixelLeft;
 if(whitespaceLeft < 0 && !hasClass(rightDesktopButton, 'ddb-blue')){
 addClass(rightDesktopButton, 'ddb-blue');
@@ -2326,7 +2326,7 @@ var moveDesktopLeft = function(){
 var canClick = canClickLeftDesktopButton();
 if(canClick){
 desktopBoxscoresIndex--;
-desktopBoxscores.style.left = (-100 + ((desktopBoxscoresIndex - 1) * -100)) + 'px';
+desktopBoxscores.style.left = (-196 + ((desktopBoxscoresIndex - 1) * -196)) + 'px';
 checkLeftDesktopButton();
 }
 }
@@ -2334,7 +2334,7 @@ var moveDesktopRight = function(){
 var canClick = canClickRightDesktopButton();
 if(canClick){
 desktopBoxscoresIndex++;
-desktopBoxscores.style.left = (-100 + ((desktopBoxscoresIndex - 1) * -100)) + 'px';
+desktopBoxscores.style.left = (-196 + ((desktopBoxscoresIndex - 1) * -196)) + 'px';
 checkRightDesktopButton();
 }
 }
@@ -2471,7 +2471,7 @@ mobileBoxscoresNCAAF.appendChild(item.mobileNode);
 desktopBoxscoresNCAAF.appendChild(item.desktopNode);
 })
 ncaafMax = processedNCAAFData.length + 1;
-totalMax = mlbMax + nflMax + ncaafMax;
+totalMax = mlbMax + nflMax + ncaafMax + nbaMax + ncaamMax;
 bootstapBoxscoresButtons();
 }, function(err){
 })
@@ -3226,7 +3226,9 @@ datetime = year + '-' + month + '-' + date;
 return datetime;
 }
 if(typeof todayDate !== 'undefined' && todayDate !== null){
+var count = 0;
 for(var index in data){
+count++;
 var item = data[index];
 var gameIsToday = false;
 var timestampDate = new Date(item.eventStartTime + offset * 3600 * 1000).getUTCDate();
@@ -3259,7 +3261,7 @@ item.abbreviationAway = item.abbreviationAway.substring(0, 4);
 else {
 item.abbreviationAway = "N/A"
 }
-if(gameIsToday){
+if(gameIsToday && count < 10){
 switch(item.eventStatus){
 case 'pre-event':
 if(item.liveStatus === false){
@@ -3427,7 +3429,9 @@ datetime = year + '-' + month + '-' + date;
 return datetime;
 }
 if(typeof todayDate !== 'undefined' && todayDate !== null){
+var count = 0;
 for(var index in data){
+count++;
 var item = data[index];
 var gameIsToday = false;
 var timestampDate = new Date(item.gameInfo.startDateTimestamp + offset * 3600 * 1000).getUTCDate();
@@ -3436,7 +3440,7 @@ gameIsToday = true;
 }else if(item.gameInfo.live){
 gameIsToday = true;
 }
-if(gameIsToday){
+if(gameIsToday && count < 10){
 switch(item.gameInfo.eventStatus){
 case 'pre-event':
 if(item.gameInfo.live === false){
@@ -3597,7 +3601,9 @@ gameNode.innerHTML = `
 `;
 return gameNode;
 }
+var count = 0;
 for(var index in data){
+count++;
 var item = data[index];
 var gameIsToday = false;
 var timestampDate = new Date(item.eventStartTime + offset * 3600 * 1000).getUTCDate();
@@ -3605,7 +3611,7 @@ var now = new Date().getTime();
 if(timestampDate === todayDate){
 gameIsToday = true;
 }
-if(gameIsToday){
+if(gameIsToday && count < 10){
 if(item.liveStatus === 'N' && item.eventStartTime > now){
 var homeScore, awayScore;
 if(item.team1Record){
@@ -3687,7 +3693,7 @@ gameObject.mobileNode = buildNode(gameObject);
 gameObject.desktopNode = buildNode(gameObject);
 post.push(gameObject);
 }
-}else{
+}else if (count < 10) {
 if(item.eventStartTime > now){
 var homeScore, awayScore;
 if(item.team1Record){
