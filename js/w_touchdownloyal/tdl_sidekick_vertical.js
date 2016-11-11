@@ -103,6 +103,8 @@ ai_widget = (function () {
         };
         // Set the data
         $('.aiw-title')[0].innerHTML = arr.title;
+        $('#ai-link-img').attr('href', arr.url);
+        $('#ai-link-img').attr('target', target);
         $('#ai-link').attr('href', arr.url);
         $('#ai-link').attr('target', target);
         $('.aiw-txt')[0].innerHTML = arr.content;

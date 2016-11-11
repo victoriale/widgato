@@ -30,7 +30,9 @@ sup {
     position: relative;
     top: -0.5em;
 }
-
+#ai-link-text {
+  color: white;
+}
 .aiw {
     height: 250px;
     padding: 0;

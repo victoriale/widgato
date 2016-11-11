@@ -1,3 +1,4 @@
+var res = `
 <section class="ddb-menu">
   <!-- Mobile Layout -->
   <section class="ddb-mobile-layout">
@@ -439,3 +440,4 @@
   </div>
   <!-- End Tablet/Desktop Layout -->
 </section>
+`;
