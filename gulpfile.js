@@ -40,7 +40,7 @@ gulp.task('sportsbar-babel', function(){
 gulp.task('sportsbar-scripts', ['sportsbar-babel'], function() {
   return gulp
   .src(['deepdive/lib/fuse_2.5.0.min.js','deepdive/bar/bar.js'])
-  .pipe(concat('bar.min.js'))
+  .pipe(concat('bar.js'))
   .pipe(gulp.dest('deepdive/bar/'));
 });
 
