@@ -3276,7 +3276,7 @@ eventStatus: item.eventStatus,
 eventId: item.eventId
 };
 gameObject.bottomData = gameObject.datetime;
-gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+gameObject.link = hoopsDomain + '/article/pregame/' + gameObject.eventId;
 gameObject.mobileNode = buildNode(gameObject);
 gameObject.desktopNode = buildNode(gameObject);
 pre.push(gameObject);
@@ -3300,7 +3300,7 @@ gameObject.bottomData = '<i class="ddb-icon ddb-icon-caret-down"></i>' + (item.g
 }else{
 gameObject.bottomData = '';
 }
-gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+gameObject.link = hoopsDomain + '/article/pregame/' + gameObject.eventId;
 gameObject.mobileNode = buildNode(gameObject);
 gameObject.desktopNode = buildNode(gameObject);
 active.push(gameObject)
@@ -3320,7 +3320,7 @@ eventId: item.gameInfo.eventId
 gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
 gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 gameObject.bottomData = 'Final';
-gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
+gameObject.link = hoopsDomain + '/article/postgame/' + gameObject.eventId;
 gameObject.mobileNode = buildNode(gameObject);
 gameObject.desktopNode = buildNode(gameObject);
 post.push(gameObject);
@@ -3347,7 +3347,7 @@ eventStatus: item.eventStatus,
 eventId: item.eventId
 };
 gameObject.bottomData = gameObject.datetime;
-gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+gameObject.link = hoopsDomain + '/article/pregame/' + gameObject.eventId;
 gameObject.mobileNode = buildNode(gameObject);
 gameObject.desktopNode = buildNode(gameObject);
 pre.push(gameObject);
@@ -3367,7 +3367,7 @@ eventId: item.eventId
 gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
 gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 gameObject.bottomData = 'Final';
-gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
+gameObject.link = hoopsDomain + '/article/postgame-report/' + gameObject.eventId;
 gameObject.mobileNode = buildNode(gameObject);
 gameObject.desktopNode = buildNode(gameObject);
 post.push(gameObject);
