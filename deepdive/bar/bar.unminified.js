@@ -79,7 +79,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=tcx&option=tcx_box_scores&date=' + todayDate;
+        return protocol + '://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=trimmed_box_scores&option=trimmed_box_scores&limit=20&date=' + todayDate;
       }
     },
     //ncaam Boxscores
@@ -87,7 +87,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaam&action=tcx&option=tcx_box_scores&date=' + todayDate;
+        return protocol + '://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=trimmed_box_scores&option=trimmed_box_scores&limit=20&date=' + todayDate;
       }
     },
     //MLB Boxscores
@@ -2214,10 +2214,10 @@
           //console.log('GET BOXSCORES SUCCESS', res);
           resolve(res);
           var processedData;
-          processedData = processBasketballBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
+          processedData = processBasketballBoxscoresData(res.box_scores, tz.offset, tz.tzAbbrev, todayObject.date, "nba");
           //If no games found for today, search for games throughout the week
           if(processedData.length === 0){
-            processedData = processBasketballBoxscoresData(res.data, tz.offset, tz.tzAbbrev, null);
+            processedData = processBasketballBoxscoresData(res.box_scores, tz.offset, tz.tzAbbrev, null, "nba");
           }
 
         }else if(xhttp.readyState === 4 && xhttp.status !== 200){
@@ -2239,10 +2239,10 @@
           //console.log('GET BOXSCORES SUCCESS', res);
           resolve(res);
           var processedData;
-          processedData = processBasketballBoxscoresData(res.data, tz.offset, tz.tzAbbrev, todayObject.date);
+          processedData = processBasketballBoxscoresData(res.box_scores, tz.offset, tz.tzAbbrev, todayObject.date, "ncaa");
           //If no games found for today, search for games throughout the week
           if(processedData.length === 0){
-            processedData = processBasketballBoxscoresData(res.data, tz.offset, tz.tzAbbrev, null);
+            processedData = processBasketballBoxscoresData(res.box_scores, tz.offset, tz.tzAbbrev, null, "ncaa");
           }
 
         }else if(xhttp.readyState === 4 && xhttp.status !== 200){
@@ -2325,15 +2325,15 @@
       var mlbData = res[0].data || [];
       var nflData = res[1].data || [];
       var ncaafData = res[2].data || [];
-      var ncaamData = res[3].data || [];
-      var nbaData = res[4].data || [];
+      var ncaamData = res[3].box_scores || [];
+      var nbaData = res[4].box_scores || [];
 
       //NBA Boxscores
       var processedNBAData;
-      processedNBAData = processBasketballBoxscoresData(nbaData, tz.offset, tz.tzAbbrev, todayObject.date);
+      processedNBAData = processBasketballBoxscoresData(nbaData, tz.offset, tz.tzAbbrev, todayObject.date, "nba");
       //If no games foound for today, search games throughout the week
       if(processedNBAData.length === 0){
-        processedNBAData = processBasketballBoxscoresData(nbaData, tz.offset, tz.tzAbbrev, null);
+        processedNBAData = processBasketballBoxscoresData(nbaData, tz.offset, tz.tzAbbrev, null, "nba");
       }
       processedNBAData.forEach(function(item){
         // mobileBoxscoresNBA.appendChild(item.mobileNode);
@@ -2343,10 +2343,10 @@
 
       //NCAAM Boxscores
       var processedNCAAMData;
-      processedNCAAMData = processBasketballBoxscoresData(ncaamData, tz.offset, tz.tzAbbrev, todayObject.date);
+      processedNCAAMData = processBasketballBoxscoresData(ncaamData, tz.offset, tz.tzAbbrev, todayObject.date, "ncaa");
       //If no games foound for today, search games throughout the week
       if(processedNCAAMData.length === 0){
-        processedNCAAMData = processBasketballBoxscoresData(ncaamData, tz.offset, tz.tzAbbrev, null);
+        processedNCAAMData = processBasketballBoxscoresData(ncaamData, tz.offset, tz.tzAbbrev, null, "ncaa");
       }
       processedNCAAMData.forEach(function(item){
         // mobileBoxscoresNCAAM.appendChild(item.mobileNode);
@@ -3309,16 +3309,12 @@
      return transform;
    }
 
-   var processBasketballBoxscoresData = function(data, offset, tzAbbrev, todayDate){
-     var currentScope = data.currentScope;
-     if (currentScope == "ncaam") {
-       currentScope = "ncaa";
-     }
+   var processBasketballBoxscoresData = function(data, offset, tzAbbrev, todayDate, currentScope){
      data = data.data;
      var error = false;
-       if (!data) {
-         error = true;
-       }
+     if (!data) {
+       error = true;
+     }
      var pre = [], active = [], post = [];
      if (error == false) {
        var buildNode = function(data){
@@ -3368,7 +3364,7 @@
            var item = data[index];
            //Determine if game is today (Also allow games that are live, but the day has rolled over past midnight)
            var gameIsToday = false;
-           var timestampDate = new Date(item.eventStartTime + offset * 3600 * 1000).getUTCDate();
+           var timestampDate = new Date(item.startDateTimestamp + offset * 3600 * 1000).getUTCDate();
            if(timestampDate == todayDate || timestampDate == (todayDate + 1)){
              gameIsToday = true;
            }else if(item.liveStatus){
@@ -3389,18 +3385,18 @@
              item.lossAway = "0";
            }
 
-           if (item.abbreviationHome != null) {
-             item.abbreviationHome = item.abbreviationHome.substring(0, 4);
+           if (item.team1Abbreviation != null) {
+             item.team1Abbreviation = item.team1Abbreviation.substring(0, 4);
            }
            else {
-             item.abbreviationHome = "N/A"
+             item.team1Abbreviation = "N/A"
            }
 
-           if (item.abbreviationAway != null) {
-             item.abbreviationAway = item.abbreviationAway.substring(0, 4);
+           if (item.team2Abbreviation != null) {
+             item.team2Abbreviation = item.team2Abbreviation.substring(0, 4);
            }
            else {
-             item.abbreviationAway = "N/A"
+             item.team2Abbreviation = "N/A"
            }
 
            //If game is today or live, push to return array
@@ -3410,12 +3406,12 @@
                 if(item.liveStatus === false){
                   //Pre Game
                   var gameObject = {
-                    homeTeam: item.abbreviationHome,
+                    homeTeam: item.team1Abbreviation,
                     homeScore: item.winsHome + '-' + item.lossHome,
-                    awayTeam: item.abbreviationAway,
+                    awayTeam: item.team2Abbreviation,
                     awayScore: item.winsAway + '-' + item.lossAway,
-                    timestamp: item.eventStartTime,
-                    datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
+                    timestamp: item.startDateTimestamp,
+                    datetime: convertToEastern(item.startDateTimestamp, offset, tzAbbrev),
                     eventStatus: item.eventStatus,
                     eventId: item.eventId
                   };
@@ -3429,12 +3425,12 @@
                 }else{
                   //Live Game
                   var gameObject = {
-                    homeTeam: item.abbreviationHome,
-                    homeScore: item.dataPoint1Home,
-                    awayTeam: item.abbreviationAway,
-                    awayScore: item.dataPoint1Away,
+                    homeTeam: item.team1Abbreviation,
+                    homeScore: item.team1Score,
+                    awayTeam: item.team2Abbreviation,
+                    awayScore: item.team2Score,
                     timestamp: item.eventStartTime,
-                    datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
+                    datetime: convertToEastern(item.startDateTimestamp, offset, tzAbbrev),
                     eventStatus: item.eventStatus,
                     eventId: item.eventId
                   };
@@ -3461,12 +3457,12 @@
                case 'post-event':
                   //Post Game
                   var gameObject = {
-                    homeTeam: item.abbreviationHome,
-                    homeScore: item.dataPoint1Home,
-                    awayTeam: item.abbreviationAway,
-                    awayScore: item.dataPoint1Away,
+                    homeTeam: item.team1Abbreviation,
+                    homeScore: item.team1Score,
+                    awayTeam: item.team2Abbreviation,
+                    awayScore: item.team2Score,
                     timestamp: item.eventStartTime,
-                    datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
+                    datetime: convertToEastern(item.startDateTimestamp, offset, tzAbbrev),
                     eventStatus: item.gameInfo.eventStatus,
                     eventId: item.gameInfo.eventId
                   };
@@ -3498,14 +3494,14 @@
              switch(item.eventStatus){
                case 'pre-event':
                   //Pre Game
-                  var datetime = getDatetime(item.eventStartTime, easternTime.offset);
+                  var datetime = getDatetime(item.startDateTimestamp, easternTime.offset);
 
                   var gameObject = {
-                    homeTeam: item.homeTeamInfo.abbreviation,
+                    homeTeam: item.team1Abbreviation,
                     homeScore: item.homeTeamInfo.winRecord + '-' + item.homeTeamInfo.lossRecord,
-                    awayTeam: item.awayTeamInfo.abbreviation,
+                    awayTeam: item.team2Abbreviation,
                     awayScore: item.awayTeamInfo.winRecord + '-' + item.awayTeamInfo.lossRecord,
-                    timestamp: item.eventStartTime,
+                    timestamp: item.startDateTimestamp,
                     datetime: prettyDatetime(datetime),
                     eventStatus: item.eventStatus,
                     eventId: item.eventId
@@ -3523,11 +3519,11 @@
                   var datetime2 = getDatetime(item.eventStartTime, easternTime.offset);
 
                   var gameObject = {
-                    homeTeam: item.homeTeamInfo.abbreviation,
-                    homeScore: item.homeTeamInfo.score,
-                    awayTeam: item.awayTeamInfo.abbreviation,
-                    awayScore: item.awayTeamInfo.score,
-                    timestamp: item.eventStartTime,
+                    homeTeam: item.team1Abbreviation,
+                    homeScore: item.team1Score,
+                    awayTeam: item.team2Abbreviation,
+                    awayScore: item.team2Score,
+                    timestamp: item.startDateTimestamp,
                     datetime: prettyDatetime(datetime2),
                     eventStatus: item.eventStatus,
                     eventId: item.eventId
