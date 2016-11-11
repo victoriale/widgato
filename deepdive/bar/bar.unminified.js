@@ -3415,7 +3415,7 @@
                     eventId: item.eventId
                   };
                   gameObject.bottomData = gameObject.datetime;
-                  gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + '/articles/pregame-report/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3445,7 +3445,7 @@
                     gameObject.bottomData = '';
                   }
 
-                    gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+                    gameObject.link = hoopsDomain + '/articles/pregame-report/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3470,7 +3470,7 @@
                   gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
                   gameObject.bottomData = 'Final';
-                  gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + '/articles/postgame-report/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3506,7 +3506,7 @@
                     eventId: item.eventId
                   };
                   gameObject.bottomData = gameObject.datetime;
-                  gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + '/articles/pregame-report/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3532,7 +3532,7 @@
                   gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
                   gameObject.bottomData = 'Final';
-                  gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + '/articles/postgame-report/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
