@@ -1,6 +1,6 @@
 (function(){
 var protocol = (location.protocol) === 'https:' ? 'https' : 'http';
-var resourceURL = protocol + '://localhost:8000/deepdive';
+var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
 var embedURL = resourceURL + '/bar/bar.min.js';
 var currentScript = document.currentScript || (function(){
 var scripts = document.getElementsByTagName("script");
@@ -2235,7 +2235,7 @@ break;
 }
 var frameWidth = desktopBoxscoresFrame.offsetWidth;
 var boxscoresPixelLeft = ((desktopMax) - desktopBoxscoresIndex) * 196;
-var whitespaceLeft = frameWidth - (boxscoresPixelLeft + frameWidth);
+var whitespaceLeft = frameWidth - boxscoresPixelLeft;
 if(whitespaceLeft < 0 && !hasClass(rightDesktopButton, 'ddb-blue')){
 addClass(rightDesktopButton, 'ddb-blue');
 }

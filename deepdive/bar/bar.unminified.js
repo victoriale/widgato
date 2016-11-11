@@ -1,7 +1,7 @@
 (function(){
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http'; //Protocol of the domain the bar exist on
-  // var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
-  var resourceURL = protocol + '://localhost:8000/deepdive';
+  var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
+  // var resourceURL = protocol + '://localhost:8000/deepdive';
   var embedURL = resourceURL + '/bar/bar.min.js'; //URL of script embed. This is used as a fallback if document.currentScript is not available
 
   //Grab current script element to know where to inject bar
@@ -2062,7 +2062,7 @@
       }
       var frameWidth = desktopBoxscoresFrame.offsetWidth;
       var boxscoresPixelLeft = ((desktopMax) - desktopBoxscoresIndex) * 196; //How many pixels are left to scroll through (max - currentIndex) * (width of boxscore)
-      var whitespaceLeft = frameWidth - (boxscoresPixelLeft + frameWidth);// How much whitespace is between the last item in boxscores and end of frame
+      var whitespaceLeft = frameWidth - boxscoresPixelLeft;// How much whitespace is between the last item in boxscores and end of frame
 
       //Add class to right button if not at end of list and right button doesnt not have existing class
       if(whitespaceLeft < 0 && !hasClass(rightDesktopButton, 'ddb-blue')){
