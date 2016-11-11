@@ -522,7 +522,7 @@
 }
 
 .ddb-menu-nav-dynamic{
-  /*padding: 8px 0 0 0;*/
+  padding: 8px 0 0 0;
   position: absolute;
   width: 640px;
   display: none;
