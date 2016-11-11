@@ -3371,18 +3371,18 @@
              gameIsToday = true;
            }
 
-           if (item.winsHome == null || item.winsHome == "null") {
-             item.winsHome = "0";
+           if (item.team1Wins == null || item.team1Wins == "null") {
+             item.team1Wins = "0";
            }
-           if (item.lossHome == null || item.lossHome == "null") {
-             item.lossHome = "0";
+           if (item.team1Losses == null || item.team1Losses == "null") {
+             item.team1Losses = "0";
            }
 
-           if (item.winsAway == null || item.winsAway == "null") {
-             item.winsAway = "0";
+           if (item.team2Wins == null || item.team2Wins == "null") {
+             item.team2Wins = "0";
            }
-           if (item.lossAway == null || item.lossAway == "null") {
-             item.lossAway = "0";
+           if (item.team2Losses == null || item.team2Losses == "null") {
+             item.team2Losses = "0";
            }
 
            if (item.team1Abbreviation != null) {
@@ -3407,9 +3407,9 @@
                   //Pre Game
                   var gameObject = {
                     homeTeam: item.team1Abbreviation,
-                    homeScore: item.winsHome + '-' + item.lossHome,
+                    homeScore: item.team1Wins + '-' + item.team1Losses,
                     awayTeam: item.team2Abbreviation,
-                    awayScore: item.winsAway + '-' + item.lossAway,
+                    awayScore: item.team2Wins + '-' + item.team2Losses,
                     timestamp: item.startDateTimestamp,
                     datetime: convertToEastern(item.startDateTimestamp, offset, tzAbbrev),
                     eventStatus: item.eventStatus,
@@ -3498,9 +3498,9 @@
 
                   var gameObject = {
                     homeTeam: item.team1Abbreviation,
-                    homeScore: item.homeTeamInfo.winRecord + '-' + item.homeTeamInfo.lossRecord,
+                    homeScore: item.team1Wins + '-' + item.team1Losses,
                     awayTeam: item.team2Abbreviation,
-                    awayScore: item.awayTeamInfo.winRecord + '-' + item.awayTeamInfo.lossRecord,
+                    awayScore: item.team2Wins + '-' + item.team2Losses,
                     timestamp: item.startDateTimestamp,
                     datetime: prettyDatetime(datetime),
                     eventStatus: item.eventStatus,
