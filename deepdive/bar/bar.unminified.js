@@ -342,7 +342,10 @@
       for (i = 0; i < ordering.length; i++) {
         finalOrder += dropdowns[ordering[i]];
         left = left + 68 + ((ordering[i].length - 3)* 8);
-        document.styleSheets[0].addRule('.ddb-menu-nav-dynamic#ddb-dynamic-'+ordering[i]+':after','left: '+left+'px;');
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = '.ddb-menu-nav-dynamic#ddb-dynamic-'+ordering[i]+':after {left: '+left+'px;}';
+        document.getElementsByTagName('head')[0].appendChild(style);
         if (ordering[i].length - 3 > 0) {
           left = left + ((ordering[i].length - 3)* 8);
         }
@@ -353,7 +356,10 @@
       for (var item in dropdowns) {
         finalOrder += dropdowns[item];
         left = left + 68 + ((item.length - 3)* 8);
-        document.styleSheets[0].addRule('.ddb-menu-nav-dynamic#ddb-dynamic-'+item+':after','left: '+left+'px;');
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = '.ddb-menu-nav-dynamic#ddb-dynamic-'+item+':after {left: '+left+'px;}';
+        document.getElementsByTagName('head')[0].appendChild(style);
         if (item.length - 3 > 0) {
           left = left + ((item.length - 3)* 8);
         }
