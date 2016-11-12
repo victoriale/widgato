@@ -1,4 +1,4 @@
-d(function(){
+(function(){
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http'; //Protocol of the domain the bar exist on
   var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
   var fileName = '/bar/bar.js';
