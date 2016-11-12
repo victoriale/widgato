@@ -1,4 +1,4 @@
-(function(){
+d(function(){
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http'; //Protocol of the domain the bar exist on
   var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
   var fileName = '/bar/bar.js';
@@ -79,7 +79,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=trimmed_box_scores&option=trimmed_box_scores&limit=20&date=' + todayDate;
+        return protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=trimmed_box_scores&option=trimmed_box_scores&limit=20&date=' + todayDate;
       }
     },
     //ncaam Boxscores
@@ -87,7 +87,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=trimmed_box_scores&option=trimmed_box_scores&limit=20&date=' + todayDate;
+        return protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=trimmed_box_scores&option=trimmed_box_scores&limit=20&date=' + todayDate;
       }
     },
     //MLB Boxscores
