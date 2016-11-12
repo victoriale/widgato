@@ -3325,7 +3325,7 @@
      if (error == false) {
        var buildNode = function(data){
          var gameNode = document.createElement('div');
-         var date = new Date(data.timestamp*1000);
+         var date = new Date(data.timestamp);
          var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
          var DOW = days[date.getDay()];
          gameNode.className = 'ddb-boxscores-content-game';
@@ -3803,7 +3803,7 @@
 
      var buildNode = function(data){
        var gameNode = document.createElement('div');
-       var date = new Date(data.timestamp*1000);
+       var date = new Date(data.timestamp);
        var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
        var DOW = days[date.getDay()];
        gameNode.className = 'ddb-boxscores-content-game';
