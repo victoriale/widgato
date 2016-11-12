@@ -1,0 +1,34 @@
+{
+  "name": "snt-widgets",
+  "version": "1.0.0",
+  "description": "SNT-Widgets houses many products such as dynamic widgets, swap widgets, article widgets, etc.  ",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/passit/SNT-Widgets.git"
+  },
+  "author": "SNT Media, Inc.",
+  "license": "SEE LICENSE IN LICENSERef",
+  "bugs": {
+    "url": "https://github.com/passit/SNT-Widgets/issues"
+  },
+  "homepage": "https://github.com/passit/SNT-Widgets#readme",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-clean": "^0.3.2",
+    "gulp-clean-css": "^2.0.13",
+    "gulp-concat": "^2.6.0",
+    "gulp-concat-css": "^2.3.0",
+    "gulp-include": "^2.3.1",
+    "gulp-remove-empty-lines": "0.0.8",
+    "gulp-rename": "^1.2.2",
+    "gulp-strip-comments": "^2.4.3",
+    "gulp-trimlines": "^1.0.0",
+    "gulp-uglify": "^2.0.0"
+  }
+}
