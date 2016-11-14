@@ -3391,6 +3391,13 @@
              item.team2Losses = "0";
            }
 
+           if (item.team1Score == null || item.team1Score == "null") {
+             item.team1Score = "0";
+           }
+           if (item.team2Score == null || item.team2Score == "null") {
+             item.team2Score = "0";
+           }
+
            if (item.team1Abbreviation != null) {
              item.team1Abbreviation = item.team1Abbreviation.substring(0, 4);
            }
