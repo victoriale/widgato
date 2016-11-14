@@ -79,7 +79,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=trimmed_box_scores&option=trimmed_box_scores&limit=20&date=' + todayDate;
+        return protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=trimmed_box_scores&option=trimmed_box_scores&limit=20&date=' + todayDate;
       }
     },
     //ncaam Boxscores
@@ -87,7 +87,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=trimmed_box_scores&option=trimmed_box_scores&limit=20&date=' + todayDate;
+        return protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=trimmed_box_scores&option=trimmed_box_scores&limit=20&date=' + todayDate;
       }
     },
     //MLB Boxscores
@@ -3389,6 +3389,13 @@
            }
            if (item.team2Losses == null || item.team2Losses == "null") {
              item.team2Losses = "0";
+           }
+
+           if (item.team1Score == null || item.team1Score == "null") {
+             item.team1Score = "0";
+           }
+           if (item.team2Score == null || item.team2Score == "null") {
+             item.team2Score = "0";
            }
 
            if (item.team1Abbreviation != null) {

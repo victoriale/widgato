@@ -235,7 +235,7 @@
   text-align: left;
   white-space: normal;
   display: inline-block;
-  width: 65px;
+  min-width: 65px;
 }
 .ddb-boxscores-content-game-teams li:first-of-type{
   margin-bottom: 5px;
