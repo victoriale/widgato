@@ -230,7 +230,6 @@ function RenderArticleSide(protocolToUse) {
         }
         var articleText = isMlb ? article.article[0].substr(0, 150) : article.teaser.substr(0, 150);
         A('.content-text').innerHTML = articleText + '...<a target="_blank" href="' + articleUrl + '"></a>';
-        console.log(game);
         if (isMlb) {
             A('.bar-date').innerHTML = convertDate(game.startDateTime);
         } else {
@@ -239,7 +238,6 @@ function RenderArticleSide(protocolToUse) {
         var author = isMlb ? 'www.homerunloyal.com' : 'www.touchdownloyal.com';
         var authorLink = author;
         A('.bar-author').innerHTML = '<a target="_blank" id="authorlink" href="' + "http://" + authorLink + '">' + author + '</a>';
-        console.log(articleUrl);
         A('#readbutton').setAttribute('href', articleUrl);
         A('.buttons-nextlist').onmouseover = function () {
             A('#arrow').style.fill = 'white';
@@ -362,7 +360,6 @@ function RenderArticleSide(protocolToUse) {
         var gameLength = gameArr.length;
         if (dropdownCount == 0) {
             for (var i = 0; i < gameLength; i++) {
-              console.log(gameID);
                 if (gameArr[i].eventId == gameID || gameArr[i].eventId == changedGameId) {
                     $('.home.team')[0].innerHTML = gameArr[i].home;
                     $('.away.team')[0].innerHTML = gameArr[i].away;
