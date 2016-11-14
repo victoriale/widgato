@@ -36,11 +36,11 @@ function RenderArticleSide(protocolToUse) {
         keyword = "MLB";
         isMlb = true;
     } else if (catOptions[0] == 'nfl') {
-        APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/sidekick?scope=nfl';
+        APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick?scope=nfl';
         keyword = "NFL";
         isMlb = false;
     } else if (catOptions[0] == 'ncaa') {
-        APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/sidekick?scope=ncaa';
+        APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick?scope=ncaa';
         keyword = "NCAAF";
         isMlb = false;
     } else {
