@@ -145,6 +145,7 @@ var season;
 var SpecialDomain = "";
 var currentDomain = "";
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
+var rounds = 0;
 
 //todo: use this for formatting all links
 function generateListLink (scope, destinationId, subject, season, listType, ordering, remn) {
@@ -195,13 +196,13 @@ dynamic_widget = function() {
     var o = '';
     function c(e) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
-            e()
+            e();
         } else if (d.addEventListener) {
             d.addEventListener('DOMContentLoaded', e)
         } else if (d.attachEvent) {
             d.attachEvent('onreadystatechange', function() {
                 if (d.readyState == 'complete') {
-                    e()
+                    e();
                 }
             })
         }
@@ -441,6 +442,10 @@ dynamic_widget = function() {
         p()
       }
 function p() {
+  if (rounds == 0) {
+    rounds++;
+    checkBlankImages();
+  }
       if (currentConfig.category == "football") {
         var e = r.data.listData[i];
         var v_link = '';
@@ -682,6 +687,42 @@ function p() {
                 eventAction: dynamic_widget.get_title()
             })
         }
+    }
+
+    function checkBlankImages() {
+      var goodNumber = 0;
+      switch (l.category) {
+        case "nfl":
+        case "ncaaf":
+          if (r.data.listData[i].rankType == "player") {
+            for (n = 0; n < r.data.listData.length && goodNumber == 0; n++) {
+              if (r.data.listData[n].playerHeadshotUrl != null && r.data.listData[n].playerHeadshotUrl.indexOf("no-image") == -1) {
+                goodNumber = n;
+                break;
+              }
+            }
+          }
+          else {
+            for (n = 0; n < r.data.listData.length && goodNumber == 0; n++) {
+              if (r.data.listData[n].teamLogo != null && r.data.listData[n].teamLogo.indexOf("no-image") == -1) {
+                goodNumber = n;
+                break;
+              }
+            }
+          }
+          break;
+        case "mlb":
+        case "nba":
+        case "college_basketball":
+            for (n = 0; n < r.l_data.length && goodNumber == 0; n++) {
+              if (r.l_data[i].li_img != null && r.l_data[i].li_img.indexOf("no-image") == -1) {
+                goodNumber = n;
+                break;
+              }
+            }
+          break;
+      }
+        w(goodNumber);
     }
 
     function f() {
