@@ -220,7 +220,7 @@ function RenderArticleSide(protocolToUse) {
           //check if the id has been changed via the drop down selection; otherwise use the initial id.
           var checkId = !game.eventId  ? game.event_id : game.eventId ;
 
-          if (data.data && data.data['player-fantasy'] && data.data['player-fantasy'].articleId == article.articleId) {
+          if (data.data && data.data['player-fantasy'] && data.data['player-fantasy'].article_id == article.article_id) {
             var id = article.article_id;  //if fantasy article use article id
           }
           else {
