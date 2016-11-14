@@ -3546,7 +3546,7 @@
                   gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
                   gameObject.bottomData = 'Final';
-                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/postgame-report/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/postgame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
