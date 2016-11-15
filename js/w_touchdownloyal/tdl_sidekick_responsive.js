@@ -37,7 +37,7 @@ ai_widget = (function () {
 
     }
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick/' + league,
+    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick?scope=' + league,
         AIData = {},
         gameID = -1,
         pageInd = -1,
@@ -54,7 +54,7 @@ ai_widget = (function () {
         }
         var locApiUrl = APIUrl;
         if (typeof eventId != "undefined") {
-            locApiUrl += "/" + eventId;
+            locApiUrl += "&event=" + eventId;
             event = eventId;
         }
         $.ajax({
@@ -86,10 +86,10 @@ ai_widget = (function () {
         var dataArr = [];
         $.map(AIData['data'], function (val, index) {
             if ((index != "meta-data" && index != "timestamp") && index == pageID) {
-                val.title = val.displayHeadline;
-                val.report = val.article;
-                val.eventId = AIData['data']['meta-data']['current'].eventID;
-                val.articleImage = val.image;
+                val.headline = val.title;
+                val.report = val.teaser;
+                val.eventId = val.event_id;
+                val.articleImage = val.image_url;
                 var keyword = index.replace(/-/g, " ");
                 val.keyword = keyword.replace(/\w\S*/g, function (txt) {
                     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
@@ -98,11 +98,13 @@ ai_widget = (function () {
                 dataArr.push(val);
             }
         });
-        var id = dataArr[0].index != "player-fantasy" ? dataArr[0].eventId : dataArr[0].articleId;
+        var id = dataArr[0].index != "player-fantasy" ? dataArr[0].event_id : dataArr[0].article_id;
+        var date = moment.unix(dataArr[0].last_updated).format();
+        date = moment(date).format("MM/DD/YYYY");
         var arr = {
             keyword: dataArr[0].keyword,
-            date: dataArr[0].dateline.replace(/ /g,"/").replace(/,/g,"/").replace("//","/"),
-            title: dataArr[0].displayHeadline,
+            date: date,
+            title: dataArr[0].headline,
             url: href + league + '/articles/' + dataArr[0].index + '/' + id,
             content: dataArr[0].report + '<br>&nbsp; ',
             img: protocolToUse + 'images.synapsys.us' + dataArr[0].articleImage,
@@ -153,7 +155,7 @@ ai_widget = (function () {
         });
         pageInd = 0;
         // Get game ID
-        gameID = AIData['data']['meta-data']['current'].eventID;
+        gameID = AIData['data']['meta-data']['current'].event_id;
         if (gameArr.length == 0) {
             parseGames();
         }
@@ -169,17 +171,17 @@ ai_widget = (function () {
             // Team names
             $.map(games, function (val, index) {
                 var gameData = {};
-                gameData.home = val.homeAbbreviation;
-                gameData.away = val.awayAbbreviation;
-                gameData.fullHome = val.homeTeamLocation + ' ' + val.homeTeamName;
-                gameData.fullAway = val.awayTeamLocation + ' ' + val.awayTeamName;
+                gameData.home = val.home_abbreviation;
+                gameData.away = val.away_abbreviation;
+                gameData.fullHome = val.home_team_location + ' ' + val.home_team_name;
+                gameData.fullAway = val.away_team_location + ' ' + val.away_team_name;
                 // Event ID
-                gameData.eventId = val.eventID;
+                gameData.eventId = val.event_id;
                 // Date
-                var date = moment(val['startDateTime'].date);
-                var time = val['startDateTime'].time;
+                var date = moment(val['start_date_time'].date);
+                var time = val['start_date_time'].time;
                 gameData.eventDate = moment(date).format("MMM. DD ") + time.toUpperCase() + ' ET';
-                gameData.eventTime = ' - ' + val['startDateTime'].time + ' EDT';
+                gameData.eventTime = ' - ' + val['start_date_time'].time + ' EDT';
                 gameArr.push(gameData);
             });
             return gameArr;

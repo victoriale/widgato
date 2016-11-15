@@ -3391,6 +3391,13 @@
              item.team2Losses = "0";
            }
 
+           if (item.team1Score == null || item.team1Score == "null") {
+             item.team1Score = "0";
+           }
+           if (item.team2Score == null || item.team2Score == "null") {
+             item.team2Score = "0";
+           }
+
            if (item.team1Abbreviation != null) {
              item.team1Abbreviation = item.team1Abbreviation.substring(0, 4);
            }
@@ -3539,7 +3546,7 @@
                   gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
                   gameObject.bottomData = 'Final';
-                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/postgame-report/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/postgame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
