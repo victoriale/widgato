@@ -1,4 +1,5 @@
 var query = {};
+var count = 0;
 swp_wdgt = function(){
   A = function(id) {
     var d = document;
@@ -370,6 +371,18 @@ function RenderDynamicSide(protocolToUse){
           var listData = curData.l_data;
           var listName = curData.l_title;
           listName = listName.replace("MLB","Baseball");
+        }
+        if (count == 0 && (listType == "nfl" || listType == "ncaaf")) {
+          var goodIndex = 0;
+          for (n = 0; n < listData.length; n++) {
+            if (listData[n].playerHeadshotUrl.indexOf('no_image') == -1 || listData[n].teamLogo.indexOf('no_image') == -1) {
+              goodIndex = n;
+              break;
+            }
+          }
+          count++;
+          dataCall(goodIndex);
+          return;
         }
         dataLength = listData.length;
         // Convert to lower kabab case for url links

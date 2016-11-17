@@ -390,7 +390,7 @@ function p() {
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
           if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url);
+            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + t.width);
           }
           else { //todo: use placeholder images as fallback for articles instead of no-image image
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
