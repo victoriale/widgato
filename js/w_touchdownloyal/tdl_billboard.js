@@ -104,24 +104,25 @@ tdl_billboard = (function () {
         var subArticles = [];
         $.map(AIData['data'], function (val, index) {
             if (index != 'meta-data') {
-                if (index == 'about-the-teams' || index == 'pregame-report') {
-                    if (index == 'pregame-report') {
+                //Temporary fix until backend repairs the api.
+                if (index != "player-fantasy") {
+                    if (index == 'about-the-teams' || index == 'pregame-report') {
                         val.headline = val.title;
+                        val.content = val.teaser;
+                        val.urlSegment = index;
+                        val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
+                        mainArticles.push(val);
+                    } else {
+                        val.title = val.title;
+                        val.content = val.teaser;
+                        val.urlSegment = index;
+                        val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
+                        var date = moment.unix(val.last_updated).format();
+                        date = moment(date).format("MM/DD/YYYY hh:mma");
+                        val.date = date;
+                        subArticles.push(val);
                     }
-                    val.content = val.teaser;
-                    val.urlSegment = index;
-                    val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
-                } else {
-                    val.title = val.title;
-                    val.content = val.teaser;
-                    val.urlSegment = index;
-                    val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
-                    var date =  moment.unix(val.last_updated).format();
-                    date = moment(date).format("MM/DD/YYYY hh:mma");
-                    val.date = date;
-                    subArticles.push(val);
                 }
-                mainArticles.push(val);
             } else {
                 teamData.push(val);
             }
@@ -134,13 +135,13 @@ tdl_billboard = (function () {
         });
         randomArticles = subArticles;
         var arr1 = {
-            title: mainArticles[0].title,
+            title: mainArticles[0].headline,
             content: mainArticles[0].teaser + '<br>&nbsp; ',
             url: href + scope + '/articles/' + mainArticles[0].urlSegment + '/' + teamData[1].event_id,
             img: mainArticles[0].articleImage
         };
         var arr2 = {
-            title: mainArticles[1].title,
+            title: mainArticles[1].headline,
             content: mainArticles[1].teaser + '<br>&nbsp; ',
             url: href + scope + '/articles/' + mainArticles[1].urlSegment + '/' + teamData[1].event_id,
             img: mainArticles[1].articleImage
