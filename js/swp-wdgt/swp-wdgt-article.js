@@ -1,3 +1,4 @@
+var query = {};
 swp_wdgt = function () {
     A = function (id) {
         var d = document;
@@ -9,6 +10,12 @@ swp_wdgt = function () {
             return d.getElementById(id.slice(1, id.length));
         }
     };
+    var temp = location.search;
+    if(temp !== null && temp !== ""){
+      query = JSON.parse(decodeURIComponent(temp.substr(1)));
+    }
+
+    console.log("query", query);
 
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 
@@ -229,7 +236,6 @@ function RenderArticleSide(protocolToUse) {
             var articleUrl = 'http://www.touchdownloyal.com/' + cat + '/articles/' + articleTypes[articleIndex] + '/' + id;
         }
         var articleText = isMlb ? article.article[0].substr(0, 150) : article.teaser.substr(0, 150);
-        A('.content-text').innerHTML = articleText + '...<a target="_blank" href="' + articleUrl + '"></a>';
         if (isMlb) {
             A('.bar-date').innerHTML = convertDate(game.startDateTime);
         } else {
@@ -237,8 +243,18 @@ function RenderArticleSide(protocolToUse) {
         }
         var author = isMlb ? 'www.homerunloyal.com' : 'www.touchdownloyal.com';
         var authorLink = author;
-        A('.bar-author').innerHTML = '<a target="_blank" id="authorlink" href="' + "http://" + authorLink + '">' + author + '</a>';
-        A('#readbutton').setAttribute('href', articleUrl);
+        console.log(query);
+        if (query.showLink != "false") {
+          A('.content-text').innerHTML = articleText + '...<a target="_blank" href="' + articleUrl + '"></a>';
+          A('.bar-author').innerHTML = '<a target="_blank" id="authorlink" href="' + "http://" + authorLink + '">' + author + '</a>';
+          A('#readbutton').setAttribute('href', articleUrl);
+        }
+        else {
+          A('#readbutton').style.display = "none";
+          document.getElementsByClassName("buttons-nextlist")[0].style.marginLeft = "0px";
+          A('.content-text').innerHTML = articleText + '...<a target="_blank" href="' + articleUrl + '"></a>';
+          A('.bar-author').innerHTML = '<a target="_blank" id="authorlink">' + author + '</a>';
+        }
         A('.buttons-nextlist').onmouseover = function () {
             A('#arrow').style.fill = 'white';
         };
