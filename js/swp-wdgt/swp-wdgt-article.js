@@ -243,7 +243,6 @@ function RenderArticleSide(protocolToUse) {
         }
         var author = isMlb ? 'www.homerunloyal.com' : 'www.touchdownloyal.com';
         var authorLink = author;
-        console.log(query);
         if (query.showLink != "false") {
           A('.content-text').innerHTML = articleText + '...<a target="_blank" href="' + articleUrl + '"></a>';
           A('.bar-author').innerHTML = '<a target="_blank" id="authorlink" href="' + "http://" + authorLink + '">' + author + '</a>';
