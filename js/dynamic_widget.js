@@ -516,7 +516,7 @@ function p() {
         t.setAttribute('src', '');
         if (e.rankType == "team") {
           if (e.teamLogo != null && e.teamLogo != "null" && !e.teamLogo.indexOf('no_image') >= 0) {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
+            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo + "?width=" + t.width);
           }
           else {
             t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
@@ -524,7 +524,7 @@ function p() {
         }
         else {
           if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && !e.playerHeadshotUrl.indexOf('no_image') >= 0) {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl);
+            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl + "?width=" + t.width);
           }
           else {
             t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
@@ -597,7 +597,7 @@ function p() {
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
-        t.setAttribute('src', e.li_img);
+        t.setAttribute('src', e.li_img + "?width=" + t.width);
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
