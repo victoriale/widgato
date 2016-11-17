@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Content Aware Widget</title>
+    <meta charset='utf-8'>
+    <!--ATTENTION css/fontawesome.css is being called locally the cdn link site was not working-->
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="../content-aware/content-aware.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/moment/moment.min.js"></script>
+    <script type="text/javascript" src="../content-aware/content-aware.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all"
+          rel="stylesheet" type="text/css">
+    <base target="_blank">
+</head>
+<body>
+<div class="aiw">
+    <!-- Top of the widget -->
+    <div class="aiw-dropdown noclick">
+        <div class="aiw-top noclick">
+            <div class="ball"></div>
+            <span class="text">
+                <span class="keyword team"></span>
+            </span>
+        </div>
+    </div>
+    <a href="/" id="ai-link-img" target="_blank">
+        <div class="aiw-img"></div>
+    </a>
+    <!-- Content Section    -->
+    <div class="aiw-bdy">
+        <a href="/" id="ai-link" target="_blank">
+            <div class="aiw-title"></div>
+            <div class="aiw-txt"></div>
+            <div class="aiw-link noclick">Read the Story <i class="fa fa-newspaper-o news"></i></div>
+        </a>
+        <div class="aiw-next" onclick="ai_widget.nextPage()">Next Story <i class="fa fa-arrow-right arrow"></i></div>
+    </div>
+</div>
+</body>
+</html>
+
