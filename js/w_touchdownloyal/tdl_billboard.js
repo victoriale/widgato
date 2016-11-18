@@ -78,6 +78,7 @@ tdl_billboard = (function () {
     var imageArr = [];
     var leftRgb;
     var rightRgb;
+    
     function getContent(eventId) {
         var locApiUrl = APIUrl;
         $.ajax({
@@ -104,24 +105,21 @@ tdl_billboard = (function () {
         var subArticles = [];
         $.map(AIData['data'], function (val, index) {
             if (index != 'meta-data') {
-                //Temporary fix until backend repairs the api.
-                if (index != "player-fantasy") {
-                    if (index == 'about-the-teams' || index == 'pregame-report') {
-                        val.headline = val.title;
-                        val.content = val.teaser;
-                        val.urlSegment = index;
-                        val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
-                        mainArticles.push(val);
-                    } else {
-                        val.title = val.title;
-                        val.content = val.teaser;
-                        val.urlSegment = index;
-                        val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
-                        var date = moment.unix(val.last_updated).format();
-                        date = moment(date).format("MM/DD/YYYY hh:mma");
-                        val.date = date;
-                        subArticles.push(val);
-                    }
+                if (index == 'about-the-teams' || index == 'pregame-report') {
+                    val.headline = val.title;
+                    val.content = val.teaser;
+                    val.urlSegment = index;
+                    val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
+                    mainArticles.push(val);
+                } else {
+                    val.title = val.title;
+                    val.content = val.teaser;
+                    val.urlSegment = index;
+                    val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
+                    var date = moment.unix(val.last_updated).format();
+                    date = moment(date).format("MM/DD/YYYY hh:mma");
+                    val.date = date;
+                    subArticles.push(val);
                 }
             } else {
                 teamData.push(val);
@@ -293,7 +291,7 @@ tdl_billboard = (function () {
             subContainerSmall.appendChild(subDateSmall);
             subContainerSmall.appendChild(subHrSmall);
             var id = randomArticles[i].urlSegment != "player-fantasy" ? teamData[1].event_id : randomArticles[i].article_id;
-            $(subContainer).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + id+ '" />'));
+            $(subContainer).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + id + '" />'));
             $(subContainerSmall).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + id + '" />'));
             subTitleSmall.innerHTML = randomArticles[i].title;
             subContainer.appendChild(subHr);
