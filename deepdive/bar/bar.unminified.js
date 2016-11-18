@@ -103,7 +103,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate;
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate + "/10/1";
       }
     },
     //NCAAF boxscores
@@ -111,7 +111,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate;
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate + "/10/1";
       }
     },
     //NCAAF teams
