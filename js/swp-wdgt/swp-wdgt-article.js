@@ -15,8 +15,6 @@ swp_wdgt = function () {
       query = JSON.parse(decodeURIComponent(temp.substr(1)));
     }
 
-    console.log("query", query);
-
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 
     RenderArticleSide(protocolToUse);
