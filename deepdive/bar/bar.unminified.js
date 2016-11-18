@@ -3412,7 +3412,7 @@
            }
 
            //If game is today or live, push to return array
-           if(gameIsToday){
+           if(true){
              switch(item.eventStatus){
                case 'pre-event':
                 if(item.liveStatus === false){
@@ -3633,7 +3633,7 @@
            }
 
            //If game is today or live, push to return array
-           if(gameIsToday && count < 10){
+           if(true && count < 10){
 
              switch(item.gameInfo.eventStatus){
                case 'pre-event':
@@ -3844,7 +3844,7 @@
          gameIsToday = true;
        }
 
-       if(gameIsToday && count < 10){
+       if(true && count < 10){
         //Game is Today
         if(item.liveStatus === 'N' && item.eventStartTime > now){
           //Pre Game
