@@ -29,7 +29,7 @@ fuse:{hasLoaded:false,isLoading:false,url:function url(){return resourceURL+'/li
 searchTeams:{hasLoaded:false,isLoading:false,url:function url(){return resourceURL+'/lib/search_teams_middlelayer.php';}},
 boxscoresNBA:{hasLoaded:false,isLoading:false,url:function url(todayDate){return protocol+'://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=trimmed_box_scores&option=trimmed_box_scores&count=10&date='+todayDate;}},
 boxscoresNCAAM:{hasLoaded:false,isLoading:false,url:function url(todayDate){return protocol+'://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=trimmed_box_scores&option=trimmed_box_scores&count=10&date='+todayDate;}},
-boxscoresMLB:{hasLoaded:false,isLoading:false,url:function url(todayDate){return protocol+'://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/'+todayDate;}},
+boxscoresMLB:{hasLoaded:false,isLoading:false,url:function url(todayDate){return protocol+'://dev-homerunloyal-api.synapsys.us/league/trimmedBoxScores/'+todayDate + "/10";}},
 boxscoresNFL:{hasLoaded:false,isLoading:false,url:function url(todayDate){return protocol+'://dev-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/'+todayDate+ "/10/1";}},
 boxscoresNCAAF:{hasLoaded:false,isLoading:false,url:function url(todayDate){return protocol+'://dev-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/'+todayDate+ "/10/1";}},
 teamsNCAAF:{hasLoaded:false,isLoading:false,url:function url(stateAbbrev){return protocol+'://prod-touchdownloyal-api.synapsys.us/landingPage/fbs/'+stateAbbrev;}},
