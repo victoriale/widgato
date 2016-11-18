@@ -43,7 +43,8 @@ function getCategoryMetadata (category) {
       displayName: "Basketball",
       domain: "www.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
-      usesPartnerSubdomain: false,
+      usesPartnerSubdomain: true,
+      partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
       subCategory: "nba"
@@ -52,7 +53,8 @@ function getCategoryMetadata (category) {
       displayName: "Basketball",
       domain: "www.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
-      usesPartnerSubdomain: false,
+      usesPartnerSubdomain: true,
+      partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
       subCategory: "ncaam"
