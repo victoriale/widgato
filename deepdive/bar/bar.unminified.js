@@ -3475,7 +3475,7 @@
                     awayScore: item.team2Score,
                     timestamp: item.eventStartTime,
                     datetime: convertToEastern(item.startDateTimestamp, offset, tzAbbrev),
-                    eventStatus: item.gameInfo.eventStatus,
+                    eventStatus: item.eventStatus,
                     eventId: item.gameInfo.eventId
                   };
 
