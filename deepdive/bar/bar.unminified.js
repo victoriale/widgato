@@ -3475,8 +3475,8 @@
                     awayScore: item.team2Score,
                     timestamp: item.eventStartTime,
                     datetime: convertToEastern(item.startDateTimestamp, offset, tzAbbrev),
-                    eventStatus: item.gameInfo.eventStatus,
-                    eventId: item.gameInfo.eventId
+                    eventStatus: item.eventStatus,
+                    eventId: item.eventId
                   };
 
                   gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
