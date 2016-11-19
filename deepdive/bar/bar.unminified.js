@@ -3476,7 +3476,7 @@
                     timestamp: item.eventStartTime,
                     datetime: convertToEastern(item.startDateTimestamp, offset, tzAbbrev),
                     eventStatus: item.eventStatus,
-                    eventId: item.gameInfo.eventId
+                    eventId: item.eventId
                   };
 
                   gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
