@@ -44,6 +44,7 @@ function getCategoryMetadata (category) {
       domain: "www.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
+      partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
       subCategory: "nba"
@@ -53,6 +54,7 @@ function getCategoryMetadata (category) {
       domain: "www.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
+      partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
       subCategory: "ncaam"
@@ -427,6 +429,7 @@ dynamic_widget = function() {
         }
         else {
           a += "/" + l.category + "/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + r.data.listInfo.ordering + "/" + "10" + "/" + "1";
+          a = a.replace(/&/g, "%26");
         }
         if ($('list-link') && l.showLink != 'false') {
             $('list-link').href = a;
@@ -463,6 +466,7 @@ function p() {
 
             a = SpecialDomain + "/" +l.category+ v_link;
           }
+          a = a.replace(/&/g, "%26");
           if (l.showLink != 'false') {
             $('mainurl').href = a;
             $('line1').href = a;
@@ -482,6 +486,7 @@ function p() {
 
             a = SpecialDomain + "/" + l.category+v_link;
           }
+          a = a.replace(/&/g, "%26");
           if (l.showLink != 'false') {
             $('mainurl').href = a;
             $('line1').href = a;
@@ -513,7 +518,7 @@ function p() {
         t.setAttribute('src', '');
         if (e.rankType == "team") {
           if (e.teamLogo != null && e.teamLogo != "null" && !e.teamLogo.indexOf('no_image') >= 0) {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
+            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo + "?width=" + (t.width * window.devicePixelRatio));
           }
           else {
             t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
@@ -521,7 +526,7 @@ function p() {
         }
         else {
           if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && !e.playerHeadshotUrl.indexOf('no_image') >= 0) {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl);
+            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl + "?width=" + (t.width * window.devicePixelRatio));
           }
           else {
             t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
@@ -594,7 +599,7 @@ function p() {
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
-        t.setAttribute('src', e.li_img);
+        t.setAttribute('src', e.li_img + "?width=" + (t.width * window.devicePixelRatio));
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);

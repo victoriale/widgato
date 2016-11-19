@@ -79,7 +79,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=trimmed_box_scores&option=trimmed_box_scores&limit=20&date=' + todayDate;
+        return protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=trimmed_box_scores&option=trimmed_box_scores&count=10&date=' + todayDate;
       }
     },
     //ncaam Boxscores
@@ -87,7 +87,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=trimmed_box_scores&option=trimmed_box_scores&limit=20&date=' + todayDate;
+        return protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=trimmed_box_scores&option=trimmed_box_scores&count=10&date=' + todayDate;
       }
     },
     //MLB Boxscores
@@ -95,7 +95,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
+        return protocol + '://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate + "/10";
       }
     },
     //NFL boxscores
@@ -103,7 +103,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate;
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate + "/10/1";
       }
     },
     //NCAAF boxscores
@@ -111,7 +111,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate;
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate + "/10/1";
       }
     },
     //NCAAF teams
@@ -3366,12 +3366,11 @@
        if(typeof todayDate !== 'undefined' && todayDate !== null){
          var count = 0;
          for(var index in data){
-           count++;
            var item = data[index];
            //Determine if game is today (Also allow games that are live, but the day has rolled over past midnight)
            var gameIsToday = false;
            var timestampDate = new Date(item.startDateTimestamp + offset * 3600 * 1000).getUTCDate();
-           if(timestampDate == todayDate || timestampDate == (todayDate + 1)){
+           if(timestampDate == todayDate){
              gameIsToday = true;
            }else if(item.liveStatus){
              gameIsToday = true;
@@ -3413,7 +3412,7 @@
            }
 
            //If game is today or live, push to return array
-           if(gameIsToday && count < 10){
+           if(true){
              switch(item.eventStatus){
                case 'pre-event':
                 if(item.liveStatus === false){
@@ -3634,7 +3633,7 @@
            }
 
            //If game is today or live, push to return array
-           if(gameIsToday && count < 10){
+           if(true){
 
              switch(item.gameInfo.eventStatus){
                case 'pre-event':
@@ -3845,7 +3844,7 @@
          gameIsToday = true;
        }
 
-       if(gameIsToday && count < 10){
+       if(true){
         //Game is Today
         if(item.liveStatus === 'N' && item.eventStartTime > now){
           //Pre Game
