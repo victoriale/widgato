@@ -62,7 +62,7 @@ function getCategoryMetadata (category) {
     mlb: {
       displayName: "Baseball",
       domain: "www.homerunloyal.com",
-      partnerDomain: "www.myhomereunzone.com",
+      partnerDomain: "www.myhomerunzone.com",
       usesPartnerSubdomain: true,
       partnerSubdomain: "baseball",
       hasAiArticles: true,
