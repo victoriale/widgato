@@ -429,7 +429,6 @@ dynamic_widget = function() {
         }
         else {
           a += "/" + l.category + "/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + r.data.listInfo.ordering + "/" + "10" + "/" + "1";
-          a = a.replace(/&/g, "%26");
         }
         if ($('list-link') && l.showLink != 'false') {
             $('list-link').href = a;
@@ -462,11 +461,10 @@ function p() {
             a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" +l.category+ v_link : "http://" + currentConfig.partnerDomain + "/" + l.dom + "/" +l.category+ v_link;
           }
           else {
-            v_link = "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.teamId;
+            v_link = "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId;
 
             a = SpecialDomain + "/" +l.category+ v_link;
           }
-          a = a.replace(/&/g, "%26");
           if (l.showLink != 'false') {
             $('mainurl').href = a;
             $('line1').href = a;
@@ -482,11 +480,10 @@ function p() {
             a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" + l.category + v_link : "http://" + currentConfig.partnerDomain + "/" + l.dom + "/" + l.category + v_link;
           }
           else {
-            v_link = "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
+            v_link = "/player/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + escape(e.playerFirstName.replace(/ /g, "-").toLowerCase()) + '-' + escape(e.playerLastName.replace(/ /g, "-").toLowerCase()) + "/" + e.playerId;
 
             a = SpecialDomain + "/" + l.category+v_link;
           }
-          a = a.replace(/&/g, "%26");
           if (l.showLink != 'false') {
             $('mainurl').href = a;
             $('line1').href = a;
