@@ -1,6 +1,6 @@
 billboard = (function () {
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-    var category, keyword, sub_category;
+    var category, keyword, league;
     var verticalColor, verticalIcon, verticalName;
     var temp = location.search;
     var query = {};
@@ -8,10 +8,10 @@ billboard = (function () {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         keyword = query.keyword;
         category = query.category;
-        sub_category = query.sub_category;
+        league = query.league;
     }
 
-    var verticalType = sub_category == "" ? category : sub_category;
+    var verticalType = league == "" ? category : league;
     verticalType = verticalType != "" ? verticalType : keyword;
     //adjust api url for testing or live
     var APIUrl = protocolToUse + 'dev-tcxmedia-api.synapsys.us/articles?keyword[]=' + verticalType + '&count=15&metaDataOnly=1';
