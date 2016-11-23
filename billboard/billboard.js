@@ -12,9 +12,13 @@ billboard = (function () {
     }
 
     var verticalType = league == "" ? category : league;
-    verticalType = verticalType != "" ? verticalType : keyword;
+    if (league != null && league != "") {
+      league = "&subCategory=" + league;
+    }
+
+    //verticalType = verticalType != "" ? verticalType : keyword;
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'dev-tcxmedia-api.synapsys.us/articles?keyword[]=' + verticalType + '&count=15&metaDataOnly=1';
+    var APIUrl = protocolToUse + 'dev-tcxmedia-api.synapsys.us/articles?category=' + category + league + '&count=15&metaDataOnly=1';
     var randomArticles = [];
     var imageArr = [];
 
