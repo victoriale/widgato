@@ -1362,7 +1362,7 @@
     ];
 
     var buildLink = function(data){
-      if(params.baseballSubdomain !== null){
+      if(params.baseballSubdomain == "baseball"){
         return homerunDomain + '/team/' + data.fullName + '/' + data.teamId;
       }else{
         if (houseSite == true) {
@@ -1702,7 +1702,7 @@
     ];
 
     var buildLink = function(data){
-      if(params.footballSubdomain !== null){
+      if(params.footballSubdomain == "football"){
         return touchdownDomain + '/nfl/team/' + data.fullName + '/' + data.teamId;
       }else{
         if (houseSite == true) {
@@ -2451,7 +2451,7 @@
 
       switch(data.Scope){
         case 'MLB':
-          if(params.baseballSubdomain !== null){
+          if(params.baseballSubdomain == "baseball"){
             link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2463,7 +2463,7 @@
           }
         break;
         case 'NFL':
-          if(params.footballSubdomain !== null){
+          if(params.footballSubdomain == "football"){
             link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2475,7 +2475,7 @@
           }
         break;
         case 'NCAAF':
-          if(params.footballSubdomain !== null){
+          if(params.footballSubdomain == "football"){
             link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2777,7 +2777,7 @@
       switch(data.Scope){
         case 'MLB':
           iconClass = 'ddb-icon-baseball';
-          if(params.baseballSubdomain !== null){
+          if(params.baseballSubdomain == "baseball"){
             link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2790,7 +2790,7 @@
         break;
         case 'NFL':
           iconClass = 'ddb-icon-football';
-          if(params.footballSubdomain !== null){
+          if(params.footballSubdomain == "football"){
             link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2803,7 +2803,7 @@
         break;
         case 'NCAAF':
           iconClass = 'ddb-icon-football';
-          if(params.footballSubdomain !== null){
+          if(params.footballSubdomain == "football"){
             link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -3276,7 +3276,7 @@
        full_name = full_name.replace(/[^\w\s]/gi, '');
        full_name = full_name.replace(/\s+/g, '-').toLowerCase();
 
-       if(params.footballSubdomain !== null){
+       if(params.footballSubdomain == "football"){
          return touchdownDomain + '/ncaaf/team/' + full_name + '/' + teamId;
        }else{
          if (houseSite == true) {
