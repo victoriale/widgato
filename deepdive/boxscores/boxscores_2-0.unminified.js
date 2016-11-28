@@ -563,7 +563,7 @@
       .boxscores-e-bar{
         font-weight: 300;
         width: 100%;
-        min-width: 640px;
+        min-width: 320px;
         height: 50px;
         line-height: 50px;
         background-color:` + barColor + `;
