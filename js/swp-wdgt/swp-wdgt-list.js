@@ -549,6 +549,9 @@ function buildListLink(cat, remn, dom, widget_data){
   currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
 
   dom == "lasvegasnow.com"  ? change_url = true : change_url = false;
+  if (dom == null || dom == "") {
+    dom = currentDomain;
+  }
   change_url ? new_url = "finance.lasvegasnow.com" : "";
   doStep = true;
   switch ( cat ) {
