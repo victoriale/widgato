@@ -257,9 +257,9 @@
   }
   else {
     if (params.baseballSubdomain || params.basketballSubdomain || params.footballSubdomain) {
-      if (params.baseballSubdomain == null || params.baseballSubdomain == "") {params.baseballSubdomain == "baseball"}
-      if (params.basketballSubdomain == null || params.basketballSubdomain == "") {params.basketballSubdomain == "basketball"}
-      if (params.footballSubdomain == null || params.footballSubdomain == "") {params.footballSubdomain == "football"}
+      params.baseballSubdomain == "baseball";
+      params.basketballSubdomain == "basketball";
+      params.footballSubdomain == "football";
       var houseSite = false;
       var homerunDomain = protocol + '://' + params.baseballSubdomain + '.' + domain;
       var hoopsDomain = protocol + '://' + params.basketballSubdomain + '.' + domain;
