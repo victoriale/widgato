@@ -384,7 +384,7 @@ dynamic_widget = function() {
                 var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/' + currentConfig.subCategory + '/w-list';
                 }
                 else {
-                  a = SpecialDomain + '/w-list';
+                  a = SpecialDomain + '/' + currentConfig.subCategory + '/w-list';
                 }
                 break;
             case "mlb":
