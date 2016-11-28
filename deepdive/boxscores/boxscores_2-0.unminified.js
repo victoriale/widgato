@@ -585,7 +585,7 @@
           line-height: 15px;
         }
         .boxscores-e-title.nfl{
-          width: 100px;
+          width: 97px;
         }
         .boxscores-e-title.ncaaf{
           width: 120px;
@@ -622,6 +622,11 @@
         border-right: 1px solid` + gameBorderColor + `;
         box-sizing: border-box;
         overflow: hidden;
+      }
+      @media (max-width: 768px) {
+        .boxscores-e-game {
+          width: 151px;
+        }
       }
       .boxscores-e-game:first-child{
         border-left: 1px solid` + gameBorderColor + `;
@@ -700,11 +705,6 @@
         border-left: 1px solid` + gameBorderColor + `;
         box-shadow: -20px 0px 20px 0px #272727;
       }
-      @media (max-width: 992px) {
-        .boxscores-e-nav{
-          padding: 0 10px;
-        }
-      }
       .boxscores-e-nav-button{
         width: 30px;
         height: 30px;
@@ -718,6 +718,20 @@
         font-size: 25px;
         padding: 0;
         line-height: normal;
+      }
+      @media (max-width: 992px) {
+        .boxscores-e-nav{
+          padding: 0 10px;
+        }
+      }
+      @media (max-width: 768px) {
+        .boxscores-e-nav{
+          padding: 0 5px;
+        }
+        .boxscores-e-nav-button{
+          width: 24px;
+          height: 24px;
+        }
       }
       .boxscores-e-nav-button>i{
         vertical-align: middle;
