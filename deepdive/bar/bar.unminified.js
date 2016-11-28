@@ -261,9 +261,9 @@
       params.basketballSubdomain == "basketball";
       params.footballSubdomain == "football";
       var houseSite = false;
-      var homerunDomain = protocol + '://' + params.baseballSubdomain + '.' + domain;
-      var hoopsDomain = protocol + '://' + params.basketballSubdomain + '.' + domain;
-      var touchdownDomain = protocol + '://' + params.footballSubdomain + '.' + domain;
+      var homerunDomain = protocol + '://' + "baseball" + '.' + domain;
+      var hoopsDomain = protocol + '://' + "basketball" + '.' + domain;
+      var touchdownDomain = protocol + '://' + "football" + '.' + domain;
     }
     else {
       var houseSite = false;
