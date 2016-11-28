@@ -1025,7 +1025,12 @@
         return hoopsDomain + '/NBA/team/' + data.fullName + '/' + data.teamId;
       }
       else {
-        return hoopsDomain + '/NBA/t/' + data.fullName + '/' + data.teamId;
+        if (params.basketballSubdomain == "basketball") {
+          return hoopsDomain + '/NBA/team/' + data.fullName + '/' + data.teamId;
+        }
+        else {
+          return hoopsDomain + '/NBA/t/' + data.fullName + '/' + data.teamId;
+        }
       }
     }
 
@@ -2486,7 +2491,12 @@
             link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
           }
           else {
-            link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (params.basketballSubdomain == "basketball") {
+              link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         case 'NCAAB':
@@ -2494,7 +2504,12 @@
             link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
           }
           else {
-            link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (params.basketballSubdomain == "basketball") {
+              link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         default:
@@ -2805,7 +2820,12 @@
             link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
           }
           else {
-            link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (params.basketballSubdomain == "basketball") {
+              link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         case 'NCAAB':
@@ -2814,7 +2834,12 @@
             link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
           }
           else {
-            link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (params.basketballSubdomain == "basketball") {
+              link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         default:
@@ -3182,7 +3207,12 @@
          return hoopsDomain + '/NCAA/team/' + full_name + '/' + teamId;
        }
        else {
-         return hoopsDomain + '/NCAA/t/' + full_name + '/' + teamId;
+         if (params.basketballSubdomain == "basketball") {
+           return hoopsDomain + '/NCAA/team/' + full_name + '/' + teamId;
+         }
+         else {
+           return hoopsDomain + '/NCAA/t/' + full_name + '/' + teamId;
+         }
        }
 
      }
