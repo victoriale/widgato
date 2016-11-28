@@ -257,9 +257,9 @@
   }
   else {
     if (params.baseballSubdomain || params.basketballSubdomain || params.footballSubdomain) {
-      params.baseballSubdomain == "baseball";
-      params.basketballSubdomain == "basketball";
-      params.footballSubdomain == "football";
+      params.baseballSubdomain = "baseball";
+      params.basketballSubdomain = "basketball";
+      params.footballSubdomain = "football";
       var houseSite = false;
       var homerunDomain = protocol + '://' + "baseball" + '.' + domain;
       var hoopsDomain = protocol + '://' + "basketball" + '.' + domain;
