@@ -43,7 +43,7 @@ function getCategoryMetadata (category) {
       displayName: "Basketball",
       domain: "www.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
-      usesPartnerSubdomain: false,
+      usesPartnerSubdomain: true,
       partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
@@ -375,7 +375,17 @@ dynamic_widget = function() {
         switch (l.category) {
             case 'nba':
             case 'college_basketball':
+                for (i = 0; i <= specialDomains.length; i++) {
+                  if (currentDomain == specialDomains[i]) {
+                    SpecialDomain = "http://" + currentConfig.partnerSubdomain + "." + specialDomains[i];
+                  }
+                }
+                if (SpecialDomain == "") {
                 var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/' + currentConfig.subCategory + '/w-list';
+                }
+                else {
+                  a = SpecialDomain + '/w-list';
+                }
                 break;
             case "mlb":
                 for (i = 0; i <= specialDomains.length; i++) {
