@@ -42,7 +42,7 @@ sup {
 }
 
 .billboard {
-    max-width: 992px;
+    max-width: 1279px;
     min-width: 320px;
     height: 450px;
     position: absolute;

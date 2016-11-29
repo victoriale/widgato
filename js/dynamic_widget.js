@@ -43,7 +43,8 @@ function getCategoryMetadata (category) {
       displayName: "Basketball",
       domain: "www.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
-      usesPartnerSubdomain: false,
+      usesPartnerSubdomain: true,
+      partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
       subCategory: "nba"
@@ -53,6 +54,7 @@ function getCategoryMetadata (category) {
       domain: "www.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
+      partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
       subCategory: "ncaam"
@@ -60,7 +62,7 @@ function getCategoryMetadata (category) {
     mlb: {
       displayName: "Baseball",
       domain: "www.homerunloyal.com",
-      partnerDomain: "www.myhomereunzone.com",
+      partnerDomain: "www.myhomerunzone.com",
       usesPartnerSubdomain: true,
       partnerSubdomain: "baseball",
       hasAiArticles: true,
@@ -145,6 +147,7 @@ var season;
 var SpecialDomain = "";
 var currentDomain = "";
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
+var rounds = 0;
 
 //todo: use this for formatting all links
 function generateListLink (scope, destinationId, subject, season, listType, ordering, remn) {
@@ -195,13 +198,13 @@ dynamic_widget = function() {
     var o = '';
     function c(e) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
-            e()
+            e();
         } else if (d.addEventListener) {
             d.addEventListener('DOMContentLoaded', e)
         } else if (d.attachEvent) {
             d.attachEvent('onreadystatechange', function() {
                 if (d.readyState == 'complete') {
-                    e()
+                    e();
                 }
             })
         }
@@ -372,7 +375,17 @@ dynamic_widget = function() {
         switch (l.category) {
             case 'nba':
             case 'college_basketball':
+                for (i = 0; i <= specialDomains.length; i++) {
+                  if (currentDomain == specialDomains[i]) {
+                    SpecialDomain = "http://" + currentConfig.partnerSubdomain + "." + specialDomains[i];
+                  }
+                }
+                if (SpecialDomain == "") {
                 var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/' + currentConfig.subCategory + '/w-list';
+                }
+                else {
+                  a = SpecialDomain + '/' + currentConfig.subCategory + '/w-list';
+                }
                 break;
             case "mlb":
                 for (i = 0; i <= specialDomains.length; i++) {
@@ -441,6 +454,10 @@ dynamic_widget = function() {
         p()
       }
 function p() {
+  if (rounds == 0) {
+    rounds++;
+    checkBlankImages();
+  }
       if (currentConfig.category == "football") {
         var e = r.data.listData[i];
         var v_link = '';
@@ -454,7 +471,7 @@ function p() {
             a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" +l.category+ v_link : "http://" + currentConfig.partnerDomain + "/" + l.dom + "/" +l.category+ v_link;
           }
           else {
-            v_link = "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.teamId;
+            v_link = "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId;
 
             a = SpecialDomain + "/" +l.category+ v_link;
           }
@@ -473,7 +490,7 @@ function p() {
             a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" + l.category + v_link : "http://" + currentConfig.partnerDomain + "/" + l.dom + "/" + l.category + v_link;
           }
           else {
-            v_link = "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
+            v_link = "/player/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + escape(e.playerFirstName.replace(/ /g, "-").toLowerCase()) + '-' + escape(e.playerLastName.replace(/ /g, "-").toLowerCase()) + "/" + e.playerId;
 
             a = SpecialDomain + "/" + l.category+v_link;
           }
@@ -508,7 +525,7 @@ function p() {
         t.setAttribute('src', '');
         if (e.rankType == "team") {
           if (e.teamLogo != null && e.teamLogo != "null" && !e.teamLogo.indexOf('no_image') >= 0) {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo);
+            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo + "?width=" + (t.width * window.devicePixelRatio));
           }
           else {
             t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
@@ -516,7 +533,7 @@ function p() {
         }
         else {
           if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && !e.playerHeadshotUrl.indexOf('no_image') >= 0) {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl);
+            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl + "?width=" + (t.width * window.devicePixelRatio));
           }
           else {
             t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
@@ -589,7 +606,7 @@ function p() {
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
-        t.setAttribute('src', e.li_img);
+        t.setAttribute('src', e.li_img + "?width=" + (t.width * window.devicePixelRatio));
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
@@ -682,6 +699,42 @@ function p() {
                 eventAction: dynamic_widget.get_title()
             })
         }
+    }
+
+    function checkBlankImages() {
+      var goodNumber = 0;
+      switch (l.category) {
+        case "nfl":
+        case "ncaaf":
+          if (r.data.listData[i].rankType == "player") {
+            for (n = 0; n < r.data.listData.length && goodNumber == 0; n++) {
+              if (r.data.listData[n].playerHeadshotUrl != null && r.data.listData[n].playerHeadshotUrl.indexOf("no-image") == -1) {
+                goodNumber = n;
+                break;
+              }
+            }
+          }
+          else {
+            for (n = 0; n < r.data.listData.length && goodNumber == 0; n++) {
+              if (r.data.listData[n].teamLogo != null && r.data.listData[n].teamLogo.indexOf("no-image") == -1) {
+                goodNumber = n;
+                break;
+              }
+            }
+          }
+          break;
+        case "mlb":
+        case "nba":
+        case "college_basketball":
+            for (n = 0; n < r.l_data.length && goodNumber == 0; n++) {
+              if (r.l_data[i].li_img != null && r.l_data[i].li_img.indexOf("no-image") == -1) {
+                goodNumber = n;
+                break;
+              }
+            }
+          break;
+      }
+        w(goodNumber);
     }
 
     function f() {

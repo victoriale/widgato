@@ -72,12 +72,13 @@ tdl_billboard = (function () {
 
     var teamId = query.team;
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'dev-touchdownloyal-ai.synapsys.us/billboard?scope=' + scope + '&team=' + teamId;
+    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/billboard?scope=' + scope + '&team=' + teamId;
     var randomArticles = [];
     var teamData = [];
     var imageArr = [];
     var leftRgb;
     var rightRgb;
+    
     function getContent(eventId) {
         var locApiUrl = APIUrl;
         $.ajax({
@@ -105,23 +106,21 @@ tdl_billboard = (function () {
         $.map(AIData['data'], function (val, index) {
             if (index != 'meta-data') {
                 if (index == 'about-the-teams' || index == 'pregame-report') {
-                    if (index == 'pregame-report') {
-                        val.headline = val.title;
-                    }
+                    val.headline = val.title;
                     val.content = val.teaser;
                     val.urlSegment = index;
                     val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
+                    mainArticles.push(val);
                 } else {
                     val.title = val.title;
                     val.content = val.teaser;
                     val.urlSegment = index;
                     val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
-                    var date =  moment.unix(val.last_updated).format();
+                    var date = moment.unix(val.last_updated).format();
                     date = moment(date).format("MM/DD/YYYY hh:mma");
                     val.date = date;
                     subArticles.push(val);
                 }
-                mainArticles.push(val);
             } else {
                 teamData.push(val);
             }
@@ -134,13 +133,13 @@ tdl_billboard = (function () {
         });
         randomArticles = subArticles;
         var arr1 = {
-            title: mainArticles[0].title,
+            title: mainArticles[0].headline,
             content: mainArticles[0].teaser + '<br>&nbsp; ',
             url: href + scope + '/articles/' + mainArticles[0].urlSegment + '/' + teamData[1].event_id,
             img: mainArticles[0].articleImage
         };
         var arr2 = {
-            title: mainArticles[1].title,
+            title: mainArticles[1].headline,
             content: mainArticles[1].teaser + '<br>&nbsp; ',
             url: href + scope + '/articles/' + mainArticles[1].urlSegment + '/' + teamData[1].event_id,
             img: mainArticles[1].articleImage
@@ -292,7 +291,7 @@ tdl_billboard = (function () {
             subContainerSmall.appendChild(subDateSmall);
             subContainerSmall.appendChild(subHrSmall);
             var id = randomArticles[i].urlSegment != "player-fantasy" ? teamData[1].event_id : randomArticles[i].article_id;
-            $(subContainer).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + id+ '" />'));
+            $(subContainer).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + id + '" />'));
             $(subContainerSmall).wrapInner($('<a href="' + href + scope + '/articles/' + randomArticles[i].urlSegment + "/" + id + '" />'));
             subTitleSmall.innerHTML = randomArticles[i].title;
             subContainer.appendChild(subHr);

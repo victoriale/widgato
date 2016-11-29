@@ -1,18 +1,18 @@
 (function(){
   var protocol = (location.protocol) === 'https:' ? 'https' : 'http'; //Protocol of the domain the bar exist on
   var resourceURL = protocol + '://w1.synapsys.us/widgets/deepdive';
+  var fileName = '/bar/bar.js';
   // var resourceURL = protocol + '://localhost:8000/deepdive';
-  var embedURL = resourceURL + '/bar/bar.min.js'; //URL of script embed. This is used as a fallback if document.currentScript is not available
+  var embedURL = resourceURL + fileName; //URL of script embed. This is used as a fallback if document.currentScript is not available
 
   //Grab current script element to know where to inject bar
-  var currentScript = document.currentScript || (function(){
       var scripts = document.getElementsByTagName("script");
       for (var i = scripts.length - 1; i >= 0; i--) {
-         if (scripts[i].src.indexOf(embedURL) != -1) {
-            return scripts[i];
+         if (scripts[i].src.indexOf(fileName) != -1) {
+            var currentScript =  scripts[i];
          }
       }
-   })();
+
 
   /**
    * Get query parameters for script tag
@@ -79,7 +79,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=tcx&option=tcx_box_scores&date=' + todayDate;
+        return protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=trimmed_box_scores&option=trimmed_box_scores&count=10&date=' + todayDate;
       }
     },
     //ncaam Boxscores
@@ -87,7 +87,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://dev-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaam&action=tcx&option=tcx_box_scores&date=' + todayDate;
+        return protocol + '://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=ncaa&action=trimmed_box_scores&option=trimmed_box_scores&count=10&date=' + todayDate;
       }
     },
     //MLB Boxscores
@@ -95,7 +95,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate;
+        return protocol + '://prod-homerunloyal-api.synapsys.us/league/trimmedBoxScores/' + todayDate + "/10";
       }
     },
     //NFL boxscores
@@ -103,7 +103,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate;
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/nfl/' + todayDate + "/10/1";
       }
     },
     //NCAAF boxscores
@@ -111,7 +111,7 @@
       hasLoaded: false,
       isLoading: false,
       url: function(todayDate){
-        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate;
+        return protocol + '://prod-touchdownloyal-api.synapsys.us/trimmedBoxScores/league/fbs/' + todayDate + "/10/1";
       }
     },
     //NCAAF teams
@@ -241,13 +241,13 @@
   //Grab second level domain
   domain = parts.slice(-2).join('.');
 
-  if (domain.includes('homerunloyal') || domain.includes('hoopsloyal') || domain.includes('touchdownloyal')) {
+  if (domain.indexOf('homerunloyal') !== -1 || domain.indexOf('hoopsloyal') !== -1|| domain.indexOf('touchdownloyal') !== -1) {
     var houseSite = true;
     var homerunDomain = "http://homerunloyal.com";
     var hoopsDomain = "http://hoopsloyal.com";
     var touchdownDomain = "http://touchdownloyal.com";
   }
-  else if (domain.includes('homerunzone') || domain.includes('hoopszone') || domain.includes('touchdownzone')) {
+  else if (domain.indexOf('homerunzone') !== -1|| domain.indexOf('hoopszone') !== -1|| domain.indexOf('touchdownzone') !== -1) {
     var houseSite = false;
     var partnerName = path.split('/').slice(1);
     partnerName = partnerName[0];
@@ -257,13 +257,13 @@
   }
   else {
     if (params.baseballSubdomain || params.basketballSubdomain || params.footballSubdomain) {
-      if (params.baseballSubdomain == null) {params.baseballSubdomain == "baseball"}
-      if (params.basketballSubdomain == null) {params.basketballSubdomain == "basketball"}
-      if (params.footballSubdomain == null) {params.footballSubdomain == "football"}
+      params.baseballSubdomain = "baseball";
+      params.basketballSubdomain = "basketball";
+      params.footballSubdomain = "football";
       var houseSite = false;
-      var homerunDomain = protocol + '://' + params.baseballSubdomain + '.' + domain;
-      var hoopsDomain = protocol + '://' + params.basketballSubdomain + '.' + domain;
-      var touchdownDomain = protocol + '://' + params.footballSubdomain + '.' + domain;
+      var homerunDomain = protocol + '://' + "baseball" + '.' + domain;
+      var hoopsDomain = protocol + '://' + "basketball" + '.' + domain;
+      var touchdownDomain = protocol + '://' + "football" + '.' + domain;
     }
     else {
       var houseSite = false;
@@ -342,7 +342,10 @@
       for (i = 0; i < ordering.length; i++) {
         finalOrder += dropdowns[ordering[i]];
         left = left + 68 + ((ordering[i].length - 3)* 8);
-        document.styleSheets[0].addRule('.ddb-menu-nav-dynamic#ddb-dynamic-'+ordering[i]+':after','left: '+left+'px;');
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = '.ddb-menu-nav-dynamic#ddb-dynamic-'+ordering[i]+':after {left: '+left+'px;}';
+        document.getElementsByTagName('head')[0].appendChild(style);
         if (ordering[i].length - 3 > 0) {
           left = left + ((ordering[i].length - 3)* 8);
         }
@@ -353,7 +356,10 @@
       for (var item in dropdowns) {
         finalOrder += dropdowns[item];
         left = left + 68 + ((item.length - 3)* 8);
-        document.styleSheets[0].addRule('.ddb-menu-nav-dynamic#ddb-dynamic-'+item+':after','left: '+left+'px;');
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = '.ddb-menu-nav-dynamic#ddb-dynamic-'+item+':after {left: '+left+'px;}';
+        document.getElementsByTagName('head')[0].appendChild(style);
         if (item.length - 3 > 0) {
           left = left + ((item.length - 3)* 8);
         }
@@ -1019,7 +1025,12 @@
         return hoopsDomain + '/NBA/team/' + data.fullName + '/' + data.teamId;
       }
       else {
-        return hoopsDomain + '/NBA/t/' + data.fullName + '/' + data.teamId;
+        if (params.basketballSubdomain == "basketball") {
+          return hoopsDomain + '/NBA/team/' + data.fullName + '/' + data.teamId;
+        }
+        else {
+          return hoopsDomain + '/NBA/t/' + data.fullName + '/' + data.teamId;
+        }
       }
     }
 
@@ -1351,7 +1362,7 @@
     ];
 
     var buildLink = function(data){
-      if(params.baseballSubdomain !== null){
+      if(params.baseballSubdomain == "baseball"){
         return homerunDomain + '/team/' + data.fullName + '/' + data.teamId;
       }else{
         if (houseSite == true) {
@@ -1691,7 +1702,7 @@
     ];
 
     var buildLink = function(data){
-      if(params.footballSubdomain !== null){
+      if(params.footballSubdomain == "football"){
         return touchdownDomain + '/nfl/team/' + data.fullName + '/' + data.teamId;
       }else{
         if (houseSite == true) {
@@ -2214,10 +2225,10 @@
           //console.log('GET BOXSCORES SUCCESS', res);
           resolve(res);
           var processedData;
-          processedData = processBasketballBoxscoresData(res.data.data, tz.offset, tz.tzAbbrev, todayObject.date);
+          processedData = processBasketballBoxscoresData(res.box_scores, tz.offset, tz.tzAbbrev, todayObject.date, "nba");
           //If no games found for today, search for games throughout the week
           if(processedData.length === 0){
-            processedData = processBasketballBoxscoresData(res.data.data, tz.offset, tz.tzAbbrev, null);
+            processedData = processBasketballBoxscoresData(res.box_scores, tz.offset, tz.tzAbbrev, null, "nba");
           }
 
         }else if(xhttp.readyState === 4 && xhttp.status !== 200){
@@ -2239,10 +2250,10 @@
           //console.log('GET BOXSCORES SUCCESS', res);
           resolve(res);
           var processedData;
-          processedData = processBasketballBoxscoresData(res.data.data, tz.offset, tz.tzAbbrev, todayObject.date);
+          processedData = processBasketballBoxscoresData(res.box_scores, tz.offset, tz.tzAbbrev, todayObject.date, "ncaa");
           //If no games found for today, search for games throughout the week
           if(processedData.length === 0){
-            processedData = processBasketballBoxscoresData(res.data.data, tz.offset, tz.tzAbbrev, null);
+            processedData = processBasketballBoxscoresData(res.box_scores, tz.offset, tz.tzAbbrev, null, "ncaa");
           }
 
         }else if(xhttp.readyState === 4 && xhttp.status !== 200){
@@ -2325,15 +2336,15 @@
       var mlbData = res[0].data || [];
       var nflData = res[1].data || [];
       var ncaafData = res[2].data || [];
-      var ncaamData = res[3].data.data || [];
-      var nbaData = res[4].data.data || [];
+      var ncaamData = res[3].box_scores || [];
+      var nbaData = res[4].box_scores || [];
 
       //NBA Boxscores
       var processedNBAData;
-      processedNBAData = processBasketballBoxscoresData(nbaData, tz.offset, tz.tzAbbrev, todayObject.date);
+      processedNBAData = processBasketballBoxscoresData(nbaData, tz.offset, tz.tzAbbrev, todayObject.date, "nba");
       //If no games foound for today, search games throughout the week
       if(processedNBAData.length === 0){
-        processedNBAData = processBasketballBoxscoresData(nbaData, tz.offset, tz.tzAbbrev, null);
+        processedNBAData = processBasketballBoxscoresData(nbaData, tz.offset, tz.tzAbbrev, null, "nba");
       }
       processedNBAData.forEach(function(item){
         // mobileBoxscoresNBA.appendChild(item.mobileNode);
@@ -2343,10 +2354,10 @@
 
       //NCAAM Boxscores
       var processedNCAAMData;
-      processedNCAAMData = processBasketballBoxscoresData(ncaamData, tz.offset, tz.tzAbbrev, todayObject.date);
+      processedNCAAMData = processBasketballBoxscoresData(ncaamData, tz.offset, tz.tzAbbrev, todayObject.date, "ncaa");
       //If no games foound for today, search games throughout the week
       if(processedNCAAMData.length === 0){
-        processedNCAAMData = processBasketballBoxscoresData(ncaamData, tz.offset, tz.tzAbbrev, null);
+        processedNCAAMData = processBasketballBoxscoresData(ncaamData, tz.offset, tz.tzAbbrev, null, "ncaa");
       }
       processedNCAAMData.forEach(function(item){
         // mobileBoxscoresNCAAM.appendChild(item.mobileNode);
@@ -2440,7 +2451,7 @@
 
       switch(data.Scope){
         case 'MLB':
-          if(params.baseballSubdomain !== null){
+          if(params.baseballSubdomain == "baseball"){
             link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2452,7 +2463,7 @@
           }
         break;
         case 'NFL':
-          if(params.footballSubdomain !== null){
+          if(params.footballSubdomain == "football"){
             link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2464,7 +2475,7 @@
           }
         break;
         case 'NCAAF':
-          if(params.footballSubdomain !== null){
+          if(params.footballSubdomain == "football"){
             link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2480,7 +2491,12 @@
             link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
           }
           else {
-            link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (params.basketballSubdomain == "basketball") {
+              link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         case 'NCAAB':
@@ -2488,7 +2504,12 @@
             link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
           }
           else {
-            link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (params.basketballSubdomain == "basketball") {
+              link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         default:
@@ -2756,7 +2777,7 @@
       switch(data.Scope){
         case 'MLB':
           iconClass = 'ddb-icon-baseball';
-          if(params.baseballSubdomain !== null){
+          if(params.baseballSubdomain == "baseball"){
             link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2769,7 +2790,7 @@
         break;
         case 'NFL':
           iconClass = 'ddb-icon-football';
-          if(params.footballSubdomain !== null){
+          if(params.footballSubdomain == "football"){
             link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2782,7 +2803,7 @@
         break;
         case 'NCAAF':
           iconClass = 'ddb-icon-football';
-          if(params.footballSubdomain !== null){
+          if(params.footballSubdomain == "football"){
             link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2799,7 +2820,12 @@
             link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
           }
           else {
-            link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (params.basketballSubdomain == "basketball") {
+              link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         case 'NCAAB':
@@ -2808,7 +2834,12 @@
             link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
           }
           else {
-            link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (params.basketballSubdomain == "basketball") {
+              link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         default:
@@ -3176,7 +3207,12 @@
          return hoopsDomain + '/NCAA/team/' + full_name + '/' + teamId;
        }
        else {
-         return hoopsDomain + '/NCAA/t/' + full_name + '/' + teamId;
+         if (params.basketballSubdomain == "basketball") {
+           return hoopsDomain + '/NCAA/team/' + full_name + '/' + teamId;
+         }
+         else {
+           return hoopsDomain + '/NCAA/t/' + full_name + '/' + teamId;
+         }
        }
 
      }
@@ -3240,7 +3276,7 @@
        full_name = full_name.replace(/[^\w\s]/gi, '');
        full_name = full_name.replace(/\s+/g, '-').toLowerCase();
 
-       if(params.footballSubdomain !== null){
+       if(params.footballSubdomain == "football"){
          return touchdownDomain + '/ncaaf/team/' + full_name + '/' + teamId;
        }else{
          if (houseSite == true) {
@@ -3309,16 +3345,17 @@
      return transform;
    }
 
-   var processBasketballBoxscoresData = function(data, offset, tzAbbrev, todayDate){
+   var processBasketballBoxscoresData = function(data, offset, tzAbbrev, todayDate, currentScope){
+     data = data.data;
      var error = false;
-       if (!data) {
-         error = true;
-       }
+     if (!data) {
+       error = true;
+     }
      var pre = [], active = [], post = [];
      if (error == false) {
        var buildNode = function(data){
          var gameNode = document.createElement('div');
-         var date = new Date(data.timestamp*1000);
+         var date = new Date(data.timestamp);
          var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
          var DOW = days[date.getDay()];
          gameNode.className = 'ddb-boxscores-content-game';
@@ -3359,63 +3396,69 @@
        if(typeof todayDate !== 'undefined' && todayDate !== null){
          var count = 0;
          for(var index in data){
-           count++;
            var item = data[index];
            //Determine if game is today (Also allow games that are live, but the day has rolled over past midnight)
            var gameIsToday = false;
-           var timestampDate = new Date(item.eventStartTime + offset * 3600 * 1000).getUTCDate();
-           if(timestampDate == todayDate || timestampDate == (todayDate + 1)){
+           var timestampDate = new Date(item.startDateTimestamp + offset * 3600 * 1000).getUTCDate();
+           if(timestampDate == todayDate){
              gameIsToday = true;
            }else if(item.liveStatus){
              gameIsToday = true;
            }
 
-           if (item.winsHome == null || item.winsHome == "null") {
-             item.winsHome = "0";
+           if (item.team1Wins == null || item.team1Wins == "null") {
+             item.team1Wins = "0";
            }
-           if (item.lossHome == null || item.lossHome == "null") {
-             item.lossHome = "0";
-           }
-
-           if (item.winsAway == null || item.winsAway == "null") {
-             item.winsAway = "0";
-           }
-           if (item.lossAway == null || item.lossAway == "null") {
-             item.lossAway = "0";
+           if (item.team1Losses == null || item.team1Losses == "null") {
+             item.team1Losses = "0";
            }
 
-           if (item.abbreviationHome != null) {
-             item.abbreviationHome = item.abbreviationHome.substring(0, 4);
+           if (item.team2Wins == null || item.team2Wins == "null") {
+             item.team2Wins = "0";
+           }
+           if (item.team2Losses == null || item.team2Losses == "null") {
+             item.team2Losses = "0";
+           }
+
+           if (item.team1Score == null || item.team1Score == "null") {
+             item.team1Score = "0";
+           }
+           if (item.team2Score == null || item.team2Score == "null") {
+             item.team2Score = "0";
+           }
+
+           if (item.team1Abbreviation != null) {
+             item.team1Abbreviation = item.team1Abbreviation.substring(0, 4);
            }
            else {
-             item.abbreviationHome = "N/A"
+             item.team1Abbreviation = "N/A"
            }
 
-           if (item.abbreviationAway != null) {
-             item.abbreviationAway = item.abbreviationAway.substring(0, 4);
+           if (item.team2Abbreviation != null) {
+             item.team2Abbreviation = item.team2Abbreviation.substring(0, 4);
            }
            else {
-             item.abbreviationAway = "N/A"
+             item.team2Abbreviation = "N/A"
            }
 
            //If game is today or live, push to return array
-           if(gameIsToday && count < 10){
+           if(true){
              switch(item.eventStatus){
                case 'pre-event':
                 if(item.liveStatus === false){
                   //Pre Game
                   var gameObject = {
-                    homeTeam: item.abbreviationHome,
-                    homeScore: item.winsHome + '-' + item.lossHome,
-                    awayTeam: item.abbreviationAway,
-                    awayScore: item.winsAway + '-' + item.lossAway,
-                    timestamp: item.eventStartTime,
-                    datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
+                    homeTeam: item.team1Abbreviation,
+                    homeScore: item.team1Wins + '-' + item.team1Losses,
+                    awayTeam: item.team2Abbreviation,
+                    awayScore: item.team2Wins + '-' + item.team2Losses,
+                    timestamp: item.startDateTimestamp,
+                    datetime: convertToEastern(item.startDateTimestamp, offset, tzAbbrev),
                     eventStatus: item.eventStatus,
                     eventId: item.eventId
                   };
                   gameObject.bottomData = gameObject.datetime;
-                  gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/pregame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3424,12 +3467,12 @@
                 }else{
                   //Live Game
                   var gameObject = {
-                    homeTeam: item.abbreviationHome,
-                    homeScore: item.dataPoint1Home,
-                    awayTeam: item.abbreviationAway,
-                    awayScore: item.dataPoint1Away,
+                    homeTeam: item.team1Abbreviation,
+                    homeScore: item.team1Score,
+                    awayTeam: item.team2Abbreviation,
+                    awayScore: item.team2Score,
                     timestamp: item.eventStartTime,
-                    datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
+                    datetime: convertToEastern(item.startDateTimestamp, offset, tzAbbrev),
                     eventStatus: item.eventStatus,
                     eventId: item.eventId
                   };
@@ -3445,7 +3488,7 @@
                     gameObject.bottomData = '';
                   }
 
-                    gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+                    gameObject.link = hoopsDomain + "/" + currentScope +'/article/pregame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3456,21 +3499,21 @@
                case 'post-event':
                   //Post Game
                   var gameObject = {
-                    homeTeam: item.abbreviationHome,
-                    homeScore: item.dataPoint1Home,
-                    awayTeam: item.abbreviationAway,
-                    awayScore: item.dataPoint1Away,
+                    homeTeam: item.team1Abbreviation,
+                    homeScore: item.team1Score,
+                    awayTeam: item.team2Abbreviation,
+                    awayScore: item.team2Score,
                     timestamp: item.eventStartTime,
-                    datetime: convertToEastern(item.eventStartTime, offset, tzAbbrev),
-                    eventStatus: item.gameInfo.eventStatus,
-                    eventId: item.gameInfo.eventId
+                    datetime: convertToEastern(item.startDateTimestamp, offset, tzAbbrev),
+                    eventStatus: item.eventStatus,
+                    eventId: item.eventId
                   };
 
                   gameObject.homeClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore < gameObject.awayScore) ? 'ddb-grey' : null;
                   gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
                   gameObject.bottomData = 'Final';
-                  gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/postgame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3493,20 +3536,20 @@
              switch(item.eventStatus){
                case 'pre-event':
                   //Pre Game
-                  var datetime = getDatetime(item.eventStartTime, easternTime.offset);
+                  var datetime = getDatetime(item.startDateTimestamp, easternTime.offset);
 
                   var gameObject = {
-                    homeTeam: item.homeTeamInfo.abbreviation,
-                    homeScore: item.homeTeamInfo.winRecord + '-' + item.homeTeamInfo.lossRecord,
-                    awayTeam: item.awayTeamInfo.abbreviation,
-                    awayScore: item.awayTeamInfo.winRecord + '-' + item.awayTeamInfo.lossRecord,
-                    timestamp: item.eventStartTime,
+                    homeTeam: item.team1Abbreviation,
+                    homeScore: item.team1Wins + '-' + item.team1Losses,
+                    awayTeam: item.team2Abbreviation,
+                    awayScore: item.team2Wins + '-' + item.team2Losses,
+                    timestamp: item.startDateTimestamp,
                     datetime: prettyDatetime(datetime),
                     eventStatus: item.eventStatus,
                     eventId: item.eventId
                   };
                   gameObject.bottomData = gameObject.datetime;
-                  gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/pregame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3518,11 +3561,11 @@
                   var datetime2 = getDatetime(item.eventStartTime, easternTime.offset);
 
                   var gameObject = {
-                    homeTeam: item.homeTeamInfo.abbreviation,
-                    homeScore: item.homeTeamInfo.score,
-                    awayTeam: item.awayTeamInfo.abbreviation,
-                    awayScore: item.awayTeamInfo.score,
-                    timestamp: item.eventStartTime,
+                    homeTeam: item.team1Abbreviation,
+                    homeScore: item.team1Score,
+                    awayTeam: item.team2Abbreviation,
+                    awayScore: item.team2Score,
+                    timestamp: item.startDateTimestamp,
                     datetime: prettyDatetime(datetime2),
                     eventStatus: item.eventStatus,
                     eventId: item.eventId
@@ -3532,7 +3575,7 @@
                   gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
                   gameObject.bottomData = 'Final';
-                  gameObject.link = homerunDomain + '/articles/postgame-report/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/postgame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3620,7 +3663,7 @@
            }
 
            //If game is today or live, push to return array
-           if(gameIsToday && count < 10){
+           if(true){
 
              switch(item.gameInfo.eventStatus){
                case 'pre-event':
@@ -3796,7 +3839,7 @@
 
      var buildNode = function(data){
        var gameNode = document.createElement('div');
-       var date = new Date(data.timestamp*1000);
+       var date = new Date(data.timestamp);
        var days = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
        var DOW = days[date.getDay()];
        gameNode.className = 'ddb-boxscores-content-game';
@@ -3831,7 +3874,7 @@
          gameIsToday = true;
        }
 
-       if(gameIsToday && count < 10){
+       if(true){
         //Game is Today
         if(item.liveStatus === 'N' && item.eventStartTime > now){
           //Pre Game

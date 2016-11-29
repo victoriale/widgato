@@ -1,6 +1,6 @@
 billboard = (function () {
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-    var category, keyword, sub_category;
+    var category, keyword, league;
     var verticalColor, verticalIcon, verticalName;
     var temp = location.search;
     var query = {};
@@ -8,13 +8,23 @@ billboard = (function () {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         keyword = query.keyword;
         category = query.category;
-        sub_category = query.sub_category;
+        league = query.league;
     }
 
-    var verticalType = sub_category == "" ? category : sub_category;
-    verticalType = verticalType != "" ? verticalType : keyword;
+    var verticalType = league == "" ? category : league;
+    if (league != null && league != "") {
+      league = "&subCategory=" + league;
+    }
+
+    //verticalType = verticalType != "" ? verticalType : keyword;
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'dev-tcxmedia-api.synapsys.us/articles?keyword[]=' + verticalType + '&count=15&metaDataOnly=1';
+    if (category.indexOf("keyword-") != -1) {
+      category = category.replace("keyword-","");
+      var APIUrl = protocolToUse + 'dev-tcxmedia-api.synapsys.us/articles?keyword[]=' + category + '&count=15&metaDataOnly=1';
+    }
+    else {
+      var APIUrl = protocolToUse + 'dev-tcxmedia-api.synapsys.us/articles?category=' + category + league + '&count=15&metaDataOnly=1';
+    }
     var randomArticles = [];
     var imageArr = [];
 
