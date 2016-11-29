@@ -467,7 +467,6 @@ sup {
     cursor: default;
 }
 
-@media (max-width: 640px) {
     .aiw, .aiw-content, .aiw-img, .dropdown {
         width: 100%;
     }
@@ -475,7 +474,6 @@ sup {
     .ad_location {
         display: none;
     }
-}
 
 .frame::-webkit-scrollbar {
     -webkit-appearance: none;
