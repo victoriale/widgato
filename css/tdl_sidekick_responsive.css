@@ -2,7 +2,7 @@ html, body {
     margin: 0 !important;
     font-family: Lato, sans-serif;
     max-width: 970px;
-    min-width: 640px;
+    /*min-width: 640px;*/
     height: auto;
     background-color: white;
 }
@@ -469,7 +469,7 @@ sup {
 
 @media (max-width: 640px) {
     .aiw, .aiw-content, .aiw-img, .dropdown {
-        width: 340px;
+        width: 100%;
     }
 
     .ad_location {
