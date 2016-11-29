@@ -18,7 +18,13 @@ billboard = (function () {
 
     //verticalType = verticalType != "" ? verticalType : keyword;
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'dev-tcxmedia-api.synapsys.us/articles?category=' + category + league + '&count=15&metaDataOnly=1';
+    if (category.indexOf("keyword-") != -1) {
+      category = category.replace("keyword-","");
+      var APIUrl = protocolToUse + 'dev-tcxmedia-api.synapsys.us/articles?keyword[]=' + category + '&count=15&metaDataOnly=1';
+    }
+    else {
+      var APIUrl = protocolToUse + 'dev-tcxmedia-api.synapsys.us/articles?category=' + category + league + '&count=15&metaDataOnly=1';
+    }
     var randomArticles = [];
     var imageArr = [];
 
