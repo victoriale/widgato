@@ -646,6 +646,11 @@
       .boxscores-e-football .boxscores-e-game-link{
         padding: 0 15px;
       }
+      @media (max-width: 768px) {
+        .boxscores-e-football .boxscores-e-game-link{
+          padding: 0 10px;
+        }
+      }
       .boxscores-e-game-link:hover{
         color: #fff;
       }
@@ -704,6 +709,11 @@
         background-color: #272727;
         border-left: 1px solid` + gameBorderColor + `;
         box-shadow: -20px 0px 20px 0px #272727;
+      }
+      @media (max-width: 768px) {
+        .boxscores-e-nav{
+          box-shadow: none;
+        }
       }
       .boxscores-e-nav-button{
         width: 30px;
