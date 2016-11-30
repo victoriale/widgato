@@ -583,8 +583,8 @@ function p() {
             }
         } else {
           if (SpecialDomain) {
-            e.li_url = e.li_url.replace(/[\/}]+[a-z]+[.]+[A-Za-z0-9]+[.]+[a-z]+[\/}]/g, SpecialDomain + "/");
-            e.li_line_url = e.li_line_url.replace(/[\/}]+[a-z]+[.]+[A-Za-z0-9]+[.]+[a-z]+[\/}]/g, SpecialDomain + "/");
+            e.li_url = e.li_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/");
+            e.li_line_url = e.li_line_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/");
           }
           else {
             e.li_url = "http:" + e.li_url.replace('{partner}', l.dom);
