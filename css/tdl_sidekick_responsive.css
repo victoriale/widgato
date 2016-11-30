@@ -467,13 +467,13 @@ sup {
     cursor: default;
 }
 
-    .aiw, .aiw-content, .aiw-img, .dropdown {
-        width: 100%;
-    }
+.aiw, .aiw-content, .aiw-img, .dropdown {
+    width: 100%;
+}
 
-    .ad_location {
-        display: none;
-    }
+.ad_location {
+    display: none;
+}
 
 .frame::-webkit-scrollbar {
     -webkit-appearance: none;

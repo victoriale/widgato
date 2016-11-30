@@ -384,7 +384,7 @@ dynamic_widget = function() {
                 var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/' + currentConfig.subCategory + '/w-list';
                 }
                 else {
-                  a = SpecialDomain + '/' + currentConfig.subCategory + '/w-list';
+                  a = SpecialDomain + '/' + currentConfig.subCategory + '/widget-list';
                 }
                 break;
             case "mlb":
@@ -582,8 +582,14 @@ function p() {
                     break;
             }
         } else {
+          if (SpecialDomain) {
+            e.li_url = e.li_url.replace(/[\/}]+[a-z]+[.]+[A-Za-z0-9]+[.]+[a-z]+[\/}]/g, SpecialDomain + "/");
+            e.li_line_url = e.li_line_url.replace(/[\/}]+[a-z]+[.]+[A-Za-z0-9]+[.]+[a-z]+[\/}]/g, SpecialDomain + "/");
+          }
+          else {
             e.li_url = "http:" + e.li_url.replace('{partner}', l.dom);
             e.li_line_url = "http:" + e.li_line_url.replace('{partner}', l.dom);
+          }
         }
         if (s) {
             e.li_url = e.li_url.replace('www.myinvestkit.com', o);
@@ -684,7 +690,7 @@ function p() {
       }
     }
 
-    function w(e) {
+    function w(e, autoAdvance) {
         i += e;
         if (currentConfig.category == "football") {
           i = i >= r.data.listData.length ? 0 : i < 0 ? r.data.listData.length - 1 : i;
@@ -693,7 +699,7 @@ function p() {
           i = i >= r.l_data.length ? 0 : i < 0 ? r.l_data.length - 1 : i;
         }
         p();
-        if (typeof dataLayer != 'undefined') {
+        if (typeof dataLayer != 'undefined' && autoAdvance != true) {
             dataLayer.push({
                 event: e == 1 ? 'nav-right' : 'nav-left',
                 eventAction: dynamic_widget.get_title()
@@ -734,7 +740,7 @@ function p() {
             }
           break;
       }
-        w(goodNumber);
+        w(goodNumber, true);
     }
 
     function f() {
