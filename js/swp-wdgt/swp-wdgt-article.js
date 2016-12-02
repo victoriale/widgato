@@ -245,6 +245,7 @@ function RenderArticleSide(protocolToUse) {
           A('.content-text').innerHTML = articleText + '...<a target="_blank" href="' + articleUrl + '"></a>';
           A('.bar-author').innerHTML = '<a target="_blank" id="authorlink" href="' + "http://" + authorLink + '">' + author + '</a>';
           A('#readbutton').setAttribute('href', articleUrl);
+          A('#content-anchor').setAttribute('href', articleUrl);
         }
         else {
           A('#readbutton').style.display = "none";
