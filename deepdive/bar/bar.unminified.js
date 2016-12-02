@@ -3237,22 +3237,23 @@
           </thead>
           <tbody>
        `;
+       if (leagueData != null) {
+         leagueData.forEach(function(item, index){
+           var mod = index % 3;
+           //Add html accordingly
+           if(mod === 0){
+             //First Column
+             tableInnerHTML += '<tr><td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
+           }else if(mod === 1){
+             //Middle Column
+             tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
+           }else if(mod === 2){
+             //Last Column
+             tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td></tr>';
+           }
 
-       leagueData.forEach(function(item, index){
-         var mod = index % 3;
-         //Add html accordingly
-         if(mod === 0){
-           //First Column
-           tableInnerHTML += '<tr><td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
-         }else if(mod === 1){
-           //Middle Column
-           tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
-         }else if(mod === 2){
-           //Last Column
-           tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td></tr>';
-         }
-
-       })
+         })
+       }
        //Check if html template is closed with </tr>, if not then add
        if(!endsWith(tableInnerHTML, '</tr>')){
          tableInnerHTML += '</tr>';
