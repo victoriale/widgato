@@ -1,49 +1,25 @@
 chatterbox = (function () {
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-    //switch url for live or testing environment
-    var tdlDomain = "http://www.touchdownloyal.com/";
-    var tdlPartnerDomain = "http://www.mytouchdownzone.com/";
-    //end switch
-    var referrer = document.referrer;
-    if (referrer.match(/football/g)) {
-        tdlPartnerDomain = protocolToUse + referrer.split('/')[2] + "/";
-    }
 
     // Declare variables
     var event = '';
-    var domain, remnant, league;
+    var target, href, selectedTab;
     var temp = location.search;
     var query = {};
-    var target;
-    var href;
-    var selectedTab;
     var dataArray = [];
     var imageArray = [];
+    var dataLength = 0;
     var isScrolling = false;
     var isCreated = false;
+    var subSelected = false;
 
     if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
-        domain = query.dom;
-        remnant = query.remn;
-        league = query.league;
         target = query.targ;
-
-        if (remnant == 'true') {
-            href = tdlDomain;
-            $("base").attr("href", tdlDomain);
-        } else if (referrer.match(/football/g)) {
-            $("base").attr("href", tdlPartnerDomain);
-            href = tdlPartnerDomain;
-        } else {
-            $("base").attr("href", tdlPartnerDomain + domain + "/");
-            href = tdlPartnerDomain + domain + "/";
-        }
-
     }
 
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick/' + league,
+    var APIUrl = protocolToUse + 'dev-tcxmedia-api.synapsys.us/chatterbox',
         tcxData = {},
         tcxId = -1,
         pageInd = -1,
@@ -87,9 +63,11 @@ chatterbox = (function () {
     function displayPage() {
         //setup tabs
         setTabs();
-        createdropDown();
+        if (!subSelected) {
+            createdropDown();
+        }
         // Check for data
-        if (pageInd == -1 || tcxId == -1 || typeof availPages[pageInd] == "undefined") {
+        if (pageInd == -1 || typeof availPages[pageInd] == "undefined") {
             return console.log('Invalid page or game ID', pageInd, tcxId);
         }
         // Get the data
@@ -97,34 +75,38 @@ chatterbox = (function () {
         var dataArr = [];
         $.map(dataArray, function (val) {
             if (val[0] == pageID) {
-                val.title = val[1].displayHeadline;
-                val.report = val[1].article;
-                val.eventId = tcxData['data']['meta-data']['current'].eventID;
-                val.articleImage = val[1].image;
+                val.title = val[1].title;
+                val.report = val[1].teaser;
+                val.eventId = val[1].id;
+                val.articleImage = val[1].image_url;
                 var keyword = val[0].replace(/-/g, " ");
                 val.keyword = keyword.replace(/\w\S*/g, function (txt) {
                     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
                 });
+                val.keywordUrl = val[1].vertical_url;
                 val.index = val[0];
+                val.url = val[1].article_url;
                 dataArr.push(val);
             }
         });
         // configure the data
-        var id = dataArr[0][0] != "player-fantasy" ? dataArr[0].eventId : dataArr[0][1].articleId;
+        //var id = dataArr[0][0] != "player-fantasy" ? dataArr[0].eventId : dataArr[0][1].articleId;
+        var id = dataArr[0].eventId;
         var arr = {
             //to be replaced once data is coming in.
             //keyword: dataArr[0].keyword,
-            keyword: 'football',
+            keyword: dataArr[0].keyword,
+            keywordUrl: protocolToUse + dataArr[0].keywordUrl,
             date: moment(dataArr[0][1].dateline).format("dddd, MMM. DD, YYYY").toUpperCase(),
-            title: dataArr[0][1].displayHeadline,
-            url: href + league + '/articles/' + dataArr[0][0] + '/' + id,
+            title: dataArr[0][1].title,
+            url: getOffsiteLink(selectedTab.toLowerCase(), dataArr[0].url, dataArr[0].eventId),
             content: dataArr[0].report + '<br>&nbsp; ',
-            img: protocolToUse + 'images.synapsys.us' + dataArr[0].articleImage,
-            icon: '../css/public/Icon_Football.png'
+            img: protocolToUse + 'images.synapsys.us' + dataArr[0].articleImage
         };
         // Set the data
         $('.cb-title')[0].innerHTML = arr.title;
         $('.cb-keyword')[0].innerHTML = arr.keyword;
+        $('.cb-keyword-url').attr('href', arr.keywordUrl);
         $('.cb-date')[0].innerHTML = arr.date;
         $('#ai-link').attr('href', arr.url);
         $('#ai-link').attr('target', target);
@@ -134,93 +116,82 @@ chatterbox = (function () {
     } // --> displayPage
 
     //Populates 3 images above main chatterbox
-    function setTriImage() {
-        for (var i = 0; i < imageArray.length; i++) {
-            var imageContainerLarge = document.createElement('div');
-            var imageContainerSmall = document.createElement('div');
-            var imageLarge = document.createElement('div');
-            var imageSmall = document.createElement('div');
-            var titleContainerLarge = document.createElement('div');
-            var titleContainerSmall = document.createElement('div');
-            var titleLarge = document.createElement('div');
-            var titleSmall = document.createElement('div');
-            titleContainerLarge.className = 'col-sm-4 hidden-xs-down tri-title-container';
-            titleContainerSmall.className = 'col-sm-12 hidden-sm-up tri-title-container-stack';
-            imageContainerLarge.className = 'col-xs-12 col-sm-4 hidden-xs-down embed-responsive embed-responsive-16by9-sub tri-image-container';
-            imageContainerSmall.className = 'col-xs-12 col-md-4 hidden-sm-up embed-responsive embed-responsive-16by9-triple-stack tri-image-container';
-            if (i == 0) {
-                imageLarge.className = 'embed-responsive-item tri-image left';
-                titleLarge.className = 'col-sm-11 tri-title left';
-            } else if (i == 2) {
-                imageLarge.className = 'embed-responsive-item tri-image right';
-                titleLarge.className = 'col-sm-11 tri-title right';
-            } else {
-                imageLarge.className = 'embed-responsive-item tri-image center';
-                titleLarge.className = 'col-sm-11 tri-title center';
-            }
-            imageSmall.className = 'embed-responsive-item tri-image';
-            titleSmall.className = 'col-sm-11 tri-title';
-            $('.image-row')[0].appendChild(imageContainerLarge);
-            $('.triple-stack')[0].appendChild(imageContainerSmall);
-            imageContainerLarge.appendChild(imageLarge);
-            imageContainerSmall.appendChild(imageSmall);
-            $('.title-row')[0].appendChild(titleContainerLarge);
-            $('.triple-stack')[0].appendChild(titleContainerSmall);
-            titleContainerLarge.appendChild(titleLarge);
-            titleContainerSmall.appendChild(titleSmall);
-            imageLarge.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[i][1].image + "')";
-            imageSmall.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[i][1].image + "')";
-            titleLarge.innerHTML = imageArray[i][1].displayHeadline;
-            titleSmall.innerHTML = imageArray[i][1].displayHeadline;
-            $(imageContainerLarge).wrapInner($('<a href="' + href + league + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
-            $(titleContainerLarge).wrapInner($('<a href="' + href + league + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
-            $(imageContainerSmall).wrapInner($('<a href="' + href + league + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
-            $(titleContainerSmall).wrapInner($('<a href="' + href + league + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
-        }
-    }
+    //function setTriImage() {
+    //    for (var i = 0; i < imageArray.length; i++) {
+    //        var imageContainerLarge = document.createElement('div');
+    //        var imageContainerSmall = document.createElement('div');
+    //        var imageLarge = document.createElement('div');
+    //        var imageSmall = document.createElement('div');
+    //        var titleContainerLarge = document.createElement('div');
+    //        var titleContainerSmall = document.createElement('div');
+    //        var titleLarge = document.createElement('div');
+    //        var titleSmall = document.createElement('div');
+    //        titleContainerLarge.className = 'col-sm-4 hidden-xs-down tri-title-container';
+    //        titleContainerSmall.className = 'col-sm-12 hidden-sm-up tri-title-container-stack';
+    //        imageContainerLarge.className = 'col-xs-12 col-sm-4 hidden-xs-down embed-responsive embed-responsive-16by9-sub tri-image-container';
+    //        imageContainerSmall.className = 'col-xs-12 col-md-4 hidden-sm-up embed-responsive embed-responsive-16by9-triple-stack tri-image-container';
+    //        if (i == 0) {
+    //            imageLarge.className = 'embed-responsive-item tri-image left';
+    //            titleLarge.className = 'col-sm-11 tri-title left';
+    //        } else if (i == 2) {
+    //            imageLarge.className = 'embed-responsive-item tri-image right';
+    //            titleLarge.className = 'col-sm-11 tri-title right';
+    //        } else {
+    //            imageLarge.className = 'embed-responsive-item tri-image center';
+    //            titleLarge.className = 'col-sm-11 tri-title center';
+    //        }
+    //        imageSmall.className = 'embed-responsive-item tri-image';
+    //        titleSmall.className = 'col-sm-11 tri-title';
+    //        $('.image-row')[0].appendChild(imageContainerLarge);
+    //        $('.triple-stack')[0].appendChild(imageContainerSmall);
+    //        imageContainerLarge.appendChild(imageLarge);
+    //        imageContainerSmall.appendChild(imageSmall);
+    //        $('.title-row')[0].appendChild(titleContainerLarge);
+    //        $('.triple-stack')[0].appendChild(titleContainerSmall);
+    //        titleContainerLarge.appendChild(titleLarge);
+    //        titleContainerSmall.appendChild(titleSmall);
+    //        imageLarge.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[i][1].image + "')";
+    //        imageSmall.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[i][1].image + "')";
+    //        titleLarge.innerHTML = imageArray[i][1].displayHeadline;
+    //        titleSmall.innerHTML = imageArray[i][1].displayHeadline;
+    //        $(imageContainerLarge).wrapInner($('<a href="' + href + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
+    //        $(titleContainerLarge).wrapInner($('<a href="' + href + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
+    //        $(imageContainerSmall).wrapInner($('<a href="' + href + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
+    //        $(titleContainerSmall).wrapInner($('<a href="' + href + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
+    //    }
+    //}
 
     //Tab setup
+
+    function getTabNames() {
+        var obj = tcxData['data'].categories;
+        var tabArray = [];
+        Object.keys(obj).map(function (val) {
+            if (obj[val].length > 0) {
+                tabArray.push([val, obj[val]]);
+            } else {
+                tabArray.push(val);
+            }
+        });
+        return tabArray;
+    }
+
     function setTabs() {
-        var tabNames = [
-            "Trending",
-            "Breaking",
-            {
-                Sports: [
-                    "NFL",
-                    "NCAAF",
-                    "NBA",
-                    "NCAAM",
-                    "MLB"
-                ]
-            },
-            "Business",
-            "Politics",
-            {
-                Entertainment: [
-                    "TVs",
-                    "Movies",
-                    "Music",
-                    "Celebrities"
-                ]
-            },
-            "Food",
-            "Health",
-            "Lifestyle",
-            "Real Estate",
-            "Travel",
-            "Weather",
-            "Automotive"
-        ];
+        var tabNames = getTabNames();
         var tabContainer = $('.tab-container');
         if (selectedTab == undefined) {
-            selectedTab = tabNames[0];
+            if (typeof tabNames[0] == 'object') {
+                selectedTab = tabNames[0][0];
+            } else {
+                selectedTab = tabNames[0];
+            }
         } else {
             tabNames.unshift(selectedTab);
         }
         for (var i = 0; i < tabNames.length; i++) {
             var category;
             if (typeof tabNames[i] == 'object') {
-                category = Object.getOwnPropertyNames(tabNames[i]);
+                category = tabNames[i][0];
             } else {
                 category = tabNames[i];
             }
@@ -243,7 +214,7 @@ chatterbox = (function () {
 
     //onclick event to change tabs
     function tabSelect(event) {
-        var moreTab = $('.tab-more');
+        subSelected = false;
         var cbdropDownDisplay = $('.cb-dropDown');
         var topic = $('.more-topic');
         if (cbdropDownDisplay.hasClass('active')) {
@@ -251,11 +222,12 @@ chatterbox = (function () {
             topic.removeClass('active');
         }
         var target = event.target || event.srcElement;
-        selectedTab = target.innerHTML;
+        selectedTab = target.textContent.toLowerCase();
         isCreated = false;
         if (event.target.className.indexOf("open") == -1) {
             createdropDown();
         } else {
+            subSelected = true;
             var parent = document.getElementsByClassName("dropDown-item");
             for (var i = 0; i < parent.length; i++) {
                 parent[i].classList.remove('active');
@@ -264,53 +236,29 @@ chatterbox = (function () {
         }
         $('.tab-content').remove();
         setTabs();
+        processData();
     }
 
     function subSelect(event) {
+        subSelected = false;
         var target = event.target || event.srcElement;
         if (target.id.indexOf("-svg") == -1) {
-            selectedTab = target.textContent;
+            selectedTab = target.textContent.toLowerCase();
             isCreated = false;
             toggleDropdown();
-            createdropDown();
             $('.tab-content').remove();
-            setTabs();
+            processData();
         }
     }
 
     function createdropDown() {
-        var tabNames = [
-            "Trending",
-            "Breaking",
-            {
-                Sports: [
-                    "NFL",
-                    "NCAAF",
-                    "NBA",
-                    "NCAAM",
-                    "MLB"
-                ]
-            },
-            "Business",
-            "Politics",
-            {
-                Entertainment: [
-                    "TVs",
-                    "Movies",
-                    "Music",
-                    "Celebrities"
-                ]
-            },
-            "Food",
-            "Health",
-            "Lifestyle",
-            "Real Estate",
-            "Travel",
-            "Weather",
-            "Automotive"
-        ];
+        var tabNames = getTabNames();
         if (selectedTab == undefined) {
-            selectedTab = tabNames[0];
+            if (typeof tabNames[0] == 'object') {
+                selectedTab = tabNames[0][0];
+            } else {
+                selectedTab = tabNames[0];
+            }
         }
         var ddStr = '';
         var idName = [];
@@ -320,30 +268,25 @@ chatterbox = (function () {
             $('.cb-header')[0].appendChild(dropDown);
         }
         for (var i = 0; i < tabNames.length; i++) {
-            if (selectedTab == tabNames[i]) {
-                ddStr += '<div class="dropDown-item active">' + tabNames[i] + '</div>';
+            if (selectedTab.toLowerCase() == tabNames[i]) {
+                ddStr += '<div class="dropDown-item active">' + capitalizeString(tabNames[i]) + '</div>';
             } else if (typeof tabNames[i] != 'object') {
-                ddStr += '<div class="dropDown-item">' + tabNames[i] + '</div>';
+                ddStr += '<div class="dropDown-item">' + capitalizeString(tabNames[i]) + '</div>';
             } else {
-                var id = Object.getOwnPropertyNames(tabNames[i]);
-                var svgId = Object.getOwnPropertyNames(tabNames[i]) + "-svg";
-                if (selectedTab == id) {
+                var id = typeof tabNames[i] == 'object' ? capitalizeString(tabNames[i][0]) : capitalizeString(tabNames[i]);
+                var svgId = typeof tabNames[i] == 'object' ? capitalizeString(tabNames[i][0]) + "-svg" : capitalizeString(tabNames[i]) + "-svg";
+                if (selectedTab.toLowerCase() == id.toLowerCase()) {
                     ddStr += "<div class='dropDown-item active " + id + "' id='" + id +
-                        "'>" + Object.getOwnPropertyNames(tabNames[i]) +
+                        "'>" + capitalizeString(tabNames[i][0]) +
                         '<div class="dropDown-icon" id="' + svgId + '" style="background: url(../css/public/icons/Open_Icon_Hover.svg) center no-repeat;"></div></div>';
                 } else {
                     ddStr += "<div class='dropDown-item " + id + "' id='" + id +
-                        "'>" + Object.getOwnPropertyNames(tabNames[i]) +
+                        "'>" + capitalizeString(tabNames[i][0]) +
                         '<div class="dropDown-icon" id="' + svgId + '" style="background: url(../css/public/icons/Open_Icon.svg) center no-repeat;"></div></div>';
                 }
                 idName.push('#' + id);
-                Object.keys(tabNames[i]).map(function (obj) {
-                    var index = obj;
-                    if (obj = tabNames[i]) {
-                        obj[index].map(function (val) {
-                            ddStr += '<div class="dropDown-item sub ' + id + '">' + val + '</div>';
-                        });
-                    }
+                tabNames[i][1].map(function (obj) {
+                    ddStr += '<div class="dropDown-item sub ' + id + '">' + capitalizeString(obj) + '</div>';
                 });
             }
         }
@@ -352,7 +295,7 @@ chatterbox = (function () {
         var item = document.getElementsByClassName('dropDown-item');
         var count = 0;
         var hasId = false;
-        for (var j = 0; j < tabNames.length; j++) {
+        for (var j = 0; j < dataLength; j++) {
             var element = $(".dropDown-item")[j];
             if (element.id) {
                 hasId = true
@@ -397,7 +340,6 @@ chatterbox = (function () {
     // Toggle the dropDown
     function toggleDropdown() {
         if (!isScrolling) {
-            var moreTab = $('.tab-more');
             var cbdropDownDisplay = $('.cb-dropDown');
             var topic = $('.more-topic');
             if (cbdropDownDisplay.hasClass('active')) {
@@ -449,45 +391,224 @@ chatterbox = (function () {
         setTabs();
     } // --> prevPage
 
+    function capitalizeString(string) {
+        switch (string) {
+            case "nfl":
+                return "NFL";
+            case "ncaaf":
+                return "NCAAF";
+            case "nba":
+                return "NBA";
+            case "ncaam":
+                return "NCAAM";
+            case "mlb":
+                return "MLB";
+        }
+        return string.replace(/\w\S*/g, function (text) {
+            return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
+        });
+    }
+
+    function getHomeInfo() {
+        //grabs the domain name of the site and sees if it is our partner page
+        var partner = false;
+        var isHome = false;
+        var hide = false;
+        var hostname = window.location.hostname;
+        var partnerPage = /mytcxzone/.test(hostname) || /^newspaper\./.test(hostname); //todo: change to correct domain not localhost
+        var urlSplit = window.location.pathname.split('/');
+        var name = "";
+        var partnerName = "";
+        var isSubdomainPartner = /^newspaper\./.test(hostname);
+        if (partnerPage) {
+            partner = partnerPage;
+            partnerName = urlSplit[1];
+            name = urlSplit[2];
+        }
+        else {
+            name = urlSplit[1];
+        }
+        //PLEASE REVISIT and change
+        if (partnerPage && (name == '' || name == 'news')) {
+            hide = true;
+            isHome = true;
+        } else if (!partnerPage && (name == '' || name == 'deep-dive')) {
+            hide = false;
+            isHome = true;
+        } else {
+            hide = false;
+            isHome = false;
+        }
+
+        return {
+            isPartner: partner,
+            hide: hide,
+            isHome: isHome,
+            partnerName: partnerName,
+            isSubdomainPartner: isSubdomainPartner
+        };
+    }
+
+    function checkPartnerDomain(partnerCode) {
+        var result = false;
+        var specialDomains = [
+            "latimes.com",
+            "orlandosentinel.com",
+            "sun-sentinel.com",
+            "baltimoresun.com",
+            "mcall.com",
+            "courant.com",
+            "dailypress.com",
+            "southflorida.com",
+            "citypaper.com",
+            "themash.com",
+            "coastlinepilot.com",
+            "sandiegouniontribune.com",
+            "ramonasentinel.com",
+            "capitalgazette.com",
+            "chicagotribune.com"
+        ];
+        for (var i = 0; i < specialDomains.length; i++) {
+            if (specialDomains[i] == partnerCode) {
+                result = true;
+                return result;
+            }
+        }
+        return result;
+    }
+
+    function getOffsiteLink(scope, relativeUrl, id) {
+        var link = "";
+        var siteVars = getHomeInfo();
+        var partnerCode;
+        if (siteVars.isPartner) {
+            partnerCode = siteVars.partnerName;
+        }
+        switch (scope) {
+            //FOOTBALL URL
+            case 'nfl':
+            case 'ncaaf':
+                if (partnerCode != null) {
+                    if (checkPartnerDomain(partnerCode)) {
+                        link = protocolToUse + "//football." + partnerCode + relativeUrl;
+                    }
+                    else {
+                        link = protocolToUse + "//mytouchdownzone.com/" + partnerCode + relativeUrl;
+                    }
+                }
+                else {
+                    link = protocolToUse + "//touchdownloyal.com" + relativeUrl;
+                }
+                break;
+            //BASKETBALL URL
+            case 'nba':
+            case 'ncaam':
+                if (partnerCode != null) {
+                    link = protocolToUse + "//myhoopszone.com/" + partnerCode + relativeUrl;
+                }
+                else {
+                    link = protocolToUse + "//hoopsloyal.com" + relativeUrl;
+                }
+                break;
+            //BASEBALL URL
+            case 'mlb':
+                if (partnerCode != null) {
+                    if (checkPartnerDomain(partnerCode)) {
+                        link = protocolToUse + "//baseball." + partnerCode + relativeUrl;
+                    }
+                    else {
+                        link = protocolToUse + "//myhomerunzone.com/" + partnerCode + relativeUrl;
+                    }
+                }
+                else {
+                    link = protocolToUse + "//homerunloyal.com" + relativeUrl;
+                }
+                break;
+            //FINANCE URL
+            case 'business':
+                if (partnerCode != null) {
+                    link = protocolToUse + "//myinvestkit.com/" + partnerCode + relativeUrl;
+                }
+                else {
+
+                    link = protocolToUse + "//www.investkit.com" + relativeUrl;
+                }
+                break;
+            //REALESTATE URL
+            case 'real-estate':
+                if (partnerCode != null) {
+                    link = protocolToUse + "//myhousekit.com/" + partnerCode + relativeUrl;
+                }
+                else {
+                    link = protocolToUse + "//joyfulhome.com" + relativeUrl;
+                }
+                break;
+            default:
+                if (partnerCode != null) {
+                    link = protocolToUse + "//dev.tcxmedia.com/deep-dive/" + partnerCode + relativeUrl;
+                }
+                else {
+                    link = protocolToUse + "//dev.tcxmedia.com/deep-dive/" + scope + "/article/story/" + id;
+                }
+        }
+        return link;
+    }
+
 // **** PARSING FUNCTION ****
     function processData() {
+
         // Check for data
         try {
             if (typeof tcxData != "object") {
                 return displayError('Invalid YSEOP Response');
             }
             //Function takes array, removes 3 random elements from array, and cuts the 3 random elements from the main array
-            Array.prototype.getRandomArt = function (number, cutIndex) {
-                var index = cutIndex ? this : this.slice(0);
-                index.sort(function () {
-                    return .5 - Math.random();
-                });
-                return index.splice(0, number);
-            };
+            //Array.prototype.getRandomArt = function (number, cutIndex) {
+            //    var index = cutIndex ? this : this.slice(0);
+            //    index.sort(function () {
+            //        return .5 - Math.random();
+            //    });
+            //    return index.splice(0, number);
+            //};
             //Converts object into array
-            dataArray = Object.keys(tcxData['data']).map(function (val) {
-                if (val != 'meta-data' && val != 'timestamp') {
+            dataArray = Object.keys(tcxData['data']).map(function (val, index) {
+                if (selectedTab == undefined && index == 0) {
                     return [val, tcxData['data'][val]];
+                } else if (val == selectedTab) {
+                    return [val, tcxData['data'][val]];
+                } else {
+                    return
                 }
             });
+            dataLength = dataArray.length - 1;
             //Filters undefined elements from array
             dataArray = dataArray.filter(function (val) {
                 return val != undefined;
             });
             //Get 3 random elements from parent array
-            imageArray = dataArray.getRandomArt(3, true);
+            //imageArray = dataArray.getRandomArt(3, true);
             // Get all the pages
             var pages = [];
             for (var i = 0; i < dataArray.length; i++) {
                 if (pages.indexOf(dataArray[i][0] > -1)) {
-                    availPages.push(dataArray[i][0]);
+                    if (selectedTab == undefined) {
+                        availPages.push(dataArray[i][0]);
+                    } else {
+                        availPages = [];
+                        availPages.push([selectedTab]);
+                    }
                 }
             }
             pageInd = 0;
             // Get tcx Id
-            tcxId = tcxData['data']['meta-data']['current'].eventID;
+            //tcxId = tcxData['data']['meta-data']['current'].eventID;
             displayPage();
-            setTriImage();
+            //setTriImage();
+            if (dataArray.length == 1) {
+                $('.cb-btn').css('display', 'none');
+            } else {
+                $('.cb-btn').css('display', 'block');
+            }
             $('.chatterBox').css('display', 'block');
         } catch (e) {
             console.log('Error loading ChatterBox ' + e);
@@ -496,7 +617,6 @@ chatterbox = (function () {
     getContent();
 
     window.onresize = function (event) {
-        var moreTab = $('.tab-more');
         var cbdropDownDisplay = $('.cb-dropDown');
         var topic = $('.more-topic');
         if (cbdropDownDisplay.hasClass('active')) {
@@ -583,7 +703,7 @@ chatterbox = (function () {
                 var totalHeight = this.element.scrollHeight,
                     parentHeight = this.element.clientHeight,
                     _this = this;
-                if (parentHeight !=0 && totalHeight != 0) {
+                if (parentHeight != 0 && totalHeight != 0) {
                     this.scrollRatio = parentHeight / totalHeight;
                 }
                 animationFrame(function () {
