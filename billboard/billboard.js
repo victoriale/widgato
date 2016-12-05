@@ -70,7 +70,7 @@ billboard = (function () {
                         val.urlSegment = getOffsiteLink(val.category, val.article_url, val.article_id);
                     }
                 }
-                val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
+                val.articleImage = protocolToUse + 'images.synapsys.us/' + val.image_url;
             } else {
                 val.title = val.title;
                 val.content = val.teaser;
@@ -87,7 +87,7 @@ billboard = (function () {
                         val.urlSegment = getOffsiteLink(val.category, val.article_url, val.article_id);
                     }
                 }
-                val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
+                val.articleImage = protocolToUse + 'images.synapsys.us/' + val.image_url;
                 subArticles.push(val);
             }
             mainArticles.push(val);
