@@ -112,16 +112,16 @@ billboard = (function () {
         $('.header-profile')[0].innerHTML = verticalName + " News";
         $('.header-profile-small')[0].innerHTML = verticalName + " News";
         $('#main-top-link').attr('href', arr1.url);
-        $('.main-top-title')[0].innerHTML = arr1.title;
-        $('.main-top-title-xs')[0].innerHTML = arr1.title;
-        $('.main-top-description')[0].innerHTML = arr1.content;
-        $('.main-top-description')[1].innerHTML = arr1.content;
+        $('.main-top-title')[0].innerHTML = arr1.title.replace(/[\\]/g,"");
+        $('.main-top-title-xs')[0].innerHTML = arr1.title.replace(/[\\]/g,"");
+        $('.main-top-description')[0].innerHTML = arr1.content.replace(/[\\]/g,"");
+        $('.main-top-description')[1].innerHTML = arr1.content.replace(/[\\]/g,"");
         $('.top-image').css("background-image", 'url(' + arr1.img + ')');
         $('#main-bottom-link').attr('href', arr2.url);
-        $('.main-bottom-title')[0].innerHTML = arr2.title;
-        $('.main-bottom-title-xs')[0].innerHTML = arr2.title;
-        $('.main-bottom-description')[0].innerHTML = arr2.content;
-        $('.main-bottom-description')[1].innerHTML = arr2.content;
+        $('.main-bottom-title')[0].innerHTML = arr2.title.replace(/[\\]/g,"");
+        $('.main-bottom-title-xs')[0].innerHTML = arr2.title.replace(/[\\]/g,"");
+        $('.main-bottom-description')[0].innerHTML = arr2.content.replace(/[\\]/g,"");
+        $('.main-bottom-description')[1].innerHTML = arr2.content.replace(/[\\]/g,"");
         $('.bottom-image').css("background-image", 'url(' + arr2.img + ')');
         //set vertical colors and name:
         $('.header, .search-button-small, .news-button-up, .news-button-down, .search-container').css('background', verticalColor);
@@ -170,7 +170,7 @@ billboard = (function () {
             subContainer.appendChild(subImgContainer);
             subImgContainer.appendChild(subImage);
             subContainer.appendChild(subTitle);
-            subTitle.innerHTML = randomArticles[i].title;
+            subTitle.innerHTML = randomArticles[i].title.replace(/[\\]/g,"");
             subImage.style.backgroundImage = "url('" + randomArticles[i].articleImage + "')";
             $(subContainer).wrapInner($('<a href="' + randomArticles[i].urlSegment + '" />'));
             subContainer.appendChild(subHr);
