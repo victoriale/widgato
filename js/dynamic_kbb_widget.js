@@ -179,7 +179,7 @@ function p() {
         if ($('title-link')) {
             $('title-link').href = a
         }
-        $('title-text').innerHTML = e.title;
+        $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
         if ($('keyword') && e.category) {
           $('keyword').innerHTML = e.category.replace(/-/g," ");
         }
@@ -200,7 +200,7 @@ function p() {
           $('date').innerHTML = formattedDate;
         }
         var stat = Math.floor(Number(e.stat));
-        $('desc').innerHTML = e.teaser;
+        $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
