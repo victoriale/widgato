@@ -116,13 +116,13 @@ billboard = (function () {
         $('.main-top-title-xs')[0].innerHTML = arr1.title.replace(/[\\]/g,"");
         $('.main-top-description')[0].innerHTML = arr1.content.replace(/[\\]/g,"");
         $('.main-top-description')[1].innerHTML = arr1.content.replace(/[\\]/g,"");
-        $('.top-image').css("background-image", 'url(' + arr1.img + ')');
+        $('.top-image').css("background-image", 'url(' + arr1.img + '?width=' + (280 * window.devicePixelRatio) + ')');
         $('#main-bottom-link').attr('href', arr2.url);
         $('.main-bottom-title')[0].innerHTML = arr2.title.replace(/[\\]/g,"");
         $('.main-bottom-title-xs')[0].innerHTML = arr2.title.replace(/[\\]/g,"");
         $('.main-bottom-description')[0].innerHTML = arr2.content.replace(/[\\]/g,"");
         $('.main-bottom-description')[1].innerHTML = arr2.content.replace(/[\\]/g,"");
-        $('.bottom-image').css("background-image", 'url(' + arr2.img + ')');
+        $('.bottom-image').css("background-image", 'url(' + arr2.img + '?width=' + (280 * window.devicePixelRatio) + ')');
         //set vertical colors and name:
         $('.header, .search-button-small, .news-button-up, .news-button-down, .search-container').css('background', verticalColor);
         $('.search-container-arrow').css('border-bottom', '8px solid ' + verticalColor);
@@ -171,7 +171,7 @@ billboard = (function () {
             subImgContainer.appendChild(subImage);
             subContainer.appendChild(subTitle);
             subTitle.innerHTML = randomArticles[i].title.replace(/[\\]/g,"");
-            subImage.style.backgroundImage = "url('" + randomArticles[i].articleImage + "')";
+            subImage.style.backgroundImage = "url('" + randomArticles[i].articleImage + "?width=" + (190 * window.devicePixelRatio) + "')";
             $(subContainer).wrapInner($('<a href="' + randomArticles[i].urlSegment + '" />'));
             subContainer.appendChild(subHr);
         }
