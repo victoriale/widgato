@@ -25,10 +25,10 @@ var _={homeTeam:Y.homeTeamInfo.abbreviation,homeScore:Y.homeTeamInfo.score,awayT
 var U,V,W,X,T=new Date().getUTCFullYear(),Y=new Date().getTime();//Get second sunday of march 2:00 EST (beginning of daylight savings time)
 for(U=new Date(T,2,7,0,0,0,0),U.setDate(7+(7-U.getDay())),U.setUTCHours(7),U=U.getTime(),V=new Date(T,10,1,0,0,0,0);0!==V.getDay();)V.setDate(V.getDate()+1);return V.setUTCHours(6),V=V.getTime(),Y<=U||Y>V?(W=-5,X='ET'):(W=-4,X='ET'),{offset:W,tzAbbrev:X}}(),d.todayObject=function(T){var U=new Date(new Date().getTime()+1e3*(3600*T)),V=U.getUTCMonth()+1,W=U.getUTCDate(),X={today:U,year:U.getUTCFullYear(),month:1===V.toString().length?'0'+V:V,date:1===W.toString().length?'0'+W:W};return X.dateInput=X.year+'-'+X.month+'-'+X.date,X}(d.easternTime.offset);var p=window;try{for(;p!==top;)p=p.parent}catch(T){console.error('boxscores - couldn/\'t access the top window')}//Global variables
 var q=p.location,r=q.hostname.replace(/www./,''),s='https'===p.protocol?'https':'http',u,v,w,x=[],y,A,B=document.currentScript||function(){var T=document.getElementsByTagName('script');for(var U=T.length-1;0<=U;U--)
-if (skyscraperRails) {
+if (skyscraperRails) { 
   if (scripts[i].src.indexOf(skyscraperRails.embedSource) != -1) {
     return scripts[i];
-  } 
+  }
 }}();//Container and width of container
 //number of games to display
 //Variables for game data
