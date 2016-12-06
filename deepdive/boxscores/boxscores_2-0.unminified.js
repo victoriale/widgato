@@ -84,11 +84,11 @@
   var currentScript = document.currentScript || (function() {
     var scripts = document.getElementsByTagName("script");
     for (var i = scripts.length - 1; i >= 0; i--) {
-      if (skyscraperRails) {
-        if (scripts[i].src.indexOf(skyscraperRails.embedSource) != -1) {
-          return scripts[i];
-        }
-      }
+      // if (skyscraperRails) {
+      //   if (scripts[i].src.indexOf(skyscraperRails.embedSource) != -1) {
+      //     return scripts[i];
+      //   }
+      // }
     }
   })();
   parentNode = currentScript.parentNode;
