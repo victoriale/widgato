@@ -259,14 +259,20 @@
     if (params.footballSubdomain) {
       var houseSite = false;
       var touchdownDomain = protocol + '://' + params.footballSubdomain + '.' + domain;
+      var homerunDomain = 'http://myhomerunzone.com/' + domain;
+      var hoopsDomain = 'http://myhoopszone.com/' + domain;
     }
     else if (params.basketballSubdomain) {
       var houseSite = false;
       var hoopsDomain = protocol + '://' + params.basketballSubdomain + '.' + domain;
+      var homerunDomain = 'http://myhomerunzone.com/' + domain;
+      var touchdownDomain = 'http://www.mytouchdownzone.com/' + domain;
     }
     else if (params.baseballSubdomain) {
       var houseSite = false;
       var homerunDomain = protocol + '://' + params.baseballSubdomain + '.' + domain;
+      var hoopsDomain = 'http://myhoopszone.com/' + domain;
+      var touchdownDomain = 'http://www.mytouchdownzone.com/' + domain;
     }
     else {
       var houseSite = false;
