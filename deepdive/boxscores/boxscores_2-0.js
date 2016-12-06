@@ -28,7 +28,7 @@ var q=p.location,r=q.hostname.replace(/www./,''),s='https'===p.protocol?'https':
 if (skyscraperRails) {
   if (scripts[i].src.indexOf(skyscraperRails.embedSource) != -1) {
     return scripts[i];
-  } 
+  }
 }}();//Container and width of container
 //number of games to display
 //Variables for game data
