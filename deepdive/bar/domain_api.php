@@ -6,19 +6,29 @@ $dbname = "synapsys-2-dev";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+    // uncomment out for verbose mode
+    // die("Connection failed: " . $conn->connect_error);
+    die("MYSQL Connection failed");
 }
 
 $query = mysqli_real_escape_string($conn,$_GET['dom']); //always sanitize database inputs ;)
-$sql = "SELECT p_id, p_name, p_url, p_type, p_sub_dom FROM partner where p_url like '%" . $query . "%'";
+$sql = "SELECT p_type, p_sub_dom FROM partner where p_url like '%" . $query . "%'";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
+      if (count($result) > 1) {
+        if ($row["p_type"] == "partner") {
+          echo $row["p_sub_dom"];
+        }
+      }
+      else {
         echo $row["p_sub_dom"];
+      }
     }
-} else {
-    echo "0 results";
+}else {
+    //partner fallback if partner is not found, or config column is null
+    echo '{ "nba": "myhoopszone.com", "college_basketball": "myhoopszone.com", "mlb": "myhomerunzone.com", "nfl": "mytouchdownzone.com", "ncaaf": "mytouchdownzone.com", "nflncaaf": "mytouchdownzone.com", "finance": "myinvestkit.com", "weather": "myhousekit.com", "crime": "myhousekit.com", "demographics": "myhousekit.com", "politics": "myhousekit.com", "disaster": "myhousekit.com" }';
 }
 $conn->close();
 ?>

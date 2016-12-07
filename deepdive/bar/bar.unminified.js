@@ -35,15 +35,15 @@
       queryParams.forEach(function(item){
          var pair = item.split('=');
          switch(pair[0]){
-            case 'baseballSubdomain':
-                params.baseballSubdomain = decodeURIComponent(pair[1]);
-            break;
-            case 'basketballSubdomain':
-                params.basketballSubdomain = decodeURIComponent(pair[1]);
-            break;
-            case 'footballSubdomain':
-                params.footballSubdomain = decodeURIComponent(pair[1]);
-            break;
+            // case 'baseballSubdomain':
+            //     params.baseballSubdomain = decodeURIComponent(pair[1]);
+            // break;
+            // case 'basketballSubdomain':
+            //     params.basketballSubdomain = decodeURIComponent(pair[1]);
+            // break;
+            // case 'footballSubdomain':
+            //     params.footballSubdomain = decodeURIComponent(pair[1]);
+            // break;
             case 'brandHex':
                 params.brandHex = '#' + decodeURIComponent(pair[1]);
             break;
@@ -52,6 +52,20 @@
             break;
          }
       })
+  }
+  try {
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", "domain_api.php?dom=" + location.hostname, false ); // false for synchronous request
+    xmlHttp.send( null );
+    domVars = JSON.parse(xmlHttp.responseText);
+    if (domVars.mlb) {
+      params.baseballSubdomain = domVars['mlb'];
+      params.basketballSubdomain = domVars['nba'];
+      params.footballSubdomain = domVars['nfl'];
+    }
+  }
+  catch(err){
+    console.log("Domain API error: " + err);
   }
 
   /**
@@ -258,19 +272,19 @@
   else {
     if (params.footballSubdomain) {
       var houseSite = false;
-      var touchdownDomain = protocol + '://' + params.footballSubdomain + '.' + domain;
+      var touchdownDomain = protocol + '://' + params.footballSubdomain;
       var homerunDomain = 'http://myhomerunzone.com/' + domain;
       var hoopsDomain = 'http://myhoopszone.com/' + domain;
     }
-    else if (params.basketballSubdomain) {
+    if (params.basketballSubdomain) {
       var houseSite = false;
-      var hoopsDomain = protocol + '://' + params.basketballSubdomain + '.' + domain;
+      var hoopsDomain = protocol + '://' + params.basketballSubdomain;
       var homerunDomain = 'http://myhomerunzone.com/' + domain;
       var touchdownDomain = 'http://www.mytouchdownzone.com/' + domain;
     }
-    else if (params.baseballSubdomain) {
+    if (params.baseballSubdomain) {
       var houseSite = false;
-      var homerunDomain = protocol + '://' + params.baseballSubdomain + '.' + domain;
+      var homerunDomain = protocol + '://' + params.baseballSubdomain;
       var hoopsDomain = 'http://myhoopszone.com/' + domain;
       var touchdownDomain = 'http://www.mytouchdownzone.com/' + domain;
     }
