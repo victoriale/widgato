@@ -603,22 +603,52 @@
       navTeams = document.getElementsByClassName('ddb-ncaam-nav-teams');
 
     [].forEach.call(navMostWins, function(item){
-      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/29/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1';
+      }
     });
     [].forEach.call(navMostTurnovers, function(item){
-      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/40/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1';
+      }
     });
     [].forEach.call(navMostRebounds, function(item){
-      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/39/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1';
+      }
     });
     [].forEach.call(navMostSteals, function(item){
-      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/43/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1';
+      }
     });
     [].forEach.call(navMostBlocks, function(item){
-      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/55/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1';
+      }
     });
     [].forEach.call(navMostAssists, function(item){
-      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/51/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1';
+      }
     });
     [].forEach.call(navTeams, function(item){
       item.href = hoopsDomain + '/NCAA';
@@ -1150,22 +1180,52 @@
       navTeams = document.getElementsByClassName('ddb-nba-nav-teams');
 
     [].forEach.call(navMostWins, function(item){
-      item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-wins/list/1/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-wins/1/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-wins/list/1/1';
+      }
     });
     [].forEach.call(navMostTurnovers, function(item){
-      item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-turnovers/list/12/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-turnovers/12/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-turnovers/list/12/1';
+      }
     });
     [].forEach.call(navMostRebounds, function(item){
-      item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-rebounds/list/11/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-rebounds/11/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-rebounds/list/11/1';
+      }
     });
     [].forEach.call(navMostSteals, function(item){
-      item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-steals/list/15/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-steals/15/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-steals/list/15/1';
+      }
     });
     [].forEach.call(navMostBlocks, function(item){
-      item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-blocks/list/14/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-blocks/14/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-blocks/list/14/1';
+      }
     });
     [].forEach.call(navMostAssists, function(item){
-      item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-assists-per-game/list/23/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-assists-per-game/23/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-assists-per-game/list/23/1';
+      }
     });
     [].forEach.call(navTeams, function(item){
       item.href = hoopsDomain + '/NBA';
