@@ -193,7 +193,6 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
-        console.log("subd",l.subd);
         currentConfig = getCategoryMetadata(l.category);
     var s = false;
     var o = '';
