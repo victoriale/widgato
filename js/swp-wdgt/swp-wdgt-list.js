@@ -18,7 +18,12 @@ swp_wdgt = function(){
   if(temp !== null && temp !== ""){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
-    remnant = query.remn;
+    if (query.remn !== "" && query.remn !== null) {
+      remnant = query.remn;
+    }
+    else {
+      remnant = 'true';
+    }
     bord = query.bord;
   }else{
     domain = false;
