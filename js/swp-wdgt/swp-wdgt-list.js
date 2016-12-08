@@ -14,11 +14,10 @@ swp_wdgt = function(){
 
   var temp = location.search;
   var season;
-
-  if(temp !== null && temp !== ""){
+  if(temp != null && temp != ""){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
-    if (query.remn !== "" && query.remn !== null) {
+    if (query.remn != "" && query.remn != null) {
       remnant = query.remn;
     }
     else {
