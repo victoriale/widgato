@@ -656,6 +656,66 @@
   }
   //Bootstrap college basketball logic that has dependencies
   var bootstrapDynamicCollegeBasketball = function(state, userLocationFound){
+    //Link up nav items
+    var navMostWins = document.getElementsByClassName('ddb-ncaam-nav-most-wins'),
+      navMostTurnovers = document.getElementsByClassName('ddb-ncaam-nav-most-turnovers'),
+      navMostRebounds = document.getElementsByClassName('ddb-ncaam-nav-most-rebounds'),
+      navMostSteals = document.getElementsByClassName('ddb-ncaam-nav-most-steals'),
+      navMostBlocks = document.getElementsByClassName('ddb-ncaam-nav-most-blocks'),
+      navMostAssists = document.getElementsByClassName('ddb-ncaam-nav-most-assists'),
+      navTeams = document.getElementsByClassName('ddb-ncaam-nav-teams');
+
+    [].forEach.call(navMostWins, function(item){
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/29/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1';
+      }
+    });
+    [].forEach.call(navMostTurnovers, function(item){
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/40/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1';
+      }
+    });
+    [].forEach.call(navMostRebounds, function(item){
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/39/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1';
+      }
+    });
+    [].forEach.call(navMostSteals, function(item){
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/43/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1';
+      }
+    });
+    [].forEach.call(navMostBlocks, function(item){
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/55/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1';
+      }
+    });
+    [].forEach.call(navMostAssists, function(item){
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/51/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1';
+      }
+    });
+    [].forEach.call(navTeams, function(item){
+      item.href = hoopsDomain + '/NCAA';
+    });
     //Convert state to full form
     var fullState = stateAbbrevToFull(state);
     var fullStateEncode = encodeURIComponent(fullState);
@@ -710,40 +770,39 @@
         apiConfig.teamsNCAAM.isLoading = false;
         apiConfig.teamsNCAAM.hasLoaded = true;
         apiConfig.teamsNCAAM.success = true;
-
         var navHTML = `
           <li class="ddb-brand-menu-hover">
-            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1">
+            <a target="_blank" href="` + navMostWins[0].href + `">
               <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
               Most Wins
             </a>
           </li>
           <li class="ddb-brand-menu-hover">
-            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1">
+            <a target="_blank" href="` + navMostTurnovers[0].href + `">
               <i class="ddb-icon ddb-icon-box-scores ddb-brand-text"></i>
               Most Turnovers
             </a>
           </li>
           <li class="ddb-brand-menu-hover">
-            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1">
+            <a target="_blank" href="` + navMostRebounds[0].href + `">
               <i class="ddb-icon ddb-icon-dribbble ddb-brand-text"></i>
               Most Rebounds
             </a>
           </li>
           <li class="ddb-brand-menu-hover">
-            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1">
+            <a target="_blank" href="` + navMostSteals[0].href + `">
               <i class="ddb-icon ddb-icon-magic ddb-brand-text"></i>
               Most Steals
             </a>
           </li>
           <li class="ddb-brand-menu-hover">
-            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1">
+            <a target="_blank" href="` + navMostBlocks[0].href + `">
               <i class="ddb-icon ddb-icon-thumbs-o-down ddb-brand-text"></i>
               Most Blocks
             </a>
           </li>
           <li class="ddb-brand-menu-hover">
-            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1">
+            <a target="_blank" href="` + navMostAssists[0].href + `">
               <i class="ddb-icon ddb-icon-life-ring ddb-brand-text"></i>
               Most Assists
             </a>
@@ -1234,37 +1293,37 @@
     var navEl = document.createElement('ul');
     navEl.innerHTML = `
       <li class="ddb-brand-menu-hover">
-        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-wins/list/1/1">
+        <a target="_blank" href="` + navMostWins[0].href + `">
           <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
           Most Wins
         </a>
       </li>
       <li class="ddb-brand-menu-hover">
-        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-turnovers/list/12/1">
+        <a target="_blank" href="` + navMostTurnovers[0].href + `">
           <i class="ddb-icon ddb-icon-box-scores ddb-brand-text"></i>
           Most Turnovers
         </a>
       </li>
       <li class="ddb-brand-menu-hover">
-        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-rebounds/list/11/1">
+        <a target="_blank" href="` + navMostRebounds[0].href + `">
           <i class="ddb-icon ddb-icon-dribbble ddb-brand-text"></i>
           Most Rebounds
         </a>
       </li>
       <li class="ddb-brand-menu-hover">
-        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-steals/list/15/1'">
+        <a target="_blank" href="` + navMostSteals[0].href + `">
           <i class="ddb-icon ddb-icon-magic ddb-brand-text"></i>
           Most Steals
         </a>
       </li>
       <li class="ddb-brand-menu-hover">
-        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-blocks/list/14/1">
+        <a target="_blank" href="` + navMostBlocks[0].href + `">
           <i class="ddb-icon ddb-icon-thumbs-o-down ddb-brand-text"></i>
           Most Blocks
         </a>
       </li>
       <li class="ddb-brand-menu-hover">
-        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-assists-per-game/list/23/1">
+        <a target="_blank" href="` + navMostAssists[0].href + `">
           <i class="ddb-icon ddb-icon-life-ring ddb-brand-text"></i>
           Most Assists
         </a>
