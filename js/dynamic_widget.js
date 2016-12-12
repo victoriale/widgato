@@ -132,32 +132,6 @@ var currentDomain = "";
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 var rounds = 0;
 
-//todo: use this for formatting all links
-function generateListLink (scope, destinationId, subject, season, listType, ordering, remn) {
-  var baseUrl;
-  var output = "";
-  if (remn == "false") { //if partner
-    if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
-      for (var i = 0; i < specialDomains.length; i++) {
-        if (referrer.indexOf(specialDomains[i]) >= 0) {
-          baseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
-          break;
-        }
-      }
-    }
-    else { //only partner, not subdomain
-      baseUrl = "http://" + currentConfig.partnerDomain;
-    }
-  }
-  else { // not partner site and not partner domain
-    baseUrl = "http://" + currentConfig.domain;
-  }
-
-  // now that we have the base Url, format the rest of the link
-  output = baseUrl + "/" + scope + "/list/" + subject + "/" + listType + "/" + season + "/" + destinationId;
-
-  return output;
-}
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
 var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
 
