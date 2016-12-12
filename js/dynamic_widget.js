@@ -122,23 +122,6 @@ function getCategoryMetadata (category) {
     return globalMeta['finance'];
   }
 }
-var specialDomains = [
-  "latimes.com",
-  "orlandosentinel.com",
-  "sun-sentinel.com",
-  "baltimoresun.com",
-  "mcall.com",
-  "courant.com",
-  "dailypress.com",
-  "southflorida.com",
-  "citypaper.com",
-  "themash.com",
-  "coastlinepilot.com",
-  "sandiegouniontribune.com",
-  "ramonasentinel.com",
-  "capitalgazette.com",
-  "chicagotribune.com"
-];
 
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var currentConfig;
@@ -375,63 +358,32 @@ dynamic_widget = function() {
         switch (l.category) {
             case 'nba':
             case 'college_basketball':
-                for (i = 0; i <= specialDomains.length; i++) {
-                  if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://" + currentConfig.partnerSubdomain + "." + specialDomains[i];
-                  }
-                }
-                if (SpecialDomain == "") {
-                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/' + currentConfig.subCategory + '/w-list';
-                }
-                else {
-                  a = SpecialDomain + '/' + currentConfig.subCategory + '/widget-list';
-                }
+                var a = l.remn == 'true' ? 'http://' + l.subd + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + l.subd + '/' + currentConfig.subCategory + '/w-list';
                 break;
             case "mlb":
-                for (i = 0; i <= specialDomains.length; i++) {
-                  if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://" + currentConfig.partnerSubdomain + "." + specialDomains[i];
-                  }
-                }
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
                 $("carousel").className = "one";
                 var a = "";
-                if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/list' : "http://" + currentConfig.partnerDomain + "/" + l.dom +'/list';
-                }
-                else {
-                  a = SpecialDomain + '/list';
-                }
+                a = l.remn == 'true' ? 'http://' + l.subd + '/list' : "http://" + l.subd +'/list';
                 var n = false
                 break;
             case "nfl":
             case "ncaaf":
             case "nflncaaf":
-                for (i = 0; i <= specialDomains.length; i++) {
-                  if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://" + currentConfig.partnerSubdomain + "." + specialDomains[i] ;
-                  }
-                }
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
                 $("carousel").className = "one";
                 var a = "";
-                if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://' + currentConfig.domain : "http://" + currentConfig.partnerDomain + "/" + l.dom;
-                }
-                else {
-                  //for football.partnerdomain.com
-                  a = SpecialDomain;
-                }
+                a = l.remn == 'true' ? 'http://' + l.subd : "http://" + l.subd;
                 var n = false
                 break;
             case 'finance':
-                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/widget-list' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/w-list';
+                var a = l.remn == 'true' ? 'http://' + l.subd + '/widget-list' : 'http://' + l.subd + '/w-list';
                 if (s) {
                     a = a.replace(currentConfig.partnerDomain, o)
                 }
                 break;
             default:
-                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/wlist' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/wlist';
+                var a = l.remn == 'true' ? 'http://' + l.subd + '/wlist' : 'http://' + l.subd + '/wlist';
                 var n = false
         }
         if (currentConfig.category != "football") {
