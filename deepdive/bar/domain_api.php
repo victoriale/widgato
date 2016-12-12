@@ -15,7 +15,7 @@ $query = mysqli_real_escape_string($conn,$_GET['dom']); //always sanitize databa
 $sql = "SELECT p_type, p_sub_dom FROM partner where p_url like '%" . $query . "%'";
 $result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
+if ($result->num_rows > 0 && $query != "" && $query != null) {
     while($row = $result->fetch_assoc()) {
       if (count($result) > 1) {
         if ($row["p_type"] == "partner") {
