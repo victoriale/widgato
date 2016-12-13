@@ -6,7 +6,7 @@ ai_widget = (function() {
   var target;
   if (temp != null) {
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
-    scope = query.league;
+    scope = query.category;
     target = query.targ;
   } else {
     scope = 'nba';

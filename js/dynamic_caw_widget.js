@@ -311,7 +311,8 @@ dynamic_widget = function() {
               }
           }
       };
-      i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=http://www.espn.com/blog/dallas-cowboys/post/_/id/4756238/for-third-time-in-12-days-cowboys-find-a-way-to-win" , true);
+      console.log("input url",l.url);
+      i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=" + l.url , true);
         //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
         i.send()
     }
@@ -356,6 +357,41 @@ function p() {
           $('next-list-link').classList.remove("disabled-button");
         }
         var e = r.data.article_data[i];
+        console.log(e);
+        function add_css_link(e) {
+            var t = d.createElement("link");
+            t.href = e, t.type = "text/css", t.rel = "stylesheet";
+            var n = d.getElementsByTagName("head")[0];
+            n.insertBefore(t, n.childNodes[0])
+        }! function() {
+            var e = "../css/dynamic_widget_",
+                t = JSON.parse(decodeURIComponent(location.search.substr(1))),
+                n = {
+                    nba: "basketball",
+                    college_basketball: "basketball",
+                    mlb: "mlb",
+                    nfl: "nfl",
+                    ncaaf: "ncaaf",
+                    nflncaaf: "nflncaaf",
+                    finance: "finance",
+                    crime: "crime",
+                    demographics: "demographics",
+                    disaster: "disaster",
+                    weather: "weather",
+                    tcx: "tcx",
+                    entertainment: "entertainment",
+                    realestate: "realestate",
+                    food: "food",
+                    travel: "travel",
+                    health: "health",
+                    sports: "sports",
+                    lifestyle: "lifestyle",
+                    breaking: "breaking",
+                    ipo: "ipo",
+                    automotive: "automotive"
+                };
+            return "politics" == t.category ? !1 : (("undefined" == typeof t.category || "undefined" == typeof n[t.category]) && (t.category = "finance"), e += n[t.category] + ".css", void add_css_link(e))
+        }();
         a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
         if ($('list-link')) {
             $('list-link').href = a
