@@ -311,7 +311,7 @@ dynamic_widget = function() {
               }
           }
       };
-      i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
+      i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=http://www.espn.com/blog/dallas-cowboys/post/_/id/4756238/for-third-time-in-12-days-cowboys-find-a-way-to-win" , true);
         //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
         i.send()
     }
@@ -349,13 +349,13 @@ dynamic_widget = function() {
         p()
       }
 function p() {
-        if (r.data.length <= 1) {
+        if (r.data.article_data.length <= 1) {
           $('next-list-link').classList.add("disabled-button");
         }
         else {
           $('next-list-link').classList.remove("disabled-button");
         }
-        var e = r.data[i];
+        var e = r.data.article_data[i];
         a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
         if ($('list-link')) {
             $('list-link').href = a
@@ -390,7 +390,7 @@ function p() {
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
           if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
+            t.setAttribute('src', e.image_url + "?width=" + (t.width * window.devicePixelRatio));
           }
           else { //todo: use placeholder images as fallback for articles instead of no-image image
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
@@ -402,7 +402,7 @@ function p() {
 
     function w(e) {
         i += e;
-        i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
+        i = i >= r.data.article_data.length ? 0 : i < 0 ? r.data.article_data.length - 1 : i;
         p();
         if (typeof dataLayer != 'undefined') {
             dataLayer.push({
