@@ -11,7 +11,7 @@ ai_widget = (function() {
   } else {
     scope = 'nba';
   }
-  var APIUrl = 'http://prod-sports-ai.synapsys.us/' + scope + '/widget',
+  var APIUrl = 'http://dev-sports-ai.synapsys.us/sidekick?scope=' + scope,
     AIData = {},
     gameID = -1,
     pageInd = -1,
@@ -56,12 +56,19 @@ ai_widget = (function() {
     }
     var locApiUrl = APIUrl;
     if (typeof eventId != "undefined") {
-      locApiUrl += "/" + eventId;
+      locApiUrl += "&event=" + eventId;
     }
     $.ajax({
       url: locApiUrl,
       success: function(data) {
-        AIData = data;
+        var newArray = [data.data['meta-data']];
+        for (var key in data.data) {
+          if (data.data[key].scope) {
+            newArray.push(data.data[key]);
+            data.data[key].id = key.replace(/-/g,"_");
+          }
+        }
+        AIData = newArray;
         processData();
       },
       error: function(jqXHR, status, error) {
@@ -88,16 +95,16 @@ ai_widget = (function() {
     var dataArr = [];
     $.map(AIData, function(val, index) {
       if (val.id == pageID) {
-        content.title = val.title;
-        content.content = val['body'][0].content;
+        content.title = val.id.replace(/_/g," ").replace(/\b\w/g, l => l.toUpperCase());
+        content.content = val.teaser;
         content.images = val['carousel'];
         dataArr.push(content);
       }
     });
     var imageArr = [];
-    $.map(content.images, function(val, index) {
-      imageArr.push(val.url);
-    });
+    // $.map(content.images, function(val, index) {
+    //   imageArr.push(val.url);
+    // });
     if (imageArr.length < 1) {
       imageArr = ['http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_1.png',
         'http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_2.png',
@@ -111,7 +118,7 @@ ai_widget = (function() {
     var arr = {
       title: dataArr[0].title,
       number: (pageInd + 1) + '/' + availPages.length,
-      url: AIData[0].league + '/article/' + transArr[pageID] + '/' + gameID,
+      url: AIData[1].scope + '/article/' + transArr[pageID] + '/' + gameID,
       content: dataArr[0].content + '<br>&nbsp; ',
       img: imageArr[imgIndex]
     };
@@ -177,7 +184,7 @@ ai_widget = (function() {
     }
     pageInd = 0;
     // Get game ID
-    gameID = AIData[0].current.id;
+    gameID = AIData[0].current.event_id;
     if (gameArr.length == 0) {
       parseGames();
     }
@@ -193,14 +200,14 @@ ai_widget = (function() {
         // Team names
         $.map(games, function(val, index) {
           var gameData = {};
-          gameData.home = val.home.abbreviation;
-          gameData.away = val.away.abbreviation;
-          gameData.fullHome = val.home.name;
-          gameData.fullAway = val.away.name;
+          gameData.home = val.home_abbreviation;
+          gameData.away = val.away_abbreviation;
+          gameData.fullHome = val.home_team_name;
+          gameData.fullAway = val.away_team_name;
           // Event ID
-          gameData.eventId = val.id;
+          gameData.eventId = val.event_id;
           // Date
-          gameData.eventDate = val.date;
+          gameData.eventDate = val.start_date_time.date;
           //due to a '-' in the eventDate the position of the date and Time will be [0] and [2]
           gameData.date = gameData.eventDate.split(' ')[0].split('/');
           //get rid of extra 0 in date month
@@ -211,15 +218,15 @@ ai_widget = (function() {
           gameData.date[2] = gameData.date[2].slice(2, 4);
           gameData.date = gameData.date.join('/');
           //convert hours to get rid of 0 in 09:XX AM/PM
-          gameData.Time = gameData.eventDate.split(' ')[2].split(':');
-          if (Number(gameData.Time[0]) < 10) {
-            gameData.Time[0] = gameData.Time[0].slice(1, 2);
-          }
-          gameData.Time = gameData.Time.join(':');
+          // gameData.Time = gameData.eventDate.split(' ')[2].split(':');
+          // if (Number(gameData.Time[0]) < 10) {
+          //   gameData.Time[0] = gameData.Time[0].slice(1, 2);
+          // }
+          gameData.Time = val.start_date_time.time;
           gameData.meridian = gameData.eventDate.split(' ')[3];
           //rejoin gameData.eventDate to one single use
-          gameData.eventDate = gameData.date + ' - ' + gameData.Time + gameData.meridian;
-          gameData.eventTime = ' - ' + gameData.Time + gameData.meridian + ' EST';
+          gameData.eventDate = gameData.date + ' - ' + gameData.Time;
+          gameData.eventTime = ' - ' + gameData.Time + ' EST';
           gameArr.push(gameData);
         });
         return gameArr;

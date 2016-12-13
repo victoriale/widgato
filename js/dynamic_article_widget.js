@@ -311,8 +311,8 @@ dynamic_widget = function() {
               }
           }
       };
-      i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
-        // i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=" + "http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true);
+      // i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
+        i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=http://www.espn.com/blog/dallas-cowboys/post/_/id/4756238/for-third-time-in-12-days-cowboys-find-a-way-to-win" , true);
         //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
         i.send()
     }
