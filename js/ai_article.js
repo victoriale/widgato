@@ -93,18 +93,16 @@ ai_widget = (function() {
     var pageID = availPages[pageInd];
     var content = [];
     var dataArr = [];
+    var imageArr = [];
     $.map(AIData, function(val, index) {
       if (val.id == pageID) {
         content.title = val.id.replace(/_/g," ").replace(/\b\w/g, l => l.toUpperCase());
         content.content = val.teaser;
         content.images = val['carousel'];
         dataArr.push(content);
+        imageArr.push("http://prod-sports-images.synapsys.us" + val.image_url);
       }
     });
-    var imageArr = [];
-    // $.map(content.images, function(val, index) {
-    //   imageArr.push(val.url);
-    // });
     if (imageArr.length < 1) {
       imageArr = ['http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_1.png',
         'http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_2.png',
