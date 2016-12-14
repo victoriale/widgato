@@ -57,7 +57,7 @@
     var xmlHttp = new XMLHttpRequest();
     var hostname = location.hostname.match(/[^\.]*\.[^.]*$/)[0];
     xmlHttp.open( "GET", protocol + "://w1.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=" + hostname, false ); // false for synchronous request
-    xmlHttp.send( null );
+    xmlHttp.send();
     domVars = JSON.parse(xmlHttp.responseText);
     if (domVars.mlb) {
       params.baseballSubdomain = domVars['mlb'];

@@ -26,7 +26,7 @@ var scripts=document.getElementsByTagName("script");for(var i=scripts.length-1;i
 }else{
 var queryParams=queryString.split('&');queryParams.forEach(function(item){var pair=item.split('=');switch(pair[0]){
 case'brandHex':params.brandHex='#'+decodeURIComponent(pair[1]);break;case'sportOrder':params.sportOrder=JSON.parse(decodeURIComponent(pair[1]));break;}});}try{var xmlHttp=new XMLHttpRequest();hostname=location.hostname.match(/[^\.]*\.[^.]*$/)[0];xmlHttp.open("GET",protocol + "://w1.synapsys.us/widgets/deepdive/bar/domain_api.php?dom="+hostname,false);
-xmlHttp.send(null);domVars=JSON.parse(xmlHttp.responseText);if(domVars.mlb){params.baseballSubdomain=domVars['mlb'];params.basketballSubdomain=domVars['nba'];params.footballSubdomain=domVars['nfl'];}}catch(err){console.log("Domain API error: "+err);}var apiConfig={
+xmlHttp.send();domVars=JSON.parse(xmlHttp.responseText);if(domVars.mlb){params.baseballSubdomain=domVars['mlb'];params.basketballSubdomain=domVars['nba'];params.footballSubdomain=domVars['nfl'];}}catch(err){console.log("Domain API error: "+err);}var apiConfig={
 fuse:{hasLoaded:false,isLoading:false,url:function url(){return resourceURL+'/lib/search_teams_middlelayer.php';}},
 searchTeams:{hasLoaded:false,isLoading:false,url:function url(){return resourceURL+'/lib/search_teams_middlelayer.php';}},
 boxscoresNBA:{hasLoaded:false,isLoading:false,url:function url(todayDate){return protocol+'://prod-sports-api.synapsys.us/NBAHoops/call_controller.php?scope=nba&action=trimmed_box_scores&option=trimmed_box_scores&count=10&date='+todayDate;}},
