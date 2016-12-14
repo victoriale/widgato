@@ -115,6 +115,9 @@
                     ipo: "ipo",
                     automotive: "automotive"
                 };
+                if ((t.category == "" || t.category == null) && t.cat != null && t.cat != "") {
+                  t.category = t.cat;
+                }
             return "politics" == t.category ? !1 : (("undefined" == typeof t.category || "undefined" == typeof n[t.category]) && (t.category = "finance"), e += n[t.category] + ".css", void add_css_link(e))
         }();
         var hoverInterval = null,
