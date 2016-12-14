@@ -248,6 +248,9 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','entertainment','realestate','food','travel','health','sports','lifestyle','breaking','automotive'];
+        if ((l.category == "" || l.category == null) && l.cat != null && l.cat != "") {
+          l.category = l.cat;
+        }
     var s = false;
     var o = '';
     function c(e) {
