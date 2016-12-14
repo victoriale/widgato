@@ -1,4 +1,5 @@
 <?php
+header('Access-Control-Allow-Origin: *');  
 $servername = "aa1k3h3h30af0eo.c0dkrh3gf98q.us-east-1.rds.amazonaws.com";
 $username = "dev";
 $password = '$ntMed!A';
