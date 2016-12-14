@@ -55,8 +55,7 @@
   }
   try {
     var xmlHttp = new XMLHttpRequest();
-    var b = location.hostname.match(/\w+\.\w+\.\w+\//);
-    var hostname = b[0].slice(0,-1);
+    var hostname = location.hostname.match(/[^\.]*\.[^.]*$/)[0];
     xmlHttp.open( "GET", "domain_api.php?dom=" + hostname, false ); // false for synchronous request
     xmlHttp.send( null );
     domVars = JSON.parse(xmlHttp.responseText);

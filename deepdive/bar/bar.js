@@ -25,7 +25,7 @@ var embedURL=resourceURL+fileName;
 var scripts=document.getElementsByTagName("script");for(var i=scripts.length-1;i>=0;i--){if(scripts[i].src.indexOf(fileName)!=-1){var currentScript=scripts[i];}}var params={baseballSubdomain:null,basketballSubdomain:null,footballSubdomain:null,brandHex:null,sportOrder:null};var queryString=currentScript.src.split('?')[1];if(typeof queryString==='undefined'){
 }else{
 var queryParams=queryString.split('&');queryParams.forEach(function(item){var pair=item.split('=');switch(pair[0]){
-case'brandHex':params.brandHex='#'+decodeURIComponent(pair[1]);break;case'sportOrder':params.sportOrder=JSON.parse(decodeURIComponent(pair[1]));break;}});}try{var xmlHttp=new XMLHttpRequest();var b=location.hostname.match(/\w+\.\w+\.\w+\//);var hostname=b[0].slice(0,-1);xmlHttp.open("GET","domain_api.php?dom="+hostname,false);
+case'brandHex':params.brandHex='#'+decodeURIComponent(pair[1]);break;case'sportOrder':params.sportOrder=JSON.parse(decodeURIComponent(pair[1]));break;}});}try{var xmlHttp=new XMLHttpRequest();hostname=location.hostname.match(/[^\.]*\.[^.]*$/)[0];xmlHttp.open("GET","domain_api.php?dom="+hostname,false);
 xmlHttp.send(null);domVars=JSON.parse(xmlHttp.responseText);if(domVars.mlb){params.baseballSubdomain=domVars['mlb'];params.basketballSubdomain=domVars['nba'];params.footballSubdomain=domVars['nfl'];}}catch(err){console.log("Domain API error: "+err);}var apiConfig={
 fuse:{hasLoaded:false,isLoading:false,url:function url(){return resourceURL+'/lib/search_teams_middlelayer.php';}},
 searchTeams:{hasLoaded:false,isLoading:false,url:function url(){return resourceURL+'/lib/search_teams_middlelayer.php';}},
