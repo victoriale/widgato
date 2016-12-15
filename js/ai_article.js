@@ -305,7 +305,7 @@ $(function() {
     if (remnant == 'true') {
       $("base").attr("href", remLink);
     } else {
-      $("base").attr("href", partLink + domain + "/");
+      $("base").attr("href", partLink + "/");
     }
   }
 });
