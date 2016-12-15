@@ -17,7 +17,7 @@ ai_widget = (function() {
     pageInd = -1,
     availPages = [],
     gameArr = [],
-    pages = ['pregame_report', 'postgame_report', 'about_the_teams', 'historical_team_stats', 'last_matchup', 'player_comparison_centers1', 'player_comparison_forwards1', 'player_comparison_guards1', 'player_comparison_forwards2', 'player_comparison_guards2', 'player_comparison_scorers', 'player_comparison_assisters', 'player_comparison_three_point_getters', 'player_comparison_rebounders', 'player_comparison_stealers', 'player_comparison_power_forwards', 'player_comparison_small_forwards', 'player_comparison_shooting_guards', 'player_comparison_point_guards', 'player_comparison_centers', 'home_team_starting_roster', 'away_team_starting_roster', 'home_team_injury_report', 'away_team_injury_report', 'upcoming'],
+    pages = ['pregame_report', 'postgame_report', 'about_the_teams', 'historical_team_statistics', 'last_matchup', 'player_comparison_centers1', 'power_forward_player_comparison', 'point_guard_player_comparison', 'player_comparison_forwards2', 'shooting_guard_player_comparison', 'player_comparison_scorers', 'player_comparison_assisters', 'player_comparison_three_point_getters', 'player_comparison_rebounders', 'player_comparison_stealers', 'power_forward_player_comparison', 'small_forward_player_comparison', 'player_comparison_shooting_guards', 'player_comparison_point_guards', 'center_player_comparison', 'starting_roster_home', 'starting_roster_away', 'home_team_injury_report', 'injuries_away', 'upcoming_games'],
     transArr = {
       'pregame_report': 'pregame',
       'postgame_report': 'postgame',
