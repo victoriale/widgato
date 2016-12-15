@@ -509,6 +509,7 @@ function p() {
         e.li_url = e.li_url.replace("/p/", "/player/");
         e.li_line_url = e.li_line_url.replace("/t/", "/team/");
         e.li_line_url = e.li_line_url.replace("/p/", "/player/");
+        e.li_url = e.li_url.replace("/w-list", "/widget-list");
         if (SpecialDomain) {
           e.li_url = "http://" + e.li_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/").replace('/{partner}', "");
           e.li_line_url = "http://" + e.li_line_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/").replace('/{partner}', "");
