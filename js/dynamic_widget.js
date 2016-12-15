@@ -150,7 +150,7 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
-        if (l.subd.indexOf("/") == -1) {
+        if (l.subd && l.subd.indexOf("/") == -1) {
           SpecialDomain = l.subd;
         }
         currentConfig = getCategoryMetadata(l.category);
