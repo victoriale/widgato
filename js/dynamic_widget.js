@@ -500,15 +500,15 @@ function p() {
         switch (l.category) {
             case 'mlb':
                 e.li_url = e.li_url.replace(/(?:https?\:)?(?:\/\/)?(?:www\.)?myhomerunzone\.com\/\{partner\}/i, SpecialDomain);
-        e.li_url = e.li_url.replace("/t/", "/team/");
-        e.li_url = e.li_url.replace("/p/", "/player/");
                 e.li_line_url = e.li_line_url.replace(/(?:https?\:)?(?:\/\/)?(?:www\.)?myhomerunzone\.com\/\{partner\}/i, SpecialDomain);
-        e.li_line_url = e.li_line_url.replace("/t/", "/team/");
-        e.li_line_url = e.li_line_url.replace("/p/", "/player/");
                 break;
             default:
                 break;
         }
+        e.li_url = e.li_url.replace("/t/", "/team/");
+        e.li_url = e.li_url.replace("/p/", "/player/");
+        e.li_line_url = e.li_line_url.replace("/t/", "/team/");
+        e.li_line_url = e.li_line_url.replace("/p/", "/player/");
         if (SpecialDomain) {
           e.li_url = "http://" + e.li_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/").replace('/{partner}', "");
           e.li_line_url = "http://" + e.li_line_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/").replace('/{partner}', "");
