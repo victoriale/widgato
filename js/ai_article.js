@@ -295,10 +295,10 @@ $(function() {
   var domain, remnant;
   var temp = location.search;
   var query = {};
-  var remLink = "http://www.hoopsloyal.com/";
-  var partLink = "http://www.myhoopszone.com/";
   if (temp != null) {
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
+    var remLink = "http://" + query.subd;
+    var partLink = "http://" + query.subd;
     //set the query data from database to global variable to use
     domain = query.dom;
     remnant = query.remn;
