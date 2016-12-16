@@ -366,6 +366,12 @@ function p() {
             $('title-link').href = a
         }
         $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
+        if ($('title-text').clientHeight > 76) {
+          $('desc').style.opacity = 0;
+        }
+        else {
+          $('desc').style.opacity = 1;
+        }
         if ($('keyword') && e.category) {
           $('keyword').innerHTML = e.category.replace(/-/g," ");
         }
