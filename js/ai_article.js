@@ -44,7 +44,7 @@ ai_widget = (function() {
       'starting_roster_away': 'starting-roster-away',
       'injuries_home': 'injuries-home',
       'injuries_away': 'injuries-away',
-      'upcoming': 'upcoming',
+      'upcoming_games': 'upcoming-games',
     };
   function getContent(eventId) {
     // Clear old data
