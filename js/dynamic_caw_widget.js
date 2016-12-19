@@ -274,7 +274,7 @@ dynamic_widget = function() {
           o = 'finance.lasvegasnow.com'
       }
       if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
-          l.category = 'finance'
+          l.category = 'nfl'
       }
       if (ignoreRandom == null) {
         var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
@@ -282,7 +282,7 @@ dynamic_widget = function() {
       else {
         var e = Math.floor(Math.random() * 10);
       }
-      currentConfig = getCategoryMetadata("nfl");
+      currentConfig = getCategoryMetadata(l.category);
 
       var i;
       if (window.XMLHttpRequest) {
