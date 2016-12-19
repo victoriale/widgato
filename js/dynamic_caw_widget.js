@@ -370,8 +370,8 @@ function p() {
           $('next-list-link').classList.remove("disabled-button");
         }
         var e = r.data.article_data[i];
-        console.log("API returned",e);
         function add_css_link(e) {
+          console.log("API returned",e);
             var t = d.createElement("link");
             t.href = e, t.type = "text/css", t.rel = "stylesheet";
             var n = d.getElementsByTagName("head")[0];

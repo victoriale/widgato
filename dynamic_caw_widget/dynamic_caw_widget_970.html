@@ -91,40 +91,6 @@
         <div class=presented></div>
     </div>
     <script>
-        function add_css_link(e) {
-            var t = d.createElement("link");
-            t.href = e, t.type = "text/css", t.rel = "stylesheet";
-            var n = d.getElementsByTagName("head")[0];
-            n.insertBefore(t, n.childNodes[0])
-        }! function() {
-            var e = "../css/dynamic_widget_",
-                t = JSON.parse(decodeURIComponent(location.search.substr(1))),
-                n = {
-                    nba: "basketball",
-                    college_basketball: "basketball",
-                    mlb: "mlb",
-                    nfl: "nfl",
-                    ncaaf: "ncaaf",
-                    nflncaaf: "nflncaaf",
-                    finance: "finance",
-                    crime: "crime",
-                    demographics: "demographics",
-                    disaster: "disaster",
-                    weather: "weather",
-                    tcx: "tcx",
-                    entertainment: "entertainment",
-                    realestate: "realestate",
-                    food: "food",
-                    travel: "travel",
-                    health: "health",
-                    sports: "sports",
-                    lifestyle: "lifestyle",
-                    breaking: "breaking",
-                    ipo: "ipo",
-                    automotive: "automotive"
-                };
-            return "politics" == t.category ? !1 : (("undefined" == typeof t.category || "undefined" == typeof n[t.category]) && (t.category = "finance"), e += n[t.category] + ".css", void add_css_link(e))
-        }();
         var hoverInterval = null,
             dw = d.getElementsByClassName("dw")[0];
         dw.addEventListener("mouseover", function() {
