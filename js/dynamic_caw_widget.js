@@ -421,7 +421,7 @@ function p() {
 
         //todo: possibly make this a function
         if ($('date')) {
-          var date = new Date(e.last_updated*1000);
+          var date = new Date(e.published_date*1000);
           var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
           var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
             "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"
