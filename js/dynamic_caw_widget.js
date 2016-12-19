@@ -402,7 +402,7 @@ function p() {
                     ipo: "ipo",
                     automotive: "automotive"
                 };
-            return "politics" == l.category ? !1 : (("undefined" == typeof l.category || "undefined" == typeof n[l.category]) && (l.category = "finance"), e += n[l.category] + ".css", void add_css_link(e))
+            return "politics" == l.category ? !1 : (("undefined" == typeof l.category || "undefined" == typeof n[l.category]) && (l.category = "nfl"), e += n[l.category] + ".css", void add_css_link(e))
         }();
         a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
         if ($('list-link')) {
