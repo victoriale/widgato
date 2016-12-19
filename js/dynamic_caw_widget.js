@@ -39,7 +39,7 @@ function getCategoryMetadata (category) {
     },
     ncaaf: {
       displayName: "Football",
-      domain: "www.touchdownloyal.com",
+      domain: "dev.touchdownloyal.com",
       partnerDomain: "www.mytouchdownzone.com",
       usesPartnerSubdomain: true,
       partnerSubdomain: "football",
@@ -49,7 +49,7 @@ function getCategoryMetadata (category) {
     },
     nba: {
       displayName: "Basketball",
-      domain: "www.hoopsloyal.com",
+      domain: "dev.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
@@ -58,7 +58,7 @@ function getCategoryMetadata (category) {
     },
     ncaam: {
       displayName: "Basketball",
-      domain: "www.hoopsloyal.com",
+      domain: "dev.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
@@ -67,7 +67,7 @@ function getCategoryMetadata (category) {
     },
     mlb: {
       displayName: "Baseball",
-      domain: "www.homerunloyal.com",
+      domain: "dev.homerunloyal.com",
       partnerDomain: "www.myhomereunzone.com",
       usesPartnerSubdomain: true,
       partnerSubdomain: "baseball",
