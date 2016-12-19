@@ -378,7 +378,6 @@ function p() {
             n.insertBefore(t, n.childNodes[0])
         }! function() {
             var e = "../css/dynamic_widget_",
-                t = JSON.parse(decodeURIComponent(location.search.substr(1))),
                 n = {
                     nba: "basketball",
                     college_basketball: "basketball",
@@ -403,7 +402,7 @@ function p() {
                     ipo: "ipo",
                     automotive: "automotive"
                 };
-            return "politics" == t.category ? !1 : (("undefined" == typeof t.category || "undefined" == typeof n[t.category]) && (t.category = "finance"), e += n[t.category] + ".css", void add_css_link(e))
+            return "politics" == l.category ? !1 : (("undefined" == typeof l.category || "undefined" == typeof n[l.category]) && (l.category = "finance"), e += n[l.category] + ".css", void add_css_link(e))
         }();
         a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
         if ($('list-link')) {
