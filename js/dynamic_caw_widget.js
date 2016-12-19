@@ -312,7 +312,7 @@ dynamic_widget = function() {
           }
       };
       console.log("input url",l.url);
-      i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=" + l.url , true);
+      i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=" + l.caw_url , true);
         //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
         i.send()
     }
