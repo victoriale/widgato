@@ -311,25 +311,21 @@ dynamic_widget = function() {
               }
           }
       };
-      window.parent.postMessage({action: 'location', igloo_id: 0}, "*");
-      window.addEventListener('message', function(e){
-        if ( e.type == "message" && typeof e.data != "undefined" && typeof e.data.action != "undefined" && e.data.action == "location" ) {
+      function iglooResponce(e){
+        if ( e.type == "message" && typeof e.data != "undefined" && typeof e.data.action != "undefined" && e.data.action == "location") { //message has been returned correctly
           console.log("igloo fired message",e);
           if (e.data.data) {
-            l.caw_url = e.data.data;
+            l.caw_url = e.data.data.href;
           }
           console.log("CAW input url",l.caw_url);
           i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=" + l.caw_url , true);
           //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
           i.send()
+          window.removeEventListener('message', iglooResponce(e));
         }
-        else { //if message does not come back, load default widget anyway
-          console.log("igloo fired no message");
-          i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=" + "null" , true);
-          //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
-          i.send()
-        }
-      });
+      }
+      window.parent.postMessage({action: 'location', igloo_id: 0}, "*");
+      window.addEventListener('message', iglooResponce(e));
     }
 
     function u() {
