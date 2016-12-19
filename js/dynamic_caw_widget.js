@@ -311,10 +311,16 @@ dynamic_widget = function() {
               }
           }
       };
-      console.log("input url",l.url);
-      i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=" + l.caw_url , true);
-        //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
-        i.send()
+      window.parent.postMessage({action: 'location'}, "*");
+      window.addEventListener('message', function(e){
+        if ( e.type == "message" && typeof e.data != "undefined" && typeof e.data.action != "undefined" && e.data.action == "location" ) {
+          l.caw_url = e.data.data;
+          console.log("input url",l.url);
+          i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=" + l.caw_url , true);
+          //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
+          i.send()
+        }
+      });
     }
 
     function u() {
