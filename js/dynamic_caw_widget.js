@@ -314,9 +314,18 @@ dynamic_widget = function() {
       window.parent.postMessage({action: 'location'}, "*");
       window.addEventListener('message', function(e){
         if ( e.type == "message" && typeof e.data != "undefined" && typeof e.data.action != "undefined" && e.data.action == "location" ) {
-          l.caw_url = e.data.data;
-          console.log("input url",l.url);
+          console.log("igloo fired message",e);
+          if (e.data.data) {
+            l.caw_url = e.data.data;
+          }
+          console.log("CAW input url",l.caw_url);
           i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=" + l.caw_url , true);
+          //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
+          i.send()
+        }
+        else { //if message does not come back, load default widget anyway
+          console.log("igloo fired no message");
+          i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=" + "null" , true);
           //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
           i.send()
         }
@@ -363,7 +372,7 @@ function p() {
           $('next-list-link').classList.remove("disabled-button");
         }
         var e = r.data.article_data[i];
-        console.log(e);
+        console.log("API returned",e);
         function add_css_link(e) {
             var t = d.createElement("link");
             t.href = e, t.type = "text/css", t.rel = "stylesheet";
