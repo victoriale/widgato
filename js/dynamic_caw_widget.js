@@ -27,6 +27,16 @@ function getCategoryMetadata (category) {
       category: "sports",
       subCategory: ""
     },
+    football: {
+      displayName: "Football",
+      domain: "dev.touchdownloyal.com",
+      partnerDomain: "www.mytouchdownzone.com",
+      usesPartnerSubdomain: true,
+      partnerSubdomain: "football",
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "nfl"
+    },
     nfl: {
       displayName: "Football",
       domain: "dev.touchdownloyal.com",
@@ -47,6 +57,15 @@ function getCategoryMetadata (category) {
       category: "sports",
       subCategory: "ncaaf"
     },
+    basketball: {
+      displayName: "Basketball",
+      domain: "dev.hoopsloyal.com",
+      partnerDomain: "www.myhoopszone.com",
+      usesPartnerSubdomain: false,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "nba"
+    },
     nba: {
       displayName: "Basketball",
       domain: "dev.hoopsloyal.com",
@@ -64,6 +83,16 @@ function getCategoryMetadata (category) {
       hasAiArticles: true,
       category: "sports",
       subCategory: "ncaam"
+    },
+    baseball: {
+      displayName: "Baseball",
+      domain: "dev.homerunloyal.com",
+      partnerDomain: "www.myhomereunzone.com",
+      usesPartnerSubdomain: true,
+      partnerSubdomain: "baseball",
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "mlb"
     },
     mlb: {
       displayName: "Baseball",
@@ -249,9 +278,6 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','entertainment','realestate','food','travel','health','sports','lifestyle','breaking','automotive'];
-        if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
-            l.category = 'nfl'
-        }
     var s = false;
     var o = '';
     function c(e) {
@@ -282,7 +308,6 @@ dynamic_widget = function() {
       else {
         var e = Math.floor(Math.random() * 10);
       }
-      currentConfig = getCategoryMetadata(l.category);
 
       var i;
       if (window.XMLHttpRequest) {
@@ -294,6 +319,9 @@ dynamic_widget = function() {
           if (i.readyState == XMLHttpRequest.DONE) {
               if (i.status == 200) {
                   r = JSON.parse(i.responseText);
+                  l.category = r.data.article_data[0].filter_keywords.split(",")[0];
+                  console.log("l.category",l.category);
+                  currentConfig = getCategoryMetadata(l.category);
                   c(u)
               } else {
                   var e = i.statusText;
@@ -321,7 +349,7 @@ dynamic_widget = function() {
           console.log("CAW input url",l.caw_url);
           i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=" + l.caw_url , true);
           //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
-          i.send()
+          i.send();
           iglooResponded = 1;
           window.removeEventListener('message', iglooResponce);
         }
@@ -371,7 +399,7 @@ function p() {
         }
         var e = r.data.article_data[i];
         function add_css_link(e) {
-          console.log("API returned",e);
+          console.log("CSS returned",e);
             var t = d.createElement("link");
             t.href = e, t.type = "text/css", t.rel = "stylesheet";
             var n = d.getElementsByTagName("head")[0];
@@ -379,9 +407,12 @@ function p() {
         }! function() {
             var e = "../css/dynamic_widget_",
                 n = {
+                    basketball: "basketball",
                     nba: "basketball",
                     college_basketball: "basketball",
+                    baseball: "mlb",
                     mlb: "mlb",
+                    football: "nfl",
                     nfl: "nfl",
                     ncaaf: "ncaaf",
                     nflncaaf: "nflncaaf",
@@ -433,6 +464,7 @@ function p() {
         }
         var stat = Math.floor(Number(e.stat));
         $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
+        $('verticalDisplayName').innerHTML = currentConfig.displayName;
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
@@ -478,7 +510,6 @@ function p() {
             $('list-link').parentNode.removeChild($('list-link'));
             return false
         }
-        $('verticalDisplayName').innerHTML = currentConfig.displayName;
     }
     m();
     c(h);
