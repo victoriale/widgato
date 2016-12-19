@@ -311,7 +311,7 @@ dynamic_widget = function() {
               }
           }
       };
-      window.parent.postMessage({action: 'location'}, "*");
+      window.parent.postMessage({action: 'location', igloo_id: 0}, "*");
       window.addEventListener('message', function(e){
         if ( e.type == "message" && typeof e.data != "undefined" && typeof e.data.action != "undefined" && e.data.action == "location" ) {
           console.log("igloo fired message",e);
@@ -424,7 +424,7 @@ function p() {
           var date = new Date(e.published_date*1000);
           var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
           var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-            "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"
+            "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
           ];
           var month = date.getMonth();
           var day = date.getDate();
