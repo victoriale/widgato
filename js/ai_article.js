@@ -117,7 +117,7 @@ ai_widget = (function() {
     var arr = {
       title: dataArr[0].title,
       number: (pageInd + 1) + '/' + availPages.length,
-      url: AIData[1].scope + '/article/' + transArr[pageID] + '/' + gameID,
+      url: scope + '/article/' + transArr[pageID] + '/' + gameID,
       content: dataArr[0].content + '<br>&nbsp; ',
       img: imageArr[imgIndex]
     };
