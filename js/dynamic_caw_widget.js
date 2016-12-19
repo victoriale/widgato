@@ -311,7 +311,7 @@ dynamic_widget = function() {
               }
           }
       };
-      window.parent.postMessage({action: 'location'}, "*");
+      window.parent.postMessage({action: 'location', igloo_id: 0}, "*");
       window.addEventListener('message', function(e){
         if ( e.type == "message" && typeof e.data != "undefined" && typeof e.data.action != "undefined" && e.data.action == "location" ) {
           console.log("igloo fired message",e);
