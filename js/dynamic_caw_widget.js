@@ -249,6 +249,9 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','entertainment','realestate','food','travel','health','sports','lifestyle','breaking','automotive'];
+        if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
+            l.category = 'nfl'
+        }
     var s = false;
     var o = '';
     function c(e) {
@@ -272,9 +275,6 @@ dynamic_widget = function() {
       if (l.dom == 'lasvegasnow.com') {
           s = true;
           o = 'finance.lasvegasnow.com'
-      }
-      if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
-          l.category = 'nfl'
       }
       if (ignoreRandom == null) {
         var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
