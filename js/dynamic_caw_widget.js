@@ -313,7 +313,6 @@ dynamic_widget = function() {
           }
       };
       function iglooResponce(e){
-        console.log("iglooresponce",e);
         if ( e.type == "message" && typeof e.data != "undefined" && typeof e.data.action != "undefined" && e.data.action == "location" && iglooResponded == 0) { //message has been returned correctly
           console.log("igloo fired message",e);
           if (e.data.data) {
