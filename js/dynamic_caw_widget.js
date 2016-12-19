@@ -29,7 +29,7 @@ function getCategoryMetadata (category) {
     },
     nfl: {
       displayName: "Football",
-      domain: "www.touchdownloyal.com",
+      domain: "dev.touchdownloyal.com",
       partnerDomain: "www.mytouchdownzone.com",
       usesPartnerSubdomain: true,
       partnerSubdomain: "football",
@@ -282,7 +282,7 @@ dynamic_widget = function() {
       else {
         var e = Math.floor(Math.random() * 10);
       }
-      currentConfig = getCategoryMetadata(l.category);
+      currentConfig = getCategoryMetadata("nfl");
 
       var i;
       if (window.XMLHttpRequest) {
