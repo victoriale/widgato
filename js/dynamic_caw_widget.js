@@ -2,7 +2,7 @@ function getCategoryMetadata (category) {
   var globalMeta = {
     trending: {
       displayName: "Trending",
-      domain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
       partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
@@ -11,7 +11,7 @@ function getCategoryMetadata (category) {
     },
     breaking: {
       displayName: "Breaking",
-      domain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
       partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
@@ -20,7 +20,7 @@ function getCategoryMetadata (category) {
     },
     sports: {
       displayName: "Sports",
-      domain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
       partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
@@ -77,7 +77,7 @@ function getCategoryMetadata (category) {
     },
     nhl: {
       displayName: "Hockey",
-      domain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
       partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
@@ -95,7 +95,7 @@ function getCategoryMetadata (category) {
     },
     politics: {
       displayName: "Politics",
-      domain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
       partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
@@ -104,7 +104,7 @@ function getCategoryMetadata (category) {
     },
     entertainment: {
       displayName: "Entertainment",
-      domain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
       partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
@@ -113,7 +113,7 @@ function getCategoryMetadata (category) {
     },
     food: {
       displayName: "Food",
-      domain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
       partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
@@ -122,7 +122,7 @@ function getCategoryMetadata (category) {
     },
     health: {
       displayName: "Health",
-      domain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
       partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
@@ -131,7 +131,7 @@ function getCategoryMetadata (category) {
     },
     lifestyle: {
       displayName: "Lifestyle",
-      domain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
       partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
@@ -149,7 +149,7 @@ function getCategoryMetadata (category) {
     },
     travel: {
       displayName: "Travel",
-      domain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
       partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
@@ -158,7 +158,7 @@ function getCategoryMetadata (category) {
     },
     weather: {
       displayName: "Weather",
-      domain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
       partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
@@ -167,7 +167,7 @@ function getCategoryMetadata (category) {
     },
     automotive: {
       displayName: "Automotive",
-      domain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
       partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
