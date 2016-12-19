@@ -424,7 +424,7 @@ function p() {
           var date = new Date(e.published_date*1000);
           var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
           var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-            "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"
+            "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
           ];
           var month = date.getMonth();
           var day = date.getDate();
