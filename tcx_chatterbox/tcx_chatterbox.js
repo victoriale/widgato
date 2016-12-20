@@ -74,18 +74,19 @@ chatterbox = (function () {
         var pageID = availPages[pageInd];
         var dataArr = [];
         $.map(dataArray, function (val) {
+          console.log(val[1]);
             if (val[0] == pageID) {
-                val.title = val[1].title;
-                val.report = val[1].teaser;
-                val.eventId = val[1].id;
-                val.articleImage = val[1].image_url;
+                val.title = val[1][0].title;
+                val.report = val[1][0].teaser;
+                val.eventId = val[1][0].id;
+                val.articleImage = val[1][0].image_url;
                 var keyword = val[0].replace(/-/g, " ");
                 val.keyword = keyword.replace(/\w\S*/g, function (txt) {
                     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
                 });
-                val.keywordUrl = val[1].vertical_url;
+                val.keywordUrl = val[1][0].vertical_url;
                 val.index = val[0];
-                val.url = val[1].article_url;
+                val.url = val[1][0].article_url;
                 dataArr.push(val);
             }
         });
@@ -98,7 +99,7 @@ chatterbox = (function () {
             keyword: dataArr[0].keyword,
             keywordUrl: protocolToUse + dataArr[0].keywordUrl,
             date: moment(dataArr[0][1].dateline).format("dddd, MMM. DD, YYYY").toUpperCase(),
-            title: dataArr[0][1].title,
+            title: dataArr[0].title,
             url: getOffsiteLink(selectedTab.toLowerCase(), dataArr[0].url, dataArr[0].eventId),
             content: dataArr[0].report + '<br>&nbsp; ',
             img: protocolToUse + 'images.synapsys.us' + dataArr[0].articleImage
