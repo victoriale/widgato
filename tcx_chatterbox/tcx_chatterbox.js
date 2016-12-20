@@ -74,7 +74,6 @@ chatterbox = (function () {
         var pageID = availPages[pageInd];
         var dataArr = [];
         $.map(dataArray, function (val) {
-          console.log(val[1]);
             if (val[0] == pageID) {
                 val.title = val[1][0].title;
                 val.report = val[1][0].teaser;
