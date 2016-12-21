@@ -58,6 +58,13 @@ i {
     padding: 15px 10px;
     text-transform: uppercase;
 }
+#verticalDisplayName {
+  width: 125px;
+  height: 70px;
+  position: absolute;
+  top: 0;
+  z-index: 4;
+}
 #verticalName a {
   color: #072f64;
 }

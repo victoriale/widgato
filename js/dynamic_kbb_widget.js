@@ -246,7 +246,6 @@ function p() {
             $('list-link').parentNode.removeChild($('list-link'));
             return false
         }
-        $('verticalDisplayName').innerHTML = currentConfig.displayName;
     }
     m();
     c(h);
