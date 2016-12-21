@@ -35,35 +35,52 @@ i {
 }
 
 #title-text {
-    font-size: 16px;
-    font-weight: 800;
-    /*min-height: 44px;*/
-    text-align: left;
-    padding: 10px 15px 5px 0px;
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
+  color: white;
+  font-size: 20px;
+  font-weight: 800;
+  /*min-height: 44px;*/
+  text-align: left;
+  padding: 10px 15px 5px 0px;
 }
 #verticalName {
     font-size: 10px;
     font-weight: 400;
     width: 100%;
-    min-height: 10px;
+    height:60px;
     text-align: left;
-    color:white;
-    padding: 5px 15px;
+    color: #072f64;
+    background-color: white;
+    border-bottom: 2px solid #072f64;
+    padding: 15px 10px;
     text-transform: uppercase;
 }
 #verticalName a {
-  color: white;
+  color: #072f64;
 }
-
-#homelink > div {
-    height: 12px;
-    width: 12px;
-    vertical-align: top;
-    background-size: 100%;
-    background-position: center center;
-    background-repeat: no-repeat;
-    display: inline-block;
-    margin-right:5px;
+.shareIcons {
+  height: 30px;
+  width: 100px;
+  float:right;
+}
+.shareIcon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.shareIcon.facebook {
+  background-color: #3b5998;
+}
+.shareIcon.twitter {
+  background-color: #00aced;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+.shareIcon.google {
+  background-color: #dd4b39;
 }
 
 
@@ -118,10 +135,6 @@ i {
     display: none;
 }
 
-.img-link:hover .dw-big {
-    z-index: 2
-}
-
 .dw-big {
   width: 100%;
   top: 0;
@@ -169,7 +182,7 @@ i {
 }
 
 .dw-info {
-    margin: 0px 15px 5px;
+    margin: 0px 10px 5px;
     max-height: 120px;
     overflow: hidden;
 }
@@ -206,12 +219,15 @@ i {
 
 #desc {
     width: 100%;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 16px;
     text-align: left;
     font-weight: 400;
     max-height: 63px;
     overflow: hidden;
+    border-left: 2px solid #072f64;
+    padding-left: 7px;
+    margin-top:8px;
 }
 #desc p {
   margin: 0;
@@ -241,15 +257,16 @@ i {
     display: inline-block;
     color: white;
     background-color: white;
-    font-size: 11px;
-    line-height: 28px;
-    height: 30px;
-    border-radius: 3px;
+    font-size: 14px;
+    line-height: 33px;
+    height: 35px;
+    border-radius: 5px;
     position: absolute;
     bottom: 18px;
-    border: 1px solid #000;
+    border: solid 1px #072f64;
     cursor: pointer;
     text-align: center;
+    font-weight: bold;
     margin-top: 10px;
     fill: white;
     stroke: white

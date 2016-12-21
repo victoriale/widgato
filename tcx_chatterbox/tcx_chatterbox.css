@@ -32,6 +32,8 @@ sup {
 
 .chatterBox {
     display: none;
+    width:100%;
+    position: absolute;
 }
 
 .tri-title-container {
