@@ -27,24 +27,64 @@ i {
 
 .dw {
     width: 100%;
-    height: 560px;
+    height: auto;
     background-color: #fafafa;
     position: relative;
     margin: 0 auto;
     box-shadow: 0 0 0 1px #b7b7b7 inset;
     max-width: 768px;
 }
+@media (max-width: 600px) {
+  .navbarItem:first-of-type {
+    display: inline-block;
+    margin-right: 30px;
+    font-size: 12px;
+    color: #003f72;
+  }
+  .navbarItem {
+    display: none;
+    margin-right: 0;
+    font-size: 12px;
+    color: #003f72;
+  }
+  #carousel {
+      width: 100%;
+      height: 250px;
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+  }
+  #adSpot {
+    display: block;
+    width: 300px;
+    height: 250px;
+    position: absolute;
+    right:0;
+    left:0;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: grey;
+  }
+  .dw {
+    max-width: 320px;
+  }
+  .thumbCont {
+    width: 100%;
+    height:auto;
+    margin-top: 250px;
+  }
+  .thumbItem {
+    display: block;
+    height: auto;
+    width: 100%;
+    padding-top: 15px;
+  }
+}
 .navbar {
   width: auto;
   height: auto;
   float: right;
   margin-top: 5px;
-}
-.navbarItem {
-  display: inline-block;
-  margin-right: 45px;
-  font-size: 12px;
-  color: #003f72;
 }
 .navbarItem.selected {
   font-weight: 800;
@@ -56,16 +96,45 @@ i {
   padding: 0 40px;
   margin-top: 30px;
 }
-.thumbCont {
-  width: 100%;
-  height:250px;
+@media (min-width: 601px) {
+  .navbarItem {
+    display: inline-block;
+    margin-right: 20px;
+    font-size: 12px;
+    color: #003f72;
+  }
+  #carousel {
+      width: calc(100% - 300px);
+      height: 250px;
+      position: relative;
+      overflow: hidden;
+      display: inline-block;
+
+  }
+  #adSpot {
+    display: inline-block;
+    width: 300px;
+    height: 250px;
+    position: absolute;
+    right:0;
+    background-color: grey;
+  }
+  .thumbCont {
+    width: 100%;
+    height:250px;
+  }
+  .thumbItem {
+    display: inline-block;
+    height: 100%;
+    width: calc( (100% / 3) - 16px );
+    padding-top: 15px;
+    margin-left: 20px;
+  }
 }
-.thumbItem {
-  display: inline-block;
-  height: 100%;
-  width: calc( (100% / 3) - 16px );
-  padding-top: 15px;
-  margin-left: 20px;
+@media (min-width:730px) {
+  .navbarItem {
+    margin-right: 45px;
+  }
 }
 .thumbItem:first-of-type {
   margin-left: 0px;
@@ -140,16 +209,6 @@ i {
 .shareIcon.google {
   background-color: #dd4b39;
 }
-
-
-#carousel {
-    width: calc(100% - 300px);
-    height: 250px;
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-
-}
 .carouselShader {
   position: absolute;
   top: 0;
@@ -158,14 +217,6 @@ i {
   height: 100%;
   background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), #000000);
   z-index: 1;
-}
-#adSpot {
-  display: inline-block;
-  width: 300px;
-  height: 250px;
-  position: absolute;
-  right:0;
-  background-color: grey;
 }
 .disabled-button {
   opacity: 0.3;
