@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8px" height="13px" viewBox="0 0 8 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 41.2 (35397) - http://www.bohemiancoding.com/sketch -->
+    <title>EB8F47DE-8936-4188-B8DC-A93E994B9073</title>
+    <desc>Created with sketchtool.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="300" height="600"></rect>
+        <mask id="mask-2" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="300" height="600" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <ellipse id="path-3" cx="15" cy="15" rx="15" ry="15"></ellipse>
+        <mask id="mask-4" maskContentUnits="userSpaceOnUse" maskUnits="objectBoundingBox" x="0" y="0" width="30" height="30" fill="white">
+            <use xlink:href="#path-3"></use>
+        </mask>
+    </defs>
+    <g id="KBB_SideKicks" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="300x600_Story" transform="translate(-201.000000, -23.000000)">
+            <g transform="translate(0.000000, -1.000000)">
+                <use id="Rectangle-6" stroke="#CCCCCC" mask="url(#mask-2)" stroke-width="2" fill="#FFFFFF" xlink:href="#path-1"></use>
+                <g id="Social-Icons" transform="translate(190.000000, 16.000000)">
+                    <g id="Facebook">
+                        <use id="Button-BG" stroke="#3B5998" mask="url(#mask-4)" stroke-width="4" fill="#3B5998" xlink:href="#path-3"></use>
+                        <g id="Icon:-Facebook" transform="translate(11.000000, 8.000000)" fill="#FFFFFF">
+                            <path d="M7.4921875,0.09375 L7.4921875,2.15625 L6.265625,2.15625 C5.81770609,2.15625 5.51562578,2.24999906 5.359375,2.4375 C5.20312422,2.62500094 5.125,2.90624812 5.125,3.28125 L5.125,4.7578125 L7.4140625,4.7578125 L7.109375,7.0703125 L5.125,7.0703125 L5.125,13 L2.734375,13 L2.734375,7.0703125 L0.7421875,7.0703125 L0.7421875,4.7578125 L2.734375,4.7578125 L2.734375,3.0546875 C2.734375,2.08593266 3.00520563,1.33463809 3.546875,0.80078125 C4.08854437,0.266924414 4.80989133,0 5.7109375,0 C6.47656633,0 7.07031039,0.0312496875 7.4921875,0.09375 Z"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
