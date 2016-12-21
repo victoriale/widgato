@@ -78,6 +78,15 @@ i {
   height: 30px;
   border-radius: 50%;
   display: inline-block;
+  position: relative;
+}
+.shareIcon img {
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
 }
 .shareIcon.facebook {
   background-color: #3b5998;
