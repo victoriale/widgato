@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang=en>
+
+<head>
+    <title>Dynamic Widget</title>
+    <meta charset=utf-8>
+    <base target=_blank>
+    <link rel=stylesheet type=text/css href=../css/dynamic_kbb_dashboard_svg.css>
+    <link href="//fonts.googleapis.com/css?family=Lato:400,300,100,700,900" rel=stylesheet type=text/css>
+    <script>
+        d = document, $ = function(e) {
+            return d.getElementById(e)
+        };
+    </script>
+    <script async type=text/javascript src=../js/dynamic_kbb_dashboard.js></script>
+    <noscript>
+        <iframe src="//www.googletagmanager.com/ns.html?id=GTM-TG8P9M" height=0 width=0 style=display:none;visibility:hidden></iframe>
+    </noscript>
+    <script>
+        ! function(e, t, a, n, r) {
+            e[n] = e[n] || [], e[n].push({
+                "gtm.start": (new Date).getTime(),
+                event: "gtm.js"
+            });
+            var g = t.getElementsByTagName(a)[0],
+                m = t.createElement(a),
+                s = "dataLayer" != n ? "&l=" + n : "";
+            m.async = !0, m.src = "//www.googletagmanager.com/gtm.js?id=" + r + s, g.parentNode.insertBefore(m, g)
+        }(window, document, "script", "dataLayer", "GTM-TG8P9M");
+    </script>
+</head>
+
+<body>
+    <div class=dw>
+        <div id="verticalName">
+          <a target=_blank id=homelink>
+              <div></div>
+              <img id="verticalDisplayName" src="../css/public/kbb.png">
+          </a>
+          <div class="navbar">
+            <div class="navbarItem selected">
+              <a class="navbarLink" href="">TRENDING NEWS</a>
+            </div>
+            <div class="navbarItem">
+              <a class="navbarLink" href="">REVIEWS</a>
+            </div>
+            <div class="navbarItem">
+              <a class="navbarLink" href="">VIDEOS</a>
+            </div>
+            <div class="navbarItem">
+              <a class="navbarLink" href="">AUTO SHOW</a>
+            </div>
+            <div class="navbarItem">
+              <a class="navbarLink" href="">TOP 10 LISTS</a>
+            </div>
+          </div>
+        </div>
+        <div id=carousel>
+          <div class="carouselShader"></div>
+            <a target=_blank href="" class=img-link id=suburl> <img class="dw-big dw-c-sub" id=subimg onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;">
+                <div class="hover dw-c-sub dw-big"> View
+                    <br> <span>Profile</span> </div>
+            </a>
+            <a target=_blank href="" class=img-link id=mainurl> <img class="dw-big dw-c-img" id=mainimg onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;">
+              <div class="textCont">
+                <div class="shareIcons">
+                  <a href="http://www.facebook.com">
+                    <div class="shareIcon facebook">
+                      <img src="../css/public/icon-facebook.svg">
+                    </div>
+                  </a>
+                  <a href="http://www.twitter.com">
+                    <div class="shareIcon twitter">
+                      <img src="../css/public/icon-twitter.svg">
+                    </div>
+                  </a>
+                  <a href="http://www.google.com">
+                    <div class="shareIcon google">
+                      <img src="../css/public/icon-google.svg">
+                    </div>
+                  </a>
+                </div>
+                <a target=_blank id=title-link href="">
+                  <div id=title-text></div>
+                </a>
+                <div id=desc class="line-clamp"></div>
+              </div>
+                <div class="hover dw-c-img dw-big"> View
+                    <br> <span>Profile</span> </div>
+            </a>
+            <div id=num></div>
+        </div>
+        <div id="adSpot">
+          Ad Goes Here
+        </div>
+        <div class="thumbCont">
+          <div class="thumbItem">
+            <img src="http://images.synapsys.us/images/newt.jpg?width=240" class="thumbImg">
+            <div class="thumbTitle">
+              <a class="thumbTitleLink" href="">Title</a>
+            </div>
+          </div>
+          <div class="thumbItem">
+            <img src="http://images.synapsys.us/images/newt.jpg?width=240" class="thumbImg">
+            <div class="thumbTitle">
+              <a class="thumbTitleLink" href="">Title</a>
+            </div>
+          </div>
+          <div class="thumbItem">
+            <img src="http://images.synapsys.us/images/newt.jpg?width=240" class="thumbImg">
+            <div class="thumbTitle">
+              <a class="thumbTitleLink" href="">Title</a>
+            </div>
+          </div>
+        </div>
+        <div class=presented></div>
+    </div>
+    <script>
+        function add_css_link(e) {
+            var t = d.createElement("link");
+            t.href = e, t.type = "text/css", t.rel = "stylesheet";
+            var n = d.getElementsByTagName("head")[0];
+            n.insertBefore(t, n.childNodes[0])
+        }! function() {
+            var e = "../css/dynamic_widget_",
+                t = JSON.parse(decodeURIComponent(location.search.substr(1))),
+                n = {
+                    kbb: "kbb"
+                };
+            return "politics" == t.category ? !1 : (("undefined" == typeof t.category || "undefined" == typeof n[t.category]) && (t.category = "finance"), e += n[t.category] + ".css", void add_css_link(e))
+        }();
+        var hoverInterval = null,
+            dw = d.getElementsByClassName("dw")[0];
+        dw.addEventListener("mouseover", function() {
+            hoverInterval = setInterval(function() {
+                "undefined" != typeof dynamic_widget && "undefined" != typeof dataLayer && dataLayer.push({
+                    event: "widget-hover",
+                    eventAction: dynamic_widget.get_title()
+                })
+            }, 1e3)
+        }), dw.addEventListener("mouseout", function() {
+            "undefined" != typeof hoverInterval && null != hoverInterval && clearInterval(hoverInterval)
+        });
+    </script>
+</body>
+
+</html>
