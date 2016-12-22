@@ -39,7 +39,7 @@ i {
     font-weight: 800;
     /*min-height: 44px;*/
     text-align: left;
-    padding: 10px 15px 5px 0px;  
+    padding: 10px 15px 5px 0px;
 }
 #verticalName {
     font-size: 10px;
@@ -241,7 +241,7 @@ i {
     display: inline-block;
     color: white;
     background-color: white;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 28px;
     height: 30px;
     border-radius: 3px;
