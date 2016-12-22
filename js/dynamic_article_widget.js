@@ -254,6 +254,9 @@ dynamic_widget = function() {
         if (l.category == "real-estate") {
           l.category = "realestate";
         }
+        if (l.category == "nhl") {
+          l.category = "sports";
+        }
     var s = false;
     var o = '';
     function c(e) {
