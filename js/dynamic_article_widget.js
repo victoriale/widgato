@@ -247,7 +247,7 @@ dynamic_widget = function() {
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
-        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','entertainment','realestate','food','travel','health','sports','lifestyle','breaking','automotive'];
+        a = ['finance', 'nba', 'ncaam', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','entertainment','realestate','food','travel','health','sports','lifestyle','breaking','automotive'];
         if ((l.category == "" || l.category == null) && l.cat != null && l.cat != "") {
           l.category = l.cat;
         }
@@ -324,28 +324,6 @@ dynamic_widget = function() {
                 event: 'widget-title',
                 eventAction: dynamic_widget.get_title()
             })
-        }
-        if (l.category == 'politics') {
-            var polOptions = ['i','r','d'];
-            var rand = Math.floor((Math.random() * 3) + 1)-1;
-            var i = polOptions[rand];
-            var cssId = 'politicsCss';  // you could encode the css path itself to generate id..
-            if (document.getElementById(cssId))
-            {
-              var element = document.getElementById(cssId);
-              element.parentNode.removeChild(element);
-            }
-            var head  = document.getElementsByTagName('head')[0];
-            var link  = document.createElement('link');
-            link.id   = cssId;
-            link.rel  = 'stylesheet';
-            link.type = 'text/css';
-            link.href = '../css/dynamic_widget_politics_' + i + '.css';
-            link.media = 'all';
-            head.appendChild(link);
-        }
-        if (l.category == 'mlb') {
-            r.l_title = r.l_title.replace("MLB","Baseball");
         }
         var n = true;
         p()

@@ -93,7 +93,7 @@
                 t = JSON.parse(decodeURIComponent(location.search.substr(1))),
                 n = {
                     nba: "basketball",
-                    college_basketball: "basketball",
+                    ncaam: "basketball",
                     mlb: "mlb",
                     nfl: "nfl",
                     ncaaf: "ncaaf",
@@ -107,6 +107,7 @@
                     entertainment: "entertainment",
                     realestate: "realestate",
                     food: "food",
+                    politics: "politics",
                     travel: "travel",
                     health: "health",
                     sports: "sports",
@@ -118,7 +119,7 @@
                 if ((t.category == "" || t.category == null) && t.cat != null && t.cat != "") {
                   t.category = t.cat;
                 }
-            return "politics" == t.category ? !1 : (("undefined" == typeof t.category || "undefined" == typeof n[t.category]) && (t.category = "finance"), e += n[t.category] + ".css", void add_css_link(e))
+            return "alligators" == t.category ? !1 : (("undefined" == typeof t.category || "undefined" == typeof n[t.category]) && (t.category = "finance"), e += n[t.category] + ".css", void add_css_link(e))
         }();
         var hoverInterval = null,
             dw = d.getElementsByClassName("dw")[0];
