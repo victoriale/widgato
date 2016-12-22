@@ -1,11 +1,11 @@
 a:hover {
-    color: #0083B1;
+    color: #00c5a0;
 }
 #verticalName {
-  background-color: #0083B1;
+  background-color: #00c5a0;
 }
 .dw-nav{
-    background-color: #0083B1!important;
+    background-color: #00c5a0!important;
 }
 .dw-btn:hover,
 .dw-nav:hover {
@@ -18,16 +18,16 @@ a:hover {
 }
 
 .dw-btn {
-    border-color: #0083B1!important;
-    background-color: #0083B1 !important;
+    border-color: #00c5a0!important;
+    background-color: #00c5a0 !important;
     color: white!important;
 }
 #next-list-link .dw-btn{
-  border-color: #0083B1!important;
+  border-color: #00c5a0!important;
   background-color: white !important;
-  color: #0083B1!important;
-  fill: #0083B1;
-  stroke: #0083B1;
+  color: #00c5a0!important;
+  fill: #00c5a0;
+  stroke: #00c5a0;
 }
 #next-list-link .dw-btn:hover{
   border-color: #272727!important;
@@ -40,9 +40,9 @@ a:hover {
 .bg-img .dw-btn {
     border-color: #f2f2f2!important;
     background-color: #f2f2f2 !important;
-    color: #0083B1!important;
-    fill: #000083B1c0083B15a0;
-    stroke: #0083B1;
+    color: #00c5a0!important;
+    fill: #00c5a0;
+    stroke: #00c5a0;
 }
 
 .bg-img .dw-btn:hover {
@@ -69,7 +69,7 @@ a:hover {
 }
 
 #line1:hover {
-  color: #0083B1;
+  color: #00c5a0;
 }
 .hover {
     background: rgba(0, 131, 177, 0.75)!important;
