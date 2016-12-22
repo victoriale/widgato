@@ -346,6 +346,9 @@ function p() {
         if ($('list-link')) {
             $('list-link').href = a
         }
+        if ($('mainurl')) {
+            $('mainurl').href = a
+        }
         if ($('title-link')) {
             $('title-link').href = a
         }
