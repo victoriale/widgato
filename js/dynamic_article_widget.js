@@ -342,7 +342,6 @@ function p() {
           $('next-list-link').classList.remove("disabled-button");
         }
         var e = r.data[i];
-        console.log(e);
         a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
         if ($('list-link')) {
             $('list-link').href = a
