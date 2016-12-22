@@ -251,6 +251,9 @@ dynamic_widget = function() {
         if ((l.category == "" || l.category == null) && l.cat != null && l.cat != "") {
           l.category = l.cat;
         }
+        if (l.category == "real-estate") {
+          l.category = "realestate";
+        }
     var s = false;
     var o = '';
     function c(e) {
