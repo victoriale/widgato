@@ -429,7 +429,7 @@ billboard = (function () {
         if (partnerPage && (name == '' || name == 'news')) {
             hide = true;
             isHome = true;
-        } else if (!partnerPage && (name == '' || name == 'deep-dive')) {
+        } else if (!partnerPage && (name == '' || name == 'news-feed')) {
             hide = false;
             isHome = true;
         } else {
@@ -542,10 +542,10 @@ billboard = (function () {
                 break;
             default:
                 if (partnerCode != null) {
-                    link = protocolToUse + "//dev.tcxmedia.com/deep-dive/" + partnerCode + relativeUrl;
+                    link = protocolToUse + "//dev.tcxmedia.com/news-feed/" + partnerCode + relativeUrl;
                 }
                 else {
-                    link = protocolToUse + "//dev.tcxmedia.com/deep-dive/" + scope + "/article/story/" + id;
+                    link = protocolToUse + "//dev.tcxmedia.com/news-feed/" + scope + "/article/story/" + id;
                 }
         }
         return link;
