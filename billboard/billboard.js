@@ -64,11 +64,7 @@ billboard = (function () {
                         val.urlSegment = getOffsiteLink(val.category, val.article_url);
                     }
                 } else {
-                    if (val.scope) {
-                        val.urlSegment = getOffsiteLink(val.scope, val.article_url, val.article_id);
-                    } else {
-                        val.urlSegment = getOffsiteLink(val.category, val.article_url, val.article_id);
-                    }
+                  val.urlSegment = "http://dev.tcxmedia.com/news-feed" + val.article_url;
                 }
                 val.articleImage = protocolToUse + 'images.synapsys.us/' + val.image_url;
             } else {
@@ -81,11 +77,7 @@ billboard = (function () {
                         val.urlSegment = getOffsiteLink(val.category, val.article_url);
                     }
                 } else {
-                    if (val.scope) {
-                        val.urlSegment = getOffsiteLink(val.scope, val.article_url, val.article_id);
-                    } else {
-                        val.urlSegment = getOffsiteLink(val.category, val.article_url, val.article_id);
-                    }
+                    val.urlSegment = "http://dev.tcxmedia.com/news-feed" + val.article_url;
                 }
                 val.articleImage = protocolToUse + 'images.synapsys.us/' + val.image_url;
                 subArticles.push(val);
