@@ -17,6 +17,12 @@
   /**
    * Get query parameters for script tag
    **/
+  if (window.location.hostname.indexOf("homerunzone") != -1 || window.location.hostname.indexOf("investkit") != -1 || window.location.hostname.indexOf("touchdownzone") != -1 || window.location.hostname.indexOf("hoopszone") != -1 || window.location.hostname.indexOf("myhousekit") != -1) { //THIS IS A BANDAID PLEASE REDO ME
+    var domain = window.location.pathname.split("/")[1].match(/[^\.]*\.[^.]*$/)[0]; //Domain the bar exists on
+  }
+  else {
+    var domain = window.location.hostname.match(/[^\.]*\.[^.]*$/)[0]; //Domain the bar exists on
+  }
   var params = {
     baseballSubdomain: null,
     basketballSubdomain: null,
@@ -256,6 +262,9 @@
   //Grab second level domain
   domain = parts.slice(-2).join('.');
   var houseSite = false;
+   if (params.footballSubdomain.indexOf("touchdownloyal") != -1 || params.footballSubdomain.indexOf("football") != -1) {
+       houseSite = true;
+   }
   var touchdownDomain = protocol + '://' + params.footballSubdomain;
   var hoopsDomain = protocol + '://' + params.basketballSubdomain;
   var homerunDomain = protocol + '://' + params.baseballSubdomain;
