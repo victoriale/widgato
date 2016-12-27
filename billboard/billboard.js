@@ -234,6 +234,7 @@ billboard = (function () {
         }
 
         switch (verticalType) {
+            case "keyword-football":
             case "football":
             case "nfl":
             case "ncaaf":
@@ -241,11 +242,13 @@ billboard = (function () {
                 verticalColor = "#2d3e50";
                 verticalIcon = "../css/public/icons/Touchdown-Loyal_Icon.svg";
                 break;
+            case "keyword-baseball":
             case "baseball":
             case "mlb":
                 verticalColor = "#bc2027";
                 verticalIcon = "../css/public/icons/Home-Run-Loyal_Icon%202.svg";
                 break;
+            case "keyword-basketball":
             case "basketball":
             case "nba":
             case "ncaam":
