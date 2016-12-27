@@ -226,6 +226,7 @@ billboard = (function () {
     } // --> fitText
 
     function getVerticalAttributes() {
+      verticalType = verticalType.replace("keyword-","");
         if (verticalType.indexOf('_') > -1 && verticalType != undefined) {
             var string = verticalType.replace('_', ' ');
             verticalName = capitalizeString(string);
