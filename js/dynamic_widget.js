@@ -57,7 +57,7 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
-      subCategory: "ncaam"
+      subCategory: "ncaa"
     },
     mlb: {
       displayName: "Baseball",
