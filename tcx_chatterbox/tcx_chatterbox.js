@@ -198,10 +198,10 @@ chatterbox = (function () {
             var tabContent = document.createElement('div');
             if (selectedTab == undefined && i == 0) {
                 tabContent.className = 'tab-content active';
-                tabContent.innerHTML = category + "<span class='tab-news'>&nbsp;News</span>";
+                tabContent.innerHTML = category + "<span class='tab-news'>&nbsp;</span>";
             } else if (selectedTab != undefined && i == 0) {
                 tabContent.className = 'tab-content active';
-                tabContent.innerHTML = category + "<span class='tab-news'>&nbsp;News</span>";
+                tabContent.innerHTML = category + "<span class='tab-news'>&nbsp;</span>";
             } else if (category != selectedTab) {
                 tabContent.className = 'tab-content';
                 tabContent.innerHTML = category;
@@ -403,6 +403,8 @@ chatterbox = (function () {
                 return "NCAAM";
             case "mlb":
                 return "MLB";
+            case "tv":
+                return "TV";
         }
         return string.replace(/\w\S*/g, function (text) {
             return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();

@@ -116,7 +116,7 @@ sup {
 
 .tab-content {
     font-size: 12px;
-    font-weight: 900;
+    font-weight: normal;
     color: #fff;
     line-height: 30px;
     float: left;
@@ -124,6 +124,9 @@ sup {
     text-transform: uppercase;
     cursor: pointer;
     height: 30px;
+}
+.tab-content:hover {
+    font-weight: 900;
 }
 
 .tab-news {
