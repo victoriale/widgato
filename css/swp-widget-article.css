@@ -80,7 +80,13 @@ i {
 .content {
     position: absolute;
     width: 240px;
-    top: 70px;
+    top: 50px;
+}
+
+.content-anchor {
+    position:relative;
+    height:184px;
+    top:15px;
 }
 
 .content-text {
