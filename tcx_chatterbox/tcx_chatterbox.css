@@ -279,6 +279,10 @@ sup {
     padding-top: 5px;
     width: 100%;
     color: #fff;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
 }
 
 .cb-index {
