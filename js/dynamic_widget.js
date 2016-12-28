@@ -57,7 +57,7 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
-      subCategory: "ncaam"
+      subCategory: "ncaa"
     },
     mlb: {
       displayName: "Baseball",
@@ -495,16 +495,6 @@ function p() {
         var e = r.l_data[i];
         e.li_url = e.li_subimg !== false && e.li_subimg.switch ? l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
         e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
-
-        //if we're on a site that uses a subdomain for this vetical's microsite, then use that
-        switch (l.category) {
-            case 'mlb':
-                e.li_url = e.li_url.replace(/(?:https?\:)?(?:\/\/)?(?:www\.)?myhomerunzone\.com\/\{partner\}/i, SpecialDomain);
-                e.li_line_url = e.li_line_url.replace(/(?:https?\:)?(?:\/\/)?(?:www\.)?myhomerunzone\.com\/\{partner\}/i, SpecialDomain);
-                break;
-            default:
-                break;
-        }
         e.li_url = e.li_url.replace("/t/", "/team/");
         e.li_url = e.li_url.replace("/p/", "/player/");
         e.li_line_url = e.li_line_url.replace("/t/", "/team/");
