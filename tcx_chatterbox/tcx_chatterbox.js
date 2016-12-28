@@ -106,7 +106,8 @@ chatterbox = (function () {
         // Set the data
         $('.cb-title')[0].innerHTML = arr.title;
         $('.cb-keyword')[0].innerHTML = arr.keyword;
-        $('.cb-keyword-url').attr('href', arr.keywordUrl);
+        // $('.cb-keyword-url').attr('href', arr.keywordUrl);
+        $('.cb-keyword-url').attr('href', null);
         $('.cb-date')[0].innerHTML = arr.date;
         $('#ai-link').attr('href', arr.url);
         $('#ai-link').attr('target', target);
