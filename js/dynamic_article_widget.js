@@ -233,7 +233,7 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn)
   if (linkType == "syndicated" || linkType == "tca-curated") {
     output = baseUrl + "/" + scope + "/news/story/" + destinationId;
   }
-  else if (linkType == "ai") {
+  else if (linkType == "ai" || linkType == "snt_ai_module") {
     output = baseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
   }
   return output;
