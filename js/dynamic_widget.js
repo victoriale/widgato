@@ -402,7 +402,7 @@ function p() {
           else {
             v_link = "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId;
 
-            a = SpecialDomain + "/" +l.category+ v_link;
+            a = 'http://' + SpecialDomain + "/" +l.category+ v_link;
           }
           if (l.showLink != 'false') {
             $('mainurl').href = a;
@@ -421,7 +421,7 @@ function p() {
           else {
             v_link = "/player/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + escape(e.playerFirstName.replace(/ /g, "-").toLowerCase()) + '-' + escape(e.playerLastName.replace(/ /g, "-").toLowerCase()) + "/" + e.playerId;
 
-            a = SpecialDomain + "/" + l.category+v_link;
+            a = 'http://' + SpecialDomain + "/" + l.category+v_link;
           }
           if (l.showLink != 'false') {
             $('mainurl').href = a;
