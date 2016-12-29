@@ -495,10 +495,12 @@ function p() {
         var e = r.l_data[i];
         e.li_url = e.li_subimg !== false && e.li_subimg.switch ? l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
         e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
-        e.li_url = e.li_url.replace("/t/", "/team/");
-        e.li_url = e.li_url.replace("/p/", "/player/");
-        e.li_line_url = e.li_line_url.replace("/t/", "/team/");
-        e.li_line_url = e.li_line_url.replace("/p/", "/player/");
+        if (currentConfig.category == "baseball") {
+          e.li_url = e.li_url.replace("/t/", "/team/");
+          e.li_url = e.li_url.replace("/p/", "/player/");
+          e.li_line_url = e.li_line_url.replace("/t/", "/team/");
+          e.li_line_url = e.li_line_url.replace("/p/", "/player/");
+        }
         e.li_url = e.li_url.replace("/w-list", "/widget-list");
         if (SpecialDomain) {
           e.li_url = "http://" + e.li_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/").replace('/{partner}', "");
