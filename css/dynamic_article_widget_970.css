@@ -26,7 +26,7 @@ i {
 }
 
 .dw {
-    width: 939px;
+    width: 980px;
     height: 248px;
     box-shadow: 0 0 0 1px #b7b7b7 inset;
     background-color: #fafafa;
@@ -321,7 +321,7 @@ i {
     top: 5px
 }
 
-@media screen and (max-width:939px) {
+@media screen and (max-width:980px) {
     .dw {
         width: calc(100% - 2px);
     }

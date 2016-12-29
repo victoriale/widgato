@@ -3,7 +3,7 @@ function getCategoryMetadata (category) {
     trending: {
       displayName: "Trending",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "www.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "trending",
@@ -12,7 +12,7 @@ function getCategoryMetadata (category) {
     breaking: {
       displayName: "Breaking",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "www.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "breaking",
@@ -21,7 +21,7 @@ function getCategoryMetadata (category) {
     sports: {
       displayName: "Sports",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "www.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "sports",
@@ -78,7 +78,7 @@ function getCategoryMetadata (category) {
     nhl: {
       displayName: "Hockey",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "www.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "sports",
@@ -96,7 +96,7 @@ function getCategoryMetadata (category) {
     politics: {
       displayName: "Politics",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "www.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "politics",
@@ -105,7 +105,7 @@ function getCategoryMetadata (category) {
     entertainment: {
       displayName: "Entertainment",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "www.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "entertainment",
@@ -114,7 +114,7 @@ function getCategoryMetadata (category) {
     food: {
       displayName: "Food",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "www.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "food",
@@ -123,7 +123,7 @@ function getCategoryMetadata (category) {
     health: {
       displayName: "Health",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "www.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "health",
@@ -132,7 +132,7 @@ function getCategoryMetadata (category) {
     lifestyle: {
       displayName: "Lifestyle",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "www.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "lifestyle",
@@ -150,7 +150,7 @@ function getCategoryMetadata (category) {
     travel: {
       displayName: "Travel",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "www.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "travel",
@@ -159,7 +159,7 @@ function getCategoryMetadata (category) {
     weather: {
       displayName: "Weather",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "www.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "weather",
@@ -168,7 +168,7 @@ function getCategoryMetadata (category) {
     automotive: {
       displayName: "Automotive",
       domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "www.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "automotive",
@@ -209,7 +209,7 @@ var specialDomains = [
 ];
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
-function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
+function generateArticleLink (scope, linkType, destinationId, articleType, remn, dom) {
   var baseUrl;
   var output = "";
   if (remn == "false") { //if partner
@@ -222,7 +222,7 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn)
       }
     }
     else { //only partner, not subdomain
-      baseUrl = "http://" + currentConfig.partnerDomain;
+      baseUrl = "http://" + currentConfig.partnerDomain + "/" + dom;
     }
   }
   else { // not partner site and not partner domain
@@ -342,7 +342,7 @@ function p() {
           $('next-list-link').classList.remove("disabled-button");
         }
         var e = r.data[i];
-        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
+        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn, l.dom);
         if ($('list-link')) {
             $('list-link').href = a
         }
