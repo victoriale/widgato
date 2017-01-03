@@ -389,7 +389,7 @@ function RenderArticleSide(protocolToUse) {
 
     switchGame = (function (gameNum) {
         hasChanged = true;
-        changedGameId = gameArr[parseInt(gameNum)].eventId;
+        changedGameId = gameArr[parseInt(gameNum)].event_id;
         toggleDropDown();
         getContent(changedGameId);
         showGame();
