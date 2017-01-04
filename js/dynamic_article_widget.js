@@ -317,12 +317,6 @@ dynamic_widget = function() {
     }
 
     function u() {
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: 'widget-title',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
         if (l.category == 'politics') {
             var polOptions = ['i','r','d'];
             var rand = Math.floor((Math.random() * 3) + 1)-1;
@@ -404,12 +398,6 @@ function p() {
         i += e;
         i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
         p();
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: e == 1 ? 'nav-right' : 'nav-left',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
     }
 
     function f() {

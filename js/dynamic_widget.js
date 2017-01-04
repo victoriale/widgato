@@ -319,12 +319,6 @@ dynamic_widget = function() {
     }
 
     function u() {
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: 'widget-title',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
         if (l.dom == 'nydailynews.com') {
             var e = document.getElementsByClassName('dw')[0];
             e.style.height = '340px';
@@ -686,12 +680,6 @@ function p() {
           i = i >= r.l_data.length ? 0 : i < 0 ? r.l_data.length - 1 : i;
         }
         p();
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: e == 1 ? 'nav-right' : 'nav-left',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
     }
 
     function checkBlankImages() {
