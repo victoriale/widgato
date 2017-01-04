@@ -149,7 +149,7 @@
       arrowColor = '#fc501d';
       barTitle = '<b>NFL</b> GAMES THIS WEEK';
       toggleTitle = "College Football";
-      toggleLink = "/app/fe-core/ads/ncaafbluebar.html"
+      toggleLink = "//w1.synapsys.us/widgets/deepdive/boxscores/ncaaf.html"
       gameBorderColor = '#000';
       formatData = function(data){
         return formatFootballData(data, 'nfl');
@@ -162,7 +162,7 @@
       arrowColor = '#fc501d';
       barTitle = '<b>NCAAF</b> GAMES THIS WEEK';
       toggleTitle = "Pro Football";
-      toggleLink = "/app/fe-core/ads/nflbluebar.html";
+      toggleLink = "//w1.synapsys.us/widgets/deepdive/boxscores/nfl.html";
       gameBorderColor = '#000';
       formatData = function(data){
         return formatFootballData(data, 'ncaaf');
