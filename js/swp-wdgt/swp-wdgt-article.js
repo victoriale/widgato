@@ -317,12 +317,19 @@ function RenderArticleSide(protocolToUse) {
                 gameData.eventId = isMlb ? val.eventId : val.event_id;
                 // Date
                 if (isMlb) {
-                    var dateArray = val['startDateTime'].split(' ');
-                    var time = dateArray[1] + ' ET';
-                    var date = moment(dateArray[0]).format("MMM. DD ") + time.toUpperCase();
+                  var dateArray = val['startDateTime'].split(' ');
+                  var time = dateArray[1] + ' ET';
+                  var date = moment(dateArray[0]).format("MMM. DD ") + time.toUpperCase();
                 } else {
-                    var time = val['start_date_time'].time + ' ET';
-                    var date = moment(val['start_date_time'].date).format("MMM. DD ") + time.toUpperCase();
+                  var time = val['start_date_time'].time + ' ET';
+                  var date = moment(val['start_date_time'].date,'MM/DD/YYYY',true).format("MMM. DD ") + time.toUpperCase();
+                  if(moment(val['start_date_time'].date,'MM/DD/YYYY',true).isValid() != true){
+                    var unix = moment(val['start_date_time'].date).unix() * 1000;
+                    date = moment(unix).format("MMM. DD");
+                    if(isNaN(date)){
+                      date = moment(new Date()).format("MMM. DD");
+                    }
+                  }
                 }
                 gameData.eventDate = date;
                 gameData.eventTime = time;
