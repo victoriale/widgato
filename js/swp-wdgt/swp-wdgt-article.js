@@ -319,7 +319,6 @@ function RenderArticleSide(protocolToUse) {
                 if (isMlb) {
                   var dateArray = val['startDateTime'].split(' ');
                   var time = dateArray[1] + ' ET';
-                  console.log(dateArray[0]);
                   var date = moment(dateArray[0],'MM/D/YY',true).format("MMM. DD ") + time.toUpperCase();
                   if(moment(dateArray[0],'MM/D/YY',true).isValid() != true){
                     date = moment(dateArray[0]).format("MMM. DD");
