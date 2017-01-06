@@ -43,7 +43,7 @@ function RenderArticleSide(protocolToUse) {
     } else if (catOptions[0] == 'nfl') {
         APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick?scope=nfl';
         keyword = "NFL";
-        isMlb = false;
+        isMlb = true;
     } else if (catOptions[0] == 'ncaa') {
         APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick?scope=ncaa';
         keyword = "NCAAF";
@@ -319,18 +319,15 @@ function RenderArticleSide(protocolToUse) {
                 if (isMlb) {
                   var dateArray = val['startDateTime'].split(' ');
                   var time = dateArray[1] + ' ET';
-                  var date = moment(dateArray[0],'MM/D/YY',true).format("MMM. DD ") + time.toUpperCase();
-                  if(moment(dateArray[0],'MM/D/YY',true).isValid() != true){
-                    date = moment(dateArray[0]).format("MMM. DD");
-                  }
+                  var date = moment(dateArray[0],'MM/D/YY',true).isValid() != true ? moment(dateArray[0]).format("MMM. DD") : moment(dateArray[0],'MM/D/YY',true).format("MMM. DD ");
                 } else {
                   var time = val['start_date_time'].time + ' ET';
-                  var date = moment(val['start_date_time'].date,'MM/DD/YYYY',true).format("MMM. DD ") + time.toUpperCase();
+                  var date = moment(val['start_date_time'].date,'MM/DD/YYYY',true).format("MMM. DD ");
                   if(moment(val['start_date_time'].date,'MM/DD/YYYY',true).isValid() != true){
                     date = moment(val['start_date_time'].date).format("MMM. DD");
                   }
                 }
-                gameData.eventDate = date;
+                gameData.eventDate = date + time.toUpperCase();
                 gameData.eventTime = time;
                 gameArr.push(gameData);
             });
