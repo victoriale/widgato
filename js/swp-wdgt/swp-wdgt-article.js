@@ -325,7 +325,6 @@ function RenderArticleSide(protocolToUse) {
                   var data_date = val['start_date_time'].date;
                   var date = moment(data_date,'MM/DD/YYYY',true).isValid() != true ? moment(data_date).format("MMM. DD") : moment(data_date,'MM/DD/YYYY',true).format("MMM. DD ");
                 }
-                console.log(date);
                 gameData.eventDate = date + time.toUpperCase();
                 gameData.eventTime = time;
                 gameArr.push(gameData);
