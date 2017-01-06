@@ -322,11 +322,10 @@ function RenderArticleSide(protocolToUse) {
                   var date = moment(dateArray[0],'MM/D/YY',true).isValid() != true ? moment(dateArray[0]).format("MMM. DD") : moment(dateArray[0],'MM/D/YY',true).format("MMM. DD ");
                 } else {
                   var time = val['start_date_time'].time + ' ET';
-                  var date = moment(val['start_date_time'].date,'MM/DD/YYYY',true).format("MMM. DD ");
-                  if(moment(val['start_date_time'].date,'MM/DD/YYYY',true).isValid() != true){
-                    date = moment(val['start_date_time'].date).format("MMM. DD");
-                  }
+                  var data_date = val['start_date_time'].date;
+                  var date = moment(data_date,'MM/DD/YYYY',true).isValid() != true ? moment(data_date).format("MMM. DD") : moment(data_date,'MM/DD/YYYY',true).format("MMM. DD ");
                 }
+                console.log(date);
                 gameData.eventDate = date + time.toUpperCase();
                 gameData.eventTime = time;
                 gameArr.push(gameData);
