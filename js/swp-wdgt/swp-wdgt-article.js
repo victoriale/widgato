@@ -319,16 +319,16 @@ function RenderArticleSide(protocolToUse) {
                 if (isMlb) {
                   var dateArray = val['startDateTime'].split(' ');
                   var time = dateArray[1] + ' ET';
-                  var date = moment(dateArray[0]).format("MMM. DD ") + time.toUpperCase();
+                  console.log(dateArray[0]);
+                  var date = moment(dateArray[0],'MM/D/YY',true).format("MMM. DD ") + time.toUpperCase();
+                  if(moment(dateArray[0],'MM/D/YY',true).isValid() != true){
+                    date = moment(dateArray[0]).format("MMM. DD");
+                  }
                 } else {
                   var time = val['start_date_time'].time + ' ET';
                   var date = moment(val['start_date_time'].date,'MM/DD/YYYY',true).format("MMM. DD ") + time.toUpperCase();
-                  if(moment(val['start_date_time'].date,'MM/DD/YYYY',true).isValid() != true){ // done to avoid deprecation warning. Date from api in mm/dd/yyyy format
-                    var unix = moment(val['start_date_time'].date).unix() * 1000;
-                    date = moment(unix).format("MMM. DD");
-                    if(isNaN(date)){
-                      date = moment(new Date()).format("MMM. DD"); // falls back to js new Date(). Returns today's date*
-                    }
+                  if(moment(val['start_date_time'].date,'MM/DD/YYYY',true).isValid() != true){
+                    date = moment(val['start_date_time'].date).format("MMM. DD");
                   }
                 }
                 gameData.eventDate = date;
