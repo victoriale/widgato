@@ -181,6 +181,10 @@ sup {
   font-size: 18px;
   line-height: 20px;
   float: left;
+  white-space: nowrap;
+  overflow: hidden;
+  width: calc(100% - 42px);
+  text-overflow: ellipsis;
 }
 .aiw-num {
   font-size: 16px;
