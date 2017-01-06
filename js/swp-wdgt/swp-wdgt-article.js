@@ -43,7 +43,7 @@ function RenderArticleSide(protocolToUse) {
     } else if (catOptions[0] == 'nfl') {
         APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick?scope=nfl';
         keyword = "NFL";
-        isMlb = true;
+        isMlb = false;
     } else if (catOptions[0] == 'ncaa') {
         APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick?scope=ncaa';
         keyword = "NCAAF";
