@@ -327,7 +327,7 @@ function RenderArticleSide(protocolToUse) {
                     var unix = moment(val['start_date_time'].date).unix() * 1000;
                     date = moment(unix).format("MMM. DD");
                     if(isNaN(date)){
-                      date = moment(new Date()).format("MMM. DD");
+                      date = moment(new Date()).format("MMM. DD"); // falls back to js new Date(). Returns today's date*
                     }
                   }
                 }
