@@ -146,7 +146,7 @@ dynamic_widget = function() {
               }
           }
       };
-      i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + "automotive" + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
+      i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + "automotive" + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
 
       // i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
         // i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=" + "http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true);
@@ -179,7 +179,7 @@ function p() {
         if ($('title-link')) {
             $('title-link').href = a
         }
-        $('title-text').innerHTML = e.title;
+        $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
         if ($('keyword') && e.category) {
           $('keyword').innerHTML = e.category.replace(/-/g," ");
         }
@@ -200,7 +200,7 @@ function p() {
           $('date').innerHTML = formattedDate;
         }
         var stat = Math.floor(Number(e.stat));
-        $('desc').innerHTML = e.teaser;
+        $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
@@ -246,7 +246,6 @@ function p() {
             $('list-link').parentNode.removeChild($('list-link'));
             return false
         }
-        $('verticalDisplayName').innerHTML = currentConfig.displayName;
     }
     m();
     c(h);

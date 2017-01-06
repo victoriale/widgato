@@ -82,12 +82,12 @@
 
   //Grab parent node
   var currentScript = document.currentScript || (function() {
-    var scripts = document.getElementsByTagName("script");
-    for (var i = scripts.length - 1; i >= 0; i--) {
-      if (scripts[i].src.indexOf(skyscraperRails.embedSource) != -1) {
-        return scripts[i];
-      }
-    }
+     var scripts = document.getElementsByTagName("script");
+     for (var i = scripts.length - 1; i >= 0; i--) {
+        if (scripts[i].src.indexOf('boxscores_2-0') != -1) {
+           return scripts[i];
+        }
+     }
   })();
   parentNode = currentScript.parentNode;
 
@@ -149,7 +149,7 @@
       arrowColor = '#fc501d';
       barTitle = '<b>NFL</b> GAMES THIS WEEK';
       toggleTitle = "College Football";
-      toggleLink = "/app/fe-core/ads/ncaafbluebar.html"
+      toggleLink = "//w1.synapsys.us/widgets/deepdive/boxscores/ncaaf.html"
       gameBorderColor = '#000';
       formatData = function(data){
         return formatFootballData(data, 'nfl');
@@ -162,7 +162,7 @@
       arrowColor = '#fc501d';
       barTitle = '<b>NCAAF</b> GAMES THIS WEEK';
       toggleTitle = "Pro Football";
-      toggleLink = "/app/fe-core/ads/nflbluebar.html";
+      toggleLink = "//w1.synapsys.us/widgets/deepdive/boxscores/nfl.html";
       gameBorderColor = '#000';
       formatData = function(data){
         return formatFootballData(data, 'ncaaf');

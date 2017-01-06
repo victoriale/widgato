@@ -19,7 +19,7 @@ chatterbox = (function () {
     }
 
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'dev-tcxmedia-api.synapsys.us/chatterbox',
+    var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/chatterbox',
         tcxData = {},
         tcxId = -1,
         pageInd = -1,
@@ -75,17 +75,17 @@ chatterbox = (function () {
         var dataArr = [];
         $.map(dataArray, function (val) {
             if (val[0] == pageID) {
-                val.title = val[1].title;
-                val.report = val[1].teaser;
-                val.eventId = val[1].id;
-                val.articleImage = val[1].image_url;
+                val.title = val[1][0].title;
+                val.report = val[1][0].teaser;
+                val.eventId = val[1][0].id;
+                val.articleImage = val[1][0].image_url;
                 var keyword = val[0].replace(/-/g, " ");
                 val.keyword = keyword.replace(/\w\S*/g, function (txt) {
                     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
                 });
-                val.keywordUrl = val[1].vertical_url;
+                val.keywordUrl = val[1][0].vertical_url;
                 val.index = val[0];
-                val.url = val[1].article_url;
+                val.url = val[1][0].article_url;
                 dataArr.push(val);
             }
         });
@@ -98,7 +98,7 @@ chatterbox = (function () {
             keyword: dataArr[0].keyword,
             keywordUrl: protocolToUse + dataArr[0].keywordUrl,
             date: moment(dataArr[0][1].dateline).format("dddd, MMM. DD, YYYY").toUpperCase(),
-            title: dataArr[0][1].title,
+            title: dataArr[0].title,
             url: getOffsiteLink(selectedTab.toLowerCase(), dataArr[0].url, dataArr[0].eventId),
             content: dataArr[0].report + '<br>&nbsp; ',
             img: protocolToUse + 'images.synapsys.us' + dataArr[0].articleImage
@@ -106,7 +106,8 @@ chatterbox = (function () {
         // Set the data
         $('.cb-title')[0].innerHTML = arr.title;
         $('.cb-keyword')[0].innerHTML = arr.keyword;
-        $('.cb-keyword-url').attr('href', arr.keywordUrl);
+        // $('.cb-keyword-url').attr('href', arr.keywordUrl);
+        $('.cb-keyword-url').attr('href', null);
         $('.cb-date')[0].innerHTML = arr.date;
         $('#ai-link').attr('href', arr.url);
         $('#ai-link').attr('target', target);
@@ -198,10 +199,10 @@ chatterbox = (function () {
             var tabContent = document.createElement('div');
             if (selectedTab == undefined && i == 0) {
                 tabContent.className = 'tab-content active';
-                tabContent.innerHTML = category + "<span class='tab-news'>&nbsp;News</span>";
+                tabContent.innerHTML = category + "<span class='tab-news'>&nbsp;</span>";
             } else if (selectedTab != undefined && i == 0) {
                 tabContent.className = 'tab-content active';
-                tabContent.innerHTML = category + "<span class='tab-news'>&nbsp;News</span>";
+                tabContent.innerHTML = category + "<span class='tab-news'>&nbsp;</span>";
             } else if (category != selectedTab) {
                 tabContent.className = 'tab-content';
                 tabContent.innerHTML = category;
@@ -403,6 +404,8 @@ chatterbox = (function () {
                 return "NCAAM";
             case "mlb":
                 return "MLB";
+            case "tv":
+                return "TV";
         }
         return string.replace(/\w\S*/g, function (text) {
             return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();

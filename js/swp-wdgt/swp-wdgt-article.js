@@ -57,7 +57,7 @@ function RenderArticleSide(protocolToUse) {
 
     var data;
 
-    function getContent(eventId) {
+    function getContent(event_id) {
         // Clear old data
         if (gameID != -1) {
             $('.section-text')[0].innerHTML = "Loading...";
@@ -65,14 +65,14 @@ function RenderArticleSide(protocolToUse) {
             $('.dateline')[0].innerHTML = '';
         }
         var locApiUrl = APIUrl;
-        if (typeof eventId != "undefined") {
+        if (typeof event_id != "undefined") {
           if (isMlb) {
-            locApiUrl += "/" + eventId;
-            event = eventId;
+            locApiUrl += "/" + event_id;
+            event = event_id;
           }
           else {
-            locApiUrl += "&event=" + eventId;
-            event = eventId;
+            locApiUrl += "&event=" + event_id;
+            event = event_id;
           }
 
         }
@@ -211,7 +211,7 @@ function RenderArticleSide(protocolToUse) {
         if (isMlb) {
           //article url structure: /articles/:article_type/:event_id
           //check if the id has been changed via the drop down selection; otherwise use the initial id.
-          var checkId = !game.eventId  ? game.eventID : game.eventId ;
+          var checkId = !game.event_id  ? game.event_id : game.event_id ;
 
           if (data.data && data.data['player-fantasy'] && data.data['player-fantasy'].articleId == article.articleId) {
             var id = article.articleId;  //if fantasy article use article id
@@ -223,7 +223,7 @@ function RenderArticleSide(protocolToUse) {
         } else {
           //article url structure: /articles/:article_type/:event_id
           //check if the id has been changed via the drop down selection; otherwise use the initial id.
-          var checkId = !game.eventId  ? game.event_id : game.eventId ;
+          var checkId = !game.event_id  ? game.event_id : game.event_id ;
 
           if (data.data && data.data['player-fantasy'] && data.data['player-fantasy'].article_id == article.article_id) {
             var id = article.article_id;  //if fantasy article use article id
@@ -259,7 +259,7 @@ function RenderArticleSide(protocolToUse) {
         A('.buttons-nextlist').onmouseout = function () {
             A('#arrow').style.fill = '#b31d24';
         };
-        gameID = isMlb ? gameData['current'].eventId : gameData['current'].event_id;
+        gameID = isMlb ? gameData['current'].event_id : gameData['current'].event_id;
         if (isMlb) {
             $('.ball').css('background-image', 'url(../css/public/icons/Home-Run-Loyal_Icon%202.svg)');
             $('.swp-top').css('background-color', '#b31d24');
@@ -314,7 +314,7 @@ function RenderArticleSide(protocolToUse) {
                     gameData.away = val.away_abbreviation;
                 }
                 // Event ID
-                gameData.eventId = isMlb ? val.eventId : val.event_id;
+                gameData.event_id = isMlb ? val.event_id : val.event_id;
                 // Date
                 if (isMlb) {
                   var dateArray = val['startDateTime'].split(' ');
@@ -351,9 +351,9 @@ function RenderArticleSide(protocolToUse) {
                 ddStr += '<div class="divider"></div>';
             }
             if (!hasChanged) {
-                ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == gameID ? ' active" " onclick="switchGame(' + i + ')"' : '" onclick="switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
+                ddStr += '<div class="dropdown-elem' + (gameArr[i].event_id == gameID ? ' active" " onclick="switchGame(' + i + ')"' : '" onclick="switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
             } else {
-                ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == changedGameId ? ' active" " onclick="switchGame(' + i + ')"' : '" onclick="switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
+                ddStr += '<div class="dropdown-elem' + (gameArr[i].event_id == changedGameId ? ' active" " onclick="switchGame(' + i + ')"' : '" onclick="switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
             }
         }
         // Create
@@ -381,7 +381,7 @@ function RenderArticleSide(protocolToUse) {
         var gameLength = gameArr.length;
         if (dropdownCount == 0) {
             for (var i = 0; i < gameLength; i++) {
-                if (gameArr[i].eventId == gameID || gameArr[i].eventId == changedGameId) {
+                if (gameArr[i].event_id == gameID || gameArr[i].event_id == changedGameId) {
                     $('.home.team')[0].innerHTML = gameArr[i].home;
                     $('.away.team')[0].innerHTML = gameArr[i].away;
                     $('.header-right.team')[0].innerHTML = gameArr[i].eventTime;
@@ -396,7 +396,7 @@ function RenderArticleSide(protocolToUse) {
 
     switchGame = (function (gameNum) {
         hasChanged = true;
-        changedGameId = gameArr[parseInt(gameNum)].eventId;
+        changedGameId = gameArr[parseInt(gameNum)].event_id;
         toggleDropDown();
         getContent(changedGameId);
         showGame();

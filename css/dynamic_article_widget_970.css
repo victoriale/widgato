@@ -26,7 +26,7 @@ i {
 }
 
 .dw {
-    width: 668px;
+    width: 980px;
     height: 248px;
     box-shadow: 0 0 0 1px #b7b7b7 inset;
     background-color: #fafafa;
@@ -34,7 +34,9 @@ i {
     margin: 0 auto
 }
 
-
+.button-holder {
+  margin-bottom: -2px;
+}
 #verticalName {
     font-size: 10px;
     font-weight: 400;
@@ -199,7 +201,6 @@ i {
 }
 #keyword {
   text-transform: uppercase;
-  margin-right: 10px;
 }
 .dw-i-title {
     width: 100%;
@@ -275,9 +276,9 @@ i {
   display: inline-block;
   color: white;
   background-color: white;
-  font-size: 11px;
-  line-height: 26px;
-  height: 28px;
+  font-size: 12px;
+  line-height: 28px;
+  height: 30px;
   border-radius: 3px;
   position: relative;
   left: 0px;
@@ -320,7 +321,7 @@ i {
     top: 5px
 }
 
-@media screen and (max-width:665px) {
+@media screen and (max-width:980px) {
     .dw {
         width: calc(100% - 2px);
     }
