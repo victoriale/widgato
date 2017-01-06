@@ -323,7 +323,7 @@ function RenderArticleSide(protocolToUse) {
                 } else {
                   var time = val['start_date_time'].time + ' ET';
                   var date = moment(val['start_date_time'].date,'MM/DD/YYYY',true).format("MMM. DD ") + time.toUpperCase();
-                  if(moment(val['start_date_time'].date,'MM/DD/YYYY',true).isValid() != true){
+                  if(moment(val['start_date_time'].date,'MM/DD/YYYY',true).isValid() != true){ // done to avoid deprecation warning. Date from api in mm/dd/yyyy format
                     var unix = moment(val['start_date_time'].date).unix() * 1000;
                     date = moment(unix).format("MMM. DD");
                     if(isNaN(date)){
