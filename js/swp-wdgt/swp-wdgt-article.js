@@ -319,10 +319,12 @@ function RenderArticleSide(protocolToUse) {
                 if (isMlb) {
                   var dateArray = val['startDateTime'].split(' ');
                   var time = dateArray[1] + ' ET';
+                  // avoid moment js deprecation warning
                   var date = moment(dateArray[0],'MM/D/YY',true).isValid() != true ? moment(dateArray[0]).format("MMM. DD") : moment(dateArray[0],'MM/D/YY',true).format("MMM. DD ");
                 } else {
                   var time = val['start_date_time'].time + ' ET';
                   var data_date = val['start_date_time'].date;
+                  // avoid moment js deprecation warning
                   var date = moment(data_date,'MM/DD/YYYY',true).isValid() != true ? moment(data_date).format("MMM. DD") : moment(data_date,'MM/DD/YYYY',true).format("MMM. DD ");
                 }
                 gameData.eventDate = date + time.toUpperCase();
