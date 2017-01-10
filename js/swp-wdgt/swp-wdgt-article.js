@@ -30,11 +30,35 @@ function RenderArticleSide(protocolToUse) {
     var hasChanged = false;
     var dropdownCount = 0;
     var catOptions = ['mlb', 'nfl', 'ncaa', 'nba'];
+    function getRandomArbitrary(min, max) {
+       return Math.floor(Math.random() * (max - min) + min);
+    }
+    var seasonalScopes = [{scope: "mlb", start: 4, end:10},{scope: "nfl", start: 9, end:12},{scope: "ncaa", start: 9, end:12},{scope: "nba", start: 10, end:4}];
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    var scopeIsSet = false;
+    var scope = "nfl"; //fallback to nfl if something goes wrong
+    while (scopeIsSet == false) {
+      var rand = getRandomArbitrary(0, seasonalScopes.length);
+      if (seasonalScopes[rand].start > seasonalScopes[rand].end) { //if season overlaps into the next year
+        if (seasonalScopes[rand].start >= month && seasonalScopes[rand].end >= month) {
+          scope = seasonalScopes[rand].scope;
+          scopeIsSet = true;
+        }
+      }
+      else { //if season is contained in one year contiguously
+        if (seasonalScopes[rand].start <= month && seasonalScopes[rand].end >= month) {
+          scope = seasonalScopes[rand].scope;
+          scopeIsSet = true;
+        }
+      }
+    }
     var isMlb = false;
 
-    catOptions.sort(function () {
-        return 0.5 - Math.random()
-    });
+    // catOptions.sort(function () {
+    //     return 0.5 - Math.random()
+    // });
+    catOptions[0]=scope;
 
     if (catOptions[0] == 'mlb') {
         APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
@@ -195,7 +219,7 @@ function RenderArticleSide(protocolToUse) {
         }
         gameData = mData;
         //change this to img tags instead of bg image
-        A('.section-image').style.backgroundImage = 'url("' + image + '")';
+        A('.section-image').style.backgroundImage = 'url("' + image + "?width=" + (300 * window.devicePixelRatio) + '")';
         if (isMlb) {
           A('.dateline').innerHTML = keyword + ' ' + article.dateline;
           A('.section-text').innerHTML = article.displayHeadline;
