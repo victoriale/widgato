@@ -50,7 +50,7 @@ function RenderArticleSide(protocolToUse) {
         isMlb = false;
     } else if (catOptions[0] == 'nba') {
         APIUrl = protocolToUse + 'prod-sports-ai.synapsys.us/sidekick?scope=nba';
-        keyword = "NCAAF";
+        keyword = "NBA";
         isMlb = false;
     } else {
         APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick';
