@@ -29,7 +29,7 @@ function RenderArticleSide(protocolToUse) {
     var keyword;
     var hasChanged = false;
     var dropdownCount = 0;
-    var catOptions = [/*'mlb',*/ 'nfl', 'ncaa'];
+    var catOptions = [/*'mlb',*/ 'nfl', 'ncaa', 'nba'];
     var isMlb = false;
 
     catOptions.sort(function () {
@@ -46,6 +46,10 @@ function RenderArticleSide(protocolToUse) {
         isMlb = false;
     } else if (catOptions[0] == 'ncaa') {
         APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick?scope=ncaa';
+        keyword = "NCAAF";
+        isMlb = false;
+    } else if (catOptions[0] == 'nba') {
+        APIUrl = protocolToUse + 'prod-sports-ai.synapsys.us/sidekick?scope=nba';
         keyword = "NCAAF";
         isMlb = false;
     } else {
@@ -274,7 +278,21 @@ function RenderArticleSide(protocolToUse) {
             }, function () {
                 $(this).css({'background-color': 'transparent', 'border': '1px solid #fff'});
             });
-        } else {
+        } else if (catOptions[0]=="nba") {
+            $('.ball').css('background-image', 'url(../css/public/icons/Hoops-Loyal_Icon_w.svg)');
+            $('.swp-top').css('background-color', 'rgb(247,112,29)');
+            $('.buttons-readstory').css({'background-color': 'rgba(247,112,29, 0.9)', 'border': '1px solid rgba(247,112,29, 0.9)'});
+            $('.buttons-readstory').hover(function () {
+                $(this).css({'background-color': '#000', 'border': '1px solid #000'});
+            }, function () {
+                $(this).css({'background-color': 'rgba(247,112,29, 0.9)', 'border': '1px solid rgba(247,112,29, 0.9)'});
+            });
+            $('.buttons-nextlist').hover(function () {
+                $(this).css({'background-color': '#000', 'border': '1px solid #000'});
+            }, function () {
+                $(this).css({'background-color': 'transparent', 'border': '1px solid #fff'});
+            });
+        }else {
             $('.ball').css('background-image', 'url(../css/public/icons/Touchdown-Loyal_Icon.svg)');
             $('.swp-top').css('background-color', 'rgb(45, 62, 80)');
             $('.buttons-readstory').css({'background-color': 'rgba(45, 62, 80, 0.9)', 'border': '1px solid rgba(45, 62, 80, 0.9)'});
@@ -351,7 +369,16 @@ function RenderArticleSide(protocolToUse) {
         }
         // Create
         $('.container')[0].innerHTML = ddStr;
-        var backgroundColor = isMlb ? '#b31d24' : 'rgba(45, 62, 80, 0.9)';
+        var backgroundColor;
+        if (isMlb) {
+          backgroundColor = '#b31d24';
+        }
+        else if (catOptions[0] == "nba") {
+          backgroundColor = 'rgba(247,112,29, 0.9)';
+        }
+        else {
+          backgroundColor = 'rgba(45, 62, 80, 0.9)';
+        }
         $('.dropdown-elem.active').css('background-color', backgroundColor);
         $('.dropdown-elem').hover(function () {
             $(this).css("background-color", backgroundColor);
