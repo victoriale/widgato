@@ -33,7 +33,7 @@ function RenderArticleSide(protocolToUse) {
     function getRandomArbitrary(min, max) {
        return Math.floor(Math.random() * (max - min) + min);
     }
-    var seasonalScopes = [{scope: "mlb", start: 4, end:10},{scope: "nfl", start: 9, end:12},{scope: "ncaa", start: 9, end:12},{scope: "nba", start: 10, end:4}];
+    var seasonalScopes = [{scope: "mlb", start: 4, end:10},{scope: "nfl", start: 9, end:2},{scope: "ncaa", start: 9, end:2},{scope: "nba", start: 10, end:4}];
     var date = new Date();
     var month = date.getMonth() + 1;
     var scopeIsSet = false;
