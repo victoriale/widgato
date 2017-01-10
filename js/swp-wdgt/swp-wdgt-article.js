@@ -195,7 +195,7 @@ function RenderArticleSide(protocolToUse) {
         }
         gameData = mData;
         //change this to img tags instead of bg image
-        A('.section-image').style.backgroundImage = 'url("' + image + '")';
+        A('.section-image').style.backgroundImage = 'url("' + image + "?width=" + (300 * window.devicePixelRatio) + '")';
         if (isMlb) {
           A('.dateline').innerHTML = keyword + ' ' + article.dateline;
           A('.section-text').innerHTML = article.displayHeadline;
