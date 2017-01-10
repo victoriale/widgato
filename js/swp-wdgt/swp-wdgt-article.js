@@ -29,7 +29,7 @@ function RenderArticleSide(protocolToUse) {
     var keyword;
     var hasChanged = false;
     var dropdownCount = 0;
-    var catOptions = [/*'mlb',*/ 'nfl', 'ncaa', 'nba'];
+    var catOptions = ['mlb', 'nfl', 'ncaa', 'nba'];
     var isMlb = false;
 
     catOptions.sort(function () {
