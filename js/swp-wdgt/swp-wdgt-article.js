@@ -29,12 +29,37 @@ function RenderArticleSide(protocolToUse) {
     var keyword;
     var hasChanged = false;
     var dropdownCount = 0;
-    var catOptions = [/*'mlb',*/ 'nfl', 'ncaa'];
+    var catOptions = ['mlb', 'nfl', 'ncaa', 'nba'];
+    function getRandomArbitrary(min, max) {
+       return Math.floor(Math.random() * (max - min) + min);
+    }
+    //latest possible end date for: nfl 2/8, nba 6/21, mlb 11/7
+    var seasonalScopes = [{scope: "mlb", start: 4, end:10},{scope: "nfl", start: 9, end:2},/*{scope: "ncaa", start: 9, end:2},*/{scope: "nba", start: 10, end:6}];
+    var date = new Date();
+    var month = date.getMonth() + 1;
+    var scopeIsSet = false;
+    var scope = "nfl"; //fallback to nfl if something goes wrong
+    while (scopeIsSet == false) {
+      var rand = getRandomArbitrary(0, seasonalScopes.length);
+      if (seasonalScopes[rand].start > seasonalScopes[rand].end) { //if season overlaps into the next year
+        if (seasonalScopes[rand].start >= month && seasonalScopes[rand].end >= month) {
+          scope = seasonalScopes[rand].scope;
+          scopeIsSet = true;
+        }
+      }
+      else { //if season is contained in one year contiguously
+        if (seasonalScopes[rand].start <= month && seasonalScopes[rand].end >= month) {
+          scope = seasonalScopes[rand].scope;
+          scopeIsSet = true;
+        }
+      }
+    }
     var isMlb = false;
 
-    catOptions.sort(function () {
-        return 0.5 - Math.random()
-    });
+    // catOptions.sort(function () {
+    //     return 0.5 - Math.random()
+    // });
+    catOptions[0]=scope;
 
     if (catOptions[0] == 'mlb') {
         APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
@@ -48,6 +73,10 @@ function RenderArticleSide(protocolToUse) {
         APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick?scope=ncaa';
         keyword = "NCAAF";
         isMlb = false;
+    } else if (catOptions[0] == 'nba') {
+        APIUrl = protocolToUse + 'prod-sports-ai.synapsys.us/sidekick?scope=nba';
+        keyword = "NBA";
+        isMlb = false;
     } else {
         APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick';
         keyword = "MLB";
@@ -57,7 +86,7 @@ function RenderArticleSide(protocolToUse) {
 
     var data;
 
-    function getContent(eventId) {
+    function getContent(event_id) {
         // Clear old data
         if (gameID != -1) {
             $('.section-text')[0].innerHTML = "Loading...";
@@ -65,14 +94,14 @@ function RenderArticleSide(protocolToUse) {
             $('.dateline')[0].innerHTML = '';
         }
         var locApiUrl = APIUrl;
-        if (typeof eventId != "undefined") {
+        if (typeof event_id != "undefined") {
           if (isMlb) {
-            locApiUrl += "/" + eventId;
-            event = eventId;
+            locApiUrl += "/" + event_id;
+            event = event_id;
           }
           else {
-            locApiUrl += "&event=" + eventId;
-            event = eventId;
+            locApiUrl += "&event=" + event_id;
+            event = event_id;
           }
 
         }
@@ -191,7 +220,7 @@ function RenderArticleSide(protocolToUse) {
         }
         gameData = mData;
         //change this to img tags instead of bg image
-        A('.section-image').style.backgroundImage = 'url("' + image + '")';
+        A('.section-image').style.backgroundImage = 'url("' + image + "?width=" + (300 * window.devicePixelRatio) + '")';
         if (isMlb) {
           A('.dateline').innerHTML = keyword + ' ' + article.dateline;
           A('.section-text').innerHTML = article.displayHeadline;
@@ -211,7 +240,7 @@ function RenderArticleSide(protocolToUse) {
         if (isMlb) {
           //article url structure: /articles/:article_type/:event_id
           //check if the id has been changed via the drop down selection; otherwise use the initial id.
-          var checkId = !game.eventId  ? game.eventID : game.eventId ;
+          var checkId = game.eventId;
 
           if (data.data && data.data['player-fantasy'] && data.data['player-fantasy'].articleId == article.articleId) {
             var id = article.articleId;  //if fantasy article use article id
@@ -223,7 +252,7 @@ function RenderArticleSide(protocolToUse) {
         } else {
           //article url structure: /articles/:article_type/:event_id
           //check if the id has been changed via the drop down selection; otherwise use the initial id.
-          var checkId = !game.eventId  ? game.event_id : game.eventId ;
+          var checkId = !game.event_id  ? game.event_id : game.event_id ;
 
           if (data.data && data.data['player-fantasy'] && data.data['player-fantasy'].article_id == article.article_id) {
             var id = article.article_id;  //if fantasy article use article id
@@ -231,7 +260,13 @@ function RenderArticleSide(protocolToUse) {
           else {
             var id = !changedGameId ? checkId: changedGameId;  //if regular article use event id
           }
+          if (catOptions[0] == "nba") {
+            var articleUrl = 'http://www.hoopsloyal.com/' + cat + '/articles/' + articleTypes[articleIndex] + '/' + id;
+          }
+          else {
             var articleUrl = 'http://www.touchdownloyal.com/' + cat + '/articles/' + articleTypes[articleIndex] + '/' + id;
+
+          }
         }
         var articleText = isMlb ? article.article[0].substr(0, 150) : article.teaser.substr(0, 150);
         if (isMlb) {
@@ -245,6 +280,7 @@ function RenderArticleSide(protocolToUse) {
           A('.content-text').innerHTML = articleText + '...<a target="_blank" href="' + articleUrl + '"></a>';
           A('.bar-author').innerHTML = '<a target="_blank" id="authorlink" href="' + "http://" + authorLink + '">' + author + '</a>';
           A('#readbutton').setAttribute('href', articleUrl);
+          A('#content-anchor').setAttribute('href', articleUrl);
         }
         else {
           A('#readbutton').style.display = "none";
@@ -258,7 +294,7 @@ function RenderArticleSide(protocolToUse) {
         A('.buttons-nextlist').onmouseout = function () {
             A('#arrow').style.fill = '#b31d24';
         };
-        gameID = isMlb ? gameData['current'].eventId : gameData['current'].event_id;
+        gameID = isMlb ? gameData['current'].event_id : gameData['current'].event_id;
         if (isMlb) {
             $('.ball').css('background-image', 'url(../css/public/icons/Home-Run-Loyal_Icon%202.svg)');
             $('.swp-top').css('background-color', '#b31d24');
@@ -273,7 +309,21 @@ function RenderArticleSide(protocolToUse) {
             }, function () {
                 $(this).css({'background-color': 'transparent', 'border': '1px solid #fff'});
             });
-        } else {
+        } else if (catOptions[0]=="nba") {
+            $('.ball').css('background-image', 'url(../css/public/icons/Hoops-Loyal_Icon_w.svg)');
+            $('.swp-top').css('background-color', 'rgb(247,112,29)');
+            $('.buttons-readstory').css({'background-color': 'rgba(247,112,29, 0.9)', 'border': '1px solid rgba(247,112,29, 0.9)'});
+            $('.buttons-readstory').hover(function () {
+                $(this).css({'background-color': '#000', 'border': '1px solid #000'});
+            }, function () {
+                $(this).css({'background-color': 'rgba(247,112,29, 0.9)', 'border': '1px solid rgba(247,112,29, 0.9)'});
+            });
+            $('.buttons-nextlist').hover(function () {
+                $(this).css({'background-color': '#000', 'border': '1px solid #000'});
+            }, function () {
+                $(this).css({'background-color': 'transparent', 'border': '1px solid #fff'});
+            });
+        }else {
             $('.ball').css('background-image', 'url(../css/public/icons/Touchdown-Loyal_Icon.svg)');
             $('.swp-top').css('background-color', 'rgb(45, 62, 80)');
             $('.buttons-readstory').css({'background-color': 'rgba(45, 62, 80, 0.9)', 'border': '1px solid rgba(45, 62, 80, 0.9)'});
@@ -313,17 +363,20 @@ function RenderArticleSide(protocolToUse) {
                     gameData.away = val.away_abbreviation;
                 }
                 // Event ID
-                gameData.eventId = isMlb ? val.eventId : val.event_id;
+                gameData.event_id = isMlb ? val.event_id : val.event_id;
                 // Date
                 if (isMlb) {
-                    var dateArray = val['startDateTime'].split(' ');
-                    var time = dateArray[1] + ' ET';
-                    var date = moment(dateArray[0]).format("MMM. DD ") + time.toUpperCase();
+                  var dateArray = val['startDateTime'].split(' ');
+                  var time = dateArray[1] + ' ET';
+                  // avoid moment js deprecation warning
+                  var date = moment(dateArray[0],'MM/D/YY',true).isValid() != true ? moment(dateArray[0]).format("MMM. DD") : moment(dateArray[0],'MM/D/YY',true).format("MMM. DD ");
                 } else {
-                    var time = val['start_date_time'].time + ' ET';
-                    var date = moment(val['start_date_time'].date).format("MMM. DD ") + time.toUpperCase();
+                  var time = val['start_date_time'].time + ' ET';
+                  var data_date = val['start_date_time'].date;
+                  // avoid moment js deprecation warning
+                  var date = moment(data_date,'MM/DD/YYYY',true).isValid() != true ? moment(data_date).format("MMM. DD") : moment(data_date,'MM/DD/YYYY',true).format("MMM. DD ");
                 }
-                gameData.eventDate = date;
+                gameData.eventDate = date + time.toUpperCase();
                 gameData.eventTime = time;
                 gameArr.push(gameData);
             });
@@ -343,14 +396,23 @@ function RenderArticleSide(protocolToUse) {
                 ddStr += '<div class="divider"></div>';
             }
             if (!hasChanged) {
-                ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == gameID ? ' active" " onclick="switchGame(' + i + ')"' : '" onclick="switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
+                ddStr += '<div class="dropdown-elem' + (gameArr[i].event_id == gameID ? ' active" " onclick="switchGame(' + i + ')"' : '" onclick="switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
             } else {
-                ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == changedGameId ? ' active" " onclick="switchGame(' + i + ')"' : '" onclick="switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
+                ddStr += '<div class="dropdown-elem' + (gameArr[i].event_id == changedGameId ? ' active" " onclick="switchGame(' + i + ')"' : '" onclick="switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
             }
         }
         // Create
         $('.container')[0].innerHTML = ddStr;
-        var backgroundColor = isMlb ? '#b31d24' : 'rgba(45, 62, 80, 0.9)';
+        var backgroundColor;
+        if (isMlb) {
+          backgroundColor = '#b31d24';
+        }
+        else if (catOptions[0] == "nba") {
+          backgroundColor = 'rgba(247,112,29, 0.9)';
+        }
+        else {
+          backgroundColor = 'rgba(45, 62, 80, 0.9)';
+        }
         $('.dropdown-elem.active').css('background-color', backgroundColor);
         $('.dropdown-elem').hover(function () {
             $(this).css("background-color", backgroundColor);
@@ -373,7 +435,7 @@ function RenderArticleSide(protocolToUse) {
         var gameLength = gameArr.length;
         if (dropdownCount == 0) {
             for (var i = 0; i < gameLength; i++) {
-                if (gameArr[i].eventId == gameID || gameArr[i].eventId == changedGameId) {
+                if (gameArr[i].event_id == gameID || gameArr[i].event_id == changedGameId) {
                     $('.home.team')[0].innerHTML = gameArr[i].home;
                     $('.away.team')[0].innerHTML = gameArr[i].away;
                     $('.header-right.team')[0].innerHTML = gameArr[i].eventTime;
@@ -388,7 +450,7 @@ function RenderArticleSide(protocolToUse) {
 
     switchGame = (function (gameNum) {
         hasChanged = true;
-        changedGameId = gameArr[parseInt(gameNum)].eventId;
+        changedGameId = gameArr[parseInt(gameNum)].event_id;
         toggleDropDown();
         getContent(changedGameId);
         showGame();

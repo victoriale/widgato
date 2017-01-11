@@ -17,6 +17,12 @@
   /**
    * Get query parameters for script tag
    **/
+  if (window.location.hostname.indexOf("homerunzone") != -1 || window.location.hostname.indexOf("investkit") != -1 || window.location.hostname.indexOf("touchdownzone") != -1 || window.location.hostname.indexOf("hoopszone") != -1 || window.location.hostname.indexOf("myhousekit") != -1) { //THIS IS A BANDAID PLEASE REDO ME
+    var domain = window.location.pathname.split("/")[1].match(/[^\.]*\.[^.]*$/)[0]; //Domain the bar exists on
+  }
+  else {
+    var domain = window.location.hostname.match(/[^\.]*\.[^.]*$/)[0]; //Domain the bar exists on
+  }
   var params = {
     baseballSubdomain: null,
     basketballSubdomain: null,
@@ -35,15 +41,15 @@
       queryParams.forEach(function(item){
          var pair = item.split('=');
          switch(pair[0]){
-            case 'baseballSubdomain':
-                params.baseballSubdomain = decodeURIComponent(pair[1]);
-            break;
-            case 'basketballSubdomain':
-                params.basketballSubdomain = decodeURIComponent(pair[1]);
-            break;
-            case 'footballSubdomain':
-                params.footballSubdomain = decodeURIComponent(pair[1]);
-            break;
+            // case 'baseballSubdomain':
+            //     params.baseballSubdomain = decodeURIComponent(pair[1]);
+            // break;
+            // case 'basketballSubdomain':
+            //     params.basketballSubdomain = decodeURIComponent(pair[1]);
+            // break;
+            // case 'footballSubdomain':
+            //     params.footballSubdomain = decodeURIComponent(pair[1]);
+            // break;
             case 'brandHex':
                 params.brandHex = '#' + decodeURIComponent(pair[1]);
             break;
@@ -52,6 +58,21 @@
             break;
          }
       })
+  }
+  try {
+    var xmlHttp = new XMLHttpRequest();
+    var hostname = location.hostname.match(/[^\.]*\.[^.]*$/)[0];
+    xmlHttp.open( "GET", protocol + "://w1.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=" + hostname, false ); // false for synchronous request
+    xmlHttp.send();
+    domVars = JSON.parse(xmlHttp.responseText);
+    if (domVars.mlb) {
+      params.baseballSubdomain = domVars['mlb'];
+      params.basketballSubdomain = domVars['nba'];
+      params.footballSubdomain = domVars['nfl'];
+    }
+  }
+  catch(err){
+    console.log("Domain API error: " + err);
   }
 
   /**
@@ -240,38 +261,13 @@
   var parts = domain.split('.');
   //Grab second level domain
   domain = parts.slice(-2).join('.');
-
-  if (domain.indexOf('homerunloyal') !== -1 || domain.indexOf('hoopsloyal') !== -1|| domain.indexOf('touchdownloyal') !== -1) {
-    var houseSite = true;
-    var homerunDomain = "http://homerunloyal.com";
-    var hoopsDomain = "http://hoopsloyal.com";
-    var touchdownDomain = "http://touchdownloyal.com";
-  }
-  else if (domain.indexOf('homerunzone') !== -1|| domain.indexOf('hoopszone') !== -1|| domain.indexOf('touchdownzone') !== -1) {
-    var houseSite = false;
-    var partnerName = path.split('/').slice(1);
-    partnerName = partnerName[0];
-    var homerunDomain = "http://myhomerunzone.com/" + partnerName;
-    var hoopsDomain = "http://myhoopszone.com/" + partnerName;
-    var touchdownDomain = "http://www.mytouchdownzone.com/" + partnerName;
-  }
-  else {
-    if (params.baseballSubdomain || params.basketballSubdomain || params.footballSubdomain) {
-      if (params.baseballSubdomain == null) {params.baseballSubdomain == "baseball"}
-      if (params.basketballSubdomain == null) {params.basketballSubdomain == "basketball"}
-      if (params.footballSubdomain == null) {params.footballSubdomain == "football"}
-      var houseSite = false;
-      var homerunDomain = protocol + '://' + params.baseballSubdomain + '.' + domain;
-      var hoopsDomain = protocol + '://' + params.basketballSubdomain + '.' + domain;
-      var touchdownDomain = protocol + '://' + params.footballSubdomain + '.' + domain;
-    }
-    else {
-      var houseSite = false;
-      var homerunDomain = 'http://myhomerunzone.com/' + domain;
-      var hoopsDomain = 'http://myhoopszone.com/' + domain;
-      var touchdownDomain = 'http://www.mytouchdownzone.com/' + domain;
-    }
-  }
+  var houseSite = false;
+   if (params.footballSubdomain.indexOf("touchdownloyal") != -1 || params.footballSubdomain.indexOf("football") != -1) {
+       houseSite = true;
+   }
+  var touchdownDomain = protocol + '://' + params.footballSubdomain;
+  var hoopsDomain = protocol + '://' + params.basketballSubdomain;
+  var homerunDomain = protocol + '://' + params.baseballSubdomain;
 
   var footballLeagueYear = 2016; //Year used by TDL sites for urls
 
@@ -580,22 +576,52 @@
       navTeams = document.getElementsByClassName('ddb-ncaam-nav-teams');
 
     [].forEach.call(navMostWins, function(item){
-      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/29/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1';
+      }
     });
     [].forEach.call(navMostTurnovers, function(item){
-      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/40/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1';
+      }
     });
     [].forEach.call(navMostRebounds, function(item){
-      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/39/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1';
+      }
     });
     [].forEach.call(navMostSteals, function(item){
-      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/43/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1';
+      }
     });
     [].forEach.call(navMostBlocks, function(item){
-      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/55/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1';
+      }
     });
     [].forEach.call(navMostAssists, function(item){
-      item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/51/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1';
+      }
     });
     [].forEach.call(navTeams, function(item){
       item.href = hoopsDomain + '/NCAA';
@@ -603,6 +629,66 @@
   }
   //Bootstrap college basketball logic that has dependencies
   var bootstrapDynamicCollegeBasketball = function(state, userLocationFound){
+    //Link up nav items
+    var navMostWins = document.getElementsByClassName('ddb-ncaam-nav-most-wins'),
+      navMostTurnovers = document.getElementsByClassName('ddb-ncaam-nav-most-turnovers'),
+      navMostRebounds = document.getElementsByClassName('ddb-ncaam-nav-most-rebounds'),
+      navMostSteals = document.getElementsByClassName('ddb-ncaam-nav-most-steals'),
+      navMostBlocks = document.getElementsByClassName('ddb-ncaam-nav-most-blocks'),
+      navMostAssists = document.getElementsByClassName('ddb-ncaam-nav-most-assists'),
+      navTeams = document.getElementsByClassName('ddb-ncaam-nav-teams');
+
+    [].forEach.call(navMostWins, function(item){
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/29/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1';
+      }
+    });
+    [].forEach.call(navMostTurnovers, function(item){
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/40/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1';
+      }
+    });
+    [].forEach.call(navMostRebounds, function(item){
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/39/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1';
+      }
+    });
+    [].forEach.call(navMostSteals, function(item){
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/43/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1';
+      }
+    });
+    [].forEach.call(navMostBlocks, function(item){
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/55/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1';
+      }
+    });
+    [].forEach.call(navMostAssists, function(item){
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/51/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1';
+      }
+    });
+    [].forEach.call(navTeams, function(item){
+      item.href = hoopsDomain + '/NCAA';
+    });
     //Convert state to full form
     var fullState = stateAbbrevToFull(state);
     var fullStateEncode = encodeURIComponent(fullState);
@@ -657,40 +743,39 @@
         apiConfig.teamsNCAAM.isLoading = false;
         apiConfig.teamsNCAAM.hasLoaded = true;
         apiConfig.teamsNCAAM.success = true;
-
         var navHTML = `
           <li class="ddb-brand-menu-hover">
-            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-wins/list/29/1">
+            <a target="_blank" href="` + navMostWins[0].href + `">
               <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
               Most Wins
             </a>
           </li>
           <li class="ddb-brand-menu-hover">
-            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-turnovers/list/40/1">
+            <a target="_blank" href="` + navMostTurnovers[0].href + `">
               <i class="ddb-icon ddb-icon-box-scores ddb-brand-text"></i>
               Most Turnovers
             </a>
           </li>
           <li class="ddb-brand-menu-hover">
-            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-rebounds/list/39/1">
+            <a target="_blank" href="` + navMostRebounds[0].href + `">
               <i class="ddb-icon ddb-icon-dribbble ddb-brand-text"></i>
               Most Rebounds
             </a>
           </li>
           <li class="ddb-brand-menu-hover">
-            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-steals/list/43/1">
+            <a target="_blank" href="` + navMostSteals[0].href + `">
               <i class="ddb-icon ddb-icon-magic ddb-brand-text"></i>
               Most Steals
             </a>
           </li>
           <li class="ddb-brand-menu-hover">
-            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-blocks-per-game/list/55/1">
+            <a target="_blank" href="` + navMostBlocks[0].href + `">
               <i class="ddb-icon ddb-icon-thumbs-o-down ddb-brand-text"></i>
               Most Blocks
             </a>
           </li>
           <li class="ddb-brand-menu-hover">
-            <a target="_blank" href="` + hoopsDomain + `/NCAA/team/College-Basketball-teams-with-the-most-assists-per-game/list/51/1">
+            <a target="_blank" href="` + navMostAssists[0].href + `">
               <i class="ddb-icon ddb-icon-life-ring ddb-brand-text"></i>
               Most Assists
             </a>
@@ -1025,7 +1110,12 @@
         return hoopsDomain + '/NBA/team/' + data.fullName + '/' + data.teamId;
       }
       else {
-        return hoopsDomain + '/NBA/t/' + data.fullName + '/' + data.teamId;
+        if (params.basketballSubdomain == "basketball") {
+          return hoopsDomain + '/NBA/team/' + data.fullName + '/' + data.teamId;
+        }
+        else {
+          return hoopsDomain + '/NBA/t/' + data.fullName + '/' + data.teamId;
+        }
       }
     }
 
@@ -1122,22 +1212,52 @@
       navTeams = document.getElementsByClassName('ddb-nba-nav-teams');
 
     [].forEach.call(navMostWins, function(item){
-      item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-wins/list/1/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-wins/1/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-wins/list/1/1';
+      }
     });
     [].forEach.call(navMostTurnovers, function(item){
-      item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-turnovers/list/12/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-turnovers/12/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-turnovers/list/12/1';
+      }
     });
     [].forEach.call(navMostRebounds, function(item){
-      item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-rebounds/list/11/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-rebounds/11/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-rebounds/list/11/1';
+      }
     });
     [].forEach.call(navMostSteals, function(item){
-      item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-steals/list/15/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-steals/15/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-steals/list/15/1';
+      }
     });
     [].forEach.call(navMostBlocks, function(item){
-      item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-blocks/list/14/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-blocks/14/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-blocks/list/14/1';
+      }
     });
     [].forEach.call(navMostAssists, function(item){
-      item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-assists-per-game/list/23/1';
+      if (houseSite == true) {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-assists-per-game/23/listview/1';
+      }
+      else {
+        item.href = hoopsDomain + '/NBA/team/NBA-teams-with-the-most-assists-per-game/list/23/1';
+      }
     });
     [].forEach.call(navTeams, function(item){
       item.href = hoopsDomain + '/NBA';
@@ -1146,37 +1266,37 @@
     var navEl = document.createElement('ul');
     navEl.innerHTML = `
       <li class="ddb-brand-menu-hover">
-        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-wins/list/1/1">
+        <a target="_blank" href="` + navMostWins[0].href + `">
           <i class="ddb-icon ddb-icon-trophy ddb-brand-text"></i>
           Most Wins
         </a>
       </li>
       <li class="ddb-brand-menu-hover">
-        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-turnovers/list/12/1">
+        <a target="_blank" href="` + navMostTurnovers[0].href + `">
           <i class="ddb-icon ddb-icon-box-scores ddb-brand-text"></i>
           Most Turnovers
         </a>
       </li>
       <li class="ddb-brand-menu-hover">
-        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-rebounds/list/11/1">
+        <a target="_blank" href="` + navMostRebounds[0].href + `">
           <i class="ddb-icon ddb-icon-dribbble ddb-brand-text"></i>
           Most Rebounds
         </a>
       </li>
       <li class="ddb-brand-menu-hover">
-        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-steals/list/15/1'">
+        <a target="_blank" href="` + navMostSteals[0].href + `">
           <i class="ddb-icon ddb-icon-magic ddb-brand-text"></i>
           Most Steals
         </a>
       </li>
       <li class="ddb-brand-menu-hover">
-        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-blocks/list/14/1">
+        <a target="_blank" href="` + navMostBlocks[0].href + `">
           <i class="ddb-icon ddb-icon-thumbs-o-down ddb-brand-text"></i>
           Most Blocks
         </a>
       </li>
       <li class="ddb-brand-menu-hover">
-        <a target="_blank" href="` + hoopsDomain + `/NBA/team/NBA-teams-with-the-most-assists-per-game/list/23/1">
+        <a target="_blank" href="` + navMostAssists[0].href + `">
           <i class="ddb-icon ddb-icon-life-ring ddb-brand-text"></i>
           Most Assists
         </a>
@@ -1357,7 +1477,7 @@
     ];
 
     var buildLink = function(data){
-      if(params.baseballSubdomain !== null){
+      if(params.baseballSubdomain == "baseball"){
         return homerunDomain + '/team/' + data.fullName + '/' + data.teamId;
       }else{
         if (houseSite == true) {
@@ -1697,7 +1817,7 @@
     ];
 
     var buildLink = function(data){
-      if(params.footballSubdomain !== null){
+      if(params.footballSubdomain == "football"){
         return touchdownDomain + '/nfl/team/' + data.fullName + '/' + data.teamId;
       }else{
         if (houseSite == true) {
@@ -2446,7 +2566,7 @@
 
       switch(data.Scope){
         case 'MLB':
-          if(params.baseballSubdomain !== null){
+          if(params.baseballSubdomain == "baseball"){
             link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2458,7 +2578,7 @@
           }
         break;
         case 'NFL':
-          if(params.footballSubdomain !== null){
+          if(params.footballSubdomain == "football"){
             link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2470,7 +2590,7 @@
           }
         break;
         case 'NCAAF':
-          if(params.footballSubdomain !== null){
+          if(params.footballSubdomain == "football"){
             link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2486,7 +2606,12 @@
             link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
           }
           else {
-            link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (params.basketballSubdomain == "basketball") {
+              link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         case 'NCAAB':
@@ -2494,7 +2619,12 @@
             link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
           }
           else {
-            link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (params.basketballSubdomain == "basketball") {
+              link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         default:
@@ -2762,7 +2892,7 @@
       switch(data.Scope){
         case 'MLB':
           iconClass = 'ddb-icon-baseball';
-          if(params.baseballSubdomain !== null){
+          if(params.baseballSubdomain == "baseball"){
             link = homerunDomain + '/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2775,7 +2905,7 @@
         break;
         case 'NFL':
           iconClass = 'ddb-icon-football';
-          if(params.footballSubdomain !== null){
+          if(params.footballSubdomain == "football"){
             link = touchdownDomain + '/nfl/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2788,7 +2918,7 @@
         break;
         case 'NCAAF':
           iconClass = 'ddb-icon-football';
-          if(params.footballSubdomain !== null){
+          if(params.footballSubdomain == "football"){
             link = touchdownDomain + '/ncaaf/team/' + sanitizeTeamName + '/' + data.teamId;
           }else{
             if (houseSite == true) {
@@ -2805,7 +2935,12 @@
             link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
           }
           else {
-            link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (params.basketballSubdomain == "basketball") {
+              link = hoopsDomain + '/NBA/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = hoopsDomain + '/NBA/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         case 'NCAAB':
@@ -2814,7 +2949,12 @@
             link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
           }
           else {
-            link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+            if (params.basketballSubdomain == "basketball") {
+              link = hoopsDomain + '/NCAA/team/' + sanitizeTeamName + '/' + data.teamId;
+            }
+            else {
+              link = hoopsDomain + '/NCAA/t/' + sanitizeTeamName + '/' + data.teamId;
+            }
           }
         break;
         default:
@@ -3182,7 +3322,12 @@
          return hoopsDomain + '/NCAA/team/' + full_name + '/' + teamId;
        }
        else {
-         return hoopsDomain + '/NCAA/t/' + full_name + '/' + teamId;
+         if (params.basketballSubdomain == "basketball") {
+           return hoopsDomain + '/NCAA/team/' + full_name + '/' + teamId;
+         }
+         else {
+           return hoopsDomain + '/NCAA/t/' + full_name + '/' + teamId;
+         }
        }
 
      }
@@ -3207,22 +3352,23 @@
           </thead>
           <tbody>
        `;
+       if (leagueData != null) {
+         leagueData.forEach(function(item, index){
+           var mod = index % 3;
+           //Add html accordingly
+           if(mod === 0){
+             //First Column
+             tableInnerHTML += '<tr><td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
+           }else if(mod === 1){
+             //Middle Column
+             tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
+           }else if(mod === 2){
+             //Last Column
+             tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td></tr>';
+           }
 
-       leagueData.forEach(function(item, index){
-         var mod = index % 3;
-         //Add html accordingly
-         if(mod === 0){
-           //First Column
-           tableInnerHTML += '<tr><td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
-         }else if(mod === 1){
-           //Middle Column
-           tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td>';
-         }else if(mod === 2){
-           //Last Column
-           tableInnerHTML += '<td><a target="_blank" href="' + buildLink(item.full_name, item.team_id) + '">' + item.full_name + '</a></td></tr>';
-         }
-
-       })
+         })
+       }
        //Check if html template is closed with </tr>, if not then add
        if(!endsWith(tableInnerHTML, '</tr>')){
          tableInnerHTML += '</tr>';
@@ -3246,7 +3392,7 @@
        full_name = full_name.replace(/[^\w\s]/gi, '');
        full_name = full_name.replace(/\s+/g, '-').toLowerCase();
 
-       if(params.footballSubdomain !== null){
+       if(params.footballSubdomain == "football"){
          return touchdownDomain + '/ncaaf/team/' + full_name + '/' + teamId;
        }else{
          if (houseSite == true) {
@@ -3428,7 +3574,7 @@
                     eventId: item.eventId
                   };
                   gameObject.bottomData = gameObject.datetime;
-                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/pregame/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/articles/pregame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3458,7 +3604,7 @@
                     gameObject.bottomData = '';
                   }
 
-                    gameObject.link = hoopsDomain + "/" + currentScope +'/article/pregame/' + gameObject.eventId;
+                    gameObject.link = hoopsDomain + "/" + currentScope +'/articles/pregame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3483,7 +3629,7 @@
                   gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
                   gameObject.bottomData = 'Final';
-                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/postgame/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/articles/postgame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3519,7 +3665,7 @@
                     eventId: item.eventId
                   };
                   gameObject.bottomData = gameObject.datetime;
-                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/pregame/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/articles/pregame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3545,7 +3691,7 @@
                   gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
                   gameObject.bottomData = 'Final';
-                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/postgame/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/articles/postgame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);

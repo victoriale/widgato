@@ -11,7 +11,7 @@ ai_widget = (function() {
   } else {
     scope = 'nba';
   }
-  var APIUrl = 'http://prod-sports-ai.synapsys.us/sidekick?scope=' + scope,
+  var APIUrl = 'http://dev-sports-ai.synapsys.us/sidekick?scope=' + scope,
     AIData = {},
     gameID = -1,
     pageInd = -1,
@@ -117,7 +117,7 @@ ai_widget = (function() {
     var arr = {
       title: dataArr[0].title,
       number: (pageInd + 1) + '/' + availPages.length,
-      url: scope + '/article/' + transArr[pageID] + '/' + gameID,
+      url: scope + '/articles/' + transArr[pageID] + '/' + gameID,
       content: dataArr[0].content + '<br>&nbsp; ',
       img: imageArr[imgIndex]
     };
