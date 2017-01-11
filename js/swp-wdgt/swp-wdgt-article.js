@@ -33,6 +33,7 @@ function RenderArticleSide(protocolToUse) {
     function getRandomArbitrary(min, max) {
        return Math.floor(Math.random() * (max - min) + min);
     }
+    //latest possible end date for: nfl 2/8, nba 6/21, mlb 11/7
     var seasonalScopes = [{scope: "mlb", start: 4, end:10},{scope: "nfl", start: 9, end:2},{scope: "ncaa", start: 9, end:2},{scope: "nba", start: 10, end:6}];
     var date = new Date();
     var month = date.getMonth() + 1;
@@ -239,7 +240,7 @@ function RenderArticleSide(protocolToUse) {
         if (isMlb) {
           //article url structure: /articles/:article_type/:event_id
           //check if the id has been changed via the drop down selection; otherwise use the initial id.
-          var checkId = !game.event_id  ? game.event_id : game.event_id ;
+          var checkId = game.eventId;
 
           if (data.data && data.data['player-fantasy'] && data.data['player-fantasy'].articleId == article.articleId) {
             var id = article.articleId;  //if fantasy article use article id
@@ -259,7 +260,13 @@ function RenderArticleSide(protocolToUse) {
           else {
             var id = !changedGameId ? checkId: changedGameId;  //if regular article use event id
           }
+          if (catOptions[0] == "nba") {
+            var articleUrl = 'http://www.hoopsloyal.com/' + cat + '/article/' + articleTypes[articleIndex] + '/' + id;
+          }
+          else {
             var articleUrl = 'http://www.touchdownloyal.com/' + cat + '/articles/' + articleTypes[articleIndex] + '/' + id;
+
+          }
         }
         var articleText = isMlb ? article.article[0].substr(0, 150) : article.teaser.substr(0, 150);
         if (isMlb) {
