@@ -34,7 +34,7 @@ function RenderArticleSide(protocolToUse) {
        return Math.floor(Math.random() * (max - min) + min);
     }
     //latest possible end date for: nfl 2/8, nba 6/21, mlb 11/7
-    var seasonalScopes = [{scope: "mlb", start: 4, end:10},{scope: "nfl", start: 9, end:2},/*{scope: "ncaa", start: 9, end:2}*/,{scope: "nba", start: 10, end:6}];
+    var seasonalScopes = [{scope: "mlb", start: 4, end:10},{scope: "nfl", start: 9, end:2},/*{scope: "ncaa", start: 9, end:2},*/{scope: "nba", start: 10, end:6}];
     var date = new Date();
     var month = date.getMonth() + 1;
     var scopeIsSet = false;
