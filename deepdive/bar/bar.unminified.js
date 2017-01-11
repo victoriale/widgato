@@ -3574,7 +3574,7 @@
                     eventId: item.eventId
                   };
                   gameObject.bottomData = gameObject.datetime;
-                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/pregame/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/articles/pregame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3604,7 +3604,7 @@
                     gameObject.bottomData = '';
                   }
 
-                    gameObject.link = hoopsDomain + "/" + currentScope +'/article/pregame/' + gameObject.eventId;
+                    gameObject.link = hoopsDomain + "/" + currentScope +'/articles/pregame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3629,7 +3629,7 @@
                   gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
                   gameObject.bottomData = 'Final';
-                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/postgame/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/articles/postgame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3665,7 +3665,7 @@
                     eventId: item.eventId
                   };
                   gameObject.bottomData = gameObject.datetime;
-                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/pregame/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/articles/pregame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
@@ -3691,7 +3691,7 @@
                   gameObject.awayClass = gameObject.homeScore && gameObject.awayScore && (gameObject.homeScore > gameObject.awayScore) ? 'ddb-grey' : null;
 
                   gameObject.bottomData = 'Final';
-                  gameObject.link = hoopsDomain + "/" + currentScope + '/article/postgame/' + gameObject.eventId;
+                  gameObject.link = hoopsDomain + "/" + currentScope + '/articles/postgame/' + gameObject.eventId;
 
                   gameObject.mobileNode = buildNode(gameObject);
                   gameObject.desktopNode = buildNode(gameObject);
