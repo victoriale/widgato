@@ -261,7 +261,7 @@ function RenderArticleSide(protocolToUse) {
             var id = !changedGameId ? checkId: changedGameId;  //if regular article use event id
           }
           if (catOptions[0] == "nba") {
-            var articleUrl = 'http://www.hoopsloyal.com/' + cat + '/article/' + articleTypes[articleIndex] + '/' + id;
+            var articleUrl = 'http://www.hoopsloyal.com/' + cat + '/articles/' + articleTypes[articleIndex] + '/' + id;
           }
           else {
             var articleUrl = 'http://www.touchdownloyal.com/' + cat + '/articles/' + articleTypes[articleIndex] + '/' + id;
