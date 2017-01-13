@@ -279,12 +279,6 @@ dynamic_widget = function() {
     }
 
     function u() {
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: 'widget-title',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
         if (l.dom == 'nydailynews.com') {
             var e = document.getElementsByClassName('dw')[0];
             e.style.height = '340px';

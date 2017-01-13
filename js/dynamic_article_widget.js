@@ -325,12 +325,6 @@ dynamic_widget = function() {
     }
 
     function u() {
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: 'widget-title',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
         var n = true;
         p()
       }
@@ -399,12 +393,6 @@ function p() {
         i += e;
         i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
         p();
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: e == 1 ? 'nav-right' : 'nav-left',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
     }
 
     function f() {
