@@ -144,7 +144,7 @@ function getBaseUrl(string){
 dynamic_widget = function() {
     var e = location.protocol == 'https:' ? 'https' : 'http',
         protocol = location.protocol == 'https:' ? 'https' : 'http',
-        t = e + '://dev-dw.synapsys.us/list_api.php',
+        t = e + '://dw.synapsys.us/list_api.php',
         i = 0,
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
