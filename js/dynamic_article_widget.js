@@ -319,8 +319,7 @@ dynamic_widget = function() {
               }
           }
       };
-      i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&random=1" , true);
-        //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
+      i.open('GET', protocol + "://prod-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&random=1" , true);
         i.send()
     }
 
