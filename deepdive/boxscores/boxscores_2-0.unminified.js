@@ -75,7 +75,7 @@
   //Global variables
   var wLocation = topWin.location;
   var domain = wLocation.hostname.replace(/www./, '');
-  var protocol = (topWin.protocol) === 'https' ? 'https' : 'http';
+  var protocol = (topWin.location.protocol) === 'https:' ? 'https' : 'http';
   var parentNode, parentNodeWidth; //Container and width of container
   var displayNumber; //number of games to display
   var initialIndex = [], dataLength, processedData; //Variables for game data
