@@ -42,7 +42,7 @@ sup {
 }
 
 .billboard {
-    max-width: 992px;
+    max-width: 1279px;
     min-width: 320px;
     height: 450px;
     position: absolute;
@@ -180,7 +180,6 @@ sup {
     -webkit-transition: box-shadow 0.3s ease-in-out, border 0.3s ease-in-out;
     font-size: 14px;
     font-weight: 400;
-    color: #9b9b9b;
     outline: none;
 }
 
@@ -231,13 +230,17 @@ sup {
 }
 
 .main-top-title {
-    height: 105px;
+    height: 98px;
     font-size: 24px;
     line-height: 1em;
     font-weight: 900;
     text-align: left;
     top: 20px;
     left: 35px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .main-top-title-xs {
@@ -305,6 +308,10 @@ sup {
     position: absolute;
     top: 20px;
     left: 35px;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .main-bottom-title-xs {

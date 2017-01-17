@@ -1,179 +1,14 @@
 function getCategoryMetadata (category) {
   var globalMeta = {
-    trending: {
-      displayName: "Trending",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: false,
-      category: "trending",
-      subCategory: ""
-    },
-    breaking: {
-      displayName: "Breaking",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: false,
-      category: "breaking",
-      subCategory: ""
-    },
-    sports: {
-      displayName: "Sports",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: false,
-      category: "sports",
-      subCategory: ""
-    },
-    nfl: {
-      displayName: "Football",
-      domain: "www.touchdownloyal.com",
-      partnerDomain: "www.mytouchdownzone.com",
+    kbb: {
+      displayName: "Kelly Blue Book",
+      domain: "www.kbb.com",
+      partnerDomain: "www.kbb.com",
       usesPartnerSubdomain: true,
-      partnerSubdomain: "football",
-      hasAiArticles: true,
-      category: "sports",
-      subCategory: "nfl"
-    },
-    ncaaf: {
-      displayName: "Football",
-      domain: "www.touchdownloyal.com",
-      partnerDomain: "www.mytouchdownzone.com",
-      usesPartnerSubdomain: true,
-      partnerSubdomain: "football",
-      hasAiArticles: true,
-      category: "sports",
-      subCategory: "ncaaf"
-    },
-    nba: {
-      displayName: "Basketball",
-      domain: "www.hoopsloyal.com",
-      partnerDomain: "www.myhoopszone.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: true,
-      category: "sports",
-      subCategory: "nba"
-    },
-    ncaam: {
-      displayName: "Basketball",
-      domain: "www.hoopsloyal.com",
-      partnerDomain: "www.myhoopszone.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: true,
-      category: "sports",
-      subCategory: "ncaam"
-    },
-    mlb: {
-      displayName: "Baseball",
-      domain: "www.homerunloyal.com",
-      partnerDomain: "www.myhomereunzone.com",
-      usesPartnerSubdomain: true,
-      partnerSubdomain: "baseball",
-      hasAiArticles: true,
-      category: "sports",
-      subCategory: "mlb"
-    },
-    nhl: {
-      displayName: "Hockey",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
-      usesPartnerSubdomain: false,
       hasAiArticles: false,
-      category: "sports",
-      subCategory: "nhl"
-    },
-    business: {
-      displayName: "Business",
-      domain: "www.investkit.com",
-      partnerDomain: "www.myinvestkit.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: false,
-      category: "business",
+      category: "kbb",
       subCategory: ""
-    },
-    politics: {
-      displayName: "Politics",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: false,
-      category: "politics",
-      subCategory: ""
-    },
-    entertainment: {
-      displayName: "Entertainment",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: false,
-      category: "entertainment",
-      subCategory: ""
-    },
-    food: {
-      displayName: "Food",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: false,
-      category: "food",
-      subCategory: ""
-    },
-    health: {
-      displayName: "Health",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: false,
-      category: "health",
-      subCategory: ""
-    },
-    lifestyle: {
-      displayName: "Lifestyle",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: false,
-      category: "lifestyle",
-      subCategory: ""
-    },
-    realestate: {
-      displayName: "Real Estate",
-      domain: "www.joyfulhome.com",
-      partnerDomain: "www.myhousekit.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: true,
-      category: "realestate",
-      subCategory: ""
-    },
-    travel: {
-      displayName: "Travel",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: false,
-      category: "travel",
-      subCategory: ""
-    },
-    weather: {
-      displayName: "Weather",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: false,
-      category: "weather",
-      subCategory: ""
-    },
-    automotive: {
-      displayName: "Automotive",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
-      usesPartnerSubdomain: false,
-      hasAiArticles: false,
-      category: "automotive",
-      subCategory: ""
-    },
+    }
   };
   return globalMeta[category];
 }
@@ -209,7 +44,7 @@ var specialDomains = [
 ];
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
-function generateArticleLink (scope, linkType, destinationId, articleType, remn, dom) {
+function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
   var baseUrl;
   var output = "";
   if (remn == "false") { //if partner
@@ -222,7 +57,7 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn,
       }
     }
     else { //only partner, not subdomain
-      baseUrl = "http://" + currentConfig.partnerDomain + "/" + dom;
+      baseUrl = "http://" + currentConfig.partnerDomain;
     }
   }
   else { // not partner site and not partner domain
@@ -230,10 +65,10 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn,
   }
 
   // now that we have the base Url, format the rest of the link
-  if (linkType == "syndicated" || linkType == "tca-curated") {
+  if (linkType == "syndicated") {
     output = baseUrl + "/" + scope + "/news/story/" + destinationId;
   }
-  else if (linkType == "ai" || linkType == "snt_ai_module") {
+  else if (linkType = "ai") {
     output = baseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
   }
   return output;
@@ -247,16 +82,8 @@ dynamic_widget = function() {
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
-        a = ['finance', 'nba', 'ncaam', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','entertainment','realestate','food','travel','health','sports','lifestyle','breaking','automotive'];
-        if ((l.category == "" || l.category == null) && l.cat != null && l.cat != "") {
-          l.category = l.cat;
-        }
-        if (l.category == "real-estate") {
-          l.category = "realestate";
-        }
-        if (l.category == "nhl") {
-          l.category = "sports";
-        }
+        a = ['kbb'];
+    currentConfig = getCategoryMetadata(l.category);
     var s = false;
     var o = '';
     function c(e) {
@@ -282,7 +109,7 @@ dynamic_widget = function() {
           o = 'finance.lasvegasnow.com'
       }
       if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
-          l.category = 'business'
+          l.category = 'kbb'
       }
       if (ignoreRandom == null) {
         var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
@@ -290,7 +117,7 @@ dynamic_widget = function() {
       else {
         var e = Math.floor(Math.random() * 10);
       }
-      currentConfig = getCategoryMetadata(l.category);
+
       var i;
       if (window.XMLHttpRequest) {
           i = new XMLHttpRequest
@@ -319,39 +146,34 @@ dynamic_widget = function() {
               }
           }
       };
-      i.open('GET', protocol + "://prod-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&random=1" , true);
+      i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + "automotive" + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
+
+      // i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
+        // i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=" + "http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true);
+        //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
         i.send()
     }
 
     function u() {
+        if (typeof dataLayer != 'undefined') {
+            dataLayer.push({
+                event: 'widget-title',
+                eventAction: dynamic_widget.get_title()
+            })
+        }
         var n = true;
         p()
       }
 function p() {
-        if (r.data.length <= 1) {
-          $('next-list-link').classList.add("disabled-button");
-        }
-        else {
-          $('next-list-link').classList.remove("disabled-button");
-        }
         var e = r.data[i];
-        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn, l.dom);
+        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
         if ($('list-link')) {
             $('list-link').href = a
-        }
-        if ($('mainurl')) {
-            $('mainurl').href = a
         }
         if ($('title-link')) {
             $('title-link').href = a
         }
         $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
-        if ($('title-text').clientHeight > 76) {
-          $('desc').style.opacity = 0;
-        }
-        else {
-          $('desc').style.opacity = 1;
-        }
         if ($('keyword') && e.category) {
           $('keyword').innerHTML = e.category.replace(/-/g," ");
         }
@@ -392,6 +214,12 @@ function p() {
         i += e;
         i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
         p();
+        if (typeof dataLayer != 'undefined') {
+            dataLayer.push({
+                event: e == 1 ? 'nav-right' : 'nav-left',
+                eventAction: dynamic_widget.get_title()
+            })
+        }
     }
 
     function f() {
@@ -412,7 +240,6 @@ function p() {
             $('list-link').parentNode.removeChild($('list-link'));
             return false
         }
-        $('verticalDisplayName').innerHTML = currentConfig.displayName;
     }
     m();
     c(h);

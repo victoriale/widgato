@@ -2,8 +2,8 @@ function getCategoryMetadata (category) {
   var globalMeta = {
     trending: {
       displayName: "Trending",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "trending",
@@ -11,8 +11,8 @@ function getCategoryMetadata (category) {
     },
     breaking: {
       displayName: "Breaking",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "breaking",
@@ -20,16 +20,26 @@ function getCategoryMetadata (category) {
     },
     sports: {
       displayName: "Sports",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "sports",
       subCategory: ""
     },
+    football: {
+      displayName: "Football",
+      domain: "dev.touchdownloyal.com",
+      partnerDomain: "www.mytouchdownzone.com",
+      usesPartnerSubdomain: true,
+      partnerSubdomain: "football",
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "nfl"
+    },
     nfl: {
       displayName: "Football",
-      domain: "www.touchdownloyal.com",
+      domain: "dev.touchdownloyal.com",
       partnerDomain: "www.mytouchdownzone.com",
       usesPartnerSubdomain: true,
       partnerSubdomain: "football",
@@ -39,7 +49,7 @@ function getCategoryMetadata (category) {
     },
     ncaaf: {
       displayName: "Football",
-      domain: "www.touchdownloyal.com",
+      domain: "dev.touchdownloyal.com",
       partnerDomain: "www.mytouchdownzone.com",
       usesPartnerSubdomain: true,
       partnerSubdomain: "football",
@@ -47,9 +57,18 @@ function getCategoryMetadata (category) {
       category: "sports",
       subCategory: "ncaaf"
     },
+    basketball: {
+      displayName: "Basketball",
+      domain: "dev.hoopsloyal.com",
+      partnerDomain: "www.myhoopszone.com",
+      usesPartnerSubdomain: false,
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "nba"
+    },
     nba: {
       displayName: "Basketball",
-      domain: "www.hoopsloyal.com",
+      domain: "dev.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
@@ -58,16 +77,26 @@ function getCategoryMetadata (category) {
     },
     ncaam: {
       displayName: "Basketball",
-      domain: "www.hoopsloyal.com",
+      domain: "dev.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
       usesPartnerSubdomain: false,
       hasAiArticles: true,
       category: "sports",
       subCategory: "ncaam"
     },
+    baseball: {
+      displayName: "Baseball",
+      domain: "dev.homerunloyal.com",
+      partnerDomain: "www.myhomereunzone.com",
+      usesPartnerSubdomain: true,
+      partnerSubdomain: "baseball",
+      hasAiArticles: true,
+      category: "sports",
+      subCategory: "mlb"
+    },
     mlb: {
       displayName: "Baseball",
-      domain: "www.homerunloyal.com",
+      domain: "dev.homerunloyal.com",
       partnerDomain: "www.myhomereunzone.com",
       usesPartnerSubdomain: true,
       partnerSubdomain: "baseball",
@@ -77,8 +106,8 @@ function getCategoryMetadata (category) {
     },
     nhl: {
       displayName: "Hockey",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "sports",
@@ -95,8 +124,8 @@ function getCategoryMetadata (category) {
     },
     politics: {
       displayName: "Politics",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "politics",
@@ -104,8 +133,8 @@ function getCategoryMetadata (category) {
     },
     entertainment: {
       displayName: "Entertainment",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "entertainment",
@@ -113,8 +142,8 @@ function getCategoryMetadata (category) {
     },
     food: {
       displayName: "Food",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "food",
@@ -122,8 +151,8 @@ function getCategoryMetadata (category) {
     },
     health: {
       displayName: "Health",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "health",
@@ -131,8 +160,8 @@ function getCategoryMetadata (category) {
     },
     lifestyle: {
       displayName: "Lifestyle",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "lifestyle",
@@ -149,8 +178,8 @@ function getCategoryMetadata (category) {
     },
     travel: {
       displayName: "Travel",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "travel",
@@ -158,8 +187,8 @@ function getCategoryMetadata (category) {
     },
     weather: {
       displayName: "Weather",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "weather",
@@ -167,8 +196,8 @@ function getCategoryMetadata (category) {
     },
     automotive: {
       displayName: "Automotive",
-      domain: "www.tcxmedia.com",
-      partnerDomain: "www.tcxmedia.com",
+      domain: "dev.tcxmedia.com",
+      partnerDomain: "www.tcxnews.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "automotive",
@@ -187,6 +216,7 @@ if (document.referrer != "" && document.referrer != null) {
 else {
   referrer = window.location.href;
 }
+var iglooResponded = 0;
 var season;
 var SpecialDomain = "";
 var currentDomain = "";
@@ -209,7 +239,7 @@ var specialDomains = [
 ];
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
-function generateArticleLink (scope, linkType, destinationId, articleType, remn, dom) {
+function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
   var baseUrl;
   var output = "";
   if (remn == "false") { //if partner
@@ -222,7 +252,7 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn,
       }
     }
     else { //only partner, not subdomain
-      baseUrl = "http://" + currentConfig.partnerDomain + "/" + dom;
+      baseUrl = "http://" + currentConfig.partnerDomain;
     }
   }
   else { // not partner site and not partner domain
@@ -230,10 +260,10 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn,
   }
 
   // now that we have the base Url, format the rest of the link
-  if (linkType == "syndicated" || linkType == "tca-curated") {
+  if (linkType == "syndicated") {
     output = baseUrl + "/" + scope + "/news/story/" + destinationId;
   }
-  else if (linkType == "ai" || linkType == "snt_ai_module") {
+  else if (linkType = "ai") {
     output = baseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
   }
   return output;
@@ -247,16 +277,7 @@ dynamic_widget = function() {
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
-        a = ['finance', 'nba', 'ncaam', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','entertainment','realestate','food','travel','health','sports','lifestyle','breaking','automotive'];
-        if ((l.category == "" || l.category == null) && l.cat != null && l.cat != "") {
-          l.category = l.cat;
-        }
-        if (l.category == "real-estate") {
-          l.category = "realestate";
-        }
-        if (l.category == "nhl") {
-          l.category = "sports";
-        }
+        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','entertainment','realestate','food','travel','health','sports','lifestyle','breaking','automotive'];
     var s = false;
     var o = '';
     function c(e) {
@@ -281,16 +302,13 @@ dynamic_widget = function() {
           s = true;
           o = 'finance.lasvegasnow.com'
       }
-      if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
-          l.category = 'business'
-      }
       if (ignoreRandom == null) {
         var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
       }
       else {
         var e = Math.floor(Math.random() * 10);
       }
-      currentConfig = getCategoryMetadata(l.category);
+
       var i;
       if (window.XMLHttpRequest) {
           i = new XMLHttpRequest
@@ -301,6 +319,9 @@ dynamic_widget = function() {
           if (i.readyState == XMLHttpRequest.DONE) {
               if (i.status == 200) {
                   r = JSON.parse(i.responseText);
+                  l.category = r.data.article_data[0].filter_keywords.split(",")[0];
+                  console.log("l.category",l.category);
+                  currentConfig = getCategoryMetadata(l.category);
                   c(u)
               } else {
                   var e = i.statusText;
@@ -319,49 +340,119 @@ dynamic_widget = function() {
               }
           }
       };
-      i.open('GET', protocol + "://prod-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&random=1" , true);
-        i.send()
+      function iglooResponce(e){
+        if ( e.type == "message" && typeof e.data != "undefined" && typeof e.data.action != "undefined" && e.data.action == "location" && iglooResponded == 0) { //message has been returned correctly
+          console.log("igloo fired message",e);
+          if (e.data.data) {
+            l.caw_url = e.data.data.href;
+          }
+          console.log("CAW input url",l.caw_url);
+          i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=" + l.caw_url , true);
+          //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
+          i.send();
+          iglooResponded = 1;
+          window.removeEventListener('message', iglooResponce);
+        }
+      }
+      window.parent.postMessage({action: 'location', igloo_id: 0}, "*");
+      window.addEventListener('message', iglooResponce);
     }
 
     function u() {
+        if (typeof dataLayer != 'undefined') {
+            dataLayer.push({
+                event: 'widget-title',
+                eventAction: dynamic_widget.get_title()
+            })
+        }
+        if (l.category == 'politics') {
+            var polOptions = ['i','r','d'];
+            var rand = Math.floor((Math.random() * 3) + 1)-1;
+            var i = polOptions[rand];
+            var cssId = 'politicsCss';  // you could encode the css path itself to generate id..
+            if (document.getElementById(cssId))
+            {
+              var element = document.getElementById(cssId);
+              element.parentNode.removeChild(element);
+            }
+            var head  = document.getElementsByTagName('head')[0];
+            var link  = document.createElement('link');
+            link.id   = cssId;
+            link.rel  = 'stylesheet';
+            link.type = 'text/css';
+            link.href = '../css/dynamic_widget_politics_' + i + '.css';
+            link.media = 'all';
+            head.appendChild(link);
+        }
+        if (l.category == 'mlb') {
+            r.l_title = r.l_title.replace("MLB","Baseball");
+        }
         var n = true;
         p()
       }
 function p() {
-        if (r.data.length <= 1) {
+        if (r.data.article_data.length <= 1) {
           $('next-list-link').classList.add("disabled-button");
         }
         else {
           $('next-list-link').classList.remove("disabled-button");
         }
-        var e = r.data[i];
-        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn, l.dom);
+        var e = r.data.article_data[i];
+        function add_css_link(e) {
+          console.log("CSS returned",e);
+            var t = d.createElement("link");
+            t.href = e, t.type = "text/css", t.rel = "stylesheet";
+            var n = d.getElementsByTagName("head")[0];
+            n.insertBefore(t, n.childNodes[0])
+        }! function() {
+            var e = "../css/dynamic_widget_",
+                n = {
+                    basketball: "basketball",
+                    nba: "basketball",
+                    college_basketball: "basketball",
+                    baseball: "mlb",
+                    mlb: "mlb",
+                    football: "nfl",
+                    nfl: "nfl",
+                    ncaaf: "ncaaf",
+                    nflncaaf: "nflncaaf",
+                    finance: "finance",
+                    crime: "crime",
+                    demographics: "demographics",
+                    disaster: "disaster",
+                    weather: "weather",
+                    tcx: "tcx",
+                    entertainment: "entertainment",
+                    realestate: "realestate",
+                    food: "food",
+                    travel: "travel",
+                    health: "health",
+                    sports: "sports",
+                    lifestyle: "lifestyle",
+                    breaking: "breaking",
+                    ipo: "ipo",
+                    automotive: "automotive"
+                };
+            return "politics" == l.category ? !1 : (("undefined" == typeof l.category || "undefined" == typeof n[l.category]) && (l.category = "nfl"), e += n[l.category] + ".css", void add_css_link(e))
+        }();
+        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
         if ($('list-link')) {
             $('list-link').href = a
-        }
-        if ($('mainurl')) {
-            $('mainurl').href = a
         }
         if ($('title-link')) {
             $('title-link').href = a
         }
         $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
-        if ($('title-text').clientHeight > 76) {
-          $('desc').style.opacity = 0;
-        }
-        else {
-          $('desc').style.opacity = 1;
-        }
         if ($('keyword') && e.category) {
           $('keyword').innerHTML = e.category.replace(/-/g," ");
         }
 
         //todo: possibly make this a function
         if ($('date')) {
-          var date = new Date(e.last_updated*1000);
+          var date = new Date(e.published_date*1000);
           var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
           var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-            "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"
+            "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
           ];
           var month = date.getMonth();
           var day = date.getDate();
@@ -373,12 +464,13 @@ function p() {
         }
         var stat = Math.floor(Number(e.stat));
         $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
+        $('verticalDisplayName').innerHTML = currentConfig.displayName;
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
           if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
+            t.setAttribute('src', e.image_url + "?width=" + (t.width * window.devicePixelRatio));
           }
           else { //todo: use placeholder images as fallback for articles instead of no-image image
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
@@ -390,8 +482,14 @@ function p() {
 
     function w(e) {
         i += e;
-        i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
+        i = i >= r.data.article_data.length ? 0 : i < 0 ? r.data.article_data.length - 1 : i;
         p();
+        if (typeof dataLayer != 'undefined') {
+            dataLayer.push({
+                event: e == 1 ? 'nav-right' : 'nav-left',
+                eventAction: dynamic_widget.get_title()
+            })
+        }
     }
 
     function f() {
@@ -412,7 +510,6 @@ function p() {
             $('list-link').parentNode.removeChild($('list-link'));
             return false
         }
-        $('verticalDisplayName').innerHTML = currentConfig.displayName;
     }
     m();
     c(h);

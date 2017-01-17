@@ -43,7 +43,7 @@ function getCategoryMetadata (category) {
       displayName: "Basketball",
       domain: "www.hoopsloyal.com",
       partnerDomain: "www.myhoopszone.com",
-      usesPartnerSubdomain: false,
+      usesPartnerSubdomain: true,
       partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
@@ -57,12 +57,12 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
-      subCategory: "ncaam"
+      subCategory: "ncaa"
     },
     mlb: {
       displayName: "Baseball",
       domain: "www.homerunloyal.com",
-      partnerDomain: "www.myhomereunzone.com",
+      partnerDomain: "www.myhomerunzone.com",
       usesPartnerSubdomain: true,
       partnerSubdomain: "baseball",
       hasAiArticles: true,
@@ -122,23 +122,6 @@ function getCategoryMetadata (category) {
     return globalMeta['finance'];
   }
 }
-var specialDomains = [
-  "latimes.com",
-  "orlandosentinel.com",
-  "sun-sentinel.com",
-  "baltimoresun.com",
-  "mcall.com",
-  "courant.com",
-  "dailypress.com",
-  "southflorida.com",
-  "citypaper.com",
-  "themash.com",
-  "coastlinepilot.com",
-  "sandiegouniontribune.com",
-  "ramonasentinel.com",
-  "capitalgazette.com",
-  "chicagotribune.com"
-];
 
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var currentConfig;
@@ -149,32 +132,6 @@ var currentDomain = "";
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 var rounds = 0;
 
-//todo: use this for formatting all links
-function generateListLink (scope, destinationId, subject, season, listType, ordering, remn) {
-  var baseUrl;
-  var output = "";
-  if (remn == "false") { //if partner
-    if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
-      for (var i = 0; i < specialDomains.length; i++) {
-        if (referrer.indexOf(specialDomains[i]) >= 0) {
-          baseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
-          break;
-        }
-      }
-    }
-    else { //only partner, not subdomain
-      baseUrl = "http://" + currentConfig.partnerDomain;
-    }
-  }
-  else { // not partner site and not partner domain
-    baseUrl = "http://" + currentConfig.domain;
-  }
-
-  // now that we have the base Url, format the rest of the link
-  output = baseUrl + "/" + scope + "/list/" + subject + "/" + listType + "/" + season + "/" + destinationId;
-
-  return output;
-}
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
 var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
 
@@ -193,6 +150,9 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
+        if (l.subd && l.subd.indexOf("/") == -1) {
+          SpecialDomain = l.subd;
+        }
         currentConfig = getCategoryMetadata(l.category);
     var s = false;
     var o = '';
@@ -369,53 +329,32 @@ dynamic_widget = function() {
         switch (l.category) {
             case 'nba':
             case 'college_basketball':
-                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/' + currentConfig.subCategory + '/w-list';
+                var a = l.remn == 'true' ? 'http://' + l.subd + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + l.subd + '/' + currentConfig.subCategory + '/w-list';
                 break;
             case "mlb":
-                for (i = 0; i <= specialDomains.length; i++) {
-                  if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://" + currentConfig.partnerSubdomain + "." + specialDomains[i];
-                  }
-                }
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
                 $("carousel").className = "one";
                 var a = "";
-                if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/list' : "http://" + currentConfig.partnerDomain + "/" + l.dom +'/list';
-                }
-                else {
-                  a = SpecialDomain + '/list';
-                }
+                a = l.remn == 'true' ? 'http://' + l.subd + '/list' : "http://" + l.subd +'/list';
                 var n = false
                 break;
             case "nfl":
             case "ncaaf":
             case "nflncaaf":
-                for (i = 0; i <= specialDomains.length; i++) {
-                  if (currentDomain == specialDomains[i]) {
-                    SpecialDomain = "http://" + currentConfig.partnerSubdomain + "." + specialDomains[i] ;
-                  }
-                }
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
                 $("carousel").className = "one";
                 var a = "";
-                if (SpecialDomain == "") {
-                      a = l.remn == 'true' ? 'http://' + currentConfig.domain : "http://" + currentConfig.partnerDomain + "/" + l.dom;
-                }
-                else {
-                  //for football.partnerdomain.com
-                  a = SpecialDomain;
-                }
+                a = l.remn == 'true' ? 'http://' + l.subd : "http://" + l.subd;
                 var n = false
                 break;
             case 'finance':
-                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/widget-list' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/w-list';
+                var a = l.remn == 'true' ? 'http://' + l.subd + '/widget-list' : 'http://' + l.subd + '/w-list';
                 if (s) {
                     a = a.replace(currentConfig.partnerDomain, o)
                 }
                 break;
             default:
-                var a = l.remn == 'true' ? 'http://' + currentConfig.domain + '/wlist' : 'http://' + currentConfig.partnerDomain + '/' + l.dom + '/wlist';
+                var a = l.remn == 'true' ? 'http://' + l.subd + '/wlist' : 'http://' + l.subd + '/wlist';
                 var n = false
         }
         if (currentConfig.category != "football") {
@@ -423,7 +362,6 @@ dynamic_widget = function() {
         }
         else {
           a += "/" + l.category + "/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + r.data.listInfo.ordering + "/" + "10" + "/" + "1";
-          a = a.replace(/&/g, "%26");
         }
         if ($('list-link') && l.showLink != 'false') {
             $('list-link').href = a;
@@ -456,11 +394,10 @@ function p() {
             a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" +l.category+ v_link : "http://" + currentConfig.partnerDomain + "/" + l.dom + "/" +l.category+ v_link;
           }
           else {
-            v_link = "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.teamId;
+            v_link = "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId;
 
-            a = SpecialDomain + "/" +l.category+ v_link;
+            a = 'http://' + SpecialDomain + "/" +l.category+ v_link;
           }
-          a = a.replace(/&/g, "%26");
           if (l.showLink != 'false') {
             $('mainurl').href = a;
             $('line1').href = a;
@@ -476,11 +413,10 @@ function p() {
             a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" + l.category + v_link : "http://" + currentConfig.partnerDomain + "/" + l.dom + "/" + l.category + v_link;
           }
           else {
-            v_link = "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
+            v_link = "/player/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + escape(e.playerFirstName.replace(/ /g, "-").toLowerCase()) + '-' + escape(e.playerLastName.replace(/ /g, "-").toLowerCase()) + "/" + e.playerId;
 
-            a = SpecialDomain + "/" + l.category+v_link;
+            a = 'http://' + SpecialDomain + "/" + l.category+v_link;
           }
-          a = a.replace(/&/g, "%26");
           if (l.showLink != 'false') {
             $('mainurl').href = a;
             $('line1').href = a;
@@ -553,24 +489,20 @@ function p() {
         var e = r.l_data[i];
         e.li_url = e.li_subimg !== false && e.li_subimg.switch ? l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
         e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
-
-        //if we're on a site that uses a subdomain for this vetical's microsite, then use that
-        if(SpecialDomain && verticalsUsingSubdom.indexOf(l.category) != -1) {
-            switch (l.category) {
-                case 'mlb':
-                    e.li_url = e.li_url.replace(/(?:https?\:)?(?:\/\/)?(?:www\.)?myhomerunzone\.com\/\{partner\}/i, SpecialDomain);
-            e.li_url = e.li_url.replace("/t/", "/team/");
-            e.li_url = e.li_url.replace("/p/", "/player/");
-                    e.li_line_url = e.li_line_url.replace(/(?:https?\:)?(?:\/\/)?(?:www\.)?myhomerunzone\.com\/\{partner\}/i, SpecialDomain);
-            e.li_line_url = e.li_line_url.replace("/t/", "/team/");
-            e.li_line_url = e.li_line_url.replace("/p/", "/player/");
-                    break;
-                default:
-                    break;
-            }
-        } else {
-            e.li_url = "http:" + e.li_url.replace('{partner}', l.dom);
-            e.li_line_url = "http:" + e.li_line_url.replace('{partner}', l.dom);
+        if (currentConfig.category == "basketball") {
+          e.li_url = e.li_url.replace("/t/", "/team/");
+          e.li_url = e.li_url.replace("/p/", "/player/");
+          e.li_line_url = e.li_line_url.replace("/t/", "/team/");
+          e.li_line_url = e.li_line_url.replace("/p/", "/player/");
+        }
+        e.li_url = e.li_url.replace("/w-list", "/widget-list");
+        if (SpecialDomain) {
+          e.li_url = "http://" + e.li_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/").replace('/{partner}', "");
+          e.li_line_url = "http://" + e.li_line_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/").replace('/{partner}', "");
+        }
+        else {
+          e.li_url = "http:" + e.li_url.replace('{partner}', l.dom);
+          e.li_line_url = "http:" + e.li_line_url.replace('{partner}', l.dom);
         }
         if (s) {
             e.li_url = e.li_url.replace('www.myinvestkit.com', o);
@@ -671,7 +603,7 @@ function p() {
       }
     }
 
-    function w(e) {
+    function w(e, autoAdvance) {
         i += e;
         if (currentConfig.category == "football") {
           i = i >= r.data.listData.length ? 0 : i < 0 ? r.data.listData.length - 1 : i;
@@ -680,6 +612,12 @@ function p() {
           i = i >= r.l_data.length ? 0 : i < 0 ? r.l_data.length - 1 : i;
         }
         p();
+        if (typeof dataLayer != 'undefined' && autoAdvance != true) {
+            dataLayer.push({
+                event: e == 1 ? 'nav-right' : 'nav-left',
+                eventAction: dynamic_widget.get_title()
+            })
+        }
     }
 
     function checkBlankImages() {
@@ -715,7 +653,7 @@ function p() {
             }
           break;
       }
-        w(goodNumber);
+        w(goodNumber, true);
     }
 
     function f() {

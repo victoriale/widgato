@@ -82,12 +82,12 @@
 
   //Grab parent node
   var currentScript = document.currentScript || (function() {
-    var scripts = document.getElementsByTagName("script");
-    for (var i = scripts.length - 1; i >= 0; i--) {
-      if (scripts[i].src.indexOf(skyscraperRails.embedSource) != -1) {
-        return scripts[i];
-      }
-    }
+     var scripts = document.getElementsByTagName("script");
+     for (var i = scripts.length - 1; i >= 0; i--) {
+        if (scripts[i].src.indexOf('boxscores_2-0') != -1) {
+           return scripts[i];
+        }
+     }
   })();
   parentNode = currentScript.parentNode;
 
@@ -149,7 +149,7 @@
       arrowColor = '#fc501d';
       barTitle = '<b>NFL</b> GAMES THIS WEEK';
       toggleTitle = "College Football";
-      toggleLink = "/app/fe-core/ads/ncaafbluebar.html"
+      toggleLink = "//w1.synapsys.us/widgets/deepdive/boxscores/ncaaf.html"
       gameBorderColor = '#000';
       formatData = function(data){
         return formatFootballData(data, 'nfl');
@@ -162,7 +162,7 @@
       arrowColor = '#fc501d';
       barTitle = '<b>NCAAF</b> GAMES THIS WEEK';
       toggleTitle = "Pro Football";
-      toggleLink = "/app/fe-core/ads/nflbluebar.html";
+      toggleLink = "//w1.synapsys.us/widgets/deepdive/boxscores/nfl.html";
       gameBorderColor = '#000';
       formatData = function(data){
         return formatFootballData(data, 'ncaaf');
@@ -563,7 +563,7 @@
       .boxscores-e-bar{
         font-weight: 300;
         width: 100%;
-        min-width: 640px;
+        min-width: 320px;
         height: 50px;
         line-height: 50px;
         background-color:` + barColor + `;
@@ -585,7 +585,7 @@
           line-height: 15px;
         }
         .boxscores-e-title.nfl{
-          width: 100px;
+          width: 97px;
         }
         .boxscores-e-title.ncaaf{
           width: 120px;
@@ -623,6 +623,11 @@
         box-sizing: border-box;
         overflow: hidden;
       }
+      @media (max-width: 768px) {
+        .boxscores-e-game {
+          width: 151px;
+        }
+      }
       .boxscores-e-game:first-child{
         border-left: 1px solid` + gameBorderColor + `;
       }
@@ -640,6 +645,11 @@
       }
       .boxscores-e-football .boxscores-e-game-link{
         padding: 0 15px;
+      }
+      @media (max-width: 768px) {
+        .boxscores-e-football .boxscores-e-game-link{
+          padding: 0 10px;
+        }
       }
       .boxscores-e-game-link:hover{
         color: #fff;
@@ -700,9 +710,9 @@
         border-left: 1px solid` + gameBorderColor + `;
         box-shadow: -20px 0px 20px 0px #272727;
       }
-      @media (max-width: 992px) {
+      @media (max-width: 768px) {
         .boxscores-e-nav{
-          padding: 0 10px;
+          box-shadow: none;
         }
       }
       .boxscores-e-nav-button{
@@ -718,6 +728,20 @@
         font-size: 25px;
         padding: 0;
         line-height: normal;
+      }
+      @media (max-width: 992px) {
+        .boxscores-e-nav{
+          padding: 0 10px;
+        }
+      }
+      @media (max-width: 768px) {
+        .boxscores-e-nav{
+          padding: 0 5px;
+        }
+        .boxscores-e-nav-button{
+          width: 24px;
+          height: 24px;
+        }
       }
       .boxscores-e-nav-button>i{
         vertical-align: middle;

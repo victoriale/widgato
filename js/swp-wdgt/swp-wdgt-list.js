@@ -14,11 +14,15 @@ swp_wdgt = function(){
 
   var temp = location.search;
   var season;
-
-  if(temp !== null && temp !== ""){
+  if(temp != null && temp != ""){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     domain = query.dom;
-    remnant = query.remn;
+    if (query.remn != "" && query.remn != null) {
+      remnant = query.remn;
+    }
+    else {
+      remnant = 'true';
+    }
     bord = query.bord;
   }else{
     domain = false;
@@ -494,11 +498,13 @@ function RenderDynamicSide(protocolToUse){
             }
           }else{
             //partner site
-            A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
-            A('.exec-link-text').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
             if (listType == "nfl") {
               A('.exec-link').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
               A('.exec-link-text').setAttribute('href', protocolToUse + "www.touchdownloyal.com/nfl/team/" + listData[index].teamName.replace(/ /g, "").toLowerCase() + "/" + listData[index].teamId);
+            }
+            else {
+              A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
+              A('.exec-link-text').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_partner_url.replace('{partner}',domain));
             }
           }
         }
@@ -549,6 +555,9 @@ function buildListLink(cat, remn, dom, widget_data){
   currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
 
   dom == "lasvegasnow.com"  ? change_url = true : change_url = false;
+  if (dom == null || dom == "") {
+    dom = currentDomain;
+  }
   change_url ? new_url = "finance.lasvegasnow.com" : "";
   doStep = true;
   switch ( cat ) {

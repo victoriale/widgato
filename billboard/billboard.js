@@ -1,6 +1,6 @@
 billboard = (function () {
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-    var category, keyword, sub_category;
+    var category, keyword, league;
     var verticalColor, verticalIcon, verticalName;
     var temp = location.search;
     var query = {};
@@ -8,13 +8,23 @@ billboard = (function () {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         keyword = query.keyword;
         category = query.category;
-        sub_category = query.sub_category;
+        league = query.league;
     }
 
-    var verticalType = sub_category == "" ? category : sub_category;
-    verticalType = verticalType != "" ? verticalType : keyword;
+    var verticalType = league == "" ? category : league;
+    if (league != null && league != "") {
+      league = "&subCategory=" + league;
+    }
+
+    //verticalType = verticalType != "" ? verticalType : keyword;
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'dev-tcxmedia-api.synapsys.us/articles?keyword[]=' + verticalType + '&count=15&metaDataOnly=1';
+    if (category.indexOf("keyword-") != -1) {
+      category = category.replace("keyword-","");
+      var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/articles?keyword[]=' + category + '&count=15&metaDataOnly=1';
+    }
+    else {
+      var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/articles?category=' + category + league + '&count=15&metaDataOnly=1';
+    }
     var randomArticles = [];
     var imageArr = [];
 
@@ -54,13 +64,9 @@ billboard = (function () {
                         val.urlSegment = getOffsiteLink(val.category, val.article_url);
                     }
                 } else {
-                    if (val.scope) {
-                        val.urlSegment = getOffsiteLink(val.scope, val.article_url, val.article_id);
-                    } else {
-                        val.urlSegment = getOffsiteLink(val.category, val.article_url, val.article_id);
-                    }
+                  val.urlSegment = "http://dev.tcxmedia.com/news-feed" + val.article_url;
                 }
-                val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
+                val.articleImage = protocolToUse + 'images.synapsys.us/' + val.image_url;
             } else {
                 val.title = val.title;
                 val.content = val.teaser;
@@ -71,13 +77,9 @@ billboard = (function () {
                         val.urlSegment = getOffsiteLink(val.category, val.article_url);
                     }
                 } else {
-                    if (val.scope) {
-                        val.urlSegment = getOffsiteLink(val.scope, val.article_url, val.article_id);
-                    } else {
-                        val.urlSegment = getOffsiteLink(val.category, val.article_url, val.article_id);
-                    }
+                    val.urlSegment = "http://dev.tcxmedia.com/news-feed" + val.article_url;
                 }
-                val.articleImage = protocolToUse + 'images.synapsys.us' + val.image_url;
+                val.articleImage = protocolToUse + 'images.synapsys.us/' + val.image_url;
                 subArticles.push(val);
             }
             mainArticles.push(val);
@@ -102,17 +104,17 @@ billboard = (function () {
         $('.header-profile')[0].innerHTML = verticalName + " News";
         $('.header-profile-small')[0].innerHTML = verticalName + " News";
         $('#main-top-link').attr('href', arr1.url);
-        $('.main-top-title')[0].innerHTML = arr1.title;
-        $('.main-top-title-xs')[0].innerHTML = arr1.title;
-        $('.main-top-description')[0].innerHTML = arr1.content;
-        $('.main-top-description')[1].innerHTML = arr1.content;
-        $('.top-image').css("background-image", 'url(' + arr1.img + ')');
+        $('.main-top-title')[0].innerHTML = arr1.title.replace(/[\\]/g,"");
+        $('.main-top-title-xs')[0].innerHTML = arr1.title.replace(/[\\]/g,"");
+        $('.main-top-description')[0].innerHTML = arr1.content.replace(/[\\]/g,"");
+        $('.main-top-description')[1].innerHTML = arr1.content.replace(/[\\]/g,"");
+        $('.top-image').css("background-image", 'url(' + arr1.img + '?width=' + (280 * window.devicePixelRatio) + ')');
         $('#main-bottom-link').attr('href', arr2.url);
-        $('.main-bottom-title')[0].innerHTML = arr2.title;
-        $('.main-bottom-title-xs')[0].innerHTML = arr2.title;
-        $('.main-bottom-description')[0].innerHTML = arr2.content;
-        $('.main-bottom-description')[1].innerHTML = arr2.content;
-        $('.bottom-image').css("background-image", 'url(' + arr2.img + ')');
+        $('.main-bottom-title')[0].innerHTML = arr2.title.replace(/[\\]/g,"");
+        $('.main-bottom-title-xs')[0].innerHTML = arr2.title.replace(/[\\]/g,"");
+        $('.main-bottom-description')[0].innerHTML = arr2.content.replace(/[\\]/g,"");
+        $('.main-bottom-description')[1].innerHTML = arr2.content.replace(/[\\]/g,"");
+        $('.bottom-image').css("background-image", 'url(' + arr2.img + '?width=' + (280 * window.devicePixelRatio) + ')');
         //set vertical colors and name:
         $('.header, .search-button-small, .news-button-up, .news-button-down, .search-container').css('background', verticalColor);
         $('.search-container-arrow').css('border-bottom', '8px solid ' + verticalColor);
@@ -160,8 +162,8 @@ billboard = (function () {
             subContainer.appendChild(subImgContainer);
             subImgContainer.appendChild(subImage);
             subContainer.appendChild(subTitle);
-            subTitle.innerHTML = randomArticles[i].title;
-            subImage.style.backgroundImage = "url('" + randomArticles[i].articleImage + "')";
+            subTitle.innerHTML = randomArticles[i].title.replace(/[\\]/g,"");
+            subImage.style.backgroundImage = "url('" + randomArticles[i].articleImage + "?width=" + (190 * window.devicePixelRatio) + "')";
             $(subContainer).wrapInner($('<a href="' + randomArticles[i].urlSegment + '" />'));
             subContainer.appendChild(subHr);
         }
@@ -224,6 +226,7 @@ billboard = (function () {
     } // --> fitText
 
     function getVerticalAttributes() {
+      verticalType = verticalType.replace("keyword-","");
         if (verticalType.indexOf('_') > -1 && verticalType != undefined) {
             var string = verticalType.replace('_', ' ');
             verticalName = capitalizeString(string);
@@ -232,6 +235,7 @@ billboard = (function () {
         }
 
         switch (verticalType) {
+            case "keyword-football":
             case "football":
             case "nfl":
             case "ncaaf":
@@ -239,11 +243,13 @@ billboard = (function () {
                 verticalColor = "#2d3e50";
                 verticalIcon = "../css/public/icons/Touchdown-Loyal_Icon.svg";
                 break;
+            case "keyword-baseball":
             case "baseball":
             case "mlb":
                 verticalColor = "#bc2027";
                 verticalIcon = "../css/public/icons/Home-Run-Loyal_Icon%202.svg";
                 break;
+            case "keyword-basketball":
             case "basketball":
             case "nba":
             case "ncaam":
@@ -419,7 +425,7 @@ billboard = (function () {
         if (partnerPage && (name == '' || name == 'news')) {
             hide = true;
             isHome = true;
-        } else if (!partnerPage && (name == '' || name == 'deep-dive')) {
+        } else if (!partnerPage && (name == '' || name == 'news-feed')) {
             hide = false;
             isHome = true;
         } else {
@@ -532,10 +538,10 @@ billboard = (function () {
                 break;
             default:
                 if (partnerCode != null) {
-                    link = protocolToUse + "//dev.tcxmedia.com/deep-dive/" + partnerCode + relativeUrl;
+                    link = protocolToUse + "//dev.tcxmedia.com/news-feed/" + partnerCode + relativeUrl;
                 }
                 else {
-                    link = protocolToUse + "//dev.tcxmedia.com/deep-dive/" + scope + "/article/story/" + id;
+                    link = protocolToUse + "//dev.tcxmedia.com/news-feed/" + scope + "/article/story/" + id;
                 }
         }
         return link;
