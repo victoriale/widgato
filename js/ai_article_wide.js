@@ -45,7 +45,7 @@ ai_widget = (function() {
     // Get the data
     var pageID = availPages[pageInd];
     var imageArr = [];
-    imageArr.push("http://prod-sports-images.synapsys.us" + AIData[0].image_url);
+    imageArr.push("http://prod-sports-images.synapsys.us" + AIData[0].image_url + "?width=175");
     // if (imageArr.length < 1) {
     //   imageArr = ['http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_1.png',
     //     'http://prod-sports-images.synapsys.us/nba/headers/nba_cover_page_2.png',
