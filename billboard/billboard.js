@@ -368,6 +368,8 @@ billboard = (function () {
                 return "NCAAM";
             case "mlb":
                 return "MLB";
+            case "real-estate":
+                return "Real Estate";
         }
         return string.replace(/\w\S*/g, function (text) {
             return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
