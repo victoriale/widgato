@@ -19,7 +19,7 @@ chatterbox = (function () {
     }
 
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/chatterbox',
+    var APIUrl = protocolToUse + 'prod-article-library.synapsys.us/chatterbox',
         tcxData = {},
         tcxId = -1,
         pageInd = -1,

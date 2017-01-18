@@ -319,18 +319,11 @@ dynamic_widget = function() {
               }
           }
       };
-      i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&random=1" , true);
-        //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
+      i.open('GET', protocol + "://prod-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&random=1" , true);
         i.send()
     }
 
     function u() {
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: 'widget-title',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
         var n = true;
         p()
       }
@@ -399,12 +392,6 @@ function p() {
         i += e;
         i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
         p();
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: e == 1 ? 'nav-right' : 'nav-left',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
     }
 
     function f() {

@@ -144,7 +144,7 @@ function getBaseUrl(string){
 dynamic_widget = function() {
     var e = location.protocol == 'https:' ? 'https' : 'http',
         protocol = location.protocol == 'https:' ? 'https' : 'http',
-        t = e + '://dev-dw.synapsys.us/list_api.php',
+        t = e + '://dw.synapsys.us/list_api.php',
         i = 0,
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
@@ -279,12 +279,6 @@ dynamic_widget = function() {
     }
 
     function u() {
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: 'widget-title',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
         if (l.dom == 'nydailynews.com') {
             var e = document.getElementsByClassName('dw')[0];
             e.style.height = '340px';
