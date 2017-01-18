@@ -117,50 +117,50 @@ chatterbox = (function () {
     } // --> displayPage
 
     //Populates 3 images above main chatterbox
-    //function setTriImage() {
-    //    for (var i = 0; i < imageArray.length; i++) {
-    //        var imageContainerLarge = document.createElement('div');
-    //        var imageContainerSmall = document.createElement('div');
-    //        var imageLarge = document.createElement('div');
-    //        var imageSmall = document.createElement('div');
-    //        var titleContainerLarge = document.createElement('div');
-    //        var titleContainerSmall = document.createElement('div');
-    //        var titleLarge = document.createElement('div');
-    //        var titleSmall = document.createElement('div');
-    //        titleContainerLarge.className = 'col-sm-4 hidden-xs-down tri-title-container';
-    //        titleContainerSmall.className = 'col-sm-12 hidden-sm-up tri-title-container-stack';
-    //        imageContainerLarge.className = 'col-xs-12 col-sm-4 hidden-xs-down embed-responsive embed-responsive-16by9-sub tri-image-container';
-    //        imageContainerSmall.className = 'col-xs-12 col-md-4 hidden-sm-up embed-responsive embed-responsive-16by9-triple-stack tri-image-container';
-    //        if (i == 0) {
-    //            imageLarge.className = 'embed-responsive-item tri-image left';
-    //            titleLarge.className = 'col-sm-11 tri-title left';
-    //        } else if (i == 2) {
-    //            imageLarge.className = 'embed-responsive-item tri-image right';
-    //            titleLarge.className = 'col-sm-11 tri-title right';
-    //        } else {
-    //            imageLarge.className = 'embed-responsive-item tri-image center';
-    //            titleLarge.className = 'col-sm-11 tri-title center';
-    //        }
-    //        imageSmall.className = 'embed-responsive-item tri-image';
-    //        titleSmall.className = 'col-sm-11 tri-title';
-    //        $('.image-row')[0].appendChild(imageContainerLarge);
-    //        $('.triple-stack')[0].appendChild(imageContainerSmall);
-    //        imageContainerLarge.appendChild(imageLarge);
-    //        imageContainerSmall.appendChild(imageSmall);
-    //        $('.title-row')[0].appendChild(titleContainerLarge);
-    //        $('.triple-stack')[0].appendChild(titleContainerSmall);
-    //        titleContainerLarge.appendChild(titleLarge);
-    //        titleContainerSmall.appendChild(titleSmall);
-    //        imageLarge.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[i][1].image + "')";
-    //        imageSmall.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[i][1].image + "')";
-    //        titleLarge.innerHTML = imageArray[i][1].displayHeadline;
-    //        titleSmall.innerHTML = imageArray[i][1].displayHeadline;
-    //        $(imageContainerLarge).wrapInner($('<a href="' + href + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
-    //        $(titleContainerLarge).wrapInner($('<a href="' + href + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
-    //        $(imageContainerSmall).wrapInner($('<a href="' + href + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
-    //        $(titleContainerSmall).wrapInner($('<a href="' + href + '/articles/' + imageArray[i][0] + "/" + imageArray[i][1].articleId + '" />'));
-    //    }
-    //}
+    function setTriImage() {
+       for (var i = 0; i < imageArray[0][1].length && i < 3; i++) {
+           var imageContainerLarge = document.createElement('div');
+           var imageContainerSmall = document.createElement('div');
+           var imageLarge = document.createElement('div');
+           var imageSmall = document.createElement('div');
+           var titleContainerLarge = document.createElement('div');
+           var titleContainerSmall = document.createElement('div');
+           var titleLarge = document.createElement('div');
+           var titleSmall = document.createElement('div');
+           titleContainerLarge.className = 'col-sm-4 hidden-xs-down tri-title-container';
+           titleContainerSmall.className = 'col-sm-12 hidden-sm-up tri-title-container-stack';
+           imageContainerLarge.className = 'col-xs-12 col-sm-4 hidden-xs-down embed-responsive embed-responsive-16by9-sub tri-image-container';
+           imageContainerSmall.className = 'col-xs-12 col-md-4 hidden-sm-up embed-responsive embed-responsive-16by9-triple-stack tri-image-container';
+           if (i == 0) {
+               imageLarge.className = 'embed-responsive-item tri-image left';
+               titleLarge.className = 'col-sm-11 tri-title left';
+           } else if (i == 2) {
+               imageLarge.className = 'embed-responsive-item tri-image right';
+               titleLarge.className = 'col-sm-11 tri-title right';
+           } else {
+               imageLarge.className = 'embed-responsive-item tri-image center';
+               titleLarge.className = 'col-sm-11 tri-title center';
+           }
+           imageSmall.className = 'embed-responsive-item tri-image';
+           titleSmall.className = 'col-sm-11 tri-title';
+           $('.image-row')[0].appendChild(imageContainerLarge);
+           $('.triple-stack')[0].appendChild(imageContainerSmall);
+           imageContainerLarge.appendChild(imageLarge);
+           imageContainerSmall.appendChild(imageSmall);
+           $('.title-row')[0].appendChild(titleContainerLarge);
+           $('.triple-stack')[0].appendChild(titleContainerSmall);
+           titleContainerLarge.appendChild(titleLarge);
+           titleContainerSmall.appendChild(titleSmall);
+           imageLarge.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[0][1][i].image_url + "')";
+           imageSmall.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[0][1][i].image_url + "')";
+           titleLarge.innerHTML = imageArray[0][1][i].title;
+           titleSmall.innerHTML = imageArray[0][1][i].title;
+           $(imageContainerLarge).wrapInner($('<a href="' + href + '/articles/' + imageArray[0][0] + "/" + imageArray[0][1][i].id + '" />'));
+           $(titleContainerLarge).wrapInner($('<a href="' + href + '/articles/' + imageArray[0][0] + "/" + imageArray[0][1][i].id + '" />'));
+           $(imageContainerSmall).wrapInner($('<a href="' + href + '/articles/' + imageArray[0][0] + "/" + imageArray[0][1][i].id + '" />'));
+           $(titleContainerSmall).wrapInner($('<a href="' + href + '/articles/' + imageArray[0][0] + "/" + imageArray[0][1][i].id + '" />'));
+       }
+    }
 
     //Tab setup
 
@@ -566,13 +566,13 @@ chatterbox = (function () {
                 return displayError('Invalid YSEOP Response');
             }
             //Function takes array, removes 3 random elements from array, and cuts the 3 random elements from the main array
-            //Array.prototype.getRandomArt = function (number, cutIndex) {
-            //    var index = cutIndex ? this : this.slice(0);
-            //    index.sort(function () {
-            //        return .5 - Math.random();
-            //    });
-            //    return index.splice(0, number);
-            //};
+            Array.prototype.getRandomArt = function (number, cutIndex) {
+               var index = cutIndex ? this : this.slice(0);
+               index.sort(function () {
+                   return .5 - Math.random();
+               });
+               return index.splice(0, number);
+            };
             //Converts object into array
             dataArray = Object.keys(tcxData['data']).map(function (val, index) {
                 if (selectedTab == undefined && index == 0) {
@@ -589,7 +589,7 @@ chatterbox = (function () {
                 return val != undefined;
             });
             //Get 3 random elements from parent array
-            //imageArray = dataArray.getRandomArt(3, true);
+            imageArray = dataArray.getRandomArt(3, 0);
             // Get all the pages
             var pages = [];
             for (var i = 0; i < dataArray.length; i++) {
@@ -606,7 +606,7 @@ chatterbox = (function () {
             // Get tcx Id
             //tcxId = tcxData['data']['meta-data']['current'].eventID;
             displayPage();
-            //setTriImage();
+            setTriImage();
             if (dataArray.length == 1) {
                 $('.cb-btn').css('display', 'none');
             } else {
