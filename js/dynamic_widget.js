@@ -273,7 +273,12 @@ dynamic_widget = function() {
         i.send()
       }
       else {
-        i.open('GET', t + '?partner=' + (typeof l.dom != 'undefined' ? l.dom : '') + '&cat=' + l.category + '&rand=' + e, true);
+        if (l.dom == "ajc.com") { // ajc one off api code
+          i.open('GET', "http://dev-dw.synapsys.us/ajc_list_api.php" + '?location=' + "clayton" + '&category=' + l.category + '&rand=' + e, true);
+        }
+        else {
+          i.open('GET', t + '?partner=' + (typeof l.dom != 'undefined' ? l.dom : '') + '&cat=' + l.category + '&rand=' + e, true);
+        }
         i.send()
       }
     }
@@ -487,7 +492,7 @@ function p() {
       }
       else {
         var e = r.l_data[i];
-        e.li_url = e.li_subimg !== false && e.li_subimg.switch ? l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
+        e.li_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
         e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
         if (currentConfig.category == "basketball") {
           e.li_url = e.li_url.replace("/t/", "/team/");
@@ -530,33 +535,33 @@ function p() {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
         $('num').innerHTML = '#' + e.li_rank;
-        if (e.li_subimg !== false) {
-            var a = e.li_subimg.switch ? l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom);
-            if (s) {
-                a = a.replace('www.myinvestkit.com', o)
-            }
-            var c = $('subimg');
-            var n = c.getAttribute('onerror');
-            c.setAttribute('onerror', '');
-            c.setAttribute('src', '');
-
-            //hide double image if second image is blank for this profile
-            convertImage(l.category, c, e);
-
-            setTimeout(function(e, t) {
-                t.setAttribute('onerror', e)
-            }.bind(null, n, c), 0);
-            $('suburl').href = "http:"+a;
-            var m = $('carousel');
-            if (m.className.indexOf('two') == -1) {
-                m.className += ' two'
-            }
-        }
-        else {
+        // if (e.li_subimg !== false) {
+        //     var a = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
+        //     if (s) {
+        //         a = a.replace('www.myinvestkit.com', o)
+        //     }
+        //     var c = $('subimg');
+        //     var n = c.getAttribute('onerror');
+        //     c.setAttribute('onerror', '');
+        //     c.setAttribute('src', '');
+        //
+        //     //hide double image if second image is blank for this profile
+        //     convertImage(l.category, c, e);
+        //
+        //     setTimeout(function(e, t) {
+        //         t.setAttribute('onerror', e)
+        //     }.bind(null, n, c), 0);
+        //     $('suburl').href = "http:"+a;
+        //     var m = $('carousel');
+        //     if (m.className.indexOf('two') == -1) {
+        //         m.className += ' two'
+        //     }
+        // }
+        // else {
           //set double image off if we dont have it for this list
           $('carousel').setAttribute('class', 'one');
           $('suburl').setAttribute('style', 'display: none');
-        }
+        // }
         if ($('list-link')) {
             var u = d.getElementsByClassName('dw-btn')[0];
             if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight) {
