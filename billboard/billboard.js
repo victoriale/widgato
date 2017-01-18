@@ -15,7 +15,7 @@ billboard = (function () {
     if (league != null && league != "") {
       league = "&subCategory=" + league;
     }
-
+    category = category.replace("real-estate","real%20estate");
     //verticalType = verticalType != "" ? verticalType : keyword;
     //adjust api url for testing or live
     if (category.indexOf("keyword-") != -1) {
