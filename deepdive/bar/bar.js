@@ -63,7 +63,7 @@ break;
 try {
 var xmlHttp = new XMLHttpRequest();
 var hostname = location.hostname.match(/[^\.]*\.[^.]*$/)[0];
-xmlHttp.open("GET", protocol + "://w1.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=" + hostname, false);
+xmlHttp.open("GET", protocol + "://w1.synapsys.us/widgets/deepdive/bar/domain_api.php?dom=" + domain, false);
 xmlHttp.send();
 domVars = JSON.parse(xmlHttp.responseText);
 if (domVars.mlb) {
