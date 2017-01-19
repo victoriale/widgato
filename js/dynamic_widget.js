@@ -217,7 +217,7 @@ dynamic_widget = function() {
     }
 
     function m(ignoreRandom) {
-      i = 1;// resets index count to 0 when swapping lists
+      i = 0;// resets index count to 0 when swapping lists
       if (currentConfig.category == "football") {
         httpGetInitData(l.category);
       }
