@@ -241,6 +241,7 @@ dynamic_widget = function() {
         var e = Math.floor(Math.random() * 10);
         if (e == 0) {e = 1;}
       }
+      rand = e;
       var i;
       if (window.XMLHttpRequest) {
           i = new XMLHttpRequest
