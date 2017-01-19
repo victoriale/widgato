@@ -238,8 +238,11 @@ dynamic_widget = function() {
         var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
       }
       else {
-        var e = Math.floor(Math.random() * 10);
-        if (e == 0) {e = 1;}
+        var e = rand;
+        while (e == rand) {
+          e = Math.floor(Math.random() * 10);
+          if (e == 0) {e = 1;}
+        }
       }
       rand = e;
       var i;
@@ -271,7 +274,6 @@ dynamic_widget = function() {
           }
       };
       rand = e;
-      console.log(l);
       if (currentConfig.category == "football") {
         i.open('GET', protocol + "://prod-touchdownloyal-api.synapsys.us/list/" + query , true);
         i.send()
