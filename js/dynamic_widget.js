@@ -371,7 +371,7 @@ dynamic_widget = function() {
           a += "/" + l.category + "/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + r.data.listInfo.ordering + "/" + "10" + "/" + "1";
         }
         else {
-          a += '?location=' + l.loc + '&category=' + currentConfig.category + '&rand=' + rand;
+          a += '/category-' + currentConfig.category + '+location-' + l.loc + '+rand-' + rand;
         }
         if ($('list-link') && l.showLink != 'false') {
             $('list-link').href = a;
