@@ -131,7 +131,7 @@ var SpecialDomain = "";
 var currentDomain = "";
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 var rounds = 0;
-
+var rand;
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
 var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
 
@@ -238,8 +238,13 @@ dynamic_widget = function() {
         var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
       }
       else {
-        var e = Math.floor(Math.random() * 10);
+        var e = rand;
+        while (e == rand) {
+          e = Math.floor(Math.random() * 10);
+          if (e == 0) {e = 1;}
+        }
       }
+      rand = e;
       var i;
       if (window.XMLHttpRequest) {
           i = new XMLHttpRequest
@@ -268,12 +273,18 @@ dynamic_widget = function() {
               }
           }
       };
+      rand = e;
       if (currentConfig.category == "football") {
         i.open('GET', protocol + "://prod-touchdownloyal-api.synapsys.us/list/" + query , true);
         i.send()
       }
       else {
-        i.open('GET', t + '?partner=' + (typeof l.dom != 'undefined' ? l.dom : '') + '&cat=' + l.category + '&rand=' + e, true);
+        if (l.dom == "ajc.com" && l.county != null && l.county != "") { // ajc one off api code
+          i.open('GET', "http://dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e, true);
+        }
+        else {
+          i.open('GET', t + '?partner=' + (typeof l.dom != 'undefined' ? l.dom : '') + '&cat=' + l.category + '&rand=' + e, true);
+        }
         i.send()
       }
     }
@@ -357,11 +368,14 @@ dynamic_widget = function() {
                 var a = l.remn == 'true' ? 'http://' + l.subd + '/wlist' : 'http://' + l.subd + '/wlist';
                 var n = false
         }
-        if (currentConfig.category != "football") {
+        if (currentConfig.category != "football" && l.dom != 'ajc.com') {
           a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
         }
-        else {
+        else if (l.dom != 'ajc.com' && (l.county == null || l.county == "")) {
           a += "/" + l.category + "/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + r.data.listInfo.ordering + "/" + "10" + "/" + "1";
+        }
+        else {
+          a += '/category-' + currentConfig.category + '+location-' + l.county + '+rand-' + rand;
         }
         if ($('list-link') && l.showLink != 'false') {
             $('list-link').href = a;
@@ -487,7 +501,7 @@ function p() {
       }
       else {
         var e = r.l_data[i];
-        e.li_url = e.li_subimg !== false && e.li_subimg.switch ? l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
+        e.li_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
         e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
         if (currentConfig.category == "basketball") {
           e.li_url = e.li_url.replace("/t/", "/team/");
@@ -530,33 +544,33 @@ function p() {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
         $('num').innerHTML = '#' + e.li_rank;
-        if (e.li_subimg !== false) {
-            var a = e.li_subimg.switch ? l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom) : l.remn == 'true' ? e.li_subimg.primary_url : e.li_subimg.partner_url.replace('{partner}', l.dom);
-            if (s) {
-                a = a.replace('www.myinvestkit.com', o)
-            }
-            var c = $('subimg');
-            var n = c.getAttribute('onerror');
-            c.setAttribute('onerror', '');
-            c.setAttribute('src', '');
-
-            //hide double image if second image is blank for this profile
-            convertImage(l.category, c, e);
-
-            setTimeout(function(e, t) {
-                t.setAttribute('onerror', e)
-            }.bind(null, n, c), 0);
-            $('suburl').href = "http:"+a;
-            var m = $('carousel');
-            if (m.className.indexOf('two') == -1) {
-                m.className += ' two'
-            }
-        }
-        else {
+        // if (e.li_subimg !== false) {
+        //     var a = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
+        //     if (s) {
+        //         a = a.replace('www.myinvestkit.com', o)
+        //     }
+        //     var c = $('subimg');
+        //     var n = c.getAttribute('onerror');
+        //     c.setAttribute('onerror', '');
+        //     c.setAttribute('src', '');
+        //
+        //     //hide double image if second image is blank for this profile
+        //     convertImage(l.category, c, e);
+        //
+        //     setTimeout(function(e, t) {
+        //         t.setAttribute('onerror', e)
+        //     }.bind(null, n, c), 0);
+        //     $('suburl').href = "http:"+a;
+        //     var m = $('carousel');
+        //     if (m.className.indexOf('two') == -1) {
+        //         m.className += ' two'
+        //     }
+        // }
+        // else {
           //set double image off if we dont have it for this list
           $('carousel').setAttribute('class', 'one');
           $('suburl').setAttribute('style', 'display: none');
-        }
+        // }
         if ($('list-link')) {
             var u = d.getElementsByClassName('dw-btn')[0];
             if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight) {
