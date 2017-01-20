@@ -280,7 +280,7 @@ dynamic_widget = function() {
       }
       else {
         if (l.dom == "ajc.com" && l.county != null && l.county != "") { // ajc one off api code
-          i.open('GET', "http://dev-dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e, true);
+          i.open('GET', "http://dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e, true);
         }
         else {
           i.open('GET', t + '?partner=' + (typeof l.dom != 'undefined' ? l.dom : '') + '&cat=' + l.category + '&rand=' + e, true);
