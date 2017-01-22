@@ -371,7 +371,7 @@ dynamic_widget = function() {
         if (currentConfig.category != "football" && l.dom != 'ajc.com') {
           a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
         }
-        else if (l.dom != 'ajc.com' && (l.county == null || l.county == "")) {
+        else if (l.dom != 'ajc.com' || (l.county == null || l.county == "")) {
           a += "/" + l.category + "/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + r.data.listInfo.ordering + "/" + "10" + "/" + "1";
         }
         else {
