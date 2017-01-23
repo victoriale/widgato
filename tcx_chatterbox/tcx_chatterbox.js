@@ -83,7 +83,7 @@ chatterbox = (function () {
                 val.keyword = keyword.replace(/\w\S*/g, function (txt) {
                     return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
                 });
-                val.keywordUrl = val[1][0].vertical_url;
+                val.keywordUrl = "tcxmedia.com/news-feed/" + val.keyword;
                 val.index = val[0];
                 val.url = val[1][0].article_url;
                 dataArr.push(val);
@@ -106,8 +106,8 @@ chatterbox = (function () {
         // Set the data
         $('.cb-title')[0].innerHTML = arr.title;
         $('.cb-keyword')[0].innerHTML = arr.keyword;
-        // $('.cb-keyword-url').attr('href', arr.keywordUrl);
-        $('.cb-keyword-url').attr('href', null);
+        $('.cb-keyword-url').attr('href', arr.keywordUrl);
+        // $('.cb-keyword-url').attr('href', null);
         $('.cb-date')[0].innerHTML = arr.date;
         $('#ai-link').attr('href', arr.url);
         $('#ai-link').attr('target', target);
