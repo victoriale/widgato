@@ -210,31 +210,47 @@ var specialDomains = [
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
 function generateArticleLink (scope, linkType, destinationId, articleType, remn, dom) {
-  var baseUrl;
+  var TCXbaseUrl;
+  var AIbaseUrl;
+  var partner;
+  var subCategory = "";
+  if (currentConfig.subCategory != null && currentConfig.subCategory != "") {
+    subCategory= "/" + currentConfig.subCategory;
+  }
   var output = "";
   if (remn == "false") { //if partner
     if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
       for (var i = 0; i < specialDomains.length; i++) {
         if (referrer.includes(specialDomains[i])) {
-          baseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
+          TCXbaseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
+          AIbaseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
+          partner = true;
           break;
         }
       }
     }
     else { //only partner, not subdomain
-      baseUrl = "http://" + currentConfig.partnerDomain + "/" + dom;
+      TCXbaseUrl = "http://tcxmedia.com/" + dom;
+      AIbaseUrl = "http://" + currentConfig.partnerDomain + "/" + dom;
+      partner = true;
     }
   }
   else { // not partner site and not partner domain
-    baseUrl = "http://" + currentConfig.domain;
+    TCXbaseUrl = "http://tcxmedia.com/";
+    AIbaseUrl = "http://" + currentConfig.domain;
+    partner = false;
   }
-
   // now that we have the base Url, format the rest of the link
   if (linkType == "syndicated" || linkType == "tca-curated") {
-    output = baseUrl + "/" + scope + "/news/story/" + destinationId;
+    if (partner == true) {
+      output = TCXbaseUrl + "/news/" + scope + subCategory + "/article/story/" + destinationId;
+    }
+    else {
+      output = TCXbaseUrl + "/news-feed/" + scope + subCategory + "/article/story/" + destinationId;
+    }
   }
   else if (linkType == "ai" || linkType == "snt_ai_module") {
-    output = baseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
+    output = AIbaseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
   }
   return output;
 }
