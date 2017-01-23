@@ -1,6 +1,6 @@
 billboard = (function () {
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-    var category, keyword, league;
+    var category, keyword, league, remn, dom;
     var verticalColor, verticalIcon, verticalName;
     var temp = location.search;
     var query = {};
@@ -9,6 +9,8 @@ billboard = (function () {
         keyword = query.keyword;
         category = query.category;
         league = query.league;
+        remn = query.remn;
+        dom = query.dom;
     }
 
     var verticalType = league == "" ? category : league;
@@ -64,7 +66,12 @@ billboard = (function () {
                         val.urlSegment = getOffsiteLink(val.category, val.article_url);
                     }
                 } else {
-                  val.urlSegment = "http://dev.tcxmedia.com/news-feed" + val.article_url;
+                  if (remn == true || remn == "true") {
+                    val.urlSegment = "http://dev.tcxmedia.com/news-feed" + val.article_url;
+                  }
+                  else {
+                    val.urlSegment = "http://dev.tcxmedia.com/" + dom + "/news" + val.article_url;
+                  }
                 }
                 val.articleImage = protocolToUse + 'images.synapsys.us/' + val.image_url;
             } else {
@@ -77,7 +84,12 @@ billboard = (function () {
                         val.urlSegment = getOffsiteLink(val.category, val.article_url);
                     }
                 } else {
+                  if (remn == true || remn == "true") {
                     val.urlSegment = "http://dev.tcxmedia.com/news-feed" + val.article_url;
+                  }
+                  else {
+                    val.urlSegment = "http://dev.tcxmedia.com/" + dom + "/news" + val.article_url;
+                  }
                 }
                 val.articleImage = protocolToUse + 'images.synapsys.us/' + val.image_url;
                 subArticles.push(val);
