@@ -484,8 +484,8 @@ chatterbox = (function () {
         var link = "";
         var siteVars = getHomeInfo();
         var partnerCode;
-        if (siteVars.isPartner) {
-            partnerCode = siteVars.partnerName;
+        if (query.remn == false || query.remn == "false") {
+            partnerCode = query.dom;
         }
         switch (scope) {
             //FOOTBALL URL
@@ -548,10 +548,10 @@ chatterbox = (function () {
                 break;
             default:
                 if (partnerCode != null) {
-                    link = protocolToUse + "//dev.tcxmedia.com/deep-dive/" + partnerCode + relativeUrl;
+                    link = protocolToUse + "//dev.tcxmedia.com/" + partnerCode + "/news/" + scope + "/article/story/" + id;
                 }
                 else {
-                    link = protocolToUse + "//dev.tcxmedia.com/deep-dive/" + scope + "/article/story/" + id;
+                    link = protocolToUse + "//dev.tcxmedia.com/news-feed/" + scope + "/article/story/" + id;
                 }
         }
         return link;
