@@ -279,7 +279,7 @@ dynamic_widget = function() {
         i.send()
       }
       else {
-        if (l.dom == "ajc.com" && l.county != null && l.county != "") { // ajc one off api code
+        if (l.county != null && l.county != "") { // ajc one off api code
           i.open('GET', "http://dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e, true);
         }
         else {
@@ -374,7 +374,7 @@ dynamic_widget = function() {
         else if (currentConfig.category == "football") { //football links
           a += "/" + l.category + "/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + r.data.listInfo.ordering + "/" + "10" + "/" + "1";
         }
-        else if (l.dom == "ajc.com" && (l.county != null || l.county != "")){ //ajc only links
+        else if (l.county != null || l.county != ""){ //ajc only links
           a += '/category-' + currentConfig.category + '+location-' + l.county + '+rand-' + rand;
         }
         if ($('list-link') && l.showLink != 'false') {
