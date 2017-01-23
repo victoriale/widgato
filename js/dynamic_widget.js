@@ -279,8 +279,8 @@ dynamic_widget = function() {
         i.send()
       }
       else {
-        if (l.dom == "ajc.com") { // ajc one off api code
-          i.open('GET', "http://dev-dw.synapsys.us/ajc_list_api.php" + '?location=' + l.loc + '&category=' + l.category + '&rand=' + e, true);
+        if (l.dom == "ajc.com" && l.county != null && l.county != "") { // ajc one off api code
+          i.open('GET', "http://dev-dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e, true);
         }
         else {
           i.open('GET', t + '?partner=' + (typeof l.dom != 'undefined' ? l.dom : '') + '&cat=' + l.category + '&rand=' + e, true);
@@ -375,7 +375,7 @@ dynamic_widget = function() {
           a += "/" + l.category + "/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + r.data.listInfo.ordering + "/" + "10" + "/" + "1";
         }
         else {
-          a += '/category-' + currentConfig.category + '+location-' + l.loc + '+rand-' + rand;
+          a += '/category-' + currentConfig.category + '+location-' + l.county + '+rand-' + rand;
         }
         if ($('list-link') && l.showLink != 'false') {
             $('list-link').href = a;
