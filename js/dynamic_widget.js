@@ -368,13 +368,13 @@ dynamic_widget = function() {
                 var a = l.remn == 'true' ? 'http://' + l.subd + '/wlist' : 'http://' + l.subd + '/wlist';
                 var n = false
         }
-        if (currentConfig.category != "football" && l.dom != 'ajc.com') {
+        if (currentConfig.category != "football" && (l.county == null || l.county == "")) { //normal links (not football or ajc)
           a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
         }
-        else if (l.dom != 'ajc.com' || (l.county == null || l.county == "")) {
+        else if (currentConfig.category == "football") { //football links
           a += "/" + l.category + "/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + r.data.listInfo.ordering + "/" + "10" + "/" + "1";
         }
-        else {
+        else if (l.dom == "ajc.com" && (l.county != null || l.county != "")){ //ajc only links
           a += '/category-' + currentConfig.category + '+location-' + l.county + '+rand-' + rand;
         }
         if ($('list-link') && l.showLink != 'false') {
