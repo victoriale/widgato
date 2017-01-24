@@ -155,7 +155,7 @@ dynamic_widget = function() {
         }
         currentConfig = getCategoryMetadata(l.category);
         if (typeof(l.subd) == 'undefined' || !l.subd || l.subd == '' || l.subd == null) {
-          l.subd = (l.remn == 'true') ? currentConfig.domain : currentConfig.partnerDomain + '/' + l.dom;
+          l.subd = (l.remn == 'false') ? currentConfig.partnerDomain + '/' + l.dom : currentConfig.domain;
         }
     var s = false;
     var o = '';
