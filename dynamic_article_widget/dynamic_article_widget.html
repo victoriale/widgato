@@ -103,6 +103,10 @@
                 };
                 if ((t.category == "" || t.category == null) && t.cat != null && t.cat != "") {
                   t.category = t.cat;
+                  if (t.category == "real-estate") {
+                    t.category = "realestate";
+                    t.cat = "realestate";
+                  }
                 }
             return "alligators" == t.category ? !1 : (("undefined" == typeof t.category || "undefined" == typeof n[t.category]) && (t.category = "finance"), e += n[t.category] + ".css", void add_css_link(e))
         }();

@@ -271,9 +271,11 @@ dynamic_widget = function() {
         }
         if (l.category == "real-estate") {
           l.category = "realestate";
+          l.cat = "realestate";
         }
         if (l.category == "nhl") {
           l.category = "sports";
+          l.cat = "sports";
         }
     var s = false;
     var o = '';
@@ -337,7 +339,12 @@ dynamic_widget = function() {
               }
           }
       };
-      i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&random=1" , true);
+      if (currentConfig.category == "realestate") {
+        i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?keyword[]=" + "real%20estate" + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&random=1" , true);
+      }
+      else {
+        i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&random=1" , true);
+      }
         i.send()
     }
 
