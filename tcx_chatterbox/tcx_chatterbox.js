@@ -19,7 +19,7 @@ chatterbox = (function () {
     }
 
     //adjust api url for testing or live
-    var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/chatterbox',
+    var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/chatterbox?source[]=snt_ai&source[]=tca-curated&random=1',
         tcxData = {},
         tcxId = -1,
         pageInd = -1,
@@ -34,10 +34,10 @@ chatterbox = (function () {
             $('.cb-txt')[0].innerHTML = '';
         }
         var locApiUrl = APIUrl;
-        if (typeof eventId != "undefined") {
-            locApiUrl += "/" + eventId;
-            event = eventId;
-        }
+        // if (typeof eventId != "undefined") {
+        //     locApiUrl += "/" + eventId;
+        //     event = eventId;
+        // }
         $.ajax({
             url: locApiUrl,
             success: function (data) {
