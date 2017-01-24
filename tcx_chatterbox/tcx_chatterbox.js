@@ -118,6 +118,9 @@ chatterbox = (function () {
 
     //Populates 3 images above main chatterbox
     function setTriImage() {
+      // clear out any prev 3 up content
+      $('.image-row')[0].innerHTML = "";
+      $('.title-row')[0].innerHTML = "";
        for (var i = 0; i < imageArray[0][1].length && i < 3; i++) {
            var imageContainerLarge = document.createElement('div');
            var imageContainerSmall = document.createElement('div');
