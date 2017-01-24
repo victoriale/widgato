@@ -237,7 +237,7 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn,
     }
   }
   else { // not partner site and not partner domain
-    TCXbaseUrl = "http://tcxmedia.com/";
+    TCXbaseUrl = "http://tcxmedia.com";
     AIbaseUrl = "http://" + currentConfig.domain;
     partner = false;
   }
