@@ -1,0 +1,15 @@
+body {
+  margin: 0;
+  padding:0;
+}
+#wcApp {
+  width: 100%;
+  height:100%;
+}
+#wcApp td {
+  border: 1px solid black;
+  vertical-align: top;
+}
+#settingsPane {
+  width: 30%;
+}

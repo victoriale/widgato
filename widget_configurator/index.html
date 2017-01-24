@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang=en>
+  <head>
+      <title>Widget Configurator</title>
+      <meta charset=utf-8>
+      <link rel="stylesheet" type="text/css" href="styles.css">
+      <script async type="text/javascript" src="main.js"></script>
+  </head>
+  <body>
+    <table id="wcApp">
+      <tr>
+        <td id="settingsPane">
+          Type:
+          <select id="wType">
+            <option value="dynamic_widget">Dynamic Widget</option>
+            <option value="dynamic_widget_wide">Dynamic Widget Wide</option>
+            <option value="dynamic_article_widget">Dynamic Article Widget</option>
+            <option value="dynamic_article_widget_wide">Dynamic Article Widget Wide</option>
+            <option value="caw_widget">CAW Widget</option>
+            <option value="swp_wdgt">Swap Widget</option>
+          </select>
+          <br>
+          <br>
+          Settings
+          <br>
+          <br>
+          Domain: <input id="domain"><br>
+          Subdomain: <input id="sub_domain"><br>
+          County: <input id="county"><br>
+          remn: <input id="remn"><br>
+          Link Target: <input id="targ"><br>
+          Category: <input id="category"><br>
+          Sub Category: <input id="sub_category"><br>
+          rand: <input id="rand"><br>
+          <br>
+          <button id="generate" type="button">Generate</button>
+        </th>
+        <td id="previewPane">
+          preview
+          <br>
+          <iframe id="previewFrame" src='../dynamic_widget/dynamic_widget.html?{"dom":"ajc.com","county":"clayton","c_id":null,"remn":false,"bord":false,"targ":"_blank","cat":"","subd":"joyfulhome.com","category":"demographics","rand":1}'></iframe>
+        </th>
+      </tr>
+    </table>
+  </body>
+</html>
