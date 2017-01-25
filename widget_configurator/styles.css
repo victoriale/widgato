@@ -2,6 +2,8 @@ body {
   margin: 0;
   padding:0;
   font-family: helvetica;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 h2 {
   margin: 0;
@@ -9,6 +11,8 @@ h2 {
 #wcApp {
   width: 100%;
   height:100vh;
+  margin:0;
+  padding:0;
 }
 #wcApp td {
   border: none;
@@ -27,7 +31,7 @@ h2 {
   padding: 0;
 }
 #settingsInputs td {
-  vertical-align: top;
+  vertical-align: middle;
   border: none;
   padding: 5px 0 0 0;
 }
@@ -46,7 +50,7 @@ h2 {
   border: 1px solid white;
   background-color: rgba(0,0,0,0.65);
   color: white;
-  opacity:0;
+  visibility: hidden;
   width: 320px;
   max-height:0px;
   max-width: 320px;
@@ -56,12 +60,20 @@ h2 {
   border-radius: 5px;
 }
 .fieldDiv:hover .explanation{
-  opacity: 1;
+  visibility: visible;
   max-height:999px;
+}
+#previewPane {
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 #previewFrame {
   width: 100%;
   height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 1px solid gray;
 }
 #outputTextarea {
   width: 100%;
