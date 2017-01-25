@@ -14,17 +14,30 @@ body {
 #settingsPane {
   width: 30%;
 }
+.fieldDiv {
+  padding-left:5px;
+}
+.fieldDiv input {
+  margin-top:5px;
+}
+.fieldDiv select {
+  margin-top:5px;
+}
 .fieldDiv .explanation{
   opacity:0;
   max-height:0px;
   overflow: hidden;
+  transition: max-height 1s;
+  padding:0px;
+}
+.fieldDiv:hover {
   border: 1px dashed black;
   background-color: yellow;
-  transition: max-height 1s;
 }
 .fieldDiv:hover .explanation{
   opacity: 1;
   max-height:999px;
+  padding:5px;
 }
 #previewFrame {
   width: 100%;

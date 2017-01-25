@@ -81,8 +81,8 @@ var options = {
 var settingsInputs = document.getElementById('settingsInputs');
 var currentField;
 for (var field in options.dynamic_widget) {
-  if (field != "output") {
-    currentField = options.dynamic_widget[field];
+  currentField = options.dynamic_widget[field];
+  if (field != "output" && currentField.enabled == true) {
     var htmlField = document.createElement('div');
     htmlField.className = "fieldDiv";
     if (currentField.type == "text") {
