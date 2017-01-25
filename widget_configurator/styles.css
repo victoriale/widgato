@@ -52,16 +52,13 @@ h2 {
   color: white;
   visibility: hidden;
   width: 320px;
-  max-height:0px;
   max-width: 320px;
   overflow: hidden;
-  transition: max-height 1s;
   padding:5px 8px;
   border-radius: 5px;
 }
 .fieldDiv:hover .explanation{
   visibility: visible;
-  max-height:999px;
 }
 #previewPane {
   margin: 0;
@@ -95,15 +92,21 @@ button {
   color: #fff;
   border-radius: 7px;
   cursor: pointer;
+  outline: none;
 }
 #generate {
   width: 100%;
   background: #17aa56;
   box-shadow: 0 5px #119e4d;
-
+}
+#generate:active {
+  background: #119e4d;
 }
 #setSize {
   width: 100%;
   background: rgb(34, 111, 190);
   box-shadow: 0 5px rgb(20, 95, 175);
+}
+#setSize:active {
+  background: rgb(20, 95, 175);
 }
