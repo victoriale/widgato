@@ -36,7 +36,7 @@ h2 {
   position: relative;
 }
 .fieldDiv input {
-  width: 100%;
+  width: calc(100% - 18px);
 }
 .fieldDiv select {
   width: 100%;
