@@ -298,8 +298,8 @@ $(function() {
   var query = {};
   if (temp != null) {
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
-    var remLink = "http://" + query.subd;
-    var partLink = "http://" + query.subd;
+    var remLink = "http://" + (typeof(l.subd) == 'undefined' || !l.subd || l.subd == '' || l.subd == null) ? 'hoopsloyal.com' : query.subd;
+    var partLink = "http://" + (typeof(l.subd) == 'undefined' || !l.subd || l.subd == '' || l.subd == null) ? ('myhoopszone.com/' + query.dom) : query.subd;
     //set the query data from database to global variable to use
     domain = query.dom;
     remnant = query.remn;
