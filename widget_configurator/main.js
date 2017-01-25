@@ -35,7 +35,7 @@ var options = {
       explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
       name: "Target",
       type: "select",
-      options: ["_blank"]
+      options: ["_blank","_top"]
     },
     category:{
       default: "nfl",
@@ -59,7 +59,7 @@ var options = {
       name: "Random#",
       type: "text"
     },
-    output: '../dynamic_widget/dynamic_widget.html?{"dom":"<domain>","remn":"<remn>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>"}'
+    output: '../dynamic_widget/dynamic_widget.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>"}'
   },
   dynamic_widget_wide:{
     domain:{
@@ -78,7 +78,7 @@ var options = {
     },
     county:{
       default: "",
-      enabled: true,
+      enabled: false,
       explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled",
       name: "County",
       type: "text"
@@ -97,7 +97,7 @@ var options = {
       explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
       name: "Target",
       type: "select",
-      options: ["_blank"]
+      options: ["_blank","_top"]
     },
     category:{
       default: "nfl",
@@ -121,7 +121,7 @@ var options = {
       name: "Random#",
       type: "text"
     },
-    output: '../dynamic_widget/dynamic_widget_970.html?{"dom":"<domain>","remn":"<remn>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>"}'
+    output: '../dynamic_widget/dynamic_widget_970.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>"}'
   },
   dynamic_article_widget:{
     domain:{
@@ -140,7 +140,7 @@ var options = {
     },
     county:{
       default: "",
-      enabled: true,
+      enabled: false,
       explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled",
       name: "County",
       type: "text"
@@ -159,22 +159,23 @@ var options = {
       explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
       name: "Target",
       type: "select",
-      options: ["_blank"]
+      options: ["_blank","_top"]
     },
     category:{
-      default: "nfl",
+      default: "sports",
       enabled: true,
       explanation: "The category of lists and style of widget to use.",
       name: "Category",
       type: "select",
-      options: ["nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+      options: ["trending","breaking","sports","weather","business","politics","entertainment","food","health","lifestyle","real-estate","travel","automotive","nfl", "ncaaf","mlb","nba","ncaam","television","movies","music"]
     },
     sub_category:{
-      default: "",
-      enabled: true,
+      default: "nfl",
+      enabled: false,
       explanation: "",
       name: "Sub Category",
-      type: "text"
+      type: "select",
+      options: []
     },
     rand:{
       default: "1",
@@ -202,7 +203,7 @@ var options = {
     },
     county:{
       default: "",
-      enabled: true,
+      enabled: false,
       explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled",
       name: "County",
       type: "text"
@@ -221,22 +222,23 @@ var options = {
       explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
       name: "Target",
       type: "select",
-      options: ["_blank"]
+      options: ["_blank","_top"]
     },
     category:{
-      default: "nfl",
+      default: "sports",
       enabled: true,
       explanation: "The category of lists and style of widget to use.",
       name: "Category",
       type: "select",
-      options: ["nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+      options: ["trending","breaking","sports","weather","business","politics","entertainment","food","health","lifestyle","real-estate","travel","automotive","nfl", "ncaaf","mlb","nba","ncaam","television","movies","music"]
     },
     sub_category:{
-      default: "",
-      enabled: true,
+      default: "nfl",
+      enabled: false,
       explanation: "",
       name: "Sub Category",
-      type: "text"
+      type: "select",
+      options: []
     },
     rand:{
       default: "1",
@@ -247,10 +249,34 @@ var options = {
     },
     output: '../dynamic_article_widget/dynamic_article_widget_970.html?{"dom":"<domain>","remn":"<remn>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>"}'
   },
+  nba_ai_article_widget:{
+
+  },
+  nfl_ai_article_widget:{
+
+  },
+  mlb_ai_article_widget:{
+
+  },
   caw_widget:{
 
   },
-  swp_wdgt:{
+  swp_wdgt_list:{
+
+  },
+  swp_wdgt_article:{
+
+  },
+  billboard:{
+
+  },
+  chatterbox:{
+
+  },
+  salad_bar:{
+
+  },
+  schedule_bar: {
 
   }
 };
@@ -298,3 +324,9 @@ function changeWidget(newWidget) {
   }
 }
 changeWidget(document.getElementById("wType").value);
+function setSize() {
+  var ifWidth = document.getElementById("prevWidth").value;
+  var ifHeight = document.getElementById("prevHeight").value;
+  document.getElementById("previewFrame").style.width = ifWidth + "px";
+  document.getElementById("previewFrame").style.height = ifHeight + "px";
+}
