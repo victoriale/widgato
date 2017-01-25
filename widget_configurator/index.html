@@ -24,21 +24,19 @@
           Settings
           <br>
           <br>
-          Domain: <input id="domain"><br>
-          Subdomain: <input id="sub_domain"><br>
-          County: <input id="county"><br>
-          remn: <input id="remn"><br>
-          Link Target: <input id="targ"><br>
-          Category: <input id="category"><br>
-          Sub Category: <input id="sub_category"><br>
-          rand: <input id="rand"><br>
+          <div id="settingsInputs">
+            <!-- object created inputs go here -->
+          </div>
           <br>
-          <button id="generate" type="button">Generate</button>
+          <button id="generate" type="button" onclick="generateWidget()">Generate</button>
+          <br>
+          <br>
+          Output URL:
+          <br>
+          <textarea id="outputTextarea"></textarea>
         </th>
         <td id="previewPane">
-          preview
-          <br>
-          <iframe id="previewFrame" src='../dynamic_widget/dynamic_widget.html?{"dom":"ajc.com","county":"clayton","c_id":null,"remn":false,"bord":false,"targ":"_blank","cat":"","subd":"joyfulhome.com","category":"demographics","rand":1}'></iframe>
+          <iframe id="previewFrame" src='../dynamic_widget/dynamic_widget.html?{"dom":"chicagotribune.com","remn":"false","targ":"_blank","category":"nfl","subd":"mytouchdownzone.com/chicagotribune.com","rand":"1"}'></iframe>
         </th>
       </tr>
     </table>
