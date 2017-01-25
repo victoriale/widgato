@@ -262,22 +262,25 @@ var options = {
 
   },
   swp_wdgt_list:{
-
+    output:'../swp-wdgt/swp-wdgt-list.html'
   },
   swp_wdgt_article:{
-
+    output:'../swp-wdgt/swp-wdgt-article.html'
   },
   billboard:{
-
+    output:'../billboard/billboard.html?%7B"dom"%3A"tcxmedia.com"%2C"loc"%3A%5B%5D%2C"c_id"%3Anull%2C"remn"%3A"false"%2C"bord"%3A"false"%2C"category"%3A"keyword-real-estate"%2C"targ"%3A"_blank"%2C"league"%3A""%2C"team"%3A"150"%7D'
   },
   chatterbox:{
-
+    output:'../tcx_chatterbox/tcx_chatterbox.html?%7B"dom"%3A"tcxmedia.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A""%2C"remn"%3A"false"%2C"bord"%3A"false"%2C"category"%3A"weather"%2C"targ"%3A"_blank"%2C"league"%3A"nfl"%7D'
   },
   salad_bar:{
 
   },
   schedule_bar: {
 
+  },
+  finance_graph_widget: {
+    output:"../finance/national_widget.html?{%22dom%22:%22tcxmedia.com%22,%22loc%22:{%22loc_name%22:%22Tampa%20Bay,%20Florida%22},%22remn%22:%22true%22,%22bord%22:false,%22targ%22:%22_blank%22}"
   }
 };
 
@@ -301,10 +304,10 @@ function changeWidget(newWidget) {
   for (var field in options[newWidget]) {
     currentField = options[newWidget][field];
     if (field != "output" && currentField.enabled == true) {
-      var htmlField = document.createElement('div');
+      var htmlField = document.createElement('tr');
       htmlField.className = "fieldDiv";
       if (currentField.type == "text") {
-        htmlField.innerHTML = currentField.name + ": <input type='text' value='" + currentField.default + "' class='textInput' name='" + field + "' id='" + field + "'/>";
+        htmlField.innerHTML = "<td>" + currentField.name + " </td><td><input type='text' value='" + currentField.default + "' class='textInput' name='" + field + "' id='" + field + "'/>" + "</td>";
       }
       else if (currentField.type == "select") {
         var selectOptions = "";
@@ -316,9 +319,10 @@ function changeWidget(newWidget) {
             selectOptions = selectOptions + "<option value='" + currentField.options[i] + "'>" + currentField.options[i] + "</option>";
           }
         }
-        htmlField.innerHTML = currentField.name + ": <select type='text' class='selectInput' name='" + field + "' id='" + field + "'>" + selectOptions +  "</select>";
+        htmlField.innerHTML ="<td>" + currentField.name + " </td><td><select type='text' class='selectInput' name='" + field + "' id='" + field + "'>" + selectOptions +  "</select>" + "</td>";
       }
       htmlField.innerHTML = htmlField.innerHTML + "<div class='explanation'>" + currentField.explanation + "</div>";
+      htmlField.innerHTML = htmlField.innerHTML;
       settingsInputs.appendChild(htmlField);
     }
   }
