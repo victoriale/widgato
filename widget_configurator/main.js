@@ -250,16 +250,16 @@ var options = {
     output: '../dynamic_article_widget/dynamic_article_widget_970.html?{"dom":"<domain>","remn":"<remn>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>"}'
   },
   nba_ai_article_widget:{
-
+    output:"about:blank"
   },
   nfl_ai_article_widget:{
-
+    output:"about:blank"
   },
   mlb_ai_article_widget:{
-
+    output:"about:blank"
   },
   caw_widget:{
-
+    output:"about:blank"
   },
   swp_wdgt_list:{
     output:'../swp-wdgt/swp-wdgt-list.html'
@@ -274,10 +274,10 @@ var options = {
     output:'../tcx_chatterbox/tcx_chatterbox.html?%7B"dom"%3A"tcxmedia.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A""%2C"remn"%3A"false"%2C"bord"%3A"false"%2C"category"%3A"weather"%2C"targ"%3A"_blank"%2C"league"%3A"nfl"%7D'
   },
   salad_bar:{
-
+    output:"about:blank"
   },
   schedule_bar: {
-
+    output:"about:blank"
   },
   finance_graph_widget: {
     output:"../finance/national_widget.html?{%22dom%22:%22tcxmedia.com%22,%22loc%22:{%22loc_name%22:%22Tampa%20Bay,%20Florida%22},%22remn%22:%22true%22,%22bord%22:false,%22targ%22:%22_blank%22}"
