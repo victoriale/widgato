@@ -154,6 +154,9 @@ dynamic_widget = function() {
           SpecialDomain = l.subd;
         }
         currentConfig = getCategoryMetadata(l.category);
+        if (typeof(l.subd) == 'undefined' || !l.subd || l.subd == '' || l.subd == null) {
+          l.subd = (l.remn == 'false') ? currentConfig.partnerDomain + '/' + l.dom : currentConfig.domain;
+        }
     var s = false;
     var o = '';
     function c(e) {
