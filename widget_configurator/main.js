@@ -250,16 +250,19 @@ var options = {
     output: '../dynamic_article_widget/dynamic_article_widget_970.html?{"dom":"<domain>","remn":"<remn>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>"}'
   },
   nba_ai_article_widget:{
-    output:"about:blank"
+    output:'../sports/ai_article.html?%7B"dom"%3A"tcxmedia.com","loc"%3A%5B%5D,"c_id"%3Anull,"remn"%3A"true","bord"%3A"false","category"%3A"nba","targ"%3A"_blank","league"%3A"nba","team"%3A"150","subd"%3A"basketball.chicagotribune.com%2Ftcxmedia.com"%7D'
   },
   nfl_ai_article_widget:{
-    output:"about:blank"
+    output:'../sports/tdl_sidekick_vertical.html?%7B%22dom%22%3A%22touchdownloyal.com%22%2C%22loc%22%3A%5B%5D%2C%22c_id%22%3Anull%2C%22remn%22%3A%22true%22%2C%22bord%22%3A%22false%22%2C%22category%22%3A%22football_pro%22%2C%22targ%22%3A%22_blank%22%2C%22league%22%3A%22nfl%22%7D'
   },
   mlb_ai_article_widget:{
-    output:"about:blank"
+    output:'../sports/hrl_sidekick_vertical.html?%7B%22dom%22%3A%22homerunloyal.com%22%2C%22loc%22%3A%7B%22loc%22%3A%7B%22nfl%22%3A%5B%5D%7D%7D%2C%22c_id%22%3A%22100971247%22%2C%22remn%22%3A%22true%22%2C%22bord%22%3A%22false%22%2C%22category%22%3A%22mlb%22%2C%22targ%22%3A%22_blank%22%7D'
   },
   caw_widget:{
-    output:"about:blank"
+    output:'../dynamic_caw_widget/dynamic_caw_widget.html?{%22dom%22:%22tcxmedia.com%22,%22loc%22:{%22loc%22:{%22city%22:[],%22DMA%22:[],%22state%22:[],%22zipcode%22:[]}},%22c_id%22:null,%22remn%22:%22true%22,%22bord%22:false,%22caw_url%22:%22http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html%22,%22subd%22:%22football.chicagotribune.com%22,%22rand%22:5}'
+  },
+  caw_widget_wide:{
+    output:'../dynamic_caw_widget/dynamic_caw_widget_970.html?{%22dom%22:%22tcxmedia.com%22,%22loc%22:{%22loc%22:{%22city%22:[],%22DMA%22:[],%22state%22:[],%22zipcode%22:[]}},%22c_id%22:null,%22remn%22:%22true%22,%22bord%22:false,%22caw_url%22:%22http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html%22,%22subd%22:%22football.chicagotribune.com%22,%22rand%22:5}'
   },
   swp_wdgt_list:{
     output:'../swp-wdgt/swp-wdgt-list.html'
@@ -274,10 +277,10 @@ var options = {
     output:'../tcx_chatterbox/tcx_chatterbox.html?%7B"dom"%3A"tcxmedia.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A""%2C"remn"%3A"false"%2C"bord"%3A"false"%2C"category"%3A"weather"%2C"targ"%3A"_blank"%2C"league"%3A"nfl"%7D'
   },
   salad_bar:{
-    output:"about:blank"
+    output:"../deepdive/bar/test.html"
   },
   schedule_bar: {
-    output:"about:blank"
+    output:"../deepdive/boxscores/nfl.html"
   },
   finance_graph_widget: {
     output:"../finance/national_widget.html?{%22dom%22:%22tcxmedia.com%22,%22loc%22:{%22loc_name%22:%22Tampa%20Bay,%20Florida%22},%22remn%22:%22true%22,%22bord%22:false,%22targ%22:%22_blank%22}"
