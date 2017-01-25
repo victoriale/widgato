@@ -26,15 +26,16 @@
             <option value="chatterbox">Chatterbox</option>
             <option value="salad_bar">Salad Bar</option>
             <option value="schedule_bar">Schedule Bar</option>
+            <option value="finance_graph_widget">Finance Graph Widget (old)</option>
           </select>
           <br>
           <br>
           Settings
+
           <br>
-          <br>
-          <div id="settingsInputs">
+          <table id="settingsInputs">
             <!-- object created inputs go here -->
-          </div>
+          </table>
           <br>
           <button id="generate" type="button" onclick="generateWidget()">Generate</button>
           <br>
@@ -46,9 +47,24 @@
           <br>
           Change Preview Pane Size:
           <br>
-          Width: <input id="prevWidth" placeholder="300" type="text"/>
-          <br>
-          Height: <input id="prevHeight" placeholder="600" type="text"/>
+          <table>
+            <tr>
+              <td>
+                Width
+              </td>
+              <td>
+                <input id="prevWidth" placeholder="300" type="text"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Height
+              </td>
+              <td>
+                <input id="prevHeight" placeholder="600" type="text"/>
+              </td>
+            </tr>
+          </table>
           <br>
           <button id="setSize" type="button" onclick="setSize()">Set Size</button>
         </th>
