@@ -324,3 +324,9 @@ function changeWidget(newWidget) {
   }
 }
 changeWidget(document.getElementById("wType").value);
+function setSize() {
+  var ifWidth = document.getElementById("prevWidth").value;
+  var ifHeight = document.getElementById("prevHeight").value;
+  document.getElementById("previewFrame").style.width = ifWidth + "px";
+  document.getElementById("previewFrame").style.height = ifHeight + "px";
+}

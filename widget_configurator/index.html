@@ -42,6 +42,15 @@
           Output URL:
           <br>
           <textarea id="outputTextarea"></textarea>
+          <br>
+          <br>
+          Change Preview Pane Size:
+          <br>
+          Width: <input id="prevWidth" placeholder="300" type="text"/>
+          <br>
+          Height: <input id="prevHeight" placeholder="600" type="text"/>
+          <br>
+          <button id="setSize" type="button" onclick="setSize()">Set Size</button>
         </th>
         <td id="previewPane">
           <iframe id="previewFrame" src='../dynamic_widget/dynamic_widget.html?{"dom":"chicagotribune.com","remn":"false","targ":"_blank","category":"nfl","subd":"mytouchdownzone.com/chicagotribune.com","rand":"1"}'></iframe>
