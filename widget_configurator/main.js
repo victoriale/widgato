@@ -78,7 +78,7 @@ var options = {
     },
     county:{
       default: "",
-      enabled: false,
+      enabled: true,
       explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled",
       name: "County",
       type: "text"
