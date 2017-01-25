@@ -35,7 +35,7 @@ var options = {
       explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
       name: "Target",
       type: "select",
-      options: ["_blank"]
+      options: ["_blank","_top"]
     },
     category:{
       default: "nfl",
@@ -97,7 +97,7 @@ var options = {
       explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
       name: "Target",
       type: "select",
-      options: ["_blank"]
+      options: ["_blank","_top"]
     },
     category:{
       default: "nfl",
@@ -159,7 +159,7 @@ var options = {
       explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
       name: "Target",
       type: "select",
-      options: ["_blank"]
+      options: ["_blank","_top"]
     },
     category:{
       default: "nfl",
@@ -221,7 +221,7 @@ var options = {
       explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
       name: "Target",
       type: "select",
-      options: ["_blank"]
+      options: ["_blank","_top"]
     },
     category:{
       default: "nfl",
@@ -247,10 +247,34 @@ var options = {
     },
     output: '../dynamic_article_widget/dynamic_article_widget_970.html?{"dom":"<domain>","remn":"<remn>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>"}'
   },
+  nba_ai_article_widget:{
+
+  },
+  nfl_ai_article_widget:{
+
+  },
+  mlb_ai_article_widget:{
+
+  },
   caw_widget:{
 
   },
-  swp_wdgt:{
+  swp_wdgt_list:{
+
+  },
+  swp_wdgt_article:{
+
+  },
+  billboard:{
+
+  },
+  chatterbox:{
+
+  },
+  salad_bar:{
+
+  },
+  schedule_bar: {
 
   }
 };
