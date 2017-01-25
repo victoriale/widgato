@@ -107,10 +107,11 @@ for (var field in options.dynamic_widget) {
 function generateWidget() {
   var url = options.dynamic_widget.output;
   for (var field in options.dynamic_widget) {
-    if (field != "output") {
+    if (field != "output" && options.dynamic_widget[field].enabled == true) {
       domElem = document.getElementById(field);
       url = url.replace("<" + field + ">",domElem.value);
     }
   }
   document.getElementById("previewFrame").contentWindow.document.location.href = url;
+  document.getElementById("outputTextarea").value = url;
 }
