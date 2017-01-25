@@ -265,16 +265,101 @@ var options = {
     output:'../dynamic_caw_widget/dynamic_caw_widget_970.html?{%22dom%22:%22tcxmedia.com%22,%22loc%22:{%22loc%22:{%22city%22:[],%22DMA%22:[],%22state%22:[],%22zipcode%22:[]}},%22c_id%22:null,%22remn%22:%22true%22,%22bord%22:false,%22caw_url%22:%22http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html%22,%22subd%22:%22football.chicagotribune.com%22,%22rand%22:5}'
   },
   swp_wdgt_list:{
-    output:'../swp-wdgt/swp-wdgt-list.html'
+    show_link:{
+      default: "true",
+      enabled: true,
+      explanation: "Setting showLink to false, will hide the 'see the list' button and disable any linkback functionality and hover states",
+      name: "Show Links",
+      type: "select",
+      options: ["true","false"]
+    },
+    output:'../swp-wdgt/swp-wdgt-list.html?{"showLink":"<show_link>"}'
   },
   swp_wdgt_article:{
-    output:'../swp-wdgt/swp-wdgt-article.html'
+    show_link:{
+      default: "true",
+      enabled: true,
+      explanation: "Setting showLink to false, will hide the 'see the list' button and disable any linkback functionality and hover states",
+      name: "Show Links",
+      type: "select",
+      options: ["true","false"]
+    },
+    output:'../swp-wdgt/swp-wdgt-article.html?{"showLink":"<show_link>"}'
   },
   billboard:{
-    output:'../billboard/billboard.html?%7B"dom"%3A"tcxmedia.com"%2C"loc"%3A%5B%5D%2C"c_id"%3Anull%2C"remn"%3A"false"%2C"bord"%3A"false"%2C"category"%3A"keyword-real-estate"%2C"targ"%3A"_blank"%2C"league"%3A""%2C"team"%3A"150"%7D'
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    targ:{
+      default: "_blank",
+      enabled: true,
+      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
+      name: "Target",
+      type: "select",
+      options: ["_blank","_top"]
+    },
+    category:{
+      default: "sports",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["trending","breaking","sports","weather","business","politics","entertainment","food","health","lifestyle","keyword-real-estate","travel","automotive"]
+    },
+    sub_category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The sub-category of lists for the widget to use.",
+      name: "Sub Category",
+      type: "select",
+      options: ["nfl", "ncaaf","mlb","nba","ncaam","television","movies","music"]
+    },
+    team:{
+      default: "1",
+      enabled: true,
+      explanation: "The team ID to display results for when the widget loads (if the list is sports related).",
+      name: "Team ID",
+      type: "text"
+    },
+    output:'../billboard/billboard.html?{"dom":"<domain>","category":"<category>","targ":"<targ>","league":"<sub_category>","team":"<team>"}'
   },
   chatterbox:{
-    output:'../tcx_chatterbox/tcx_chatterbox.html?%7B"dom"%3A"tcxmedia.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A""%2C"remn"%3A"false"%2C"bord"%3A"false"%2C"category"%3A"weather"%2C"targ"%3A"_blank"%2C"league"%3A"nfl"%7D'
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    targ:{
+      default: "_blank",
+      enabled: true,
+      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
+      name: "Target",
+      type: "select",
+      options: ["_blank","_top"]
+    },
+    category:{
+      default: "sports",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["trending","breaking","sports","weather","business","politics","entertainment","food","health","lifestyle","keyword-real-estate","travel","automotive"]
+    },
+    sub_category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The sub-category of lists for the widget to use.",
+      name: "Sub Category",
+      type: "select",
+      options: ["nfl", "ncaaf","mlb","nba","ncaam","television","movies","music"]
+    },
+    output:'../tcx_chatterbox/tcx_chatterbox.html?{"dom":"<domain>","category":"<category>","targ":"<targ>","league":"<sub_category>"}'
   },
   salad_bar:{
     output:"../deepdive/bar/test.html"
