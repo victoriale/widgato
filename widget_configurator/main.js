@@ -491,7 +491,7 @@ var options = {
       name: "Location",
       type: "text"
     },
-    output:"../finance/national_widget.html?{%22dom%22:%22<domain>%22,%22loc%22:{%22loc_name%22:%22<location>%22},%22remn%22:%22<remn>%22,%22bord%22:false,%22targ%22:%22<targ>%22}"
+    output:'../finance/national_widget.html?{"dom":"<domain>","loc":{"loc_name":"<location>"},"remn":"<remn>","bord":false,"targ":"<targ>"}'
   }
 };
 
