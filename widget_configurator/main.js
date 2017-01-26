@@ -274,7 +274,7 @@ var options = {
       options: ["_blank","_top"]
     },
     category:{
-      default: "sports",
+      default: "nba",
       enabled: true,
       explanation: "The category of lists and style of widget to use.",
       name: "Category",
@@ -308,7 +308,7 @@ var options = {
       options: ["_blank","_top"]
     },
     category:{
-      default: "sports",
+      default: "football_pro",
       enabled: true,
       explanation: "The category of lists and style of widget to use.",
       name: "Category",
@@ -342,7 +342,7 @@ var options = {
       options: ["_blank","_top"]
     },
     category:{
-      default: "sports",
+      default: "mlb",
       enabled: true,
       explanation: "The category of lists and style of widget to use.",
       name: "Category",
@@ -352,10 +352,10 @@ var options = {
     output:'../sports/hrl_sidekick_vertical.html?{"dom":"<domain>","remn":"<remn>","category":"<category>","targ":"<targ>"}'
   },
   caw_widget:{
-    output:'../dynamic_caw_widget/dynamic_caw_widget.html?{%22dom%22:%22tcxmedia.com%22,%22loc%22:{%22loc%22:{%22city%22:[],%22DMA%22:[],%22state%22:[],%22zipcode%22:[]}},%22c_id%22:null,%22remn%22:%22true%22,%22bord%22:false,%22caw_url%22:%22http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html%22,%22subd%22:%22football.chicagotribune.com%22,%22rand%22:5}'
+    output:'../dynamic_caw_widget/dynamic_caw_widget.html?{"dom":"tcxmedia.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"c_id":null,"remn":"true","bord":false,"caw_url":"http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html","subd":"football.chicagotribune.com","rand":5}'
   },
   caw_widget_wide:{
-    output:'../dynamic_caw_widget/dynamic_caw_widget_970.html?{%22dom%22:%22tcxmedia.com%22,%22loc%22:{%22loc%22:{%22city%22:[],%22DMA%22:[],%22state%22:[],%22zipcode%22:[]}},%22c_id%22:null,%22remn%22:%22true%22,%22bord%22:false,%22caw_url%22:%22http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html%22,%22subd%22:%22football.chicagotribune.com%22,%22rand%22:5}'
+    output:'../dynamic_caw_widget/dynamic_caw_widget_970.html?{"dom":"tcxmedia.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"c_id":null,"remn":"true","bord":false,"caw_url":"http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html","subd":"football.chicagotribune.com","rand":5}'
   },
   swp_wdgt_list:{
     show_link:{
@@ -461,7 +461,37 @@ var options = {
     output:"../deepdive/boxscores/nfl.html"
   },
   finance_graph_widget: {
-    output:"../finance/national_widget.html?{%22dom%22:%22tcxmedia.com%22,%22loc%22:{%22loc_name%22:%22Tampa%20Bay,%20Florida%22},%22remn%22:%22true%22,%22bord%22:false,%22targ%22:%22_blank%22}"
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    targ:{
+      default: "_blank",
+      enabled: true,
+      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
+      name: "Target",
+      type: "select",
+      options: ["_blank","_top"]
+    },
+    remn:{
+      default: "false",
+      enabled: true,
+      explanation: "If true, the widget will use internal logic as if it was embeded on one of our own house sites. If false, it will run as if its on a partner site",
+      name: "Remnant?",
+      type: "select",
+      options: ["false", "true"]
+    },
+    location:{
+      default: "Tampa Bay, Florida",
+      enabled: true,
+      explanation: "The user's geolocation to send to the widget.",
+      name: "Location",
+      type: "text"
+    },
+    output:"../finance/national_widget.html?{%22dom%22:%22<domain>%22,%22loc%22:{%22loc_name%22:%22<location>%22},%22remn%22:%22<remn>%22,%22bord%22:false,%22targ%22:%22<targ>%22}"
   }
 };
 
