@@ -371,15 +371,13 @@ billboard = (function () {
     function capitalizeString(string) {
         switch (string) {
             case "nfl":
-                return "NFL";
             case "ncaaf":
-                return "NCAAF";
+                return "Football";
             case "nba":
-                return "NBA";
             case "ncaam":
-                return "NCAAM";
+                return "Basketball";
             case "mlb":
-                return "MLB";
+                return "Baseball";
             case "real-estate":
                 return "Real Estate";
         }
