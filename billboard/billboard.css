@@ -491,7 +491,7 @@ sup {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 728px) {
     .main-top-image, .main-bottom-image, .main-top-description, .main-bottom-description, .main-hr {
         left: 10px;
     }
