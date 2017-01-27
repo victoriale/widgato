@@ -664,6 +664,15 @@ window.onload = function () {
     topSmall.style['-webkit-line-clamp'] = lineSmallTop;
     bottomLarge.style['-webkit-line-clamp'] = linesLargeBottom;
     bottomSmall.style['-webkit-line-clamp'] = linesSmallBottom;
+
+    document.getElementById('searchBox').onkeypress = function(e){
+    if (!e) e = window.event;
+    var keyCode = e.keyCode || e.which;
+    if (keyCode == '13'){
+      window.top.location.href = "http://www.tcxmedia.com/news-feed/search/articles/" + document.getElementById('searchBox').value;
+      return false;
+    }
+  }
 };
 
 window.onresize = function (event) {
