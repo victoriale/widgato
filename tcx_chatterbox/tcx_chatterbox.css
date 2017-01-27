@@ -100,9 +100,9 @@ sup {
 .tcx {
     position: absolute;
     height: 100%;
-    width: 30px;
+    width: 35px;
     background-repeat: no-repeat;
-    background-size: 30px 35px;
+    background-size: 35px 35px;
     right: 20px;
     bottom: 3px;
 }
@@ -110,7 +110,7 @@ sup {
 .tab-container {
     position: absolute;
     left: 5px;
-    width: calc(100% - 175px);
+    width: calc(100% - 180px);
     overflow: hidden;
 }
 
@@ -145,6 +145,7 @@ sup {
 
 .tab-content.active {
     border-bottom: 3px solid #f5a623;
+    font-weight: 900;
 }
 
 .tab-more {
