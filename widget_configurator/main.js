@@ -17,7 +17,7 @@ var options = {
     county:{
       default: "",
       enabled: true,
-      explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled",
+      explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled, set to 'atl_metro' to use the combination of all the atl counties",
       name: "County",
       type: "text"
     },
@@ -79,7 +79,7 @@ var options = {
     county:{
       default: "",
       enabled: true,
-      explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled",
+      explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled, set to 'atl_metro' to use the combination of all the atl counties",
       name: "County",
       type: "text"
     },
@@ -141,7 +141,7 @@ var options = {
     county:{
       default: "",
       enabled: false,
-      explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled",
+      explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled, set to 'atl_metro' to use the combination of all the atl counties",
       name: "County",
       type: "text"
     },
@@ -204,7 +204,7 @@ var options = {
     county:{
       default: "",
       enabled: false,
-      explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled",
+      explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled, set to 'atl_metro' to use the combination of all the atl counties",
       name: "County",
       type: "text"
     },
