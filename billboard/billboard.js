@@ -214,7 +214,7 @@ billboard = (function () {
         if (lineSmallTop == 1 || linesLargeTop == 1) {
             $('.main-top-description').css('max-height', '1.3em');
             $('.main-bottom-description').css('max-height', '1.3em');
-        } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 768 && window.innerWidth >= 758)) {
+        } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 728 && window.innerWidth >= 718)) {
             $('.main-top-description').css('max-height', '2.8em');
             $('.main-bottom-description').css('max-height', '2.8em');
         } else if (lineSmallTop == 3 || linesLargeTop == 3) {
@@ -641,7 +641,7 @@ window.onload = function () {
     if (lineSmallTop == 1 || linesLargeTop == 1) {
         $('.main-top-description').css('max-height', '1.3em');
         $('.main-bottom-description').css('max-height', '1.3em');
-    } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 768 && window.innerWidth >= 758)) {
+    } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 728 && window.innerWidth >= 718)) {
         $('.main-top-description').css('max-height', '2.8em');
         $('.main-bottom-description').css('max-height', '2.8em');
     } else if (lineSmallTop == 3 || linesLargeTop == 3) {
@@ -695,7 +695,7 @@ window.onresize = function (event) {
     if (lineSmallTop == 1 || linesLargeTop == 1) {
         $('.main-top-description').css('max-height', '1.3em');
         $('.main-bottom-description').css('max-height', '1.3em');
-    } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 768 && window.innerWidth >= 758)) {
+    } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 728 && window.innerWidth >= 718)) {
         $('.main-top-description').css('max-height', '2.8em');
         $('.main-bottom-description').css('max-height', '2.8em');
     } else if (lineSmallTop == 3 || linesLargeTop == 3) {
@@ -717,7 +717,7 @@ window.onresize = function (event) {
     bottomLarge.style['-webkit-line-clamp'] = linesLargeBottom;
     bottomSmall.style['-webkit-line-clamp'] = linesSmallBottom;
     //add or remove box-shadow
-    if (window.innerWidth >= 768) {
+    if (window.innerWidth >= 728) {
         var search = $('.search-container');
         var header = $('.search-button-small');
         if (search.hasClass('active')) {
