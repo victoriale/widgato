@@ -104,13 +104,13 @@ billboard = (function () {
             title: mainArticles[0].title,
             content: mainArticles[0].teaser + '<br>&nbsp; ',
             url: mainArticles[0].urlSegment,
-            img: mainArticles[0].articleImage
+            img: mainArticles[0].articleImage.replace(/ /g,"%20")
         };
         var arr2 = {
             title: mainArticles[1].title,
             content: mainArticles[1].teaser + '<br>&nbsp; ',
             url: mainArticles[1].urlSegment,
-            img: mainArticles[1].articleImage
+            img: mainArticles[1].articleImage.replace(/ /g,"%20")
         };
         $('.header-icon').css('background-image', 'url(' + verticalIcon + ')');
         $('.header-profile')[0].innerHTML = verticalName + " News";
@@ -175,7 +175,7 @@ billboard = (function () {
             subImgContainer.appendChild(subImage);
             subContainer.appendChild(subTitle);
             subTitle.innerHTML = randomArticles[i].title.replace(/[\\]/g,"");
-            subImage.style.backgroundImage = "url('" + randomArticles[i].articleImage + "?width=" + (190 * window.devicePixelRatio) + "')";
+            subImage.style.backgroundImage = "url('" + randomArticles[i].articleImage.replace(/ /g,"%20") + "?width=" + (190 * window.devicePixelRatio) + "')";
             $(subContainer).wrapInner($('<a href="' + randomArticles[i].urlSegment + '" />'));
             subContainer.appendChild(subHr);
         }
