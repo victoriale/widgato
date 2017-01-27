@@ -154,7 +154,7 @@ billboard = (function () {
             });
 
         }
-        $('.search').attr('placeholder', 'Search for anything ' + verticalName.toLowerCase());
+        $('.search').attr('placeholder', 'Search for anything ' + verticalName.toLowerCase() + "...");
         displaySubArticles();
     } // --> displayPage
 
