@@ -73,7 +73,7 @@ billboard = (function () {
                     val.urlSegment = "http://dev.tcxmedia.com/" + dom + "/news" + val.article_url;
                   }
                 }
-                val.articleImage = protocolToUse + 'images.synapsys.us/' + val.image_url;
+                val.articleImage = protocolToUse + 'dev-images.synapsys.us' + val.image_url;
             } else {
                 val.title = val.title;
                 val.content = val.teaser;
@@ -91,7 +91,7 @@ billboard = (function () {
                     val.urlSegment = "http://dev.tcxmedia.com/" + dom + "/news" + val.article_url;
                   }
                 }
-                val.articleImage = protocolToUse + 'images.synapsys.us/' + val.image_url;
+                val.articleImage = protocolToUse + 'dev-images.synapsys.us' + val.image_url;
                 subArticles.push(val);
             }
             mainArticles.push(val);
