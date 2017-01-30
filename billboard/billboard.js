@@ -22,10 +22,10 @@ billboard = (function () {
     //adjust api url for testing or live
     if (category.indexOf("keyword-") != -1) {
       category = category.replace("keyword-","");
-      var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/articles?keyword[]=' + category + '&count=15&metaDataOnly=1&source[]=snt_ai&source[]=tca-curated&random=1';
+      var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/articles?keyword[]=' + category + '&count=15&metaDataOnly=1&source[]=snt_ai&source[]=tca-curated&source[]=tronc&random=1';
     }
     else {
-      var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/articles?category=' + category + league + '&count=15&metaDataOnly=1&source[]=snt_ai&source[]=tca-curated&random=1';
+      var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/articles?category=' + category + league + '&count=15&metaDataOnly=1&source[]=snt_ai&source[]=tca-curated&source[]=tronc&random=1';
     }
     var randomArticles = [];
     var imageArr = [];
