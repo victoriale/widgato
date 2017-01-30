@@ -611,7 +611,8 @@ chatterbox = (function () {
             displayPage();
             setTriImage();
             if (dataArray.length == 1) {
-                $('.cb-btn').css('display', 'none');
+                // $('.cb-btn').css('display', 'none');
+                $('.cb-btn').css('display', 'block');
             } else {
                 $('.cb-btn').css('display', 'block');
             }
