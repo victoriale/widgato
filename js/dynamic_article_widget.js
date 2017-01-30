@@ -340,10 +340,10 @@ dynamic_widget = function() {
           }
       };
       if (currentConfig.category == "realestate") {
-        i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?keyword[]=" + "real%20estate" + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&random=1" , true);
+        i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?keyword[]=" + "real%20estate" + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&source[]=tronc&random=1" , true);
       }
       else {
-        i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&random=1" , true);
+        i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&source[]=tronc&random=1" , true);
       }
         i.send()
     }
@@ -403,7 +403,7 @@ function p() {
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
           if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
+            t.setAttribute('src', protocolToUse + "dev-images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
           }
           else { //todo: use placeholder images as fallback for articles instead of no-image image
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
