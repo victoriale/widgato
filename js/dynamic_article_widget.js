@@ -242,7 +242,7 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn,
     partner = false;
   }
   // now that we have the base Url, format the rest of the link
-  if (linkType == "syndicated" || linkType == "tca-curated") {
+  if (linkType == "syndicated" || linkType == "tca-curated" || linkType == "tronc") {
     if (partner == true) {
       output = TCXbaseUrl + "/news/" + scope + subCategory + "/article/story/" + destinationId;
     }
