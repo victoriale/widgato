@@ -12,10 +12,12 @@ chatterbox = (function () {
     var isScrolling = false;
     var isCreated = false;
     var subSelected = false;
-
     if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         target = query.targ;
+    }
+    if (query.category != null && query.category != '') {
+        selectedTab = query.category;
     }
 
     //adjust api url for testing or live
