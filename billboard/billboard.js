@@ -266,7 +266,7 @@ billboard = (function () {
             case "nba":
             case "ncaam":
                 verticalColor = "#f26f26";
-                verticalIcon = "../css/public/icons/Hoops-Loyal_Icon%202.svg";
+                verticalIcon = "../css/public/icons/Hoops-Loyal_Icon_w.svg";
                 break;
             case "business":
                 verticalColor = "#3098ff";
