@@ -103,7 +103,7 @@ chatterbox = (function () {
             title: dataArr[0].title,
             url: getOffsiteLink(selectedTab.toLowerCase(), dataArr[0].url, dataArr[0].eventId),
             content: dataArr[0].report + '<br>&nbsp; ',
-            img: protocolToUse + 'images.synapsys.us' + dataArr[0].articleImage
+            img: protocolToUse + 'dev-images.synapsys.us' + dataArr[0].articleImage
         };
         // Set the data
         $('.cb-title')[0].innerHTML = arr.title;
@@ -156,8 +156,8 @@ chatterbox = (function () {
            $('.triple-stack')[0].appendChild(titleContainerSmall);
            titleContainerLarge.appendChild(titleLarge);
            titleContainerSmall.appendChild(titleSmall);
-           imageLarge.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[0][1][i].image_url + "')";
-           imageSmall.style.backgroundImage = "url('" + protocolToUse + 'images.synapsys.us' + imageArray[0][1][i].image_url + "')";
+           imageLarge.style.backgroundImage = "url('" + protocolToUse + 'dev-images.synapsys.us' + imageArray[0][1][i].image_url + "')";
+           imageSmall.style.backgroundImage = "url('" + protocolToUse + 'dev-images.synapsys.us' + imageArray[0][1][i].image_url + "')";
            titleLarge.innerHTML = imageArray[0][1][i].title;
            titleSmall.innerHTML = imageArray[0][1][i].title;
            $(imageContainerLarge).wrapInner($('<a href="' + href + '/articles/' + imageArray[0][0] + "/" + imageArray[0][1][i].id + '" />'));
