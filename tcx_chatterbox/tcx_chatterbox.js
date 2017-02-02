@@ -101,7 +101,7 @@ chatterbox = (function () {
             //to be replaced once data is coming in.
             //keyword: dataArr[0].keyword,
             keyword: selectedTab.toUpperCase(),
-            keywordUrl: protocolToUse + dataArr[0]['1'][pageNo].keywordUrl,
+            keywordUrl: protocolToUse + "tcxmedia.com/news-feed/" + selectedTab,
             date: moment(dataArr[0]['1'][pageNo].publication_date).format("dddd, MMM. DD, YYYY").toUpperCase(),
             title: dataArr[0]['1'][pageNo].title,
             url: getOffsiteLink(selectedTab.toLowerCase(), dataArr[0]['1'][pageNo].article_url, dataArr[0]['1'][pageNo].id),
@@ -544,10 +544,10 @@ chatterbox = (function () {
             //REALESTATE URL
             case 'realestate':
                 if (partnerCode != null) {
-                    link = protocolToUse + "//myhousekit.com/" + partnerCode + relativeUrl;
+                    link = protocolToUse + "//dev.tcxmedia.com/" + partnerCode + "/news/" + scope + "/article/story/" + id;
                 }
                 else {
-                    link = protocolToUse + "//joyfulhome.com" + relativeUrl;
+                    link = protocolToUse + "//dev.tcxmedia.com/news-feed/" + scope + "/article/story/" + id;
                 }
                 break;
             default:
