@@ -167,6 +167,7 @@ chatterbox = (function () {
            $(imageContainerSmall).wrapInner($('<a href="' + href + '/articles/' + imageArray[0][0] + "/" + imageArray[0][1][i].id + '" />'));
            $(titleContainerSmall).wrapInner($('<a href="' + href + '/articles/' + imageArray[0][0] + "/" + imageArray[0][1][i].id + '" />'));
        }
+       postHeight();
     }
 
     //Tab setup
@@ -763,6 +764,7 @@ function postHeight() {
     setTimeout(function () {
         var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
         if (typeof target != "undefined" && document.body.scrollHeight) {
+          console.log(document.getElementById("wrapper").scrollHeight);
             target.postMessage(document.getElementById("wrapper").scrollHeight, "*");
         }
     }, 100);
