@@ -17,9 +17,11 @@ chatterbox = (function () {
         target = query.targ;
     }
     if (query.category != null && query.category != '') {
+      if (query.category == "real%20estate" || query.category == "real-estate" || query.category == "real estate") {
+        query.category = "realestate";
+      }
         selectedTab = query.category;
     }
-
     //adjust api url for testing or live
     var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/chatterbox?source[]=snt_ai&source[]=tca-curated&random=1',
         tcxData = {},
@@ -543,7 +545,7 @@ chatterbox = (function () {
                 }
                 break;
             //REALESTATE URL
-            case 'real-estate':
+            case 'realestate':
                 if (partnerCode != null) {
                     link = protocolToUse + "//myhousekit.com/" + partnerCode + relativeUrl;
                 }
@@ -564,7 +566,8 @@ chatterbox = (function () {
 
 // **** PARSING FUNCTION ****
     function processData() {
-
+      tcxData.data.realestate = tcxData.data["real estate"];
+      delete tcxData.data["real estate"];
         // Check for data
         try {
             if (typeof tcxData != "object") {
