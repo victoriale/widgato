@@ -764,7 +764,6 @@ function postHeight() {
     setTimeout(function () {
         var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
         if (typeof target != "undefined" && document.body.scrollHeight) {
-          console.log(document.getElementById("wrapper").scrollHeight);
             target.postMessage(document.getElementById("wrapper").scrollHeight, "*");
         }
     }, 100);
