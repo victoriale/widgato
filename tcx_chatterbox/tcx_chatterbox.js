@@ -370,8 +370,8 @@ chatterbox = (function () {
 
     function nextPage() {
         // Exit if no pages
-        availPages = ["realestate","sports"];
-        console.log("current page",pageInd,"total pages",availPages);
+        // availPages = ["realestate","sports"];
+        // console.log("current page",pageInd,"total pages",availPages);
         if (pageInd == -1 || availPages.length == 0) {
             return false;
         }
