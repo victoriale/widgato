@@ -370,6 +370,8 @@ chatterbox = (function () {
 
     function nextPage() {
         // Exit if no pages
+        availPages = ["realestate","sports"];
+        console.log("current page",pageInd,"total pages",availPages);
         if (pageInd == -1 || availPages.length == 0) {
             return false;
         }
@@ -763,7 +765,7 @@ chatterbox = (function () {
 function postHeight() {
     setTimeout(function () {
         var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
-        if (typeof target != "undefined" && document.body.scrollHeight) {
+        if (typeof target != "undefined") {
             target.postMessage(document.getElementById("wrapper").scrollHeight, "*");
         }
     }, 100);
