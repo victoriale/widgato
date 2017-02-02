@@ -733,7 +733,7 @@ window.onresize = function (event) {
 function postHeight() {
     setTimeout(function () {
         var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
-        if (typeof target != "undefined" && document.body.scrollHeight) {
+        if (typeof target != "undefined") {
             //Added "billboard" to postMessage so the component will know the messages origin.
             target.postMessage(document.getElementById("wrapper").scrollHeight + " billboard", "*");
         }
