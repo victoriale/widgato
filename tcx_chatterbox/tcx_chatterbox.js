@@ -12,6 +12,7 @@ chatterbox = (function () {
     var isScrolling = false;
     var isCreated = false;
     var subSelected = false;
+    var pageNo = 0;
     if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         target = query.targ;
@@ -95,17 +96,17 @@ chatterbox = (function () {
         });
         // configure the data
         //var id = dataArr[0][0] != "player-fantasy" ? dataArr[0].eventId : dataArr[0][1].articleId;
-        var id = dataArr[0].eventId;
+        var id = dataArr[0]['1'][pageNo].eventId;
         var arr = {
             //to be replaced once data is coming in.
             //keyword: dataArr[0].keyword,
-            keyword: dataArr[0].keyword,
-            keywordUrl: protocolToUse + dataArr[0].keywordUrl,
-            date: moment(dataArr[0][1].dateline).format("dddd, MMM. DD, YYYY").toUpperCase(),
-            title: dataArr[0].title,
-            url: getOffsiteLink(selectedTab.toLowerCase(), dataArr[0].url, dataArr[0].eventId),
-            content: dataArr[0].report + '<br>&nbsp; ',
-            img: protocolToUse + 'dev-images.synapsys.us' + dataArr[0].articleImage
+            keyword: selectedTab.toUpperCase(),
+            keywordUrl: protocolToUse + "tcxmedia.com/news-feed/" + selectedTab,
+            date: moment(dataArr[0]['1'][pageNo].publication_date).format("dddd, MMM. DD, YYYY").toUpperCase(),
+            title: dataArr[0]['1'][pageNo].title,
+            url: getOffsiteLink(selectedTab.toLowerCase(), dataArr[0]['1'][pageNo].article_url, dataArr[0]['1'][pageNo].id),
+            content: dataArr[0]['1'][pageNo].teaser + '<br>&nbsp; ',
+            img: protocolToUse + 'dev-images.synapsys.us' + dataArr[0]['1'][pageNo].image_url
         };
         // Set the data
         $('.cb-title')[0].innerHTML = arr.title;
@@ -370,15 +371,10 @@ chatterbox = (function () {
 
     function nextPage() {
         // Exit if no pages
-        // availPages = ["realestate","sports"];
-        // console.log("current page",pageInd,"total pages",availPages);
-        if (pageInd == -1 || availPages.length == 0) {
-            return false;
-        }
-        // Create new pageInd
-        pageInd++;
-        if (pageInd >= availPages.length) {
-            pageInd = 0;
+
+        pageNo++;
+        if (pageNo >= 10) {
+            pageNo = 0;
         }
         // Create page
         displayPage();
@@ -388,13 +384,11 @@ chatterbox = (function () {
 
     function prevPage() {
         // Exit if no pages
-        if (pageInd == -1 || availPages.length == 0) {
-            return false;
-        }
+
         // Create new pageInd
-        pageInd--;
-        if (pageInd <= -1) {
-            pageInd = availPages.length - 1;
+        pageNo--;
+        if (pageNo <= -1) {
+            pageNo = 0;
         }
         // Create page
         displayPage();
@@ -550,10 +544,10 @@ chatterbox = (function () {
             //REALESTATE URL
             case 'realestate':
                 if (partnerCode != null) {
-                    link = protocolToUse + "//myhousekit.com/" + partnerCode + relativeUrl;
+                    link = protocolToUse + "//dev.tcxmedia.com/" + partnerCode + "/news/" + scope + "/article/story/" + id;
                 }
                 else {
-                    link = protocolToUse + "//joyfulhome.com" + relativeUrl;
+                    link = protocolToUse + "//dev.tcxmedia.com/news-feed/" + scope + "/article/story/" + id;
                 }
                 break;
             default:
