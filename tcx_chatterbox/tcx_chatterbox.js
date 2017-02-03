@@ -533,13 +533,12 @@ chatterbox = (function () {
                 break;
             //FINANCE URL
             case 'business':
-                if (partnerCode != null) {
-                    link = protocolToUse + "//myinvestkit.com/" + partnerCode + relativeUrl;
-                }
-                else {
-
-                    link = protocolToUse + "//www.investkit.com" + relativeUrl;
-                }
+              if (partnerCode != null) {
+                  link = protocolToUse + "//dev.tcxmedia.com/" + partnerCode + "/news/" + scope + "/article/story/" + id;
+              }
+              else {
+                  link = protocolToUse + "//dev.tcxmedia.com/news-feed/" + scope + "/article/story/" + id;
+              }
                 break;
             //REALESTATE URL
             case 'realestate':
