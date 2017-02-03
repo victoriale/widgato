@@ -189,6 +189,7 @@ billboard = (function () {
                 $(this).css('color', e.type === "mouseenter" ? '#444' : "#000");
             });
         }
+        postHeight();
     }
 
     function fitText() {
