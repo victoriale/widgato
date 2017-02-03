@@ -102,7 +102,7 @@ chatterbox = (function () {
             //keyword: dataArr[0].keyword,
             keyword: selectedTab.toUpperCase(),
             keywordUrl: protocolToUse + "tcxmedia.com/news-feed/" + selectedTab,
-            date: moment(dataArr[0]['1'][pageNo].publication_date).format("dddd, MMM. DD, YYYY").toUpperCase(),
+            date: moment(dataArr[0]['1'][pageNo].publication_date*1000).format("dddd, MMM. DD, YYYY").toUpperCase(),
             title: dataArr[0]['1'][pageNo].title,
             url: getOffsiteLink(selectedTab.toLowerCase(), dataArr[0]['1'][pageNo].article_url, dataArr[0]['1'][pageNo].id),
             content: dataArr[0]['1'][pageNo].teaser + '<br>&nbsp; ',
