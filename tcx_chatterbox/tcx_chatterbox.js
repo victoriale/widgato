@@ -46,6 +46,8 @@ chatterbox = (function () {
         $.ajax({
             url: locApiUrl,
             success: function (data) {
+                delete data.data["weather"]; //removed from tcx
+                delete data.data.categories["weather"]; //removed from tcx
                 tcxData = data;
                 processData();
             },
