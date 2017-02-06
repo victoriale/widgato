@@ -210,7 +210,6 @@ var specialDomains = [
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
 function generateArticleLink (scope, linkType, destinationId, articleType, remn, dom) {
-  console.log(scope, linkType, destinationId, articleType, remn, dom);
   var TCXbaseUrl;
   var AIbaseUrl;
   var partner;
@@ -253,7 +252,6 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn,
   else if (linkType == "ai" || linkType == "snt_ai_module" || linkType == "snt_ai") {
     output = AIbaseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
   }
-  console.log(output);
   return output;
 }
 
