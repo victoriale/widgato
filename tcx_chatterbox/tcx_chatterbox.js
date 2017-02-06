@@ -106,7 +106,7 @@ chatterbox = (function () {
             keywordUrl: protocolToUse + "tcxmedia.com/news-feed/" + selectedTab,
             date: moment(dataArr[0]['1'][pageNo].publication_date*1000).format("dddd, MMM. DD, YYYY").toUpperCase(),
             title: dataArr[0]['1'][pageNo].title,
-            url: getOffsiteLink(selectedTab.toLowerCase(), dataArr[0]['1'][pageNo].article_url, dataArr[0]['1'][pageNo].id),
+            url: getOffsiteLink(selectedTab.toLowerCase(), dataArr[0]['1'][pageNo].article_url, dataArr[0]['1'][pageNo].id,dataArr[0]['1'][pageNo].vertical_url),
             content: dataArr[0]['1'][pageNo].teaser + '<br>&nbsp; ',
             img: protocolToUse + 'dev-images.synapsys.us' + dataArr[0]['1'][pageNo].image_url
         };
@@ -486,17 +486,16 @@ chatterbox = (function () {
         return result;
     }
 
-    function getOffsiteLink(scope, relativeUrl, id) {
+    function getOffsiteLink(scope, relativeUrl, id, verticalUrl) {
         var link = "";
         var siteVars = getHomeInfo();
         var partnerCode;
         if (query.remn == false || query.remn == "false") {
             partnerCode = query.dom;
         }
-        switch (scope) {
+        switch (verticalUrl) {
             //FOOTBALL URL
-            case 'nfl':
-            case 'ncaaf':
+            case 'touchdownloyal.com':
                 if (partnerCode != null) {
                     if (checkPartnerDomain(partnerCode)) {
                         link = protocolToUse + "//football." + partnerCode + relativeUrl;
@@ -510,8 +509,7 @@ chatterbox = (function () {
                 }
                 break;
             //BASKETBALL URL
-            case 'nba':
-            case 'ncaam':
+            case 'hoopsloyal.com':
                 if (partnerCode != null) {
                     link = protocolToUse + "//myhoopszone.com/" + partnerCode + relativeUrl;
                 }
@@ -520,7 +518,7 @@ chatterbox = (function () {
                 }
                 break;
             //BASEBALL URL
-            case 'mlb':
+            case 'homerunloyal.com':
                 if (partnerCode != null) {
                     if (checkPartnerDomain(partnerCode)) {
                         link = protocolToUse + "//baseball." + partnerCode + relativeUrl;
@@ -533,23 +531,14 @@ chatterbox = (function () {
                     link = protocolToUse + "//homerunloyal.com" + relativeUrl;
                 }
                 break;
-            //FINANCE URL
-            case 'business':
+            //TCX URL
+            case 'tcxmedia.com':
               if (partnerCode != null) {
                   link = protocolToUse + "//dev.tcxmedia.com/" + partnerCode + "/news/" + scope + "/article/story/" + id;
               }
               else {
                   link = protocolToUse + "//dev.tcxmedia.com/news-feed/" + scope + "/article/story/" + id;
               }
-                break;
-            //REALESTATE URL
-            case 'realestate':
-                if (partnerCode != null) {
-                    link = protocolToUse + "//dev.tcxmedia.com/" + partnerCode + "/news/" + scope + "/article/story/" + id;
-                }
-                else {
-                    link = protocolToUse + "//dev.tcxmedia.com/news-feed/" + scope + "/article/story/" + id;
-                }
                 break;
             default:
                 if (partnerCode != null) {
