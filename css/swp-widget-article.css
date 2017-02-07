@@ -798,6 +798,10 @@ button:focus {
 
 .dropdown-elem .left {
     float: left;
+    max-width: 50%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .dropdown-elem .right {
