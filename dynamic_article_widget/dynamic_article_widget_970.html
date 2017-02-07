@@ -45,9 +45,9 @@
               </div>
               <a target=_blank id=title-link href="">
                 <div id=title-text></div>
-              </a>
                 <div class=dw-i-title id=line2></div>
                 <div class="dw-i-title line-clamp" id=desc ></div>
+              </a>
                 <div class=dw-i-title id=line4></div>
                 <div class="button-holder">
                 <a target=_blank id=list-link href="">
@@ -107,11 +107,16 @@
                     sports: "sports",
                     lifestyle: "lifestyle",
                     breaking: "breaking",
+                    trending: "trending",
                     ipo: "ipo",
                     automotive: "automotive"
                 };
                 if ((t.category == "" || t.category == null) && t.cat != null && t.cat != "") {
                   t.category = t.cat;
+                  if (t.category == "real-estate") {
+                    t.category = "realestate";
+                    t.cat = "realestate";
+                  }
                 }
             return "alligators" == t.category ? !1 : (("undefined" == typeof t.category || "undefined" == typeof n[t.category]) && (t.category = "finance"), e += n[t.category] + ".css", void add_css_link(e))
         }();

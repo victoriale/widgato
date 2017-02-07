@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang=en>
+  <head>
+      <title>Widget Configurator</title>
+      <meta charset=utf-8>
+      <link rel="stylesheet" type="text/css" href="styles.css">
+      <script async type="text/javascript" src="main.js"></script>
+  </head>
+  <body>
+    <table id="wcApp">
+      <tr>
+        <td id="settingsPane">
+          Type
+          <select id="wType" onchange="changeWidget(this.value)">
+            <option value="dynamic_widget">Dynamic Widget</option>
+            <option value="dynamic_widget_wide">Dynamic Widget Wide</option>
+            <option value="dynamic_article_widget">Dynamic Article Widget (tcx)</option>
+            <option value="dynamic_article_widget_wide">Dynamic Article Widget Wide (tcx)</option>
+            <option value="nba_ai_article_widget">NBA AI Article Widget</option>
+            <option value="nfl_ai_article_widget">NFL AI Article Widget</option>
+            <option value="mlb_ai_article_widget">MLB AI Article Widget</option>
+            <option value="caw_widget">CAW Widget (pre-prod)</option>
+            <option value="caw_widget_wide">CAW Widget Wide (pre-prod)</option>
+            <option value="swp_wdgt_list">Swap Widget List</option>
+            <option value="swp_wdgt_article">Swap Widget Article</option>
+            <option value="billboard">Billboard (tcx)</option>
+            <option value="chatterbox">Chatterbox (tcx)</option>
+            <option value="salad_bar">Juicy Bar (sports)</option>
+            <option value="schedule_bar">Schedule Bar (football)</option>
+            <option value="finance_graph_widget">Finance Graph Widget (old)</option>
+          </select>
+          <br>
+          <br>
+          <h2>Settings</h2>
+          <table id="settingsInputs">
+            <!-- object created inputs go here -->
+          </table>
+          <br>
+          <button id="generate" type="button" onclick="generateWidget()">Generate</button>
+          <br>
+          <br>
+          Output URL:
+          <br>
+          <textarea id="outputTextarea"></textarea>
+          Output Embed:
+          <br>
+          <textarea id="outputEmbedTextarea"></textarea>
+          <br>
+          <br>
+          <br>
+          Change Preview Pane Size:
+          <br>
+          <table>
+            <tr>
+              <td>
+                Width
+              </td>
+              <td>
+                <input id="prevWidth" placeholder="300" type="text"/>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Height
+              </td>
+              <td>
+                <input id="prevHeight" placeholder="600" type="text"/>
+              </td>
+            </tr>
+          </table>
+          <br>
+          <button id="setSize" type="button" onclick="setSize()">Set Size</button>
+        </th>
+        <td id="previewPane">
+          <iframe id="previewFrame" scrolling="no" src='../dynamic_widget/dynamic_widget.html?{"dom":"chicagotribune.com","remn":"false","targ":"_blank","category":"nfl","subd":"mytouchdownzone.com/chicagotribune.com","rand":"1"}'></iframe>
+        </th>
+      </tr>
+    </table>
+  </body>
+</html>

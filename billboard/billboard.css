@@ -46,7 +46,6 @@ sup {
     min-width: 320px;
     height: 450px;
     position: absolute;
-    border: 1px solid #e1e1e1;
     display: none;
 }
 
@@ -285,12 +284,14 @@ sup {
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+    max-height: 130px;
 }
-
+.hidden-sm-down .row {
+  max-height: 130px;
+}
 .main-bottom {
     height: 200px;
 }
-
 .main-bottom-image {
     background-color: #f2f2f2;
     height: 0;
@@ -490,7 +491,7 @@ sup {
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 728px) {
     .main-top-image, .main-bottom-image, .main-top-description, .main-bottom-description, .main-hr {
         left: 10px;
     }

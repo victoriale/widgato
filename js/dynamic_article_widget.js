@@ -210,31 +210,47 @@ var specialDomains = [
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
 function generateArticleLink (scope, linkType, destinationId, articleType, remn, dom) {
-  var baseUrl;
+  var TCXbaseUrl;
+  var AIbaseUrl;
+  var partner;
+  var subCategory = "";
+  if (currentConfig.subCategory != null && currentConfig.subCategory != "") {
+    subCategory= "/" + currentConfig.subCategory;
+  }
   var output = "";
   if (remn == "false") { //if partner
     if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
       for (var i = 0; i < specialDomains.length; i++) {
         if (referrer.includes(specialDomains[i])) {
-          baseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
+          TCXbaseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
+          AIbaseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
+          partner = true;
           break;
         }
       }
     }
     else { //only partner, not subdomain
-      baseUrl = "http://" + currentConfig.partnerDomain + "/" + dom;
+      TCXbaseUrl = "http://tcxmedia.com/" + dom;
+      AIbaseUrl = "http://" + currentConfig.partnerDomain + "/" + dom;
+      partner = true;
     }
   }
   else { // not partner site and not partner domain
-    baseUrl = "http://" + currentConfig.domain;
+    TCXbaseUrl = "http://tcxmedia.com";
+    AIbaseUrl = "http://" + currentConfig.domain;
+    partner = false;
   }
-
   // now that we have the base Url, format the rest of the link
-  if (linkType == "syndicated" || linkType == "tca-curated") {
-    output = baseUrl + "/" + scope + "/news/story/" + destinationId;
+  if (linkType == "syndicated" || linkType == "tca-curated" || linkType == "tronc") {
+    if (partner == true) {
+      output = TCXbaseUrl + "/news/" + scope + subCategory + "/article/story/" + destinationId;
+    }
+    else {
+      output = TCXbaseUrl + "/news-feed/" + scope + subCategory + "/article/story/" + destinationId;
+    }
   }
-  else if (linkType == "ai" || linkType == "snt_ai_module") {
-    output = baseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
+  else if (linkType == "ai" || linkType == "snt_ai_module" || linkType == "snt_ai") {
+    output = AIbaseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
   }
   return output;
 }
@@ -247,15 +263,17 @@ dynamic_widget = function() {
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
-        a = ['finance', 'nba', 'ncaam', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','entertainment','realestate','food','travel','health','sports','lifestyle','breaking','automotive'];
+        a = ['finance', 'nba', 'ncaam', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','entertainment','realestate','food','travel','health','sports','lifestyle','breaking','trending','automotive'];
         if ((l.category == "" || l.category == null) && l.cat != null && l.cat != "") {
           l.category = l.cat;
         }
         if (l.category == "real-estate") {
           l.category = "realestate";
+          l.cat = "realestate";
         }
         if (l.category == "nhl") {
           l.category = "sports";
+          l.cat = "sports";
         }
     var s = false;
     var o = '';
@@ -319,7 +337,12 @@ dynamic_widget = function() {
               }
           }
       };
-      i.open('GET', protocol + "://prod-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&random=1" , true);
+      if (currentConfig.category == "realestate") {
+        i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?keyword[]=" + "real%20estate" + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&source[]=tronc&random=1" , true);
+      }
+      else {
+        i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20&source[]=snt_ai&source[]=tca-curated&source[]=tronc&random=1" , true);
+      }
         i.send()
     }
 
@@ -378,7 +401,7 @@ function p() {
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
           if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
+            t.setAttribute('src', protocolToUse + "dev-images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
           }
           else { //todo: use placeholder images as fallback for articles instead of no-image image
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");

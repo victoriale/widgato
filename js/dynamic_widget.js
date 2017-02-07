@@ -283,7 +283,12 @@ dynamic_widget = function() {
       }
       else {
         if (l.county != null && l.county != "") { // ajc one off api code
-          i.open('GET', "http://dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e, true);
+          if (l.county.indexOf('metro') != -1) {
+            i.open('GET', "http://dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e + "&metro=true", true);
+          }
+          else {
+            i.open('GET', "http://dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e, true);
+          }
         }
         else {
           i.open('GET', t + '?partner=' + (typeof l.dom != 'undefined' ? l.dom : '') + '&cat=' + l.category + '&rand=' + e, true);
@@ -506,7 +511,7 @@ function p() {
         var e = r.l_data[i];
         e.li_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
         e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
-        if (currentConfig.category == "basketball") {
+        if (currentConfig.category == "basketball" || currentConfig.category == "baseball") {
           e.li_url = e.li_url.replace("/t/", "/team/");
           e.li_url = e.li_url.replace("/p/", "/player/");
           e.li_line_url = e.li_line_url.replace("/t/", "/team/");

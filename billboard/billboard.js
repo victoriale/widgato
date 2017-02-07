@@ -1,6 +1,6 @@
 billboard = (function () {
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-    var category, keyword, league;
+    var category, keyword, league, remn, dom;
     var verticalColor, verticalIcon, verticalName;
     var temp = location.search;
     var query = {};
@@ -9,21 +9,23 @@ billboard = (function () {
         keyword = query.keyword;
         category = query.category;
         league = query.league;
+        remn = query.remn;
+        dom = query.dom;
     }
 
     var verticalType = league == "" ? category : league;
     if (league != null && league != "") {
       league = "&subCategory=" + league;
     }
-
+    category = category.replace("real-estate","real%20estate");
     //verticalType = verticalType != "" ? verticalType : keyword;
     //adjust api url for testing or live
     if (category.indexOf("keyword-") != -1) {
       category = category.replace("keyword-","");
-      var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/articles?keyword[]=' + category + '&count=15&metaDataOnly=1';
+      var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/articles?keyword[]=' + category + '&count=15&metaDataOnly=1&source[]=snt_ai&source[]=tca-curated&source[]=tronc&random=1';
     }
     else {
-      var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/articles?category=' + category + league + '&count=15&metaDataOnly=1';
+      var APIUrl = protocolToUse + 'dev-article-library.synapsys.us/articles?category=' + category + league + '&count=15&metaDataOnly=1&source[]=snt_ai&source[]=tca-curated&source[]=tronc&random=1';
     }
     var randomArticles = [];
     var imageArr = [];
@@ -64,9 +66,14 @@ billboard = (function () {
                         val.urlSegment = getOffsiteLink(val.category, val.article_url);
                     }
                 } else {
-                  val.urlSegment = "http://dev.tcxmedia.com/news-feed" + val.article_url;
+                  if (remn == true || remn == "true") {
+                    val.urlSegment = "http://dev.tcxmedia.com/news-feed" + val.article_url;
+                  }
+                  else {
+                    val.urlSegment = "http://dev.tcxmedia.com/" + dom + "/news" + val.article_url;
+                  }
                 }
-                val.articleImage = protocolToUse + 'images.synapsys.us/' + val.image_url;
+                val.articleImage = protocolToUse + 'dev-images.synapsys.us' + val.image_url;
             } else {
                 val.title = val.title;
                 val.content = val.teaser;
@@ -77,9 +84,14 @@ billboard = (function () {
                         val.urlSegment = getOffsiteLink(val.category, val.article_url);
                     }
                 } else {
+                  if (remn == true || remn == "true") {
                     val.urlSegment = "http://dev.tcxmedia.com/news-feed" + val.article_url;
+                  }
+                  else {
+                    val.urlSegment = "http://dev.tcxmedia.com/" + dom + "/news" + val.article_url;
+                  }
                 }
-                val.articleImage = protocolToUse + 'images.synapsys.us/' + val.image_url;
+                val.articleImage = protocolToUse + 'dev-images.synapsys.us' + val.image_url;
                 subArticles.push(val);
             }
             mainArticles.push(val);
@@ -92,13 +104,13 @@ billboard = (function () {
             title: mainArticles[0].title,
             content: mainArticles[0].teaser + '<br>&nbsp; ',
             url: mainArticles[0].urlSegment,
-            img: mainArticles[0].articleImage
+            img: mainArticles[0].articleImage.replace(/ /g,"%20")
         };
         var arr2 = {
             title: mainArticles[1].title,
             content: mainArticles[1].teaser + '<br>&nbsp; ',
             url: mainArticles[1].urlSegment,
-            img: mainArticles[1].articleImage
+            img: mainArticles[1].articleImage.replace(/ /g,"%20")
         };
         $('.header-icon').css('background-image', 'url(' + verticalIcon + ')');
         $('.header-profile')[0].innerHTML = verticalName + " News";
@@ -142,7 +154,7 @@ billboard = (function () {
             });
 
         }
-        $('.search').attr('placeholder', 'Search for anything ' + verticalName.toLowerCase());
+        $('.search').attr('placeholder', 'Search for anything ' + verticalName.toLowerCase() + "...");
         displaySubArticles();
     } // --> displayPage
 
@@ -163,7 +175,7 @@ billboard = (function () {
             subImgContainer.appendChild(subImage);
             subContainer.appendChild(subTitle);
             subTitle.innerHTML = randomArticles[i].title.replace(/[\\]/g,"");
-            subImage.style.backgroundImage = "url('" + randomArticles[i].articleImage + "?width=" + (190 * window.devicePixelRatio) + "')";
+            subImage.style.backgroundImage = "url('" + randomArticles[i].articleImage.replace(/ /g,"%20") + "?width=" + (190 * window.devicePixelRatio) + "')";
             $(subContainer).wrapInner($('<a href="' + randomArticles[i].urlSegment + '" />'));
             subContainer.appendChild(subHr);
         }
@@ -177,6 +189,7 @@ billboard = (function () {
                 $(this).css('color', e.type === "mouseenter" ? '#444' : "#000");
             });
         }
+        postHeight();
     }
 
     function fitText() {
@@ -202,7 +215,7 @@ billboard = (function () {
         if (lineSmallTop == 1 || linesLargeTop == 1) {
             $('.main-top-description').css('max-height', '1.3em');
             $('.main-bottom-description').css('max-height', '1.3em');
-        } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 768 && window.innerWidth >= 758)) {
+        } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 728 && window.innerWidth >= 718)) {
             $('.main-top-description').css('max-height', '2.8em');
             $('.main-bottom-description').css('max-height', '2.8em');
         } else if (lineSmallTop == 3 || linesLargeTop == 3) {
@@ -254,7 +267,7 @@ billboard = (function () {
             case "nba":
             case "ncaam":
                 verticalColor = "#f26f26";
-                verticalIcon = "../css/public/icons/Hoops-Loyal_Icon%202.svg";
+                verticalIcon = "../css/public/icons/Hoops-Loyal_Icon_w.svg";
                 break;
             case "business":
                 verticalColor = "#3098ff";
@@ -359,15 +372,15 @@ billboard = (function () {
     function capitalizeString(string) {
         switch (string) {
             case "nfl":
-                return "NFL";
             case "ncaaf":
-                return "NCAAF";
+                return "Football";
             case "nba":
-                return "NBA";
             case "ncaam":
-                return "NCAAM";
+                return "Basketball";
             case "mlb":
-                return "MLB";
+                return "Baseball";
+            case "real-estate":
+                return "Real Estate";
         }
         return string.replace(/\w\S*/g, function (text) {
             return text.charAt(0).toUpperCase() + text.substr(1).toLowerCase();
@@ -629,7 +642,7 @@ window.onload = function () {
     if (lineSmallTop == 1 || linesLargeTop == 1) {
         $('.main-top-description').css('max-height', '1.3em');
         $('.main-bottom-description').css('max-height', '1.3em');
-    } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 768 && window.innerWidth >= 758)) {
+    } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 728 && window.innerWidth >= 718)) {
         $('.main-top-description').css('max-height', '2.8em');
         $('.main-bottom-description').css('max-height', '2.8em');
     } else if (lineSmallTop == 3 || linesLargeTop == 3) {
@@ -650,6 +663,15 @@ window.onload = function () {
     topSmall.style['-webkit-line-clamp'] = lineSmallTop;
     bottomLarge.style['-webkit-line-clamp'] = linesLargeBottom;
     bottomSmall.style['-webkit-line-clamp'] = linesSmallBottom;
+
+    document.getElementById('searchBox').onkeypress = function(e){
+    if (!e) e = window.event;
+    var keyCode = e.keyCode || e.which;
+    if (keyCode == '13'){
+      window.top.location.href = "http://www.tcxmedia.com/news-feed/search/articles/" + document.getElementById('searchBox').value;
+      return false;
+    }
+  }
 };
 
 window.onresize = function (event) {
@@ -674,7 +696,7 @@ window.onresize = function (event) {
     if (lineSmallTop == 1 || linesLargeTop == 1) {
         $('.main-top-description').css('max-height', '1.3em');
         $('.main-bottom-description').css('max-height', '1.3em');
-    } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 768 && window.innerWidth >= 758)) {
+    } else if ((lineSmallTop == 2 || linesLargeTop == 2) || (window.innerWidth <= 728 && window.innerWidth >= 718)) {
         $('.main-top-description').css('max-height', '2.8em');
         $('.main-bottom-description').css('max-height', '2.8em');
     } else if (lineSmallTop == 3 || linesLargeTop == 3) {
@@ -696,7 +718,7 @@ window.onresize = function (event) {
     bottomLarge.style['-webkit-line-clamp'] = linesLargeBottom;
     bottomSmall.style['-webkit-line-clamp'] = linesSmallBottom;
     //add or remove box-shadow
-    if (window.innerWidth >= 768) {
+    if (window.innerWidth >= 728) {
         var search = $('.search-container');
         var header = $('.search-button-small');
         if (search.hasClass('active')) {
@@ -712,7 +734,7 @@ window.onresize = function (event) {
 function postHeight() {
     setTimeout(function () {
         var target = parent.postMessage ? parent : (parent.document.postMessage ? parent.document : undefined);
-        if (typeof target != "undefined" && document.body.scrollHeight) {
+        if (typeof target != "undefined") {
             //Added "billboard" to postMessage so the component will know the messages origin.
             target.postMessage(document.getElementById("wrapper").scrollHeight + " billboard", "*");
         }
