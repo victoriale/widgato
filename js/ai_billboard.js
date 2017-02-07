@@ -305,7 +305,6 @@ ai_billboard = (function () {
       subContainer.appendChild(subTitle);
       var thisDate = new Date(randomArticles[i].publication_date*1000);
       var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-      console.log(thisDate.getFullYear());
       subDate.innerHTML = months[thisDate.getMonth()] + " " + thisDate.getDay() + ", " + thisDate.getFullYear();
       subDateSmall.innerHTML = thisDate.getFullYear();
       subContainer.appendChild(subDate);
