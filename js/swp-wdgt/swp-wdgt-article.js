@@ -197,7 +197,7 @@ function RenderArticleSide(protocolToUse) {
         var article = new mapArticles(data)[articleTypes[articleIndex]];
         var game = new eventData(mData);
         //images being selected based on the articleIndex value
-        var image = protocolToUse + 'images.synapsys.us' + article.image_url;
+        var image = protocolToUse + 'dev-images.synapsys.us' + article.image_url;
         gameData = mData;
         //change this to img tags instead of bg image
         A('.section-image').style.backgroundImage = 'url("' + image + "?width=" + (300 * window.devicePixelRatio) + '")';
