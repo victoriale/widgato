@@ -75,14 +75,14 @@ ai_billboard = (function () {
   }
 
   var teamId = query.team;
-  var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/billboard/' + teamId;
+  var APIUrl = protocolToUse + 'dev-homerunloyal-ai.synapsys.us/billboard?scope=mlb&team=' + teamId;
   var randomArticles = [];
   var teamData = [];
   var imageArr = [];
   var leftRgb;
   var rightRgb;
 
-  function getContent(eventId) {
+  function getContent(event_id) {
     var locApiUrl = APIUrl;
     $.ajax({
       url: locApiUrl,
@@ -104,25 +104,30 @@ ai_billboard = (function () {
     return AIData;
   } // --> getData
   function displayMainArticles() {
-    $.map(AIData['meta-data']['nextGame']['images'], function(val, index) {
-      val.images = val;
-      imageArr.push(val);
-    });
-    imageArr = imageArr[0].concat(imageArr[1]);
+    // $.map(AIData['meta-data']['nextGame']['images'], function(val, index) {
+    //   val.images = val;
+    //   imageArr.push(val);
+    // });
+    for (var article in AIData.data) {
+      if (AIData.data[article].image_url) {
+        imageArr.push(AIData.data[article].image_url);
+      }
+    }
+    // imageArr = imageArr[0].concat(imageArr[1]);
     var mainArticles = [];
     var subArticles = [];
-    $.map(AIData, function(val, index) {
+    $.map(AIData.data, function(val, index) {
       if (index != 'meta-data') {
         if (index == 'about-the-teams' || index == 'pregame-report') {
           if (index == 'pregame-report') {
             val.lastGame = val.lastGame;
           }
-          val.title = val.displayHeadline;
-          val.content = val['article'][0];
+          val.title = val.title;
+          val.content = val.teaser;
           val.urlSegment = index;
-        } else {
-          val.title = val.displayHeadline;
-          val.content = val['article'][0];
+        } else if (index != 'pregame') {
+          val.title = val.title;
+          val.content = val.teaser;
           val.urlSegment = index;
           subArticles.push(val);
         }
@@ -131,67 +136,85 @@ ai_billboard = (function () {
         teamData.push(val);
       }
     });
-    $.map(AIData['meta-data'], function(val, index) {
+    $.map(AIData.data['meta-data'], function(val, index) {
       teamData.push(val);
     });
     subArticles.sort(function() {
       return 0.5 - Math.random()
     });
     randomArticles = subArticles;
+    if (mainArticles[0].lastGame == null) {
+      mainArticles[0].lastGame = "N/A";
+    }
+    if (mainArticles[1].lastGame == null) {
+      mainArticles[1].lastGame = "N/A";
+    }
     var arr1 = {
       title: mainArticles[0].title,
       content: mainArticles[0].content + '<br>&nbsp; ',
       lastGame: mainArticles[0].lastGame,
-      url: href + 'articles/' + mainArticles[0].urlSegment + '/' + teamData[1].eventId
+      url: href + 'articles/' + mainArticles[0].urlSegment + '/' + teamData[1].event_id
     };
     var arr2 = {
       title: mainArticles[1].title,
       content: mainArticles[1].content + '<br>&nbsp; ',
-      url: href + 'articles/' + mainArticles[1].urlSegment + '/' + teamData[1].eventId
+      url: href + 'articles/' + mainArticles[1].urlSegment + '/' + teamData[1].event_id
     };
-    leftRgb = teamData[1].awayTeamColors.split(', ')[0];
-    rightRgb = teamData[1].homeTeamColors.split(', ')[0];
+    leftRgb = teamData[1].away_team_colors.split(', ')[0];
+    rightRgb = teamData[1].home_team_colors.split(', ')[0];
     getGradient(leftRgb, rightRgb);
-    var homeTeamLinkName = teamData[1].homeTeamName;
-    var awayTeamLinkName = teamData[1].awayTeamName;
-    var homeLastName = (teamData[1].homeLastName.toLowerCase() == "diamondbacks") ? "D'backs" : teamData[1].homeLastName;
-    var awayLastName = (teamData[1].awayLastName.toLowerCase() == "diamondbacks") ? "D'backs" : teamData[1].awayLastName;
+    var homeTeamLinkName = teamData[1].away_team_location + " " + teamData[1].away_team_name;
+    var awayTeamLinkName = teamData[1].away_team_location + " " + teamData[1].home_team_name;
+    var homeLastName = (teamData[1].home_team_name.toLowerCase() == "diamondbacks") ? "D'backs" : teamData[1].home_team_name;
+    var awayLastName = (teamData[1].away_team_name.toLowerCase() == "diamondbacks") ? "D'backs" : teamData[1].away_team_name;
     $('.header-teams')[0].innerHTML = awayLastName + ' vs ' + homeLastName + ":";
-    $('.header-date')[0].innerHTML = teamData[1].gameFlag + " Game - " + teamData[1].startDateLong;
+    $('.header-date')[0].innerHTML = teamData[1].game_flag + " Game - " + teamData[1].start_date_time.date;
     $('#main-top-link').attr('href', arr1.url);
     $('.main-top-title')[0].innerHTML = arr1.title;
     $('.main-top-description')[0].innerHTML = arr1.content;
     $('.main-top-event-data')[0].innerHTML = arr1.lastGame;
-    $('.main-top-image').css('background-image', 'url(' + imageArr[0] + ')');
+    $('.main-top-image').css('background-image', 'url(http://dev-images.synapsys.us' + imageArr[0] + ')');
     $('#main-bottom-link').attr('href', arr2.url);
     $('.main-bottom-title')[0].innerHTML = arr2.title;
     $('.main-bottom-description')[0].innerHTML = arr2.content;
     $('.main-bottom-event-data')[0].innerHTML = arr1.lastGame;
-    $('.main-bottom-image').css('background-image', 'url(' + imageArr[1] + ')');
+    $('.main-bottom-image').css('background-image', 'url(http://dev-images.synapsys.us' + imageArr[1] + ')');
     if (remnant == 'true' || referrer.match(/baseball/g)) {
-      $('#left-team-link').attr('href', href + 'team/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].awayTeamId);
-      $('#left-team-link-small').attr('href', href + 'team/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].awayTeamId);
+      $('#left-team-link').attr('href', href + 'team/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].away_team_id);
+      $('#left-team-link-small').attr('href', href + 'team/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].away_team_id);
     } else {
-      $('#left-team-link').attr('href', href + 't/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].awayTeamId);
-      $('#left-team-link-small').attr('href', href + 't/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].awayTeamId);
+      $('#left-team-link').attr('href', href + 't/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].away_team_id);
+      $('#left-team-link-small').attr('href', href + 't/' + toKebabCase(awayTeamLinkName) + '/' + teamData[1].away_team_id);
     }
-    $('.news-profile-image-left').css('background-image', 'url(' + teamData[1].awayTeamLogo + ')');
+    $('.news-profile-image-left').css('background-image', 'url(http://dev-images.synapsys.us' + teamData[1].away_team_logo + ')');
     $('.news-profile-team1')[0].innerHTML = awayLastName;
-    $('.news-profile-record1')[0].innerHTML = teamData[1].awayWins + '-' + teamData[1].awayLosses;
-    $('.news-profile-team1')[1].innerHTML = awayLastName;
-    $('.news-profile-record1')[1].innerHTML = teamData[1].awayWins + '-' + teamData[1].awayLosses;
-    if (remnant == 'true') {
-      $('#right-team-link').attr('href', href + 'team/' + toKebabCase(homeTeamLinkName) + '/' + teamData[1].homeTeamId);
-      $('#right-team-link-small').attr('href', href + 'team/' + toKebabCase(homeTeamLinkName) + '/' + teamData[1].homeTeamId);
-    } else {
-      $('#right-team-link').attr('href', href + 't/' + toKebabCase(homeTeamLinkName) + '/' + teamData[1].homeTeamId);
-      $('#right-team-link-small').attr('href', href + 't/' + toKebabCase(homeTeamLinkName) + '/' + teamData[1].homeTeamId);
+    if (teamData[1].away_team_wins == null || teamData[1].away_team_wins == "null") {
+      teamData[1].away_team_wins = "0"
     }
-    $('.news-profile-image-right').css('background-image', 'url(' + teamData[1].homeTeamLogo + ')');
+    if (teamData[1].away_team_losses == null || teamData[1].away_team_losses == "null") {
+      teamData[1].away_team_losses = "0"
+    }
+    if (teamData[1].home_team_wins == null || teamData[1].home_team_wins == "null") {
+      teamData[1].home_team_wins = "0"
+    }
+    if (teamData[1].home_team_losses == null || teamData[1].home_team_losses == "null") {
+      teamData[1].home_team_losses = "0"
+    }
+    $('.news-profile-record1')[0].innerHTML = teamData[1].away_team_wins + '-' + teamData[1].away_team_losses;
+    $('.news-profile-team1')[1].innerHTML = awayLastName;
+    $('.news-profile-record1')[1].innerHTML = teamData[1].away_team_wins + '-' + teamData[1].away_team_losses;
+    if (remnant == 'true') {
+      $('#right-team-link').attr('href', href + 'team/' + toKebabCase(homeTeamLinkName) + '/' + teamData[1].home_team_id);
+      $('#right-team-link-small').attr('href', href + 'team/' + toKebabCase(homeTeamLinkName) + '/' + teamData[1].home_team_id);
+    } else {
+      $('#right-team-link').attr('href', href + 't/' + toKebabCase(homeTeamLinkName) + '/' + teamData[1].home_team_id);
+      $('#right-team-link-small').attr('href', href + 't/' + toKebabCase(homeTeamLinkName) + '/' + teamData[1].home_team_id);
+    }
+    $('.news-profile-image-right').css('background-image', 'url(http://dev-images.synapsys.us' + teamData[1].home_team_logo + ')');
     $('.news-profile-team2')[0].innerHTML = homeLastName;
     $('.news-profile-team2')[1].innerHTML = homeLastName;
-    $('.news-profile-record2')[0].innerHTML = teamData[1].homeWins + '-' + teamData[1].homeLosses;
-    $('.news-profile-record2')[1].innerHTML = teamData[1].homeWins + '-' + teamData[1].homeLosses;
+    $('.news-profile-record2')[0].innerHTML = teamData[1].away_team_losses + '-' + teamData[1].home_team_losses;
+    $('.news-profile-record2')[1].innerHTML = teamData[1].home_team_wins + '-' + teamData[1].home_team_losses;
     displaySubArticles();
     fitText();
   } // --> displayPage
@@ -280,21 +303,24 @@ ai_billboard = (function () {
       subContainer.appendChild(subShareContainer);
       subShareContainer.appendChild(subShare);
       subContainer.appendChild(subTitle);
-      subDate.innerHTML = randomArticles[i].dateline;
-      subDateSmall.innerHTML = randomArticles[i].dateline;
+      var thisDate = new Date(randomArticles[i].publication_date*1000);
+      var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+      console.log(thisDate.getFullYear());
+      subDate.innerHTML = months[thisDate.getMonth()] + " " + thisDate.getDay() + ", " + thisDate.getFullYear();
+      subDateSmall.innerHTML = thisDate.getFullYear();
       subContainer.appendChild(subDate);
       subTitle.innerHTML = randomArticles[i].title;
       $('.news-updates-small')[0].appendChild(subContainerSmall);
-      subImageSmall.src = imageArr[i + 2];
-      subImage.src = imageArr[i + 2];
+      subImageSmall.src = "http://dev-images.synapsys.us" + imageArr[i + 2];
+      subImage.src = "http://dev-images.synapsys.us" + imageArr[i + 2];
       subContainerSmall.appendChild(subImageSmall);
       subContainerSmall.appendChild(subShareContainerSmall);
       subShareContainerSmall.appendChild(subShareSmall);
       subContainerSmall.appendChild(subTitleSmall);
       subContainerSmall.appendChild(subDateSmall);
       subContainerSmall.appendChild(subHrSmall);
-      $(subContainer).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
-      $(subContainerSmall).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + "/" + teamData[1].eventId + '" />'));
+      $(subContainer).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + "/" + teamData[1].event_id + '" />'));
+      $(subContainerSmall).wrapInner($('<a href="' + href + 'articles/' + randomArticles[i].urlSegment + "/" + teamData[1].event_id + '" />'));
       subTitleSmall.innerHTML = randomArticles[i].title;
       subContainer.appendChild(subHr);
       if (randomArticles[i].title.length <= 43) {
@@ -378,7 +404,7 @@ ai_billboard = (function () {
     //showGame();
   } // --> parseGames
   function switchGame(gameNum) {
-    gameID = gameArr[parseInt(gameNum)].eventId;
+    gameID = gameArr[parseInt(gameNum)].event_id;
     toggleDropDown();
     getContent(gameID);
     showGame();

@@ -3828,12 +3828,8 @@
 
                   if(item.gameInfo.inningsPlayed <= 3){
                     gameObject.link = homerunDomain + '/articles/pregame-report/' + gameObject.eventId;
-                  }else if(item.gameInfo.inningsPlayed > 3 && item.gameInfo.inningsPlayed <= 5){
-                    gameObject.link = homerunDomain + '/articles/third-inning-report/' + gameObject.eventId;
-                  }else if(item.gameInfo.inningsPlayed > 5 && item.gameInfo.inningsPlayed <= 7){
-                    gameObject.link = homerunDomain + '/articles/fifth-inning-report/' + gameObject.eventId;
-                  }else if(item.gameInfo.inningsPlayed > 7){
-                    gameObject.link = homerunDomain + '/articles/seventh-inning-report/' + gameObject.eventId;
+                  }else if(item.gameInfo.inningsPlayed > 3){
+                    gameObject.link = homerunDomain + '/articles/in-game-report/' + gameObject.eventId;
                   }
 
                   gameObject.mobileNode = buildNode(gameObject);
