@@ -163,7 +163,7 @@ ai_billboard = (function () {
     leftRgb = teamData[1].away_team_colors.split(', ')[0];
     rightRgb = teamData[1].home_team_colors.split(', ')[0];
     getGradient(leftRgb, rightRgb);
-    var homeTeamLinkName = teamData[1].away_team_location + " " + teamData[1].home_team_name;
+    var homeTeamLinkName = teamData[1].home_team_location + " " + teamData[1].home_team_name;
     var awayTeamLinkName = teamData[1].away_team_location + " " + teamData[1].away_team_name;
     var homeLastName = (teamData[1].home_team_name.toLowerCase() == "diamondbacks") ? "D'backs" : teamData[1].home_team_name;
     var awayLastName = (teamData[1].away_team_name.toLowerCase() == "diamondbacks") ? "D'backs" : teamData[1].away_team_name;
