@@ -29,12 +29,12 @@ function RenderArticleSide(protocolToUse) {
     var keyword;
     var hasChanged = false;
     var dropdownCount = 0;
-    var catOptions = ['mlb', 'nfl', 'ncaa', 'nba'];
+    var catOptions = ['mlb', 'nfl', 'ncaa', 'nba','ncaam'];
     function getRandomArbitrary(min, max) {
        return Math.floor(Math.random() * (max - min) + min);
     }
     //latest possible end date for: nfl 2/8, nba 6/21, mlb 11/7
-    var seasonalScopes = [{scope: "mlb", start: 4, end:10},{scope: "nfl", start: 9, end:1},/*{scope: "ncaa", start: 9, end:2},*/{scope: "nba", start: 10, end:6}];
+    var seasonalScopes = [{scope: "mlb", start: 4, end:10},{scope: "nfl", start: 9, end:1},/*{scope: "ncaa", start: 9, end:2},*/{scope: "nba", start: 10, end:6},{scope: "ncaam", start: 10, end:6}];
     var date = new Date();
     var month = date.getMonth() + 1;
     var scopeIsSet = false;
@@ -76,6 +76,11 @@ function RenderArticleSide(protocolToUse) {
     } else if (catOptions[0] == 'nba') {
         APIUrl = protocolToUse + 'prod-sports-ai.synapsys.us/sidekick?scope=nba';
         keyword = "NBA";
+        isMlb = false;
+    }
+    else if (catOptions[0] == 'ncaam') {
+        APIUrl = protocolToUse + 'prod-sports-ai.synapsys.us/sidekick?scope=ncaam';
+        keyword = "NCAAM";
         isMlb = false;
     } else {
         APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick';
@@ -279,7 +284,7 @@ function RenderArticleSide(protocolToUse) {
             }, function () {
                 $(this).css({'background-color': 'transparent', 'border': '1px solid #fff'});
             });
-        } else if (catOptions[0]=="nba") {
+        } else if (catOptions[0]=="nba" || catOptions[0]=="ncaam") {
             $('.ball').css('background-image', 'url(../css/public/icons/Hoops-Loyal_Icon_w.svg)');
             $('.swp-top').css('background-color', 'rgb(247,112,29)');
             $('.buttons-readstory').css({'background-color': 'rgba(247,112,29, 0.9)', 'border': '1px solid rgba(247,112,29, 0.9)'});
