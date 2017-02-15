@@ -204,7 +204,12 @@ function getCategoryMetadata (category) {
       subCategory: ""
     },
   };
-  return globalMeta[category];
+  if (globalMeta[category]) {
+    return globalMeta[category];
+  }
+  else {
+    return globalMeta["trending"];
+  }
 }
 
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
@@ -216,6 +221,7 @@ if (document.referrer != "" && document.referrer != null) {
 else {
   referrer = window.location.href;
 }
+
 var iglooResponded = 0;
 var season;
 var SpecialDomain = "";
@@ -278,6 +284,11 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','entertainment','realestate','food','travel','health','sports','lifestyle','breaking','automotive'];
+
+        //debug please remove below lines
+        referrer = "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html";
+        l.caw_url = "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html";
+
     var s = false;
     var o = '';
     function c(e) {
@@ -319,7 +330,7 @@ dynamic_widget = function() {
           if (i.readyState == XMLHttpRequest.DONE) {
               if (i.status == 200) {
                   r = JSON.parse(i.responseText);
-                  l.category = r.data.article_data[0].filter_keywords.split(",")[0];
+                  l.category = r[0].filter_keywords.split(",")[0];
                   console.log("l.category",l.category);
                   currentConfig = getCategoryMetadata(l.category);
                   c(u)
@@ -391,13 +402,13 @@ dynamic_widget = function() {
         p()
       }
 function p() {
-        if (r.data.article_data.length <= 1) {
+        if (r.length <= 1) {
           $('next-list-link').classList.add("disabled-button");
         }
         else {
           $('next-list-link').classList.remove("disabled-button");
         }
-        var e = r.data.article_data[i];
+        var e = r[i];
         function add_css_link(e) {
           console.log("CSS returned",e);
             var t = d.createElement("link");
@@ -430,10 +441,11 @@ function p() {
                     sports: "sports",
                     lifestyle: "lifestyle",
                     breaking: "breaking",
+                    trending: "breaking",
                     ipo: "ipo",
                     automotive: "automotive"
                 };
-            return "politics" == l.category ? !1 : (("undefined" == typeof l.category || "undefined" == typeof n[l.category]) && (l.category = "nfl"), e += n[l.category] + ".css", void add_css_link(e))
+            return "politics" == l.category ? !1 : (("undefined" == typeof l.category || "undefined" == typeof n[l.category]) && (l.category = "trending"), e += n[l.category] + ".css", void add_css_link(e))
         }();
         a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
         if ($('list-link')) {
@@ -470,7 +482,7 @@ function p() {
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
           if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', e.image_url + "?width=" + (t.width * window.devicePixelRatio));
+            t.setAttribute('src', e.image_url.replace(/ /g,"%20") + "?width=" + (t.width * window.devicePixelRatio));
           }
           else { //todo: use placeholder images as fallback for articles instead of no-image image
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
