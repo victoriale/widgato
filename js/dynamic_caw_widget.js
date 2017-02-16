@@ -3,7 +3,7 @@ function getCategoryMetadata (category) {
     trending: {
       displayName: "Trending",
       domain: "dev.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "dev.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "trending",
@@ -12,7 +12,7 @@ function getCategoryMetadata (category) {
     breaking: {
       displayName: "Breaking",
       domain: "dev.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "dev.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "breaking",
@@ -21,7 +21,7 @@ function getCategoryMetadata (category) {
     sports: {
       displayName: "Sports",
       domain: "dev.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "dev.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "sports",
@@ -107,7 +107,7 @@ function getCategoryMetadata (category) {
     nhl: {
       displayName: "Hockey",
       domain: "dev.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "dev.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "sports",
@@ -125,7 +125,7 @@ function getCategoryMetadata (category) {
     politics: {
       displayName: "Politics",
       domain: "dev.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "dev.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "politics",
@@ -134,7 +134,7 @@ function getCategoryMetadata (category) {
     entertainment: {
       displayName: "Entertainment",
       domain: "dev.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "dev.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "entertainment",
@@ -143,7 +143,7 @@ function getCategoryMetadata (category) {
     food: {
       displayName: "Food",
       domain: "dev.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "dev.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "food",
@@ -152,7 +152,7 @@ function getCategoryMetadata (category) {
     health: {
       displayName: "Health",
       domain: "dev.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "dev.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "health",
@@ -161,7 +161,7 @@ function getCategoryMetadata (category) {
     lifestyle: {
       displayName: "Lifestyle",
       domain: "dev.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "dev.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "lifestyle",
@@ -179,7 +179,7 @@ function getCategoryMetadata (category) {
     travel: {
       displayName: "Travel",
       domain: "dev.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "dev.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "travel",
@@ -188,7 +188,7 @@ function getCategoryMetadata (category) {
     weather: {
       displayName: "Weather",
       domain: "dev.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "dev.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "weather",
@@ -197,7 +197,7 @@ function getCategoryMetadata (category) {
     automotive: {
       displayName: "Automotive",
       domain: "dev.tcxmedia.com",
-      partnerDomain: "www.tcxnews.com",
+      partnerDomain: "dev.tcxmedia.com",
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "automotive",
@@ -245,32 +245,48 @@ var specialDomains = [
 ];
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
-function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
-  var baseUrl;
+function generateArticleLink (scope, linkType, destinationId, articleType, remn, dom) {
+  var TCXbaseUrl;
+  var AIbaseUrl;
+  var partner;
+  var subCategory = "";
+  if (currentConfig.subCategory != null && currentConfig.subCategory != "") {
+    subCategory= "/" + currentConfig.subCategory;
+  }
   var output = "";
   if (remn == "false") { //if partner
     if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
       for (var i = 0; i < specialDomains.length; i++) {
         if (referrer.includes(specialDomains[i])) {
-          baseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
+          TCXbaseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
+          AIbaseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
+          partner = true;
           break;
         }
       }
     }
     else { //only partner, not subdomain
-      baseUrl = "http://" + currentConfig.partnerDomain;
+      TCXbaseUrl = "http://tcxmedia.com/" + dom;
+      AIbaseUrl = "http://" + currentConfig.partnerDomain + "/" + dom;
+      partner = true;
     }
   }
   else { // not partner site and not partner domain
-    baseUrl = "http://" + currentConfig.domain;
+    TCXbaseUrl = "http://tcxmedia.com";
+    AIbaseUrl = "http://" + currentConfig.domain;
+    partner = false;
   }
-
   // now that we have the base Url, format the rest of the link
-  if (linkType == "syndicated") {
-    output = baseUrl + "/" + scope + "/news/story/" + destinationId;
+  if (linkType == "syndicated" || linkType == "tca-curated" || linkType == "tronc") {
+    if (partner == true) {
+      output = TCXbaseUrl + "/news/" + scope + subCategory + "/article/story/" + destinationId;
+    }
+    else {
+      output = TCXbaseUrl + "/news-feed/" + scope + subCategory + "/article/story/" + destinationId;
+    }
   }
-  else if (linkType = "ai") {
-    output = baseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
+  else if (linkType == "ai" || linkType == "snt_ai_module" || linkType == "snt_ai") {
+    output = AIbaseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
   }
   return output;
 }
@@ -447,7 +463,7 @@ function p() {
                 };
             return "politics" == l.category ? !1 : (("undefined" == typeof l.category || "undefined" == typeof n[l.category]) && (l.category = "trending"), e += n[l.category] + ".css", void add_css_link(e))
         }();
-        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
+        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn, l.dom);
         if ($('list-link')) {
             $('list-link').href = a
         }
