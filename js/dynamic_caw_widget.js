@@ -266,13 +266,13 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn,
       }
     }
     else { //only partner, not subdomain
-      TCXbaseUrl = "http://tcxmedia.com/" + dom;
+      TCXbaseUrl = "http://dev.tcxmedia.com/" + dom;
       AIbaseUrl = "http://" + currentConfig.partnerDomain + "/" + dom;
       partner = true;
     }
   }
   else { // not partner site and not partner domain
-    TCXbaseUrl = "http://tcxmedia.com";
+    TCXbaseUrl = "http://dev.tcxmedia.com";
     AIbaseUrl = "http://" + currentConfig.domain;
     partner = false;
   }
@@ -346,7 +346,7 @@ dynamic_widget = function() {
           if (i.readyState == XMLHttpRequest.DONE) {
               if (i.status == 200) {
                   r = JSON.parse(i.responseText);
-                  l.category = r[0].filter_keywords.split(",")[0];
+                  l.category = r[0].article_type;
                   console.log("l.category",l.category);
                   currentConfig = getCategoryMetadata(l.category);
                   c(u)
