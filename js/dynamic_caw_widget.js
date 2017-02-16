@@ -494,7 +494,7 @@ function p() {
 
     function w(e) {
         i += e;
-        i = i >= r.data.article_data.length ? 0 : i < 0 ? r.data.article_data.length - 1 : i;
+        i = i >= r.length ? 0 : i < 0 ? r.length - 1 : i;
         p();
         if (typeof dataLayer != 'undefined') {
             dataLayer.push({
