@@ -426,14 +426,12 @@ function p() {
         }
         var e = r[i];
         function add_css_link(e) {
-
           var hs = document.getElementsByTagName('link');
           for (var u=0, max = hs.length; u < max; u++) {
             if (hs[u] && hs[u].href.indexOf("dynamic_article_widget") == -1 && hs[u].href.indexOf("fonts.googleapis.com") == -1) {
               hs[u].parentNode.removeChild(hs[u]);
             }
           }
-
           console.log("CSS returned",e);
             var t = d.createElement("link");
             t.href = e, t.type = "text/css", t.rel = "stylesheet";
