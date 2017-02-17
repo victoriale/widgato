@@ -346,7 +346,7 @@ dynamic_widget = function() {
           if (i.readyState == XMLHttpRequest.DONE) {
               if (i.status == 200) {
                   r = JSON.parse(i.responseText);
-                  l.category = r[0].article_type;
+                  l.category = r[0].category;
                   console.log("l.category",l.category);
                   currentConfig = getCategoryMetadata(l.category);
                   c(u)
@@ -438,7 +438,7 @@ function p() {
             var n = d.getElementsByTagName("head")[0];
             n.insertBefore(t, n.childNodes[0])
         }! function() {
-          l.category = r[i].article_type;
+          l.category = r[i].category;
           currentConfig = getCategoryMetadata(l.category);
             var e = "../css/dynamic_widget_",
                 n = {
@@ -472,14 +472,14 @@ function p() {
                 };
             return "politics" == l.category ? !1 : (("undefined" == typeof l.category || "undefined" == typeof n[l.category]) && (l.category = "trending"), e += n[l.category] + ".css", void add_css_link(e))
         }();
-        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn, l.dom);
+        a = generateArticleLink(l.category, e.source, e.article_id, e['category'], l.remn, l.dom);
         if ($('list-link')) {
             $('list-link').href = a
         }
         if ($('title-link')) {
             $('title-link').href = a
         }
-        $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
+        $('title-text').innerHTML = e.page_title.replace(/[\\]/g,"");
         if ($('keyword') && e.category) {
           $('keyword').innerHTML = e.category.replace(/-/g," ");
         }
@@ -500,7 +500,7 @@ function p() {
           $('date').innerHTML = formattedDate;
         }
         var stat = Math.floor(Number(e.stat));
-        $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
+        $('desc').innerHTML = e.article_teaser.replace(/[\\]/g,"");
         $('verticalDisplayName').innerHTML = currentConfig.displayName;
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
