@@ -395,7 +395,16 @@ dynamic_widget = function() {
           for (i = 0; i < linkHovers.length; i++) {
             linkHovers[i].style.display = "none";
           }
+        } else {
+          //clickthrough analitics code
+          document.getElementById("list-link").addEventListener("click", function(){
+            window.parent.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
+          });
+          document.getElementById("img-link").addEventListener("click", function(){ 
+            window.parent.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
+          });
         }
+
         p()
       }
 function p() {
