@@ -374,7 +374,7 @@ dynamic_widget = function() {
             l.caw_url = e.data.data.href;
           }
           console.log("CAW input url",l.caw_url);
-          i.open('GET', protocol + "://dev-cas-api.synapsys.us/articles?url=" + l.caw_url , true);
+          i.open('GET', protocol + "://dev-caw-api.synapsys.us/articles?url=" + l.caw_url , true);
           //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
           i.send();
           iglooResponded = 1;
