@@ -39,24 +39,33 @@ i {
   bottom: 5px;
   left: 10px;
   color: white;
-  font-size: 20px;
-  font-weight: bold;
   /*min-height: 44px;*/
   text-align: left;
-  padding: 10px 15px 5px 0px;
+  padding: 10px 15px 5px 5px;
   z-index: 2;
+
+  font-family: Lato;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.44;
 }
 #verticalName {
     font-size: 10px;
     font-weight: 400;
     width: 100%;
-    height:60px;
+    height:40px;
     text-align: left;
     color: #072f64;
     background-color: white;
     border-bottom: 2px solid #072f64;
-    padding: 15px 10px;
+    padding: 10px 10px;
     text-transform: uppercase;
+}
+#pub_logo {
+  width: 170px;
+  height: 20px;
+  float:left;
+  background-repeat: no-repeat;
 }
 #verticalDisplayName {
   width: 125px;
@@ -69,14 +78,13 @@ i {
   color: #072f64;
 }
 .shareIcons {
-  height: 30px;
-  width: 100px;
+  height: 15px;
+  width: 70px;
   float:right;
 }
 .shareIcon {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+  width: 22px;
+  height: 15px;
   display: inline-block;
   position: relative;
 }
@@ -87,17 +95,6 @@ i {
   right: 0;
   top: 0;
   bottom: 0;
-}
-.shareIcon.facebook {
-  background-color: #3b5998;
-}
-.shareIcon.twitter {
-  background-color: #00aced;
-  margin-left: 3px;
-  margin-right: 3px;
-}
-.shareIcon.google {
-  background-color: #dd4b39;
 }
 
 
@@ -208,7 +205,7 @@ i {
 }
 
 .dw-info {
-    margin: 0px 10px 5px;
+    margin: 0px 15px 5px;
     max-height: 120px;
     overflow: hidden;
 }
@@ -245,18 +242,25 @@ i {
 
 #desc {
     width: 100%;
-    font-size: 14px;
-    line-height: 20px;
+    font-size: 12px;
+    line-height: 1.58;
     text-align: left;
     font-weight: 400;
     max-height: 60px;
     overflow: hidden;
-    border-left: 2px solid #072f64;
-    padding-left: 7px;
     margin-top:8px;
 }
 #desc p {
   margin: 0;
+}
+#meta {
+  margin-top: 5px;
+  font-family: Lato;
+  font-size: 10px;
+  color: #9b9b9b;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 .line-clamp {
     display: -webkit-box;
@@ -266,7 +270,7 @@ i {
 
 #next-list-link .dw-btn{
   display: inline-block;
-  margin-left: 160px;
+  margin-left: 155px;
   width: 130px;
 }
 
@@ -275,15 +279,15 @@ i {
 }
 
 #list-link .dw-btn {
-  width: 140px;
-  margin-left: 10px;
+  width: 130px;
+  margin-left: 15px;
 }
 
 .dw-btn {
     display: inline-block;
     color: white;
     background-color: white;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 33px;
     height: 35px;
     border-radius: 5px;
@@ -294,8 +298,6 @@ i {
     text-align: center;
     font-weight: bold;
     font-family: LucidaGrande;
-    fill: white;
-    stroke: white
 }
 
 .dw-btn svg {
@@ -306,8 +308,6 @@ i {
 
 .dw-btn:hover {
     color: white;
-    stroke: white;
-    fill: white
 }
 
 .dw-btn:active {

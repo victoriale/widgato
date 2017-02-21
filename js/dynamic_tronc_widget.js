@@ -13,8 +13,45 @@ function getCategoryMetadata (category) {
   return globalMeta[category];
 }
 
+function getPublisher (pub) {
+  var pubs = {
+    homerunloyal: {
+      displayName: "Home Run Loyal",
+      link: "www.homerunloyal.com",
+      logo: "../css/public/pub_logos/logo-homerun-loyal.svg",
+      hex: "#bc2027"
+    },
+    touchdownloyal: {
+      displayName: "Touchdown Loyal",
+      link: "www.touchdownloyal.com",
+      logo: "../css/public/pub_logos/logo-touchdown-loyal.svg",
+      hex: "#0b3656"
+    },
+    hoopsloyal: {
+      displayName: "Hoops Loyal",
+      link: "www.hoopsloyal.com",
+      logo: "../css/public/pub_logos/logo-hoops-loyal.svg",
+      hex: "#f26f26"
+    },
+    investkit: {
+      displayName: "Invest Kit",
+      link: "www.investkit.com",
+      logo: "../css/public/pub_logos/logo-invest-kit.svg",
+      hex: "#3098ff"
+    },
+    joyfulhome: {
+      displayName: "Joyful Home",
+      link: "www.joyfulhome.com",
+      logo: "../css/public/pub_logos/logo-joyful-home.svg",
+      hex: "#43B149"
+    }
+  };
+  return pubs[pub];
+}
+
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var currentConfig;
+var currentPub;
 var referrer;
 if (document.referrer != "" && document.referrer != null) {
   referrer = document.referrer;
@@ -84,6 +121,7 @@ dynamic_widget = function() {
         n = 0,
         a = ['kbb'];
     currentConfig = getCategoryMetadata(l.category);
+    currentPub = getPublisher(l.pub);
     var s = false;
     var o = '';
     function c(e) {
@@ -201,6 +239,11 @@ function p() {
         }
         var stat = Math.floor(Number(e.stat));
         $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
+        $('pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
+        var linkBtn = $('list-link').getElementsByClassName('dw-btn')[0];
+        linkBtn.style.borderColor = currentPub.hex;
+        linkBtn.style.color = currentPub.hex;
+        linkBtn.style.fill = currentPub.hex;
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
