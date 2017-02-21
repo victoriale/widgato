@@ -239,7 +239,10 @@ function p() {
         }
         var stat = Math.floor(Number(e.stat));
         $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
+        //todo: plug in actual api date values here
+        $('meta').innerHTML = "Posted on " + "Wednesday" + ", " + "January" + " " + "12" + ", " + "2017";
         $('pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
+        $('pub_link').href = "http://" + currentPub.link;
         var linkBtn = $('list-link').getElementsByClassName('dw-btn')[0];
         linkBtn.style.borderColor = currentPub.hex;
         linkBtn.style.color = currentPub.hex;
