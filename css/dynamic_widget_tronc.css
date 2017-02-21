@@ -17,18 +17,16 @@ a:hover {
     background-image: url(../css/public/Icon_automotive.svg);
 }
 #list-link .dw-btn {
-    background-image: linear-gradient(to bottom, #005cb0, #015bad 52%, #0c4d8e 52%, #0f4986)!important;
-    color: white!important;
 }
 .dw-btn {
-    background-color: #0083B1 !important;
-    color: white!important;
+  background-color: white !important;
 }
 #next-list-link .dw-btn{
+  border-color: #999999!important;
   background-color: white !important;
-  color: #0f4986!important;
-  fill: #0f4986;
-  stroke: #0f4986;
+  color: #999999!important;
+  fill: #999999;
+  stroke: #999999;
 }
 #next-list-link .dw-btn:hover{
   border-color: #272727!important;
