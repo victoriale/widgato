@@ -104,6 +104,14 @@ i {
     position: relative;
     overflow: hidden;
 }
+#mainimg {
+  -webkit-transition: 0.4s ease;
+  transition: 0.4s ease;
+}
+#carousel:hover #mainimg {
+  -webkit-transform: scale(1.08);
+  transform: scale(1.08);
+}
 .carouselShader {
   position: absolute;
   top: 0;
