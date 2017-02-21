@@ -119,7 +119,7 @@ dynamic_widget = function() {
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
-        a = ['kbb'];
+        a = ['tronc'];
     currentConfig = getCategoryMetadata(l.category);
     currentPub = getPublisher(l.pub);
     var s = false;
@@ -247,6 +247,14 @@ function p() {
         linkBtn.style.borderColor = currentPub.hex;
         linkBtn.style.color = currentPub.hex;
         linkBtn.style.fill = currentPub.hex;
+        var css = '#carousel:hover .carouselShader {background-color: ' + currentPub.hex + '; opacity: 0.5;}';
+        style = document.createElement('style');
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+        document.getElementsByTagName('head')[0].appendChild(style);
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
