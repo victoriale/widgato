@@ -247,7 +247,8 @@ function p() {
         linkBtn.style.borderColor = currentPub.hex;
         linkBtn.style.color = currentPub.hex;
         linkBtn.style.fill = currentPub.hex;
-        var css = '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;}';
+        var css = '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
+        css += '#list-link .dw-btn:before {background-color: ' + currentPub.hex + '}';
         style = document.createElement('style');
         if (style.styleSheet) {
             style.styleSheet.cssText = css;
