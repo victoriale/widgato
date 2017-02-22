@@ -59,6 +59,7 @@ i {
     background-color: white;
     padding: 10px 10px;
     text-transform: uppercase;
+    border-bottom: 1px solid #e1e1e1;
 }
 #pub_logo {
   width: 170px;
@@ -251,7 +252,7 @@ i {
 }
 
 .dw-i-title {
-    font-size: 16px;
+    font-size: 18px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;

@@ -245,6 +245,7 @@ function getPublisher (pub) {
     return pubs[currentConfig.pub];
   }
   else {
+    pub = pub.split(".")[0];
     return pubs[pub];
   }
 }
@@ -281,7 +282,7 @@ dynamic_widget = function() {
           SpecialDomain = l.subd;
         }
         currentConfig = getCategoryMetadata(l.category);
-        currentPub = getPublisher(l.pub);
+        currentPub = getPublisher(l.dom);
 
         //new dyanmic pub color css code
         $('pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
@@ -458,23 +459,6 @@ dynamic_widget = function() {
             t.innerHTML = 'PAID CONTENT';
             document.body.insertBefore(t, e)
         }
-        if (l.category == 'politics') {
-            var i = r.l_title.indexOf('Republican') != -1 ? 'r' : r.l_title.indexOf('Independent') != -1 ? 'i' : 'd';
-            var cssId = 'politicsCss';  // you could encode the css path itself to generate id..
-            if (document.getElementById(cssId))
-            {
-              var element = document.getElementById(cssId);
-              element.parentNode.removeChild(element);
-            }
-            var head  = document.getElementsByTagName('head')[0];
-            var link  = document.createElement('link');
-            link.id   = cssId;
-            link.rel  = 'stylesheet';
-            link.type = 'text/css';
-            link.href = '../css/dynamic_widget_politics_' + i + '.css';
-            link.media = 'all';
-            head.appendChild(link);
-        }
         if (l.category == 'mlb') {
             r.l_title = r.l_title.replace("MLB","Baseball");
         }
@@ -533,6 +517,8 @@ dynamic_widget = function() {
         }
         if ($('list-link') && l.showLink != 'false') {
             $('list-link').href = a;
+            $('imgurl').href = a;
+            $('title-link').href = a;
             $('shareFacebook').href = "https://www.facebook.com/sharer/sharer.php?u=" + a;
             $('shareTwitter').href = "https://twitter.com/home?status=" + a;
         }
@@ -549,7 +535,7 @@ dynamic_widget = function() {
             console.log("fired click");
             window.parent.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
           });
-          document.getElementById("mainurl").addEventListener("click", function(){
+          document.getElementById("imgurl").addEventListener("click", function(){
             console.log("fired click");
             window.parent.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
           });
@@ -587,7 +573,6 @@ function p() {
             a = 'http://' + SpecialDomain + "/" +l.category+ v_link;
           }
           if (l.showLink != 'false') {
-            $('mainurl').href = a;
             $('line1').href = a;
           }
         }
@@ -606,7 +591,6 @@ function p() {
             a = 'http://' + SpecialDomain + "/" + l.category+v_link;
           }
           if (l.showLink != 'false') {
-            $('mainurl').href = a;
             $('line1').href = a;
           }
         }
@@ -708,16 +692,19 @@ function p() {
         }
         if (l.showLink != 'false') {
           $('line1').href = e.li_line_url;
-          $('mainurl').href = e.li_url;
         }
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
-        t.setAttribute('src', e.li_img + "?width=" + (t.width * window.devicePixelRatio));
+        t.setAttribute('src', e.li_img + "?width=" + (300 * window.devicePixelRatio));
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
+        if (l.category == "finance") {
+          t.style.top = "50%";
+          t.style.transform = "translateY(-50%)";
+        }
         $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
         // if (e.li_subimg !== false) {
         //     var a = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
