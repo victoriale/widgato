@@ -701,10 +701,6 @@ function p() {
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
-        if (l.category == "finance") {
-          t.style.top = "50%";
-          t.style.transform = "translateY(-50%)";
-        }
         $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
         // if (e.li_subimg !== false) {
         //     var a = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
