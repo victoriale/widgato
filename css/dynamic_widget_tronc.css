@@ -7,7 +7,6 @@ a:hover {
 .dw-nav{
     background-color: #0083B1!important;
 }
-.dw-btn:hover,
 .dw-nav:hover {
     background-color: #272727!important;
     border-color: #272727!important;
@@ -16,10 +15,9 @@ a:hover {
 #homelink>div {
     background-image: url(../css/public/Icon_automotive.svg);
 }
-#list-link .dw-btn {
-}
-.dw-btn {
-  background-color: white !important;
+#list-link .dw-btn:hover {
+  color: white!important;
+  fill: white!important;
 }
 #next-list-link .dw-btn{
   border-color: #999999!important;
@@ -30,7 +28,6 @@ a:hover {
 }
 #next-list-link .dw-btn:hover{
   border-color: #272727!important;
-  background-color: #272727 !important;
   color: white!important;
   fill: white;
   stroke: white
@@ -61,7 +58,6 @@ a:hover {
 }
 .bg-img #next-list-link .dw-btn:hover{
   border-color: #272727!important;
-  background-color: #272727 !important;
   color: white!important;
   fill: white;
   stroke: white

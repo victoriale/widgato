@@ -113,7 +113,7 @@ i {
   transform: scale(1.08);
 }
 #carousel:hover .carouselShader {
-  background-image: none;
+  /*background-image: none;*/
 }
 .carouselShader {
   position: absolute;
@@ -121,7 +121,7 @@ i {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), #000000);
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0,0,0,0.75));
   z-index: 1;
   -webkit-transition: 0.4s ease;
   transition: 0.4s ease
@@ -303,9 +303,60 @@ i {
   margin-bottom: 2px;
 }
 
+#next-list-link .dw-btn:before{
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #272727;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transform-origin: 100% 50%;
+  transform-origin: 100% 50%;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+
+#next-list-link .dw-btn:hover:before{
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
 #list-link .dw-btn {
   width: 130px;
   margin-left: 15px;
+}
+
+#list-link .dw-btn:before{
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transform-origin: 0 50%;
+  transform-origin: 0 50%;
+  -webkit-transition-property: transform;
+  transition-property: transform;
+  -webkit-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+  -webkit-transition-timing-function: ease-out;
+  transition-timing-function: ease-out;
+}
+
+#list-link .dw-btn:hover:before{
+  -webkit-transform: scaleX(1);
+  transform: scaleX(1);
 }
 
 .dw-btn {
@@ -323,6 +374,12 @@ i {
     text-align: center;
     font-weight: bold;
     font-family: LucidaGrande;
+    -webkit-transform: perspective(1px) translateZ(0);
+    transform: perspective(1px) translateZ(0);
+    -webkit-transition-property: color, fill;
+    transition-property: color, fill;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
 }
 
 .dw-btn svg {
