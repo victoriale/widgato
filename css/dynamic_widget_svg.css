@@ -193,7 +193,12 @@ i {
 }
 
 #num {
-    display:none;
+  position: absolute;
+  margin-top: 30px;
+  font-size: 18px;
+  width: 50px;
+  text-align: center;
+  font-weight: 900;
 }
 
 .dw-c-sub {
@@ -232,6 +237,8 @@ i {
     margin: 10px 15px 5px;
     max-height: 120px;
     overflow: hidden;
+    width: calc(100% - 63px);
+    float:right;
 }
 
 .dw-i-title {
