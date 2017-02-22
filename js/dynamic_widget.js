@@ -533,6 +533,8 @@ dynamic_widget = function() {
         }
         if ($('list-link') && l.showLink != 'false') {
             $('list-link').href = a;
+            $('shareFacebook').href = "https://www.facebook.com/sharer/sharer.php?u=" + a;
+            $('shareTwitter').href = "https://twitter.com/home?status=" + a;
         }
         if (l.showLink == 'false') {
           $('list-link').style.display = "none";
