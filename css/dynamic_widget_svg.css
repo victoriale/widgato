@@ -108,7 +108,7 @@ i {
   text-align: center;
   padding-top: 6px;
   z-index: 999;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgb(255, 255, 255);
 	border: solid 1px #666666;
   font-size: 12px;
   color: #666666;
@@ -125,7 +125,7 @@ i {
   height: 0;
   border-left: 7px solid transparent;
   border-right: 7px solid transparent;
-  border-bottom: 7px solid rgba(255, 255, 255, 1);
+  border-bottom: 7px solid rgb(255, 255, 255);
 }
 
 .arrow-up-border {
