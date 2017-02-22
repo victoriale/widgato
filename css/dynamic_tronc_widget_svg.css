@@ -46,7 +46,7 @@ i {
 
   font-family: Lato;
   font-size: 18px;
-  font-weight: 900;
+  font-weight: 700;
   line-height: 1.44;
 }
 #verticalName {
@@ -155,7 +155,7 @@ i {
     -khtml-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    user-select: none
+    user-select: none;
 }
 
 .dw-c-l {
