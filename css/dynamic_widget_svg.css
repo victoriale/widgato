@@ -88,6 +88,7 @@ i {
   height: 15px;
   display: inline-block;
   position: relative;
+  cursor: pointer;
 }
 .shareIcon img {
   position: absolute;
@@ -98,6 +99,45 @@ i {
   bottom: 0;
 }
 
+#shareSuccess {
+  display: none;
+  position: absolute;
+  width: 163px;
+  height: 29px;
+  right: 0;
+  text-align: center;
+  padding-top: 6px;
+  z-index: 999;
+  background-color: rgba(255, 255, 255, 0.9);
+	border: solid 1px #666666;
+  font-size: 12px;
+  color: #666666;
+  text-transform: none;
+  margin-right: 10px;
+  margin-top: 7px;
+}
+
+.arrow-up {
+  position: absolute;
+  left: -7px;
+  top: 1px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid rgba(255, 255, 255, 1);
+}
+
+.arrow-up-border {
+  position: absolute;
+  top: -7px;
+  right: 5px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid #666666;
+}
 
 #carousel {
     width: 300px;
