@@ -111,8 +111,8 @@ i {
   transition: 0.4s ease;
 }
 #carousel:hover #mainimg {
-  -webkit-transform: scale(1.08);
-  transform: scale(1.08);
+  -webkit-transform: scale(1.08) translateY(-50%);
+  transform: scale(1.08) translateY(-50%);
 }
 #carousel:hover .carouselShader {
   /*background-image: none;*/
@@ -147,7 +147,7 @@ i {
     height: 50px;
     width: 20px;
     position: absolute;
-    top: 55px;
+    top: 95px;
     color: white;
     background-color: rgba(255, 255, 255, 0.85);
     display: block;
@@ -187,7 +187,8 @@ i {
 
 .dw-big {
   width: 100%;
-  top: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .dw-big span {

@@ -32,7 +32,7 @@
                   <img src="../css/public/twitter_icon.svg">
                 </div>
               </a>
-              <a target="blank" id="shareLink" >
+              <a target="blank" id="shareLink">
                 <div class="shareIcon link">
                   <img src="../css/public/link_icon.svg">
                 </div>
@@ -40,10 +40,13 @@
             </div>
         </a>
       </div>
+      <svg class="dw-nav dw-c-l" stroke=#FFFFFF onclick=dynamic_widget.carousel(-1)>
+        <path d="m 11,20 L 6,25 L 11,30" stroke-width=2 fill=none stroke-linecap=round></path>
+      </svg>
+      <svg class="dw-nav dw-c-r" stroke=#FFFFFF onclick=dynamic_widget.carousel(1)>
+          <path d="m 9,20 L 14,25 L 9,30" stroke-width=2 fill=none stroke-linecap=round></path>
+      </svg>
         <div id=carousel>
-            <svg class="dw-nav dw-c-l" stroke=#FFFFFF onclick=dynamic_widget.carousel(-1)>
-                <path d="m 11,20 L 6,25 L 11,30" stroke-width=2 fill=none stroke-linecap=round></path>
-            </svg>
             <a target=_blank class=img-link id=suburl> <img class="dw-big dw-c-sub" id=subimg onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;">
                 <div class="hover dw-c-sub dw-big"> View
                     <br> <span>Profile</span> </div>
@@ -57,9 +60,7 @@
             <a target=_blank id=title-link href="">
               <div id=title class="line-clamp"></div>
             </a>
-            <svg class="dw-nav dw-c-r" stroke=#FFFFFF onclick=dynamic_widget.carousel(1)>
-                <path d="m 9,20 L 14,25 L 9,30" stroke-width=2 fill=none stroke-linecap=round></path>
-            </svg>
+
         </div>
         <div class=dw-info>
           <div id=num></div>
