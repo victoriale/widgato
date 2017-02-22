@@ -241,12 +241,11 @@ function getPublisher (pub) {
       hex: "#519dc6"
     }
   };
-  if (pub == null || pub == "" || !pubs[pub]) {
+  if (pub == null || pub == "" || !pubs[pub.split(".")[0]]) {
     return pubs[currentConfig.pub];
   }
   else {
-    pub = pub.split(".")[0];
-    return pubs[pub];
+    return pubs[pub.split(".")[0]];
   }
 }
 
@@ -605,17 +604,19 @@ function p() {
         }
         else {
           $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
-          $('line2').innerHTML = "Team: <b>" + e.teamName + "</b>";
           var a = "";
           if (SpecialDomain == "") {
             v_link = l.remn == 'true' ? "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId : "/p/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
 
             a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" + l.category + v_link : "http://" + currentConfig.partnerDomain + "/" + l.dom + "/" + l.category + v_link;
+            $('line2').innerHTML = "Team: <a href='" + 'http://' + currentConfig.domain + "/" +l.category+ "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId + "'><b>" + e.teamName + "</b></a>";
+
           }
           else {
             v_link = "/player/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + escape(e.playerFirstName.replace(/ /g, "-").toLowerCase()) + '-' + escape(e.playerLastName.replace(/ /g, "-").toLowerCase()) + "/" + e.playerId;
 
             a = 'http://' + SpecialDomain + "/" + l.category+v_link;
+            $('line2').innerHTML = "Team: <a href='" + 'http://' + SpecialDomain + "/" +l.category+ "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId + "'><b>" + e.teamName + "</b></a>";
           }
           if (l.showLink != 'false') {
             $('line1').href = a;
