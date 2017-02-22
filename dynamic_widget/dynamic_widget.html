@@ -41,8 +41,6 @@
         </a>
       </div>
         <div id=carousel>
-          <div class="carouselShaderHover"></div>
-          <div class="carouselShader"></div>
             <svg class="dw-nav dw-c-l" stroke=#FFFFFF onclick=dynamic_widget.carousel(-1)>
                 <path d="m 11,20 L 6,25 L 11,30" stroke-width=2 fill=none stroke-linecap=round></path>
             </svg>
@@ -50,9 +48,11 @@
                 <div class="hover dw-c-sub dw-big"> View
                     <br> <span>Profile</span> </div>
             </a>
-            <a target=_blank class=img-link id=mainurl> <img class="dw-big dw-c-img" id=mainimg onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;">
-                <div class="hover dw-c-img dw-big"> View
-                    <br> <span>Profile</span> </div>
+            <a target=_blank class=img-link id=imgurl>
+              <div class="carouselShaderHover"></div>
+              <div class="carouselShader"></div>
+              <img class="dw-big dw-c-img" id=mainimg onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;">
+                <div class="hover dw-c-img dw-big"></div>
             </a>
             <a target=_blank id=title-link href="">
               <div id=title class="line-clamp"></div>
