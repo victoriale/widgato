@@ -7,7 +7,8 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: false,
       hasAiArticles: true,
       category: "finance",
-      subCategory: ""
+      subCategory: "",
+      pub: "investkit"
     },
     nfl: {
       displayName: "Football",
@@ -17,7 +18,8 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "football",
       hasAiArticles: true,
       category: "football",
-      subCategory: "nfl"
+      subCategory: "nfl",
+      pub: "touchdownloyal"
     },
     ncaaf: {
       displayName: "Football",
@@ -27,7 +29,8 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "football",
       hasAiArticles: true,
       category: "football",
-      subCategory: "ncaaf"
+      subCategory: "ncaaf",
+      pub: "touchdownloyal"
     },
     nflncaaf: {
       displayName: "Football",
@@ -37,7 +40,8 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "football",
       hasAiArticles: true,
       category: "football",
-      subCategory: "nfl, ncaaf"
+      subCategory: "nfl, ncaaf",
+      pub: "touchdownloyal"
     },
     nba: {
       displayName: "Basketball",
@@ -47,7 +51,8 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
-      subCategory: "nba"
+      subCategory: "nba",
+      pub: "hoopsloyal"
     },
     college_basketball: {
       displayName: "Basketball",
@@ -57,7 +62,8 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
-      subCategory: "ncaa"
+      subCategory: "ncaa",
+      pub: "hoopsloyal"
     },
     mlb: {
       displayName: "Baseball",
@@ -67,7 +73,8 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "baseball",
       hasAiArticles: true,
       category: "baseball",
-      subCategory: "mlb"
+      subCategory: "mlb",
+      pub: "homerunloyal"
     },
     politics: {
       displayName: "Politics",
@@ -76,7 +83,8 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "politics",
-      subCategory: ""
+      subCategory: "",
+      pub: "joyfulhome"
     },
     weather: {
       displayName: "Weather",
@@ -85,7 +93,8 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "weather",
-      subCategory: ""
+      subCategory: "",
+      pub: "joyfulhome"
     },
     crime: {
       displayName: "Crime",
@@ -94,7 +103,8 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "crime",
-      subCategory: ""
+      subCategory: "",
+      pub: "joyfulhome"
     },
     demographics: {
       displayName: "Demographics",
@@ -103,7 +113,8 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "demographics",
-      subCategory: ""
+      subCategory: "",
+      pub: "joyfulhome"
     },
     disaster: {
       displayName: "Disaster",
@@ -112,7 +123,8 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "disaster",
-      subCategory: ""
+      subCategory: "",
+      pub: "joyfulhome"
     }
   };
   if (globalMeta[category]) {
@@ -123,8 +135,123 @@ function getCategoryMetadata (category) {
   }
 }
 
+function getPublisher (pub) {
+  var pubs = {
+    homerunloyal: {
+      displayName: "Home Run Loyal",
+      link: "www.homerunloyal.com",
+      logo: "../css/public/pub_logos/logo-homerun-loyal.svg",
+      hex: "#bc2027"
+    },
+    touchdownloyal: {
+      displayName: "Touchdown Loyal",
+      link: "www.touchdownloyal.com",
+      logo: "../css/public/pub_logos/logo-touchdown-loyal.svg",
+      hex: "#0b3656"
+    },
+    hoopsloyal: {
+      displayName: "Hoops Loyal",
+      link: "www.hoopsloyal.com",
+      logo: "../css/public/pub_logos/logo-hoops-loyal.svg",
+      hex: "#f26f26"
+    },
+    investkit: {
+      displayName: "Invest Kit",
+      link: "www.investkit.com",
+      logo: "../css/public/pub_logos/logo-invest-kit.svg",
+      hex: "#3098ff"
+    },
+    joyfulhome: {
+      displayName: "Joyful Home",
+      link: "www.joyfulhome.com",
+      logo: "../css/public/pub_logos/logo-joyful-home.svg",
+      hex: "#43B149"
+    },
+    //partner pubs:
+    ajc: {
+      displayName: "AJC",
+      link: "www.ajc.com",
+      logo: "../css/public/pub_logos/logo-ajc.svg",
+      hex: "#00579E"
+    },
+    baltimoresun: {
+      displayName: "The Baltimore Sun",
+      link: "www.baltimoresun.com",
+      logo: "../css/public/pub_logos/logo-baltimore-sun.svg",
+      hex: "#1e1e1e"
+    },
+    capitolgazette: {
+      displayName: "Capitol Gazette",
+      link: "www.capitalgazette.com",
+      logo: "../css/public/pub_logos/logo-capital-gazette.svg",
+      hex: "#064992"
+    },
+    carrollcountytimes: {
+      displayName: "Carrol County Times",
+      link: "www.carrollcountytimes.com",
+      logo: "../css/public/pub_logos/logo-carroll-county-times.svg",
+      hex: "#003c00"
+    },
+    chicagotribune: {
+      displayName: "Chicago Tribune",
+      link: "www.chicagotribune.com",
+      logo: "../css/public/pub_logos/logo-chicagotribune.svg",
+      hex: "#004e87"
+    },
+    dailypress: {
+      displayName: "Daily Press",
+      link: "www.dailypress.com",
+      logo: "../css/public/pub_logos/logo-daily-press.svg",
+      hex: "#1875ae"
+    },
+    hartfordcourant: {
+      displayName: "Hartford Courant",
+      link: "www.courant.com",
+      logo: "../css/public/pub_logos/logo-hartford-courant.svg",
+      hex: "#1e1e1e"
+    },
+    latimes: {
+      displayName: "LA Times",
+      link: "www.latimes.com",
+      logo: "../css/public/pub_logos/logo-latimes.svg",
+      hex: "#1e1e1e"
+    },
+    orlandosentinel: {
+      displayName: "Orlando Sentinel",
+      link: "www.orlandosentinel.com",
+      logo: "../css/public/pub_logos/logo-orlando-sentinel.svg",
+      hex: "#00919e"
+    },
+    sandiegouniontribune: {
+      displayName: "San Diego Union Tribune",
+      link: "www.sandiegouniontribune.com",
+      logo: "../css/public/pub_logos/logo-san-diego-union-tribune.svg",
+      hex: "#004e87"
+    },
+    sunsentinel: {
+      displayName: "Sun Sentinel",
+      link: "www.sun-sentinel.com",
+      logo: "../css/public/pub_logos/logo-sun-sentinel.svg",
+      hex: "#1e1e1e"
+    },
+    themorningcall: {
+      displayName: "The Morning Call",
+      link: "www.mcall.com",
+      logo: "../css/public/pub_logos/logo-the-morning-call.svg",
+      hex: "#519dc6"
+    }
+  };
+  if (pub == null || pub == "" || !pubs[pub]) {
+    return pubs[currentConfig.pub];
+  }
+  else {
+    return pubs[pub];
+  }
+}
+
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var currentConfig;
+var currentPub;
 var referrer = document.referrer;
 var season;
 var SpecialDomain = "";
@@ -154,6 +281,25 @@ dynamic_widget = function() {
           SpecialDomain = l.subd;
         }
         currentConfig = getCategoryMetadata(l.category);
+        currentPub = getPublisher(l.pub);
+
+        //new dyanmic pub color css code
+        $('pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
+        $('pub_link').href = "http://" + currentPub.link;
+        var css = '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
+        css += '#list-link .dw-btn:before {background-color: ' + currentPub.hex + ';}';
+        css += '.dw-info {border-left: 3px solid ' + currentPub.hex + '; padding-left: 10px;}';
+        css += '.dw-nav {stroke: ' + currentPub.hex + '; } .dw-nav:hover {background-color: ' + currentPub.hex + '; stroke: white;}';
+        css += '#list-link .dw-btn {fill: ' + currentPub.hex + '; color: ' + currentPub.hex + '; border-color: ' + currentPub.hex + ';}';
+        style = document.createElement('style');
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+        document.getElementsByTagName('head')[0].appendChild(style);
+        //end dynamic pub color css code
+
         if (typeof(l.subd) == 'undefined' || !l.subd || l.subd == '' || l.subd == null) {
           l.subd = (l.remn == 'false') ? currentConfig.partnerDomain + '/' + l.dom : currentConfig.domain;
         }
@@ -414,6 +560,13 @@ function p() {
     rounds++;
     checkBlankImages();
   }
+  //todo: plug in actual api date values here
+  var date = new Date();
+  var monthNames = [ "January", "February", "March", "April", "May", "June",
+"July", "August", "September", "October", "November", "December" ];
+  var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  $('meta').innerHTML = "Posted on " + dayNames[date.getDay()] + ", " + monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+
       if (currentConfig.category == "football") {
         var e = r.data.listData[i];
         var v_link = '';
@@ -475,6 +628,7 @@ function p() {
             default:
                 $('desc').innerHTML = statType + ": " + stat;
         }
+
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
@@ -545,7 +699,7 @@ function p() {
         $('line1').innerHTML = e.li_title;
         $('line2').innerHTML = e.li_sub_txt;
         if ($('line4') == null) {
-            $('desc').innerHTML = e.li_str
+            $('desc').innerHTML = e.li_str.replace(e.li_value.split(' ')[0], "<b class='highlight'>" + e.li_value.split(' ')[0] + "</b>");
         } else {
             $('desc').innerHTML = e.li_value;
             $('line4').innerHTML = e.li_tag
@@ -706,7 +860,7 @@ function p() {
             $('list-link').parentNode.removeChild($('list-link'));
             return false
         }
-        $('verticalDisplayName').innerHTML = currentConfig.displayName;
+        // $('verticalDisplayName').innerHTML = currentConfig.displayName;
     }
     m();
     c(h);
