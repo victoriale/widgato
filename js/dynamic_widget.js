@@ -653,7 +653,7 @@ function p() {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
 
-        $('num').innerHTML = '#' + e.rank;
+        $('num').innerHTML = '<hash>#</hash>' + e.rank;
 
         if ($('list-link')) {
             var u = d.getElementsByClassName('dw-btn')[0];
@@ -716,7 +716,7 @@ function p() {
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
-        $('num').innerHTML = '#' + e.li_rank;
+        $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
         // if (e.li_subimg !== false) {
         //     var a = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
         //     if (s) {
