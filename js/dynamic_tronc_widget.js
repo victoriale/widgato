@@ -1,20 +1,32 @@
 function getCategoryMetadata (category) {
   var globalMeta = {
-    tronc: {
-      displayName: "TRONC",
-      domain: "www.tronc.com",
-      partnerDomain: "www.tronc.com",
+    tcx: {
+      displayName: "TCX Media",
+      domain: "www.tcxmedia.com",
+      partnerDomain: "www.tcxmedia.com",
       usesPartnerSubdomain: true,
       hasAiArticles: false,
-      category: "tronc",
-      subCategory: ""
+      category: "tcx",
+      subCategory: "",
+      pub: "tcx"
     }
   };
-  return globalMeta[category];
+  if (globalMeta[category]) {
+    return globalMeta[category];
+  }
+  else {
+    return globalMeta['tcx'];
+  }
 }
 
 function getPublisher (pub) {
   var pubs = {
+    tcx: {
+      displayName: "TCX Media",
+      link: "www.tcxmedia.com",
+      logo: "../css/public/pub_logos/logo-tcx.svg",
+      hex: "#00B9E3"
+    },
     homerunloyal: {
       displayName: "Home Run Loyal",
       link: "www.homerunloyal.com",
@@ -44,9 +56,107 @@ function getPublisher (pub) {
       link: "www.joyfulhome.com",
       logo: "../css/public/pub_logos/logo-joyful-home.svg",
       hex: "#43B149"
+    },
+    //partner pubs:
+    ajc: {
+      displayName: "AJC",
+      link: "www.ajc.com",
+      logo: "../css/public/pub_logos/logo-ajc.svg",
+      hex: "#00579E"
+    },
+    baltimoresun: {
+      displayName: "The Baltimore Sun",
+      link: "www.baltimoresun.com",
+      logo: "../css/public/pub_logos/logo-baltimore-sun.svg",
+      hex: "#1e1e1e"
+    },
+    capitolgazette: {
+      displayName: "Capitol Gazette",
+      link: "www.capitalgazette.com",
+      logo: "../css/public/pub_logos/logo-capital-gazette.svg",
+      hex: "#064992"
+    },
+    carrollcountytimes: {
+      displayName: "Carrol County Times",
+      link: "www.carrollcountytimes.com",
+      logo: "../css/public/pub_logos/logo-carroll-county-times.svg",
+      hex: "#003c00"
+    },
+    chicagotribune: {
+      displayName: "Chicago Tribune",
+      link: "www.chicagotribune.com",
+      logo: "../css/public/pub_logos/logo-chicagotribune.svg",
+      hex: "#004e87"
+    },
+    dailypress: {
+      displayName: "Daily Press",
+      link: "www.dailypress.com",
+      logo: "../css/public/pub_logos/logo-daily-press.svg",
+      hex: "#1875ae"
+    },
+    hartfordcourant: {
+      displayName: "Hartford Courant",
+      link: "www.courant.com",
+      logo: "../css/public/pub_logos/logo-hartford-courant.svg",
+      hex: "#1e1e1e"
+    },
+    latimes: {
+      displayName: "LA Times",
+      link: "www.latimes.com",
+      logo: "../css/public/pub_logos/logo-latimes.svg",
+      hex: "#1e1e1e"
+    },
+    orlandosentinel: {
+      displayName: "Orlando Sentinel",
+      link: "www.orlandosentinel.com",
+      logo: "../css/public/pub_logos/logo-orlando-sentinel.svg",
+      hex: "#00919e"
+    },
+    sandiegouniontribune: {
+      displayName: "San Diego Union Tribune",
+      link: "www.sandiegouniontribune.com",
+      logo: "../css/public/pub_logos/logo-san-diego-union-tribune.svg",
+      hex: "#004e87"
+    },
+    sunsentinel: {
+      displayName: "Sun Sentinel",
+      link: "www.sun-sentinel.com",
+      logo: "../css/public/pub_logos/logo-sun-sentinel.svg",
+      hex: "#1e1e1e"
+    },
+    themorningcall: {
+      displayName: "The Morning Call",
+      link: "www.mcall.com",
+      logo: "../css/public/pub_logos/logo-the-morning-call.svg",
+      hex: "#519dc6"
     }
   };
-  return pubs[pub];
+  if (pub == null || pub == "" || !pubs[pub.split(".")[0]]) {
+    return pubs[currentConfig.pub];
+  }
+  else {
+    return pubs[pub.split(".")[0]];
+  }
+}
+
+function copyToClipboard(text) {
+    if (window.clipboardData && window.clipboardData.setData) {
+        return clipboardData.setData("Text", text);
+    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = text;
+        textarea.style.position = "fixed";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            return document.execCommand("copy");
+        } catch (ex) {
+            console.warn("Copy to clipboard failed.", ex);
+            return false;
+        } finally {
+            document.body.removeChild(textarea);
+        }
+    }
 }
 
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
@@ -81,35 +191,35 @@ var specialDomains = [
 ];
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
-function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
-  var baseUrl;
-  var output = "";
-  if (remn == "false") { //if partner
-    if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
-      for (var i = 0; i < specialDomains.length; i++) {
-        if (referrer.includes(specialDomains[i])) {
-          baseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
-          break;
-        }
-      }
-    }
-    else { //only partner, not subdomain
-      baseUrl = "http://" + currentConfig.partnerDomain;
-    }
-  }
-  else { // not partner site and not partner domain
-    baseUrl = "http://" + currentConfig.domain;
-  }
-
-  // now that we have the base Url, format the rest of the link
-  if (linkType == "syndicated") {
-    output = baseUrl + "/" + scope + "/news/story/" + destinationId;
-  }
-  else if (linkType = "ai") {
-    output = baseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
-  }
-  return output;
-}
+// function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
+//   var baseUrl;
+//   var output = "";
+//   if (remn == "false") { //if partner
+//     if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
+//       for (var i = 0; i < specialDomains.length; i++) {
+//         if (referrer.includes(specialDomains[i])) {
+//           baseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
+//           break;
+//         }
+//       }
+//     }
+//     else { //only partner, not subdomain
+//       baseUrl = "http://" + currentConfig.partnerDomain;
+//     }
+//   }
+//   else { // not partner site and not partner domain
+//     baseUrl = "http://" + currentConfig.domain;
+//   }
+//
+//   // now that we have the base Url, format the rest of the link
+//   if (linkType == "syndicated") {
+//     output = baseUrl + "/" + scope + "/news/story/" + destinationId;
+//   }
+//   else if (linkType = "ai") {
+//     output = baseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
+//   }
+//   return output;
+// }
 
 dynamic_widget = function() {
     var e = location.protocol == 'https:' ? 'https' : 'http',
@@ -119,7 +229,7 @@ dynamic_widget = function() {
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
-        a = ['tronc'];
+        a = ['tcx'];
     currentConfig = getCategoryMetadata(l.category);
     currentPub = getPublisher(l.pub);
     var s = false;
@@ -184,7 +294,7 @@ dynamic_widget = function() {
               }
           }
       };
-      i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + "business" + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
+      i.open('GET', protocol + "://dev-caw-api.synapsys.us/articles?url=" + l.caw_url , true);
 
       // i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
         // i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=" + "http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true);
@@ -203,21 +313,32 @@ dynamic_widget = function() {
         p()
       }
 function p() {
-        if (r.data.length <= 1) {
+        if (r.length <= 1) {
           $('next-list-link').classList.add("disabled-button");
         }
         else {
           $('next-list-link').classList.remove("disabled-button");
         }
-        var e = r.data[i];
-        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
+        var e = r[i];
+        // a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
+        a = e.page_url;
+
         if ($('list-link')) {
-            $('list-link').href = a
+            $('list-link').href = a;
+            $('shareFacebook').href = "https://www.facebook.com/sharer/sharer.php?u=" + a;
+            $('shareTwitter').href = "https://twitter.com/home?status=" + a;
+            $('shareLink').addEventListener("click", function(){
+              copyToClipboard(a);
+              $('shareSuccess').style.display = "block";
+              setTimeout(function(){
+                $('shareSuccess').style.display = "none";
+              }, 2000);
+             });
         }
         if ($('title-link')) {
             $('title-link').href = a
         }
-        $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
+        $('title-text').innerHTML = e.page_title.replace(/[\\]/g,"");
         if ($('keyword') && e.category) {
           $('keyword').innerHTML = e.category.replace(/-/g," ");
         }
@@ -238,17 +359,14 @@ function p() {
           $('date').innerHTML = formattedDate;
         }
         var stat = Math.floor(Number(e.stat));
-        $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
+        $('desc').innerHTML = e.article_teaser.replace(/[\\]/g,"");
         //todo: plug in actual api date values here
         $('meta').innerHTML = "Posted on " + "Wednesday" + ", " + "January" + " " + "12" + ", " + "2017";
         $('pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
         $('pub_link').href = "http://" + currentPub.link;
-        var linkBtn = $('list-link').getElementsByClassName('dw-btn')[0];
-        linkBtn.style.borderColor = currentPub.hex;
-        linkBtn.style.color = currentPub.hex;
-        linkBtn.style.fill = currentPub.hex;
         var css = '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
         css += '#list-link .dw-btn:before {background-color: ' + currentPub.hex + '}';
+        css += '#list-link .dw-btn {fill: ' + currentPub.hex + '; color: ' + currentPub.hex + '; border-color: ' + currentPub.hex + ';}';
         style = document.createElement('style');
         if (style.styleSheet) {
             style.styleSheet.cssText = css;
@@ -261,7 +379,7 @@ function p() {
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
           if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
+            t.setAttribute('src', e.image_url.split("?")[0] + "?width=" + (t.width * window.devicePixelRatio));
           }
           else { //todo: use placeholder images as fallback for articles instead of no-image image
             t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
