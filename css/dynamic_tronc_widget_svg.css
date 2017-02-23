@@ -86,6 +86,7 @@ i {
   height: 15px;
   display: inline-block;
   position: relative;
+  cursor: pointer;
 }
 .shareIcon img {
   position: absolute;
@@ -96,6 +97,45 @@ i {
   bottom: 0;
 }
 
+#shareSuccess {
+  display: none;
+  position: absolute;
+  width: 163px;
+  height: 29px;
+  right: 0;
+  text-align: center;
+  padding-top: 6px;
+  z-index: 999;
+  background-color: rgb(255, 255, 255);
+	border: solid 1px #666666;
+  font-size: 12px;
+  color: #666666;
+  text-transform: none;
+  margin-right: 10px;
+  margin-top: 7px;
+}
+
+.arrow-up {
+  position: absolute;
+  left: -7px;
+  top: 1px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid rgb(255, 255, 255);
+}
+
+.arrow-up-border {
+  position: absolute;
+  top: -7px;
+  right: 5px;
+  width: 0;
+  height: 0;
+  border-left: 7px solid transparent;
+  border-right: 7px solid transparent;
+  border-bottom: 7px solid #666666;
+}
 
 #carousel {
     width: 300px;
@@ -297,6 +337,9 @@ i {
   display: inline-block;
   margin-left: 155px;
   width: 130px;
+  border: solid 1px #999999;
+  color: #9b9b9b;
+  fill: #9b9b9b;
 }
 
 #next-list-link .dw-btn svg{
@@ -311,6 +354,7 @@ i {
   left: 0;
   right: 0;
   bottom: 0;
+  border-radius: 3px;
   background-color: #272727;
   -webkit-transform: scaleX(0);
   transform: scaleX(0);
@@ -332,6 +376,16 @@ i {
 #list-link .dw-btn {
   width: 130px;
   margin-left: 15px;
+}
+
+#list-link .dw-btn:hover {
+    color: white;
+    fill: white;
+}
+
+#next-list-link .dw-btn:hover {
+    color: white;
+    fill: white;
 }
 
 #list-link .dw-btn:before{
@@ -373,7 +427,6 @@ i {
     cursor: pointer;
     text-align: center;
     font-weight: bold;
-    font-family: LucidaGrande;
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
     -webkit-transition-property: color, fill;
