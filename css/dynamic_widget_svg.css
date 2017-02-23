@@ -433,7 +433,6 @@ i {
     cursor: pointer;
     text-align: center;
     font-weight: bold;
-    font-family: LucidaGrande;
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
     -webkit-transition-property: color, fill;
