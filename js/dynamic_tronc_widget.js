@@ -8,7 +8,7 @@ function getCategoryMetadata (category) {
       hasAiArticles: false,
       category: "tcx",
       subCategory: "",
-      pub: "tcx"
+      pub: "tcxmedia"
     }
   };
   if (globalMeta[category]) {
@@ -21,7 +21,7 @@ function getCategoryMetadata (category) {
 
 function getPublisher (pub) {
   var pubs = {
-    tcx: {
+    tcxmedia: {
       displayName: "TCX Media",
       link: "www.tcxmedia.com",
       logo: "../css/public/pub_logos/logo-tcx.svg",
@@ -231,7 +231,7 @@ dynamic_widget = function() {
         n = 0,
         a = ['tcx'];
     currentConfig = getCategoryMetadata(l.category);
-    currentPub = getPublisher(l.pub);
+    currentPub = getPublisher(l.dom);
     var s = false;
     var o = '';
     function c(e) {
