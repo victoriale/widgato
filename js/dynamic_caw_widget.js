@@ -381,8 +381,13 @@ dynamic_widget = function() {
           window.removeEventListener('message', iglooResponce);
         }
       }
-      window.parent.postMessage({action: 'location', igloo_id: 0}, "*");
-      window.addEventListener('message', iglooResponce);
+      if (window.parent.postMessage({action: 'location', igloo_id: 0}, "*")) {
+        window.addEventListener('message', iglooResponce);
+      }
+      else {
+        window.postMessage({action: 'location', igloo_id: 0}, "*");
+        window.addEventListener('message', iglooResponce);
+      }
     }
 
     function u() {
