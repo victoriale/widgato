@@ -352,10 +352,37 @@ var options = {
     output:'../sports/hrl_sidekick_vertical.html?{"dom":"<domain>","remn":"<remn>","category":"<category>","targ":"<targ>"}'
   },
   caw_widget:{
-    output:'../dynamic_caw_widget/dynamic_caw_widget.html?{"dom":"tcxmedia.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"c_id":null,"remn":"true","bord":false,"caw_url":"http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html","subd":"football.chicagotribune.com","rand":5}'
+    caw_url:{
+      default: "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html",
+      enabled: true,
+      explanation: "The input url (the page that has content we are trying to find relevance from) to send to the content aware widget.",
+      name: "Input Page URL",
+      type: "text"
+    },
+    output:'../dynamic_caw_widget/dynamic_caw_widget.html?{"dom":"chicagotribune.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"c_id":null,"remn":"false","caw_url":"<caw_url>","targ":"_blank","cat":"null","subd":"","rand":2}'
   },
   caw_widget_wide:{
-    output:'../dynamic_caw_widget/dynamic_caw_widget_970.html?{"dom":"tcxmedia.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"c_id":null,"remn":"true","bord":false,"caw_url":"http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html","subd":"football.chicagotribune.com","rand":5}'
+    caw_url:{
+      default: "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html",
+      enabled: true,
+      explanation: "The input url (the page that has content we are trying to find relevance from) to send to the content aware widget.",
+      name: "Input Page URL",
+      type: "text"
+    },
+    output:'../dynamic_caw_widget/dynamic_caw_widget_970.html?{"dom":"chicagotribune.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"c_id":null,"remn":"false","caw_url":"<caw_url>","targ":"_blank","cat":"null","subd":"","rand":2}'
+  },
+  excavator_widget:{
+    caw_url:{
+      default: "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html",
+      enabled: true,
+      explanation: "The input url (the page that has content we are trying to find relevance from) to send to the content aware widget.",
+      name: "Input Page URL",
+      type: "text"
+    },
+    output:'../dynamic_tronc_widget/dynamic_tronc_widget.html?{"dom":"chicagotribune.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"category":"tcx","remn":"false","caw_url":"<caw_url>","targ":"_blank","cat":"null","subd":"","rand":2}'
+  },
+  kbb_widget:{
+    output:'../dynamic_kbb_widget/dynamic_kbb_widget.html?%7B"dom"%3A"basketball.chicagotribune.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A"100971247"%2C"remn"%3A"true"%2C"bord"%3A"false"%2C"category"%3A"kbb"%2C"targ"%3A"_top"%7D'
   },
   swp_wdgt_list:{
     show_link:{
