@@ -33,14 +33,14 @@ ai_widget = (function() {
     }
 
   }
-  var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick',
+  var APIUrl = protocolToUse + 'dev-homerunloyal-ai.synapsys.us/sidekick?scope=mlb',
     AIData = {},
     gameID = -1,
     pageInd = -1,
     availPages = [],
     gameArr = [];
 
-  function getContent(eventId) {
+  function getContent(event_id) {
     // Clear old data
     if (gameID != -1) {
       availPages = [];
@@ -51,9 +51,9 @@ ai_widget = (function() {
       //$('.aiw-num-length')[0].innerHTML = '';
     }
     var locApiUrl = APIUrl;
-    if (typeof eventId != "undefined") {
-      locApiUrl += "/" + eventId;
-      event = eventId;
+    if (typeof event_id != "undefined") {
+      locApiUrl += "&event=" + event_id;
+      event = event_id;
     }
     $.ajax({
       url: locApiUrl,
@@ -83,30 +83,29 @@ ai_widget = (function() {
     var pageID = availPages[pageInd];
     var content = [];
     var dataArr = [];
-    $.map(AIData, function(val, index) {
+    $.map(AIData.data, function(val, index) {
       if (index != "meta-data" && index == pageID) {
-        val.title = val.sidekickTitle;
-        val.content = val.article;
+        val.content = val.teaser;
         val.report = index;
-        if (event == '') {
-          val.eventId = AIData['meta-data']['current'].eventId;
-        } else {
-          val.eventId = event;
-        }
         dataArr.push(val);
       }
     });
     var imageArr = [];
-    $.map(AIData['meta-data']['images'], function(val, index) {
-      val.images = val;
-      imageArr.push(val);
-    });
-    imageArr = imageArr[0].concat(imageArr[1]);
+    // $.map(AIData.data['meta-data']['images'], function(val, index) {
+    //   val.images = val;
+    //   imageArr.push(val);
+    // });
+    for (var article in AIData.data) {
+      if (AIData.data[article].image_url) {
+        imageArr.push(AIData.data[article].image_url);
+      }
+    }
+    // imageArr = imageArr[0].concat(imageArr[1]);
     var imgIndex = Math.floor(Math.random() * ((imageArr.length)));
     imgIndex = (imgIndex > -1 ? imgIndex : 0);
     var arr = {
       title: dataArr[0].title,
-      url: href + 'articles/' + dataArr[0].report + '/' + dataArr[0].eventId,
+      url: href + 'articles/' + dataArr[0].report + '/' + dataArr[0].event_id,
       content: dataArr[0].content + '<br>&nbsp; ',
       img: imageArr[imgIndex]
     };
@@ -117,7 +116,7 @@ ai_widget = (function() {
     $('#ai-link').attr('href', arr.url);
     $('#ai-link').attr('target', target);
     $('.aiw-txt')[0].innerHTML = arr.content;
-    $('.aiw-img').css('background-image', 'url(' + arr.img + ')');
+    $('.aiw-img').css('background-image', 'url(http://dev-images.synapsys.us' + arr.img + ')');
     fitText();
   } // --> displayPage
   function fitText() {
@@ -166,14 +165,14 @@ ai_widget = (function() {
     }
     // Get all the pages
     var pages = [];
-    for (var i = 0; i < Object.keys(AIData).length; i++) {
-      if (pages.indexOf(Object.keys(AIData)[i] > -1) && Object.keys(AIData)[i] != "meta-data") {
-        availPages.push(Object.keys(AIData)[i]);
+    for (var i = 0; i < Object.keys(AIData.data).length; i++) {
+      if (pages.indexOf(Object.keys(AIData.data)[i] > -1) && Object.keys(AIData.data)[i] != "meta-data") {
+        availPages.push(Object.keys(AIData.data)[i]);
       }
     }
     pageInd = 0;
     // Get game ID
-    gameID = AIData['meta-data']['current'].eventId;
+    gameID = AIData.data['meta-data']['current'].event_id;
     if (gameArr.length == 0) {
       parseGames();
     }
@@ -189,21 +188,21 @@ ai_widget = (function() {
       // Team names
       $.map(games, function(val, index) {
         var gameData = {};
-        gameData.home = val.homeAbbreviation;
-        gameData.away = val.awayAbbreviation;
-        gameData.fullHome = val.homeTeamName;
-        gameData.fullAway = val.awayTeamName;
+        gameData.home = val.home_team_abbreviation;
+        gameData.away = val.away_team_abbreviation;
+        gameData.fullHome = val.home_team_name;
+        gameData.fullAway = val.away_team_name;
         // Event ID
-        gameData.eventId = val.eventId;
+        gameData.event_id = val.event_id;
         // Date
-        gameData.eventDate = val.startDateTime;
-        gameData.Time = gameData.eventDate.split(' ')[1];
+        gameData.eventDate = val.start_date_time.date;
+        gameData.Time = val.start_date_time.time;
         gameData.eventTime = ' - ' + gameData.Time;
         gameArr.push(gameData);
       });
       return gameArr;
     }
-    var games = AIData['meta-data'].games;
+    var games = AIData.data['meta-data'].games;
     // Save all the games
     gameArr = parseGame(games);
     // Display the current game
@@ -218,7 +217,7 @@ ai_widget = (function() {
       } else {
         ddStr += '<div class="text-snippet">All times are in Eastern Time</div>';
       }
-      ddStr += '<div class="dropdown-elem' + (gameArr[i].eventId == gameID ? ' active" " onclick="ai_widget.switchGame(' + i + ')"' : '" onclick="ai_widget.switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
+      ddStr += '<div class="dropdown-elem' + (gameArr[i].event_id == gameID ? ' active" " onclick="ai_widget.switchGame(' + i + ')"' : '" onclick="ai_widget.switchGame(' + i + ')"') + ' title="' + gameArr[i].fullAway + ' vs ' + gameArr[i].fullHome + '"><span class="left"><b>' + gameArr[i].away + '</b> vs <b>' + gameArr[i].home + '</b></span><span class="right">' + gameArr[i].eventDate + '</span></div>';
     }
 
     // Create
@@ -228,7 +227,7 @@ ai_widget = (function() {
   function showGame() {
     // Loop through the games to find the current one
     for (var i = 0; i < gameArr.length; i++) {
-      if (gameArr[i].eventId == gameID) {
+      if (gameArr[i].event_id == gameID) {
         $('.home.team')[0].innerHTML = gameArr[i].home;
         $('.away.team')[0].innerHTML = gameArr[i].away;
         $('.header-right.team')[0].innerHTML = gameArr[i].eventTime;
@@ -239,7 +238,7 @@ ai_widget = (function() {
   } // --> showGame
   // Switches the game
   function switchGame(gameNum) {
-    gameID = gameArr[parseInt(gameNum)].eventId;
+    gameID = gameArr[parseInt(gameNum)].event_id;
     toggleDropDown();
     getContent(gameID);
     showGame();

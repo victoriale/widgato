@@ -29,12 +29,12 @@ function RenderArticleSide(protocolToUse) {
     var keyword;
     var hasChanged = false;
     var dropdownCount = 0;
-    var catOptions = ['mlb', 'nfl', 'ncaa', 'nba', 'ncaam'];
+    var catOptions = ['mlb', 'nfl', 'ncaa', 'nba','ncaam'];
     function getRandomArbitrary(min, max) {
        return Math.floor(Math.random() * (max - min) + min);
     }
     //latest possible end date for: nfl 2/8, nba 6/21, mlb 11/7
-    var seasonalScopes = [{scope: "mlb", start: 4, end:10},{scope: "nfl", start: 9, end:1}/*,{scope: "ncaa", start: 9, end:2}*/,{scope: "nba", start: 10, end:6},{scope: "ncaam", start: 10, end:6}];
+    var seasonalScopes = [{scope: "mlb", start: 4, end:10},{scope: "nfl", start: 9, end:1},/*{scope: "ncaa", start: 9, end:2},*/{scope: "nba", start: 10, end:6},{scope: "ncaam", start: 10, end:6}];
     var date = new Date();
     var month = date.getMonth() + 1;
     var scopeIsSet = false;
@@ -62,7 +62,7 @@ function RenderArticleSide(protocolToUse) {
     catOptions[0]=scope;
 
     if (catOptions[0] == 'mlb') {
-        APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick';
+        APIUrl = protocolToUse + 'dev-homerunloyal-ai.synapsys.us/sidekick?scope=mlb';
         keyword = "MLB";
         isMlb = true;
     } else if (catOptions[0] == 'nfl') {
@@ -82,7 +82,7 @@ function RenderArticleSide(protocolToUse) {
         APIUrl = protocolToUse + 'prod-sports-ai.synapsys.us/sidekick?scope=ncaam';
         keyword = "NCAAM";
         isMlb = false;
-    }else {
+    } else {
         APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick';
         keyword = "MLB";
         isMlb = false;
@@ -100,15 +100,8 @@ function RenderArticleSide(protocolToUse) {
         }
         var locApiUrl = APIUrl;
         if (typeof event_id != "undefined") {
-          if (isMlb) {
-            locApiUrl += "/" + event_id;
-            event = event_id;
-          }
-          else {
             locApiUrl += "&event=" + event_id;
             event = event_id;
-          }
-
         }
         $.ajax({
             url: locApiUrl,
@@ -178,14 +171,10 @@ function RenderArticleSide(protocolToUse) {
 
     function mapArticles(data) {
         var dataTypes;
-        if (isMlb) {
-            dataTypes = data;
-        } else {
-            dataTypes = data['data'];
-        }
+        dataTypes = data['data'];
         for (var obj in dataTypes) {
             if (obj == "meta-data" || obj == "timestamp")continue;
-            this[obj] = isMlb ? data[obj] : data['data'][obj];
+            this[obj] = data['data'][obj];
         }
     }
 
@@ -194,11 +183,7 @@ function RenderArticleSide(protocolToUse) {
     function listOutTypes(data) {
         articleTypes = [];
         var dataTypes;
-        if (isMlb) {
-            dataTypes = data;
-        } else {
             dataTypes = data['data'];
-        }
         for (var obj in dataTypes) {
             if (obj == "meta-data" || obj == "timestamp")continue;
             articleTypes.push(obj);
@@ -213,27 +198,16 @@ function RenderArticleSide(protocolToUse) {
         } else {
             articleIndex = articleIndex;
         }
-        var mData = isMlb ? data['meta-data'] : data['data']['meta-data'];
+        var mData = data['data']['meta-data'];
         var article = new mapArticles(data)[articleTypes[articleIndex]];
         var game = new eventData(mData);
         //images being selected based on the articleIndex value
-        if (isMlb) {
-            var images = getAllImages(mData);
-            var image = images[articleIndex];
-        } else {
-            var image = protocolToUse + 'images.synapsys.us' + article.image_url;
-        }
+        var image = protocolToUse + 'dev-images.synapsys.us' + article.image_url;
         gameData = mData;
         //change this to img tags instead of bg image
         A('.section-image').style.backgroundImage = 'url("' + image + "?width=" + (300 * window.devicePixelRatio) + '")';
-        if (isMlb) {
-          A('.dateline').innerHTML = keyword + ' ' + article.dateline;
-          A('.section-text').innerHTML = article.displayHeadline;
-        }
-        else {
-          A('.dateline').innerHTML = keyword + ' ' + convertDate(game['start_date_time'].date + ' ' + game['start_date_time'].time + ' EDT');
-          A('.section-text').innerHTML = article.title;
-        }
+        A('.dateline').innerHTML = keyword + ' ' + convertDate(game['start_date_time'].date + ' ' + game['start_date_time'].time + ' EDT');
+        A('.section-text').innerHTML = article.title;
 
         if(catOptions[0] == "ncaa") {
           var cat = "ncaaf";
@@ -245,10 +219,10 @@ function RenderArticleSide(protocolToUse) {
         if (isMlb) {
           //article url structure: /articles/:article_type/:event_id
           //check if the id has been changed via the drop down selection; otherwise use the initial id.
-          var checkId = game.eventId;
+          var checkId = game.event_id;
 
-          if (data.data && data.data['player-fantasy'] && data.data['player-fantasy'].articleId == article.articleId) {
-            var id = article.articleId;  //if fantasy article use article id
+          if (data.data && data.data['player-fantasy'] && data.data['player-fantasy'].article_id == article.article_id) {
+            var id = article.article_id;  //if fantasy article use article id
           }
           else {
             var id = !changedGameId ? checkId: changedGameId;  //if regular article use event id
@@ -273,12 +247,8 @@ function RenderArticleSide(protocolToUse) {
 
           }
         }
-        var articleText = isMlb ? article.article[0].substr(0, 150) : article.teaser.substr(0, 150);
-        if (isMlb) {
-            A('.bar-date').innerHTML = convertDate(game.startDateTime);
-        } else {
+        var articleText = article.teaser.substr(0, 150);
             A('.bar-date').innerHTML = convertDate(game['start_date_time'].date + ' ' + game['start_date_time'].time + ' EDT');
-        }
         var author = isMlb ? 'www.homerunloyal.com' : 'www.touchdownloyal.com';
         var authorLink = author;
         if (query.showLink != "false") {
@@ -299,7 +269,7 @@ function RenderArticleSide(protocolToUse) {
         A('.buttons-nextlist').onmouseout = function () {
             A('#arrow').style.fill = '#b31d24';
         };
-        gameID = isMlb ? gameData['current'].event_id : gameData['current'].event_id;
+        gameID = gameData['current'].event_id;
         if (isMlb) {
             $('.ball').css('background-image', 'url(../css/public/icons/Home-Run-Loyal_Icon%202.svg)');
             $('.swp-top').css('background-color', '#b31d24');
@@ -356,31 +326,17 @@ function RenderArticleSide(protocolToUse) {
             // Team names
             $.map(games, function (val) {
                 var gameData = {};
-                if (isMlb) {
-                    gameData.fullHome = val.homeTeamName;
-                    gameData.fullAway = val.awayTeamName;
-                    gameData.home = val.homeAbbreviation;
-                    gameData.away = val.awayAbbreviation;
-                } else {
                     gameData.fullHome = val.home_team_location + ' ' + val.home_team_name;
                     gameData.fullAway = val.away_team_location + ' ' + val.away_team_name;
-                    gameData.home = val.home_abbreviation;
-                    gameData.away = val.away_abbreviation;
-                }
+                    gameData.home = val.home_team_name;
+                    gameData.away = val.away_team_name;
                 // Event ID
-                gameData.event_id = isMlb ? val.event_id : val.event_id;
+                gameData.event_id = val.event_id;
                 // Date
-                if (isMlb) {
-                  var dateArray = val['startDateTime'].split(' ');
-                  var time = dateArray[1] + ' ET';
-                  // avoid moment js deprecation warning
-                  var date = moment(dateArray[0],'MM/D/YY',true).isValid() != true ? moment(dateArray[0]).format("MMM. DD") : moment(dateArray[0],'MM/D/YY',true).format("MMM. DD ");
-                } else {
                   var time = val['start_date_time'].time + ' ET';
                   var data_date = val['start_date_time'].date;
                   // avoid moment js deprecation warning
                   var date = moment(data_date,'MM/DD/YYYY',true).isValid() != true ? moment(data_date).format("MMM. DD") : moment(data_date,'MM/DD/YYYY',true).format("MMM. DD ");
-                }
                 gameData.eventDate = date + time.toUpperCase();
                 gameData.eventTime = time;
                 gameArr.push(gameData);
