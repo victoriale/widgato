@@ -424,6 +424,11 @@ i {
     fill: white;
 }
 
+#prev-list-link .dw-btn:hover {
+    color: white;
+    fill: white;
+}
+
 #list-link .dw-btn:before{
   content: "";
   position: absolute;
