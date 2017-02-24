@@ -400,7 +400,7 @@ dynamic_widget = function() {
           document.getElementById("list-link").addEventListener("click", function(){
             window.parent.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
           });
-          document.getElementById("imgurl").addEventListener("click", function(){
+          document.getElementById("mainurl").addEventListener("click", function(){
             window.parent.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
           });
         }
