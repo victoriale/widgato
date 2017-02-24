@@ -136,6 +136,19 @@ function getCategoryMetadata (category) {
 }
 
 function getPublisher (pub) {
+  var apiFallback = false;
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open( "GET", "http://synapview.synapsys.us/?action=get_partner_branding&domain=" + pub, false );
+  xmlHttp.send( null );
+  try {
+    var pubResponce = JSON.parse(xmlHttp.responseText);
+  }
+  catch(err) {
+    apiFallback = true;
+  }
+  if (pubResponce.logo == null || pubResponce.logo == "") {
+    apiFallback = true;
+  }
   var pubs = {
     homerunloyal: {
       displayName: "Home Run Loyal",
@@ -166,86 +179,18 @@ function getPublisher (pub) {
       link: "www.joyfulhome.com",
       logo: "../css/public/pub_logos/logo-joyful-home.svg",
       hex: "#43B149"
-    },
-    //partner pubs:
-    ajc: {
-      displayName: "AJC",
-      link: "www.ajc.com",
-      logo: "../css/public/pub_logos/logo-ajc.svg",
-      hex: "#00579E"
-    },
-    baltimoresun: {
-      displayName: "The Baltimore Sun",
-      link: "www.baltimoresun.com",
-      logo: "../css/public/pub_logos/logo-baltimore-sun.svg",
-      hex: "#1e1e1e"
-    },
-    capitolgazette: {
-      displayName: "Capitol Gazette",
-      link: "www.capitalgazette.com",
-      logo: "../css/public/pub_logos/logo-capital-gazette.svg",
-      hex: "#064992"
-    },
-    carrollcountytimes: {
-      displayName: "Carrol County Times",
-      link: "www.carrollcountytimes.com",
-      logo: "../css/public/pub_logos/logo-carroll-county-times.svg",
-      hex: "#003c00"
-    },
-    chicagotribune: {
-      displayName: "Chicago Tribune",
-      link: "www.chicagotribune.com",
-      logo: "../css/public/pub_logos/logo-chicagotribune.svg",
-      hex: "#004e87"
-    },
-    dailypress: {
-      displayName: "Daily Press",
-      link: "www.dailypress.com",
-      logo: "../css/public/pub_logos/logo-daily-press.svg",
-      hex: "#1875ae"
-    },
-    hartfordcourant: {
-      displayName: "Hartford Courant",
-      link: "www.courant.com",
-      logo: "../css/public/pub_logos/logo-hartford-courant.svg",
-      hex: "#1e1e1e"
-    },
-    latimes: {
-      displayName: "LA Times",
-      link: "www.latimes.com",
-      logo: "../css/public/pub_logos/logo-latimes.svg",
-      hex: "#1e1e1e"
-    },
-    orlandosentinel: {
-      displayName: "Orlando Sentinel",
-      link: "www.orlandosentinel.com",
-      logo: "../css/public/pub_logos/logo-orlando-sentinel.svg",
-      hex: "#00919e"
-    },
-    sandiegouniontribune: {
-      displayName: "San Diego Union Tribune",
-      link: "www.sandiegouniontribune.com",
-      logo: "../css/public/pub_logos/logo-san-diego-union-tribune.svg",
-      hex: "#004e87"
-    },
-    sunsentinel: {
-      displayName: "Sun Sentinel",
-      link: "www.sun-sentinel.com",
-      logo: "../css/public/pub_logos/logo-sun-sentinel.svg",
-      hex: "#1e1e1e"
-    },
-    themorningcall: {
-      displayName: "The Morning Call",
-      link: "www.mcall.com",
-      logo: "../css/public/pub_logos/logo-the-morning-call.svg",
-      hex: "#519dc6"
     }
   };
-  if (pub == null || pub == "" || !pubs[pub.split(".")[0]]) {
-    return pubs[currentConfig.pub];
+  if (apiFallback == true) {
+    if (pub == null || pub == "" || !pubs[pub.split(".")[0]]) {
+      return pubs[currentConfig.pub];
+    }
+    else {
+      return pubs[pub.split(".")[0]];
+    }
   }
   else {
-    return pubs[pub.split(".")[0]];
+    return pubResponce;
   }
 }
 
