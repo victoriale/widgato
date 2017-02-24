@@ -33,7 +33,7 @@ ai_widget = (function() {
     }
 
   }
-  var APIUrl = protocolToUse + 'dev-homerunloyal-ai.synapsys.us/sidekick?scope=mlb',
+  var APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick?scope=mlb',
     AIData = {},
     gameID = -1,
     pageInd = -1,
@@ -116,7 +116,7 @@ ai_widget = (function() {
     $('#ai-link').attr('href', arr.url);
     $('#ai-link').attr('target', target);
     $('.aiw-txt')[0].innerHTML = arr.content;
-    $('.aiw-img').css('background-image', 'url(http://dev-images.synapsys.us' + arr.img + ')');
+    $('.aiw-img').css('background-image', 'url(http://images.synapsys.us' + arr.img + ')');
     fitText();
   } // --> displayPage
   function fitText() {
