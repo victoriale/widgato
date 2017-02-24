@@ -1,0 +1,634 @@
+i {
+  font-style: normal;
+  margin-left: 5px;
+  font-family: 'Source Sans Pro', Helvetica, Arial , sans-serif;
+  font-size: 15px;
+  vertical-align: -1px;
+}
+.list-icon {
+  margin-left: 10px;
+  vertical-align:-3px;
+  stroke: white;
+  fill: white;
+}
+.swp{
+  width: 300px;
+	height: 250px;
+	background-color: #fafafa;
+  padding-top: 7px;
+  border: 1px solid #ccc;
+  margin: 0 auto;
+  /*display: none;*/
+  position: absolute;
+  z-index: -1;
+}
+
+.title{
+  display: -webkit-flex;
+  display: flex;
+  height: 25px;
+  width: 100%;
+  margin-left: 10px;
+}
+.title-logo{
+  width: 25px;
+  height: 25px;
+  background-color: #b31d24;
+  border-radius: 50%;
+  background-image: url("public/Icon_Baseball.png");
+  background-position: center center;
+  background-repeat: no-repeat;
+}
+.title-text{
+  font-family: Lato;
+  font-weight: bold;
+	font-size: 16px;
+	color: #000000;
+  padding-left: 6px;
+  margin-top: 3px;
+}
+
+#verticalName {
+    font-size: 10px;
+    font-weight: 400;
+    width: 100%;
+    min-height: 10px;
+    text-align: left;
+    color:white;
+    padding: 5px 15px;
+}
+#verticalName a {
+  color: white;
+}
+
+.section{
+  height: 90px;
+  width: 100%;
+  display: -webkit-flex;
+  display: flex;
+  margin-top: 12px;
+}
+.section-image{
+  height: 90px;
+  width: 120px;
+  background-color: black;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: top center;
+}
+.section-text{
+  width: 155px;
+  font-family: Lato;
+  font-weight: bold;
+  margin-left: 9px;
+}
+
+.content{
+  margin-left: 9px;
+  margin-top: 10px;
+  width: 275px;
+  height: 44px;
+}
+.content-text{
+  font-family: Lato;
+	font-size: 12px;
+  line-height: 1.3;
+  color: #000000;
+}
+.content-readmore{
+  font-family: Lato;
+  font-size: 12px;
+  font-weight: bold;
+  color: #b31d24;
+}
+
+.bar{
+  display: -webkit-flex;
+  display: flex;
+  margin-left: 9px;
+  margin-top: 15px;
+  height: 10px;
+  font-family: Lato;
+  font-size: 10px;
+  color: #999999;
+}
+.bar-date{}
+.bar-author{
+  margin-left: 6px;
+}
+#authorlink{
+  text-decoration: none;
+  color: #999999;
+}
+
+.buttons{
+  width: 100%;
+  text-align: center;
+  display: -webkit-flex;
+  display: flex;
+  height: 25px;
+  margin-left: 9px;
+  margin-top: 11px;
+  bottom: 5px;
+  position: relative;
+}
+.buttons-readstory{
+  padding-left: 18px;
+  text-align: center;
+  line-height: 25px;
+  font-size: 12px;
+  font-family: Lato;
+  height: 25px;
+  width: 112px;
+  background-color: #b31d24;
+  color: white;
+  border-radius: 5px;
+}
+.buttons-readstory:hover{
+  background-color: #272727;
+}
+#paper{
+  margin-top: 4.5px;
+  left: 12px;
+  position: absolute;
+}
+.buttons-nextlist{
+  padding-right: 15px;
+  width: 94px;
+  height: 25px;
+  line-height: 24px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #b31d24;
+  margin-left: 10px;
+  color: #b31d24;
+  font-size: 12px;
+  font-family: Lato;
+  font-weight: bold;
+  cursor: pointer;
+}
+.buttons-nextlist:hover{
+  background-color: #b31d24;
+  color: white;
+}
+#arrow{
+  margin-top: 3px;
+  margin-left: 1px;
+  position: absolute;
+  fill: #b31d24;
+}
+.buttons-timer{
+  width: 54px;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid #b31d24;
+  font-size: 12px;
+  font-family: Lato;
+  margin-left: 10px;
+}
+#play{
+  color: #b31d24;
+  font-size: 12px;
+  margin-right: 5px;
+}
+#pause{
+  color: #b31d24;
+  font-size: 12px;
+  margin-right: 5px;
+}
+#swp-play{
+  color: #b31d24;
+  font-size: 12px;
+  margin-right: 5px;
+}
+#swp-pause{
+  color: #b31d24;
+  font-size: 12px;
+  margin-right: 5px;
+}
+
+html, body {
+  margin: 0 !important;
+  font-family: 'Lato', sans-serif;font-weight:400;
+  width: 100%;
+  height: auto;
+  background-color: white;
+  -webkit-user-select: none;  /* Chrome all / Safari all */
+  -moz-user-select: none;     /* Firefox all */
+  -ms-user-select: none;      /* IE 10+ */
+  user-select: none;
+}
+div{
+  font-family: 'Lato', sans-serif;font-weight:400;
+}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  outline:0;
+}
+
+button:focus {
+  outline:0;
+}
+
+
+
+.content-container{
+  overflow: hidden;
+  width: 300px;
+  height: auto;
+  margin: 0 auto;
+
+}
+
+.fcw{
+  border: 1px solid #ccc;
+  width: 300px;
+  height: 250px;
+  position: relative;
+  position: absolute;
+  background-color: white;
+  z-index: 2;
+
+}
+
+/*top text*/
+.fcw-icon{
+  width: 12px;
+  height: 12px;
+  background-color: #bc1624;
+  /*background-image: url("public/Icon_Baseball.png");*/
+  background-position: center center !important;
+  background-repeat: no-repeat;
+  background-size: 12px 12px;
+  margin: 0 5px 0 0;
+  display:inline-block;
+  vertical-align: top;
+}
+.fcw-icon:hover{
+  background-color: #000;
+}
+.fcw-text{
+  width: 100%;
+  height:auto;
+  padding-top: 5px;
+  position:relative;
+}
+
+.fcw-t1{
+  font-weight: 800;
+  font-size: 12px;
+  text-align: left;
+  padding-left: 10px;
+  width: 285px;
+  text-align: left;
+  display: table;
+  height:auto;
+  bottom: 8px;
+
+
+}
+.fcw-t1 p {
+  display: table-cell;
+ vertical-align: middle;
+}
+
+.fcw-t2{
+  margin: 3px 0 2px 0;
+  font-size: 14px;
+  text-align: center;
+  line-height: 16px;
+  width: 100%;
+}
+/*top text END*/
+
+/*image && button*/
+.fcw-middle{
+  /*position: relative;*/
+  width: 100%;
+  margin: 10px 0 6px auto;
+}
+.fcw-image{
+  width: 84px;
+  height: 84px;
+  margin: 5px auto;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px #ccc;
+  background-size: cover !important;
+  background-position: center center !important;
+  position: relative;
+  z-index: 1;
+
+}
+
+.fcw-image-team{
+  width: 90px;
+  height: 90px;
+  margin: 5px auto;
+  border-radius: 50%;
+  box-shadow: 0 0 0 3px #ccc;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat;
+  text-align: center;
+  position: relative;
+}
+
+.fcw-t2-num{
+  position: absolute;
+  top: 0px;
+  left: 0;
+  width: 25px;
+  height: 25px;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  background-color: #fff;
+  line-height: 23px;
+  text-align: center;
+  font-size: 10px;
+  z-index: 2;
+}
+.fcw-logo{
+  border-radius: 50%;
+  border-width: 1px;
+  border-color: #ebebeb;
+  border-style: solid;
+  background-color: #fff !important;
+  width: 148px;
+  height: 148px;
+  background-size: cover !important;
+  background-position: center center !important;
+  position: absolute;
+  right:0;
+  margin: 0px 35px;
+  z-index: 0;
+}
+.fcw-logo:hover{
+  background-color: #bc1624;
+  z-index: 2;
+}
+.fcw-leftnav{
+  position: absolute;
+  height: 50px;
+  width: 20px;
+  border-radius: 0 10px 10px 0;
+  -moz-border-radius: 0 10px 10px 0;
+  -webkit-border-radius: 0 10px 10px 0;
+  border:none;
+  left: 0;
+  top: calc(50% - 25px);
+  background-color: #000;
+  color:#fff;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+.fcw-rightnav{
+  height: 50px;
+  width: 20px;
+  border-radius: 10px 0 0 10px;
+  -moz-border-radius: 10px 0 0 10px;
+  -webkit-border-radius: 10px 0 0 10px;
+  border:none;
+  position: absolute;
+  right: 0;
+  top: calc(50% - 25px);
+  background-color: #000;
+  color:#fff;
+  font-size: 25px;
+  cursor: pointer;
+}
+/*image && button END*/
+
+/*bottom text*/
+.fcw-content{
+  width:100%;
+  height: 55px;
+  line-height: 18px;
+}
+.fcw-content-top{}
+.fcw-content1{
+  font-size: 14px;
+  color:black;
+  font-family: 'Lato', sans-serif;
+  font-weight: 800;
+  text-align: center;
+}
+.fcw-content1:hover{
+  color: #000;
+}
+.fcw-content2{
+  font-size: 12px;
+  color: #999;
+  font-weight: 400;
+  text-align: center;
+  line-height: 1.1em;
+}
+
+#fcw-team{
+  color: #bc1624;
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.1em;
+}
+
+#fcw-team:hover{
+  color: #000;
+}
+
+#fcw-content2a{
+  /*color: black;*/
+  font-weight: 800;
+  text-align: center;
+  line-height: 1.1em;
+  color:black;
+  font-weight: 400;
+}
+
+#fcw-content2b{
+  color: black;
+  font-weight: 900;
+  text-align: center;
+  line-height: 1.1em;
+  font-weight: 400;
+
+}
+
+.fcw-content3{
+  font-size: 12px;
+  color: #000;
+  font-weight: 400;
+  text-align: center;
+}
+/*bottom text END*/
+
+.fcw-list{
+  width:100%;
+  height: 30px;
+  /*text-align: center;*/
+  position: absolute;
+  bottom:0;
+  /*margin-bottom: 10px;
+  margin-left: 10px;*/
+  display: -webkit-flex;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 5px;
+  padding: 0 10px;
+}
+.fcw-list-next{
+  cursor: pointer;
+}
+.fcw-list-next, .fcw-list-time{
+  border-radius: 3px;
+  text-align: center;
+  border: 1px solid;
+  border-color:#b31d24;
+  color:#b31d24;
+
+}
+.fcw-list-list {
+  background-color: #b31d24;
+  color:white;
+  border-radius: 3px;
+  text-align: center;
+  border: 1px solid;
+  border-color:#b31d24;
+}
+.fcw-list-list i {
+  margin-left: 8px;
+}
+.fcw-list-next i {
+  margin-left: 5px;
+}
+.fcw-list-time i {
+  margin-right: 5px;
+}
+
+.fcw-list-text {
+  font-size:12px;
+  line-height: 28px;
+}
+
+
+.fcw-list-link{
+  color: #000;
+  font-size: 12px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  border-radius: 3px;
+  border: 1px solid #bc1624;
+  background-color: #fff;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 17px;
+  padding-right: 17px;
+}
+.fcw-list-list:hover{
+  background-color: #272727;
+  color: #fff;
+}
+
+.fcw-list-list:active{
+  background-color: #000000;
+  color: #fff;
+}
+.fcw-list-next:hover {
+  background-color: #b31d24;
+  color:white;
+}
+.fcw-presentedby{
+    position: absolute;
+    bottom: 4px;
+    left: 2px;
+    color:#aaa;
+    text-align: left;
+    font-size: 10px;
+}
+
+.fcw-rightnav:hover{
+  background-color: black;
+}
+
+.fcw-leftnav:hover{
+  background-color: black;
+}
+
+.swc-space{
+  margin:0 2px;
+}
+
+.fcw-t2-title{
+  color: #000;
+  font-weight: 400;
+}
+.fcw-t2-title:hover{
+  color:#bc1624;
+}
+.fcw-loc{
+  color: #000;
+}
+.fcw-logo{
+  color: #fff;
+  top: 0px;
+}
+.fcw-loc:hover{
+  color:#bc1624;
+}
+.hover1{
+  width:100%;
+  height:100%;
+  border-radius: 50%;
+  opacity: 0;
+  text-align: center;
+}
+.txt1{
+  padding-top:.5em;
+  font-size: 20px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  color:#fff;
+}
+.txt2{
+  font-size: 16px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 800;
+  color:#fff;
+}
+.hover1:hover{
+  opacity: 0.75;
+  padding-top: 10px;
+  font-size: 20px;
+}
+.dw-nav {
+    height: 60px;
+    width: 30px;
+    position: absolute;
+    top: 40px;
+    color: white;
+    background-color: black;
+    display: block;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none
+}
+.dw-c-l {
+    left: 0;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px
+}
+.dw-c-r {
+    right: 0;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px
+}
