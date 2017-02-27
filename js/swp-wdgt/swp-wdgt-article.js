@@ -239,7 +239,7 @@ function RenderArticleSide(protocolToUse) {
           else {
             var id = !changedGameId ? checkId: changedGameId;  //if regular article use event id
           }
-          if (catOptions[0] == "nba") {
+          if (catOptions[0] == "nba" || catOptions[0] == "ncaam") {
             var articleUrl = 'http://www.hoopsloyal.com/' + cat + '/articles/' + articleTypes[articleIndex] + '/' + id;
           }
           else {
@@ -368,7 +368,7 @@ function RenderArticleSide(protocolToUse) {
         if (isMlb) {
           backgroundColor = '#b31d24';
         }
-        else if (catOptions[0] == "nba") {
+        else if (catOptions[0] == "nba" || catOptions[0] == "ncaam") {
           backgroundColor = 'rgba(247,112,29, 0.9)';
         }
         else {
