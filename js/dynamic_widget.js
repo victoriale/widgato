@@ -146,7 +146,7 @@ function getPublisher (pub) {
   catch(err) {
     apiFallback = true;
   }
-  if (pubResponce.logo == null || pubResponce.logo == "") {
+  if (pubResponce == null || pubResponce.logo == null || pubResponce.logo == "") {
     apiFallback = true;
   }
   var pubs = {
