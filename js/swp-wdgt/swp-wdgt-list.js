@@ -206,12 +206,14 @@ function RenderDynamicSide(protocolToUse){
 
     //new dyanmic pub color css code
     A('#pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
-    A('#pub_link').href = "http://" + currentPub.link;
-    var css = '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
-    css += '#list-link .dw-btn:before {background-color: ' + currentPub.hex + ';}';
+    var css = "";
+    if (query.showLink != "false") {
+      A('#pub_link').href = "http://" + currentPub.link;
+      css += '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
+      css += '#carousel:hover #mainimg {-webkit-transform: scale(1.08) translateY(-50%); transform: scale(1.08) translateY(-50%);}';
+    }
     css += '.dw-info {border-left: 3px solid ' + currentPub.hex + '; padding-left: 10px;}';
     css += '.dw-nav {stroke: ' + currentPub.hex + '; } .dw-nav:hover {background-color: ' + currentPub.hex + '; stroke: white;}';
-    css += '#list-link .dw-btn {fill: ' + currentPub.hex + '; color: ' + currentPub.hex + '; border-color: ' + currentPub.hex + ';}';
     style = document.createElement('style');
     if (style.styleSheet) {
         style.styleSheet.cssText = css;
