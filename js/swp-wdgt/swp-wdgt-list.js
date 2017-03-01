@@ -433,7 +433,6 @@ function RenderDynamicSide(protocolToUse){
         else if (listData[index].li_str != null && listData[index].li_str.length >= 40) {
           A('.fcw-content1').style.display = '';
           A('.fcw-content2').style.display = '';
-          A('.fcw-content').style.textAlign = 'center';
           A('.fcw-content1').innerHTML = listData[index].li_title;
         }
         else {
