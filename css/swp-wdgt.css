@@ -142,7 +142,6 @@ i {
     height: 118px;
     position: relative;
     overflow: hidden;
-    cursor: pointer;
 }
 .dw-big {
   width: 100%;
@@ -152,10 +151,6 @@ i {
 #mainimg {
   -webkit-transition: 0.4s ease;
   transition: 0.4s ease;
-}
-#carousel:hover #mainimg {
-  -webkit-transform: scale(1.08) translateY(-50%);
-  transform: scale(1.08) translateY(-50%);
 }
 #carousel:hover .carouselShader {
   /*background-image: none;*/
