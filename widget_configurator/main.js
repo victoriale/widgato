@@ -351,6 +351,9 @@ var options = {
     },
     output:'../sports/hrl_sidekick_vertical.html?{"dom":"<domain>","remn":"<remn>","category":"<category>","targ":"<targ>"}'
   },
+  ai_article_wide: {
+    output:'../sports/ai_article_wide.html'
+  },
   caw_widget:{
     caw_url:{
       default: "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html",
@@ -519,6 +522,9 @@ var options = {
       type: "text"
     },
     output:'../finance/national_widget.html?{"dom":"<domain>","loc":{"loc_name":"<location>"},"remn":"<remn>","bord":false,"targ":"<targ>"}'
+  },
+  realestate_lol_widget: {
+    output: '../realestate/standard.html'
   }
 };
 
