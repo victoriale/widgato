@@ -1,5 +1,90 @@
 var query = {};
 var count = 0;
+function getPublisher (pub) {
+  var pubs = {
+    mlb: {
+      displayName: "Home Run Loyal",
+      link: "www.homerunloyal.com",
+      logo: "../css/public/pub_logos/logo-homerun-loyal.svg",
+      hex: "#bc2027"
+    },
+    nfl: {
+      displayName: "Touchdown Loyal",
+      link: "www.touchdownloyal.com",
+      logo: "../css/public/pub_logos/logo-touchdown-loyal.svg",
+      hex: "#0b3656"
+    },
+    ncaaf: {
+      displayName: "Touchdown Loyal",
+      link: "www.touchdownloyal.com",
+      logo: "../css/public/pub_logos/logo-touchdown-loyal.svg",
+      hex: "#0b3656"
+    },
+    nba: {
+      displayName: "Hoops Loyal",
+      link: "www.hoopsloyal.com",
+      logo: "../css/public/pub_logos/logo-hoops-loyal.svg",
+      hex: "#f26f26"
+    },
+    college_basketball: {
+      displayName: "Hoops Loyal",
+      link: "www.hoopsloyal.com",
+      logo: "../css/public/pub_logos/logo-hoops-loyal.svg",
+      hex: "#f26f26"
+    },
+    finance: {
+      displayName: "Invest Kit",
+      link: "www.investkit.com",
+      logo: "../css/public/pub_logos/logo-invest-kit.svg",
+      hex: "#3098ff"
+    },
+    disaster: {
+      displayName: "Joyful Home",
+      link: "www.joyfulhome.com",
+      logo: "../css/public/pub_logos/logo-joyful-home.svg",
+      hex: "#43B149"
+    },
+    crime: {
+      displayName: "Joyful Home",
+      link: "www.joyfulhome.com",
+      logo: "../css/public/pub_logos/logo-joyful-home.svg",
+      hex: "#43B149"
+    },
+    weather: {
+      displayName: "Joyful Home",
+      link: "www.joyfulhome.com",
+      logo: "../css/public/pub_logos/logo-joyful-home.svg",
+      hex: "#43B149"
+    },
+    demographics: {
+      displayName: "Joyful Home",
+      link: "www.joyfulhome.com",
+      logo: "../css/public/pub_logos/logo-joyful-home.svg",
+      hex: "#43B149"
+    }
+  };
+  return pubs[pub];
+}
+
+function copyToClipboard(text) {
+    if (window.clipboardData && window.clipboardData.setData) {
+        return clipboardData.setData("Text", text);
+    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = text;
+        textarea.style.position = "fixed";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            return document.execCommand("copy");
+        } catch (ex) {
+            console.warn("Copy to clipboard failed.", ex);
+            return false;
+        } finally {
+            document.body.removeChild(textarea);
+        }
+    }
+}
 swp_wdgt = function(){
   A = function(id) {
     var d = document;
@@ -107,63 +192,7 @@ function RenderDynamicSide(protocolToUse){
   var siteNameToUse = siteName[listType];
 
   function mapColorScheme(color,icons, type, url){
-    A('#verticalName').style.backgroundColor = color;
-    A('#nextlist-svg').style.fill = color;
-    A('.fcw-icon').style.backgroundColor = color;
-    A('.fcw-icon').style.zIndex = "5";
 
-    A('.fcw-icon').style.backgroundImage = "url('" + icons + "')";
-    A('.fcw-list-next').style.color = color;
-    A('.fcw-list-next').style.borderColor = color;
-
-    A(".fcw-list-next").onmouseover = function() {
-      A('.fcw-list-next').style.backgroundColor = "#272727";
-      A('.fcw-list-next').style.borderColor = "#272727";
-      A('.fcw-list-next').style.color = 'white';
-      A('#nextlist-svg').style.fill = '#FFFFFF';
-    }
-    A(".fcw-list-next").onmouseout  = function() {
-      A('.fcw-list-next').style.borderColor = color;
-      A('.fcw-list-next').style.backgroundColor = '';
-      A('.fcw-list-next').style.color = color;
-      A('#nextlist-svg').style.fill = color;
-    }
-
-    A('.fcw-list-list').style.borderColor = color;
-    A('.fcw-list-list').style.backgroundColor = color;
-    //handle hover change to black on next lists
-    A('.fcw-list-list').onmouseover = function(){
-      A('.fcw-list-list').style.backgroundColor = '#272727';
-      A('.fcw-list-list').style.borderColor = '#272727';
-    }
-    A('.fcw-list-list').onmouseout = function(){
-      A('.fcw-list-list').style.backgroundColor = color;
-      A('.fcw-list-list').style.borderColor = color;
-    }
-
-
-    A('.fcw-leftnav').style.backgroundColor = color;
-    A(".fcw-leftnav").onmouseover = function(){
-      A('.fcw-leftnav').style.backgroundColor = "black";
-    }
-    A(".fcw-leftnav").onmouseout = function(){
-      A('.fcw-leftnav').style.backgroundColor = color;
-    }
-
-    A('.fcw-rightnav').style.backgroundColor = color;
-    A(".fcw-rightnav").onmouseover = function(){
-      A('.fcw-rightnav').style.backgroundColor = "black";
-    }
-    A(".fcw-rightnav").onmouseout = function(){
-      A('.fcw-rightnav').style.backgroundColor = color;
-    }
-
-    A(".hover1").onmouseover = function() {
-      A('.hover1').style.Color = color;
-    }
-    A(".hover1").onmouseout  = function() {
-      A(".hover1").style.Color = '';
-    }
     if (query.showLink != "false") {
       A(".fcw-content1").onmouseover = function() {
         A('.fcw-content1').style.color = color;
@@ -173,103 +202,25 @@ function RenderDynamicSide(protocolToUse){
       }
     }
 
+    currentPub = getPublisher(type);
 
-    if(type == "college_basketball"){
-      A('.fcw-content-top').style.height = '25px';
-      A('.fcw-content-top').style.overflow = 'hidden';
+    //new dyanmic pub color css code
+    A('#pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
+    A('#pub_link').href = "http://" + currentPub.link;
+    var css = '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
+    css += '#list-link .dw-btn:before {background-color: ' + currentPub.hex + ';}';
+    css += '.dw-info {border-left: 3px solid ' + currentPub.hex + '; padding-left: 10px;}';
+    css += '.dw-nav {stroke: ' + currentPub.hex + '; } .dw-nav:hover {background-color: ' + currentPub.hex + '; stroke: white;}';
+    css += '#list-link .dw-btn {fill: ' + currentPub.hex + '; color: ' + currentPub.hex + '; border-color: ' + currentPub.hex + ';}';
+    style = document.createElement('style');
+    if (style.styleSheet) {
+        style.styleSheet.cssText = css;
+    } else {
+        style.appendChild(document.createTextNode(css));
     }
+    document.getElementsByTagName('head')[0].appendChild(style);
+    //end dynamic pub color css code
 
-    A(".hover1").onmouseover = function() {
-      A('.hover1').style.backgroundColor = color;
-      A('.txt1').style.color = 'white';
-      A('.txt2').style.color = 'white';
-    }
-    A(".hover1").onmouseout  = function() {
-      A('.hover1').style.backgroundColor = '';
-      A('.txt1').style.color = 'white';
-      A('.txt2').style.color = 'white';
-    }
-
-    if(type == "weather"){
-      A('#verticalName').style.color = "#272727";
-      A('.fcw-content3').style.height = '25px';
-      A('.fcw-content3').style.overflow = 'hidden';
-      //yellow causes text colors to be black....
-      A('.fcw-list-text').style.color = "#000000";
-      //A('#swoop-svg').style.fill = "#000000";
-      A('#nextlist-svg').style.fill = "#000000";
-      A('.fcw-list-next').style.color = '#000000';
-      A('.list-icon').style.fill = '#272727';
-
-      A(".fcw-list-next").onmouseover = function() {
-        A('.fcw-list-next').style.backgroundColor = "black";
-        A('.fcw-list-next').style.borderColor = "black";
-        A('.fcw-list-next').style.color = 'white';
-        A('#nextlist-svg').style.fill = 'white';
-      }
-      A(".fcw-list-next").onmouseout  = function() {
-        A('.fcw-list-next').style.borderColor = color;
-        A('.fcw-list-next').style.backgroundColor = '';
-        A('.fcw-list-next').style.color = '#000000';
-        A('#nextlist-svg').style.fill = '#000000';
-      }
-
-
-      A(".hover1").onmouseover = function() {
-        A('.hover1').style.backgroundColor = color;
-        A('.txt1').style.color = '#000000';
-        A('.txt2').style.color = '#000000';
-      }
-      A(".hover1").onmouseout  = function() {
-        A('.hover1').style.backgroundColor = '';
-        A('.txt1').style.color = '#000000';
-        A('.txt2').style.color = '#000000';
-      }
-
-      A('.fcw-leftnav').style.stroke = "#272727";
-      A('.fcw-rightnav').style.stroke = "#272727";
-
-      A(".fcw-leftnav").onmouseover = function(){
-        A('.fcw-leftnav').style.backgroundColor = "#272727";
-        A('.fcw-leftnav').style.stroke = "white";
-      }
-      A(".fcw-leftnav").onmouseout = function(){
-        A('.fcw-leftnav').style.backgroundColor = color;
-        A('.fcw-leftnav').style.stroke = "#272727";
-      }
-
-
-      A(".fcw-rightnav").onmouseover = function(){
-        A('.fcw-rightnav').style.backgroundColor = "#272727";
-        A('.fcw-rightnav').style.stroke = "white";
-      }
-      A(".fcw-rightnav").onmouseout = function(){
-        A('.fcw-rightnav').style.backgroundColor = color;
-        A('.fcw-rightnav').style.stroke = "#272727"
-      }
-
-
-      A('.fcw-list-list').onmouseover = function(){
-        A('.fcw-list-list').style.backgroundColor = '#272727';
-        A('.fcw-list-list').style.borderColor = '#272727';
-        A('.fcw-list-text').style.color = "#FFFFFF";
-        A('.list-icon').style.fill = 'white';
-        //A('#swoop-svg').style.fill = "#FFFFFF";
-      }
-      A('.fcw-list-list').onmouseout = function(){
-        A('.fcw-list-list').style.backgroundColor = color;
-        A('.fcw-list-list').style.borderColor = color;
-        A('.fcw-list-text').style.color = "#000000"
-        A('.list-icon').style.fill = '#272727';
-        //A('#swoop-svg').style.fill = "#000000";
-      }
-      A(".fcw-content1").onmouseover = function() {
-        A('.fcw-content1').style.color = "black";
-      }
-      A(".fcw-content1").onmouseout  = function() {
-        A(".fcw-content1").style.color = 'black';
-      }
-    }
   }
 
   mapColorScheme(schemeToUse, iconsToUse, listType, urlToUse);
@@ -392,35 +343,43 @@ function RenderDynamicSide(protocolToUse){
         // Convert to lower kabab case for url links
 
         A('.fcw-t1-p').innerHTML = listName;
-        if (listName.length >= 63) {
-          A('.fcw-icon').style.top = '8px';
-          A('.fcw-t1').style.bottom = '0px';
-        }
-        else {
-          A('.fcw-icon').style.top = '0px';
-          A('.fcw-t1').style.bottom = '8px';
-        }
-        A('#verticalDisplayName').innerHTML = siteNameToUse;
+        // if (listName.length >= 63) {
+        //   // A('.fcw-icon').style.top = '8px';
+        //   A('.fcw-t1').style.bottom = '0px';
+        // }
+        // else {
+        //   // A('.fcw-icon').style.top = '0px';
+        //   A('.fcw-t1').style.bottom = '8px';
+        // }
+        // A('#verticalDisplayName').innerHTML = siteNameToUse;
 
-        A('.fcw-t2-num').innerHTML = '#' + (index+1);
+        A('#num').innerHTML = '<hash>#</hash>' + (index+1);
+
+        //todo: plug in actual api date values here
+        var date = new Date();
+        var monthNames = [ "January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December" ];
+        var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        A('#meta').innerHTML = "Posted on " + dayNames[date.getDay()] + ", " + monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+
         if (listType == "nfl") {
           if (listData[index].rankType == "team") {
 
             if (listData[index].teamLogo != null) {
-              A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "images.synapsys.us" + listData[index].teamLogo +')';
+              A('.fcw-image').src = protocolToUse + "images.synapsys.us" + listData[index].teamLogo;
             }
             else {
-              A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg" + ')';
+              A('.fcw-image').src = protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg";
             }
 
           }
           else {
 
             if (listData[index].playerHeadshotUrl != null) {
-              A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "images.synapsys.us" + listData[index].playerHeadshotUrl +')';
+              A('.fcw-image').src = protocolToUse + "images.synapsys.us" + listData[index].playerHeadshotUrl;
             }
             else {
-              A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg" + ')';
+              A('.fcw-image').src = protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg";
             }
 
           }
@@ -428,10 +387,10 @@ function RenderDynamicSide(protocolToUse){
         else {
 
           if (listData[index].li_img != null) {
-            A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + listData[index].li_img.replace("//","") +')';
+            A('.fcw-image').src = protocolToUse + listData[index].li_img.replace("//","");
           }
           else {
-            A('.fcw-image').style.backgroundImage = 'url('+ protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg" + ')';
+            A('.fcw-image').src = protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg";
           }
 
         }
@@ -484,7 +443,9 @@ function RenderDynamicSide(protocolToUse){
 
         var listLink = buildListLink(listType, remnant, domain, curData);
         if (query.showLink != "false") {
-          A('.fcw-list-list').setAttribute('href', listLink);
+          //main links
+          A('#imgurl').setAttribute('href', listLink);
+          A('#title-link').setAttribute('href', listLink);
           if(remnant == 'true' || remnant == true){
             A('.exec-link').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
             A('.exec-link-text').setAttribute('href', protocolToUse.replace('//','') + listData[index].li_primary_url);
@@ -509,12 +470,21 @@ function RenderDynamicSide(protocolToUse){
           }
         }
         else {
-          document.getElementsByClassName("fcw-list-list")[0].style.display = "none";
           var linkHovers = document.getElementsByClassName("hover1");
           for (i = 0; i < linkHovers.length; i++) {
             linkHovers[i].style.display = "none";
           }
         }
+        //share links
+        A('#shareFacebook').href = "https://www.facebook.com/sharer/sharer.php?u=" + listLink;
+        A('#shareTwitter').href = "https://twitter.com/home?status=" + listLink;
+        A('#shareLink').addEventListener("click", function(){
+          copyToClipboard(listLink);
+          A('#shareSuccess').style.display = "block";
+          setTimeout(function(){
+            A('#shareSuccess').style.display = "none";
+          }, 2000);
+         });
     }
 }
 
