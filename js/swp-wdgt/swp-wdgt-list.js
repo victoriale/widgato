@@ -193,15 +193,6 @@ function RenderDynamicSide(protocolToUse){
 
   function mapColorScheme(color,icons, type, url){
 
-    if (query.showLink != "false") {
-      A(".fcw-content1").onmouseover = function() {
-        A('.fcw-content1').style.color = color;
-      }
-      A(".fcw-content1").onmouseout  = function() {
-        A(".fcw-content1").style.color = '';
-      }
-    }
-
     currentPub = getPublisher(type);
 
     //new dyanmic pub color css code

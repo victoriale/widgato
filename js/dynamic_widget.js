@@ -592,20 +592,33 @@ function p() {
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
+        $('carouselOverlay').className = "football";
         if (e.rankType == "team") {
-          if (e.teamLogo != null && e.teamLogo != "null" && !e.teamLogo.indexOf('no_image') >= 0) {
+          if (e.teamLogo != null && e.teamLogo != "null" && e.teamLogo.indexOf('no-image') == -1) {
+            $('carouselOverlay').style.display = "none";
+            $('carouselShader').style.display = "block";
+
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo + "?width=" + (t.width * window.devicePixelRatio));
           }
           else {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
+            $('carouselOverlay').style.display = "block";
+            $('carouselShader').style.display = "none";
+
+            t.setAttribute('src', protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg");
           }
         }
         else {
-          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && !e.playerHeadshotUrl.indexOf('no_image') >= 0) {
+          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && e.playerHeadshotUrl.indexOf('no-image') == -1) {
+            $('carouselOverlay').style.display = "none";
+            $('carouselShader').style.display = "block";
+
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl + "?width=" + (t.width * window.devicePixelRatio));
           }
           else {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
+            $('carouselOverlay').style.display = "block";
+            $('carouselShader').style.display = "none";
+
+            t.setAttribute('src', protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg");
           }
         }
         setTimeout(function(e, t) {
@@ -613,6 +626,7 @@ function p() {
         }.bind(undefined, n, t), 0);
 
         $('num').innerHTML = '<hash>#</hash>' + e.rank;
+        $('fallbackNum').innerHTML = '#' + e.rank;
 
         if ($('list-link')) {
             var u = d.getElementsByClassName('dw-btn')[0];
@@ -670,11 +684,55 @@ function p() {
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
-        t.setAttribute('src', e.li_img + "?width=" + (300 * window.devicePixelRatio));
+        var fallbackImg = "http://images.synapsys.us/01/fallback/stock/2017/03/";
+        var cssClass = "";
+        switch(l.category) {
+            case "nfl":
+            case "ncaaf":
+              fallbackImg += "football_stock.jpg";
+              cssClass = "football";
+              break;
+            case "nba":
+            case "college_basketball":
+              fallbackImg += "basketball_stock.jpg";
+              cssClass = "basketball";
+              break;
+            case "finance":
+              fallbackImg += "finance_stock.jpg";
+              cssClass = "finance";
+              break;
+            case "mlb":
+              fallbackImg += "baseball_stock.jpg";
+              cssClass = "baseball";
+              break;
+            case "disaster":
+            case "demographics":
+            case "crime":
+            case "weather":
+            case "politics":
+              cssClass = "realestate";
+              fallbackImg += "real_estate_stock.jpg";
+              break;
+            default:
+              cssClass = "finance";
+              fallbackImg += "finance_stock.jpg";
+        }
+        $('carouselOverlay').className = cssClass;
+        if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1) {
+          t.setAttribute('src', fallbackImg + "?width=" + (300 * window.devicePixelRatio));
+          $('carouselOverlay').style.display = "block";
+          $('carouselShader').style.display = "none";
+        }
+        else {
+          t.setAttribute('src', e.li_img + "?width=" + (300 * window.devicePixelRatio));
+          $('carouselOverlay').style.display = "none";
+          $('carouselShader').style.display = "block";
+        }
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
         $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
+        $('fallbackNum').innerHTML = '#' + e.li_rank;
         // if (e.li_subimg !== false) {
         //     var a = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
         //     if (s) {
@@ -734,11 +792,15 @@ function p() {
         break;
         case 'finance':
         if (e.li_subimg.img == "//w1.synapsys.us/widgets/css/public/no_image.jpg") {
+          $('carouselOverlay').style.display = "block";
+          $('carouselShader').style.display = "none";
           c.setAttribute('src', e.li_subimg.img);
           $('carousel').setAttribute('class', 'two');
           $('suburl').setAttribute('style', 'display: block');
         }
         else {
+          $('carouselOverlay').style.display = "none";
+          $('carouselShader').style.display = "block";
           c.setAttribute('src', e.li_subimg.img);
           //set double image css to "on" if we have a double image for this list
           $('carousel').setAttribute('class', 'two');
