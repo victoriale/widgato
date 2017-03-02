@@ -38,11 +38,11 @@ i {
   color: white;
   /*min-height: 44px;*/
   text-align: left;
-  padding: 10px 30px 5px 30px;
+  padding: 15px 30px 5px 30px;
   z-index: 2;
   left: 25px;
   font-family: Lato;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
   line-height: 1.44;
 }
