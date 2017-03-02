@@ -604,7 +604,7 @@ function p() {
             $('carouselOverlay').style.display = "block";
             $('carouselShader').style.display = "none";
 
-            t.setAttribute('src', protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg");
+            t.setAttribute('src', protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg" +"?width=" + (300 * window.devicePixelRatio));
           }
         }
         else {
@@ -618,7 +618,7 @@ function p() {
             $('carouselOverlay').style.display = "block";
             $('carouselShader').style.display = "none";
 
-            t.setAttribute('src', protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg");
+            t.setAttribute('src', protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg" + "?width=" + (300 * window.devicePixelRatio));
           }
         }
         setTimeout(function(e, t) {
@@ -717,6 +717,7 @@ function p() {
               cssClass = "finance";
               fallbackImg += "finance_stock.jpg";
         }
+        cssClass += "?width=" + (300 * window.devicePixelRatio);
         $('carouselOverlay').className = cssClass;
         if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1) {
           t.setAttribute('src', fallbackImg + "?width=" + (300 * window.devicePixelRatio));
