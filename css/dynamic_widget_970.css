@@ -174,9 +174,10 @@ i {
   height: 100%;
   opacity: 0.85;
   z-index: 1;
+  filter: brightness(55%);
 }
 .football {
-  background-image: linear-gradient(to bottom, #004e87, #012b4a);
+  background-color: rgba(0, 37, 64, 0.86);
 }
 .basketball {
   background-image: linear-gradient(to bottom, #f26f26, #bc3900);
@@ -191,15 +192,7 @@ i {
   background-image: linear-gradient(to bottom, #43b149, #1e4e20);
 }
 #fallbackNum {
-  opacity: 0.4;
-	font-family: Lato;
-	font-size: 120px;
-	font-weight: bold;
-  color: #000000;
-  left: 50%;
-  top: 10px;
-  position: absolute;
-  transform: translateX(-50%);
+  display: none;
 }
 .carouselShader {
   position: absolute;
@@ -228,7 +221,7 @@ i {
     height: 50px;
     width: 20px;
     position: absolute;
-    top: 95px;
+    top: 115px;
     color: white;
     background-color: rgba(255, 255, 255, 0.85);
     display: block;

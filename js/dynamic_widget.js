@@ -160,7 +160,7 @@ function getPublisher (pub) {
       displayName: "Touchdown Loyal",
       link: "www.touchdownloyal.com",
       logo: "../css/public/pub_logos/logo-touchdown-loyal.svg",
-      hex: "#0b3656"
+      hex: "#004e87"
     },
     hoopsloyal: {
       displayName: "Hoops Loyal",
@@ -594,7 +594,7 @@ function p() {
         t.setAttribute('src', '');
         $('carouselOverlay').className = "football";
         if (e.rankType == "team") {
-          if (e.teamLogo != null && e.teamLogo != "null" && e.teamLogo.indexOf('no-image') == -1) {
+          if (e.teamLogo != null && e.teamLogo != "null" && e.teamLogo.indexOf('no-image') == -1 &&  window.location.pathname.indexOf('_970') == -1) {
             $('carouselOverlay').style.display = "none";
             $('carouselShader').style.display = "block";
 
@@ -608,7 +608,7 @@ function p() {
           }
         }
         else {
-          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && e.playerHeadshotUrl.indexOf('no-image') == -1) {
+          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && e.playerHeadshotUrl.indexOf('no-image') == -1 &&  window.location.pathname.indexOf('_970') == -1) {
             $('carouselOverlay').style.display = "none";
             $('carouselShader').style.display = "block";
 
@@ -717,9 +717,9 @@ function p() {
               cssClass = "finance";
               fallbackImg += "finance_stock.jpg";
         }
-        cssClass += "?width=" + (300 * window.devicePixelRatio);
+        fallbackImg += "?width=" + (300 * window.devicePixelRatio);
         $('carouselOverlay').className = cssClass;
-        if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1) {
+        if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1 ||  window.location.pathname.indexOf('_970') != -1) {
           t.setAttribute('src', fallbackImg + "?width=" + (300 * window.devicePixelRatio));
           $('carouselOverlay').style.display = "block";
           $('carouselShader').style.display = "none";
