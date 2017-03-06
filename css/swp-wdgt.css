@@ -514,6 +514,7 @@ button:focus {
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  max-height: 22px;
 }
 .fcw-content2b {
   font-size: 12px;
