@@ -147,6 +147,8 @@ i {
   width: 100%;
   top: 50%;
   transform: translateY(-50%);
+  position: absolute;
+  left:0;
 }
 #mainimg {
   -webkit-transition: 0.4s ease;
