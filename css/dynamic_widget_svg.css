@@ -234,7 +234,7 @@ i {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    z-index:2;
+    z-index:3;
 }
 
 .dw-c-l {
