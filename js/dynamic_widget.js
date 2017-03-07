@@ -576,12 +576,8 @@ function p() {
         var stat = Math.floor(Number(e.stat));
         switch(e.statType) {
             case "player_kicking_longest_field_goal_made":
-                $('desc').innerHTML = statType + ": " + stat + " yards";
-                break;
-            case "player_punting_longest_punt":
-                $('desc').innerHTML = statType + ": " + stat + " yards";
-                break;
             case "player_returning_longest_return":
+            case "player_punting_longest_punt":
                 $('desc').innerHTML = statType + ": " + stat + " yards";
                 break;
             case "player_punting_inside_twenty":
@@ -728,7 +724,7 @@ function p() {
           $('carouselShader').style.display = "none";
         }
         else {
-          t.setAttribute('src', e.li_img + "?width=" + (300 * window.devicePixelRatio));
+          t.setAttribute('src', e.li_img.replace(/'/g,"") + "?width=" + (300 * window.devicePixelRatio));
           $('carouselOverlay').style.display = "none";
           $('carouselShader').style.display = "block";
         }
