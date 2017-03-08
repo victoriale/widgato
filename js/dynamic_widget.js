@@ -503,12 +503,10 @@ dynamic_widget = function() {
         } else {
           //clickthrough analitics code
           document.getElementById("list-link").addEventListener("click", function(){
-            console.log("fired click");
-            window.parent.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
+            window.top.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
           });
           document.getElementById("imgurl").addEventListener("click", function(){
-            console.log("fired click");
-            window.parent.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
+            window.top.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
           });
         }
 
