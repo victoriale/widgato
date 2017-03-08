@@ -503,12 +503,10 @@ dynamic_widget = function() {
         } else {
           //clickthrough analitics code
           document.getElementById("list-link").addEventListener("click", function(){
-            console.log("fired click");
-            window.parent.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
+            window.top.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
           });
           document.getElementById("imgurl").addEventListener("click", function(){
-            console.log("fired click");
-            window.parent.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
+            window.top.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
           });
         }
 
@@ -671,7 +669,7 @@ function p() {
         $('line1').innerHTML = e.li_title;
         $('line2').innerHTML = e.li_sub_txt;
         if ($('line4') == null) {
-            $('desc').innerHTML = e.li_str.replace(e.li_value.split(' ')[0], "<b class='highlight'>" + e.li_value.split(' ')[0] + "</b>");
+            $('desc').innerHTML = e.li_str.replace(e.li_value, "<b class='highlight'>" + e.li_value + "</b>");
         } else {
             $('desc').innerHTML = e.li_value;
             $('line4').innerHTML = e.li_tag
