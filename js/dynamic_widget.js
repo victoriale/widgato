@@ -671,7 +671,7 @@ function p() {
         $('line1').innerHTML = e.li_title;
         $('line2').innerHTML = e.li_sub_txt;
         if ($('line4') == null) {
-            $('desc').innerHTML = e.li_str.replace(e.li_value.split(' ')[0], "<b class='highlight'>" + e.li_value.split(' ')[0] + "</b>");
+            $('desc').innerHTML = e.li_str.replace(e.li_value, "<b class='highlight'>" + e.li_value + "</b>");
         } else {
             $('desc').innerHTML = e.li_value;
             $('line4').innerHTML = e.li_tag
