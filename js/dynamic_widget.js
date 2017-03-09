@@ -349,12 +349,12 @@ dynamic_widget = function() {
           l.category = 'finance'
       }
       if (ignoreRandom == null) {
-        var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
+        var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 50);
       }
       else {
         var e = rand;
         while (e == rand) {
-          e = Math.floor(Math.random() * 10);
+          e = Math.floor(Math.random() * 50);
           if (e == 0) {e = 1;}
         }
       }
