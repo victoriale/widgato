@@ -241,7 +241,7 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
-        if (l.env != "prod-" || l.env != "dev-") {
+        if (l.env != "prod-" && l.env != "dev-") {
           l.env = "prod-";
         }
         t = e + '://'+l.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
