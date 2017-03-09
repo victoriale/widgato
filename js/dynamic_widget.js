@@ -236,12 +236,15 @@ function getBaseUrl(string){
 dynamic_widget = function() {
     var e = location.protocol == 'https:' ? 'https' : 'http',
         protocol = location.protocol == 'https:' ? 'https' : 'http',
-        t = e + '://dw.synapsys.us/list_api.php',
         i = 0,
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
+        if (l.env != "prod-" || l.env != "dev-") {
+          l.env = "prod-";
+        }
+        t = e + '://'+l.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
         if (l.subd && l.subd.indexOf("/") == -1) {
           SpecialDomain = l.subd;
         }
@@ -389,16 +392,16 @@ dynamic_widget = function() {
       };
       rand = e;
       if (currentConfig.category == "football") {
-        i.open('GET', protocol + "://prod-touchdownloyal-api.synapsys.us/list/" + query , true);
+        i.open('GET', protocol + "://"+l.env+"touchdownloyal-api.synapsys.us/list/" + query , true);
         i.send()
       }
       else {
         if (l.county != null && l.county != "") { // ajc one off api code
           if (l.county.indexOf('metro') != -1) {
-            i.open('GET', "http://dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e + "&metro=true", true);
+            i.open('GET', "http://"+l.env.replace("prod-","")+"dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e + "&metro=true", true);
           }
           else {
-            i.open('GET', "http://dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e, true);
+            i.open('GET', "http://"+l.env.replace("prod-","")+"dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e, true);
           }
         }
         else {
