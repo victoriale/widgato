@@ -315,15 +315,15 @@ var options = {
       type: "select",
       options: ["_blank","_top"]
     },
-    category:{
+    league:{
       default: "football_pro",
       enabled: true,
       explanation: "The category of lists and style of widget to use.",
-      name: "Category",
+      name: "League",
       type: "select",
       options: ["football_pro","ncaaf"]
     },
-    output:'../sports/tdl_sidekick_vertical.html?{"dom":"<domain>","remn":"<remn>","category":"<category>","targ":"<targ>"}'
+    output:'../sports/tdl_sidekick_vertical.html?{"dom":"<domain>","remn":"<remn>","league":"<league>","targ":"<targ>"}'
   },
   mlb_ai_article_widget:{
     domain:{
