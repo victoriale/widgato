@@ -255,7 +255,13 @@ dynamic_widget = function() {
         $('pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
         $('pub_link').href = "http://" + currentPub.link;
         var css = '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
-        css += '#list-link .dw-btn:before {background-color: ' + currentPub.hex + ';}';
+        if (window.location.pathname.indexOf("_970") != -1) {
+          css += '#list-link .dw-btn {background-color: ' + currentPub.hex + '; border: none;}';
+          css += '#list-link .dw-btn:before {background-color: black;}';
+        }
+        else {
+          css += '#list-link .dw-btn:before {background-color: ' + currentPub.hex + ';}';
+        }
         css += '.dw-info {border-left: 3px solid ' + currentPub.hex + '; padding-left: 10px;}';
         css += '.dw-nav {stroke: ' + currentPub.hex + '; } .dw-nav:hover {background-color: ' + currentPub.hex + '; stroke: white;}';
         css += '#list-link .dw-btn {fill: ' + currentPub.hex + '; color: ' + currentPub.hex + '; border-color: ' + currentPub.hex + ';}';
