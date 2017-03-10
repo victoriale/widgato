@@ -232,7 +232,7 @@ i {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    z-index:2;
+    z-index:4;
 }
 
 .dw-c-l {
