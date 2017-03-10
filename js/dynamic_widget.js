@@ -562,7 +562,7 @@ function p() {
             v_link = l.remn == 'true' ? "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId : "/p/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
 
             a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" + l.category + v_link : "http://" + currentConfig.partnerDomain + "/" + l.dom + "/" + l.category + v_link;
-            $('line2').innerHTML = "Team: <a href='" + 'http://' + currentConfig.domain + "/" +l.category+ "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId + "'><b>" + e.teamName + "</b></a>";
+            $('line2').innerHTML = "Team: <a href='" + 'http://' + l.subd + "/" +l.category+ "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId + "'><b>" + e.teamName + "</b></a>";
 
           }
           else {
