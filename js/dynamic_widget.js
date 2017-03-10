@@ -259,6 +259,7 @@ dynamic_widget = function() {
         css += '.dw-info {border-left: 3px solid ' + currentPub.hex + '; padding-left: 10px;}';
         css += '.dw-nav {stroke: ' + currentPub.hex + '; } .dw-nav:hover {background-color: ' + currentPub.hex + '; stroke: white;}';
         css += '#list-link .dw-btn {fill: ' + currentPub.hex + '; color: ' + currentPub.hex + '; border-color: ' + currentPub.hex + ';}';
+        css += '#carouselOverlay {background-color:' + currentPub.hex + ';}';
         style = document.createElement('style');
         if (style.styleSheet) {
             style.styleSheet.cssText = css;
@@ -723,7 +724,7 @@ function p() {
               fallbackImg += "finance_stock.jpg";
         }
         fallbackImg += "?width=" + (300 * window.devicePixelRatio);
-        $('carouselOverlay').className = cssClass;
+        // $('carouselOverlay').className = cssClass;
         if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1 ||  window.location.pathname.indexOf('_970') != -1) {
           t.setAttribute('src', fallbackImg + "?width=" + (300 * window.devicePixelRatio));
           $('carouselOverlay').style.display = "block";
