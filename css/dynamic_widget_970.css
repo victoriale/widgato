@@ -364,11 +364,11 @@ i {
     color: inherit
 }
 
-.dw-i-title#line2,
+/*.dw-i-title#line2,
 .dw-i-title#line4 {
     font-size: 12px;
     font-weight: unset;
-}
+}*/
 
 
 #next-list-link .dw-btn{
@@ -509,6 +509,11 @@ i {
   }
   #line2 {
     font-size: 10px;
+    max-width: 230px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
   }
   #desc {
     font-size: 12px;
