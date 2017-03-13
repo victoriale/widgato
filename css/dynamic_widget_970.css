@@ -175,6 +175,7 @@ i {
   opacity: 0.85;
   z-index: 1;
   filter: brightness(55%);
+  -ms-filter: brightness(0.55);
 }
 .football {
   background-color: rgba(0, 37, 64, 0.86);
