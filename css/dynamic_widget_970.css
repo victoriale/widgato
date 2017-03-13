@@ -324,7 +324,6 @@ i {
 }
 
 .dw-i-title {
-    font-size: 18px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -369,7 +368,9 @@ i {
     font-size: 12px;
     font-weight: unset;
 }*/
-
+#line2 {
+  font-size: 12px;
+}
 
 #next-list-link .dw-btn{
   display: inline-block;
