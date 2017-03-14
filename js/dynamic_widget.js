@@ -150,6 +150,10 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
+        // hardcoding nba to point at ncaam
+        if (l.category == "nba") {
+          l.category == "college_basketball";
+        }
         if (l.subd && l.subd.indexOf("/") == -1) {
           SpecialDomain = l.subd;
         }
