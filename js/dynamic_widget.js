@@ -152,7 +152,7 @@ dynamic_widget = function() {
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
         // hardcoding nba to point at ncaam
         if (l.category == "nba") {
-          l.category == "college_basketball";
+          l.category = "college_basketball";
         }
         if (l.subd && l.subd.indexOf("/") == -1) {
           SpecialDomain = l.subd;
