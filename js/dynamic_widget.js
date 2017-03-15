@@ -513,10 +513,10 @@ dynamic_widget = function() {
         } else {
           //clickthrough analitics code
           document.getElementById("list-link").addEventListener("click", function(){
-            window.top.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
+            window.top.postMessage({snt_data: {event: "widget-clicked", w: "pr_type", url: this.href}, action: 'snt_tracker'}, '*');
           });
           document.getElementById("imgurl").addEventListener("click", function(){
-            window.top.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
+            window.top.postMessage({snt_data: {event: "widget-clicked", w: "pr_type", url: this.href}, action: 'snt_tracker'}, '*');
           });
         }
 
