@@ -552,7 +552,7 @@ function p() {
             a = 'http://' + SpecialDomain + "/" +l.category+ v_link;
           }
           if (l.showLink != 'false') {
-            $('line1').href = a;
+            $('line1').href = a.replace(/(/g,"").replace(/)/g,"");
           }
         }
         else {
@@ -572,7 +572,7 @@ function p() {
             $('line2').innerHTML = "Team: <a href='" + 'http://' + SpecialDomain + "/" +l.category+ "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId + "'><b>" + e.teamName + "</b></a>";
           }
           if (l.showLink != 'false') {
-            $('line1').href = a;
+            $('line1').href = a.replace(/(/g,"").replace(/)/g,"");
           }
         }
         var statType = e.statDescription.replace(/_/g, " ");
