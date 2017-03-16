@@ -334,7 +334,7 @@ i {
 
 .dw-i-title {
     overflow: hidden;
-    /*white-space: nowrap;*/
+    white-space: nowrap;
     text-overflow: ellipsis;
 }
 #desc {
@@ -521,7 +521,6 @@ i {
     font-size: 10px;
     max-width: 230px;
     overflow: hidden;
-    display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
   }
