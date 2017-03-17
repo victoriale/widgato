@@ -739,7 +739,7 @@ function p() {
             e.li_img = "//" + l.env + "images.synapsys.us" + e.team_wide_img;
           }
         }
-        if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1 ||  window.location.pathname.indexOf('_970') != -1) {
+        if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1 || e.li_img.indexOf("_stock") != -1 ||  window.location.pathname.indexOf('_970') != -1) {
           t.setAttribute('src', fallbackImg + "?width=" + (300 * window.devicePixelRatio));
           $('carouselOverlay').style.display = "block";
           $('carouselShader').style.display = "none";
