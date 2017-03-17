@@ -733,10 +733,10 @@ function p() {
         // $('carouselOverlay').className = cssClass;
         if (l.category == "college_basketball" || l.category == "nba") {
           if (e.player_wide_img != "" && e.player_wide_img != null) {
-            e.li_img = "//" + l.env + "sports-images.synapsys.us" + e.player_wide_img;
+            e.li_img = "//" + l.env + "images.synapsys.us" + e.player_wide_img;
           }
           else {
-            e.li_img = "//" + l.env + "sports-images.synapsys.us" + e.team_wide_img;
+            e.li_img = "//" + l.env + "images.synapsys.us" + e.team_wide_img;
           }
         }
         if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1 ||  window.location.pathname.indexOf('_970') != -1) {
