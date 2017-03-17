@@ -135,10 +135,10 @@ function getCategoryMetadata (category) {
   }
 }
 
-function getPublisher (pub) {
+function getPublisher (pub, env) {
   var apiFallback = false;
   var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", "http://synapview.synapsys.us/?action=get_partner_branding&domain=" + pub, false );
+  xmlHttp.open( "GET", "http://"+ env +"synapview.synapsys.us/?action=get_partner_branding&domain=" + pub, false );
   xmlHttp.send( null );
   try {
     var pubResponce = JSON.parse(xmlHttp.responseText);
@@ -249,7 +249,7 @@ dynamic_widget = function() {
           SpecialDomain = l.subd;
         }
         currentConfig = getCategoryMetadata(l.category);
-        currentPub = getPublisher(l.dom);
+        currentPub = getPublisher(l.dom, l.env.replace("prod-",""));
 
         //new dyanmic pub color css code
         $('pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
@@ -731,6 +731,14 @@ function p() {
         }
         fallbackImg += "?width=" + (300 * window.devicePixelRatio);
         // $('carouselOverlay').className = cssClass;
+        if (l.category == "college_basketball" || l.category == "nba") {
+          if (e.player_wide_img != "" && e.player_wide_img != null) {
+            e.li_img = "//" + l.env + "sports-images.synapsys.us" + e.player_wide_img;
+          }
+          else {
+            e.li_img = "//" + l.env + "sports-images.synapsys.us" + e.team_wide_img;
+          }
+        }
         if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1 ||  window.location.pathname.indexOf('_970') != -1) {
           t.setAttribute('src', fallbackImg + "?width=" + (300 * window.devicePixelRatio));
           $('carouselOverlay').style.display = "block";
