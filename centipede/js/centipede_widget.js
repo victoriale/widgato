@@ -39,8 +39,7 @@ function onFingerUp(e) {
   }
 }
 function setScroll() {
-  var foundChunk = false;
-  for (i = 0; i < wormBlocks.length && foundChunk == false;  i++) {
+  for (i = 0; i < wormBlocks.length;  i++) {
     if ((worm.scrollLeft + 180) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 180) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
       scrollTo = wormBlocks[i].offsetLeft - 5;
       if (worm.scrollLeft < scrollTo) {
@@ -51,17 +50,22 @@ function setScroll() {
       }
       var setSmoothScrollInterval = setInterval(function(){
         // console.log(worm.scrollLeft,scrollTo);
-        if (worm.scrollLeft < (scrollTo - 5) || worm.scrollLeft > (scrollTo + 5)) {
-          worm.scrollLeft = worm.scrollLeft + scrollIncrements;
+        if (worm.scrollLeft < (scrollTo - 3) || worm.scrollLeft > (scrollTo + 3)) {
+          if (i == (wormBlocks.length - 1)) {
+            clearTimeout(setSmoothScrollInterval);
+          }
+          else {
+            worm.scrollLeft = worm.scrollLeft + scrollIncrements;
+          }
         }
         else {
           clearTimeout(setSmoothScrollInterval);
         }
-      }, 20);
+      }, 15);
       currentBlock = i;
       return;
     }
-    else if (this.scrollLeft < 20) {
+    else if (worm.scrollLeft < 20) {
       scrollTo = 0;
       if (worm.scrollLeft < scrollTo) {
         scrollIncrements = (scrollTo - worm.scrollLeft) / 20;
@@ -70,13 +74,18 @@ function setScroll() {
         scrollIncrements = (scrollTo - worm.scrollLeft) / 20;
       }
       var setSmoothScrollInterval = setInterval(function(){
-        if (worm.scrollLeft < (scrollTo - 5) || worm.scrollLeft > (scrollTo + 5)) {
-          worm.scrollLeft = worm.scrollLeft + scrollIncrements;
+        if (worm.scrollLeft < (scrollTo - 3) || worm.scrollLeft > (scrollTo + 3)) {
+          if (i == (wormBlocks.length - 1)) {
+            clearTimeout(setSmoothScrollInterval);
+          }
+          else {
+            worm.scrollLeft = worm.scrollLeft + scrollIncrements;
+          }
         }
         else {
           clearTimeout(setSmoothScrollInterval);
         }
-      }, 20);
+      }, 15);
       currentBlock = 0;
       return;
     }
