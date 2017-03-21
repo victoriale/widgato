@@ -2,6 +2,7 @@ var helper = document.getElementById('helper');
 var helper2 = document.getElementById('helper2');
 var wormBlocks = document.getElementsByClassName('worm_block');
 var worm = document.getElementById('worm');
+var shader = document.getElementById('edge_shader');
 var position;
 var currentBlock = 0;
 var isScrolling = false;
@@ -18,6 +19,12 @@ function onSwipe(e) {
   else {
     helper.style.opacity = '1';
     helper2.style.opacity = '1';
+  }
+  if ((this.scrollLeft + this.offsetWidth) >= (this.scrollWidth - 20)) {
+    shader.style.opacity = '0';
+  }
+  else {
+    shader.style.opacity = '1';
   }
   clearTimeout(scrollingTimout);
   scrollingTimout = setTimeout(function(){
