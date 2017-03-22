@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8px" height="13px" viewBox="0 0 8 13" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 42 (36781) - http://www.bohemiancoding.com/sketch -->
+    <title>Icon: Facebook</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="UI:-Brand-Bar-(Template)" transform="translate(-220.000000, -13.000000)" fill="#3B5998">
+            <path d="M227.492188,13.09375 L227.492188,15.15625 L226.265625,15.15625 C225.817706,15.15625 225.515626,15.2499991 225.359375,15.4375 C225.203124,15.6250009 225.125,15.9062481 225.125,16.28125 L225.125,17.7578125 L227.414062,17.7578125 L227.109375,20.0703125 L225.125,20.0703125 L225.125,26 L222.734375,26 L222.734375,20.0703125 L220.742188,20.0703125 L220.742188,17.7578125 L222.734375,17.7578125 L222.734375,16.0546875 C222.734375,15.0859327 223.005206,14.3346381 223.546875,13.8007812 C224.088544,13.2669244 224.809891,13 225.710938,13 C226.476566,13 227.07031,13.0312497 227.492188,13.09375 Z" id="Icon:-Facebook"></path>
+        </g>
+    </g>
+</svg>

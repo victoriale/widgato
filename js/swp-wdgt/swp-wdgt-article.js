@@ -62,7 +62,7 @@ function RenderArticleSide(protocolToUse) {
     catOptions[0]=scope;
 
     if (catOptions[0] == 'mlb') {
-        APIUrl = protocolToUse + 'homerunloyal-ai.synapsys.us/sidekick?scope=mlb';
+        APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick?scope=mlb';
         keyword = "MLB";
         isMlb = true;
     } else if (catOptions[0] == 'nfl') {
