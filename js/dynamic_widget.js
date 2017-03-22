@@ -7,7 +7,8 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: false,
       hasAiArticles: true,
       category: "finance",
-      subCategory: ""
+      subCategory: "",
+      pub: "investkit"
     },
     nfl: {
       displayName: "Football",
@@ -17,7 +18,8 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "football",
       hasAiArticles: true,
       category: "football",
-      subCategory: "nfl"
+      subCategory: "nfl",
+      pub: "touchdownloyal"
     },
     ncaaf: {
       displayName: "Football",
@@ -27,7 +29,8 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "football",
       hasAiArticles: true,
       category: "football",
-      subCategory: "ncaaf"
+      subCategory: "ncaaf",
+      pub: "touchdownloyal"
     },
     nflncaaf: {
       displayName: "Football",
@@ -37,7 +40,8 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "football",
       hasAiArticles: true,
       category: "football",
-      subCategory: "nfl, ncaaf"
+      subCategory: "nfl, ncaaf",
+      pub: "touchdownloyal"
     },
     nba: {
       displayName: "Basketball",
@@ -47,7 +51,8 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
-      subCategory: "nba"
+      subCategory: "nba",
+      pub: "hoopsloyal"
     },
     college_basketball: {
       displayName: "Basketball",
@@ -57,7 +62,8 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "basketball",
       hasAiArticles: true,
       category: "basketball",
-      subCategory: "ncaa"
+      subCategory: "ncaa",
+      pub: "hoopsloyal"
     },
     mlb: {
       displayName: "Baseball",
@@ -67,7 +73,8 @@ function getCategoryMetadata (category) {
       partnerSubdomain: "baseball",
       hasAiArticles: true,
       category: "baseball",
-      subCategory: "mlb"
+      subCategory: "mlb",
+      pub: "homerunloyal"
     },
     politics: {
       displayName: "Politics",
@@ -76,7 +83,8 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "politics",
-      subCategory: ""
+      subCategory: "",
+      pub: "joyfulhome"
     },
     weather: {
       displayName: "Weather",
@@ -85,7 +93,8 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "weather",
-      subCategory: ""
+      subCategory: "",
+      pub: "joyfulhome"
     },
     crime: {
       displayName: "Crime",
@@ -94,7 +103,8 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "crime",
-      subCategory: ""
+      subCategory: "",
+      pub: "joyfulhome"
     },
     demographics: {
       displayName: "Demographics",
@@ -103,7 +113,8 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "demographics",
-      subCategory: ""
+      subCategory: "",
+      pub: "joyfulhome"
     },
     disaster: {
       displayName: "Disaster",
@@ -112,7 +123,8 @@ function getCategoryMetadata (category) {
       usesPartnerSubdomain: false,
       hasAiArticles: false,
       category: "disaster",
-      subCategory: ""
+      subCategory: "",
+      pub: "joyfulhome"
     }
   };
   if (globalMeta[category]) {
@@ -123,8 +135,88 @@ function getCategoryMetadata (category) {
   }
 }
 
+function getPublisher (pub, env) {
+  var apiFallback = false;
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.open( "GET", "http://"+ env +"synapview.synapsys.us/?action=get_partner_branding&domain=" + pub, false );
+  xmlHttp.send( null );
+  try {
+    var pubResponce = JSON.parse(xmlHttp.responseText);
+  }
+  catch(err) {
+    apiFallback = true;
+  }
+  if (pubResponce == null || pubResponce.logo == null || pubResponce.logo == "") {
+    apiFallback = true;
+  }
+  var pubs = {
+    homerunloyal: {
+      displayName: "Home Run Loyal",
+      link: "www.homerunloyal.com",
+      logo: "../css/public/pub_logos/logo-homerun-loyal.svg",
+      hex: "#bc2027"
+    },
+    touchdownloyal: {
+      displayName: "Touchdown Loyal",
+      link: "www.touchdownloyal.com",
+      logo: "../css/public/pub_logos/logo-touchdown-loyal.svg",
+      hex: "#004e87"
+    },
+    hoopsloyal: {
+      displayName: "Hoops Loyal",
+      link: "www.hoopsloyal.com",
+      logo: "../css/public/pub_logos/logo-hoops-loyal.svg",
+      hex: "#f26f26"
+    },
+    investkit: {
+      displayName: "Invest Kit",
+      link: "www.investkit.com",
+      logo: "../css/public/pub_logos/logo-invest-kit.svg",
+      hex: "#3098ff"
+    },
+    joyfulhome: {
+      displayName: "Joyful Home",
+      link: "www.joyfulhome.com",
+      logo: "../css/public/pub_logos/logo-joyful-home.svg",
+      hex: "#43B149"
+    }
+  };
+  if (apiFallback == true) {
+    if (pub == null || pub == "" || !pubs[pub.split(".")[0]]) {
+      return pubs[currentConfig.pub];
+    }
+    else {
+      return pubs[pub.split(".")[0]];
+    }
+  }
+  else {
+    return pubResponce;
+  }
+}
+
+function copyToClipboard(text) {
+    if (window.clipboardData && window.clipboardData.setData) {
+        return clipboardData.setData("Text", text);
+    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = text;
+        textarea.style.position = "fixed";
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            return document.execCommand("copy");
+        } catch (ex) {
+            console.warn("Copy to clipboard failed.", ex);
+            return false;
+        } finally {
+            document.body.removeChild(textarea);
+        }
+    }
+}
+
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var currentConfig;
+var currentPub;
 var referrer = document.referrer;
 var season;
 var SpecialDomain = "";
@@ -144,20 +236,45 @@ function getBaseUrl(string){
 dynamic_widget = function() {
     var e = location.protocol == 'https:' ? 'https' : 'http',
         protocol = location.protocol == 'https:' ? 'https' : 'http',
-        t = e + '://dw.synapsys.us/list_api.php',
         i = 0,
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
-        // hardcoding nba to point at ncaam
-        if (l.category == "nba") {
-          l.category = "college_basketball";
+        if (l.env != "prod-" && l.env != "dev-") {
+          l.env = "prod-";
         }
+        t = e + '://'+l.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
         if (l.subd && l.subd.indexOf("/") == -1) {
           SpecialDomain = l.subd;
         }
         currentConfig = getCategoryMetadata(l.category);
+        currentPub = getPublisher(l.dom, l.env.replace("prod-",""));
+
+        //new dyanmic pub color css code
+        $('pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
+        $('pub_link').href = "http://" + currentPub.link;
+        var css = '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
+        if (window.location.pathname.indexOf("_970") != -1) {
+          css += '#list-link .dw-btn {background-color: ' + currentPub.hex + '; border: none;}';
+          css += '#list-link .dw-btn:before {background-color: black;}';
+        }
+        else {
+          css += '#list-link .dw-btn:before {background-color: ' + currentPub.hex + ';}';
+        }
+        css += '.dw-info {border-left: 3px solid ' + currentPub.hex + '; padding-left: 10px;}';
+        css += '.dw-nav {stroke: ' + currentPub.hex + '; } .dw-nav:hover {background-color: ' + currentPub.hex + '; stroke: white;}';
+        css += '#list-link .dw-btn {fill: ' + currentPub.hex + '; color: ' + currentPub.hex + '; border-color: ' + currentPub.hex + ';}';
+        css += '#carouselOverlay {background-color:' + currentPub.hex + ';}';
+        style = document.createElement('style');
+        if (style.styleSheet) {
+            style.styleSheet.cssText = css;
+        } else {
+            style.appendChild(document.createTextNode(css));
+        }
+        document.getElementsByTagName('head')[0].appendChild(style);
+        //end dynamic pub color css code
+
         if (typeof(l.subd) == 'undefined' || !l.subd || l.subd == '' || l.subd == null) {
           l.subd = (l.remn == 'false') ? currentConfig.partnerDomain + '/' + l.dom : currentConfig.domain;
         }
@@ -242,12 +359,12 @@ dynamic_widget = function() {
           l.category = 'finance'
       }
       if (ignoreRandom == null) {
-        var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
+        var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 50);
       }
       else {
         var e = rand;
         while (e == rand) {
-          e = Math.floor(Math.random() * 10);
+          e = Math.floor(Math.random() * 50);
           if (e == 0) {e = 1;}
         }
       }
@@ -282,16 +399,16 @@ dynamic_widget = function() {
       };
       rand = e;
       if (currentConfig.category == "football") {
-        i.open('GET', protocol + "://prod-touchdownloyal-api.synapsys.us/list/" + query , true);
+        i.open('GET', protocol + "://"+l.env+"touchdownloyal-api.synapsys.us/list/" + query , true);
         i.send()
       }
       else {
         if (l.county != null && l.county != "") { // ajc one off api code
           if (l.county.indexOf('metro') != -1) {
-            i.open('GET', "http://dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e + "&metro=true", true);
+            i.open('GET', "http://"+l.env.replace("prod-","")+"dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e + "&metro=true", true);
           }
           else {
-            i.open('GET', "http://dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e, true);
+            i.open('GET', "http://"+l.env.replace("prod-","")+"dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e, true);
           }
         }
         else {
@@ -316,30 +433,13 @@ dynamic_widget = function() {
             t.innerHTML = 'PAID CONTENT';
             document.body.insertBefore(t, e)
         }
-        if (l.category == 'politics') {
-            var i = r.l_title.indexOf('Republican') != -1 ? 'r' : r.l_title.indexOf('Independent') != -1 ? 'i' : 'd';
-            var cssId = 'politicsCss';  // you could encode the css path itself to generate id..
-            if (document.getElementById(cssId))
-            {
-              var element = document.getElementById(cssId);
-              element.parentNode.removeChild(element);
-            }
-            var head  = document.getElementsByTagName('head')[0];
-            var link  = document.createElement('link');
-            link.id   = cssId;
-            link.rel  = 'stylesheet';
-            link.type = 'text/css';
-            link.href = '../css/dynamic_widget_politics_' + i + '.css';
-            link.media = 'all';
-            head.appendChild(link);
-        }
         if (l.category == 'mlb') {
             r.l_title = r.l_title.replace("MLB","Baseball");
         }
         if (currentConfig.category == "football") {$('title').innerHTML = r.data.listInfo.listName;} else {$('title').innerHTML = r.l_title;}
-        if ($('line4') != null && d.getElementsByClassName('dw')[0].clientWidth == 350 && $('title').scrollHeight > 61) {
-            $('title').setAttribute('style', 'font-size: 14px')
-        }
+        // if ($('line4') != null && d.getElementsByClassName('dw')[0].clientWidth == 350 && $('title').scrollHeight > 61) {
+        //     $('title').setAttribute('style', 'font-size: 14px')
+        // }
         var n = true;
         if (document.referrer == "") {
           currentDomain = window.location.hostname.toString();
@@ -391,6 +491,17 @@ dynamic_widget = function() {
         }
         if ($('list-link') && l.showLink != 'false') {
             $('list-link').href = a;
+            $('imgurl').href = a;
+            $('title-link').href = a;
+            $('shareFacebook').href = "https://www.facebook.com/sharer/sharer.php?u=" + a;
+            $('shareTwitter').href = "https://twitter.com/home?status=" + a;
+            $('shareLink').addEventListener("click", function(){
+              copyToClipboard(a);
+              $('shareSuccess').style.display = "block";
+              setTimeout(function(){
+                $('shareSuccess').style.display = "none";
+              }, 2000);
+             });
         }
         if (l.showLink == 'false') {
           $('list-link').style.display = "none";
@@ -402,12 +513,13 @@ dynamic_widget = function() {
         } else {
           //clickthrough analitics code
           document.getElementById("list-link").addEventListener("click", function(){
-            window.parent.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
+            window.top.postMessage({snt_data: {event: "widget-clicked", w: "pr_type", url: this.href}, action: 'snt_tracker'}, '*');
           });
-          document.getElementById("mainurl").addEventListener("click", function(){
-            window.parent.postMessage({snt_data: {click: true}, action: 'snt_tracker'}, '*');
+          document.getElementById("imgurl").addEventListener("click", function(){
+            window.top.postMessage({snt_data: {event: "widget-clicked", w: "pr_type", url: this.href}, action: 'snt_tracker'}, '*');
           });
         }
+
         p()
       }
 function p() {
@@ -415,6 +527,13 @@ function p() {
     rounds++;
     checkBlankImages();
   }
+  //todo: plug in actual api date values here
+  var date = new Date();
+  var monthNames = [ "January", "February", "March", "April", "May", "June",
+"July", "August", "September", "October", "November", "December" ];
+  var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  $('meta').innerHTML = "Posted on " + dayNames[date.getDay()] + ", " + monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
+
       if (currentConfig.category == "football") {
         var e = r.data.listData[i];
         var v_link = '';
@@ -433,27 +552,27 @@ function p() {
             a = 'http://' + SpecialDomain + "/" +l.category+ v_link;
           }
           if (l.showLink != 'false') {
-            $('mainurl').href = a;
-            $('line1').href = a;
+            $('line1').href = a.replace("(","").replace(")","");
           }
         }
         else {
           $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
-          $('line2').innerHTML = "Team: <b>" + e.teamName + "</b>";
           var a = "";
           if (SpecialDomain == "") {
             v_link = l.remn == 'true' ? "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId : "/p/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
 
             a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" + l.category + v_link : "http://" + currentConfig.partnerDomain + "/" + l.dom + "/" + l.category + v_link;
+            $('line2').innerHTML = "Team: <a href='" + 'http://' + l.subd + "/" +l.category+ "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId + "'><b>" + e.teamName + "</b></a>";
+
           }
           else {
             v_link = "/player/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + escape(e.playerFirstName.replace(/ /g, "-").toLowerCase()) + '-' + escape(e.playerLastName.replace(/ /g, "-").toLowerCase()) + "/" + e.playerId;
 
             a = 'http://' + SpecialDomain + "/" + l.category+v_link;
+            $('line2').innerHTML = "Team: <a href='" + 'http://' + SpecialDomain + "/" +l.category+ "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId + "'><b>" + e.teamName + "</b></a>";
           }
           if (l.showLink != 'false') {
-            $('mainurl').href = a;
-            $('line1').href = a;
+            $('line1').href = a.replace("(","").replace(")","");
           }
         }
         var statType = e.statDescription.replace(/_/g, " ");
@@ -465,59 +584,73 @@ function p() {
         var stat = Math.floor(Number(e.stat));
         switch(e.statType) {
             case "player_kicking_longest_field_goal_made":
-                $('desc').innerHTML = statType + ": " + stat + " yards";
-                break;
+            case "player_returning_longest_return":
             case "player_punting_longest_punt":
                 $('desc').innerHTML = statType + ": " + stat + " yards";
                 break;
-            case "player_returning_longest_return":
-                $('desc').innerHTML = statType + ": " + stat + " yards";
+            case "player_punting_inside_twenty":
+                $('desc').innerHTML = stat + " punts";
                 break;
             default:
                 $('desc').innerHTML = statType + ": " + stat;
         }
+
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
+        $('carouselOverlay').className = "football";
         if (e.rankType == "team") {
-          if (e.teamLogo != null && e.teamLogo != "null" && !e.teamLogo.indexOf('no_image') >= 0) {
+          if (e.teamLogo != null && e.teamLogo != "null" && e.teamLogo.indexOf('no-image') == -1 &&  window.location.pathname.indexOf('_970') == -1) {
+            $('carouselOverlay').style.display = "none";
+            $('carouselShader').style.display = "block";
+
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo + "?width=" + (t.width * window.devicePixelRatio));
           }
           else {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
+            $('carouselOverlay').style.display = "block";
+            $('carouselShader').style.display = "none";
+
+            t.setAttribute('src', protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg" +"?width=" + (300 * window.devicePixelRatio));
           }
         }
         else {
-          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && !e.playerHeadshotUrl.indexOf('no_image') >= 0) {
+          if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && e.playerHeadshotUrl.indexOf('no-image') == -1 &&  window.location.pathname.indexOf('_970') == -1) {
+            $('carouselOverlay').style.display = "none";
+            $('carouselShader').style.display = "block";
+
             t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl + "?width=" + (t.width * window.devicePixelRatio));
           }
           else {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us/nfl/no-image-fb.svg");
+            $('carouselOverlay').style.display = "block";
+            $('carouselShader').style.display = "none";
+
+            t.setAttribute('src', protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg" + "?width=" + (300 * window.devicePixelRatio));
           }
         }
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
 
-        $('num').innerHTML = '#' + e.rank;
+        $('num').innerHTML = '<hash>#</hash>' + e.rank;
+        $('fallbackNum').innerHTML = '#' + e.rank;
 
         if ($('list-link')) {
             var u = d.getElementsByClassName('dw-btn')[0];
-            if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight) {
-                $('title').setAttribute('style', 'font-size: 14px');
-                if (d.getElementsByClassName('dw')[0].clientHeight <= 250) {
-                    $('title').setAttribute('style', 'font-size: 12px')
-                }
-            }
+            // if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight) {
+            //     $('title').setAttribute('style', 'font-size: 14px');
+            //     if (d.getElementsByClassName('dw')[0].clientHeight <= 250) {
+            //         $('title').setAttribute('style', 'font-size: 12px')
+            //     }
+            // }
             if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight - 10 && d.getElementsByClassName('dw')[0].clientHeight <= 250) {
                 d.getElementsByClassName('dw-btn')[0].setAttribute('style', 'margin-top: 0')
             }
         }
         var p = $('title');
-        if (p.offsetTop + p.scrollHeight > $('carousel').offsetTop) {
-            $('title').setAttribute('style', 'font-size: 14px')
-        }
+        // if (p.offsetTop + p.scrollHeight > $('carousel').offsetTop) {
+        //     $('title').setAttribute('style', 'font-size: 14px')
+        // }
       }
       else {
         var e = r.l_data[i];
@@ -546,24 +679,81 @@ function p() {
         $('line1').innerHTML = e.li_title;
         $('line2').innerHTML = e.li_sub_txt;
         if ($('line4') == null) {
-            $('desc').innerHTML = e.li_str
+          if (e.li_str.indexOf(e.li_value) != -1) {
+            $('desc').innerHTML = e.li_str.replace(e.li_value, "<b class='highlight'>" + e.li_value + "</b>");
+          }
+          else {
+            $('desc').innerHTML = e.li_str.replace(e.li_value.split(" ")[0], "<b class='highlight'>" + e.li_value.split(" ")[0] + "</b>");
+          }
         } else {
             $('desc').innerHTML = e.li_value;
             $('line4').innerHTML = e.li_tag
         }
         if (l.showLink != 'false') {
           $('line1').href = e.li_line_url;
-          $('mainurl').href = e.li_url;
         }
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
-        t.setAttribute('src', e.li_img + "?width=" + (t.width * window.devicePixelRatio));
+        var fallbackImg = "http://images.synapsys.us/01/fallback/stock/2017/03/";
+        var cssClass = "";
+        switch(l.category) {
+            case "nfl":
+            case "ncaaf":
+              fallbackImg += "football_stock.jpg";
+              cssClass = "football";
+              break;
+            case "nba":
+            case "college_basketball":
+              fallbackImg += "basketball_stock.jpg";
+              cssClass = "basketball";
+              break;
+            case "finance":
+              fallbackImg += "finance_stock.jpg";
+              cssClass = "finance";
+              break;
+            case "mlb":
+              fallbackImg += "baseball_stock.jpg";
+              cssClass = "baseball";
+              break;
+            case "disaster":
+            case "demographics":
+            case "crime":
+            case "weather":
+            case "politics":
+              cssClass = "realestate";
+              fallbackImg += "real_estate_stock.jpg";
+              break;
+            default:
+              cssClass = "finance";
+              fallbackImg += "finance_stock.jpg";
+        }
+        fallbackImg += "?width=" + (300 * window.devicePixelRatio);
+        // $('carouselOverlay').className = cssClass;
+        if (l.category == "college_basketball" || l.category == "nba") {
+          if (e.player_wide_img != "" && e.player_wide_img != null) {
+            e.li_img = "//" + l.env + "images.synapsys.us" + e.player_wide_img;
+          }
+          else {
+            e.li_img = "//" + l.env + "images.synapsys.us" + e.team_wide_img;
+          }
+        }
+        if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1 || e.li_img.indexOf("_stock") != -1 ||  window.location.pathname.indexOf('_970') != -1) {
+          t.setAttribute('src', fallbackImg + "?width=" + (300 * window.devicePixelRatio));
+          $('carouselOverlay').style.display = "block";
+          $('carouselShader').style.display = "none";
+        }
+        else {
+          t.setAttribute('src', e.li_img.replace(/'/g,"") + "?width=" + (300 * window.devicePixelRatio));
+          $('carouselOverlay').style.display = "none";
+          $('carouselShader').style.display = "block";
+        }
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
-        $('num').innerHTML = '#' + e.li_rank;
+        $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
+        $('fallbackNum').innerHTML = '#' + e.li_rank;
         // if (e.li_subimg !== false) {
         //     var a = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
         //     if (s) {
@@ -593,20 +783,20 @@ function p() {
         // }
         if ($('list-link')) {
             var u = d.getElementsByClassName('dw-btn')[0];
-            if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight) {
-                $('title').setAttribute('style', 'font-size: 14px');
-                if (d.getElementsByClassName('dw')[0].clientHeight <= 250) {
-                    $('title').setAttribute('style', 'font-size: 12px')
-                }
-            }
+            // if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight) {
+            //     $('title').setAttribute('style', 'font-size: 14px');
+            //     if (d.getElementsByClassName('dw')[0].clientHeight <= 250) {
+            //         $('title').setAttribute('style', 'font-size: 12px')
+            //     }
+            // }
             if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight - 10 && d.getElementsByClassName('dw')[0].clientHeight <= 250) {
                 d.getElementsByClassName('dw-btn')[0].setAttribute('style', 'margin-top: 0')
             }
         }
         var p = $('title');
-        if (p.offsetTop + p.scrollHeight > $('carousel').offsetTop) {
-            $('title').setAttribute('style', 'font-size: 14px')
-        }
+        // if (p.offsetTop + p.scrollHeight > $('carousel').offsetTop) {
+        //     $('title').setAttribute('style', 'font-size: 14px')
+        // }
       }
 
     }
@@ -623,11 +813,15 @@ function p() {
         break;
         case 'finance':
         if (e.li_subimg.img == "//w1.synapsys.us/widgets/css/public/no_image.jpg") {
+          $('carouselOverlay').style.display = "block";
+          $('carouselShader').style.display = "none";
           c.setAttribute('src', e.li_subimg.img);
           $('carousel').setAttribute('class', 'two');
           $('suburl').setAttribute('style', 'display: block');
         }
         else {
+          $('carouselOverlay').style.display = "none";
+          $('carouselShader').style.display = "block";
           c.setAttribute('src', e.li_subimg.img);
           //set double image css to "on" if we have a double image for this list
           $('carousel').setAttribute('class', 'two');
@@ -707,7 +901,7 @@ function p() {
             $('list-link').parentNode.removeChild($('list-link'));
             return false
         }
-        $('verticalDisplayName').innerHTML = currentConfig.displayName;
+        // $('verticalDisplayName').innerHTML = currentConfig.displayName;
     }
     m();
     c(h);
