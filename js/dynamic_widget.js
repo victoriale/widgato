@@ -733,7 +733,7 @@ function p() {
               cssClass = "finance";
               fallbackImg += "finance_stock.jpg";
         }
-        fallbackImg += "?width=" + (300 * window.devicePixelRatio);
+        // fallbackImg += "?width=" + (300 * window.devicePixelRatio);
         // $('carouselOverlay').className = cssClass;
         if (l.category == "college_basketball" || l.category == "nba") {
           if (e.player_wide_img != "" && e.player_wide_img != null) {
