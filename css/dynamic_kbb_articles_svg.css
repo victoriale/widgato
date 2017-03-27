@@ -25,6 +25,11 @@ i {
 }
 .sixteen-nine {
   position: relative;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 33.333333%;
+  -ms-flex: 0 0 33.333333%;
+  flex: 0 0 33.333333%;
+  max-width: 33.333333%;
 }
 .sixteen-nine:before {
   display: block;
@@ -32,13 +37,14 @@ i {
   width: 100%;
   padding-top: 56.25%;
 }
-.sixteen-nine > .content {
+.sixteen-nine > img {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
 }
+
 .dw {
   background-color: #fafafa;
   box-shadow: 0 0 0 1px #b7b7b7 inset;
@@ -63,9 +69,14 @@ i {
   display: -webkit-flex;
 }
 .main-ar{
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 66.666667%;
+  -ms-flex: 0 0 66.666667%;
+  flex: 0 0 66.666667%;
+  max-width: 66.666667%;
   margin-left: 10px;
-  width: 100%;
   overflow: hidden;
+  width: 100%;
 }
 .main-ar-title{
   font-weight: bold;
