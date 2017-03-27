@@ -1,0 +1,72 @@
+html,
+body {
+    margin: 0!important;
+    font-family: 'Lato', sans-serif;
+    width: 100%;
+    height: auto;
+    background-color: #ccc
+}
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
+}
+
+a {
+    text-decoration: none;
+    outline: 0
+}
+i {
+  font-style: normal;
+  margin-left: 5px;
+  font-family: 'Source Sans Pro', Helvetica, Arial , sans-serif;
+  font-size: 15px;
+  vertical-align: top;
+}
+.sixteen-nine {
+  position: relative;
+}
+.sixteen-nine:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 56.25%;
+}
+.sixteen-nine > .content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+.dw {
+  background-color: #fafafa;
+  box-shadow: 0 0 0 1px #b7b7b7 inset;
+  height: auto;
+  margin: 0 auto;
+  max-width: 768px;
+  width: 100%;
+  position: relative;
+}
+.headline{
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+  text-align: center;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.main{
+  display: flex;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+}
+.main-ar{
+  margin-left: 10px;
+  width: 100%;
+  overflow: hidden;
+}
+.main-ar-title{
+  font-weight: bold;
+}

@@ -112,97 +112,97 @@ dynamic_widget = function() {
     }
 
     function u() {
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: 'widget-title',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
-        var n = true;
-        p()
+      if (typeof dataLayer != 'undefined') {
+          dataLayer.push({
+              event: 'widget-title',
+              eventAction: dynamic_widget.get_title()
+          })
       }
-      //Epoch date to human readable format
-      function formattedDate(eDate){
-        var date = eDate ? new Date(eDate) : new Date();
-        var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
-        var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"];
-        var month = date.getMonth();
-        var day = date.getDate();
-        var dayofWeek = date.getDay();
-        var year = date.getFullYear();
+      var n = true;
+      p()
+    }
+    //Epoch date to human readable format
+    function formattedDate(eDate){
+      var date = eDate ? new Date(eDate) : new Date();
+      var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+      var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"];
+      var month = date.getMonth();
+      var day = date.getDate();
+      var dayofWeek = date.getDay();
+      var year = date.getFullYear();
 
-        var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
-        return formattedDate;
+      var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
+      return formattedDate;
+    }
+
+    function p() {
+      var e = r.data[i];//Get current data of article on Dashboard
+      a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn); //Generate current article link on Dashboard
+      if ($('list-link')) {
+          $('list-link').href = a
       }
+      if ($('title-link')) {
+          $('title-link').href = a
+      }
+      $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
+      if ($('keyword') && e.category) {
+        $('keyword').innerHTML = e.category.replace(/-/g," ");
+      }
+      if ($('date') && e.last_updated) {
+        $('date').innerHTML = formattedDate(e.last_updated*1000);
+      }
+      var stat = Math.floor(Number(e.stat));
+      $('teaser-text').innerHTML = e.teaser.replace(/[\\]/g,"");
+      var t = $('mainimg');
+      var n = t.getAttribute('onerror');
+      t.setAttribute('onerror', '');
+      t.setAttribute('src', '');
+        if (e.image_url != null && e.image_url != "null") {
+          t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
+        } else { //TODO: use placeholder images as fallback for articles instead of no-image image
+          t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+        }
+      setTimeout(function(e, t) {
+          t.setAttribute('onerror', e)
+      }.bind(undefined, n, t), 0);
+  }
 
-      function p() {
-        var e = r.data[i];//Get current data of article on Dashboard
-        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn); //Generate current article link on Dashboard
-        if ($('list-link')) {
-            $('list-link').href = a
-        }
-        if ($('title-link')) {
-            $('title-link').href = a
-        }
-        $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
-        if ($('keyword') && e.category) {
-          $('keyword').innerHTML = e.category.replace(/-/g," ");
-        }
-        if ($('date') && e.last_updated) {
-          $('date').innerHTML = formattedDate(e.last_updated*1000);
-        }
-        var stat = Math.floor(Number(e.stat));
-        $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
-        var t = $('mainimg');
-        var n = t.getAttribute('onerror');
-        t.setAttribute('onerror', '');
-        t.setAttribute('src', '');
-          if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
-          } else { //TODO: use placeholder images as fallback for articles instead of no-image image
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+  function w(e) {//Left and right buttons
+    i += e;
+    i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
+    p();
+    if (typeof dataLayer != 'undefined') {
+        dataLayer.push({
+            event: e == 1 ? 'nav-right' : 'nav-left',
+            eventAction: dynamic_widget.get_title()
+        })
+    }
+  }
+
+  function f() {
+    return l.dom + ':' + l.category + ':' + (r.l_sort == null ? r.l_param : r.l_sort) + ':' + r.l_title
+  }
+
+  function h() {
+    var hn = "";
+      if (l.carousel == true) {
+          var e = d.getElementsByTagName('a');
+          for (var t = 0; t < e.length; t++) {
+              e[t].setAttribute('onclick', 'event.preventDefault(); return false;')
           }
-        setTimeout(function(e, t) {
-            t.setAttribute('onerror', e)
-        }.bind(undefined, n, t), 0);
-    }
-
-    function w(e) {//Left and right buttons
-        i += e;
-        i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
-        p();
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: e == 1 ? 'nav-right' : 'nav-left',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
-    }
-
-    function f() {
-        return l.dom + ':' + l.category + ':' + (r.l_sort == null ? r.l_param : r.l_sort) + ':' + r.l_title
-    }
-
-    function h() {
-      var hn = "";
-        if (l.carousel == true) {
-            var e = d.getElementsByTagName('a');
-            for (var t = 0; t < e.length; t++) {
-                e[t].setAttribute('onclick', 'event.preventDefault(); return false;')
-            }
-            var i = d.querySelectorAll('.hover');
-            for (var t = 0; t < i.length; t++) {
-                i[t].parentNode.removeChild(i[t])
-            }
-            $('list-link').parentNode.removeChild($('list-link'));
-            return false
-        }
-    }
-    m();
-    c(h);
-    return {
-        carousel: w,
-        get_title: f,
-        m: m
-    }
+          var i = d.querySelectorAll('.hover');
+          for (var t = 0; t < i.length; t++) {
+              i[t].parentNode.removeChild(i[t])
+          }
+          $('list-link').parentNode.removeChild($('list-link'));
+          return false
+      }
+  }
+  m();
+  c(h);
+  return {
+    carousel: w,
+    get_title: f,
+    m: m
+  }
 }();
