@@ -43,8 +43,8 @@ i {
   left: 0;
   right: 0;
   bottom: 0;
+  width: 100%;
 }
-
 .dw {
   background-color: #fafafa;
   box-shadow: 0 0 0 1px #b7b7b7 inset;
@@ -52,6 +52,7 @@ i {
   margin: 0 auto;
   max-width: 768px;
   width: 100%;
+  padding: 15px;
   position: relative;
 }
 .headline{
@@ -64,9 +65,14 @@ i {
   white-space: nowrap;
 }
 .main{
-  display: flex;
-  display: -ms-flexbox;
+  display: -webkit-box;
   display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  margin-top: 20px;
 }
 .main-ar{
   -webkit-box-flex: 0;
@@ -74,7 +80,7 @@ i {
   -ms-flex: 0 0 66.666667%;
   flex: 0 0 66.666667%;
   max-width: 66.666667%;
-  margin-left: 10px;
+  padding-left: 15px;
   overflow: hidden;
   width: 100%;
 }

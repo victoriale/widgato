@@ -39,11 +39,10 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['kbb'];
-    console.log("list", l);
     currentConfig = getCategoryMetadata(l.category);
     var s = false;
     var o = '';
-    function c(e) {
+    function onLoad(e) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
             e()
             console.log(e());
@@ -61,7 +60,6 @@ dynamic_widget = function() {
     function m(ignoreRandom) {
       i = 0;
       httpGetData(ignoreRandom);
-      console.log("ignoreRandom", ignoreRandom);
     }
     function httpGetData(ignoreRandom) {
       //Category is default to KBB if undefined, exception only for KBB widgets
@@ -85,7 +83,7 @@ dynamic_widget = function() {
           if (i.readyState == XMLHttpRequest.DONE) {
               if (i.status == 200) {
                   r = JSON.parse(i.responseText);
-                  c(u)
+                  onLoad(getData)
               } else {
                   var e = i.statusText;
                   if (i.status == 500) {
@@ -107,11 +105,11 @@ dynamic_widget = function() {
       i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + "automotive" + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
       // i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
       // i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=" + "http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true);
-      //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
+      //TODO: change to prod on deployment, and change the hardcoded url to "referer" when embedding
       i.send()
     }
 
-    function u() {
+    function getData() {
       if (typeof dataLayer != 'undefined') {
           dataLayer.push({
               event: 'widget-title',
@@ -119,7 +117,7 @@ dynamic_widget = function() {
           })
       }
       var n = true;
-      p()
+      formattedData()
     }
     //Epoch date to human readable format
     function formattedDate(eDate){
@@ -135,7 +133,7 @@ dynamic_widget = function() {
       return formattedDate;
     }
 
-    function p() {
+    function formattedData() {
       var e = r.data[i];//Get current data of article on Dashboard
       a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn); //Generate current article link on Dashboard
       if ($('list-link')) {
@@ -157,52 +155,60 @@ dynamic_widget = function() {
       var n = t.getAttribute('onerror');
       t.setAttribute('onerror', '');
       t.setAttribute('src', '');
-        if (e.image_url != null && e.image_url != "null") {
-          t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
-        } else { //TODO: use placeholder images as fallback for articles instead of no-image image
-          t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
-        }
+      if (e.image_url != null && e.image_url != "null") {
+        t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
+      } else { //TODO: use placeholder images as fallback for articles instead of no-image image
+        t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+      }
       setTimeout(function(e, t) {
           t.setAttribute('onerror', e)
       }.bind(undefined, n, t), 0);
   }
-
-  function w(e) {//Left and right buttons
-    i += e;
+  /**
+  * @function getCarousel
+  * This function goes to the next or previous carousel item by adding dir to
+  * the current index. This is usually called via the onClick event on the nav
+  * buttons.
+  *
+  * @param int dir - This number is added to the index to create the index of
+  * the item to be shown.
+  */
+  function getCarousel(dir) {
+    i += dir;
     i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
-    p();
+    formattedData();
     if (typeof dataLayer != 'undefined') {
         dataLayer.push({
-            event: e == 1 ? 'nav-right' : 'nav-left',
+            event: dir == 1 ? 'nav-right' : 'nav-left',
             eventAction: dynamic_widget.get_title()
         })
     }
   }
 
-  function f() {
+  function getTitle() {
     return l.dom + ':' + l.category + ':' + (r.l_sort == null ? r.l_param : r.l_sort) + ':' + r.l_title
   }
 
-  function h() {
+  function setHomeLink() {
     var hn = "";
-      if (l.carousel == true) {
-          var e = d.getElementsByTagName('a');
-          for (var t = 0; t < e.length; t++) {
-              e[t].setAttribute('onclick', 'event.preventDefault(); return false;')
-          }
-          var i = d.querySelectorAll('.hover');
-          for (var t = 0; t < i.length; t++) {
-              i[t].parentNode.removeChild(i[t])
-          }
-          $('list-link').parentNode.removeChild($('list-link'));
-          return false
-      }
+    if (l.carousel == true) {
+        var e = d.getElementsByTagName('a');
+        for (var t = 0; t < e.length; t++) {
+            e[t].setAttribute('onclick', 'event.preventDefault(); return false;')
+        }
+        var i = d.querySelectorAll('.hover');
+        for (var t = 0; t < i.length; t++) {
+            i[t].parentNode.removeChild(i[t])
+        }
+        $('list-link').parentNode.removeChild($('list-link'));
+        return false
+    }
   }
   m();
-  c(h);
+  onLoad(setHomeLink);
   return {
-    carousel: w,
-    get_title: f,
+    carousel: getCarousel,
+    get_title: getTitle,
     m: m
   }
 }();
