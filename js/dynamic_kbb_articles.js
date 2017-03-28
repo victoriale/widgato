@@ -57,7 +57,7 @@ dynamic_widget = function() {
         }
     }
     //Resets index count to 0 when swapping lists
-    function m(ignoreRandom) {
+    function reset(ignoreRandom) {
       i = 0;
       httpGetData(ignoreRandom);
     }
@@ -165,7 +165,7 @@ dynamic_widget = function() {
       }.bind(undefined, n, t), 0);
   }
   /**
-  * @function getCarousel
+  * @function carData
   * This function goes to the next or previous carousel item by adding dir to
   * the current index. This is usually called via the onClick event on the nav
   * buttons.
@@ -173,7 +173,7 @@ dynamic_widget = function() {
   * @param int dir - This number is added to the index to create the index of
   * the item to be shown.
   */
-  function getCarousel(dir) {
+  function carData(dir) {
     i += dir;
     i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
     formattedData();
@@ -190,7 +190,7 @@ dynamic_widget = function() {
   }
 
   function setHomeLink() {
-    var hn = "";
+    var link = "";
     if (l.carousel == true) {
         var e = d.getElementsByTagName('a');
         for (var t = 0; t < e.length; t++) {
@@ -207,8 +207,8 @@ dynamic_widget = function() {
   m();
   onLoad(setHomeLink);
   return {
-    carousel: getCarousel,
+    carousel: carData,
     get_title: getTitle,
-    m: m
+    m: reset
   }
 }();

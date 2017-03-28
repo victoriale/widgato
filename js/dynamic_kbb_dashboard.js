@@ -39,14 +39,12 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['kbb'];
-    console.log("list", l);
     currentConfig = getCategoryMetadata(l.category);
     var s = false;
     var o = '';
-    function c(e) {
+    function onLoad(e) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
             e()
-            console.log(e());
         } else if (d.addEventListener) {
             d.addEventListener('DOMContentLoaded', e)
         } else if (d.attachEvent) {
@@ -58,10 +56,9 @@ dynamic_widget = function() {
         }
     }
     //Resets index count to 0 when swapping lists
-    function m(ignoreRandom) {
+    function reset(ignoreRandom) {
       i = 0;
       httpGetData(ignoreRandom);
-      console.log("ignoreRandom", ignoreRandom);
     }
     function httpGetData(ignoreRandom) {
       //Category is default to KBB if undefined, exception only for KBB widgets
@@ -85,7 +82,7 @@ dynamic_widget = function() {
           if (i.readyState == XMLHttpRequest.DONE) {
               if (i.status == 200) {
                   r = JSON.parse(i.responseText);
-                  c(u)
+                  onLoad(getData)
               } else {
                   var e = i.statusText;
                   if (i.status == 500) {
@@ -111,7 +108,7 @@ dynamic_widget = function() {
       i.send()
     }
 
-    function u() {
+    function getData() {
         if (typeof dataLayer != 'undefined') {
             dataLayer.push({
                 event: 'widget-title',
@@ -119,9 +116,13 @@ dynamic_widget = function() {
             })
         }
         var n = true;
-        p()
+        formattedData()
       }
       //Epoch date to human readable format
+      /**
+      * @function formattedDate
+      * Format from epoch date to human readable format, example: Tuesday, Mar. 21, 2017
+      */
       function formattedDate(eDate){
         var date = eDate ? new Date(eDate) : new Date();
         var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
@@ -135,42 +136,50 @@ dynamic_widget = function() {
         return formattedDate;
       }
 
-      function p() {
+      function formattedData() {
         var e = r.data[i];//Get current data of article on Dashboard
-        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn); //Generate current article link on Dashboard
-        if ($('list-link')) {
-            $('list-link').href = a
-        }
+        artLink = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn); //Generate current article link
+        // if ($('list-link')) {
+        //     $('list-link').href = artLink
+        // }
         if ($('title-link')) {
-            $('title-link').href = a
+            $('title-link').href = artLink
         }
         $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
-        if ($('keyword') && e.category) {
-          $('keyword').innerHTML = e.category.replace(/-/g," ");
-        }
-        if ($('date') && e.last_updated) {
-          $('date').innerHTML = formattedDate(e.last_updated*1000);
-        }
+        // if ($('keyword') && e.category) {
+        //   $('keyword').innerHTML = e.category.replace(/-/g," ");
+        // }
+        // if ($('date') && e.last_updated) {
+        //   $('date').innerHTML = formattedDate(e.last_updated*1000);
+        // }
         var stat = Math.floor(Number(e.stat));
         $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
-          if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
-          } else { //TODO: use placeholder images as fallback for articles instead of no-image image
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
-          }
+        if (e.image_url != null && e.image_url != "null") {
+          t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
+        } else { //TODO: use placeholder images as fallback for articles instead of no-image image
+          t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+        }
         setTimeout(function(e, t) {
-            t.setAttribute('onerror', e)
+          t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
     }
-
-    function w(e) {//Left and right buttons
-        i += e;
+    /**
+    * @function carData
+    * This function goes to the next or previous carousel item by adding dir to
+    * the current index. This is usually called via the onClick event on the nav
+    * buttons.
+    *
+    * @param int dir - This number is added to the index to create the index of
+    * the item to be shown.
+    */
+    function carData(dir) {
+        i += dir;
         i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
-        p();
+        formattedData();
         if (typeof dataLayer != 'undefined') {
             dataLayer.push({
                 event: e == 1 ? 'nav-right' : 'nav-left',
@@ -179,30 +188,30 @@ dynamic_widget = function() {
         }
     }
 
-    function f() {
+    function getTitle() {
         return l.dom + ':' + l.category + ':' + (r.l_sort == null ? r.l_param : r.l_sort) + ':' + r.l_title
     }
 
-    function h() {
-      var hn = "";
-        if (l.carousel == true) {
-            var e = d.getElementsByTagName('a');
-            for (var t = 0; t < e.length; t++) {
-                e[t].setAttribute('onclick', 'event.preventDefault(); return false;')
-            }
-            var i = d.querySelectorAll('.hover');
-            for (var t = 0; t < i.length; t++) {
-                i[t].parentNode.removeChild(i[t])
-            }
-            $('list-link').parentNode.removeChild($('list-link'));
-            return false
-        }
+    function setHomeLink() {
+      var link = "";
+      if (l.carousel == true) {
+          var e = d.getElementsByTagName('a');
+          for (var t = 0; t < e.length; t++) {
+              e[t].setAttribute('onclick', 'event.preventDefault(); return false;')
+          }
+          var i = d.querySelectorAll('.hover');
+          for (var t = 0; t < i.length; t++) {
+              i[t].parentNode.removeChild(i[t])
+          }
+          $('list-link').parentNode.removeChild($('list-link'));
+          return false
+      }
     }
-    m();
-    c(h);
+    reset(); //Reset index number
+    onLoad(setHomeLink);
     return {
-        carousel: w,
-        get_title: f,
-        m: m
+        carousel: carData,
+        get_title: getTitle,
+        m: reset
     }
 }();
