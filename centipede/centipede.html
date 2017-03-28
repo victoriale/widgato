@@ -52,13 +52,14 @@
       /*font-weight: 300;*/
       font-size: 12px;
       color: black;
-      background-color: rgba(247, 247, 247, 0.8);
+      background-color: rgba(247, 247, 247, 0.9);
       box-shadow: 0 2px 2px 0 rgba(0,0,0,0.26), 0 0 0 1px rgba(0,0,0,0.09);
       opacity: 1;
       transition: opacity 0.2s ease-in-out;
       z-index: 9999;
     }
     .helper2 {
+      pointer-events: none;
       position: absolute;
       right:0px;
       top: 50%;
@@ -308,6 +309,74 @@
         </div> -->
       </div>
       <div class="worm_block">
+        <div class="list_item">
+          <div class="profile_image_div">
+            <img class="profile_image" src="img/logos/alphabet.png">
+          </div>
+          <div class="info">
+            <div class="name">
+              Alphabet, Inc.
+            </div>
+            <div class="symbl">
+              NASDAQ:GOOGL
+            </div>
+            <div class="location">
+              Mountain View, California
+            </div>
+            <div class="value">
+              593.1B
+            </div>
+            <div class="stat_type">
+              Current Market Cap
+            </div>
+          </div>
+        </div>
+        <div class="list_item">
+          <div class="profile_image_div">
+            <img class="profile_image" src="img/logos/microsoft.jpg">
+          </div>
+          <div class="info">
+            <div class="name">
+              Microsoft
+            </div>
+            <div class="symbl">
+              NASDAQ:MSFT
+            </div>
+            <div class="location">
+              Redmond, Washington
+            </div>
+            <div class="value">
+              500.4B
+            </div>
+            <div class="stat_type">
+              Current Market Cap
+            </div>
+          </div>
+        </div>
+        <!-- <div class="list_item">
+          <div class="profile_image_div">
+            <img class="profile_image" src="img/logos/alphabet.png">
+          </div>
+          <div class="info">
+            <div class="name">
+              Amazon, Inc.
+            </div>
+            <div class="symbl">
+              NASDAQ:AMZN
+            </div>
+            <div class="location">
+              Seattle, Washington
+            </div>
+            <div class="value">
+              407B
+            </div>
+            <div class="stat_type">
+              Current Market Cap
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <div class="worm_block">
         <div class="ad_item">
           <img src="img/ads/ad1.gif">
         </div>
@@ -408,10 +477,10 @@
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
         scrollTo = wormBlocks[i].offsetLeft - 5;
         if (worm.scrollLeft < scrollTo) {
-          scrollIncrements = (scrollTo - worm.scrollLeft) / 20;
+          scrollIncrements = (scrollTo - worm.scrollLeft) / 30;
         }
         else {
-          scrollIncrements = (scrollTo - worm.scrollLeft) / 20;
+          scrollIncrements = (scrollTo - worm.scrollLeft) / 30;
         }
         var setSmoothScrollInterval = setInterval(function(){
           if (worm.scrollLeft < (scrollTo - 3) || worm.scrollLeft > (scrollTo + 3)) {
@@ -425,7 +494,7 @@
           else {
             clearTimeout(setSmoothScrollInterval);
           }
-        }, 15);
+        }, 10);
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
