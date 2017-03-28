@@ -8,13 +8,13 @@ var snt_widget_type1 = "//w1.synapsys.us/embeds/football_pro/dynamic_300x600/nfl
 
 var valid_widget_identifiers = []; // store all valid widget identifers in this array so that it cannot be called again
 var snt_widget_count = 1; // counter for amount of widgets showing on page
-
+var max_widget_count = 6;
 var intervalFailSafe = 0;
+var maxScrollPercent = 80;
 
 
 //Waits for the DOMContent to load so we know where to append the widget
 document.addEventListener("DOMContentLoaded", function(event) {
-    console.log(hostname);
     //declare initial snt container
     var snt_container = document.createElement("div");
     snt_container.setAttribute("id", snt_id);
@@ -38,39 +38,50 @@ document.addEventListener("DOMContentLoaded", function(event) {
         var script = createIframeWidget(widgetType);
         snt_widget.appendChild(script);
 
-        //and script to end of snt_id_container container
+        //script to end of snt_id_container container
         snt_id_container.appendChild(snt_widget);
         return;
     }
 
     /*<---------------------------------------------------------------------------------------------------------->*/
 
-    //setup the onscroll function to listen to created snt identified container
+    /*
+     ** setup the onscroll function to listen to created snt identified container
+     ** listens and tracks the clients scroll length to determine if it has reached the thresh hold of maxScrollPercent
+     ** if tracker meets requirements then it will create embed scripts
+     ** based on a POST MESSAGE from the first embed DASHBOARD widget will determine how many times the dashboard and trending
+     ** article section will display
+     */
     function sntListener() {
-        var maxScrollPercent = 80;
-        var body = document.body,
-            html = document.documentElement;
+        if (snt_widget_count < max_widget_count) {
+            var body = document.body,
+                html = document.documentElement;
 
-        // for used to allow ie9 && other browsers to grab the proper height, client height and scrollTop
-        var bodyHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight),
-            windHeight = window.innerHeight || (document.documentElement || document.body).clientHeight,
-            scrollTop = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop,
-            trackLength = bodyHeight - windHeight;
+            // for used to allow ie9 && other browsers to grab the proper height, client height and scrollTop
+            var bodyHeight = Math.max(body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight),
+                windHeight = window.innerHeight || (document.documentElement || document.body).clientHeight,
+                scrollTop = window.pageYOffset || (document.documentElement || document.body.parentNode || document.body).scrollTop,
+                trackLength = bodyHeight - windHeight;
 
-        // will return the percent of the scrolled height on client
-        var heightListener = Math.floor((scrollTop / trackLength) * 100);
+            // will return the percent of the scrolled height on client
+            var heightListener = Math.floor((scrollTop / trackLength) * 100);
 
-        //create widget identifier based on the amount of widgets that are on the page
-        var widgetId = widget_id + snt_widget_count;
+            //create widget identifier based on the amount of widgets that are on the page
+            var widgetId = widget_id + snt_widget_count;
 
-        //if 80% of snt_id_container is visible then call next widget unless it is the first call then index it
-        if (heightListener >= maxScrollPercent || valid_widget_identifiers.length == 0) {
-            if (valid_widget_identifiers.indexOf(widgetId) == -1) {
-                valid_widget_identifiers.push(widgetId);
+            /*
+            ** CODE HERE to determine what widgets to call
+            */
 
-                //functions to create the node script with an identifier then wait for the widget with a unique identifier to show that it has loaded to allow the next set of widgets to be called.
-                createNode("id", widgetId, snt_widget_type1);
-                waitForElementToDisplay(widgetId, "id[igloo_id]", 500);
+            //if 80% of snt_id_container is visible then call next widget unless it is the first call then index it
+            if (heightListener >= maxScrollPercent || valid_widget_identifiers.length == 0) {
+                if (valid_widget_identifiers.indexOf(widgetId) == -1) {
+                    valid_widget_identifiers.push(widgetId);
+
+                    //functions to create the node script with an identifier then wait for the widget with a unique identifier to show that it has loaded to allow the next set of widgets to be called.
+                    createNode("id", widgetId, snt_widget_type1);
+                    waitForElementToDisplay(widgetId, "div[igloo_id]", 500);
+                }
             }
         }
     };
@@ -92,7 +103,6 @@ function waitForElementToDisplay(identifier, selector, time) {
             intervalFailSafe = 0;
             return;
         } else {
-            console.log(intervalFailSafe);
             if (intervalFailSafe < 10) {
                 var snt_frame_element = setTimeout(function() {
                     intervalFailSafe++;
