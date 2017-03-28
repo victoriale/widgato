@@ -437,7 +437,6 @@
 
     // set visibility of helper and list title, based on scroll position
     if (this.scrollLeft > 20) {
-      // helper.style.opacity = '0';
       helper2.style.opacity = '0';
     }
     else {
@@ -477,13 +476,15 @@
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
         scrollTo = wormBlocks[i].offsetLeft - 5;
         if (worm.scrollLeft < scrollTo) {
-          scrollIncrements = (scrollTo - worm.scrollLeft) / 30;
+          scrollIncrements = 1;
         }
         else {
-          scrollIncrements = (scrollTo - worm.scrollLeft) / 30;
+          scrollIncrements = -1;
         }
         var setSmoothScrollInterval = setInterval(function(){
-          if (worm.scrollLeft < (scrollTo - 3) || worm.scrollLeft > (scrollTo + 3)) {
+          var marginOfError = 0;
+          if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
+            //if within margin of error of target, end scroll
             if (i == (wormBlocks.length - 1)) {
               clearTimeout(setSmoothScrollInterval);
             }
@@ -494,7 +495,7 @@
           else {
             clearTimeout(setSmoothScrollInterval);
           }
-        }, 10);
+        }, 5);
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
@@ -507,13 +508,14 @@
       else if (worm.scrollLeft < 20) { // special logic for first list item
         scrollTo = 0;
         if (worm.scrollLeft < scrollTo) {
-          scrollIncrements = (scrollTo - worm.scrollLeft) / 20;
+          scrollIncrements = 1;
         }
         else {
-          scrollIncrements = (scrollTo - worm.scrollLeft) / 20;
+          scrollIncrements = -1;
         }
         var setSmoothScrollInterval = setInterval(function(){
-          if (worm.scrollLeft < (scrollTo - 3) || worm.scrollLeft > (scrollTo + 3)) {
+          var marginOfError = 0;
+          if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
             if (i == (wormBlocks.length - 1)) {
               clearTimeout(setSmoothScrollInterval);
             }
