@@ -118,7 +118,6 @@ dynamic_widget = function() {
         var n = true;
         formattedData()
       }
-      //Epoch date to human readable format
       /**
       * @function formattedDate
       * Format from epoch date to human readable format, example: Tuesday, Mar. 21, 2017
@@ -139,13 +138,19 @@ dynamic_widget = function() {
       function formattedData() {
         var e = r.data[i];//Get current data of article on Dashboard
         artLink = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn); //Generate current article link
-        // if ($('list-link')) {
-        //     $('list-link').href = artLink
-        // }
+        if ($('thumb-link')) {
+            $('thumb-link').href = artLink
+        }
         if ($('title-link')) {
             $('title-link').href = artLink
         }
+        if ($('article-url')) {
+            $('article-url').href = artLink
+        }
         $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
+        $('fb-share').href = "https://www.facebook.com/sharer/sharer.php?u="+artLink;
+        $('twitter-share').href = "https://twitter.com/home?status="+artLink;
+        $('google-share').href = "https://plus.google.com/share?url="+artLink;
         // if ($('keyword') && e.category) {
         //   $('keyword').innerHTML = e.category.replace(/-/g," ");
         // }
@@ -154,7 +159,7 @@ dynamic_widget = function() {
         // }
         var stat = Math.floor(Number(e.stat));
         $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
-        var t = $('mainimg');
+        var t = $('carousel-img');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
@@ -203,11 +208,11 @@ dynamic_widget = function() {
           for (var t = 0; t < i.length; t++) {
               i[t].parentNode.removeChild(i[t])
           }
-          $('list-link').parentNode.removeChild($('list-link'));
+          $('thumb-link').parentNode.removeChild($('thumb-link'));
           return false
       }
     }
-    reset(); //Reset index number
+    reset();
     onLoad(setHomeLink);
     return {
         carousel: carData,

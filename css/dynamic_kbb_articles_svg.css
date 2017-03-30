@@ -4,7 +4,7 @@ body {
     font-family: 'Lato', sans-serif;
     width: 100%;
     height: auto;
-    background-color: #ccc
+    background-color: #fff
 }
 * {
     -webkit-box-sizing: border-box;
@@ -15,6 +15,9 @@ body {
 a {
     text-decoration: none;
     outline: 0
+}
+a:hover{
+  color: #0000ff;
 }
 i {
   font-style: normal;
@@ -30,6 +33,7 @@ i {
   -ms-flex: 0 0 33.333333%;
   flex: 0 0 33.333333%;
   max-width: 33.333333%;
+  overflow: hidden;
 }
 .sixteen-nine:before {
   display: block;
@@ -65,6 +69,10 @@ i {
   white-space: nowrap;
 }
 .main{
+  width: 100%;
+  height: auto;
+}
+.main-row{
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -79,11 +87,13 @@ i {
   -webkit-flex: 0 0 66.666667%;
   -ms-flex: 0 0 66.666667%;
   flex: 0 0 66.666667%;
+  color: #000;
   max-width: 66.666667%;
   padding-left: 15px;
   overflow: hidden;
   width: 100%;
 }
+
 .main-ar-title{
   font-weight: bold;
 }

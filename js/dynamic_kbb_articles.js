@@ -45,7 +45,6 @@ dynamic_widget = function() {
     function onLoad(e) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
             e()
-            console.log(e());
         } else if (d.addEventListener) {
             d.addEventListener('DOMContentLoaded', e)
         } else if (d.attachEvent) {
@@ -119,7 +118,10 @@ dynamic_widget = function() {
       var n = true;
       formattedData()
     }
-    //Epoch date to human readable format
+    /**
+    * @function formattedDate
+    * Format from epoch date to human readable format, example: Tuesday, Mar. 21, 2017
+    */
     function formattedDate(eDate){
       var date = eDate ? new Date(eDate) : new Date();
       var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
@@ -134,36 +136,27 @@ dynamic_widget = function() {
     }
 
     function formattedData() {
-      var e = r.data[i];//Get current data of article on Dashboard
-      a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn); //Generate current article link on Dashboard
-      if ($('list-link')) {
-          $('list-link').href = a
+      if(r.data == null || typeof r.data == "undefined" || r.data.length == 0){
+        return null;
       }
-      if ($('title-link')) {
-          $('title-link').href = a
-      }
-      $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
-      if ($('keyword') && e.category) {
-        $('keyword').innerHTML = e.category.replace(/-/g," ");
-      }
-      if ($('date') && e.last_updated) {
-        $('date').innerHTML = formattedDate(e.last_updated*1000);
-      }
-      var stat = Math.floor(Number(e.stat));
-      $('teaser-text').innerHTML = e.teaser.replace(/[\\]/g,"");
-      var t = $('mainimg');
-      var n = t.getAttribute('onerror');
-      t.setAttribute('onerror', '');
-      t.setAttribute('src', '');
-      if (e.image_url != null && e.image_url != "null") {
-        t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
-      } else { //TODO: use placeholder images as fallback for articles instead of no-image image
-        t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
-      }
-      setTimeout(function(e, t) {
-          t.setAttribute('onerror', e)
+      var dataList = r.data.length > 5 ? r.data.splice(0,5) : r.data;//Get current data of article on Dashboard
+
+      dataList.forEach(function(val, index){
+        var artDetails = document.createElement('div');
+        artDetails.className = 'main-row';
+        var parent = document.getElementById('artMain');
+        var titleText = val['title'].replace(/[\\]/g,"");
+        var teaserText = val['teaser'].replace(/[\\]/g,"");
+        var artUrl = generateArticleLink(l.category, val['source'], val['article_id'], val['article_type'], l.remn); //Generate current article link on Dashboard
+        var artImg = val.image_url != null ? (protocolToUse + "images.synapsys.us" + val.image_url + "?width=" + (t.width * window.devicePixelRatio)) : (protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+        artDetails.innerHTML = '<div class="sixteen-nine"><img src='+artImg+' /></div><a class="main-ar" href="'+artUrl+'"><div class="main-ar-title">'+titleText+'</div><div class="main-ar-teaser">'+teaserText+'</div></a>';
+        parent.appendChild(artDetails);
+      });
+
+      setTimeout(function(dataList, t) {
+          t.setAttribute('onerror', dataList)
       }.bind(undefined, n, t), 0);
-  }
+  }// END OF FUNC
   /**
   * @function carData
   * This function goes to the next or previous carousel item by adding dir to
@@ -204,7 +197,7 @@ dynamic_widget = function() {
         return false
     }
   }
-  m();
+  reset();
   onLoad(setHomeLink);
   return {
     carousel: carData,
