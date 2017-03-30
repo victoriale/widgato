@@ -88,6 +88,8 @@ button:focus {
   height:50px;
   width: calc(100% - 50px);
   float:left;
+  border-left: 3px solid;
+  padding-left: 10px;
 }
 /*.e_text{
   width:100%;
