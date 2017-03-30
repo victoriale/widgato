@@ -28,8 +28,8 @@
     .wrapper {
       position: absolute;
       overflow: hidden;
-      width: 320px;
-      height: 270px;
+      width: 300px;
+      height: 250px;
       background-color: #f7f7f7;
     }
     .edge_shader {
@@ -52,13 +52,14 @@
       /*font-weight: 300;*/
       font-size: 12px;
       color: black;
-      background-color: rgba(247, 247, 247, 0.8);
+      background-color: rgba(247, 247, 247, 0.9);
       box-shadow: 0 2px 2px 0 rgba(0,0,0,0.26), 0 0 0 1px rgba(0,0,0,0.09);
       opacity: 1;
       transition: opacity 0.2s ease-in-out;
       z-index: 9999;
     }
     .helper2 {
+      pointer-events: none;
       position: absolute;
       right:0px;
       top: 50%;
@@ -138,7 +139,6 @@
     .worm_block {
       display: inline-block;
       height: 250px;
-      margin-top: 10px;
     }
     .worm_block:last-of-type {
       margin-right: 10px;
@@ -146,9 +146,10 @@
     .list_item {
       position: relative;
       display: inline-block;
-      height: 90%;
+      height: 85%;
       width: 145px;
       margin-left:5px;
+      margin-bottom:5px;
       background-color: white;
       border-radius: 2px;
       box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16), 0 0 0 1px rgba(0,0,0,0.08);
@@ -160,9 +161,9 @@
       margin-left:5px;
     }
     .profile_image_div {
-      width: 90px;
-      height: 90px;
-      margin: 5% 20%;
+      width: 83px;
+      height: 83px;
+      margin: 5% 22%;
       display: block;
       position: absolute;
     }
@@ -175,7 +176,7 @@
     .info {
       width: 100%;
       position: absolute;
-      top: 100px;
+      top: 90px;
       font-family: lato;
       text-align: center;
     }
@@ -308,6 +309,74 @@
         </div> -->
       </div>
       <div class="worm_block">
+        <div class="list_item">
+          <div class="profile_image_div">
+            <img class="profile_image" src="img/logos/alphabet.png">
+          </div>
+          <div class="info">
+            <div class="name">
+              Alphabet, Inc.
+            </div>
+            <div class="symbl">
+              NASDAQ:GOOGL
+            </div>
+            <div class="location">
+              Mountain View, California
+            </div>
+            <div class="value">
+              593.1B
+            </div>
+            <div class="stat_type">
+              Current Market Cap
+            </div>
+          </div>
+        </div>
+        <div class="list_item">
+          <div class="profile_image_div">
+            <img class="profile_image" src="img/logos/microsoft.jpg">
+          </div>
+          <div class="info">
+            <div class="name">
+              Microsoft
+            </div>
+            <div class="symbl">
+              NASDAQ:MSFT
+            </div>
+            <div class="location">
+              Redmond, Washington
+            </div>
+            <div class="value">
+              500.4B
+            </div>
+            <div class="stat_type">
+              Current Market Cap
+            </div>
+          </div>
+        </div>
+        <!-- <div class="list_item">
+          <div class="profile_image_div">
+            <img class="profile_image" src="img/logos/alphabet.png">
+          </div>
+          <div class="info">
+            <div class="name">
+              Amazon, Inc.
+            </div>
+            <div class="symbl">
+              NASDAQ:AMZN
+            </div>
+            <div class="location">
+              Seattle, Washington
+            </div>
+            <div class="value">
+              407B
+            </div>
+            <div class="stat_type">
+              Current Market Cap
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <div class="worm_block">
         <div class="ad_item">
           <img src="img/ads/ad1.gif">
         </div>
@@ -368,7 +437,6 @@
 
     // set visibility of helper and list title, based on scroll position
     if (this.scrollLeft > 20) {
-      // helper.style.opacity = '0';
       helper2.style.opacity = '0';
     }
     else {
@@ -406,15 +474,17 @@
     for (i = 0; i < wormBlocks.length;  i++) {
       if ((worm.scrollLeft + 180) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 180) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
-        scrollTo = wormBlocks[i].offsetLeft - 5;
+        scrollTo = wormBlocks[i].offsetLeft;
         if (worm.scrollLeft < scrollTo) {
-          scrollIncrements = (scrollTo - worm.scrollLeft) / 20;
+          scrollIncrements = 1;
         }
         else {
-          scrollIncrements = (scrollTo - worm.scrollLeft) / 20;
+          scrollIncrements = -1;
         }
         var setSmoothScrollInterval = setInterval(function(){
-          if (worm.scrollLeft < (scrollTo - 3) || worm.scrollLeft > (scrollTo + 3)) {
+          var marginOfError = 0;
+          if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
+            //if within margin of error of target, end scroll
             if (i == (wormBlocks.length - 1)) {
               clearTimeout(setSmoothScrollInterval);
             }
@@ -425,7 +495,7 @@
           else {
             clearTimeout(setSmoothScrollInterval);
           }
-        }, 15);
+        }, 5);
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
@@ -438,13 +508,14 @@
       else if (worm.scrollLeft < 20) { // special logic for first list item
         scrollTo = 0;
         if (worm.scrollLeft < scrollTo) {
-          scrollIncrements = (scrollTo - worm.scrollLeft) / 20;
+          scrollIncrements = 1;
         }
         else {
-          scrollIncrements = (scrollTo - worm.scrollLeft) / 20;
+          scrollIncrements = -1;
         }
         var setSmoothScrollInterval = setInterval(function(){
-          if (worm.scrollLeft < (scrollTo - 3) || worm.scrollLeft > (scrollTo + 3)) {
+          var marginOfError = 0;
+          if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
             if (i == (wormBlocks.length - 1)) {
               clearTimeout(setSmoothScrollInterval);
             }
