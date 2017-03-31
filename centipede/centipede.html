@@ -167,17 +167,16 @@
       width: 300px;
     }
     .profile_image_div {
-      width: 83px;
+      width: 100%;
       height: 83px;
-      margin: 5% 22%;
       display: block;
       position: absolute;
     }
     .profile_image {
       position: absolute;
-      width: 100%;
-      top: 50%;
-      transform: translateY(-50%);
+      height: 100%;
+      left: 50%;
+      transform: translateX(-50%);
     }
     .info {
       width: 100%;
@@ -188,14 +187,31 @@
     }
     .name {
       font-weight: bold;
+      font-size: 14px;
+      max-width 95%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0 5px;
       margin-bottom: 5px;
+      margin-top: 5px;
     }
     .symbl, .location {
       font-size: 12px;
       color: #bebebe;
+      max-width 95%;
+      padding: 0 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .location {
       margin-bottom: 5px;
+      max-width 95%;
+      padding: 0 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     .value {
       font-size: 32px;
@@ -423,6 +439,13 @@
 
   //begin centipede logic
   //initial variable declaration
+  var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+  var input = JSON.parse(decodeURIComponent(location.search.substr(1)));
+  if (input.env != "prod-" && input.env != "dev-") {
+    input.env = "prod-";
+  }
+  var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
+  var apiUrl = protocolToUse +input.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
   var helper = document.getElementById('helper');
   var helper2 = document.getElementById('helper2');
   var wormBlocks = document.getElementsByClassName('worm_block');
@@ -433,6 +456,131 @@
   var scrollingTimout;
   var scrollTo = 0;
   var scrollIncrements = 0;
+  var rand;
+  var n = 0;
+
+  if (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1) {
+      input.category = 'finance'
+  }
+    var e = rand;
+    while (e == rand) {
+      e = Math.floor(Math.random() * 50);
+      if (e == 0) {e = 1;}
+    }
+  rand = e;
+  var i;
+  if (window.XMLHttpRequest) {
+      i = new XMLHttpRequest
+  } else {
+      i = new ActiveXObject('Microsoft.XMLHTTP')
+  }
+  i.onreadystatechange = function() {
+      if (i.readyState == XMLHttpRequest.DONE) {
+          if (i.status == 200) {
+              r = JSON.parse(i.responseText);
+              populateWorm(r);
+          } else {
+              var e = i.statusText;
+              if (i.status == 500) {
+                  try {
+                      e = JSON.parse(i.responseText).message;
+                  } catch (t) {
+                      console.log('No JSON message')
+                  }
+              }
+              e = 'HTTP Error (' + i.status + '): ' + e;
+              if (n++ > 10) {
+                  throw e
+              }
+          }
+      }
+  };
+  rand = e;
+  if (input.category == "nfl" || input.category == "ncaaf") {
+    i.open('GET', protocolToUse + "://"+input.env+"touchdownloyal-api.synapsys.us/list/" + query , true);
+    i.send()
+  }
+  else {
+    i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&cat=' + input.category + '&rand=' + e, true);
+    i.send()
+  }
+
+  function populateWorm(data) {
+    console.log("data",data);
+    var items = data.l_data;
+    //1st item before the ad
+    var image = items[0].li_img;
+    helper.innerHTML = data.l_title;
+    worm.innerHTML = `
+      <div class="worm_block">
+        <div class="list_item">
+          <div class="profile_image_div">
+            <img class="profile_image" src="`+image+`">
+          </div>
+          <div class="info">
+            <div class="name">
+              `+items[0].li_title+`
+            </div>
+            <div class="symbl">
+              `+items[0].li_sub_txt.split("|")[0]+`
+            </div>
+            <div class="location">
+              `+items[0].li_sub_txt.split("|")[1]+`
+            </div>
+            <div class="value">
+              `+items[0].li_value+`
+            </div>
+            <div class="stat_type">
+              `+items[0].li_tag+`
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="worm_block">
+        <div class="ad_item">
+          <img src="img/ads/ad2.jpg">
+        </div>
+      </div>
+    `;
+    //every other item (except the first)
+    for (var i = 1; i < items.length && i < 10; i ++) {
+      image = items[i].li_img;
+      worm.innerHTML += `
+        <div class="worm_block">
+          <div class="list_item">
+            <div class="profile_image_div">
+              <img class="profile_image" src="`+image+`">
+            </div>
+            <div class="info">
+              <div class="name">
+                `+items[i].li_title+`
+              </div>
+              <div class="symbl">
+                `+items[i].li_sub_txt.split("|")[0]+`
+              </div>
+              <div class="location">
+                `+items[i].li_sub_txt.split("|")[1]+`
+              </div>
+              <div class="value">
+                `+items[i].li_value+`
+              </div>
+              <div class="stat_type">
+                `+items[i].li_tag+`
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      if (i % 2 == 0) { //show add every even number
+        worm.innerHTML += `
+        <div class="worm_block">
+          <div class="ad_item">
+            <img src="img/ads/ad2.jpg">
+          </div>
+        </div>`;
+      }
+    }
+  }
 
   //initial event listeners declaration
   worm.addEventListener("scroll", onSwipe);

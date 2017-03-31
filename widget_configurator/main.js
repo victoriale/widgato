@@ -551,7 +551,7 @@ var options = {
       type: "text"
     },
     category:{
-      default: "nfl",
+      default: "finance",
       enabled: true,
       explanation: "The category of lists and style of widget to use.",
       name: "Category",
