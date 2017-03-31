@@ -176,9 +176,9 @@ dynamic_widget = function() {
           parent.appendChild(artDetails);
         });
 
-        setTimeout(function(e, t) {
-          t.setAttribute('onerror', e)
-        }.bind(undefined, n, t), 0);
+        // setTimeout(function(e, t) {
+        //   t.setAttribute('onerror', e)
+        // }.bind(undefined, n, t), 0);
     }
     /**
     * @function carData

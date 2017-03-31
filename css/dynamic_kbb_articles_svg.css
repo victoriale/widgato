@@ -4,7 +4,7 @@ body {
     font-family: 'Lato', sans-serif;
     width: 100%;
     height: auto;
-    background-color: #fff
+    background-color: #ccc
 }
 * {
     -webkit-box-sizing: border-box;
@@ -50,7 +50,7 @@ i {
   width: 100%;
 }
 .dw {
-  background-color: #fafafa;
+  background-color: #fff;
   box-shadow: 0 0 0 1px #b7b7b7 inset;
   height: auto;
   margin: 0 auto;

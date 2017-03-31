@@ -153,30 +153,10 @@ dynamic_widget = function() {
         parent.appendChild(artDetails);
       });
 
-      setTimeout(function(dataList, t) {
-          t.setAttribute('onerror', dataList)
-      }.bind(undefined, n, t), 0);
+      // setTimeout(function(dataList, t) {
+      //     t.setAttribute('onerror', dataList)
+      // }.bind(undefined, n, t), 0);
   }// END OF FUNC
-  /**
-  * @function carData
-  * This function goes to the next or previous carousel item by adding dir to
-  * the current index. This is usually called via the onClick event on the nav
-  * buttons.
-  *
-  * @param int dir - This number is added to the index to create the index of
-  * the item to be shown.
-  */
-  function carData(dir) {
-    i += dir;
-    i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
-    formattedData();
-    if (typeof dataLayer != 'undefined') {
-        dataLayer.push({
-            event: dir == 1 ? 'nav-right' : 'nav-left',
-            eventAction: dynamic_widget.get_title()
-        })
-    }
-  }
 
   function getTitle() {
     return l.dom + ':' + l.category + ':' + (r.l_sort == null ? r.l_param : r.l_sort) + ':' + r.l_title
@@ -200,7 +180,6 @@ dynamic_widget = function() {
   reset();
   onLoad(setHomeLink);
   return {
-    carousel: carData,
     get_title: getTitle,
     m: reset
   }
