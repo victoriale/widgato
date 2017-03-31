@@ -136,38 +136,46 @@ dynamic_widget = function() {
       }
 
       function formattedData() {
-        var e = r.data[i];//Get current data of article on Dashboard
-        artLink = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn); //Generate current article link
-        if ($('thumb-link')) {
-            $('thumb-link').href = artLink
+        if(r.data == null || typeof r.data == "undefined" || r.data.length == 0){
+          return null;
         }
-        if ($('title-link')) {
-            $('title-link').href = artLink
+        /**Top Article/Carousel Information**/
+        var dataList = r.data.length > 1 ? r.data.splice(0,1)[i] : r.data;
+        var genLink =  generateArticleLink(l.category, dataList['source'], dataList['article_id'], dataList['article_type'], l.remn); //Generate current article link
+        $('fb-share').href = "https://www.facebook.com/sharer/sharer.php?u="+genLink;
+        $('twitter-share').href = "https://twitter.com/home?status="+genLink;
+        $('google-share').href = "https://plus.google.com/share?url="+genLink;
+        if ($('title-link') && $('title-text')) {
+          $('title-link').href = genLink;
+          $('title-text').innerHTML = dataList['title'] ? dataList['title'].replace(/[\\]/g,"") : "";
         }
-        if ($('article-url')) {
-            $('article-url').href = artLink
+        if($('desc')){
+          $('desc').innerHTML = dataList['teaser'] ? dataList['teaser'].replace(/[\\]/g,"") : "";
         }
-        $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
-        $('fb-share').href = "https://www.facebook.com/sharer/sharer.php?u="+artLink;
-        $('twitter-share').href = "https://twitter.com/home?status="+artLink;
-        $('google-share').href = "https://plus.google.com/share?url="+artLink;
-        // if ($('keyword') && e.category) {
-        //   $('keyword').innerHTML = e.category.replace(/-/g," ");
-        // }
-        // if ($('date') && e.last_updated) {
-        //   $('date').innerHTML = formattedDate(e.last_updated*1000);
-        // }
-        var stat = Math.floor(Number(e.stat));
-        $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
         var t = $('carousel-img');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
-        if (e.image_url != null && e.image_url != "null") {
-          t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
+        if (dataList['image_url'] != null && dataList['image_url'] != "null") {
+          t.setAttribute('src', protocolToUse + "images.synapsys.us" + dataList['image_url'] + "?width=" + (t.width * window.devicePixelRatio));
         } else { //TODO: use placeholder images as fallback for articles instead of no-image image
           t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
         }
+        /**Bottom Article Information
+        ** Append child element to thumbArt to display the 3 articles in the bottom of dashboard
+        **/
+        var dataArr = r.data.length > 3 ? r.data.splice(0,3) : r.data;//Get current data of article on Dashboard
+        dataArr.forEach(function(val, index){
+          var artDetails = document.createElement('div');
+          artDetails.className = "thumbItem";
+          var parent = document.getElementById("thumbArt");
+          var titleText = val['title'].replace(/[\\]/g,"");
+          var artUrl =  generateArticleLink(l.category, val['source'], val['article_id'], val['article_type'], l.remn);
+          var artImg = val.image_url != null ? (protocolToUse + "images.synapsys.us" + val.image_url + "?width=" + (t.width * window.devicePixelRatio)) : (protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+          artDetails.innerHTML = '<img class="thumbImg" src='+artImg+' /></div><div class="thumbTitle"><a class="thumbTitleLink" href="'+artUrl+'">'+titleText+'</a>';
+          parent.appendChild(artDetails);
+        });
+
         setTimeout(function(e, t) {
           t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
