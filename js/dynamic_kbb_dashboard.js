@@ -1,3 +1,7 @@
+/**
+* @function getCategoryMetadata
+* Get meta info based on partner info
+*/
 function getCategoryMetadata (category) {
   var globalMeta = {
     kbb: {
@@ -21,6 +25,12 @@ var currentDomain = "";
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
 //TODO: waiting on API with KBB data
+/**
+* @function generateArticleLink
+* Generate offsite article link
+* scope: article category, linkType: depends article source, destinationId: unique article/event id,
+* articleType: article type, such as story, video, etc., remn: partner or non-partner
+*/
 function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
   var baseUrl = "http://";
   var output = "";
@@ -29,7 +39,46 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn)
   output = baseUrl + "/" + scope + "/news/story/" + destinationId;
   return output;
 }
-
+/**
+* @function getTabInfo
+* List tab options
+*/
+function getTabInfo(option){
+  var tabObj = {
+    "trending": {
+      display: "TRENDING NEWS",
+      category: "trending-news"
+    },
+    "reviews": {
+      display: "REVIEWS",
+      category: "reviews"
+    },
+    "videos": {
+      display: "VIDEOS",
+      category: "videos"
+    },
+    "auto": {
+      display: "AUTO SHOW",
+      category: "auto-show"
+    },
+    "top10": {
+      display: "TOP 10 LISTS",
+      category: "top-10-lists"
+    }
+  }
+  if(tabObj[option] == null || typeof tabObj[option] == "undefined"){// default return
+    return{
+      display: null,
+      scope: null
+    };
+  } else {
+    return tabObj[option];
+  }
+}
+/**
+* @function dynamic_widget
+* Set up dynamic widget data here
+*/
 dynamic_widget = function() {
     var e = location.protocol == 'https:' ? 'https' : 'http',
         protocol = location.protocol == 'https:' ? 'https' : 'http',
@@ -55,11 +104,18 @@ dynamic_widget = function() {
             })
         }
     }
-    //Resets index count to 0 when swapping lists
+    /**
+    * @function reset
+    * Resets index count to 0 when swapping lists
+    */
     function reset(ignoreRandom) {
       i = 0;
       httpGetData(ignoreRandom);
     }
+    /**
+    * @function httpGetData
+    * Get data from API
+    */
     function httpGetData(ignoreRandom) {
       //Category is default to KBB if undefined, exception only for KBB widgets
       if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
@@ -101,7 +157,10 @@ dynamic_widget = function() {
           }
       };
       //TODO: waiting on new api call with KBB data
-      i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + "automotive" + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
+      var count = 20;
+      var category = "automotive";
+      var subCategory = currentConfig.subCategory;
+      i.open('GET', protocol+"://dev-article-library.synapsys.us/articles?category="+category+"&subCategory="+subCategory+ "&metaDataOnly=1&readyToPublish=true&count="+count, true);
       // i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
       // i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=" + "http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true);
       //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
@@ -116,69 +175,96 @@ dynamic_widget = function() {
             })
         }
         var n = true;
+        getTab();
         formattedData()
+    }
+    /**
+    * @function formattedDate
+    * Format from epoch date to human readable format, example: Tuesday, Mar. 21, 2017
+    */
+    // function formattedDate(eDate){
+    //   var date = eDate ? new Date(eDate) : new Date();
+    //   var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
+    //   var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"];
+    //   var month = date.getMonth();
+    //   var day = date.getDate();
+    //   var dayofWeek = date.getDay();
+    //   var year = date.getFullYear();
+    //
+    //   var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
+    //   return formattedDate;
+    // }
+
+    /**
+    * @function formattedData
+    * Format data accordingly to specs before displaying
+    */
+    function formattedData() {
+      if(r.data == null || typeof r.data == "undefined" || r.data.length == 0){
+        return null;
       }
-      /**
-      * @function formattedDate
-      * Format from epoch date to human readable format, example: Tuesday, Mar. 21, 2017
-      */
-      function formattedDate(eDate){
-        var date = eDate ? new Date(eDate) : new Date();
-        var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
-        var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"];
-        var month = date.getMonth();
-        var day = date.getDate();
-        var dayofWeek = date.getDay();
-        var year = date.getFullYear();
-
-        var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
-        return formattedDate;
+      /**Top Article/Carousel Data**/
+      var dataList = r.data.length > 1 ? r.data.splice(0,1)[i] : r.data;
+      var genLink =  generateArticleLink(l.category, dataList['source'], dataList['article_id'], dataList['article_type'], l.remn); //Generate current article link
+      $('fb-share').href = "https://www.facebook.com/sharer/sharer.php?u="+genLink;
+      $('twitter-share').href = "https://twitter.com/home?status="+genLink;
+      $('google-share').href = "https://plus.google.com/share?url="+genLink;
+      if ($('title-link') && $('title-text')) {
+        $('title-link').href = genLink;
+        $('title-text').innerHTML = dataList['title'] ? dataList['title'].replace(/[\\]/g,"") : "";
+      }
+      if($('desc')){
+        $('desc').innerHTML = dataList['teaser'] ? dataList['teaser'].replace(/[\\]/g,"") : "";
+      }
+      var t = $('carousel-img');
+      var n = t.getAttribute('onerror');
+      t.setAttribute('onerror', '');
+      t.setAttribute('src', '');
+      if (dataList['image_url'] != null && dataList['image_url'] != "null") {
+        t.setAttribute('src', protocolToUse + "images.synapsys.us" + dataList['image_url'] + "?width=" + (t.width * window.devicePixelRatio));
+      } else { //TODO: use placeholder images as fallback for articles instead of no-image image
+        t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
       }
 
-      function formattedData() {
-        if(r.data == null || typeof r.data == "undefined" || r.data.length == 0){
-          return null;
+      /**Bottom Article Data
+      ** Append child element to thumbArt to display the 3 articles in the bottom of dashboard
+      **/
+      var dataArr = r.data.length > 3 ? r.data.splice(0,3) : r.data;//Get current data of article on Dashboard
+      dataArr.forEach(function(val, index){
+        var artDetails = document.createElement('div');
+        artDetails.className = "thumbItem";
+        var parent = document.getElementById("thumbArt");
+        var titleText = val['title'].replace(/[\\]/g,"");
+        var artUrl =  generateArticleLink(l.category, val['source'], val['article_id'], val['article_type'], l.remn);
+        var artImg = val.image_url != null ? (protocolToUse + "images.synapsys.us" + val.image_url + "?width=" + (t.width * window.devicePixelRatio)) : (protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+        artDetails.innerHTML = '<img class="thumbImg" src='+artImg+' /></div><div class="thumbTitle"><a class="thumbTitleLink" href="'+artUrl+'">'+titleText+'</a>';
+        parent.appendChild(artDetails);
+      });
+      setTimeout(function(e, t) {
+        t.setAttribute('onerror', e)
+      }.bind(undefined, n, t), 0);
+    }
+    /**
+    * @function getTab
+    * Set up tab options menu
+    */
+    function getTab(){
+      var arr = ['trending', 'reviews', 'videos', 'auto', 'top10'];
+      var tabName;
+      var first = true;
+      for(var o in arr){
+        tabName = getTabInfo(arr[o]).display;
+        var navbarItem = document.createElement('div');
+        navbarItem.className = "navbarItem";
+        if(first){
+          navbarItem.className += " selected";
+          first = false;
         }
-        /**Top Article/Carousel Information**/
-        var dataList = r.data.length > 1 ? r.data.splice(0,1)[i] : r.data;
-        var genLink =  generateArticleLink(l.category, dataList['source'], dataList['article_id'], dataList['article_type'], l.remn); //Generate current article link
-        $('fb-share').href = "https://www.facebook.com/sharer/sharer.php?u="+genLink;
-        $('twitter-share').href = "https://twitter.com/home?status="+genLink;
-        $('google-share').href = "https://plus.google.com/share?url="+genLink;
-        if ($('title-link') && $('title-text')) {
-          $('title-link').href = genLink;
-          $('title-text').innerHTML = dataList['title'] ? dataList['title'].replace(/[\\]/g,"") : "";
-        }
-        if($('desc')){
-          $('desc').innerHTML = dataList['teaser'] ? dataList['teaser'].replace(/[\\]/g,"") : "";
-        }
-        var t = $('carousel-img');
-        var n = t.getAttribute('onerror');
-        t.setAttribute('onerror', '');
-        t.setAttribute('src', '');
-        if (dataList['image_url'] != null && dataList['image_url'] != "null") {
-          t.setAttribute('src', protocolToUse + "images.synapsys.us" + dataList['image_url'] + "?width=" + (t.width * window.devicePixelRatio));
-        } else { //TODO: use placeholder images as fallback for articles instead of no-image image
-          t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
-        }
-        /**Bottom Article Information
-        ** Append child element to thumbArt to display the 3 articles in the bottom of dashboard
-        **/
-        var dataArr = r.data.length > 3 ? r.data.splice(0,3) : r.data;//Get current data of article on Dashboard
-        dataArr.forEach(function(val, index){
-          var artDetails = document.createElement('div');
-          artDetails.className = "thumbItem";
-          var parent = document.getElementById("thumbArt");
-          var titleText = val['title'].replace(/[\\]/g,"");
-          var artUrl =  generateArticleLink(l.category, val['source'], val['article_id'], val['article_type'], l.remn);
-          var artImg = val.image_url != null ? (protocolToUse + "images.synapsys.us" + val.image_url + "?width=" + (t.width * window.devicePixelRatio)) : (protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
-          artDetails.innerHTML = '<img class="thumbImg" src='+artImg+' /></div><div class="thumbTitle"><a class="thumbTitleLink" href="'+artUrl+'">'+titleText+'</a>';
-          parent.appendChild(artDetails);
-        });
-
-        // setTimeout(function(e, t) {
-        //   t.setAttribute('onerror', e)
-        // }.bind(undefined, n, t), 0);
+        var parent = document.getElementById("navBarId");
+        var genNavUrl =  "";//generate navigation link for tab
+        navbarItem.innerHTML = '<a class="navbarLink" href="">'+tabName+'</a>';
+        parent.appendChild(navbarItem);
+      }
     }
     /**
     * @function carData
@@ -189,17 +275,17 @@ dynamic_widget = function() {
     * @param int dir - This number is added to the index to create the index of
     * the item to be shown.
     */
-    function carData(dir) {
-        i += dir;
-        i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
-        formattedData();
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: e == 1 ? 'nav-right' : 'nav-left',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
-    }
+    // function carData(dir) {
+    //     i += dir;
+    //     i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
+    //     formattedData();
+    //     if (typeof dataLayer != 'undefined') {
+    //         dataLayer.push({
+    //             event: e == 1 ? 'nav-right' : 'nav-left',
+    //             eventAction: dynamic_widget.get_title()
+    //         })
+    //     }
+    // }
 
     function getTitle() {
         return l.dom + ':' + l.category + ':' + (r.l_sort == null ? r.l_param : r.l_sort) + ':' + r.l_title
@@ -223,7 +309,7 @@ dynamic_widget = function() {
     reset();
     onLoad(setHomeLink);
     return {
-        carousel: carData,
+        // carousel: carData,
         get_title: getTitle,
         m: reset
     }

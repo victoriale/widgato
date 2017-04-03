@@ -33,61 +33,41 @@
 <body>
     <div class=dw>
         <div id="verticalName">
+          <!-- TODO still need to set homelink, waiting on new design -->
           <a target=_blank id=homelink>
-              <div></div>
               <img id="verticalDisplayName" src="../css/public/kbb.png">
           </a>
-          <div class="navbar">
-            <div class="navbarItem selected">
-              <a class="navbarLink" href="">TRENDING NEWS</a>
-            </div>
-            <div class="navbarItem">
-              <a class="navbarLink" href="">REVIEWS</a>
-            </div>
-            <div class="navbarItem">
-              <a class="navbarLink" href="">VIDEOS</a>
-            </div>
-            <div class="navbarItem">
-              <a class="navbarLink" href="">AUTO SHOW</a>
-            </div>
-            <div class="navbarItem">
-              <a class="navbarLink" href="">TOP 10 LISTS</a>
-            </div>
+          <div class="navbar" id=navBarId>
+            <!-- Append tab options here in js file -->
           </div>
         </div>
         <div id=carousel>
           <div class="carouselShader"></div>
-            <!-- <a target=_blank href="" class=img-link id=suburl> <img class="dw-big dw-c-sub" id=subimg onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;"> -->
-                <!-- <div class="hover dw-c-sub dw-big"> View -->
-                    <!-- <br> <span>Profile</span> </div> -->
-            <!-- </a> -->
-            <a target=_blank href="" class=img-link> <img class="dw-big dw-c-img" id=carousel-img onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;">
-              <div class="textCont">
-                <div class="shareIcons">
-                  <a id=fb-share href="" target=_blank>
-                    <div class="shareIcon facebook">
-                      <img src="../css/public/icon-facebook.svg">
-                    </div>
-                  </a>
-                  <a id=twitter-share href="" target=_blank>
-                    <div class="shareIcon twitter">
-                      <img src="../css/public/icon-twitter.svg">
-                    </div>
-                  </a>
-                  <a id=google-share href="" target=_blank>
-                    <div class="shareIcon google">
-                      <img src="../css/public/icon-google.svg">
-                    </div>
-                  </a>
-                </div>
-                <a target=_blank id=title-link href="">
-                  <div id=title-text></div>
+          <a target=_blank href="" class=img-link> <img class="dw-big dw-c-img" id=carousel-img onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;">
+            <div class="textCont">
+              <div class="shareIcons">
+                <a id=fb-share href="" target=_blank>
+                  <div class="shareIcon facebook">
+                    <img src="../css/public/icon-facebook.svg">
+                  </div>
                 </a>
-                <div id=desc class="line-clamp"></div>
+                <a id=twitter-share href="" target=_blank>
+                  <div class="shareIcon twitter">
+                    <img src="../css/public/icon-twitter.svg">
+                  </div>
+                </a>
+                <a id=google-share href="" target=_blank>
+                  <div class="shareIcon google">
+                    <img src="../css/public/icon-google.svg">
+                  </div>
+                </a>
               </div>
-                <!-- <div class="hover dw-c-img dw-big"> View -->
-                    <!-- <br> <span>Profile</span> </div> -->
-            </a>
+              <a target=_blank id=title-link href="">
+                <div id=title-text></div>
+              </a>
+              <div id=desc class="line-clamp"></div>
+            </div>
+          </a>
             <div id=num></div>
         </div>
         <div id="adSpot">
