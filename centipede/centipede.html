@@ -177,7 +177,13 @@
       height: 83px;
       display: block;
       position: absolute;
-      background-size: 1000% 1000%;
+      background-size: 10000% 10000%;
+      image-rendering: optimizeSpeed;             /*                     */
+      image-rendering: -moz-crisp-edges;          /* Firefox             */
+      image-rendering: -o-crisp-edges;            /* Opera               */
+      image-rendering: -webkit-optimize-contrast; /* Chrome (and Safari) */
+      image-rendering: optimize-contrast;         /* CSS3 Proposed       */
+      -ms-interpolation-mode: nearest-neighbor;   /* IE8+                */
       border-bottom: 1px solid rgba(50,50,50,0.1);
     }
     .profile_image {
