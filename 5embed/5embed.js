@@ -198,7 +198,7 @@ function displayWidget() {
     $("mainimg").setAttribute('src',curData.li_img+"?width=300");
     $("mainimg").setAttribute('onerror',"//images.synapsys.us/01/fallback/stock/2017/03/");
 
-    $("profile-rank").innerHTML = curData.li_rank;
+    $("profile-rank").innerHTML = '#'+curData.li_rank;
     $("profile-name").innerHTML = curData.li_title;
     $("profile-datapoint1").innerHTML = curData.li_tag;
     $("profile-datavalue1").innerHTML = curData.li_value;
