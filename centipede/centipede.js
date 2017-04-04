@@ -1,5 +1,13 @@
+//create friendly iframe to place ourselves inside
+var friendlyIframe = document.createElement('iframe');
+friendlyIframe.width = '300';
+friendlyIframe.height = '250';
+friendlyIframe.src = 'about:blank';
+friendlyIframe.style.border = 'none';
+document.body.appendChild(friendlyIframe);
+var iframeContent = friendlyIframe.contentWindow;
 //inject HTML and CSS structure
-  document.write(`
+  iframeContent.document.write(`
     <style>
     body {
       border: none;
@@ -133,6 +141,7 @@
         -o-transform: translateX(15px);
         transform: translateX(15px); } }
     .worm_block {
+      position: relative;
       display: inline-block;
       height: 250px;
       padding-left: 5px;
@@ -159,10 +168,12 @@
       border-radius: 2px;
       border: solid 1px #e1e1e1;
     }
-    .ad_item {
-      position: relative;
-      height: 100%;
+    .ad_spacer {
       width: 300px;
+    }
+    .ad_item {
+      position: absolute;
+      height: 100%;
     }
     .profile_image_div {
       width: 100%;
@@ -241,26 +252,38 @@
   </div>
     `);
     //inject Google font CSS
-    var link = document.createElement( "link" );
+    var link = iframeContent.document.createElement( "link" );
     link.href = "http://fonts.googleapis.com/css?family=Lato:400,300,100,700,900";
     link.type = "text/css";
     link.rel = "stylesheet";
     link.media = "screen,print";
-    document.getElementsByTagName( "head" )[0].appendChild( link );
+    iframeContent.document.getElementsByTagName( "head" )[0].appendChild( link );
 
   //begin centipede logic
   //initial variable declaration
   var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-  var input = JSON.parse(decodeURIComponent(location.search.substr(1)));
+  if (decodeURIComponent(location.search.substr(1)) != null && decodeURIComponent(location.search.substr(1)) != "") {
+    var input = JSON.parse(decodeURIComponent(location.search.substr(1)));
+  }
+  else {
+    var scripts = document.getElementsByTagName('script');
+    for (i = 0; i < scripts.length; i++) {
+      if (scripts[i].src.indexOf("centipede.js") != -1) {
+        var myScript = scripts[i];
+      }
+    }
+    var queryString = myScript.src.replace(/^[^\?]+\??/,'');
+    var input = JSON.parse(decodeURI(queryString));
+  }
   if (input.env != "prod-" && input.env != "dev-") {
     input.env = "prod-";
   }
   var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
   var apiUrl = protocolToUse +input.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
-  var helper = document.getElementById('helper');
-  var helper2 = document.getElementById('helper2');
-  var wormBlocks = document.getElementsByClassName('worm_block');
-  var worm = document.getElementById('worm');
+  var helper = iframeContent.document.getElementById('helper');
+  var helper2 = iframeContent.document.getElementById('helper2');
+  var wormBlocks = iframeContent.document.getElementsByClassName('worm_block');
+  var worm = iframeContent.document.getElementById('worm');
   var position;
   var currentBlock = 0;
   var isScrolling = false;
@@ -270,6 +293,8 @@
   var rand;
   var setSmoothScrollInterval;
   var n = 0;
+  var userScroll = true;
+  var firstAd;
 
   if (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1) {
       input.category = 'finance'; //default category fallback
@@ -312,19 +337,19 @@
   rand = e;
   if (input.category == "nfl" || input.category == "ncaaf" || input.category == "nflncaaf") { //fetch curated TDL API queries
       if (input.category == "nfl") {
-        var url = '../js/tdl_list_array.json';
+        var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array.json';
       }
       else if (input.category == "ncaaf") {
-        var url = '../js/tdl_list_array_ncaaf.json';
+        var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array_ncaaf.json';
       }
       else if (input.category == "nflncaaf") {
         rand = Math.floor((Math.random() * 2) + 1);
         if (rand == 1) {
-          var url = '../js/tdl_list_array_ncaaf.json';
+          var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array_ncaaf.json';
           l.category = "ncaaf";
         }
         else {
-          var url = '../js/tdl_list_array.json';
+          var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array.json';
           l.category = "nfl";
         }
       }
@@ -423,11 +448,20 @@
         </div>
       </div>
       <div class="worm_block">
-        <div class="ad_item">
-          <img src="img/ads/ad2.jpg">
+      <div class="ad_spacer"></div>
+        <div id="first_ad" class="ad_item">
+
         </div>
       </div>
     `;
+    setTimeout(function(){ //wait for dom to render before executing igloo script
+      var s = iframeContent.document.createElement("script");
+      s.type = "text/javascript";
+      s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
+      firstAd = iframeContent.document.getElementById('first_ad');
+      firstAd.appendChild(s);
+    }, 100);
+
     //every other item (except the first)
     for (var i = 1; i < items.length && i < 10; i ++) {
       image = items[i].li_img;
@@ -457,11 +491,12 @@
           </div>
         </div>
       `;
-      if (i % 2 == 0) { //show add every even number
+      if (i % 2 == 0) { //show ad every even number
         worm.innerHTML += `
         <div class="worm_block">
+        <div class="ad_spacer"></div>
           <div class="ad_item">
-            <img src="img/ads/ad2.jpg">
+
           </div>
         </div>`;
       }
@@ -484,20 +519,32 @@
       helper.style.opacity = '1';
       helper2.style.opacity = '1';
     }
+    var rect = firstAd.getBoundingClientRect();
+    if (rect.left < -320) { //logic to jump ad to next space when you scroll past it
+      console.log("fire move next");
+      firstAd.style.left = (Math.floor(this.scrollLeft / 300)*304 + 300) + "px";
+    }
+     else if (rect.left > 320) { //logic to jump ad to prev space when you scroll past it
+      console.log("fire move prev");
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) - 300) + "px";
+    }
     clearTimeout(scrollingTimout);
     scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
+      if (userScroll == true) {
+        setScroll();
+      }
       isScrolling = false; //will return true or false based on whether the user is currently scrolling or not
     }, 250);
   }
   worm.addEventListener("touchend", onFingerUp);
   function onFingerUp(e) { //logic to determine if the user is currently actively scrolling
     if (isScrolling == false) {
-      setScroll();
+      // setScroll();
     }
     else {
       var setScrollInterval = setInterval(function(){
         if (isScrolling == false) {
-          setScroll();
+          // setScroll();
           clearTimeout(setScrollInterval);
         }
       }, 250);
@@ -532,9 +579,13 @@
             }
           }
           else {
+            userScroll = false;
+            setTimeout(function(){
+              userScroll = true;
+            }, 500);
             clearTimeout(setSmoothScrollInterval);
           }
-        }, 5);
+        }, 2);
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
@@ -564,6 +615,10 @@
             }
           }
           else {
+            userScroll = false;
+            setTimeout(function(){
+              userScroll = true;
+            }, 500);
             clearTimeout(setSmoothScrollInterval);
           }
         }, 15);
