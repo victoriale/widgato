@@ -521,12 +521,12 @@ var iframeContent = friendlyIframe.contentWindow;
     }
     var rect = firstAd.getBoundingClientRect();
     if (rect.left < -320) { //logic to jump ad to next space when you scroll past it
-      console.log("fire move next");
+      // console.log("fire move next");
       firstAd.style.left = (Math.floor(this.scrollLeft / 300)*304 + 300) + "px";
     }
      else if (rect.left > 320) { //logic to jump ad to prev space when you scroll past it
-      console.log("fire move prev");
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) - 300) + "px";
+      // console.log("fire move prev");
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*304) - 300) + "px";
     }
     clearTimeout(scrollingTimout);
     scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
