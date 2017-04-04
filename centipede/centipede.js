@@ -272,8 +272,9 @@
   var n = 0;
 
   if (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1) {
-      input.category = 'finance'
+      input.category = 'finance'; //default category fallback
   }
+    //rand is a random value (1-50) that coresponds to a specific list for a given category (does not apply to football)
     var e = rand;
     while (e == rand) {
       e = Math.floor(Math.random() * 50);
@@ -489,7 +490,7 @@
     }, 250);
   }
   worm.addEventListener("touchend", onFingerUp);
-  function onFingerUp(e) {
+  function onFingerUp(e) { //logic to determine if the user is currently actively scrolling
     if (isScrolling == false) {
       setScroll();
     }
@@ -502,8 +503,8 @@
       }, 250);
     }
   }
-  worm.addEventListener("touchend", onFingerDown);
-  function onFingerDown(e) {
+  worm.addEventListener("touchstart", onFingerDown);
+  function onFingerDown(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
     clearTimeout(setSmoothScrollInterval);
   }
 
