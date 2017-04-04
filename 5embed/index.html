@@ -2,13 +2,14 @@
 <html lang="en">
 
 <head>
-  <title>KBB</title>
+  <title>5Embed</title>
   <meta charset='utf-8'>
   <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" type="text/css" href="./5embed.css">
+  <link title="5embed" rel="stylesheet" type="text/css" href="./5embed.css">
   <script type="text/javascript" src="./5embed.js"></script>
   <!-- <script type="text/javascript" src="../js/moment/moment.min.js"></script> -->
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
+  <script>var $ = function(e) {return document.getElementById(e)};</script>
   <base target="_blank">
 </head>
 
@@ -23,15 +24,15 @@
               <span id="mainimg-rank">1</span>
             </div> -->
           </div>
-          <img id="mainimg" onerror="" src="http://images.synapsys.us/nfl/players/headshots/4f7d2790-f732-42b2-bca9-fdc52910fa3b.jpg?width=300">
-          <div class="e_image-title">
+          <img id="mainimg">
+          <div class="e_image-title" id="profile-title">
               Organic, black, spoon, barista, sweet blue mountain.
           </div>
         </div>
         <div class="e_info_box">
           <div class="e_info_box-profile">
             <div class="block-data">
-              <div class="profile-rank">#1</div>
+              <div class="profile-rank" id="profile-rank">#1</div>
               <div class="profile-data">
                 <div id="profile-data-box">
                   <div class="lh18 text-wrap" id="profile-name">{Profile Name}</div>
@@ -60,8 +61,8 @@
           </div>
           <div class="e_info_box-cta">
             <button class="cta_button-list leftTransform inheritor_border inheritor_bg"><span>Next List</span></button>
-            <button class="cta_button-previous rightTransform black_background"><i class="fa fa-arrow-left"></i></button>
-            <button class="cta_button-next leftTransform black_background"><i class="fa fa-arrow-right"></i></button>
+            <button class="cta_button-previous rightTransform black_background" onclick="updateIndex(-1)"><i class="fa fa-arrow-left"></i></button>
+            <button class="cta_button-next leftTransform black_background" onclick="updateIndex(1)"><i class="fa fa-arrow-right"></i></button>
           </div>
         </div>
       </div>
