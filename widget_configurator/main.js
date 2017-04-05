@@ -186,6 +186,14 @@ var options = {
       type: "select",
       options: ["nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
     },
+    category:{
+      default: "sports",
+      enabled: true,
+      explanation: "The card of lists and style of widget to use.",
+      name: "Card",
+      type: "select",
+      options: ["sports","weather","money"]
+    },
     sub_category:{
       default: "",
       enabled: false,
