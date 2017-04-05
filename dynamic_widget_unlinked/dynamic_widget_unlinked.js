@@ -282,11 +282,11 @@ function runAPI(apiUrl, func){
 //Display Widget Data
 function displayWidget() {
   try{
-    /***************************FOOTBALL DATA APPLIANCE*******************************/
     var date = new Date();
 
     var splitDates = dateFormat( date.getDay(), date.getMonth(), date.getDate(), date.getFullYear() );
     $('profile-updated').innerHTML = splitDates.weekday + ", " + splitDates.month + " " + splitDates.day + ", " + splitDates.year;
+    /***************************FOOTBALL DATA APPLIANCE*******************************/
 
     if(query.category == "football" || query.category == "nfl" || query.category == "ncaaf" || query.category == "nflncaaf"){
       let dataArray = widgetData.data.listData;
