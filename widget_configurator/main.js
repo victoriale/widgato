@@ -475,6 +475,12 @@ var options = {
   kbb_widget:{
     output:'../dynamic_kbb_widget/dynamic_kbb_widget.html?%7B"dom"%3A"basketball.chicagotribune.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A"100971247"%2C"remn"%3A"true"%2C"bord"%3A"false"%2C"category"%3A"kbb"%2C"targ"%3A"_top"%7D'
   },
+  kbb_dashboard:{
+    output:'../dynamic_kbb_widget/dynamic_kbb_dashboard.html?%7B"dom"%3A"basketball.chicagotribune.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A"100971247"%2C"remn"%3A"true"%2C"bord"%3A"false"%2C"category"%3A"kbb"%2C"targ"%3A"_top"%7D'
+  },
+  kbb_articles:{
+    output:'../dynamic_kbb_widget/dynamic_kbb_articles.html?%7B"dom"%3A"basketball.chicagotribune.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A"100971247"%2C"remn"%3A"true"%2C"bord"%3A"false"%2C"category"%3A"kbb"%2C"targ"%3A"_top"%7D'
+  },
   swp_wdgt_list:{
     show_link:{
       default: "true",
@@ -613,6 +619,57 @@ var options = {
   },
   realestate_lol_widget: {
     output: '../realestate/standard.html'
+  },
+  centipede:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    category:{
+      default: "finance",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    output: '../centipede/centipede.html?{"dom":"<domain>","category":"<category>","rand":"<rand>","env":"<env>"}'
+  },
+  megaphone:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    output: 'http://10.40.0.37:8070/megaphone.html'
   }
 };
 
