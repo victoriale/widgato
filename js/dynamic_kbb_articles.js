@@ -134,7 +134,13 @@ dynamic_widget = function() {
       var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
       return formattedDate;
     }
-
+    /**
+    * @function toTitleCase
+    * Transform string to title case
+    */
+    function toTitleCase(str){
+        return str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+    }
     function formattedData() {
       if(r.data == null || typeof r.data == "undefined" || r.data.length == 0){
         return null;
@@ -143,13 +149,14 @@ dynamic_widget = function() {
 
       dataList.forEach(function(val, index){
         var artDetails = document.createElement('div');
-        artDetails.className = 'main-row';
+        artDetails.className = 'main-arList';
         var parent = document.getElementById('artMain');
         var titleText = val['title'].replace(/[\\]/g,"");
         var teaserText = val['teaser'].replace(/[\\]/g,"");
+        var postedDate = toTitleCase(formattedDate(val['last_updated']*1000));
         var artUrl = generateArticleLink(l.category, val['source'], val['article_id'], val['article_type'], l.remn); //Generate current article link on Dashboard
         var artImg = val.image_url != null ? (protocolToUse + "images.synapsys.us" + val.image_url + "?width=" + (t.width * window.devicePixelRatio)) : (protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
-        artDetails.innerHTML = '<div class="sixteen-nine"><img src='+artImg+' /></div><a class="main-ar" href="'+artUrl+'"><div class="main-ar-title">'+titleText+'</div><div class="main-ar-teaser">'+teaserText+'</div></a>';
+        artDetails.innerHTML = '<div class="main-row"><div class="sixteen-nine"><img src='+artImg+' /></div><div class="main-ar"><a class="main-ar-title" href="'+artUrl+'">'+titleText+'</a><div class="main-ar-posted">Posted on '+postedDate+'</div><div class="main-ar-teaser">'+teaserText+'</div></div></div><a class="main-ar-btn href="'+artUrl+'">Read the Story</a>';
         parent.appendChild(artDetails);
       });
 
