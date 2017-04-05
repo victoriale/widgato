@@ -93,20 +93,17 @@ body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
 </style>
 </head>
 
-<body id="HTMLReporter" class="html-reporter showDetails">
+<body id="HTMLReporter" class="html-reporter">
 <h1>Tested in Safari 9.1.3 (Mac OS X 10.11.6) on Wed Apr 05 2017</h1>
 
 <div class="alert">
 
 
-<!-- <span class="failingAlert bar">Failed 8 specs</span> -->
-<span class="failingAlert bar"><span class="fold-buttons"><a href="#" onclick="fold();">Fold</a> | 
-  <a href="#" onclick="unfold();">Unfold</a></span>11 specs, 8 failed, 0 pending</span>
-<span class="resultsMenu bar">
-<a class="summaryMenuItem" onclick="showSummary();" href="#">Spec List<a>|<a 
-   class="detailsMenuItem" onclick="showFailures();" href="#">Failures</a>
-</span>
 
+  
+  <span class="passingAlert bar"><span class="fold-buttons"><a href="#" onclick="fold();">Fold</a> | 
+  <a href="#" onclick="unfold();">Unfold</a></span>11 specs, 0 failed, 0 pending</span>
+  
 
 
 </div>
@@ -144,48 +141,48 @@ body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
     
     </div>
   
-    <div class="suite failed">
+    <div class="suite passed">
       <span class="description">centipede firstListItem</span>
     
-      <div class="specSummary failed">
+      <div class="specSummary passed">
       <span class="description">should exist</span>
       </div>
     
-      <div class="specSummary failed">
+      <div class="specSummary passed">
       <span class="description">should have an image with a valid SRC</span>
       </div>
     
-      <div class="specSummary failed">
+      <div class="specSummary passed">
       <span class="description">should have a name with text in it</span>
       </div>
     
-      <div class="specSummary failed">
+      <div class="specSummary passed">
       <span class="description">should have a value with text in it</span>
       </div>
     
-      <div class="specSummary failed">
+      <div class="specSummary passed">
       <span class="description">should have a stat_type with text in it</span>
       </div>
     
-      <div class="specSummary failed">
+      <div class="specSummary passed">
       <span class="description">should have a num with text in it</span>
       </div>
     
     </div>
   
-    <div class="suite failed">
+    <div class="suite passed">
       <span class="description">centipede ad_unit</span>
     
-      <div class="specSummary failed">
+      <div class="specSummary passed">
       <span class="description">should exist</span>
       </div>
     
     </div>
   
-    <div class="suite failed">
+    <div class="suite passed">
       <span class="description">centipede list items</span>
     
-      <div class="specSummary failed">
+      <div class="specSummary passed">
       <span class="description">should be more than 5</span>
       </div>
     
@@ -195,88 +192,6 @@ body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
 </div>
 
 <div id="details">
-  
-  
-  <div class="specDetail failed">
-    <span class="description">centipede firstListItem should exist</span>
-    <div class="stackTrace">
-      <div class="resultMessage">expected undefined to exist
-AssertionError@http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:322:23
-assert@http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:4654:32
-http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:5073:17
-addProperty@http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:4189:34
-http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:82:59</div>
-    </div>
-  </div>
-  
-  <div class="specDetail failed">
-    <span class="description">centipede firstListItem should have an image with a valid SRC</span>
-    <div class="stackTrace">
-      <div class="resultMessage">undefined is not an object (evaluating 'worm.getElementsByClassName(&quot;list_item&quot;)[0].getElementsByClassName')
-http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:85:58</div>
-    </div>
-  </div>
-  
-  <div class="specDetail failed">
-    <span class="description">centipede firstListItem should have a name with text in it</span>
-    <div class="stackTrace">
-      <div class="resultMessage">undefined is not an object (evaluating 'worm.getElementsByClassName(&quot;list_item&quot;)[0].getElementsByClassName')
-http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:93:58</div>
-    </div>
-  </div>
-  
-  <div class="specDetail failed">
-    <span class="description">centipede firstListItem should have a value with text in it</span>
-    <div class="stackTrace">
-      <div class="resultMessage">undefined is not an object (evaluating 'worm.getElementsByClassName(&quot;list_item&quot;)[0].getElementsByClassName')
-http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:101:58</div>
-    </div>
-  </div>
-  
-  <div class="specDetail failed">
-    <span class="description">centipede firstListItem should have a stat_type with text in it</span>
-    <div class="stackTrace">
-      <div class="resultMessage">undefined is not an object (evaluating 'worm.getElementsByClassName(&quot;list_item&quot;)[0].getElementsByClassName')
-http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:109:58</div>
-    </div>
-  </div>
-  
-  <div class="specDetail failed">
-    <span class="description">centipede firstListItem should have a num with text in it</span>
-    <div class="stackTrace">
-      <div class="resultMessage">undefined is not an object (evaluating 'worm.getElementsByClassName(&quot;list_item&quot;)[0].getElementsByClassName')
-http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:117:58</div>
-    </div>
-  </div>
-  
-  
-  
-  <div class="specDetail failed">
-    <span class="description">centipede ad_unit should exist</span>
-    <div class="stackTrace">
-      <div class="resultMessage">expected undefined to exist
-AssertionError@http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:322:23
-assert@http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:4654:32
-http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:5073:17
-addProperty@http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:4189:34
-http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:128:57</div>
-    </div>
-  </div>
-  
-  
-  
-  <div class="specDetail failed">
-    <span class="description">centipede list items should be more than 5</span>
-    <div class="stackTrace">
-      <div class="resultMessage">expected { length: 0, item: [Function: item] } to have a length at least 5 but got 0
-AssertionError@http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:322:23
-assert@http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:4654:32
-assertLeast@http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:5296:19
-http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:4241:31
-http://localhost:9876/base/test/spec/centipede_unit.js?5db90eb2b19a379144114dfec5bd25f636a3b20b:134:83</div>
-    </div>
-  </div>
-  
   
 </div>
 
@@ -289,7 +204,7 @@ document.body.onkeypress = function (e) {
   switch (e.keyCode) {
     case 102: toggleFold(); break;
     case 49: showSummary(); break;
-    case 50: showFailures(); break;case 50: showFailures(); break;case 50: showFailures(); break;
+    
   }
 };
 
