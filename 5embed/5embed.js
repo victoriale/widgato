@@ -1,7 +1,8 @@
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var temp = location.search;
 var query = {};
-var target;
+var apiCallUrl;
+var imageUrl = "//images.synapsys.us";
 var href = window.top.location;
 var currentIndex = 0;
 var maxIndex = 1;
@@ -22,17 +23,107 @@ var categoryColors = {
   'default'     : '#000000',
 };
 
-//Waits for the DOMContent to load
+//Initial load Waits for the DOMContent to load
 document.addEventListener("DOMContentLoaded", function(event) {
   /*
   create function to get API
   */
-  var apiUrl = "http://dw.synapsys.us/list_api.php?partner=chicagotribune.com&cat=mlb&rand=9949894";
-
-  setCategoryColors('lifestyle');
-
-  var test = runAPI(apiUrl);
+  if(temp != null){
+    query = JSON.parse(decodeURIComponent(temp.substr(1)));
+    updateList();
+  }
 });
+
+
+//increment index and rerun display widget
+function updateIndex(difference){
+  currentIndex += difference;
+  if ( currentIndex < 0 ){
+    currentIndex = 0;
+  }else if ( currentIndex >= maxIndex ){
+    currentIndex = maxIndex;
+  }else{
+  }
+  //call display widget
+  displayWidget();
+}
+
+function updateList(){
+  apiCallUrl = protocolToUse;
+  let dom = query.dom;
+  let cat = query.category;
+  let env = query.env;
+  let rand = Math.floor(Math.random() * 1000) + 1;
+
+  //Run dynamic color of widget
+  setCategoryColors(cat);
+
+
+  //Determine whether to use Dynamic api call or use FOOTBALL data
+  if(cat == "football" || cat == "nfl" || cat == "ncaaf" || cat == "nflncaaf"){
+    apiCallUrl += env+"touchdownloyal-api.synapsys.us/list/";
+    getFootballData(cat);
+  }else{
+    apiCallUrl += "dw.synapsys.us/list_api.php";
+    if(cat != null){
+      apiCallUrl += "?cat="+cat;
+    }
+    if(dom != null){
+      apiCallUrl += "&partner="+dom;
+    }
+    apiCallUrl += "&rand="+rand;
+    runAPI(apiCallUrl);
+  }
+
+}
+
+function getFootballData(league){
+  if (league == "nfl") {
+    var url = '../js/tdl_list_array.json';
+  }
+  else if (league == "ncaaf") {
+    var url = '../js/tdl_list_array_ncaaf.json';
+  }
+  else if (league == "nflncaaf") {
+    rand = Math.floor((Math.random() * 2) + 1);
+    if (rand == 1) {
+      var url = '../js/tdl_list_array_ncaaf.json';
+      l.category = "ncaaf";
+    }
+    else {
+      var url = '../js/tdl_list_array.json';
+      l.category = "nfl";
+    }
+  }
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function(){
+    if(xmlHttp.readyState === 4 && xmlHttp.status === 200){
+      //On complete function
+      initData = JSON.parse(xmlHttp.responseText);
+      getRandFootballList(initData);
+    }
+  }
+  xmlHttp.open( "GET", url, true ); // false for synchronous request
+  xmlHttp.send( null );
+}
+
+function getRandFootballList(initData) {
+  rand = Math.floor((Math.random() * (initData.length - 1)) + 1);
+  var date = new Date;
+  var compareDate = new Date('09/15/' + date.getFullYear());
+  let season;
+  if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
+      season = initData[rand] + "&season=" + date.getFullYear();
+  }
+  else if (date.getMonth() > compareDate.getMonth()) {
+      season = initData[rand] + "&season=" + date.getFullYear();
+  }
+  else {
+      season= initData[rand] + "&season=" + (date.getFullYear() - 1);
+  }
+  apiCallUrl += season;
+  runAPI(apiCallUrl)
+}
 
 function setCategoryColors(category){
   let color;
@@ -56,10 +147,13 @@ function setCategoryColors(category){
   }
   color =  categoryColors[category];
 
+  //Loops throught stylesheet and finds cssName and change the cssRules
   function classLoop(cssName, style, styleColor){
     let classArray = document.getElementsByClassName(cssName);
     let styleSheets = getCssSelector("5embed");
     var attribute = findCss(cssName, styleSheets);
+
+    //delete inheritor rule and RE-APPLY css with new rule (easier when only one cssrule is needed to change)
     styleSheets.deleteRule(attribute.index);
 
     //try catch statements are for ie compatibility
@@ -91,6 +185,7 @@ function setCategoryColors(category){
 
   }
 
+  //find the css File with the title given to the function
   function getCssSelector(title){
     let selector = document.styleSheets;
     for(var index = 0; index < selector.length; index++){
@@ -100,6 +195,7 @@ function setCategoryColors(category){
     }
   }
 
+  //find the the specific css element by the given selector Text (ex: .inheritor , body, html, #profile-name)
   function findCss(cssName, styleSheets){
     if(styleSheets.cssRules != null){
       for(var index = 0; index < styleSheets.cssRules.length; index++){
@@ -111,13 +207,14 @@ function setCategoryColors(category){
     }
   }
 
+  //Class Loop will change the color by looping through cssSelector File and changing the given class
   classLoop('inheritor', 'color', color);
   classLoop('inheritor_border', 'border-color', color);
   classLoop('inheritor_bg:hover::before', 'background-color', color);
 
 }
 
-/**
+/****************************** onLoad ***************************
 * @function onLoad
 * Once the DOM has loaded, Adds a function to the "onLoad" event OR runs the function if the page is
 * already loaded
@@ -136,9 +233,9 @@ function onLoad(func) {
       }
     });
   }
-} // --> onLoad
+} /*************************** onLoad ***************************/
 
-/**
+/***************************** runAPI ***************************
 * @function runAPI
 * function that makes an asynchronous request using http and setting a global variable equal to the response of the text.
 * fail safe of retrying 10 times before sending error message
@@ -177,46 +274,65 @@ function runAPI(apiUrl, func){
           }
       }
   };
-
   xhttp.open("GET", apiUrl, true);
   xhttp.send();
-};
+};/***************************** runAPI ****************************/
 
-
-
+//Display Widget Data
 function displayWidget() {
   try{
-    let dataArray = widgetData.l_data;
-    //set maximum index of returned dataLayer
-    maxIndex = dataArray.length;
+    /***************************FOOTBALL DATA APPLIANCE*******************************/
+    if(query.category == "football" || query.category == "nfl" || query.category == "ncaaf" || query.category == "nflncaaf"){
+      let dataArray = widgetData.data.listData;
+      //set maximum index of returned dataLayer
+      maxIndex = dataArray.length;
+      let curData = dataArray[currentIndex];
 
-    let curData = dataArray[currentIndex];
-    //list title
-    $("profile-title").innerHTML = widgetData.l_title;
+      //list title
+      $("profile-title").innerHTML = widgetData.data.listInfo.listName;
+      $("mainimg").setAttribute('onerror',"//images.synapsys.us/01/fallback/stock/2017/03/");
+      $("profile-rank").innerHTML = '#'+curData.rank;
 
-    //current index of list
-    $("mainimg").setAttribute('src',curData.li_img+"?width=300");
-    $("mainimg").setAttribute('onerror',"//images.synapsys.us/01/fallback/stock/2017/03/");
+      //current index of list
+      if(curData.rankType == "player"){
+        $("mainimg").setAttribute('src',imageUrl+curData.playerHeadshotUrl+"?width=300");
+        $("profile-name").innerHTML = curData.playerFirstName + " " + curData.playerLastName;
 
-    $("profile-rank").innerHTML = '#'+curData.li_rank;
-    $("profile-name").innerHTML = curData.li_title;
-    $("profile-datapoint1").innerHTML = curData.li_tag;
-    $("profile-datavalue1").innerHTML = curData.li_value;
-    $("profile-datavalue2").innerHTML = curData.li_sub_txt;
+        $("profile-datapoint1").innerHTML = "Team: ";
+        $("profile-datavalue1").innerHTML = curData.teamName;
+        $("profile-datavalue2").innerHTML = curData.statDescription+": "+curData.stat;
+      }else{
+        $("mainimg").setAttribute('src',imageUrl+curData.teamLogo+"?width=300");
+        $("profile-name").innerHTML = curData.teamName;
+
+        $("profile-datapoint1").innerHTML = "Division: ";
+        $("profile-datavalue1").innerHTML = curData.divisionName;
+        $("profile-datavalue2").innerHTML = curData.statDescription + ": "+curData.stat;
+      }
+      /***************************END OF FOOTBALL DATA*******************************/
+    }else{
+      /***************************DYNAMIC DATA APPLIANCE*******************************/
+      let dataArray = widgetData.l_data;
+      //set maximum index of returned dataLayer
+      maxIndex = dataArray.length;
+      let curData = dataArray[currentIndex];
+
+      //list title
+      $("profile-title").innerHTML = widgetData.l_title;
+
+      //current index of list
+      $("mainimg").setAttribute('src',curData.li_img+"?width=300");
+      $("mainimg").setAttribute('onerror',"//images.synapsys.us/01/fallback/stock/2017/03/");
+
+      $("profile-rank").innerHTML = '#'+curData.li_rank;
+      $("profile-name").innerHTML = curData.li_title;
+      $("profile-datapoint1").innerHTML = curData.li_tag;
+      $("profile-datavalue1").innerHTML = curData.li_value;
+      $("profile-datavalue2").innerHTML = curData.li_sub_txt;
+    }
+    /***************************END OF DYNAMIC DATA*******************************/
   }catch(e){
     console.log('Error in displaying widget Data');
     // console.log(e);
   }
 } // --> create_widget
-
-function updateIndex(difference){
-  currentIndex += difference;
-  if ( currentIndex < 0 ){
-    currentIndex = 0;
-  }else if ( currentIndex >= maxIndex ){
-    currentIndex = maxIndex;
-  }else{
-  }
-  //call display widget
-  displayWidget();
-}
