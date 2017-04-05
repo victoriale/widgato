@@ -46,24 +46,20 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn)
 function getTabInfo(option){
   var tabObj = {
     "trending": {
-      display: "TRENDING NEWS",
+      display: "Trending News",
       category: "trending-news"
     },
     "reviews": {
-      display: "REVIEWS",
+      display: "Reviews",
       category: "reviews"
     },
-    "videos": {
-      display: "VIDEOS",
-      category: "videos"
-    },
-    "auto": {
-      display: "AUTO SHOW",
-      category: "auto-show"
-    },
     "top10": {
-      display: "TOP 10 LISTS",
+      display: "Top 10 Lists",
       category: "top-10-lists"
+    },
+    "videos": {
+      display: "Videos",
+      category: "videos"
     }
   }
   if(tabObj[option] == null || typeof tabObj[option] == "undefined"){// default return
@@ -157,8 +153,9 @@ dynamic_widget = function() {
           }
       };
       //TODO: waiting on new api call with KBB data
+      //Test API: http://dev-article-library.synapsys.us/articles?category=automotive&metaDataOnly=1&readyToPublish=true&count=
       var count = 20;
-      var category = "automotive";
+      var category = "automotive";//TODO
       var subCategory = currentConfig.subCategory;
       i.open('GET', protocol+"://dev-article-library.synapsys.us/articles?category="+category+"&subCategory="+subCategory+ "&metaDataOnly=1&readyToPublish=true&count="+count, true);
       // i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
@@ -176,94 +173,97 @@ dynamic_widget = function() {
         }
         var n = true;
         getTab();
-        formattedData()
+        formattedData();
+        artData()
     }
-    /**
-    * @function formattedDate
-    * Format from epoch date to human readable format, example: Tuesday, Mar. 21, 2017
-    */
-    // function formattedDate(eDate){
-    //   var date = eDate ? new Date(eDate) : new Date();
-    //   var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
-    //   var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"];
-    //   var month = date.getMonth();
-    //   var day = date.getDate();
-    //   var dayofWeek = date.getDay();
-    //   var year = date.getFullYear();
-    //
-    //   var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
-    //   return formattedDate;
-    // }
 
     /**
     * @function formattedData
-    * Format data accordingly to specs before displaying
-    */
+    * Format data accordingly to specs before displaying for top articles
+    **/
     function formattedData() {
       if(r.data == null || typeof r.data == "undefined" || r.data.length == 0){
         return null;
       }
+      if (r.data.length <= 1) {
+        $('next-list-link').classList.add("disabled-button");
+      }
+      else {
+        $('next-list-link').classList.remove("disabled-button");
+      }
       /**Top Article/Carousel Data**/
-      var dataList = r.data.length > 1 ? r.data.splice(0,1)[i] : r.data;
+      var dataList = r.data[i];
       var genLink =  generateArticleLink(l.category, dataList['source'], dataList['article_id'], dataList['article_type'], l.remn); //Generate current article link
-      $('fb-share').href = "https://www.facebook.com/sharer/sharer.php?u="+genLink;
-      $('twitter-share').href = "https://twitter.com/home?status="+genLink;
-      $('google-share').href = "https://plus.google.com/share?url="+genLink;
-      if ($('title-link') && $('title-text')) {
-        $('title-link').href = genLink;
-        $('title-text').innerHTML = dataList['title'] ? dataList['title'].replace(/[\\]/g,"") : "";
+      var playBtn = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486"><title>Asset 2</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M243,486C109,486,0,377,0,243S109,0,243,0,486,109,486,243,377,486,243,486Zm0-462.1C122.19,23.9,23.9,122.19,23.9,243S122.19,462.1,243,462.1,462.1,363.81,462.1,243,363.81,23.9,243,23.9Z"/><path d="M359.46,235.13,197.32,104.66a8.65,8.65,0,0,0-14.07,6.74V372.33a8.65,8.65,0,0,0,14.07,6.74L359.46,248.6A8.65,8.65,0,0,0,359.46,235.13Z"/></g></g></svg>';//play button svg source
+      $('playBtn').innerHTML = playBtn;
+      // $('mainTitle').innerHTML = dataList['title'] ? dataList['title'].replace(/[\\]/g,"") : "";
+      if($('mainTitle')){
+        $('mainTitle').innerHTML = dataList['title'] ? (dataList['title'].length > 80 ? dataList['title'].replace(/[\\]/g,"").substring(0,80) : dataList['title'].replace(/[\\]/g,"")) : "";//limit to 2 lines aka 55 characters
+        $('mainTitle').innerHTML += dataList['title'].length > 80 ? "..." : "";
       }
-      if($('desc')){
-        $('desc').innerHTML = dataList['teaser'] ? dataList['teaser'].replace(/[\\]/g,"") : "";
+      if($('teaser')){
+        var readMore = "<span><a href='"+genLink+"'target=_blank>Read More</a></span>";
+        var len = dataList['title'].length < 55 ? 130 : 95;//increase limit of character in teaser if title is one line or less
+        $('teaser').innerHTML = dataList['teaser'] ? (dataList['teaser'].length > len ? dataList['teaser'].replace(/[\\]/g,"").substring(0,len):dataList['teaser'].replace(/[\\]/g,"")) : "";
+        $('teaser').innerHTML += dataList['teaser'].length > len ? "... " + readMore : readMore;
       }
-      var t = $('carousel-img');
+      $('mainUrl').href = genLink;
+      var t = $('mainImg');
       var n = t.getAttribute('onerror');
       t.setAttribute('onerror', '');
       t.setAttribute('src', '');
       if (dataList['image_url'] != null && dataList['image_url'] != "null") {
         t.setAttribute('src', protocolToUse + "images.synapsys.us" + dataList['image_url'] + "?width=" + (t.width * window.devicePixelRatio));
-      } else { //TODO: use placeholder images as fallback for articles instead of no-image image
+      } else {
         t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
       }
 
-      /**Bottom Article Data
-      ** Append child element to thumbArt to display the 3 articles in the bottom of dashboard
-      **/
-      var dataArr = r.data.length > 3 ? r.data.splice(0,3) : r.data;//Get current data of article on Dashboard
-      dataArr.forEach(function(val, index){
-        var artDetails = document.createElement('div');
-        artDetails.className = "thumbItem";
-        var parent = document.getElementById("thumbArt");
-        var titleText = val['title'].replace(/[\\]/g,"");
-        var artUrl =  generateArticleLink(l.category, val['source'], val['article_id'], val['article_type'], l.remn);
-        var artImg = val.image_url != null ? (protocolToUse + "images.synapsys.us" + val.image_url + "?width=" + (t.width * window.devicePixelRatio)) : (protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
-        artDetails.innerHTML = '<img class="thumbImg" src='+artImg+' /></div><div class="thumbTitle"><a class="thumbTitleLink" href="'+artUrl+'">'+titleText+'</a>';
-        parent.appendChild(artDetails);
-      });
       setTimeout(function(e, t) {
         t.setAttribute('onerror', e)
       }.bind(undefined, n, t), 0);
+    }
+    /**
+    * @function artData
+    * Format data accordingly to specs before displaying for bottom articles
+    **/
+    function artData(){
+        var dataArr = r.data.length > 3 ? r.data.splice(0,3) : r.data;//Get current data of article on Dashboard
+        var playBtn = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486"><title>Asset 2</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M243,486C109,486,0,377,0,243S109,0,243,0,486,109,486,243,377,486,243,486Zm0-462.1C122.19,23.9,23.9,122.19,23.9,243S122.19,462.1,243,462.1,462.1,363.81,462.1,243,363.81,23.9,243,23.9Z"/><path d="M359.46,235.13,197.32,104.66a8.65,8.65,0,0,0-14.07,6.74V372.33a8.65,8.65,0,0,0,14.07,6.74L359.46,248.6A8.65,8.65,0,0,0,359.46,235.13Z"/></g></g></svg>';//play button svg source
+        /**Bottom Article Data
+        ** Append child element to thumbArt to display the 3 articles in the bottom of dashboard
+        **/
+        dataArr.forEach(function(val, index){
+          var thumbItem = document.createElement('div');//this is the 3 bottom articles/video thumbnails
+          thumbItem.className = "thumbnails-item";//set className for new element
+          var parent = document.getElementById("thumbnail");//get element id thumbnail
+          var titleText = val['title'].replace(/[\\]/g,"");//get title value from api
+          var artUrl =  generateArticleLink(l.category, val['source'], val['article_id'], val['article_type'], l.remn);//generate article url
+          var thumbImage = val.image_url != null ? (protocolToUse + "images.synapsys.us" + val.image_url + "?width=" + (t.width * window.devicePixelRatio)) : (protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");//get image, if no image, then display no-image image
+          thumbItem.innerHTML = '<a href="'+artUrl+'" target="_blank"><div class="sixteen-nine"><img class="main-thumb-item" src="'+thumbImage+'" /><div class="play-button small" id=playBtnSm>'+playBtn+'</div></div></a><a href="'+artUrl+'" target="_blank"><div class="thumbnails-title">'+titleText+'</div></a>';
+          parent.appendChild(thumbItem);//append thumbnail items to thumbnails class
+        });
     }
     /**
     * @function getTab
     * Set up tab options menu
     */
     function getTab(){
-      var arr = ['trending', 'reviews', 'videos', 'auto', 'top10'];
+      var arr = ['trending', 'reviews', 'top10', 'videos'];
       var tabName;
       var first = true;
       for(var o in arr){
         tabName = getTabInfo(arr[o]).display;
-        var navbarItem = document.createElement('div');
-        navbarItem.className = "navbarItem";
+        var navBarUrl = document.createElement('a');
+        navBarUrl.className = "navBar-url";
+        var genNavUrl =  "";//TODO:generate navigation link for tab
+        navBarUrl.href = genNavUrl;
         if(first){
-          navbarItem.className += " selected";
+          navBarUrl.className += " selected";
           first = false;
         }
         var parent = document.getElementById("navBarId");
-        var genNavUrl =  "";//generate navigation link for tab
-        navbarItem.innerHTML = '<a class="navbarLink" href="">'+tabName+'</a>';
-        parent.appendChild(navbarItem);
+        navBarUrl.innerHTML = '<div class="navBar-item">'+tabName+'</div>';
+        parent.appendChild(navBarUrl);
       }
     }
     /**
@@ -275,17 +275,17 @@ dynamic_widget = function() {
     * @param int dir - This number is added to the index to create the index of
     * the item to be shown.
     */
-    // function carData(dir) {
-    //     i += dir;
-    //     i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
-    //     formattedData();
-    //     if (typeof dataLayer != 'undefined') {
-    //         dataLayer.push({
-    //             event: e == 1 ? 'nav-right' : 'nav-left',
-    //             eventAction: dynamic_widget.get_title()
-    //         })
-    //     }
-    // }
+    function carData(dir) {
+        i += dir;
+        i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
+        formattedData();
+        if (typeof dataLayer != 'undefined') {
+            dataLayer.push({
+                event: e == 1 ? 'nav-right' : 'nav-left',
+                eventAction: dynamic_widget.get_title()
+            })
+        }
+    }
 
     function getTitle() {
         return l.dom + ':' + l.category + ':' + (r.l_sort == null ? r.l_param : r.l_sort) + ':' + r.l_title
@@ -309,7 +309,7 @@ dynamic_widget = function() {
     reset();
     onLoad(setHomeLink);
     return {
-        // carousel: carData,
+        carousel: carData,
         get_title: getTitle,
         m: reset
     }

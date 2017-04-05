@@ -2,9 +2,10 @@
 <html lang=en>
 
 <head>
-    <title>Dynamic Widget</title>
+    <title>KBB Dashboard</title>
     <meta charset=utf-8>
     <base target=_blank>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
     <link rel=stylesheet type=text/css href=../css/dynamic_kbb_dashboard_svg.css>
     <link href="//fonts.googleapis.com/css?family=Lato:400,300,100,700,900" rel=stylesheet type=text/css>
     <script>
@@ -31,78 +32,44 @@
 </head>
 
 <body>
-    <div class=dw>
-        <div id="verticalName">
-          <!-- TODO still need to set homelink, waiting on new design -->
-          <a target=_blank id=homelink>
-              <img id="verticalDisplayName" src="../css/public/kbb.png">
-          </a>
-          <div class="navbar" id=navBarId>
-            <!-- Append tab options here in js file -->
-          </div>
-        </div>
-        <div id=carousel>
-          <div class="carouselShader"></div>
-          <a target=_blank href="" class=img-link> <img class="dw-big dw-c-img" id=carousel-img onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;">
-            <div class="textCont">
-              <div class="shareIcons">
-                <a id=fb-share href="" target=_blank>
-                  <div class="shareIcon facebook">
-                    <img src="../css/public/icon-facebook.svg">
-                  </div>
-                </a>
-                <a id=twitter-share href="" target=_blank>
-                  <div class="shareIcon twitter">
-                    <img src="../css/public/icon-twitter.svg">
-                  </div>
-                </a>
-                <a id=google-share href="" target=_blank>
-                  <div class="shareIcon google">
-                    <img src="../css/public/icon-google.svg">
+  <section class=dw>
+    <section class="navBar" id=navBarId>
+      <!-- Append menu options here in js file in funtion getTab() -->
+    </section>
+    <section class="main">
+      <!-- body widget, article and ads here  -->
+      <div class="main-art">
+          <div class="main-thumb">
+              <!-- Previous Button -->
+              <a target=self class="main-nav" id=prev-list-link onclick=dynamic_widget.carousel(-1)><i class="fa fa-chevron-left"></i></a>
+              <div class="main-car">
+                <a id=mainUrl href="" target="_blank">
+                  <div class="sixteen-nine">
+                    <img id=mainImg src="" onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;" class="main-thumb-item" />
+                    <div class="play-button large" id=playBtn>
+                      <!-- Insert play button svg here -->
+                    </div>
                   </div>
                 </a>
               </div>
-              <a target=_blank id=title-link href="">
-                <div id=title-text></div>
-              </a>
-              <div id=desc class="line-clamp"></div>
-            </div>
-          </a>
-            <div id=num></div>
-        </div>
-        <div id="adSpot">
-          Ad Goes Here
-        </div>
-        <div class="thumbCont" id="thumbArt"><!--Add thumnail item here in js file--></div>
-        <div class=presented></div>
-    </div>
-    <script>
-        function add_css_link(e) {
-            var t = d.createElement("link");
-            t.href = e, t.type = "text/css", t.rel = "stylesheet";
-            var n = d.getElementsByTagName("head")[0];
-            n.insertBefore(t, n.childNodes[0])
-        }! function() {
-            var e = "../css/dynamic_widget_",
-                t = JSON.parse(decodeURIComponent(location.search.substr(1))),
-                n = {
-                    kbb: "kbb"
-                };
-            return "politics" == t.category ? !1 : (("undefined" == typeof t.category || "undefined" == typeof n[t.category]) && (t.category = "finance"), e += n[t.category] + ".css", void add_css_link(e))
-        }();
-        var hoverInterval = null,
-            dw = d.getElementsByClassName("dw")[0];
-        dw.addEventListener("mouseover", function() {
-            hoverInterval = setInterval(function() {
-                "undefined" != typeof dynamic_widget && "undefined" != typeof dataLayer && dataLayer.push({
-                    event: "widget-hover",
-                    eventAction: dynamic_widget.get_title()
-                })
-            }, 1e3)
-        }), dw.addEventListener("mouseout", function() {
-            "undefined" != typeof hoverInterval && null != hoverInterval && clearInterval(hoverInterval)
-        });
-    </script>
+              <!-- Next Button -->
+              <a target=self class="main-nav" id=next-list-link onclick=dynamic_widget.carousel(1)><i class="fa fa-chevron-right"></i></a>
+          </div>
+          <div class="main-details">
+              <a id=mainUrl href="" target="_blank"><div class="main-title" id=mainTitle></div></a>
+              <div class="main-teaser" id=teaser></div>
+          </div>
+      </div>
+      <div class="main-ad">
+        <!-- Ad Goes Here  -->
+        <div id="adSpot"></div>
+        <div class="main-ad-txt">Advertisement</div>
+      </div>
+    </section>
+    <section class="thumbnails" id="thumbnail">
+      <!-- Insert thumbnail items here in js file -->
+    </section>
+  </section>
 </body>
 
 </html>
