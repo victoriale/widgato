@@ -160,23 +160,23 @@ function setCategoryColors(category){
     switch(style){
       case 'color':
         try{
-          styleSheets.insertRule( '.'+cssName+' { color: '+styleColor+'; }', 0 );
+          styleSheets.insertRule( '.'+cssName+' { color: '+styleColor+' !important; }', 0 );
         }catch(e){
-          styleSheets.addRule('.'+cssName, 'color: '+styleColor, 0);
+          styleSheets.addRule('.'+cssName, 'color: '+styleColor+' !important', 0);
         }
       break;
       case 'border-color':
       try{
-        styleSheets.insertRule( '.'+cssName+' { border-color: '+styleColor+'; }', 0 );
+        styleSheets.insertRule( '.'+cssName+' { border-color: '+styleColor+' !important; }', 0 );
       }catch(e){
-        styleSheets.addRule('.'+cssName, 'border-color: '+styleColor, 0);
+        styleSheets.addRule('.'+cssName, 'border-color: '+styleColor+' !important', 0);
       }
       break;
       case 'background-color':
         try{
-          styleSheets.insertRule( '.'+cssName+' { background-color: '+styleColor+'; }', 0 );
+          styleSheets.insertRule( '.'+cssName+' { background-color: '+styleColor+' !important; }', 0 );
         }catch(e){
-          styleSheets.addRule('.'+cssName, 'background-color: '+styleColor, 0);
+          styleSheets.addRule('.'+cssName, 'background-color: '+styleColor+' !important', 0);
         }
       break;
       default:

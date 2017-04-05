@@ -214,7 +214,7 @@ button:hover {
 #mainimg-rank {
     font-weight: 700;
     font-size: 130px;
-    line-height: : 180px;
+    line-height: 180px;
     color: #000000;
     opacity: 0.35;
 }
@@ -330,7 +330,7 @@ button:hover {
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 5px;
+    border-radius: 3px;
     background-color: inherit;
     -webkit-transform: scaleX(0);
     transform: scaleX(0);
