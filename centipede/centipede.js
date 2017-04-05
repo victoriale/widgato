@@ -1,5 +1,6 @@
 //create friendly iframe to place ourselves inside
 var friendlyIframe = document.createElement('iframe');
+friendlyIframe.id = "friendlyIframe";
 friendlyIframe.width = '300';
 friendlyIframe.height = '250';
 friendlyIframe.src = 'about:blank';
@@ -303,18 +304,23 @@ var iframeContent = friendlyIframe.contentWindow;
   //begin centipede logic
   //initial variable declaration
   var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+  var input = {dom:"chicagotribune.com",category:"nba",rand:"1",env:"prod-"};
   if (decodeURIComponent(location.search.substr(1)) != null && decodeURIComponent(location.search.substr(1)) != "") {
-    var input = JSON.parse(decodeURIComponent(location.search.substr(1)));
+    input = JSON.parse(decodeURIComponent(location.search.substr(1)));
   }
   else {
     var scripts = document.getElementsByTagName('script');
+    var myScript;
     for (i = 0; i < scripts.length; i++) {
-      if (scripts[i].src.indexOf("centipede.js") != -1) {
-        var myScript = scripts[i];
+      if (scripts[i].src.indexOf("centipede") != -1) {
+        myScript = scripts[i];
       }
     }
     var queryString = myScript.src.replace(/^[^\?]+\??/,'');
-    var input = JSON.parse(decodeURI(queryString));
+    if (queryString != "" && queryString != null) {
+      console.log("fired query string");
+      // input = JSON.parse(decodeURI(queryString));
+    }
   }
   if (input.env != "prod-" && input.env != "dev-") {
     input.env = "prod-";
@@ -403,7 +409,7 @@ var iframeContent = friendlyIframe.contentWindow;
       if (i.readyState == XMLHttpRequest.DONE) {
           if (i.status == 200) {
             //fire this, when either the TDL api or the standard API comes back
-            r = JSON.parse(i.responseText);
+            var r = JSON.parse(i.responseText);
             populateWorm(r);
           } else {
               var e = i.statusText;
