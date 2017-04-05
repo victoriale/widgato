@@ -45,7 +45,7 @@ function updateList(){
   let dom = query.dom;
   let cat = query.category;
   let env = query.env;
-  let rand = Math.floor(Math.random() * 1000) + 1;
+  let rand = query.rand ? query.rand : Math.floor(Math.random() * 1000) + 1;
 
   //Run dynamic color of widget
   setCategoryColors(cat);
@@ -427,13 +427,39 @@ function checkImage(image){
   $("mainimg").setAttribute('onerror', imageUrl+"/01/fallback/stock/2017/03/");
 
   //prep return
-  if(image != null && image.indexOf('no-image') == -1 &&  window.location.pathname.indexOf('_970') == -1){
+  if(image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 &&  window.location.pathname.indexOf('_970') == -1){
     imageReturn = image;
     showCover = false;
   }else{
-    if(query.category == "football" || query.category == "nfl" || query.category == "ncaaf" || query.category == "nflncaaf"){
-      imageReturn = imageUrl + "/01/fallback/stock/2017/03/football_stock.jpg";
+    var fallbackImg;
+    //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
+    switch(query.category) {
+      case "football":
+      case "nfl":
+      case "ncaaf":
+      fallbackImg = "football_stock.jpg";
+      break;
+      case "nba":
+      case "college_basketball":
+      fallbackImg = "basketball_stock.jpg";
+      break;
+      case "finance":
+      fallbackImg = "finance_stock.jpg";
+      break;
+      case "mlb":
+      fallbackImg = "baseball_stock.jpg";
+      break;
+      case "disaster":
+      case "demographics":
+      case "crime":
+      case "weather":
+      case "politics":
+      fallbackImg = "real_estate_stock.jpg";
+      break;
+      default:
+      fallbackImg = "finance_stock.jpg";
     }
+    imageReturn = imageUrl + "/01/fallback/stock/2017/03/"+fallbackImg;
     showCover = true;
   }
 
@@ -446,7 +472,7 @@ function checkImage(image){
       imageBackground[j].style.display = 'none';
     }
   }
-
+  console.log(imageReturn);
   //sets flag for image api to send back image with set size based on devicePixelRatio
   imageReturn += "?width=" + (300 * window.devicePixelRatio);
   return imageReturn;
