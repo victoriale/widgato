@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Dynamic Widget Unlink</title>
+  <meta charset='utf-8'>
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet" type="text/css">
+  <link title="5embed" rel="stylesheet" type="text/css" href="./dynamic_widget_unlinked.css">
+  <script type="text/javascript" src="./dynamic_widget_unlinked.js"></script>
+  <!-- <script type="text/javascript" src="../js/moment/moment.min.js"></script> -->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
+  <script>var $ = function(e) {return document.getElementById(e)};</script>
+  <base target="_blank">
+</head>
+
+<body>
+  <div class="widget_ad">
+    <div class="e_container inheritor">
+      <div class="e_widget">
+        <div class="e_image-carousel">
+          <div class="snt_logo">
+              <div class="snt_brand float-right">
+                <img class="float-left snt_close"/>
+                <img class="float-left snt_expand"/>
+              </div>
+          </div>
+          <div class="e_image-shader">
+            <div class="e_image-cover inheritor_img_bg">
+              <span class="pound">#</span>
+              <span id="mainimg-rank">1</span>
+            </div>
+          </div>
+          <img id="mainimg" />
+          <div class="e_image-title" id="profile-title"></div>
+        </div>
+        <div class="e_info_box">
+          <div class="e_info_box-profile">
+            <div class="block-data">
+              <div class="profile-rank float-left" id="profile-rank"></div>
+              <div class="profile-data float-left">
+                <div id="profile-data-box">
+                  <div class="lh18 text-wrap" id="profile-name"></div>
+                  <div class="lh16 text-wrap">
+                    <span id="profile-datapoint1"></span>
+                    <span id="profile-datavalue1"></span>
+                  </div>
+                  <div  class="lh18 text-wrap">
+                    <span id="profile-datavalue2"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="block-date">
+              <div class="profile-last-updated">
+                <span>Last Updated on </span>
+                <span id="profile-updated"></span>
+              </div>
+            </div>
+          </div>
+          <div class="e_info_box-cta float-left">
+            <button class="cta_button-list leftTransform inheritor_border inheritor_bg" onclick="updateList()"><span>Next List</span></button>
+            <button class="cta_button-previous rightTransform black_background" onclick="updateIndex(-1)"><i class="fa fa-arrow-left"></i></button>
+            <button class="cta_button-next leftTransform black_background" onclick="updateIndex(1)"><i class="fa fa-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+      <div class="margin_gap"></div>
+    </div>
+    <div class="e_advertisement"></div>
+  </div>
+</body>
+
+</html>
