@@ -57,7 +57,11 @@ function updateList() {
     } else {
         apiCallUrl += "dw.synapsys.us/list_api.php";
         if (cat != null) {
+          if(cat == 'money' || cat == 'sports' || cat == 'weather'){
+            apiCallUrl += "?card=" + cat;
+          }else{
             apiCallUrl += "?cat=" + cat;
+          }
         }
         if (dom != null) {
             apiCallUrl += "&partner=" + dom;
