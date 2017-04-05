@@ -49,6 +49,7 @@ function updateIndex(difference){
   displayWidget();
 }
 
+//update List function
 function updateList(){
   apiCallUrl = protocolToUse;
   let dom = query.dom;
@@ -58,7 +59,6 @@ function updateList(){
 
   //Run dynamic color of widget
   setCategoryColors(cat);
-
 
   //Determine whether to use Dynamic api call or use FOOTBALL data
   if(cat == "football" || cat == "nfl" || cat == "ncaaf" || cat == "nflncaaf"){
@@ -78,6 +78,7 @@ function updateList(){
 
 }
 
+//gets a PRE generated list from a json file that is asynchronously being called; returns and Array of all lists
 function getFootballList(league){
   if (league == "nfl") {
     var url = '../js/tdl_list_array.json';
@@ -108,6 +109,7 @@ function getFootballList(league){
   xmlHttp.send( null );
 }
 
+//uses the getFootballList and chooses a random index in the array and uses that list to displace
 function getRandFootballList(initData) {
   rand = Math.floor((Math.random() * (initData.length - 1)) + 1);
   var date = new Date;
@@ -126,6 +128,7 @@ function getRandFootballList(initData) {
   runAPI(apiCallUrl)
 }
 
+//dynamically set the colors of the css Rules for each of the partners
 function setCategoryColors(category){
   let color;
   switch(category){
@@ -282,10 +285,10 @@ function runAPI(apiUrl, func){
 //Display Widget Data
 function displayWidget() {
   try{
+    //sets the last updated date 
     var date = new Date();
+    $('profile-updated').innerHTML = dateFormat( date.getDay(), date.getMonth(), date.getDate(), date.getFullYear() );
 
-    var splitDates = dateFormat( date.getDay(), date.getMonth(), date.getDate(), date.getFullYear() );
-    $('profile-updated').innerHTML = splitDates.weekday + ", " + splitDates.month + " " + splitDates.day + ", " + splitDates.year;
     /***************************FOOTBALL DATA APPLIANCE*******************************/
 
     if(query.category == "football" || query.category == "nfl" || query.category == "ncaaf" || query.category == "nflncaaf"){
@@ -348,6 +351,7 @@ function displayWidget() {
   }
 } // --> create_widget
 
+//date format that is used to return the date format in a readable state
 function dateFormat(weekdayNum, dayNum, monthNum, yearNum ){
   let monthNames = [ "January", "February", "March", "April", "May", "June",
 "July", "August", "September", "October", "November", "December" ];
@@ -359,7 +363,7 @@ function dateFormat(weekdayNum, dayNum, monthNum, yearNum ){
     month:monthNames[monthNum],
     year:yearNum,
   };
-  return formatedDate;
+  return formatedDate.weekday + ", " + formatedDate.month + " " + formatedDate.day + ", " + formatedDate.year;
 }
 
 //checks if the image is a placement and replace and change the look of the widget
