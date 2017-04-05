@@ -8,12 +8,14 @@ var currentIndex = 0; // current index of an array which (default = 0)
 var maxIndex = 1; //declare max index of returned data (default = 1)
 var widgetData; // api returns is sent here
 var tries = 0; // flag for api to try atleast 10 times before failing completely
+var listRand = 0;
 var categoryColors = {
     // Brand Color Palette
     'football': '#2d3e50',
     'basketball': '#f26f26',
     'baseball': '#bc2027',
     'finance': '#3098ff',
+    'money': '#3098ff',
     'realestate': '#44b224',
     'lifestyle': '#65398e',
     'disaster': '#902d8e',
@@ -28,7 +30,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
     //if no query is snet then nothing is shown
     if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
-        updateList();
+        let rand = query.rand ? query.rand : 1;
+        updateList(rand);
     } else {
         console.log('No query found on widget');
     }
@@ -40,12 +43,12 @@ document.addEventListener("DOMContentLoaded", function(event) {
 *
 * @param
 */
-function updateList() {
+function updateList(listNum) {
     apiCallUrl = protocolToUse;
     let dom = query.dom;
     let cat = query.category;
+    let card = query.card;
     let env = query.env;
-    let rand = query.rand ? query.rand : Math.floor(Math.random() * 1000) + 1;
 
     //Run dynamic color of widget
     setCategoryColors(cat);
@@ -56,17 +59,16 @@ function updateList() {
         getFootballList(cat);
     } else {
         apiCallUrl += "dw.synapsys.us/list_api.php";
-        if (cat != null) {
-          if(cat == 'money' || cat == 'sports' || cat == 'weather'){
-            apiCallUrl += "?card=" + cat;
-          }else{
-            apiCallUrl += "?cat=" + cat;
-          }
+        if(card != null){
+          apiCallUrl += "?card=" + cat;
+        }else{
+          apiCallUrl += "?cat=" + cat;
         }
         if (dom != null) {
             apiCallUrl += "&partner=" + dom;
         }
-        apiCallUrl += "&rand=" + rand;
+        listRand += Number(listNum);
+        apiCallUrl += "&rand=" + (Number(listRand)+listNum);
         runAPI(apiCallUrl);
     }
 
