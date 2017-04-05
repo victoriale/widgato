@@ -8,6 +8,7 @@ var currentIndex = 0;
 var maxIndex = 1;
 var widgetData;
 var tries = 0;
+var canClick=true;
 var categoryColors = {
   // Brand Color Palette
   'football'    : '#2d3e50',
@@ -62,7 +63,7 @@ function updateList(){
   //Determine whether to use Dynamic api call or use FOOTBALL data
   if(cat == "football" || cat == "nfl" || cat == "ncaaf" || cat == "nflncaaf"){
     apiCallUrl += env+"touchdownloyal-api.synapsys.us/list/";
-    getFootballData(cat);
+    getFootballList(cat);
   }else{
     apiCallUrl += "dw.synapsys.us/list_api.php";
     if(cat != null){
@@ -77,7 +78,7 @@ function updateList(){
 
 }
 
-function getFootballData(league){
+function getFootballList(league){
   if (league == "nfl") {
     var url = '../js/tdl_list_array.json';
   }
@@ -149,7 +150,6 @@ function setCategoryColors(category){
 
   //Loops throught stylesheet and finds cssName and change the cssRules
   function classLoop(cssName, style, styleColor){
-    let classArray = document.getElementsByClassName(cssName);
     let styleSheets = getCssSelector("5embed");
     var attribute = findCss(cssName, styleSheets);
 
@@ -210,6 +210,7 @@ function setCategoryColors(category){
   //Class Loop will change the color by looping through cssSelector File and changing the given class
   classLoop('inheritor', 'color', color);
   classLoop('inheritor_border', 'border-color', color);
+  classLoop('inheritor_img_bg', 'background-color', color);
   classLoop('inheritor_bg:hover::before', 'background-color', color);
 
 }
@@ -292,17 +293,21 @@ function displayWidget() {
       $("profile-title").innerHTML = widgetData.data.listInfo.listName;
       $("mainimg").setAttribute('onerror',"//images.synapsys.us/01/fallback/stock/2017/03/");
       $("profile-rank").innerHTML = '#'+curData.rank;
+      $("mainimg-rank").innerHTML = curData.rank;
 
       //current index of list
       if(curData.rankType == "player"){
-        $("mainimg").setAttribute('src',imageUrl+curData.playerHeadshotUrl+"?width=300");
+        let image = checkImage(imageUrl+curData.playerHeadshotUrl);
+
+        $("mainimg").setAttribute('src',image);
         $("profile-name").innerHTML = curData.playerFirstName + " " + curData.playerLastName;
 
         $("profile-datapoint1").innerHTML = "Team: ";
         $("profile-datavalue1").innerHTML = curData.teamName;
-        $("profile-datavalue2").innerHTML = curData.statDescription+": "+curData.stat;
+        $("profile-datavalue2").innerHTML = curData.stat+" "+curData.statDescription;
       }else{
-        $("mainimg").setAttribute('src',imageUrl+curData.teamLogo+"?width=300");
+        let image = checkImage(imageUrl+curData.teamLogo);
+        $("mainimg").setAttribute('src',image);
         $("profile-name").innerHTML = curData.teamName;
 
         $("profile-datapoint1").innerHTML = "Division: ";
@@ -316,18 +321,17 @@ function displayWidget() {
       //set maximum index of returned dataLayer
       maxIndex = dataArray.length;
       let curData = dataArray[currentIndex];
-
       //list title
       $("profile-title").innerHTML = widgetData.l_title;
-
       //current index of list
-      $("mainimg").setAttribute('src',curData.li_img+"?width=300");
-      $("mainimg").setAttribute('onerror',"//images.synapsys.us/01/fallback/stock/2017/03/");
+      let image = checkImage(curData.li_img);
+      $("mainimg").setAttribute('src',image);
 
       $("profile-rank").innerHTML = '#'+curData.li_rank;
+      $("mainimg-rank").innerHTML = curData.li_rank;
       $("profile-name").innerHTML = curData.li_title;
-      $("profile-datapoint1").innerHTML = curData.li_tag;
-      $("profile-datavalue1").innerHTML = curData.li_value;
+      $("profile-datapoint1").innerHTML = curData.li_value;
+      $("profile-datavalue1").innerHTML = curData.li_tag;
       $("profile-datavalue2").innerHTML = curData.li_sub_txt;
     }
     /***************************END OF DYNAMIC DATA*******************************/
@@ -336,3 +340,36 @@ function displayWidget() {
     // console.log(e);
   }
 } // --> create_widget
+
+//checks if the image is a placement and replace and change the look of the widget
+function checkImage(image){
+  let imageReturn;
+  let showCover;
+  //set onerror image
+  $("mainimg").setAttribute('onerror', imageUrl+"/01/fallback/stock/2017/03/");
+
+  //prep return
+  if(image != null && image.indexOf('no-image') == -1 &&  window.location.pathname.indexOf('_970') == -1){
+    imageReturn = image;
+    showCover = false;
+  }else{
+    if(query.category == "football" || query.category == "nfl" || query.category == "ncaaf" || query.category == "nflncaaf"){
+      imageReturn = imageUrl + "/01/fallback/stock/2017/03/football_stock.jpg";
+    }
+    showCover = true;
+  }
+  let imageBackground = document.getElementsByClassName('e_image-cover');
+
+  for(var j = 0; j < imageBackground.length; j++){
+    if(showCover){
+      imageBackground[j].style.display = 'block';
+    }else{
+      imageBackground[j].style.display = 'none';
+    }
+  }
+
+  imageReturn += "?width=" + (300 * window.devicePixelRatio);
+
+  console.log('imageReturn',imageReturn);
+  return imageReturn;
+}
