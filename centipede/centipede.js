@@ -39,10 +39,14 @@ var iframeContent = friendlyIframe.contentWindow;
       transition: opacity 0.2s ease-in-out;
     }
     .helper {
+      box-sizing: border-box;
       position: absolute;
       right:0px;
       left:0px;
       width: 100%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       padding: 5px 10px;
       font-family: lato;
       /*font-weight: 300;*/
@@ -159,26 +163,33 @@ var iframeContent = friendlyIframe.contentWindow;
       margin-right: 10px;
     }
     .list_item {
+      overflow: hidden;
       position: relative;
       display: inline-block;
       height: 218px;
-      width: 141px;
+      width: 138px;
       margin-bottom:4px;
       background-color: white;
       border-radius: 2px;
       border: solid 1px #e1e1e1;
+      margin-left: 2px;
     }
     .ad_spacer {
       width: 300px;
+      height: 100%;
+      background-color: red;
     }
     .ad_item {
       position: absolute;
       height: 100%;
+      top:0;
+      z-index: 99;
     }
     .profile_image_div {
       width: 100%;
-      height: 83px;
+      height: 123px;
       display: block;
+      overflow:hidden;
       position: absolute;
       background-size: 10000% 10000%;
       image-rendering: optimizeSpeed;             /*                     */
@@ -191,14 +202,34 @@ var iframeContent = friendlyIframe.contentWindow;
     }
     .profile_image {
       position: absolute;
-      height: 100%;
-      left: 50%;
-      transform: translateX(-50%);
+      width: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+    .num {
+      position: absolute;
+      right: -5px;
+      top: -20px;
+      width: 0;
+      height: 0;
+      border-top: 30px solid transparent;
+      border-bottom: 30px solid transparent;
+      border-left: 30px solid #ff00a8;
+      transform: rotate(-45deg);
+      z-index: 9;
+    }
+    .num_text {
+    	font-size: 12px;
+      color: white;
+      top: -8px;
+      right: 12px;
+      position: absolute;
+      transform: rotate(45deg);
     }
     .info {
       width: 100%;
       position: absolute;
-      top: 90px;
+      top: 130px;
       font-family: lato;
       text-align: center;
     }
@@ -231,13 +262,21 @@ var iframeContent = friendlyIframe.contentWindow;
       text-overflow: ellipsis;
     }
     .value {
-      font-size: 32px;
+      font-size: 20px;
       color: #545454;
       margin-bottom: 5px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0 5px;
     }
     .stat_type {
       font-size: 12px;
       color: #666666;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      padding: 0 5px;
     }
 
     </style>
@@ -420,23 +459,19 @@ var iframeContent = friendlyIframe.contentWindow;
       var items = data.l_data;
     }
     //1st item before the ad
+    items[0].li_value = items[0].li_value.replace(items[0].li_tag,"");
     var image = items[0].li_img;
     helper.innerHTML = data.l_title;
     worm.innerHTML = `
       <div class="worm_block">
         <div class="list_item">
           <div class="profile_image_div" style="background-image:url('`+image+`')">
+          <div class="num"><div class="num_text">#<b>1</b></div></div>
             <img class="profile_image" src="`+image+`">
           </div>
           <div class="info">
             <div class="name">
               `+items[0].li_title.replace("Corporation","Corp")+`
-            </div>
-            <div class="symbl">
-              `+items[0].li_sub_txt.split("|")[0]+`
-            </div>
-            <div class="location">
-              `+items[0].li_sub_txt.split("|")[1]+`
             </div>
             <div class="value">
               `+items[0].li_value+`
@@ -464,22 +499,18 @@ var iframeContent = friendlyIframe.contentWindow;
 
     //every other item (except the first)
     for (var i = 1; i < items.length && i < 10; i ++) {
+      items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
       image = items[i].li_img;
       worm.innerHTML += `
         <div class="worm_block">
           <div class="list_item">
             <div class="profile_image_div" style="background-image:url('`+image+`')">
+            <div class="num"><div class="num_text">#<b>`+(i+1)+`</b></div></div>
               <img class="profile_image" src="`+image+`">
             </div>
             <div class="info">
               <div class="name">
                 `+items[i].li_title.replace("Corporation","Corp")+`
-              </div>
-              <div class="symbl">
-                `+items[i].li_sub_txt.split("|")[0]+`
-              </div>
-              <div class="location">
-                `+items[i].li_sub_txt.split("|")[1]+`
               </div>
               <div class="value">
                 `+items[i].li_value+`
