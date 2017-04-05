@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>5Embed</title>
+  <title>Dynamic Widget Unlink</title>
   <meta charset='utf-8'>
   <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet" type="text/css">
   <link title="5embed" rel="stylesheet" type="text/css" href="./dynamic_widget_unlinked.css">
@@ -31,29 +31,21 @@
             </div>
           </div>
           <img id="mainimg" />
-          <div class="e_image-title" id="profile-title">
-              Organic, black, spoon, barista, sweet blue mountain.
-          </div>
+          <div class="e_image-title" id="profile-title"></div>
         </div>
         <div class="e_info_box">
           <div class="e_info_box-profile">
             <div class="block-data">
-              <div class="profile-rank float-left" id="profile-rank">#1</div>
+              <div class="profile-rank float-left" id="profile-rank"></div>
               <div class="profile-data float-left">
                 <div id="profile-data-box">
-                  <div class="lh18 text-wrap" id="profile-name">{Profile Name}</div>
+                  <div class="lh18 text-wrap" id="profile-name"></div>
                   <div class="lh16 text-wrap">
-                    <span id="profile-datapoint1">
-                      {Data Point 1}:
-                    </span>
-                    <span id="profile-datavalue1">
-                      {Data Value 1}
-                    </span>
+                    <span id="profile-datapoint1"></span>
+                    <span id="profile-datavalue1"></span>
                   </div>
                   <div  class="lh18 text-wrap">
-                    <span id="profile-datavalue2">
-                      {Data Value 2}
-                    </span>
+                    <span id="profile-datavalue2"></span>
                   </div>
                 </div>
               </div>
@@ -61,7 +53,7 @@
             <div class="block-date">
               <div class="profile-last-updated">
                 <span>Last Updated on </span>
-                <span>Wednesday, February, 15, 2017</span>
+                <span id="profile-updated"></span>
               </div>
             </div>
           </div>

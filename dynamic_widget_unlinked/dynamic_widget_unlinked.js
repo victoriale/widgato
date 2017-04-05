@@ -283,6 +283,11 @@ function runAPI(apiUrl, func){
 function displayWidget() {
   try{
     /***************************FOOTBALL DATA APPLIANCE*******************************/
+    var date = new Date();
+
+    var splitDates = dateFormat( date.getDay(), date.getMonth(), date.getDate(), date.getFullYear() );
+    $('profile-updated').innerHTML = splitDates.weekday + ", " + splitDates.month + " " + splitDates.day + ", " + splitDates.year;
+
     if(query.category == "football" || query.category == "nfl" || query.category == "ncaaf" || query.category == "nflncaaf"){
       let dataArray = widgetData.data.listData;
       //set maximum index of returned dataLayer
@@ -318,6 +323,7 @@ function displayWidget() {
     }else{
       /***************************DYNAMIC DATA APPLIANCE*******************************/
       let dataArray = widgetData.l_data;
+
       //set maximum index of returned dataLayer
       maxIndex = dataArray.length;
       let curData = dataArray[currentIndex];
@@ -330,9 +336,10 @@ function displayWidget() {
       $("profile-rank").innerHTML = '#'+curData.li_rank;
       $("mainimg-rank").innerHTML = curData.li_rank;
       $("profile-name").innerHTML = curData.li_title;
-      $("profile-datapoint1").innerHTML = curData.li_value;
-      $("profile-datavalue1").innerHTML = curData.li_tag;
+      // $("profile-datapoint1").innerHTML = curData.li_value;
+      $("profile-datavalue1").innerHTML = curData.li_sub_txt;
       $("profile-datavalue2").innerHTML = curData.li_sub_txt;
+      $("profile-datavalue2").innerHTML = curData.li_value + ' ' + curData.li_tag;
     }
     /***************************END OF DYNAMIC DATA*******************************/
   }catch(e){
@@ -340,6 +347,20 @@ function displayWidget() {
     // console.log(e);
   }
 } // --> create_widget
+
+function dateFormat(weekdayNum, dayNum, monthNum, yearNum ){
+  let monthNames = [ "January", "February", "March", "April", "May", "June",
+"July", "August", "September", "October", "November", "December" ];
+  let dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+  var formatedDate = {
+    weekday:dayNames[weekdayNum],
+    day:dayNum,
+    month:monthNames[monthNum],
+    year:yearNum,
+  };
+  return formatedDate;
+}
 
 //checks if the image is a placement and replace and change the look of the widget
 function checkImage(image){
@@ -367,9 +388,6 @@ function checkImage(image){
       imageBackground[j].style.display = 'none';
     }
   }
-
   imageReturn += "?width=" + (300 * window.devicePixelRatio);
-
-  console.log('imageReturn',imageReturn);
   return imageReturn;
 }
