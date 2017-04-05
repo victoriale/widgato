@@ -1,14 +1,13 @@
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var temp = location.search;
-var query = {};
-var apiCallUrl;
-var imageUrl = "//images.synapsys.us";
+var query = {};//query string from sent parameters
+var apiCallUrl; // this is global call that is used for api calls
+var imageUrl = "//images.synapsys.us"; // this is global call that is used for images
 var href = window.top.location;
-var currentIndex = 0;
-var maxIndex = 1;
-var widgetData;
-var tries = 0;
-var canClick=true;
+var currentIndex = 0; // current index of an array which (default = 0)
+var maxIndex = 1;//declare max index of returned data (default = 1)
+var widgetData; // api returns is sent here
+var tries = 0; // flag for api to try atleast 10 times before failing completely
 var categoryColors = {
   // Brand Color Palette
   'football'    : '#2d3e50',
@@ -285,7 +284,7 @@ function runAPI(apiUrl, func){
 //Display Widget Data
 function displayWidget() {
   try{
-    //sets the last updated date 
+    //sets the last updated date
     var date = new Date();
     $('profile-updated').innerHTML = dateFormat( date.getDay(), date.getMonth(), date.getDate(), date.getFullYear() );
 
@@ -383,8 +382,9 @@ function checkImage(image){
     }
     showCover = true;
   }
-  let imageBackground = document.getElementsByClassName('e_image-cover');
 
+  //USED to display background color of category if a fallback image is sent back
+  let imageBackground = document.getElementsByClassName('e_image-cover');
   for(var j = 0; j < imageBackground.length; j++){
     if(showCover){
       imageBackground[j].style.display = 'block';
@@ -392,6 +392,8 @@ function checkImage(image){
       imageBackground[j].style.display = 'none';
     }
   }
+
+  //sets flag for image api to send back image with set size based on devicePixelRatio
   imageReturn += "?width=" + (300 * window.devicePixelRatio);
   return imageReturn;
 }
