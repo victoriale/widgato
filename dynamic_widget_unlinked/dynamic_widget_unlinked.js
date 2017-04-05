@@ -25,30 +25,21 @@ var categoryColors = {
 
 //Initial load Waits for the DOMContent to load
 document.addEventListener("DOMContentLoaded", function(event) {
-  /*
-  create function to get API
-  */
+  //if no query is snet then nothing is shown
   if(temp != null){
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     updateList();
+  }else{
+    console.log('No query found on widget');
   }
 });
 
-
-//increment index and rerun display widget
-function updateIndex(difference){
-  currentIndex += difference;
-  if ( currentIndex < 0 ){
-    currentIndex = 0;
-  }else if ( currentIndex >= maxIndex ){
-    currentIndex = maxIndex;
-  }else{
-  }
-  //call display widget
-  displayWidget();
-}
-
+/*
 //update List function
+* @function
+*
+* @param
+*/
 function updateList(){
   apiCallUrl = protocolToUse;
   let dom = query.dom;
@@ -77,7 +68,12 @@ function updateList(){
 
 }
 
+/*
 //gets a PRE generated list from a json file that is asynchronously being called; returns and Array of all lists
+* @function
+*
+* @param
+*/
 function getFootballList(league){
   if (league == "nfl") {
     var url = '../js/tdl_list_array.json';
@@ -108,7 +104,12 @@ function getFootballList(league){
   xmlHttp.send( null );
 }
 
+/*
 //uses the getFootballList and chooses a random index in the array and uses that list to displace
+* @function
+*
+* @param
+*/
 function getRandFootballList(initData) {
   rand = Math.floor((Math.random() * (initData.length - 1)) + 1);
   var date = new Date;
@@ -127,7 +128,12 @@ function getRandFootballList(initData) {
   runAPI(apiCallUrl)
 }
 
+/*
 //dynamically set the colors of the css Rules for each of the partners
+* @function
+*
+* @param
+*/
 function setCategoryColors(category){
   let color;
   switch(category){
@@ -150,7 +156,12 @@ function setCategoryColors(category){
   }
   color =  categoryColors[category];
 
+  /*
   //Loops throught stylesheet and finds cssName and change the cssRules
+  * @function
+  *
+  * @param
+  */
   function classLoop(cssName, style, styleColor){
     let styleSheets = getCssSelector("5embed");
     var attribute = findCss(cssName, styleSheets);
@@ -187,7 +198,12 @@ function setCategoryColors(category){
 
   }
 
+  /*
   //find the css File with the title given to the function
+  * @function
+  *
+  * @param
+  */
   function getCssSelector(title){
     let selector = document.styleSheets;
     for(var index = 0; index < selector.length; index++){
@@ -197,7 +213,12 @@ function setCategoryColors(category){
     }
   }
 
+  /*
   //find the the specific css element by the given selector Text (ex: .inheritor , body, html, #profile-name)
+  * @function
+  *
+  * @param
+  */
   function findCss(cssName, styleSheets){
     if(styleSheets.cssRules != null){
       for(var index = 0; index < styleSheets.cssRules.length; index++){
@@ -281,7 +302,12 @@ function runAPI(apiUrl, func){
   xhttp.send();
 };/***************************** runAPI ****************************/
 
-//Display Widget Data
+/*****************************Display Widget Data ******************/
+/*
+* @function
+*
+* @param
+*/
 function displayWidget() {
   try{
     //sets the last updated date
@@ -289,7 +315,6 @@ function displayWidget() {
     $('profile-updated').innerHTML = dateFormat( date.getDay(), date.getMonth(), date.getDate(), date.getFullYear() );
 
     /***************************FOOTBALL DATA APPLIANCE*******************************/
-
     if(query.category == "football" || query.category == "nfl" || query.category == "ncaaf" || query.category == "nflncaaf"){
       let dataArray = widgetData.data.listData;
       //set maximum index of returned dataLayer
@@ -321,9 +346,9 @@ function displayWidget() {
         $("profile-datavalue1").innerHTML = curData.divisionName;
         $("profile-datavalue2").innerHTML = curData.statDescription + ": "+curData.stat;
       }
-      /***************************END OF FOOTBALL DATA*******************************/
-    }else{
-      /***************************DYNAMIC DATA APPLIANCE*******************************/
+    /***************************END OF FOOTBALL DATA*******************************/
+    }else{/***************************DYNAMIC DATA APPLIANCE*******************************/
+
       let dataArray = widgetData.l_data;
 
       //set maximum index of returned dataLayer
@@ -348,9 +373,33 @@ function displayWidget() {
     console.log('Error in displaying widget Data');
     // console.log(e);
   }
-} // --> create_widget
+}
+/**************************Display Widget Data END******************/
 
+/*
+//increment index and rerun display widget
+* @function
+*
+* @param
+*/
+function updateIndex(difference){
+  currentIndex += difference;
+  if ( currentIndex < 0 ){
+    currentIndex = 0;
+  }else if ( currentIndex >= maxIndex ){
+    currentIndex = maxIndex;
+  }else{
+  }
+  //call display widget
+  displayWidget();
+}
+
+/*
 //date format that is used to return the date format in a readable state
+* @function
+*
+* @param
+*/
 function dateFormat(weekdayNum, dayNum, monthNum, yearNum ){
   let monthNames = [ "January", "February", "March", "April", "May", "June",
 "July", "August", "September", "October", "November", "December" ];
@@ -365,7 +414,12 @@ function dateFormat(weekdayNum, dayNum, monthNum, yearNum ){
   return formatedDate.weekday + ", " + formatedDate.month + " " + formatedDate.day + ", " + formatedDate.year;
 }
 
+/*
 //checks if the image is a placement and replace and change the look of the widget
+* @function
+*
+* @param
+*/
 function checkImage(image){
   let imageReturn;
   let showCover;
