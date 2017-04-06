@@ -90,9 +90,9 @@ function run_tests(name, done) {
       ];
       break;
   }
-  if ( name === 'unit' ) {
-    browsers.push('PhantomJS');
-  }
+  // if ( name === 'unit' ) {
+  //   browsers.push('PhantomJS');
+  // }
 
   new karma({
     browsers: browsers,
@@ -125,7 +125,7 @@ gulp.task('test', ['clean-test'], function(done) {
         'Chrome',
         'Firefox',
         'Safari',
-        'PhantomJS',
+        // 'PhantomJS',
       ];
       break;
     case 'win32':
@@ -133,14 +133,14 @@ gulp.task('test', ['clean-test'], function(done) {
         'Chrome',
         'Firefox',
         'IE',
-        'PhantomJS',
+        // 'PhantomJS',
       ];
       break;
     default:
       browsers = [
         'Chrome',
         'Firefox',
-        'PhantomJS',
+        // 'PhantomJS',
       ];
       break;
   }
