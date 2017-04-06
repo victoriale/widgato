@@ -7,7 +7,6 @@
   <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet" type="text/css">
   <link title="5embed" rel="stylesheet" type="text/css" href="./dynamic_widget_unlinked.css">
   <script type="text/javascript" src="./dynamic_widget_unlinked.js"></script>
-  <!-- <script type="text/javascript" src="../js/moment/moment.min.js"></script> -->
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
   <script>var $ = function(e) {return document.getElementById(e)};</script>
   <base target="_blank">
@@ -20,8 +19,8 @@
         <div class="e_image-carousel">
           <div class="snt_logo">
               <div class="snt_brand float-right">
-                <img class="float-left snt_close"/>
-                <img class="float-left snt_expand"/>
+                <img src="../css/public/snt_logo_close.svg" class="float-left snt_close"/>
+                <img src="../css/public/snt_logo_expand.svg" class="float-left snt_expand"/>
               </div>
           </div>
           <div class="e_image-shader">
@@ -39,7 +38,9 @@
               <div class="profile-rank float-left" id="profile-rank"></div>
               <div class="profile-data float-left">
                 <div id="profile-data-box">
-                  <div class="lh18 text-wrap" id="profile-name"></div>
+                  <div class="lh18 text-wrap">
+                    <span id="profile-name"></span>
+                  </div>
                   <div class="lh16 text-wrap">
                     <span id="profile-datapoint1"></span>
                     <span id="profile-datavalue1"></span>

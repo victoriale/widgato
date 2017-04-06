@@ -85,7 +85,6 @@ button:hover {
   transition: width .3s ease-in-out;
 }
 .snt_brand .snt_close{
-  content:url("../css/public/snt_logo_close.svg");
   width: 6px;
   height: 9px;
   position: absolute;
@@ -94,7 +93,6 @@ button:hover {
   z-index: 11;
 }
 .snt_brand .snt_expand{
-  content:url("../css/public/snt_logo_expand.svg");
   position: absolute;
   width: 0px;
   height: 9px;
