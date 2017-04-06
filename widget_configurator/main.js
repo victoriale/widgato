@@ -186,7 +186,7 @@ var options = {
       type: "select",
       options: ["nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
     },
-    category:{
+    card:{
       default: "sports",
       enabled: true,
       explanation: "The card of lists and style of widget to use.",
@@ -216,7 +216,7 @@ var options = {
       type: "select",
       options: ["prod-","dev-"]
     },
-    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
+    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","card":"<card>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
 
   dynamic_article_widget:{
