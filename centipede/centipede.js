@@ -321,7 +321,12 @@ var iframeContent = friendlyIframe.contentWindow;
     var queryString = myScript.src.split("centipede.js?")[1];
 
     if (queryString != "" && queryString != null) {
-      input = JSON.parse(decodeURI(queryString));
+      try {
+        input = JSON.parse(decodeURI(queryString));
+      }
+      catch(e) {
+        console.log(e);
+      }
     }
   }
   if (input.env != "prod-" && input.env != "dev-") {
