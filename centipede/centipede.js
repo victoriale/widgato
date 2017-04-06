@@ -1,6 +1,8 @@
 //create friendly iframe to place ourselves inside
+var countSelf = document.getElementsByClassName("centipedeIframe");
 var friendlyIframe = document.createElement('iframe');
-friendlyIframe.id = "friendlyIframe";
+friendlyIframe.id = "friendlyIframe_" + countSelf.length;
+friendlyIframe.className = "centipedeIframe"
 friendlyIframe.width = '300';
 friendlyIframe.height = '250';
 friendlyIframe.src = 'about:blank';
@@ -199,7 +201,7 @@ var iframeContent = friendlyIframe.contentWindow;
       image-rendering: -webkit-optimize-contrast; /* Chrome (and Safari) */
       image-rendering: optimize-contrast;         /* CSS3 Proposed       */
       -ms-interpolation-mode: nearest-neighbor;   /* IE8+                */
-      border-bottom: 1px solid rgba(50,50,50,0.1);
+      /*border-bottom: 1px solid rgba(50,50,50,0.1);*/
     }
     .profile_image {
       position: absolute;
@@ -316,10 +318,10 @@ var iframeContent = friendlyIframe.contentWindow;
         myScript = scripts[i];
       }
     }
-    var queryString = myScript.src.replace(/^[^\?]+\??/,'');
+    var queryString = myScript.src.split("centipede.js?")[1];
+
     if (queryString != "" && queryString != null) {
-      console.log("fired query string");
-      // input = JSON.parse(decodeURI(queryString));
+      input = JSON.parse(decodeURI(queryString));
     }
   }
   if (input.env != "prod-" && input.env != "dev-") {
@@ -344,9 +346,10 @@ var iframeContent = friendlyIframe.contentWindow;
   var firstAd;
 
   if (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1) {
+    console.log("set cat default");
       input.category = 'finance'; //default category fallback
   }
-
+  friendlyIframe.classList.add("centipede_"+input.category);
   function getPublisher (pub) {
     var pubs = {
       mlb: {
@@ -383,11 +386,11 @@ var iframeContent = friendlyIframe.contentWindow;
         hex: "#43B149"
       }
     };
-      if (pub == null || pub == "" || !pubs[pub.split(".")[0]]) {
-        return pubs[currentConfig.pub];
+      if (pub == null || pub == "" || !pubs[pub]) {
+        return pubs["finance"];
       }
       else {
-        return pubs[pub.split(".")[0]];
+        return pubs[pub];
       }
   }
 
@@ -439,11 +442,11 @@ var iframeContent = friendlyIframe.contentWindow;
         rand = Math.floor((Math.random() * 2) + 1);
         if (rand == 1) {
           var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array_ncaaf.json';
-          l.category = "ncaaf";
+          input.category = "ncaaf";
         }
         else {
           var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array.json';
-          l.category = "nfl";
+          input.category = "nfl";
         }
       }
       var xmlHttp = new XMLHttpRequest();
@@ -543,13 +546,15 @@ var iframeContent = friendlyIframe.contentWindow;
         </div>
       </div>
     `;
-    setTimeout(function(){ //wait for dom to render before executing igloo script
-      var s = iframeContent.document.createElement("script");
-      s.type = "text/javascript";
-      s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
-      firstAd = iframeContent.document.getElementById('first_ad');
-      firstAd.appendChild(s);
-    }, 100);
+    if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
+      setTimeout(function(){ //wait for dom to render before executing igloo script
+        var s = iframeContent.document.createElement("script");
+        s.type = "text/javascript";
+        s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
+        firstAd = iframeContent.document.getElementById('first_ad');
+        firstAd.appendChild(s);
+      }, 100);
+    }
 
     //every other item (except the first)
     for (var i = 1; i < items.length && i < 10; i ++) {
@@ -585,6 +590,9 @@ var iframeContent = friendlyIframe.contentWindow;
           </div>
         </div>`;
       }
+      if (i == items.length) {
+        friendlyIframe.classList.add("widget_loaded");
+      }
     }
   }
 
@@ -607,11 +615,11 @@ var iframeContent = friendlyIframe.contentWindow;
     var rect = firstAd.getBoundingClientRect();
     if (rect.left < -320) { //logic to jump ad to next space when you scroll past it
       // console.log("fire move next");
-      firstAd.style.left = (Math.floor(this.scrollLeft / 300)*304 + 300) + "px";
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*303) + 300) + "px";
     }
      else if (rect.left > 320) { //logic to jump ad to prev space when you scroll past it
       // console.log("fire move prev");
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*304) - 300) + "px";
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*302) - 300) + "px";
     }
     clearTimeout(scrollingTimout);
     scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
