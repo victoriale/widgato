@@ -1,5 +1,8 @@
 //create friendly iframe to place ourselves inside
+var countSelf = document.getElementsByClassName("centipedeIframe");
 var friendlyIframe = document.createElement('iframe');
+friendlyIframe.id = "friendlyIframe_" + countSelf.length;
+friendlyIframe.className = "centipedeIframe"
 friendlyIframe.width = '300';
 friendlyIframe.height = '250';
 friendlyIframe.src = 'about:blank';
@@ -157,9 +160,9 @@ var iframeContent = friendlyIframe.contentWindow;
     .worm_block:nth-of-type(2) {
       padding-left: 0px;
     }
-    .worm_block:nth-of-type(3n+1) {
-      padding-left: 0px;
-    }
+    // .worm_block:nth-of-type(3n+1) {
+    //   padding-left: 0px;
+    // }
     .worm_block:last-of-type {
       margin-right: 10px;
     }
@@ -176,8 +179,11 @@ var iframeContent = friendlyIframe.contentWindow;
       margin-left: 2px;
     }
     .ad_spacer {
-      width: 300px;
+      width: 296px;
       height: 100%;
+    }
+    .worm_block:nth-of-type(2n+4) {
+      margin-left:2px;
     }
     .ad_item {
       position: absolute;
@@ -198,7 +204,7 @@ var iframeContent = friendlyIframe.contentWindow;
       image-rendering: -webkit-optimize-contrast; /* Chrome (and Safari) */
       image-rendering: optimize-contrast;         /* CSS3 Proposed       */
       -ms-interpolation-mode: nearest-neighbor;   /* IE8+                */
-      border-bottom: 1px solid rgba(50,50,50,0.1);
+      /*border-bottom: 1px solid rgba(50,50,50,0.1);*/
     }
     .profile_image {
       position: absolute;
@@ -303,18 +309,28 @@ var iframeContent = friendlyIframe.contentWindow;
   //begin centipede logic
   //initial variable declaration
   var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+  var input = {dom:"chicagotribune.com",category:"nba",rand:"1",env:"prod-"};
   if (decodeURIComponent(location.search.substr(1)) != null && decodeURIComponent(location.search.substr(1)) != "") {
-    var input = JSON.parse(decodeURIComponent(location.search.substr(1)));
+    input = JSON.parse(decodeURIComponent(location.search.substr(1)));
   }
   else {
     var scripts = document.getElementsByTagName('script');
+    var myScript;
     for (i = 0; i < scripts.length; i++) {
-      if (scripts[i].src.indexOf("centipede.js") != -1) {
-        var myScript = scripts[i];
+      if (scripts[i].src.indexOf("centipede") != -1) {
+        myScript = scripts[i];
       }
     }
-    var queryString = myScript.src.replace(/^[^\?]+\??/,'');
-    var input = JSON.parse(decodeURI(queryString));
+    var queryString = myScript.src.split("centipede.js?")[1];
+
+    if (queryString != "" && queryString != null) {
+      try {
+        input = JSON.parse(decodeURI(queryString));
+      }
+      catch(e) {
+        console.log(e);
+      }
+    }
   }
   if (input.env != "prod-" && input.env != "dev-") {
     input.env = "prod-";
@@ -338,9 +354,10 @@ var iframeContent = friendlyIframe.contentWindow;
   var firstAd;
 
   if (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1) {
+    console.log("set cat default");
       input.category = 'finance'; //default category fallback
   }
-
+  friendlyIframe.classList.add("centipede_"+input.category);
   function getPublisher (pub) {
     var pubs = {
       mlb: {
@@ -377,11 +394,11 @@ var iframeContent = friendlyIframe.contentWindow;
         hex: "#43B149"
       }
     };
-      if (pub == null || pub == "" || !pubs[pub.split(".")[0]]) {
-        return pubs[currentConfig.pub];
+      if (pub == null || pub == "" || !pubs[pub]) {
+        return pubs["finance"];
       }
       else {
-        return pubs[pub.split(".")[0]];
+        return pubs[pub];
       }
   }
 
@@ -403,7 +420,7 @@ var iframeContent = friendlyIframe.contentWindow;
       if (i.readyState == XMLHttpRequest.DONE) {
           if (i.status == 200) {
             //fire this, when either the TDL api or the standard API comes back
-            r = JSON.parse(i.responseText);
+            var r = JSON.parse(i.responseText);
             populateWorm(r);
           } else {
               var e = i.statusText;
@@ -433,11 +450,11 @@ var iframeContent = friendlyIframe.contentWindow;
         rand = Math.floor((Math.random() * 2) + 1);
         if (rand == 1) {
           var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array_ncaaf.json';
-          l.category = "ncaaf";
+          input.category = "ncaaf";
         }
         else {
           var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array.json';
-          l.category = "nfl";
+          input.category = "nfl";
         }
       }
       var xmlHttp = new XMLHttpRequest();
@@ -537,20 +554,27 @@ var iframeContent = friendlyIframe.contentWindow;
         </div>
       </div>
     `;
-    setTimeout(function(){ //wait for dom to render before executing igloo script
-      var s = iframeContent.document.createElement("script");
-      s.type = "text/javascript";
-      s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
-      firstAd = iframeContent.document.getElementById('first_ad');
-      firstAd.appendChild(s);
-    }, 100);
+    firstAd = iframeContent.document.getElementById('first_ad');
+    if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
+      setTimeout(function(){ //wait for dom to render before executing igloo script
+        firstAd = iframeContent.document.getElementById('first_ad');
+        var s = iframeContent.document.createElement("script");
+        s.type = "text/javascript";
+        s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
+        firstAd.appendChild(s);
+      }, 100);
+    }
 
+    var outputHTML = "";
+    var maxOutput = 10;
     //every other item (except the first)
-    for (var i = 1; i < items.length && i < 10; i ++) {
+    for (var i = 1; i < items.length && i < maxOutput; i ++) {
       items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
       image = items[i].li_img;
-      worm.innerHTML += `
-        <div class="worm_block">
+      if (Math.abs(i % 2) == 1) { //every odd number
+        outputHTML += `<div class="worm_block">`;
+      }
+      outputHTML += `
           <div class="list_item">
             <div class="profile_image_div" style="background-image:url('`+image+`')">
             <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+(i+1)+`</b></div></div>
@@ -568,16 +592,20 @@ var iframeContent = friendlyIframe.contentWindow;
               </div>
             </div>
           </div>
-        </div>
       `;
       if (i % 2 == 0) { //show ad every even number
-        worm.innerHTML += `
+        outputHTML += `
+        </div>
         <div class="worm_block">
         <div class="ad_spacer"></div>
           <div class="ad_item">
 
           </div>
         </div>`;
+      }
+      if (i == items.length || i == maxOutput-1) { //fire when done iterating over all items
+        worm.innerHTML += outputHTML; //write out the accumulated item's html
+        friendlyIframe.classList.add("widget_loaded"); //set leaded flag on bounding iframe
       }
     }
   }
@@ -600,12 +628,12 @@ var iframeContent = friendlyIframe.contentWindow;
     }
     var rect = firstAd.getBoundingClientRect();
     if (rect.left < -320) { //logic to jump ad to next space when you scroll past it
-      // console.log("fire move next");
-      firstAd.style.left = (Math.floor(this.scrollLeft / 300)*304 + 300) + "px";
+      // console.log("fire move ad next");
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) + 300) + "px";
     }
      else if (rect.left > 320) { //logic to jump ad to prev space when you scroll past it
-      // console.log("fire move prev");
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*304) - 300) + "px";
+      // console.log("fire move ad prev");
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) - 300) + "px";
     }
     clearTimeout(scrollingTimout);
     scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
@@ -637,27 +665,27 @@ var iframeContent = friendlyIframe.contentWindow;
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
     for (i = 0; i < wormBlocks.length;  i++) {
-      if ((worm.scrollLeft + 180) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 180) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
+      if ((worm.scrollLeft + 150) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 150) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
         scrollTo = wormBlocks[i].offsetLeft;
         if (worm.scrollLeft < scrollTo) {
-          scrollIncrements = 1;
+          scrollIncrements = 1; //advance
         }
         else {
-          scrollIncrements = -1;
+          scrollIncrements = -1; //retreat
         }
         setSmoothScrollInterval = setInterval(function(){
           var marginOfError = 0;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
             //if within margin of error of target, end scroll
             if (i == (wormBlocks.length - 1)) {
-              clearTimeout(setSmoothScrollInterval);
+              clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
-              worm.scrollLeft = worm.scrollLeft + scrollIncrements;
+              worm.scrollLeft = worm.scrollLeft + scrollIncrements; //apply the interpolation step
             }
           }
-          else {
+          else { //we have reached the end of the interpolation. stop the loop
             userScroll = false;
             setTimeout(function(){
               userScroll = true;
@@ -668,9 +696,11 @@ var iframeContent = friendlyIframe.contentWindow;
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
+          iframeContent.ig_rotation_control=true;
         }
         else {
           helper.style.opacity = '1';
+          iframeContent.ig_rotation_control=false;
         }
         return;
       }
