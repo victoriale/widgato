@@ -1,3 +1,5 @@
+@import url("../css/inheritor_colors/inheritor.css");
+
 html, body {
     margin: 0 !important;
     width: 100%;
@@ -32,29 +34,6 @@ button:focus {
 button:hover {
     cursor: pointer;
 }
-
-/*
-** Classes in here will be used in javascript to dynamically change inheritted colors
-*/
-.inheritor {
-    color: #43B149;
-}
-
-.inheritor_border{
-    border: 1px solid #43B149 !important;
-}
-
-.inheritor_img_bg {
-    background-color: #43B149 !important;
-}
-
-.inheritor_bg:hover:before {
-    background-color: #43B149 !important;
-}
-
-/*
-** Classes in here will be used in javascript to dynamically change inheritted colors
-*/
 
 .black_background:hover:before {
     background-color: #000000 !important;

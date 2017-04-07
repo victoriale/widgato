@@ -14,7 +14,7 @@
 
 <body>
   <div class="widget_ad">
-    <div class="e_container inheritor">
+    <div class="e_container inheritor" id="color_inheritor">
       <div class="e_widget">
         <div class="e_image-carousel">
           <div class="snt_logo">
@@ -24,7 +24,7 @@
               </div>
           </div>
           <div class="e_image-shader">
-            <div class="e_image-cover inheritor_img_bg">
+            <div class="e_image-cover inheritor_img_bg" id="background_inheritor">
               <span class="pound">#</span>
               <span id="mainimg-rank">1</span>
             </div>
@@ -59,7 +59,7 @@
             </div>
           </div>
           <div class="e_info_box-cta float-left">
-            <button class="cta_button-list leftTransform inheritor_border inheritor_bg" onclick="updateList(1)"><span>Next List</span></button>
+            <button id="button_inheritor" class="cta_button-list leftTransform inheritor_border inheritor_bg" onclick="updateList(1)"><span>Next List</span></button>
             <button class="cta_button-previous rightTransform black_background" onclick="updateIndex(-1)"><i class="fa fa-arrow-left"></i></button>
             <button class="cta_button-next leftTransform black_background" onclick="updateIndex(1)"><i class="fa fa-arrow-right"></i></button>
           </div>

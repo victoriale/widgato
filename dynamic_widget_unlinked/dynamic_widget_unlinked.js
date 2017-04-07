@@ -12,8 +12,7 @@ var widgetData; // api returns is sent here
 var tries = 0; // flag for api to try atleast 10 times before failing completely
 var listRand = 0; // used to increment index of random list in database
 var subCategory; // with a vast amount cards and categories need we need the currently shown category for the rest of the code
-var categoryColors = {
-    // Brand Color Palette
+var categoryColors = { // Brand Color Palette
     'football': '#2d3e50',
     'basketball': '#f7701d',
     'baseball': '#bc2027',
@@ -28,7 +27,7 @@ var categoryColors = {
 };
 
 //Initial load Waits for the DOMContent to load
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function(event) {// TAKE ANOTHER LOOK AT THIS AND ONLOAD function both can be optimized
     //if no query is snet then nothing is shown
     if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
@@ -89,7 +88,7 @@ function setupEnvironment(widgetQuery) {
         if (widgetQuery.card != null && widgetQuery.card != "") {
             apiCallUrl += dwApi + "?card=" + card;
         } else {
-            subCategory = widgetQuery.card;
+            subCategory = widgetQuery.category;
             apiCallUrl += dwApi + "?cat=" + cat;
         }
 
@@ -202,7 +201,7 @@ function onLoad(func) {
  *
  * @param function apiUrl -
  */
-function runAPI(apiUrl) {
+function runAPI(apiUrl) {//Make it to where it is easy to be reused by anyone
     //variable that stores the response of an http request
     if (window.XMLHttpRequest) {
         var xhttp = new XMLHttpRequest();
@@ -274,8 +273,10 @@ function displayWidget() {
             //current index of a player or team to display
             if (curData.rankType == "player") {
                 let image = checkImage(imageUrl + curData.playerHeadshotUrl);
+                if(image != null){
+                  $("mainimg").setAttribute('src', image);
+                }
 
-                $("mainimg").setAttribute('src', image);
                 $("profile-name").innerHTML = curData.playerFirstName + " " + curData.playerLastName;
 
                 $("profile-datapoint1").innerHTML = "Team: ";
@@ -283,9 +284,11 @@ function displayWidget() {
                 $("profile-datavalue2").innerHTML = curData.stat + " " + curData.statDescription;
             } else {
                 let image = checkImage(imageUrl + curData.teamLogo);
-                $("mainimg").setAttribute('src', image);
-                $("profile-name").innerHTML = curData.teamName;
+                if(image != null){
+                  $("mainimg").setAttribute('src', image);
+                }
 
+                $("profile-name").innerHTML = curData.teamName;
                 $("profile-datapoint1").innerHTML = "Division: ";
                 $("profile-datavalue1").innerHTML = curData.divisionName;
                 $("profile-datavalue2").innerHTML = curData.statDescription + ": " + curData.stat;
@@ -302,7 +305,9 @@ function displayWidget() {
             $("profile-title").innerHTML = widgetData.l_title;
             //current index of list
             let image = checkImage(curData.li_img);
-            $("mainimg").setAttribute('src', image);
+            if(image != null){
+              $("mainimg").setAttribute('src', image);
+            }
 
             $("profile-rank").innerHTML = '#' + curData.li_rank;
             $("mainimg-rank").innerHTML = curData.li_rank;
@@ -325,7 +330,7 @@ function displayWidget() {
  * @function setCategoryColors
  * dynamically set the colors of the css Rules for each of the partners
  *
- * @param function category - sets the base category for colors that are stored in the global categoryColors OBJECT
+ * @param function category - sets the base category for colors that are stored in the global ./css/inheritor/inheritor.css
  */
 function setCategoryColors(category) {
     let color;
@@ -345,97 +350,147 @@ function setCategoryColors(category) {
         case 'mlb':
             category = 'baseball';
             break;
+        case "realestate":
+        case "disaster":
+        case "demographics":
+        case "crime":
+        case "weather":
+        case "politics":
+        break;
         default:
             category = 'default';
             break;
     }
-    color = categoryColors[category];
-    /************************* CSS CLASS LOOPING *********************
-     * @function classLoop
-     * Loops throught stylesheet and finds cssName and change the cssRules
+
+    /* SNT DEFINED CLASSES TO BE FOUND AND USED FOR
+     * function classInheritorReplace(identifier, category)
+     */
+    classInheritorReplace("color_inheritor",category);
+    classInheritorReplace("background_inheritor",category);
+    classInheritorReplace("button_inheritor",category);
+
+    /********************** SETUP CATEGORY COLORS **********************
+     * @function classInheritorReplace
+     * dynamically set the colors of the css Rules each identifier in the html for dynamic colors
      *
      * @param function
-     *     cssName - name of css class to change its cssRule
-     *     style - the style with specific cases currently available styles => color, border-color, background-color
-     *     styleColor - uses color based on the categoryColors and category
+     *      identifier - unique identifier in the html used to run a function that replaces the color scheme based on category
+     *      category - sets the base category for colors that are stored in the global ./css/inheritor/inheritor.css
      */
-    function classLoop(cssName, style, styleColor) {
-        let styleSheets = getCssSelector("5embed");
-
-        //delete inheritor rule and RE-APPLY css with new rule (easier when only one cssrule is needed to change)
-        if (styleSheets) {
-            var attribute = findCss(cssName, styleSheets);
-            styleSheets.deleteRule(attribute.index);
-            //try catch statements are for ie compatibility
-            switch (style) {
-                case 'color':
-                    try {
-                        styleSheets.insertRule('.' + cssName + ' { color: ' + styleColor + ' !important; }', 0);
-                    } catch (e) {
-                        styleSheets.addRule('.' + cssName, 'color: ' + styleColor + ' !important', 0);
-                    }
-                    break;
-                case 'border-color':
-                    try {
-                        styleSheets.insertRule('.' + cssName + ' { border-color: ' + styleColor + ' !important; }', 0);
-                    } catch (e) {
-                        styleSheets.addRule('.' + cssName, 'border-color: ' + styleColor + ' !important', 0);
-                    }
-                    break;
-                case 'background-color':
-                    try {
-                        styleSheets.insertRule('.' + cssName + ' { background-color: ' + styleColor + ' !important; }', 0);
-                    } catch (e) {
-                        styleSheets.addRule('.' + cssName, 'background-color: ' + styleColor + ' !important', 0);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
+    function classInheritorReplace(identifier, category){
+      var htmlClass = document.getElementById(identifier);
+      var re = new RegExp('inheritor',"g");
+      var categoryClass = category == 'default' ? '' : category+'-'; // ex default returns nothing , football-, baseball-
+      var classes = htmlClass.className.split(" ").filter(function(c) {
+        return c.match(re) != null ? c.match(re) : null;
+      });
+      switch(identifier){
+        case "color_inheritor":
+          htmlClass.classList.remove(classes[0]);
+          htmlClass.classList.add(categoryClass+"inheritor");
+        break;
+        case "background_inheritor":
+          htmlClass.classList.remove(classes[0]);
+          htmlClass.classList.add(categoryClass+"inheritor_img_bg");
+        break;
+        case "button_inheritor":
+          for (var i = 0; i < classes.length; i++) {
+            htmlClass.classList.remove(classes[i]);
+          }
+          htmlClass.classList.add(categoryClass+"inheritor_border", categoryClass+"inheritor_bg");
+        break;
+      }
     }
 
-    /*********************** GET CSS SELECTOR **********************
-     * @function getCssSelector
-     * find the css File with the title given to the function
-     *
-     * @param function title - send in the title to choose which selector
-     */
-    function getCssSelector(title) {
-        let selector = document.styleSheets;
-        for (var index = 0; index < selector.length; index++) {
-            if (selector[index].title == title) {
-                return selector[index];
-            }
-        }
-    }
 
-    /********************* FIND CSS NAME ******************
-     * @function findCss
-     * find the the specific css element by the given selector Text (ex: .inheritor , body, html, #profile-name)
-     *
-     * @param function
-     *     cssName - cssName of the rule we want to find
-     *     styleSheets - the chosen style seet that we need to change the cssName for
-     */
-    function findCss(cssName, styleSheets) {
-        if (styleSheets.cssRules != null) {
-            for (var index = 0; index < styleSheets.cssRules.length; index++) {
-                if (styleSheets.cssRules[index].selectorText == "." + cssName) {
-                    styleSheets.cssRules[index].index = index;
-                    return styleSheets.cssRules[index];
-                }
-            }
-        }
-    }
-
-    //Class Loop will change the color by looping through cssSelector File and changing the given class
-    classLoop('inheritor', 'color', color);
-    classLoop('inheritor_border', 'border-color', color);
-    classLoop('inheritor_img_bg', 'background-color', color);
-    classLoop('inheritor_bg:hover::before', 'background-color', color);
-
+  /**************************************************************DEPRECATED*****************************************************/
+    // color = categoryColors[category];
+    // /************************* CSS CLASS LOOPING *********************
+    //  * @function classLoop
+    //  * Loops throught stylesheet and finds cssName and change the cssRules
+    //  *
+    //  * @param function
+    //  *     cssName - name of css class to change its cssRule
+    //  *     style - the style with specific cases currently available styles => color, border-color, background-color
+    //  *     styleColor - uses color based on the categoryColors and category
+    //  */
+    // function classLoop(cssName, style, styleColor) {
+    //     let styleSheets = getCssSelector("5embed");
+    //
+    //     //delete inheritor rule and RE-APPLY css with new rule (easier when only one cssrule is needed to change)
+    //     if (styleSheets) {
+    //         var attribute = findCss(cssName, styleSheets);
+    //         styleSheets.deleteRule(attribute.index);
+    //         //try catch statements are for ie compatibility
+    //         switch (style) {
+    //             case 'color':
+    //                 try {
+    //                     styleSheets.insertRule('.' + cssName + ' { color: ' + styleColor + ' !important; }', 0);
+    //                 } catch (e) {
+    //                     styleSheets.addRule('.' + cssName, 'color: ' + styleColor + ' !important', 0);
+    //                 }
+    //                 break;
+    //             case 'border-color':
+    //                 try {
+    //                     styleSheets.insertRule('.' + cssName + ' { border-color: ' + styleColor + ' !important; }', 0);
+    //                 } catch (e) {
+    //                     styleSheets.addRule('.' + cssName, 'border-color: ' + styleColor + ' !important', 0);
+    //                 }
+    //                 break;
+    //             case 'background-color':
+    //                 try {
+    //                     styleSheets.insertRule('.' + cssName + ' { background-color: ' + styleColor + ' !important; }', 0);
+    //                 } catch (e) {
+    //                     styleSheets.addRule('.' + cssName, 'background-color: ' + styleColor + ' !important', 0);
+    //                 }
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //     }
+    //
+    // }
+    //
+    // /*********************** GET CSS SELECTOR **********************
+    //  * @function getCssSelector
+    //  * find the css File with the title given to the function
+    //  *
+    //  * @param function title - send in the title to choose which selector
+    //  */
+    // function getCssSelector(title) {
+    //     let selector = document.styleSheets;
+    //     for (var index = 0; index < selector.length; index++) {
+    //         if (selector[index].title == title) {
+    //             return selector[index];
+    //         }
+    //     }
+    // }
+    //
+    // /********************* FIND CSS NAME ******************
+    //  * @function findCss
+    //  * find the the specific css element by the given selector Text (ex: .inheritor , body, html, #profile-name)
+    //  *
+    //  * @param function
+    //  *     cssName - cssName of the rule we want to find
+    //  *     styleSheets - the chosen style seet that we need to change the cssName for
+    //  */
+    // function findCss(cssName, styleSheets) {
+    //     if (styleSheets.cssRules != null) {
+    //         for (var index = 0; index < styleSheets.cssRules.length; index++) {
+    //             if (styleSheets.cssRules[index].selectorText == "." + cssName) {
+    //                 styleSheets.cssRules[index].index = index;
+    //                 return styleSheets.cssRules[index];
+    //             }
+    //         }
+    //     }
+    // }
+    //
+    // //Class Loop will change the color by looping through cssSelector File and changing the given class
+    // classLoop('inheritor', 'color', color);
+    // classLoop('inheritor_border', 'border-color', color);
+    // classLoop('inheritor_img_bg', 'background-color', color);
+    // classLoop('inheritor_bg:hover::before', 'background-color', color);
+/**************************************************************DEPRECATED*****************************************************/
 }
 
 /************************ Update Index *************************
@@ -450,7 +505,7 @@ function updateIndex(difference) {
     if (currentIndex < 0) {
         currentIndex = 0;
     } else if (currentIndex >= maxIndex) {
-        currentIndex = maxIndex;
+        currentIndex = maxIndex-1;
     } else {}
     //call display widget
     displayWidget();
@@ -525,10 +580,18 @@ function checkImage(image) {
                 fallbackImg = "real_estate_stock.jpg";
                 break;
             default:
-                fallbackImg = "";
+                fallbackImg = null;
         }
-        imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
         showCover = true;
+        //make sure there is a fallback image
+        if(fallbackImg == null){
+          imageReturn = null;
+        }else{
+          imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
+          //sets flag for image api to send back image with set size based on devicePixelRatio
+          imageReturn += "?width=" + (300 * window.devicePixelRatio);
+          $("mainimg").setAttribute('onerror', imageReturn); //SETS ON ERROR IMAGE
+        }
     }
     //USED to display background color of category if a fallback image is sent back
     let imageBackground = document.getElementsByClassName('e_image-cover');
@@ -540,8 +603,5 @@ function checkImage(image) {
         }
     }
 
-    //sets flag for image api to send back image with set size based on devicePixelRatio
-    imageReturn += "?width=" + (300 * window.devicePixelRatio);
-    $("mainimg").setAttribute('onerror', imageReturn); //SETS ON ERROR IMAGE
     return imageReturn;
 }
