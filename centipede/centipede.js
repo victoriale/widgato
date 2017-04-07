@@ -160,9 +160,9 @@ var iframeContent = friendlyIframe.contentWindow;
     .worm_block:nth-of-type(2) {
       padding-left: 0px;
     }
-    .worm_block:nth-of-type(3n+1) {
-      padding-left: 0px;
-    }
+    // .worm_block:nth-of-type(3n+1) {
+    //   padding-left: 0px;
+    // }
     .worm_block:last-of-type {
       margin-right: 10px;
     }
@@ -554,6 +554,7 @@ var iframeContent = friendlyIframe.contentWindow;
     firstAd = iframeContent.document.getElementById('first_ad');
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
       setTimeout(function(){ //wait for dom to render before executing igloo script
+        firstAd = iframeContent.document.getElementById('first_ad');
         var s = iframeContent.document.createElement("script");
         s.type = "text/javascript";
         s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
@@ -625,11 +626,11 @@ var iframeContent = friendlyIframe.contentWindow;
     var rect = firstAd.getBoundingClientRect();
     if (rect.left < -320) { //logic to jump ad to next space when you scroll past it
       // console.log("fire move next");
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*303) + 300) + "px";
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*301) + 300) + "px";
     }
      else if (rect.left > 320) { //logic to jump ad to prev space when you scroll past it
       // console.log("fire move prev");
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*302) - 300) + "px";
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*301) - 300) + "px";
     }
     clearTimeout(scrollingTimout);
     scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
@@ -661,32 +662,27 @@ var iframeContent = friendlyIframe.contentWindow;
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
     for (i = 0; i < wormBlocks.length;  i++) {
-      console.log("width ",wormBlocks[i].offsetWidth);
-      console.log("worm left ", worm.scrollLeft + 150, "block left ",wormBlocks[i].offsetLeft,wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth);
       if ((worm.scrollLeft + 150) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 150) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
-        console.log("firing");
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
         scrollTo = wormBlocks[i].offsetLeft;
         if (worm.scrollLeft < scrollTo) {
-          console.log("advance");
-          scrollIncrements = 1;
+          scrollIncrements = 1; //advance
         }
         else {
-          console.log("retreat");
-          scrollIncrements = -1;
+          scrollIncrements = -1; //retreat
         }
         setSmoothScrollInterval = setInterval(function(){
           var marginOfError = 0;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
             //if within margin of error of target, end scroll
             if (i == (wormBlocks.length - 1)) {
-              clearTimeout(setSmoothScrollInterval);
+              clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
-              worm.scrollLeft = worm.scrollLeft + scrollIncrements;
+              worm.scrollLeft = worm.scrollLeft + scrollIncrements; //apply the interpolation step
             }
           }
-          else {
+          else { //we have reached the end of the interpolation. stop the loop
             userScroll = false;
             setTimeout(function(){
               userScroll = true;
