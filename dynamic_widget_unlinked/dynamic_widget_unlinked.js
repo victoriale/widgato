@@ -2,84 +2,125 @@ var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var temp = location.search;
 var query = {}; //query string from sent parameters
 var apiCallUrl; // this is global call that is used for api calls
-var imageUrl = "//images.synapsys.us"; // this is global call that is used for images
+var imageUrl = "images.synapsys.us"; // this is global call that is used for images
+var dwApi = "dw.synapsys.us/list_api.php"; // dynamic widget api
+var tdlApi = "touchdownloyal-api.synapsys.us/list/"; // used for nfl and ncaaf category
 var href = window.top.location;
 var currentIndex = 0; // current index of an array which (default = 0)
 var maxIndex = 1; //declare max index of returned data (default = 1)
 var widgetData; // api returns is sent here
 var tries = 0; // flag for api to try atleast 10 times before failing completely
-var listRand = 0;
-var categoryColors = {
-    // Brand Color Palette
+var listRand = 0; // used to increment index of random list in database
+var subCategory; // with a vast amount cards and categories need we need the currently shown category for the rest of the code
+var categoryColors = { // Brand Color Palette
     'football': '#2d3e50',
-    'basketball': '#f26f26',
+    'basketball': '#f7701d',
     'baseball': '#bc2027',
     'finance': '#3098ff',
-    'money': '#3098ff',
-    'realestate': '#44b224',
+    'realestate': '#43B149',
     'lifestyle': '#65398e',
     'disaster': '#902d8e',
     'politics': '#ff0101',
     'crime': '#f6af05',
     'weather': '#ffdf30',
-    'default': '#000000',
+    'default': '#00b9e3',
 };
 
 //Initial load Waits for the DOMContent to load
-document.addEventListener("DOMContentLoaded", function(event) {
+document.addEventListener("DOMContentLoaded", function(event) {// TAKE ANOTHER LOOK AT THIS AND ONLOAD function both can be optimized
     //if no query is snet then nothing is shown
     if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
-        let rand = query.rand ? query.rand : 1;
-        updateList(rand);
+        listRand = query.rand ? query.rand : 1;
+
+        //FIRST THING IS SETUP ENVIRONMENTS
+        setupEnvironment(query);
+
+        //THEN START UPDATING THE LISTS
+        updateList(listRand);
     } else {
         console.log('No query found on widget');
     }
 });
 
-/*
-//update List function
-* @function
-*
-* @param
-*/
-function updateList(listNum) {
-    apiCallUrl = protocolToUse;
-    let dom = query.dom;
-    let cat = query.category;
-    let card = query.card;
-    let env = query.env;
+function getEnv(env){
+  if (env == "localhost"){
+      env = "dev";
+  }
+  if (env != "dev" && env !="qa"){
+      env = "prod";
+  }
 
-    //Run dynamic color of widget
-    setCategoryColors(cat);
+  //env = "prod"; //TODO remove only used for testing
 
-    //Determine whether to use Dynamic api call or use FOOTBALL data
-    if (cat == "football" || cat == "nfl" || cat == "ncaaf" || cat == "nflncaaf") {
-        apiCallUrl += env + "touchdownloyal-api.synapsys.us/list/";
-        getFootballList(cat);
-    } else {
-        apiCallUrl += "dw.synapsys.us/list_api.php";
-        if(card != null){
-          apiCallUrl += "?card=" + cat;
-        }else{
-          apiCallUrl += "?cat=" + cat;
-        }
-        if (dom != null) {
-            apiCallUrl += "&partner=" + dom;
-        }
-        listRand += Number(listNum);
-        apiCallUrl += "&rand=" + (Number(listRand)+listNum);
-        runAPI(apiCallUrl);
-    }
-
+  return env;
 }
 
-/*
-//gets a PRE generated list from a json file that is asynchronously being called; returns and Array of all lists
-* @function
-*
-* @param
-*/
+/***************************** SETUP ENVIRONMENTS ******************************
+ * @function setupEnvironment
+ * setup Environment function
+ *
+ * @param function widgetQuery - the query string sent back as and Object from the location.search substrings
+ * to be parsed through and set for global use
+ */
+function setupEnvironment(widgetQuery) {
+    apiCallUrl = protocolToUse;
+    let dom = widgetQuery.dom;
+    let cat = widgetQuery.category;
+    let card = widgetQuery.card;
+    let env;
+    if(widgetQuery.env != null){
+      env = widgetQuery.env ? widgetQuery.env : 'prod-';
+    }else{
+      let environment = window.location.hostname.split('.')[0];
+      env =  environment == 'localhost' || environment == 'dev' || environment == 'qa' ? getEnv(environment)+'-' : 'prod-';
+    }
+
+    //setup Image Environment api
+    imageUrl = env == "dev-" ? protocolToUse + env + imageUrl : protocolToUse + imageUrl; // this is global call that is used for images
+
+    //if card doesnt exist and category is football
+    if (widgetQuery.card == null && (widgetQuery.category == 'nfl' || widgetQuery.category == 'ncaaf' || widgetQuery.category == 'football' || widgetQuery.category == 'nflncaaf')) {
+        subCategory = widgetQuery.category;
+        apiCallUrl += env + "touchdownloyal-api.synapsys.us/list/";
+    } else {
+        //if card does exist here then add card query parameter otherwise add categeory parameter for api
+        if (widgetQuery.card != null && widgetQuery.card != "") {
+            apiCallUrl += dwApi + "?card=" + card;
+        } else {
+            subCategory = widgetQuery.category;
+            apiCallUrl += dwApi + "?cat=" + cat;
+        }
+
+        if (dom != null && dom != "") {
+            apiCallUrl += "&partner=" + dom;
+        }
+    }
+}
+
+/************************ UPDATE LIST ***********************
+ * @function updateList
+ * update List function and if the list is from dynamic widget category then it will change the list
+ * by incrementing the initially random number
+ *
+ * @param function listNum - list number incremented that will be added to the listRand with listNum
+ */
+function updateList(listNum) {
+    if (query.card == null && (query.category == 'nfl' || query.category == 'ncaaf' || query.category == 'football')) {
+        getFootballList(query.category);
+    } else {
+        listRand = Number(listRand) + Number(listNum);
+        let currentApi = apiCallUrl + "&rand=" + listRand;
+        runAPI(currentApi);
+    }
+}
+
+/********************** GET FOOTBALL JSON LIST ***************
+ * @function getFootballList
+ *gets a PRE generated list from a json file that is asynchronously being called; returns and Array of all lists
+ *
+ * @param function league - league can either be nfl, ncaaf
+ */
 function getFootballList(league) {
     if (league == "nfl") {
         var url = '../js/tdl_list_array.json';
@@ -99,145 +140,37 @@ function getFootballList(league) {
     xmlHttp.onreadystatechange = function() {
         if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
             //On complete function
-            initData = JSON.parse(xmlHttp.responseText);
-            getRandFootballList(initData);
+            jsonArray = JSON.parse(xmlHttp.responseText);
+            getRandFootballList(jsonArray);
         }
     }
     xmlHttp.open("GET", url, true); // false for synchronous request
     xmlHttp.send(null);
 }
 
-/*
-//uses the getFootballList and chooses a random index in the array and uses that list to displace
-* @function
-*
-* @param
-*/
-function getRandFootballList(initData) {
-    rand = Math.floor((Math.random() * (initData.length - 1)) + 1);
+
+/******************** GET RANDOM FOOTBALL LIST ****************
+ * @function getRandFootballList
+ * chooses a random index in the array and uses that list to displace
+ *
+ * @param function jsonArray - the init
+ */
+function getRandFootballList(jsonArray) {
+    rand = Math.floor((Math.random() * (jsonArray.length - 1)) + 1);
     var date = new Date;
     var compareDate = new Date('09/15/' + date.getFullYear());
     let season;
     if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
-        season = initData[rand] + "&season=" + date.getFullYear();
+        season = jsonArray[rand] + "&season=" + date.getFullYear();
     } else if (date.getMonth() > compareDate.getMonth()) {
-        season = initData[rand] + "&season=" + date.getFullYear();
+        season = jsonArray[rand] + "&season=" + date.getFullYear();
     } else {
-        season = initData[rand] + "&season=" + (date.getFullYear() - 1);
+        season = jsonArray[rand] + "&season=" + (date.getFullYear() - 1);
     }
     apiCallUrl += season;
     runAPI(apiCallUrl)
 }
 
-/*
-//dynamically set the colors of the css Rules for each of the partners
-* @function
-*
-* @param
-*/
-function setCategoryColors(category) {
-    let color;
-    switch (category) {
-        case 'football':
-        case 'nfl':
-        case 'ncaaf':
-            category = 'football';
-            break;
-        case 'basketball':
-        case 'nba':
-        case 'ncaam':
-            category = 'basketball';
-            break;
-        case 'baseball':
-        case 'mlb':
-            category = 'baseball';
-            break;
-        default:
-            break;
-    }
-    color = categoryColors[category];
-
-    /*
-    //Loops throught stylesheet and finds cssName and change the cssRules
-    * @function
-    *
-    * @param
-    */
-    function classLoop(cssName, style, styleColor) {
-        let styleSheets = getCssSelector("5embed");
-        var attribute = findCss(cssName, styleSheets);
-
-        //delete inheritor rule and RE-APPLY css with new rule (easier when only one cssrule is needed to change)
-        styleSheets.deleteRule(attribute.index);
-
-        //try catch statements are for ie compatibility
-        switch (style) {
-            case 'color':
-                try {
-                    styleSheets.insertRule('.' + cssName + ' { color: ' + styleColor + ' !important; }', 0);
-                } catch (e) {
-                    styleSheets.addRule('.' + cssName, 'color: ' + styleColor + ' !important', 0);
-                }
-                break;
-            case 'border-color':
-                try {
-                    styleSheets.insertRule('.' + cssName + ' { border-color: ' + styleColor + ' !important; }', 0);
-                } catch (e) {
-                    styleSheets.addRule('.' + cssName, 'border-color: ' + styleColor + ' !important', 0);
-                }
-                break;
-            case 'background-color':
-                try {
-                    styleSheets.insertRule('.' + cssName + ' { background-color: ' + styleColor + ' !important; }', 0);
-                } catch (e) {
-                    styleSheets.addRule('.' + cssName, 'background-color: ' + styleColor + ' !important', 0);
-                }
-                break;
-            default:
-                break;
-        }
-
-    }
-
-    /*
-    //find the css File with the title given to the function
-    * @function
-    *
-    * @param
-    */
-    function getCssSelector(title) {
-        let selector = document.styleSheets;
-        for (var index = 0; index < selector.length; index++) {
-            if (selector[index].title == title) {
-                return selector[index];
-            }
-        }
-    }
-
-    /*
-    //find the the specific css element by the given selector Text (ex: .inheritor , body, html, #profile-name)
-    * @function
-    *
-    * @param
-    */
-    function findCss(cssName, styleSheets) {
-        if (styleSheets.cssRules != null) {
-            for (var index = 0; index < styleSheets.cssRules.length; index++) {
-                if (styleSheets.cssRules[index].selectorText == "." + cssName) {
-                    styleSheets.cssRules[index].index = index;
-                    return styleSheets.cssRules[index];
-                }
-            }
-        }
-    }
-
-    //Class Loop will change the color by looping through cssSelector File and changing the given class
-    classLoop('inheritor', 'color', color);
-    classLoop('inheritor_border', 'border-color', color);
-    classLoop('inheritor_img_bg', 'background-color', color);
-    classLoop('inheritor_bg:hover::before', 'background-color', color);
-
-}
 
 /****************************** onLoad ***************************
  * @function onLoad
@@ -260,6 +193,7 @@ function onLoad(func) {
     }
 } /*************************** onLoad ***************************/
 
+
 /***************************** runAPI ***************************
  * @function runAPI
  * function that makes an asynchronous request using http and setting a global variable equal to the response of the text.
@@ -267,7 +201,7 @@ function onLoad(func) {
  *
  * @param function apiUrl -
  */
-function runAPI(apiUrl, func) {
+function runAPI(apiUrl) {//Make it to where it is easy to be reused by anyone
     //variable that stores the response of an http request
     if (window.XMLHttpRequest) {
         var xhttp = new XMLHttpRequest();
@@ -292,32 +226,40 @@ function runAPI(apiUrl, func) {
                     }
                 }
                 msg = 'HTTP Error (' + this.status + '): ' + msg;
-                if (tries++ > 10) {
-                    throw msg
+                if (tries++ > 10) { // IF WIDGET FAILS THEN HIDE THE ENTIRE CONTAINER
+                    document.getElementsByClassName('e_container')[0].style.display = 'none';
+                    throw msg + " | hiding widget container";
                 }
-                setTimeout(runAPI(apiUrl, func), 500)
+                setTimeout(runAPI(apiUrl), 500)
             }
         }
     };
     xhttp.open("GET", apiUrl, true);
     xhttp.send();
-}; /***************************** runAPI ****************************/
+}; /************************** runAPI END ************************/
 
-/*****************************Display Widget Data ******************/
-/*
- * @function
+
+/****************************Display Widget Data *****************
+ * @function displayWidget
+ * When data is available set the data return to the unique identifiers on the DOM
+ * using innerHTML
  *
- * @param
+ * @param function
  */
 function displayWidget() {
     try {
         //sets the last updated date
         var date = new Date();
-        $('profile-updated').innerHTML = dateFormat(date.getDay(), date.getMonth(), date.getDate(), date.getFullYear());
+
+        var formatedDate = dateFormat(date.getDay(), date.getDate(), date.getMonth(), date.getFullYear());
+        $('profile-updated').innerHTML = formatedDate.weekday + ", " + formatedDate.month + " " + formatedDate.day + ", " + formatedDate.year;
+
+        //Run dynamic color of widget
 
         /***************************FOOTBALL DATA APPLIANCE*******************************/
-        if (query.category == "football" || query.category == "nfl" || query.category == "ncaaf" || query.category == "nflncaaf") {
+        if (query.card == null && (query.category == "football" || query.category == "nfl" || query.category == "ncaaf")) {
             let dataArray = widgetData.data.listData;
+            setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
             maxIndex = dataArray.length;
             let curData = dataArray[currentIndex];
@@ -328,11 +270,13 @@ function displayWidget() {
             $("profile-rank").innerHTML = '#' + curData.rank;
             $("mainimg-rank").innerHTML = curData.rank;
 
-            //current index of list
+            //current index of a player or team to display
             if (curData.rankType == "player") {
                 let image = checkImage(imageUrl + curData.playerHeadshotUrl);
+                if(image != null){
+                  $("mainimg").setAttribute('src', image);
+                }
 
-                $("mainimg").setAttribute('src', image);
                 $("profile-name").innerHTML = curData.playerFirstName + " " + curData.playerLastName;
 
                 $("profile-datapoint1").innerHTML = "Team: ";
@@ -340,26 +284,30 @@ function displayWidget() {
                 $("profile-datavalue2").innerHTML = curData.stat + " " + curData.statDescription;
             } else {
                 let image = checkImage(imageUrl + curData.teamLogo);
-                $("mainimg").setAttribute('src', image);
-                $("profile-name").innerHTML = curData.teamName;
+                if(image != null){
+                  $("mainimg").setAttribute('src', image);
+                }
 
+                $("profile-name").innerHTML = curData.teamName;
                 $("profile-datapoint1").innerHTML = "Division: ";
                 $("profile-datavalue1").innerHTML = curData.divisionName;
                 $("profile-datavalue2").innerHTML = curData.statDescription + ": " + curData.stat;
             }
             /***************************END OF FOOTBALL DATA*******************************/
         } else { /***************************DYNAMIC DATA APPLIANCE*******************************/
-
             let dataArray = widgetData.l_data;
-
+            setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
             maxIndex = dataArray.length;
             let curData = dataArray[currentIndex];
+
             //list title
             $("profile-title").innerHTML = widgetData.l_title;
             //current index of list
             let image = checkImage(curData.li_img);
-            $("mainimg").setAttribute('src', image);
+            if(image != null){
+              $("mainimg").setAttribute('src', image);
+            }
 
             $("profile-rank").innerHTML = '#' + curData.li_rank;
             $("mainimg-rank").innerHTML = curData.li_rank;
@@ -377,29 +325,202 @@ function displayWidget() {
 }
 /**************************Display Widget Data END******************/
 
-/*
-//increment index and rerun display widget
-* @function
-*
-* @param
-*/
+
+/********************** SETUP CATEGORY COLORS **********************
+ * @function setCategoryColors
+ * dynamically set the colors of the css Rules for each of the partners
+ *
+ * @param function category - sets the base category for colors that are stored in the global ./css/inheritor/inheritor.css
+ */
+function setCategoryColors(category) {
+    let color;
+    switch (category) {
+        case 'football':
+        case 'nfl':
+        case 'ncaaf':
+        case 'nflncaaf':
+            category = 'football';
+            break;
+        case 'basketball':
+        case 'nba':
+        case 'ncaam':
+            category = 'basketball';
+            break;
+        case 'baseball':
+        case 'mlb':
+            category = 'baseball';
+            break;
+        case "realestate":
+        case "disaster":
+        case "demographics":
+        case "crime":
+        case "weather":
+        case "politics":
+        break;
+        default:
+            category = 'default';
+            break;
+    }
+
+    /* SNT DEFINED CLASSES TO BE FOUND AND USED FOR
+     * function classInheritorReplace(identifier, category)
+     */
+    classInheritorReplace("color_inheritor",category);
+    classInheritorReplace("background_inheritor",category);
+    classInheritorReplace("button_inheritor",category);
+
+    /********************** SETUP CATEGORY COLORS **********************
+     * @function classInheritorReplace
+     * dynamically set the colors of the css Rules each identifier in the html for dynamic colors
+     *
+     * @param function
+     *      identifier - unique identifier in the html used to run a function that replaces the color scheme based on category
+     *      category - sets the base category for colors that are stored in the global ./css/inheritor/inheritor.css
+     */
+    function classInheritorReplace(identifier, category){
+      var htmlClass = document.getElementById(identifier);
+      var re = new RegExp('inheritor',"g");
+      var categoryClass = category == 'default' ? '' : category+'-'; // ex default returns nothing , football-, baseball-
+      var classes = htmlClass.className.split(" ").filter(function(c) {
+        return c.match(re) != null ? c.match(re) : null;
+      });
+      switch(identifier){
+        case "color_inheritor":
+          htmlClass.classList.remove(classes[0]);
+          htmlClass.classList.add(categoryClass+"inheritor");
+        break;
+        case "background_inheritor":
+          htmlClass.classList.remove(classes[0]);
+          htmlClass.classList.add(categoryClass+"inheritor_img_bg");
+        break;
+        case "button_inheritor":
+          for (var i = 0; i < classes.length; i++) {
+            htmlClass.classList.remove(classes[i]);
+          }
+          htmlClass.classList.add(categoryClass+"inheritor_border", categoryClass+"inheritor_bg");
+        break;
+      }
+    }
+
+
+  /**************************************************************DEPRECATED*****************************************************/
+    // color = categoryColors[category];
+    // /************************* CSS CLASS LOOPING *********************
+    //  * @function classLoop
+    //  * Loops throught stylesheet and finds cssName and change the cssRules
+    //  *
+    //  * @param function
+    //  *     cssName - name of css class to change its cssRule
+    //  *     style - the style with specific cases currently available styles => color, border-color, background-color
+    //  *     styleColor - uses color based on the categoryColors and category
+    //  */
+    // function classLoop(cssName, style, styleColor) {
+    //     let styleSheets = getCssSelector("5embed");
+    //
+    //     //delete inheritor rule and RE-APPLY css with new rule (easier when only one cssrule is needed to change)
+    //     if (styleSheets) {
+    //         var attribute = findCss(cssName, styleSheets);
+    //         styleSheets.deleteRule(attribute.index);
+    //         //try catch statements are for ie compatibility
+    //         switch (style) {
+    //             case 'color':
+    //                 try {
+    //                     styleSheets.insertRule('.' + cssName + ' { color: ' + styleColor + ' !important; }', 0);
+    //                 } catch (e) {
+    //                     styleSheets.addRule('.' + cssName, 'color: ' + styleColor + ' !important', 0);
+    //                 }
+    //                 break;
+    //             case 'border-color':
+    //                 try {
+    //                     styleSheets.insertRule('.' + cssName + ' { border-color: ' + styleColor + ' !important; }', 0);
+    //                 } catch (e) {
+    //                     styleSheets.addRule('.' + cssName, 'border-color: ' + styleColor + ' !important', 0);
+    //                 }
+    //                 break;
+    //             case 'background-color':
+    //                 try {
+    //                     styleSheets.insertRule('.' + cssName + ' { background-color: ' + styleColor + ' !important; }', 0);
+    //                 } catch (e) {
+    //                     styleSheets.addRule('.' + cssName, 'background-color: ' + styleColor + ' !important', 0);
+    //                 }
+    //                 break;
+    //             default:
+    //                 break;
+    //         }
+    //     }
+    //
+    // }
+    //
+    // /*********************** GET CSS SELECTOR **********************
+    //  * @function getCssSelector
+    //  * find the css File with the title given to the function
+    //  *
+    //  * @param function title - send in the title to choose which selector
+    //  */
+    // function getCssSelector(title) {
+    //     let selector = document.styleSheets;
+    //     for (var index = 0; index < selector.length; index++) {
+    //         if (selector[index].title == title) {
+    //             return selector[index];
+    //         }
+    //     }
+    // }
+    //
+    // /********************* FIND CSS NAME ******************
+    //  * @function findCss
+    //  * find the the specific css element by the given selector Text (ex: .inheritor , body, html, #profile-name)
+    //  *
+    //  * @param function
+    //  *     cssName - cssName of the rule we want to find
+    //  *     styleSheets - the chosen style seet that we need to change the cssName for
+    //  */
+    // function findCss(cssName, styleSheets) {
+    //     if (styleSheets.cssRules != null) {
+    //         for (var index = 0; index < styleSheets.cssRules.length; index++) {
+    //             if (styleSheets.cssRules[index].selectorText == "." + cssName) {
+    //                 styleSheets.cssRules[index].index = index;
+    //                 return styleSheets.cssRules[index];
+    //             }
+    //         }
+    //     }
+    // }
+    //
+    // //Class Loop will change the color by looping through cssSelector File and changing the given class
+    // classLoop('inheritor', 'color', color);
+    // classLoop('inheritor_border', 'border-color', color);
+    // classLoop('inheritor_img_bg', 'background-color', color);
+    // classLoop('inheritor_bg:hover::before', 'background-color', color);
+/**************************************************************DEPRECATED*****************************************************/
+}
+
+/************************ Update Index *************************
+ * @function updateIndex
+ * increment index and rerun display widget
+ * cannot pass the maximum or minimum
+ *
+ * @param function difference - difference that will be added to current index
+ */
 function updateIndex(difference) {
     currentIndex += difference;
     if (currentIndex < 0) {
         currentIndex = 0;
     } else if (currentIndex >= maxIndex) {
-        currentIndex = maxIndex;
+        currentIndex = maxIndex-1;
     } else {}
     //call display widget
     displayWidget();
 }
 
-/*
-//date format that is used to return the date format in a readable state
-* @function
-*
-* @param
-*/
+/************************ Date Formatter ************************
+ * @function dateFormat
+ * date format that is used to return the date format in a readable state
+ *
+ * @param function (Number) everything comes in as the number
+ *       weekdayNum - display the week day names
+ *       dayNum - display the day number
+ *       monthNum - takes month number and display the name
+ *       yearNum - displays year
+ */
 function dateFormat(weekdayNum, dayNum, monthNum, yearNum) {
     let monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
@@ -412,20 +533,19 @@ function dateFormat(weekdayNum, dayNum, monthNum, yearNum) {
         month: monthNames[monthNum],
         year: yearNum,
     };
-    return formatedDate.weekday + ", " + formatedDate.month + " " + formatedDate.day + ", " + formatedDate.year;
+    return formatedDate;
 }
 
-/*
-//checks if the image is a placement and replace and change the look of the widget
-* @function
-*
-* @param
-*/
+/***************************** CHECK IMAGE ****************************
+ * @function checkImage
+ * checks if the image is a placement and replace and change the look of the widget
+ *
+ * @param function image - tosses in image to be check to be replaced with proper stock photo for the specific category
+ */
 function checkImage(image) {
     let imageReturn;
     let showCover;
-    //set onerror image
-    $("mainimg").setAttribute('onerror', imageUrl + "/01/fallback/stock/2017/03/");
+    $("mainimg").setAttribute('src', '');
 
     //prep return
     if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && window.location.pathname.indexOf('_970') == -1) {
@@ -434,10 +554,11 @@ function checkImage(image) {
     } else {
         var fallbackImg;
         //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
-        switch (query.category) {
+        switch (subCategory) {
             case "football":
             case "nfl":
             case "ncaaf":
+            case "nflncaaf":
                 fallbackImg = "football_stock.jpg";
                 break;
             case "nba":
@@ -450,6 +571,7 @@ function checkImage(image) {
             case "mlb":
                 fallbackImg = "baseball_stock.jpg";
                 break;
+            case "realestate":
             case "disaster":
             case "demographics":
             case "crime":
@@ -458,12 +580,19 @@ function checkImage(image) {
                 fallbackImg = "real_estate_stock.jpg";
                 break;
             default:
-                fallbackImg = "finance_stock.jpg";
+                fallbackImg = null;
         }
-        imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
         showCover = true;
+        //make sure there is a fallback image
+        if(fallbackImg == null){
+          imageReturn = null;
+        }else{
+          imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
+          //sets flag for image api to send back image with set size based on devicePixelRatio
+          imageReturn += "?width=" + (300 * window.devicePixelRatio);
+          $("mainimg").setAttribute('onerror', imageReturn); //SETS ON ERROR IMAGE
+        }
     }
-
     //USED to display background color of category if a fallback image is sent back
     let imageBackground = document.getElementsByClassName('e_image-cover');
     for (var j = 0; j < imageBackground.length; j++) {
@@ -473,7 +602,6 @@ function checkImage(image) {
             imageBackground[j].style.display = 'none';
         }
     }
-    //sets flag for image api to send back image with set size based on devicePixelRatio
-    imageReturn += "?width=" + (300 * window.devicePixelRatio);
+
     return imageReturn;
 }
