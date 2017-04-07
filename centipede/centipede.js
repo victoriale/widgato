@@ -179,8 +179,11 @@ var iframeContent = friendlyIframe.contentWindow;
       margin-left: 2px;
     }
     .ad_spacer {
-      width: 298px;
+      width: 296px;
       height: 100%;
+    }
+    .worm_block:nth-of-type(2n+4) {
+      margin-left:2px;
     }
     .ad_item {
       position: absolute;
