@@ -249,10 +249,9 @@ function runAPI(apiUrl) {//Make it to where it is easy to be reused by anyone
 function displayWidget() {
     try {
         //sets the last updated date
-        var date = new Date();
-
-        var formatedDate = dateFormat(date.getDay(), date.getDate(), date.getMonth(), date.getFullYear());
-        $('profile-updated').innerHTML = formatedDate.weekday + ", " + formatedDate.month + " " + formatedDate.day + ", " + formatedDate.year;
+        // var date = new Date();
+        // var formatedDate = dateFormat(date.getDay(), date.getDate(), date.getMonth(), date.getFullYear());
+        // $('profile-updated').innerHTML = formatedDate.weekday + ", " + formatedDate.month + " " + formatedDate.day + ", " + formatedDate.year;
 
         //Run dynamic color of widget
 
@@ -281,7 +280,8 @@ function displayWidget() {
 
                 $("profile-datapoint1").innerHTML = "Team: ";
                 $("profile-datavalue1").innerHTML = curData.teamName;
-                $("profile-datavalue2").innerHTML = curData.stat + " " + curData.statDescription;
+                $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
+                $("profile-datapoint2").innerHTML =  " " + curData.statDescription;
             } else {
                 let image = checkImage(imageUrl + curData.teamLogo);
                 if(image != null){
@@ -291,7 +291,8 @@ function displayWidget() {
                 $("profile-name").innerHTML = curData.teamName;
                 $("profile-datapoint1").innerHTML = "Division: ";
                 $("profile-datavalue1").innerHTML = curData.divisionName;
-                $("profile-datavalue2").innerHTML = curData.statDescription + ": " + curData.stat;
+                $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
+                $("profile-datapoint2").innerHTML =  ": " + curData.statDescription;
             }
             /***************************END OF FOOTBALL DATA*******************************/
         } else { /***************************DYNAMIC DATA APPLIANCE*******************************/
@@ -314,8 +315,8 @@ function displayWidget() {
             $("profile-name").innerHTML = curData.li_title;
             // $("profile-datapoint1").innerHTML = curData.li_value;
             $("profile-datavalue1").innerHTML = curData.li_sub_txt;
-            $("profile-datavalue2").innerHTML = curData.li_sub_txt;
-            $("profile-datavalue2").innerHTML = curData.li_value + ' ' + curData.li_tag;
+            $("profile-datapoint2").innerHTML = curData.li_tag;
+            $("profile-datavalue2").innerHTML = " " + curData.li_value;
         }
         /***************************END OF DYNAMIC DATA*******************************/
     } catch (e) {
@@ -597,8 +598,10 @@ function checkImage(image) {
     let imageBackground = document.getElementsByClassName('e_image-cover');
     for (var j = 0; j < imageBackground.length; j++) {
         if (showCover) {
+            $("e_image-shader").style.display = "none";
             imageBackground[j].style.display = 'block';
         } else {
+            $("e_image-shader").style.display = "block";
             imageBackground[j].style.display = 'none';
         }
     }

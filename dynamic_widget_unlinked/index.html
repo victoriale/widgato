@@ -23,11 +23,10 @@
                 <img src="../css/public/snt_logo_expand.svg" class="float-left snt_expand"/>
               </div>
           </div>
-          <div class="e_image-shader">
-            <div class="e_image-cover inheritor_img_bg" id="background_inheritor">
-              <span class="pound">#</span>
-              <span id="mainimg-rank">1</span>
-            </div>
+          <div class="e_image-shader" id="e_image-shader"></div>
+          <div class="e_image-cover inheritor_img_bg" id="background_inheritor">
+            <span class="pound">#</span>
+            <span id="mainimg-rank">1</span>
           </div>
           <img id="mainimg" />
           <div class="e_image-title line-clamp" id="profile-title"></div>
@@ -47,18 +46,19 @@
                   </div>
                   <div  class="lh18 text-wrap">
                     <span id="profile-datavalue2"></span>
+                    <span id="profile-datapoint2"></span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="block-date">
-              <div class="profile-last-updated">
+              <!-- <div class="profile-last-updated">
                 <span>Last Updated on </span>
                 <span id="profile-updated"></span>
-              </div>
+              </div> -->
             </div>
           </div>
-          <div class="e_info_box-cta float-left">
+          <div class="e_info_box-cta">
             <button id="button_inheritor" class="cta_button-list leftTransform inheritor_border inheritor_bg" onclick="updateList(1)"><span>Next List</span></button>
             <button class="cta_button-previous rightTransform black_background" onclick="updateIndex(-1)"><i class="fa fa-arrow-left"></i></button>
             <button class="cta_button-next leftTransform black_background" onclick="updateIndex(1)"><i class="fa fa-arrow-right"></i></button>

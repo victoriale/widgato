@@ -98,6 +98,7 @@ button:hover {
 }
 
 .text-wrap{
+  color: #000000;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -183,7 +184,11 @@ button:hover {
   display: none;
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
   opacity: 0.85;
+  z-index: 1;
 }
 
 .pound {
@@ -264,6 +269,11 @@ button:hover {
     font-weight: 900;
 }
 
+.profile-data #profile-datapoint2 {
+    color: #000000;
+    font-size: 14px;
+}
+
 .block-date {
     width: 100%;
     height: auto;
@@ -295,6 +305,7 @@ button:hover {
     height: 100%;
     margin-left: 15px;
     border: 1px solid;
+    font-size: 12px;
     fill: inherit;
     color: inherit;
     background-color: #ffffff;
@@ -369,7 +380,7 @@ button:hover {
     color: #999999 !important;
     width: 57px;
     height: 100%;
-    margin-left: 10px;
+    margin-left: 6px;
     border: 1px solid;
     font-size: 12px;
 }
@@ -385,7 +396,7 @@ button:hover {
     color: #999999 !important;
     width: 57px;
     height: 100%;
-    margin-left: 5px;
+    margin-left: 1px;
     border: 1px solid;
     font-size: 12px;
 }
