@@ -139,6 +139,13 @@ button:hover {
     z-index: 3;
     left: 0;
     bottom: 0;
+
+}
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /*.e_image-carousel:hover {

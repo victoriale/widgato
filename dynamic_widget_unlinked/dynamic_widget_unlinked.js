@@ -548,7 +548,7 @@ function checkImage(image) {
     $("mainimg").setAttribute('src', '');
 
     //prep return
-    if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && window.location.pathname.indexOf('_970') == -1) {
+    if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && image.indexOf('no_player') == -1 && window.location.pathname.indexOf('_970') == -1) {
         imageReturn = image;
         showCover = false;
     } else {
