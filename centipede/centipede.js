@@ -551,22 +551,26 @@ var iframeContent = friendlyIframe.contentWindow;
         </div>
       </div>
     `;
+    firstAd = iframeContent.document.getElementById('first_ad');
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
       setTimeout(function(){ //wait for dom to render before executing igloo script
         var s = iframeContent.document.createElement("script");
         s.type = "text/javascript";
         s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
-        firstAd = iframeContent.document.getElementById('first_ad');
         firstAd.appendChild(s);
       }, 100);
     }
 
+    var outputHTML = "";
+    var maxOutput = 10;
     //every other item (except the first)
-    for (var i = 1; i < items.length && i < 10; i ++) {
+    for (var i = 1; i < items.length && i < maxOutput; i ++) {
       items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
       image = items[i].li_img;
-      worm.innerHTML += `
-        <div class="worm_block">
+      if (Math.abs(i % 2) == 1) { //every odd number
+        outputHTML += `<div class="worm_block">`;
+      }
+      outputHTML += `
           <div class="list_item">
             <div class="profile_image_div" style="background-image:url('`+image+`')">
             <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+(i+1)+`</b></div></div>
@@ -584,10 +588,10 @@ var iframeContent = friendlyIframe.contentWindow;
               </div>
             </div>
           </div>
-        </div>
       `;
       if (i % 2 == 0) { //show ad every even number
-        worm.innerHTML += `
+        outputHTML += `
+        </div>
         <div class="worm_block">
         <div class="ad_spacer"></div>
           <div class="ad_item">
@@ -595,8 +599,9 @@ var iframeContent = friendlyIframe.contentWindow;
           </div>
         </div>`;
       }
-      if (i == items.length) {
-        friendlyIframe.classList.add("widget_loaded");
+      if (i == items.length || i == maxOutput-1) { //fire when done iterating over all items
+        worm.innerHTML += outputHTML; //write out the accumulated item's html
+        friendlyIframe.classList.add("widget_loaded"); //set leaded flag on bounding iframe
       }
     }
   }
@@ -656,13 +661,18 @@ var iframeContent = friendlyIframe.contentWindow;
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
     for (i = 0; i < wormBlocks.length;  i++) {
-      if ((worm.scrollLeft + 180) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 180) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
+      console.log("width ",wormBlocks[i].offsetWidth);
+      console.log("worm left ", worm.scrollLeft + 150, "block left ",wormBlocks[i].offsetLeft,wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth);
+      if ((worm.scrollLeft + 150) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 150) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
+        console.log("firing");
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
         scrollTo = wormBlocks[i].offsetLeft;
         if (worm.scrollLeft < scrollTo) {
+          console.log("advance");
           scrollIncrements = 1;
         }
         else {
+          console.log("retreat");
           scrollIncrements = -1;
         }
         setSmoothScrollInterval = setInterval(function(){
