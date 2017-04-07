@@ -25,19 +25,19 @@
 
 /*******************************FOOTBALL*******************************/
 .football-inheritor {
-    color: #2d3e50;
+    color: #004e87;
 }
 
 .football-inheritor_border{
-    border: 1px solid #2d3e50 !important;
+    border: 1px solid #004e87 !important;
 }
 
 .football-inheritor_img_bg {
-    background-color: #2d3e50 !important;
+    background-color: #004e87 !important;
 }
 
 .football-inheritor_bg:hover:before {
-    background-color: #2d3e50 !important;
+    background-color: #004e87 !important;
 }
 /*******************************FOOTBALL*******************************/
 
