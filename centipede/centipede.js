@@ -179,7 +179,7 @@ var iframeContent = friendlyIframe.contentWindow;
       margin-left: 2px;
     }
     .ad_spacer {
-      width: 300px;
+      width: 298px;
       height: 100%;
     }
     .ad_item {
@@ -625,12 +625,12 @@ var iframeContent = friendlyIframe.contentWindow;
     }
     var rect = firstAd.getBoundingClientRect();
     if (rect.left < -320) { //logic to jump ad to next space when you scroll past it
-      // console.log("fire move next");
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*301) + 300) + "px";
+      // console.log("fire move ad next");
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) + 300) + "px";
     }
      else if (rect.left > 320) { //logic to jump ad to prev space when you scroll past it
-      // console.log("fire move prev");
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*301) - 300) + "px";
+      // console.log("fire move ad prev");
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) - 300) + "px";
     }
     clearTimeout(scrollingTimout);
     scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
