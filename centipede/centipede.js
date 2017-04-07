@@ -696,9 +696,11 @@ var iframeContent = friendlyIframe.contentWindow;
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
+          iframeContent.ig_rotation_control=true;
         }
         else {
           helper.style.opacity = '1';
+          iframeContent.ig_rotation_control=false;
         }
         return;
       }
