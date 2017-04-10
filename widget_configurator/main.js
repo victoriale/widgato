@@ -186,13 +186,13 @@ var options = {
       type: "select",
       options: ["nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
     },
-    card:{
+    group:{
       default: "sports",
       enabled: true,
       explanation: "The card of lists and style of widget to use.",
-      name: "Card",
+      name: "Group",
       type: "select",
-      options: ["sports","weather","money"]
+      options: ["","sports","weather","money"]
     },
     sub_category:{
       default: "",
@@ -214,9 +214,9 @@ var options = {
       explanation: "The environment to use when calling the backend API.",
       name: "API Environment",
       type: "select",
-      options: ["prod-","dev-"]
+      options: ["prod","qa","dev"]
     },
-    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","card":"<card>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
+    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","group":"<group>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
 
   dynamic_article_widget:{
