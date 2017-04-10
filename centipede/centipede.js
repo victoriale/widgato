@@ -384,7 +384,7 @@ var iframeContent = friendlyIframe.contentWindow;
       crime: {
         hex: "#43B149"
       },
-      dempgraphics: {
+      demographics: {
         hex: "#43B149"
       },
       politics: {
