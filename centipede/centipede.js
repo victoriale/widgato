@@ -656,6 +656,7 @@ var iframeContent = friendlyIframe.contentWindow;
   }
   worm.addEventListener("touchstart", onFingerDown);
   function onFingerDown(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+    console.log("new touch event - canceled interpolation");
     clearTimeout(setSmoothScrollInterval);
   }
 
@@ -666,20 +667,40 @@ var iframeContent = friendlyIframe.contentWindow;
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
         scrollTo = wormBlocks[i].offsetLeft;
         if (worm.scrollLeft < scrollTo) {
-          scrollIncrements = 2; //advance
+          scrollIncrements = 10; //advance
         }
         else {
-          scrollIncrements = -2; //retreat
+          scrollIncrements = -10; //retreat
         }
         setSmoothScrollInterval = setInterval(function(){
           var marginOfError = Math.abs(scrollIncrements) - 1;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
+            if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
+              scrollIncrements = -1;
+            }
+            else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
+              scrollIncrements = 1;
+            }
             //if within margin of error of target, end scroll
             if (i == (wormBlocks.length - 1)) {
               clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
               worm.scrollLeft = worm.scrollLeft + scrollIncrements; //apply the interpolation step
+            }
+          }
+          else if (worm.scrollLeft < (scrollTo) || worm.scrollLeft > (scrollTo)) {// if in the last frame of interpolation
+            if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
+              scrollIncrements = -1;
+            }
+            else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
+              scrollIncrements = 1;
+            }
+            if (i == (wormBlocks.length - 1)) {
+              clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
+            }
+            else {
+              worm.scrollLeft = worm.scrollLeft + 1; //apply the interpolation step
             }
           }
           else { //we have reached the end of the interpolation. stop the loop
@@ -689,7 +710,7 @@ var iframeContent = friendlyIframe.contentWindow;
             }, 500);
             clearTimeout(setSmoothScrollInterval);
           }
-        }, 2);
+        }, 20);
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
