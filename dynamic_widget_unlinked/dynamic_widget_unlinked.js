@@ -75,7 +75,7 @@ function setupEnvironment(widgetQuery) {
     apiCallUrl = protocolToUse;
     let dom = widgetQuery.dom;
     let cat = widgetQuery.category;
-    let group = widgetQuery.group;
+    let group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
     let environment = window.location.hostname.split('.')[0];
     let env;
     if(widgetQuery.env != null){
