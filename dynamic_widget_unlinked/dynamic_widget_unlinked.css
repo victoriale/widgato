@@ -67,7 +67,7 @@ button:hover {
   width: 6px;
   height: 9px;
   position: absolute;
-  left: 5px;
+  left: 4px;
   top: 3px;
   z-index: 11;
 }

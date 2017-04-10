@@ -12,19 +12,19 @@ var widgetData; // api returns is sent here
 var tries = 0; // flag for api to try atleast 10 times before failing completely
 var listRand = 0; // used to increment index of random list in database
 var subCategory; // with a vast amount cards and categories need we need the currently shown category for the rest of the code
-var categoryColors = { // Brand Color Palette
-    'football': '#2d3e50',
-    'basketball': '#f7701d',
-    'baseball': '#bc2027',
-    'finance': '#3098ff',
-    'realestate': '#43B149',
-    'lifestyle': '#65398e',
-    'disaster': '#902d8e',
-    'politics': '#ff0101',
-    'crime': '#f6af05',
-    'weather': '#ffdf30',
-    'default': '#00b9e3',
-};
+// var categoryColors = { // Brand Color Palette
+//     'football': '#2d3e50',
+//     'basketball': '#f7701d',
+//     'baseball': '#bc2027',
+//     'finance': '#3098ff',
+//     'realestate': '#43B149',
+//     'lifestyle': '#65398e',
+//     'disaster': '#902d8e',
+//     'politics': '#ff0101',
+//     'crime': '#f6af05',
+//     'weather': '#ffdf30',
+//     'default': '#00b9e3',
+// };
 
 //Initial load Waits for the DOMContent to load
 document.addEventListener("DOMContentLoaded", function(event) {// TAKE ANOTHER LOOK AT THIS AND ONLOAD function both can be optimized
@@ -297,6 +297,9 @@ function displayWidget() {
             /***************************END OF FOOTBALL DATA*******************************/
         } else { /***************************DYNAMIC DATA APPLIANCE*******************************/
             let dataArray = widgetData.l_data;
+            if(widgetData.category != null){
+              subCategory = widgetData.category;
+            }
             setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
             maxIndex = dataArray.length;
