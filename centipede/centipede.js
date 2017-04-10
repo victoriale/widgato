@@ -16,7 +16,7 @@ var iframeContent = friendlyIframe.contentWindow;
       border: none;
       margin: 0;
       padding: 0;
-      -webkit-overflow-scrolling: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .icon {
       background-position: 50%;
@@ -57,7 +57,7 @@ var iframeContent = friendlyIframe.contentWindow;
       color: black;
       -webkit-backdrop-filter: blur(3px);
       backdrop-filter: blur(3px);
-      background-color: rgba(248, 248, 248, 0.9);
+      background-color: rgba(248, 248, 248, 0.8);
       transition: opacity 0.2s ease-in-out;
       z-index: 9999;
     }
@@ -354,7 +354,6 @@ var iframeContent = friendlyIframe.contentWindow;
   var firstAd;
 
   if (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1) {
-    console.log("set cat default");
       input.category = 'finance'; //default category fallback
   }
   friendlyIframe.classList.add("centipede_"+input.category);
@@ -530,9 +529,9 @@ var iframeContent = friendlyIframe.contentWindow;
     worm.innerHTML = `
       <div class="worm_block">
         <div class="list_item">
-          <div class="profile_image_div" style="background-image:url('`+image+`')">
+          <div class="profile_image_div" style="background-image:url('`+image+"?width=138"+`')">
           <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>1</b></div></div>
-            <img class="profile_image" src="`+image+`">
+            <img class="profile_image" src="`+image+"?width=138"+`">
           </div>
           <div class="info">
             <div class="name">
@@ -576,9 +575,9 @@ var iframeContent = friendlyIframe.contentWindow;
       }
       outputHTML += `
           <div class="list_item">
-            <div class="profile_image_div" style="background-image:url('`+image+`')">
+            <div class="profile_image_div" style="background-image:url('`+image+"?width=138"+`')">
             <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+(i+1)+`</b></div></div>
-              <img class="profile_image" src="`+image+`">
+              <img class="profile_image" src="`+image+"?width=138"+`">
             </div>
             <div class="info">
               <div class="name">
@@ -628,11 +627,9 @@ var iframeContent = friendlyIframe.contentWindow;
     }
     var rect = firstAd.getBoundingClientRect();
     if (rect.left < -320) { //logic to jump ad to next space when you scroll past it
-      // console.log("fire move ad next");
       firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) + 300) + "px";
     }
      else if (rect.left > 320) { //logic to jump ad to prev space when you scroll past it
-      // console.log("fire move ad prev");
       firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) - 300) + "px";
     }
     clearTimeout(scrollingTimout);
@@ -696,11 +693,11 @@ var iframeContent = friendlyIframe.contentWindow;
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
-          iframeContent.ig_rotation_control=true;
+          iframeContent.ig_rotation_control=true; //unpause ad if its in view
         }
         else {
           helper.style.opacity = '1';
-          iframeContent.ig_rotation_control=false;
+          iframeContent.ig_rotation_control=false; //pause ad when its out of view
         }
         return;
       }
