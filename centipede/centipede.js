@@ -666,13 +666,13 @@ var iframeContent = friendlyIframe.contentWindow;
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
         scrollTo = wormBlocks[i].offsetLeft;
         if (worm.scrollLeft < scrollTo) {
-          scrollIncrements = 1; //advance
+          scrollIncrements = 2; //advance
         }
         else {
-          scrollIncrements = -1; //retreat
+          scrollIncrements = -2; //retreat
         }
         setSmoothScrollInterval = setInterval(function(){
-          var marginOfError = 0;
+          var marginOfError = Math.abs(scrollIncrements) - 1;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
             //if within margin of error of target, end scroll
             if (i == (wormBlocks.length - 1)) {
