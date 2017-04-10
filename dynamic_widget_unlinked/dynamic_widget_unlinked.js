@@ -11,7 +11,7 @@ var maxIndex = 1; //declare max index of returned data (default = 1)
 var widgetData; // api returns is sent here
 var tries = 0; // flag for api to try atleast 10 times before failing completely
 var listRand = 0; // used to increment index of random list in database
-var subCategory; // with a vast amount cards and categories need we need the currently shown category for the rest of the code
+var subCategory; // with a vast amount groups and categories need we need the currently shown category for the rest of the code
 // var categoryColors = { // Brand Color Palette
 //     'football': '#2d3e50',
 //     'basketball': '#f7701d',
@@ -67,26 +67,25 @@ function setupEnvironment(widgetQuery) {
     apiCallUrl = protocolToUse;
     let dom = widgetQuery.dom;
     let cat = widgetQuery.category;
-    let card = widgetQuery.card;
+    let group = widgetQuery.group;
+    let environment = window.location.hostname.split('.')[0];
     let env;
     if(widgetQuery.env != null){
       env = widgetQuery.env ? widgetQuery.env : 'prod-';
     }else{
-      let environment = window.location.hostname.split('.')[0];
       env =  environment == 'localhost' || environment == 'dev' || environment == 'qa' ? getEnv(environment)+'-' : 'prod-';
     }
-
     //setup Image Environment api
     imageUrl = env == "dev-" ? protocolToUse + env + imageUrl : protocolToUse + imageUrl; // this is global call that is used for images
 
-    //if card doesnt exist and category is football
-    if (widgetQuery.card == null && (widgetQuery.category == 'nfl' || widgetQuery.category == 'ncaaf' || widgetQuery.category == 'football' || widgetQuery.category == 'nflncaaf')) {
+    //if group doesnt exist and category is football
+    if (widgetQuery.group == null && (widgetQuery.category == 'nfl' || widgetQuery.category == 'ncaaf' || widgetQuery.category == 'football' || widgetQuery.category == 'nflncaaf')) {
         subCategory = widgetQuery.category;
         apiCallUrl += env + "touchdownloyal-api.synapsys.us/list/";
     } else {
-        //if card does exist here then add card query parameter otherwise add categeory parameter for api
-        if (widgetQuery.card != null && widgetQuery.card != "") {
-            apiCallUrl += dwApi + "?card=" + card;
+        //if group does exist here then add group query parameter otherwise add categeory parameter for api
+        if (widgetQuery.group != null && widgetQuery.group != "") {
+            apiCallUrl += dwApi + "?card=" + group;
         } else {
             subCategory = widgetQuery.category;
             apiCallUrl += dwApi + "?cat=" + cat;
@@ -106,7 +105,7 @@ function setupEnvironment(widgetQuery) {
  * @param function listNum - list number incremented that will be added to the listRand with listNum
  */
 function updateList(listNum) {
-    if (query.card == null && (query.category == 'nfl' || query.category == 'ncaaf' || query.category == 'football')) {
+    if (query.group == null && (query.category == 'nfl' || query.category == 'ncaaf' || query.category == 'football')) {
         getFootballList(query.category);
     } else {
         listRand = Number(listRand) + Number(listNum);
@@ -256,7 +255,7 @@ function displayWidget() {
         //Run dynamic color of widget
 
         /***************************FOOTBALL DATA APPLIANCE*******************************/
-        if (query.card == null && (query.category == "football" || query.category == "nfl" || query.category == "ncaaf")) {
+        if (query.group == null && (query.category == "football" || query.category == "nfl" || query.category == "ncaaf")) {
             let dataArray = widgetData.data.listData;
             setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
@@ -348,6 +347,7 @@ function setCategoryColors(category) {
         case 'basketball':
         case 'nba':
         case 'ncaam':
+        case 'college_basketball':
             category = 'basketball';
             break;
         case 'baseball':
@@ -558,6 +558,7 @@ function checkImage(image) {
     } else {
         var fallbackImg;
         //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
+
         switch (subCategory) {
             case "football":
             case "nfl":
@@ -565,7 +566,9 @@ function checkImage(image) {
             case "nflncaaf":
                 fallbackImg = "football_stock.jpg";
                 break;
+            case 'basketball':
             case "nba":
+            case 'ncaam':
             case "college_basketball":
                 fallbackImg = "basketball_stock.jpg";
                 break;
