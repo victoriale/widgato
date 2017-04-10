@@ -626,10 +626,10 @@ var iframeContent = friendlyIframe.contentWindow;
       helper2.style.opacity = '1';
     }
     var rect = firstAd.getBoundingClientRect();
-    if (rect.left < -320) { //logic to jump ad to next space when you scroll past it
+    if (rect.left < -300 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 300)) % 2 == 0) { //logic to jump ad to next space when you scroll past it
       firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) + 300) + "px";
     }
-     else if (rect.left > 320) { //logic to jump ad to prev space when you scroll past it
+     else if (rect.left > 300 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 300) % 2) == 1) { //logic to jump ad to prev space when you scroll past it
       firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) - 300) + "px";
     }
     clearTimeout(scrollingTimout);
