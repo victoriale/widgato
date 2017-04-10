@@ -10,6 +10,7 @@ var currentIndex = 0; // current index of an array which (default = 0)
 var maxIndex = 1; //declare max index of returned data (default = 1)
 var widgetData; // api returns is sent here
 var tries = 0; // flag for api to try atleast 10 times before failing completely
+var maxTries = 5;
 var listRand = 0; // used to increment index of random list in database
 var subCategory; // with a vast amount groups and categories need we need the currently shown category for the rest of the code
 // var categoryColors = { // Brand Color Palette
@@ -27,7 +28,7 @@ var subCategory; // with a vast amount groups and categories need we need the cu
 // };
 
 //Initial load Waits for the DOMContent to load
-document.addEventListener("DOMContentLoaded", function(event) {// TAKE ANOTHER LOOK AT THIS AND ONLOAD function both can be optimized
+document.addEventListener("DOMContentLoaded", function(event) { // TAKE ANOTHER LOOK AT THIS AND ONLOAD function both can be optimized
     //if no query is snet then nothing is shown
     if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
@@ -43,25 +44,27 @@ document.addEventListener("DOMContentLoaded", function(event) {// TAKE ANOTHER L
     }
 });
 
-function getEnv(env){
-  if (env == "localhost"){
-      env = "dev";
-  }
-  if (env != "dev" && env !="qa"){
-      env = "prod";
-  }
-  return env;
+function getEnv(env) {
+    if (env.match(/localhost/g) != null || env.match(/dev/g) != null) {
+        env = "dev";
+    } else if (env.match(/qa/g) != null) {
+        env = "qa";
+    } else {
+        env = "prod";
+    }
+    return env;
 }
 
+//DEPRECATED WILL BE REPLACED WITH getENV
 function synapsysENV(env) {
-  if(env == 'localhost' || env == 'dev'){
-    env = 'dev-';
-  }else if(env == 'qa'){
-    env = 'qa-';
-  }else{
-    env = '';
-  }
-  return env;
+    if (env.match(/localhost/g) != null || env.match(/dev/g) != null) {
+        env = 'dev-';
+    } else if (env.match(/qa/g) == 'qa') {
+        env = 'qa-';
+    } else {
+        env = '';
+    }
+    return env;
 }
 
 /***************************** SETUP ENVIRONMENTS ******************************
@@ -78,15 +81,15 @@ function setupEnvironment(widgetQuery) {
     let group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
     let environment = window.location.hostname.split('.')[0];
     let env;
-    if(widgetQuery.env != null){
-      env = widgetQuery.env ? widgetQuery.env : 'prod';
-    }else{
-      env =  getEnv(environment);
+    if (widgetQuery.env != null) {
+        env = widgetQuery.env ? widgetQuery.env : 'prod';
+    } else {
+        env = getEnv(environment);
     }
 
     /*
-    * NOTE synapsysENV WILL NEED TO BE REPLACED with getENV
-    */
+     * NOTE synapsysENV DEPRECATED - WILL NEED TO BE REPLACED with getENV
+     */
 
     //setup Image Environment api
     imageUrl = protocolToUse + synapsysENV(environment) + imageUrl; // this is global call that is used for images
@@ -94,7 +97,7 @@ function setupEnvironment(widgetQuery) {
     //if group doesnt exist and category is football
     if (widgetQuery.group == null && (widgetQuery.category == 'nfl' || widgetQuery.category == 'ncaaf' || widgetQuery.category == 'football' || widgetQuery.category == 'nflncaaf')) {
         subCategory = widgetQuery.category;
-        apiCallUrl += env + "-touchdownloyal-api.synapsys.us/list/";
+        apiCallUrl += env + "-" + tdlApi;
     } else {
         //if group does exist here then add group query parameter otherwise add categeory parameter for api
         if (widgetQuery.group != null && widgetQuery.group != "") {
@@ -213,7 +216,7 @@ function onLoad(func) {
  *
  * @param function apiUrl -
  */
-function runAPI(apiUrl) {//Make it to where it is easy to be reused by anyone
+function runAPI(apiUrl) { //Make it to where it is easy to be reused by anyone
     //variable that stores the response of an http request
     if (window.XMLHttpRequest) {
         var xhttp = new XMLHttpRequest();
@@ -238,9 +241,9 @@ function runAPI(apiUrl) {//Make it to where it is easy to be reused by anyone
                     }
                 }
                 msg = 'HTTP Error (' + this.status + '): ' + msg;
-                if (tries++ > 10) { // IF WIDGET FAILS THEN HIDE THE ENTIRE CONTAINER
+                if (tries++ > maxTries) { // IF WIDGET FAILS THEN HIDE THE ENTIRE CONTAINER
                     document.getElementsByClassName('e_container')[0].style.display = 'none';
-                    throw msg + " | hiding widget container";
+                    throw msg + " | hiding widget container | => PLEASE CONTACT YOUR PROVIDER";
                 }
                 setTimeout(runAPI(apiUrl), 500)
             }
@@ -284,8 +287,8 @@ function displayWidget() {
             //current index of a player or team to display
             if (curData.rankType == "player") {
                 let image = checkImage(imageUrl + curData.playerHeadshotUrl);
-                if(image != null){
-                  $("mainimg").setAttribute('src', image);
+                if (image != null) {
+                    $("mainimg").setAttribute('src', image);
                 }
 
                 $("profile-name").innerHTML = curData.playerFirstName + " " + curData.playerLastName;
@@ -293,24 +296,24 @@ function displayWidget() {
                 $("profile-datapoint1").innerHTML = "Team: ";
                 $("profile-datavalue1").innerHTML = curData.teamName;
                 $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
-                $("profile-datapoint2").innerHTML =  " " + curData.statDescription;
+                $("profile-datapoint2").innerHTML = " " + curData.statDescription;
             } else {
                 let image = checkImage(imageUrl + curData.teamLogo);
-                if(image != null){
-                  $("mainimg").setAttribute('src', image);
+                if (image != null) {
+                    $("mainimg").setAttribute('src', image);
                 }
 
                 $("profile-name").innerHTML = curData.teamName;
                 $("profile-datapoint1").innerHTML = "Division: ";
                 $("profile-datavalue1").innerHTML = curData.divisionName;
                 $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
-                $("profile-datapoint2").innerHTML =  ": " + curData.statDescription;
+                $("profile-datapoint2").innerHTML = ": " + curData.statDescription;
             }
             /***************************END OF FOOTBALL DATA*******************************/
         } else { /***************************DYNAMIC DATA APPLIANCE*******************************/
             let dataArray = widgetData.l_data;
-            if(widgetData.category != null){
-              subCategory = widgetData.category;
+            if (widgetData.category != null) {
+                subCategory = widgetData.category;
             }
             setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
@@ -321,8 +324,8 @@ function displayWidget() {
             $("profile-title").innerHTML = widgetData.l_title;
             //current index of list
             let image = checkImage(curData.li_img);
-            if(image != null){
-              $("mainimg").setAttribute('src', image);
+            if (image != null) {
+                $("mainimg").setAttribute('src', image);
             }
 
             $("profile-rank").innerHTML = '#' + curData.li_rank;
@@ -373,7 +376,7 @@ function setCategoryColors(category) {
         case "crime":
         case "weather":
         case "politics":
-        break;
+            break;
         default:
             category = 'default';
             break;
@@ -382,9 +385,9 @@ function setCategoryColors(category) {
     /* SNT DEFINED CLASSES TO BE FOUND AND USED FOR
      * function classInheritorReplace(identifier, category)
      */
-    classInheritorReplace("color_inheritor",category);
-    classInheritorReplace("background_inheritor",category);
-    classInheritorReplace("button_inheritor",category);
+    classInheritorReplace("color_inheritor", category);
+    classInheritorReplace("background_inheritor", category);
+    classInheritorReplace("button_inheritor", category);
 
     /********************** SETUP CATEGORY COLORS **********************
      * @function classInheritorReplace
@@ -394,33 +397,33 @@ function setCategoryColors(category) {
      *      identifier - unique identifier in the html used to run a function that replaces the color scheme based on category
      *      category - sets the base category for colors that are stored in the global ./css/inheritor/inheritor.css
      */
-    function classInheritorReplace(identifier, category){
-      var htmlClass = document.getElementById(identifier);
-      var re = new RegExp('inheritor',"g");
-      var categoryClass = category == 'default' ? '' : category+'-'; // ex default returns nothing , football-, baseball-
-      var classes = htmlClass.className.split(" ").filter(function(c) {
-        return c.match(re) != null ? c.match(re) : null;
-      });
-      switch(identifier){
-        case "color_inheritor":
-          htmlClass.classList.remove(classes[0]);
-          htmlClass.classList.add(categoryClass+"inheritor");
-        break;
-        case "background_inheritor":
-          htmlClass.classList.remove(classes[0]);
-          htmlClass.classList.add(categoryClass+"inheritor_img_bg");
-        break;
-        case "button_inheritor":
-          for (var i = 0; i < classes.length; i++) {
-            htmlClass.classList.remove(classes[i]);
-          }
-          htmlClass.classList.add(categoryClass+"inheritor_border", categoryClass+"inheritor_bg");
-        break;
-      }
+    function classInheritorReplace(identifier, category) {
+        var htmlClass = document.getElementById(identifier);
+        var re = new RegExp('inheritor', "g");
+        var categoryClass = category == 'default' ? '' : category + '-'; // ex default returns nothing , football-, baseball-
+        var classes = htmlClass.className.split(" ").filter(function(c) {
+            return c.match(re) != null ? c.match(re) : null;
+        });
+        switch (identifier) {
+            case "color_inheritor":
+                htmlClass.classList.remove(classes[0]);
+                htmlClass.classList.add(categoryClass + "inheritor");
+                break;
+            case "background_inheritor":
+                htmlClass.classList.remove(classes[0]);
+                htmlClass.classList.add(categoryClass + "inheritor_img_bg");
+                break;
+            case "button_inheritor":
+                for (var i = 0; i < classes.length; i++) {
+                    htmlClass.classList.remove(classes[i]);
+                }
+                htmlClass.classList.add(categoryClass + "inheritor_border", categoryClass + "inheritor_bg");
+                break;
+        }
     }
 
 
-  /**************************************************************DEPRECATED*****************************************************/
+    /**************************************************************DEPRECATED*****************************************************/
     // color = categoryColors[category];
     // /************************* CSS CLASS LOOPING *********************
     //  * @function classLoop
@@ -507,7 +510,7 @@ function setCategoryColors(category) {
     // classLoop('inheritor_border', 'border-color', color);
     // classLoop('inheritor_img_bg', 'background-color', color);
     // classLoop('inheritor_bg:hover::before', 'background-color', color);
-/**************************************************************DEPRECATED*****************************************************/
+    /**************************************************************DEPRECATED*****************************************************/
 }
 
 /************************ Update Index *************************
@@ -522,7 +525,7 @@ function updateIndex(difference) {
     if (currentIndex < 0) {
         currentIndex = 0;
     } else if (currentIndex >= maxIndex) {
-        currentIndex = maxIndex-1;
+        currentIndex = maxIndex - 1;
     } else {}
     //call display widget
     displayWidget();
@@ -603,13 +606,13 @@ function checkImage(image) {
         }
         showCover = true;
         //make sure there is a fallback image
-        if(fallbackImg == null){
-          imageReturn = null;
-        }else{
-          imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
-          //sets flag for image api to send back image with set size based on devicePixelRatio
-          imageReturn += "?width=" + (300 * window.devicePixelRatio);
-          $("mainimg").setAttribute('onerror', imageReturn); //SETS ON ERROR IMAGE
+        if (fallbackImg == null) {
+            imageReturn = null;
+        } else {
+            imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
+            //sets flag for image api to send back image with set size based on devicePixelRatio
+            imageReturn += "?width=" + (300 * window.devicePixelRatio);
+            $("mainimg").setAttribute('onerror', imageReturn); //SETS ON ERROR IMAGE
         }
     }
     //USED to display background color of category if a fallback image is sent back
