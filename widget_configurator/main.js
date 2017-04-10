@@ -192,7 +192,7 @@ var options = {
       explanation: "The card of lists and style of widget to use.",
       name: "Group",
       type: "select",
-      options: ["sports","weather","money"]
+      options: ["","sports","weather","money"]
     },
     sub_category:{
       default: "",
