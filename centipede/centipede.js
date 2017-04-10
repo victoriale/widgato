@@ -1,3 +1,4 @@
+var centipede = function() {
 //create friendly iframe to place ourselves inside
 var countSelf = document.getElementsByClassName("centipedeIframe");
 var friendlyIframe = document.createElement('iframe');
@@ -758,3 +759,5 @@ var iframeContent = friendlyIframe.contentWindow;
     //   currentBlock = (currentBlock + 1);
     // }
   }
+}
+centipede();
