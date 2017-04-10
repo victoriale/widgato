@@ -50,9 +50,17 @@ function getEnv(env){
   if (env != "dev" && env !="qa"){
       env = "prod";
   }
+  return env;
+}
 
-  //env = "prod"; //TODO remove only used for testing
-
+function synapsysENV(env) {
+  if(env == 'localhost' || env == 'dev'){
+    env = 'dev-';
+  }else if(env == 'qa'){
+    env = 'qa-';
+  }else{
+    env = '';
+  }
   return env;
 }
 
@@ -71,24 +79,29 @@ function setupEnvironment(widgetQuery) {
     let environment = window.location.hostname.split('.')[0];
     let env;
     if(widgetQuery.env != null){
-      env = widgetQuery.env ? widgetQuery.env : 'prod-';
+      env = widgetQuery.env ? widgetQuery.env : 'prod';
     }else{
-      env =  environment == 'localhost' || environment == 'dev' || environment == 'qa' ? getEnv(environment)+'-' : 'prod-';
+      env =  getEnv(environment);
     }
+
+    /*
+    * NOTE synapsysENV WILL NEED TO BE REPLACED with getENV
+    */
+
     //setup Image Environment api
-    imageUrl = env == "dev-" ? protocolToUse + env + imageUrl : protocolToUse + imageUrl; // this is global call that is used for images
+    imageUrl = protocolToUse + synapsysENV(environment) + imageUrl; // this is global call that is used for images
 
     //if group doesnt exist and category is football
     if (widgetQuery.group == null && (widgetQuery.category == 'nfl' || widgetQuery.category == 'ncaaf' || widgetQuery.category == 'football' || widgetQuery.category == 'nflncaaf')) {
         subCategory = widgetQuery.category;
-        apiCallUrl += env + "touchdownloyal-api.synapsys.us/list/";
+        apiCallUrl += env + "-touchdownloyal-api.synapsys.us/list/";
     } else {
         //if group does exist here then add group query parameter otherwise add categeory parameter for api
         if (widgetQuery.group != null && widgetQuery.group != "") {
-            apiCallUrl += dwApi + "?card=" + group;
+            apiCallUrl += synapsysENV(environment) + dwApi + "?group=" + group;
         } else {
             subCategory = widgetQuery.category;
-            apiCallUrl += dwApi + "?cat=" + cat;
+            apiCallUrl += synapsysENV(environment) + dwApi + "?cat=" + cat;
         }
 
         if (dom != null && dom != "") {
@@ -558,7 +571,6 @@ function checkImage(image) {
     } else {
         var fallbackImg;
         //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
-
         switch (subCategory) {
             case "football":
             case "nfl":
@@ -611,6 +623,5 @@ function checkImage(image) {
             imageBackground[j].style.display = 'none';
         }
     }
-
     return imageReturn;
 }

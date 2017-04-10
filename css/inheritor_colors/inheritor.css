@@ -43,19 +43,19 @@
 
 /*******************************BASKETBALL*******************************/
 .basketball-inheritor {
-    color: #f7701d;
+    color: #e26e26;
 }
 
 .basketball-inheritor_border{
-    border: 1px solid #f7701d !important;
+    border: 1px solid #e26e26 !important;
 }
 
 .basketball-inheritor_img_bg {
-    background-color: #f7701d !important;
+    background-color: #e26e26 !important;
 }
 
 .basketball-inheritor_bg:hover:before {
-    background-color: #f7701d !important;
+    background-color: #e26e26 !important;
 }
 /*******************************BASKETBALL*******************************/
 
