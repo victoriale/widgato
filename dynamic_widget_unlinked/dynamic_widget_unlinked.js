@@ -122,6 +122,7 @@ function setupEnvironment(widgetQuery) {
  * @param function listNum - list number incremented that will be added to the listRand with listNum
  */
 function updateList(listNum) {
+    currentIndex = 0;
     if (query.group == null && (query.category == 'nfl' || query.category == 'ncaaf' || query.category == 'football')) {
         getFootballList(query.category);
     } else {
