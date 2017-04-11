@@ -243,9 +243,9 @@ dynamic_widget = function() {
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
         // hardcoding nba to point at ncaam
-        if (l.category == "nba") {
-          l.category = "college_basketball";
-        }
+        // if (l.category == "nba") {
+        //   l.category = "college_basketball";
+        // }
         if (l.env != "prod-" && l.env != "dev-") {
           l.env = "prod-";
         }
@@ -736,14 +736,17 @@ function p() {
         }
         // fallbackImg += "?width=" + (300 * window.devicePixelRatio);
         // $('carouselOverlay').className = cssClass;
-        if (l.category == "college_basketball" || l.category == "nba") {
-          if (e.player_wide_img != "" && e.player_wide_img != null) {
-            e.li_img = "//" + l.env + "images.synapsys.us" + e.player_wide_img;
-          }
-          else {
-            e.li_img = "//" + l.env + "images.synapsys.us" + e.team_wide_img;
-          }
-        }
+
+        //player live image logic
+        // if (l.category == "college_basketball" || l.category == "nba") {
+        //   if (e.player_wide_img != "" && e.player_wide_img != null) {
+        //     e.li_img = "//" + l.env + "images.synapsys.us" + e.player_wide_img;
+        //   }
+        //   else {
+        //     e.li_img = "//" + l.env + "images.synapsys.us" + e.team_wide_img;
+        //   }
+        // }
+
         if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1 || e.li_img.indexOf("_stock") != -1 ||  window.location.pathname.indexOf('_970') != -1) {
           t.setAttribute('src', fallbackImg + "?width=" + (300 * window.devicePixelRatio));
           $('carouselOverlay').style.display = "block";
