@@ -245,7 +245,7 @@ function runAPI(apiUrl) { //Make it to where it is easy to be reused by anyone
                 msg = 'HTTP Error (' + this.status + '): ' + msg;
                 if ( tries > (maxTries - 2) ){
                   console.warn( msg + " | hiding widget container | => SWAPPING TO FALLBACK" );
-                  apiUrl = fallBackApi;
+                  apiUrl = fallBackApi+"&rand=1";
                   apiCallUrl = fallBackApi;
                 }
                 if (tries++ > maxTries) { // IF WIDGET FAILS THEN HIDE THE ENTIRE CONTAINER
