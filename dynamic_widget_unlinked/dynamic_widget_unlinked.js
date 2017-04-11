@@ -34,12 +34,11 @@ document.addEventListener("DOMContentLoaded", function(event) { // TAKE ANOTHER 
     if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         listRand = query.rand ? query.rand : 1;
-
         //FIRST THING IS SETUP ENVIRONMENTS
         setupEnvironment(query);
 
         //THEN START UPDATING THE LISTS
-        updateList(listRand);
+        updateList(0);
     } else {
         console.log('No query found on widget');
     }
@@ -572,56 +571,55 @@ function dateFormat(weekdayNum, dayNum, monthNum, yearNum) {
 function checkImage(image) {
     let imageReturn;
     let showCover;
+    var fallbackImg;
+
     $("mainimg").setAttribute('src', '');
+
+    //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
+    switch (subCategory) {
+      case "football":
+      case "nfl":
+      case "ncaaf":
+      case "nflncaaf":
+      fallbackImg = "football_stock.jpg";
+      break;
+      case 'basketball':
+      case "nba":
+      case 'ncaam':
+      case "college_basketball":
+      fallbackImg = "basketball_stock.jpg";
+      break;
+      case "finance":
+      fallbackImg = "finance_stock.jpg";
+      break;
+      case "mlb":
+      fallbackImg = "baseball_stock.jpg";
+      break;
+      case "realestate":
+      case "disaster":
+      case "demographics":
+      case "crime":
+      case "weather":
+      case "politics":
+      fallbackImg = "real_estate_stock.jpg";
+      break;
+      default:
+      fallbackImg = "finance_stock.jpg";
+    }
 
     //prep return
     if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && image.indexOf('no_player') == -1 && window.location.pathname.indexOf('_970') == -1) {
         imageReturn = image;
         showCover = false;
     } else {
-        var fallbackImg;
-        //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
-        switch (subCategory) {
-            case "football":
-            case "nfl":
-            case "ncaaf":
-            case "nflncaaf":
-                fallbackImg = "football_stock.jpg";
-                break;
-            case 'basketball':
-            case "nba":
-            case 'ncaam':
-            case "college_basketball":
-                fallbackImg = "basketball_stock.jpg";
-                break;
-            case "finance":
-                fallbackImg = "finance_stock.jpg";
-                break;
-            case "mlb":
-                fallbackImg = "baseball_stock.jpg";
-                break;
-            case "realestate":
-            case "disaster":
-            case "demographics":
-            case "crime":
-            case "weather":
-            case "politics":
-                fallbackImg = "real_estate_stock.jpg";
-                break;
-            default:
-                fallbackImg = null;
-        }
         showCover = true;
         //make sure there is a fallback image
-        if (fallbackImg == null) {
-            imageReturn = null;
-        } else {
-            imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
-            //sets flag for image api to send back image with set size based on devicePixelRatio
-            imageReturn += "?width=" + (300 * window.devicePixelRatio);
-            $("mainimg").setAttribute('onerror', imageReturn); //SETS ON ERROR IMAGE
-        }
+        imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
+        //sets flag for image api to send back image with set size based on devicePixelRatio
+        imageReturn += "?width=" + (300 * window.devicePixelRatio);
     }
+    $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
+
     //USED to display background color of category if a fallback image is sent back
     let imageBackground = document.getElementsByClassName('e_image-cover');
     for (var j = 0; j < imageBackground.length; j++) {

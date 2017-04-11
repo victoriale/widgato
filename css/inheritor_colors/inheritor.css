@@ -43,19 +43,19 @@
 
 /*******************************BASKETBALL*******************************/
 .basketball-inheritor {
-    color: #e26e26;
+    color: #f26f26;
 }
 
 .basketball-inheritor_border{
-    border: 1px solid #e26e26 !important;
+    border: 1px solid #f26f26 !important;
 }
 
 .basketball-inheritor_img_bg {
-    background-color: #e26e26 !important;
+    background-color: #f26f26 !important;
 }
 
 .basketball-inheritor_bg:hover:before {
-    background-color: #e26e26 !important;
+    background-color: #f26f26 !important;
 }
 /*******************************BASKETBALL*******************************/
 
@@ -115,90 +115,90 @@
 
 /*******************************LIFESTYLE*******************************/
 .lifestyle-inheritor {
-    color: #65398e;
+    color: #43B149;
 }
 
 .lifestyle-inheritor_border{
-    border: 1px solid #65398e !important;
+    border: 1px solid #43B149 !important;
 }
 
 .lifestyle-inheritor_img_bg {
-    background-color: #65398e !important;
+    background-color: #43B149 !important;
 }
 
 .lifestyle-inheritor_bg:hover:before {
-    background-color: #65398e !important;
+    background-color: #43B149 !important;
 }
 /*******************************LIFESTYLE*******************************/
 
 /*******************************DISASTER*******************************/
 .disaster-inheritor {
-    color: #902d8e;
+    color: #43B149;
 }
 
 .disaster-inheritor_border{
-    border: 1px solid #902d8e !important;
+    border: 1px solid #43B149 !important;
 }
 
 .disaster-inheritor_img_bg {
-    background-color: #902d8e !important;
+    background-color: #43B149 !important;
 }
 
 .disaster-inheritor_bg:hover:before {
-    background-color: #902d8e !important;
+    background-color: #43B149 !important;
 }
 /*******************************DISASTER*******************************/
 
 /*******************************POLITICS*******************************/
 .politics-inheritor {
-    color: #ff0101;
+    color: #43B149;
 }
 
 .politics-inheritor_border{
-    border: 1px solid #ff0101 !important;
+    border: 1px solid #43B149 !important;
 }
 
 .politics-inheritor_img_bg {
-    background-color: #ff0101 !important;
+    background-color: #43B149 !important;
 }
 
 .politics-inheritor_bg:hover:before {
-    background-color: #ff0101 !important;
+    background-color: #43B149 !important;
 }
 /*******************************POLITICS*******************************/
 
 /*******************************CRIME*******************************/
 .crime-inheritor {
-    color: #f6af05;
+    color: #43B149;
 }
 
 .crime-inheritor_border{
-    border: 1px solid #f6af05 !important;
+    border: 1px solid #43B149 !important;
 }
 
 .crime-inheritor_img_bg {
-    background-color: #f6af05 !important;
+    background-color: #43B149 !important;
 }
 
 .crime-inheritor_bg:hover:before {
-    background-color: #f6af05 !important;
+    background-color: #43B149 !important;
 }
 /*******************************CRIME*******************************/
 
 /*******************************WEATHER*******************************/
 .weather-inheritor {
-    color: #ffdf30;
+    color: #43B149;
 }
 
 .weather-inheritor_border{
-    border: 1px solid #ffdf30 !important;
+    border: 1px solid #43B149 !important;
 }
 
 .weather-inheritor_img_bg {
-    background-color: #ffdf30 !important;
+    background-color: #43B149 !important;
 }
 
 .weather-inheritor_bg:hover:before {
-    background-color: #ffdf30 !important;
+    background-color: #43B149 !important;
 }
 /*******************************WEATHER*******************************/
