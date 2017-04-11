@@ -3,19 +3,19 @@
 ** Classes in here will be used dynamically to change inheritted colors
 */
 .inheritor {
-    color: #00b9e3;
+    color: #444444 ;
 }
 
 .inheritor_border{
-    border: 1px solid #00b9e3 !important;
+    border: 1px solid #444444  !important;
 }
 
 .inheritor_img_bg {
-    background-color: #00b9e3 !important;
+    background-color: #444444  !important;
 }
 
 .inheritor_bg:hover:before {
-    background-color: #00b9e3 !important;
+    background-color: #444444  !important;
 }
 
 /*
