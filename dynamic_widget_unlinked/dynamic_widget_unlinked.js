@@ -286,7 +286,7 @@ function displayWidget() {
 
             //list title
             $("profile-title").innerHTML = widgetData.data.listInfo.listName;
-            $("mainimg").setAttribute('onerror', "//images.synapsys.us/01/fallback/stock/2017/03/");
+            $("mainimg").setAttribute('onerror', "this.src='//images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg'");
             $("profile-rank").innerHTML = '#' + curData.rank;
             $("mainimg-rank").innerHTML = curData.rank;
 
@@ -606,7 +606,6 @@ function checkImage(image) {
       default:
       fallbackImg = "finance_stock.jpg";
     }
-
     //prep return
     if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && image.indexOf('no_player') == -1 && window.location.pathname.indexOf('_970') == -1) {
         imageReturn = image;
@@ -618,6 +617,7 @@ function checkImage(image) {
         //sets flag for image api to send back image with set size based on devicePixelRatio
         imageReturn += "?width=" + (300 * window.devicePixelRatio);
     }
+
     $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
 
     //USED to display background color of category if a fallback image is sent back
