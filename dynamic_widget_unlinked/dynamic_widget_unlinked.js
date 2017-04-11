@@ -535,7 +535,7 @@ function updateIndex(difference) {
     if (currentIndex < 0) {
         currentIndex = 0;
     } else if (currentIndex >= maxIndex) {
-        currentIndex = maxIndex - 1;
+        currentIndex = 0;
     } else {}
     //call display widget
     displayWidget();
