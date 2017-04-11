@@ -1,3 +1,4 @@
+var centipede = function() {
 //create friendly iframe to place ourselves inside
 var countSelf = document.getElementsByClassName("centipedeIframe");
 var friendlyIframe = document.createElement('iframe');
@@ -16,7 +17,7 @@ var iframeContent = friendlyIframe.contentWindow;
       border: none;
       margin: 0;
       padding: 0;
-      -webkit-overflow-scrolling: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .icon {
       background-position: 50%;
@@ -57,7 +58,7 @@ var iframeContent = friendlyIframe.contentWindow;
       color: black;
       -webkit-backdrop-filter: blur(3px);
       backdrop-filter: blur(3px);
-      background-color: rgba(248, 248, 248, 0.9);
+      background-color: rgba(248, 248, 248, 0.8);
       transition: opacity 0.2s ease-in-out;
       z-index: 9999;
     }
@@ -354,7 +355,6 @@ var iframeContent = friendlyIframe.contentWindow;
   var firstAd;
 
   if (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1) {
-    console.log("set cat default");
       input.category = 'finance'; //default category fallback
   }
   friendlyIframe.classList.add("centipede_"+input.category);
@@ -384,7 +384,7 @@ var iframeContent = friendlyIframe.contentWindow;
       crime: {
         hex: "#43B149"
       },
-      dempgraphics: {
+      demographics: {
         hex: "#43B149"
       },
       politics: {
@@ -530,9 +530,9 @@ var iframeContent = friendlyIframe.contentWindow;
     worm.innerHTML = `
       <div class="worm_block">
         <div class="list_item">
-          <div class="profile_image_div" style="background-image:url('`+image+`')">
+          <div class="profile_image_div" style="background-image:url('`+image+"?width=138"+`')">
           <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>1</b></div></div>
-            <img class="profile_image" src="`+image+`">
+            <img class="profile_image" src="`+image+"?width=138"+`">
           </div>
           <div class="info">
             <div class="name">
@@ -576,9 +576,9 @@ var iframeContent = friendlyIframe.contentWindow;
       }
       outputHTML += `
           <div class="list_item">
-            <div class="profile_image_div" style="background-image:url('`+image+`')">
+            <div class="profile_image_div" style="background-image:url('`+image+"?width=138"+`')">
             <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+(i+1)+`</b></div></div>
-              <img class="profile_image" src="`+image+`">
+              <img class="profile_image" src="`+image+"?width=138"+`">
             </div>
             <div class="info">
               <div class="name">
@@ -627,12 +627,10 @@ var iframeContent = friendlyIframe.contentWindow;
       helper2.style.opacity = '1';
     }
     var rect = firstAd.getBoundingClientRect();
-    if (rect.left < -320) { //logic to jump ad to next space when you scroll past it
-      // console.log("fire move ad next");
+    if (rect.left < -300 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 300)) % 2 == 0) { //logic to jump ad to next space when you scroll past it
       firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) + 300) + "px";
     }
-     else if (rect.left > 320) { //logic to jump ad to prev space when you scroll past it
-      // console.log("fire move ad prev");
+     else if (rect.left > 300 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 300) % 2) == 1) { //logic to jump ad to prev space when you scroll past it
       firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) - 300) + "px";
     }
     clearTimeout(scrollingTimout);
@@ -659,6 +657,7 @@ var iframeContent = friendlyIframe.contentWindow;
   }
   worm.addEventListener("touchstart", onFingerDown);
   function onFingerDown(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+    console.log("new touch event - canceled interpolation");
     clearTimeout(setSmoothScrollInterval);
   }
 
@@ -669,20 +668,40 @@ var iframeContent = friendlyIframe.contentWindow;
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
         scrollTo = wormBlocks[i].offsetLeft;
         if (worm.scrollLeft < scrollTo) {
-          scrollIncrements = 1; //advance
+          scrollIncrements = 10; //advance
         }
         else {
-          scrollIncrements = -1; //retreat
+          scrollIncrements = -10; //retreat
         }
         setSmoothScrollInterval = setInterval(function(){
-          var marginOfError = 0;
+          var marginOfError = Math.abs(scrollIncrements) - 1;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
+            if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
+              scrollIncrements = -1;
+            }
+            else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
+              scrollIncrements = 1;
+            }
             //if within margin of error of target, end scroll
             if (i == (wormBlocks.length - 1)) {
               clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
               worm.scrollLeft = worm.scrollLeft + scrollIncrements; //apply the interpolation step
+            }
+          }
+          else if (worm.scrollLeft < (scrollTo) || worm.scrollLeft > (scrollTo)) {// if in the last frame of interpolation
+            if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
+              scrollIncrements = -1;
+            }
+            else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
+              scrollIncrements = 1;
+            }
+            if (i == (wormBlocks.length - 1)) {
+              clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
+            }
+            else {
+              worm.scrollLeft = worm.scrollLeft + 1; //apply the interpolation step
             }
           }
           else { //we have reached the end of the interpolation. stop the loop
@@ -692,15 +711,15 @@ var iframeContent = friendlyIframe.contentWindow;
             }, 500);
             clearTimeout(setSmoothScrollInterval);
           }
-        }, 2);
+        }, 20);
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
-          iframeContent.ig_rotation_control=true;
+          iframeContent.ig_rotation_control=true; //unpause ad if its in view
         }
         else {
           helper.style.opacity = '1';
-          iframeContent.ig_rotation_control=false;
+          iframeContent.ig_rotation_control=false; //pause ad when its out of view
         }
         return;
       }
@@ -740,3 +759,5 @@ var iframeContent = friendlyIframe.contentWindow;
     //   currentBlock = (currentBlock + 1);
     // }
   }
+}
+centipede();
