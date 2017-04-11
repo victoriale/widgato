@@ -5,6 +5,7 @@ var apiCallUrl; // this is global call that is used for api calls
 var imageUrl = "images.synapsys.us"; // this is global call that is used for images
 var dwApi = "dw.synapsys.us/list_api.php"; // dynamic widget api
 var tdlApi = "touchdownloyal-api.synapsys.us/list/"; // used for nfl and ncaaf category
+var fallBackApi; // used for nfl and ncaaf category
 var href = window.top.location;
 var currentIndex = 0; // current index of an array which (default = 0)
 var maxIndex = 1; //declare max index of returned data (default = 1)
@@ -111,6 +112,7 @@ function setupEnvironment(widgetQuery) {
             apiCallUrl += "&partner=" + dom;
         }
     }
+    fallBackApi =  protocolToUse + synapsysENV(environment) + dwApi + "?cat=finance";
 }
 
 /************************ UPDATE LIST ***********************
@@ -241,9 +243,13 @@ function runAPI(apiUrl) { //Make it to where it is easy to be reused by anyone
                     }
                 }
                 msg = 'HTTP Error (' + this.status + '): ' + msg;
+                if ( tries > (maxTries - 2) ){
+                  console.warn( msg + " | hiding widget container | => SWAPPING TO FALLBACK" );
+                  apiUrl = fallBackApi;
+                }
                 if (tries++ > maxTries) { // IF WIDGET FAILS THEN HIDE THE ENTIRE CONTAINER
                     document.getElementsByClassName('e_container')[0].style.display = 'none';
-                    throw msg + " | hiding widget container | => PLEASE CONTACT YOUR PROVIDER";
+                    throw msg + " | hiding widget fallback failed container | => PLEASE CONTACT YOUR PROVIDER";
                 }
                 setTimeout(runAPI(apiUrl), 500)
             }
