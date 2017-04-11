@@ -384,6 +384,9 @@ function setCategoryColors(category) {
         case "weather":
         case "politics":
             break;
+        case "finance":
+        case "money":
+            break;
         default:
             category = 'default';
             break;
