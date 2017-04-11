@@ -287,7 +287,7 @@ function displayWidget() {
 
             //list title
             $("profile-title").innerHTML = widgetData.data.listInfo.listName;
-            $("mainimg").setAttribute('onerror', "this.src='//images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg'");
+            // $("mainimg").setAttribute('onerror', "this.src='//images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg'");
             $("profile-rank").innerHTML = '#' + curData.rank;
             $("mainimg-rank").innerHTML = curData.rank;
 
@@ -295,7 +295,7 @@ function displayWidget() {
             if (curData.rankType == "player") {
                 let image = checkImage(imageUrl + curData.playerHeadshotUrl);
                 if (image != null) {
-                    $("mainimg").setAttribute('src', image);
+                  $("mainimg").style.backgroundImage = "url('"+image+"')";
                 }
 
                 $("profile-name").innerHTML = curData.playerFirstName + " " + curData.playerLastName;
@@ -307,7 +307,7 @@ function displayWidget() {
             } else {
                 let image = checkImage(imageUrl + curData.teamLogo);
                 if (image != null) {
-                    $("mainimg").setAttribute('src', image);
+                  $("mainimg").style.backgroundImage = "url('"+image+"')";
                 }
 
                 $("profile-name").innerHTML = curData.teamName;
@@ -332,7 +332,7 @@ function displayWidget() {
             //current index of list
             let image = checkImage(curData.li_img);
             if (image != null) {
-                $("mainimg").setAttribute('src', image);
+              $("mainimg").style.backgroundImage = "url('"+image+"')";
             }
 
             $("profile-rank").innerHTML = '#' + curData.li_rank;
@@ -577,7 +577,7 @@ function checkImage(image) {
     let showCover;
     var fallbackImg;
 
-    $("mainimg").setAttribute('src', '');
+    // $("mainimg").setAttribute('src', '');
 
     //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
     switch (subCategory) {
@@ -622,7 +622,7 @@ function checkImage(image) {
         imageReturn += "?width=" + (300 * window.devicePixelRatio);
     }
 
-    $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
+    // $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
 
     //USED to display background color of category if a fallback image is sent back
     let imageBackground = document.getElementsByClassName('e_image-cover');
