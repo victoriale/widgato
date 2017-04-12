@@ -30,31 +30,148 @@ sup {
     top: -0.5em;
 }
 
+.presented {
+    width: 300px;
+    height: 18px;
+    background-color: #f2f2f2;
+}
+
+.badge {
+    width: 21px;
+    height: 21px;
+    object-fit: contain;
+    position: absolute;
+    right: 130px;
+}
+
+.powered {
+    font-size: 10px;
+    text-align: right;
+    color: #666;
+    position: absolute;
+    right: 5px;
+    line-height: 18px;
+}
+
 #puzzle {
     width: 300px;
-    height: 220px;
-    background-color: black;
+    height: 312px;
     position: relative;
 }
 
 #img-background {
     height: 100%;
     width: 100%;
+    background-color: #ebebeb;
+    position: absolute;
+    opacity: .9;
+    filter: alpha(opacity=90);
 }
 
 #puzzle-background {
     width: 300px;
-    height: 220px;
-    opacity: 0.25;
-    filter: alpha(opacity=25);
+    height: 312px;
     position: absolute;
     left: 0;
     z-index: 0;
-    transition: all 1s ease-out;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
+@keyframes mainFadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes mainFadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes mainFadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes mainFadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes mainFadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+
 #puzzle #puzzle-div {
+    position: relative;
     display: none;
+    height: 100%;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    z-index: 1;
+    -webkit-animation: mainFadein 300ms ease;
+    -moz-animation: mainFadein 300ms ease;
+    -ms-animation: mainFadein 300ms ease;
+    animation: mainFadein 300ms ease;
+}
+
+#solved-overlay {
+    height: 312px;
+    width: 300px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99;
+}
+
+#solved {
+    position: relative;
+    z-index: 100;
+    height: 312px;
+    opacity: .9;
+    background-image: linear-gradient(45deg, #3098ff, #34d4ff), linear-gradient(#000, #000);
+}
+
+#solve {
+    line-height: 18px;
+    position: absolute;
+    font-size: 12px;
+    color: #1d1d1d;
+}
+
+#solve-me {
+    cursor: pointer;
+}
+
+.fa {
+    color: #18b23e;
+    padding-left: 5px;
+}
+
+.learn-more {
+    padding: 15px;
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.logo {
+    width: 60px;
+    height: 60px;
+    border: solid 1px #ffffff;
+    border-radius: 100%;
+    position: absolute;
+    top: 68px;
+    left: 15px;
 }
 
 #puzzle .message {
@@ -72,7 +189,7 @@ sup {
 
 #puzzle .innerTile {
     width: 100px;
-    height: 73px;
+    height: 104px;
     float: left;
     background-repeat: no-repeat;
     transition: all .3s, opacity 1s ease-in, filter 1s ease-in;
@@ -81,10 +198,10 @@ sup {
 #puzzle .innerTile.image {
     font-size: 24px;
     text-align: center;
-    border: 1px outset black;
+    border: 1px solid #ccc;
     z-index: 1;
     position: relative;
-    background-size: 300px 220px;
+    background-size: 300px 312px;
 }
 
 #puzzle .innerTile.image:hover {
@@ -96,7 +213,52 @@ sup {
 }
 
 #puzzle .innerTile.empty {
-    border: 1px inset black;
+    border: 1px inset #fff;
+}
+
+.animated {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s linear 0s, opacity 2s;
+    background-image: url(../css/public/icons/tile_click.png);
+    position: relative;
+    width: 100px;
+    height: 100px;
+    border: none;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 1.5);
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, .9);
+    background-size:cover;
+    background-repeat: no-repeat;
+    -webkit-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    -moz-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    -ms-animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+    animation: pulse 1.25s infinite cubic-bezier(0.66, 0, 0, 1);
+}
+
+@-moz-keyframes pulse {to {box-shadow: 0 0 0 30px rgba(255, 255, 255, 0);}}
+@-ms-keyframes pulse {to {box-shadow: 0 0 0 30px rgba(255, 255, 255, 0);}}
+
+
+@-webkit-keyframes pulse {
+    to {box-shadow: 0 0 0 30px rgba(255, 255, 255, 0);}
+    0% { -webkit-transform: scale(.35); }
+    50% { -webkit-transform: scale(.4); }
+    100% { -webkit-transform: scale(.35); }
+}
+
+@keyframes pulse {
+    to {box-shadow: 0 0 0 75px rgba(255, 255, 255, 0);}
+    0% { transform: scale(.35); }
+    50% { transform: scale(.4); }
+    100% { transform: scale(.35); }
+}
+
+.pulse {
+    -webkit-animation-name: pulse;
+    animation-name: pulse;
+    animation: pulse 1.25s infinite;
+    -webkit-animation: pulse 1.25s infinite;
 }
 
 .dw {
@@ -108,6 +270,61 @@ sup {
     border: 1px solid #e1e1e1;
     overflow: hidden;
     box-sizing: content-box;
+}
+
+.dw:hover .animated {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 500ms, opacity 500ms;
+}
+
+.dw:active .animated {
+    visibility: hidden;
+    opacity: 0;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.95; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.95; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.95; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.95; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 0.95; }
+}
+
+#dw-container {
+    display: none;
+    position: absolute;
+    bottom: 38px;
+    width: 300px;
+    height: 123px;
+    opacity: 0;
+    background-color: #fff;
+    z-index: 1;
+    -webkit-animation: fadein 1s ease 1s forwards;
+    -moz-animation: fadein 1s ease 1s forwards;
+    -ms-animation: fadein 1s ease 1s forwards;
+    animation: fadein 1s ease 1s forwards;
 }
 
 #title {
@@ -352,14 +569,14 @@ sup {
     margin-left: -49px;
     position: absolute;
     top: calc(50% - 12px);
-    font-size: 16px;
+    font-size: 18px;
     width: 55px;
     height: 20px;
     text-align: center;
     font-weight: 700;
 }
 #num hash {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 300;
 }
 
@@ -397,7 +614,7 @@ sup {
 
 .dw-info {
     position: relative;
-    margin: 5px 15px 5px;
+    margin: 11px 15px 5px;
     max-height: 120px;
     width: calc(100% - 68px);
     float:right;
@@ -461,15 +678,11 @@ sup {
 
 #next-list-link .dw-btn{
     display: inline-block;
-    margin-left: 155px;
-    width: 120px;
-    border: solid 1px #999999;
-    color: #9b9b9b;
-    fill: #9b9b9b;
-}
-
-#next-list-link .dw-btn svg{
-    margin-bottom: 2px;
+    margin-left: 11px;
+    width: 278px;
+    border: solid 1px #073457;
+    color: #073457;
+    fill: #073457;
 }
 
 #next-list-link .dw-btn:before{
@@ -480,8 +693,9 @@ sup {
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 3px;
-    background-color: #272727;
+    border-radius: 40px;
+    overflow: hidden;
+    background-color: #073457;
     -webkit-transform: scaleX(0);
     transform: scaleX(0);
     -webkit-transform-origin: 100% 50%;
@@ -534,22 +748,23 @@ sup {
     display: inline-block;
     color: white;
     background-color: white;
-    font-size: 12px;
-    line-height: 25px;
-    height: 25px;
-    border-radius: 5px;
+    font-size: 14px;
+    line-height: 35px;
+    height: 35px;
+    border-radius: 40px;
     position: absolute;
     bottom: 10px;
     border: solid 1px #072f64;
     cursor: pointer;
     text-align: center;
-    font-weight: bold;
+    font-weight: 400;
     -webkit-transform: perspective(1px) translateZ(0);
     transform: perspective(1px) translateZ(0);
     -webkit-transition-property: color, fill;
     transition-property: color, fill;
     -webkit-transition-duration: 0.3s;
     transition-duration: 0.3s;
+    overflow: hidden;
 }
 
 .dw-btn svg {
@@ -575,14 +790,6 @@ sup {
     background-color: #272727
 }
 
-.presented {
-    position: absolute;
-    font-size: 10px;
-    line-height: 12px;
-    color: #999;
-    left: 4px;
-    bottom: 4px
-}
 /*fix for global css bleeding in from parent page*/
 .widget_zone iframe {
     margin: 0;

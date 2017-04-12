@@ -1,15 +1,5 @@
 function getCategoryMetadata(category) {
     var globalMeta = {
-        finance: {
-            displayName: "Finance",
-            domain: "www.investkit.com",
-            partnerDomain: "www.myinvestkit.com",
-            usesPartnerSubdomain: false,
-            hasAiArticles: true,
-            category: "finance",
-            subCategory: "",
-            pub: "investkit"
-        },
         nfl: {
             displayName: "Football",
             domain: "www.touchdownloyal.com",
@@ -75,56 +65,6 @@ function getCategoryMetadata(category) {
             category: "baseball",
             subCategory: "mlb",
             pub: "homerunloyal"
-        },
-        politics: {
-            displayName: "Politics",
-            domain: "www.joyfulhome.com",
-            partnerDomain: "www.myhousekit.com",
-            usesPartnerSubdomain: false,
-            hasAiArticles: false,
-            category: "politics",
-            subCategory: "",
-            pub: "joyfulhome"
-        },
-        weather: {
-            displayName: "Weather",
-            domain: "www.joyfulhome.com",
-            partnerDomain: "www.myhousekit.com",
-            usesPartnerSubdomain: false,
-            hasAiArticles: false,
-            category: "weather",
-            subCategory: "",
-            pub: "joyfulhome"
-        },
-        crime: {
-            displayName: "Crime",
-            domain: "www.joyfulhome.com",
-            partnerDomain: "www.myhousekit.com",
-            usesPartnerSubdomain: false,
-            hasAiArticles: false,
-            category: "crime",
-            subCategory: "",
-            pub: "joyfulhome"
-        },
-        demographics: {
-            displayName: "Demographics",
-            domain: "www.joyfulhome.com",
-            partnerDomain: "www.myhousekit.com",
-            usesPartnerSubdomain: false,
-            hasAiArticles: false,
-            category: "demographics",
-            subCategory: "",
-            pub: "joyfulhome"
-        },
-        disaster: {
-            displayName: "Disaster",
-            domain: "www.joyfulhome.com",
-            partnerDomain: "www.myhousekit.com",
-            usesPartnerSubdomain: false,
-            hasAiArticles: false,
-            category: "disaster",
-            subCategory: "",
-            pub: "joyfulhome"
         }
     };
     if (globalMeta[category]) {
@@ -167,18 +107,6 @@ function getPublisher(pub, env) {
             link: "www.hoopsloyal.com",
             logo: "../css/public/pub_logos/logo-hoops-loyal.svg",
             hex: "#f26f26"
-        },
-        investkit: {
-            displayName: "Invest Kit",
-            link: "www.investkit.com",
-            logo: "../css/public/pub_logos/logo-invest-kit.svg",
-            hex: "#3098ff"
-        },
-        joyfulhome: {
-            displayName: "Joyful Home",
-            link: "www.joyfulhome.com",
-            logo: "../css/public/pub_logos/logo-joyful-home.svg",
-            hex: "#43B149"
         }
     };
     if (apiFallback == true) {
@@ -234,7 +162,7 @@ function getBaseUrl(string) {
 }
 
 
-dynamic_widget = function () {
+image_puzzle = function () {
 
 
     var e = location.protocol == 'https:' ? 'https' : 'http',
@@ -243,7 +171,7 @@ dynamic_widget = function () {
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
-        a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl', 'ncaaf', 'nflncaaf'];
+        a = ['nba', 'college_basketball', 'mlb', 'nfl', 'ncaaf', 'nflncaaf'];
     if (l.env != "prod-" && l.env != "dev-") {
         l.env = "prod-";
     }
@@ -255,8 +183,6 @@ dynamic_widget = function () {
     currentPub = getPublisher(l.dom, l.env.replace("prod-", ""));
 
     //new dyanmic pub color css code
-    $('pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
-    $('pub_link').href = "http://" + currentPub.link;
     var css = '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
     if (window.location.pathname.indexOf("_970") != -1) {
         css += '#list-link .dw-btn {background-color: ' + currentPub.hex + '; border: none;}';
@@ -266,7 +192,6 @@ dynamic_widget = function () {
         css += '#list-link .dw-btn:before {background-color: ' + currentPub.hex + ';}';
     }
     css += '.dw-info {border-left: 3px solid ' + currentPub.hex + '; padding-left: 10px;}';
-    css += '.dw-nav {stroke: ' + currentPub.hex + '; } .dw-nav:hover {background-color: ' + currentPub.hex + '; stroke: white;}';
     css += '#list-link .dw-btn {fill: ' + currentPub.hex + '; color: ' + currentPub.hex + '; border-color: ' + currentPub.hex + ';}';
     css += '#carouselOverlay {background-color:' + currentPub.hex + ';}';
     style = document.createElement('style');
@@ -358,13 +283,6 @@ dynamic_widget = function () {
     }
 
     function httpGetData(query, ignoreRandom) {
-        if (l.dom == 'lasvegasnow.com') {
-            s = true;
-            o = 'finance.lasvegasnow.com'
-        }
-        if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
-            l.category = 'finance'
-        }
         if (ignoreRandom == null) {
             var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 50);
         }
@@ -445,14 +363,6 @@ dynamic_widget = function () {
         if (l.category == 'mlb') {
             r.l_title = r.l_title.replace("MLB", "Baseball");
         }
-        if (currentConfig.category == "football") {
-            $('title').innerHTML = r.data.listInfo.listName;
-        } else {
-            $('title').innerHTML = r.l_title;
-        }
-        // if ($('line4') != null && d.getElementsByClassName('dw')[0].clientWidth == 350 && $('title').scrollHeight > 61) {
-        //     $('title').setAttribute('style', 'font-size: 14px')
-        // }
         var n = true;
         if (document.referrer == "") {
             currentDomain = window.location.hostname.toString();
@@ -468,8 +378,6 @@ dynamic_widget = function () {
                 var a = l.remn == 'true' ? 'http://' + l.subd + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + l.subd + '/' + currentConfig.subCategory + '/w-list';
                 break;
             case "mlb":
-                $("suburl").style.cssText += "pointer-events:none; cursor:default";
-                $("carousel").className = "one";
                 var a = "";
                 a = l.remn == 'true' ? 'http://' + l.subd + '/list' : "http://" + l.subd + '/list';
                 var n = false
@@ -482,12 +390,6 @@ dynamic_widget = function () {
                 var a = "";
                 a = l.remn == 'true' ? 'http://' + l.subd : "http://" + l.subd;
                 var n = false
-                break;
-            case 'finance':
-                var a = l.remn == 'true' ? 'http://' + l.subd + '/widget-list' : 'http://' + l.subd + '/w-list';
-                if (s) {
-                    a = a.replace(currentConfig.partnerDomain, o)
-                }
                 break;
             default:
                 var a = l.remn == 'true' ? 'http://' + l.subd + '/wlist' : 'http://' + l.subd + '/wlist';
@@ -523,20 +425,6 @@ dynamic_widget = function () {
             for (i = 0; i < linkHovers.length; i++) {
                 linkHovers[i].style.display = "none";
             }
-        } else {
-            //clickthrough analitics code
-            document.getElementById("list-link").addEventListener("click", function () {
-                window.top.postMessage({
-                    snt_data: {event: "widget-clicked", w: "pr_type", url: this.href},
-                    action: 'snt_tracker'
-                }, '*');
-            });
-            document.getElementById("imgurl").addEventListener("click", function () {
-                window.top.postMessage({
-                    snt_data: {event: "widget-clicked", w: "pr_type", url: this.href},
-                    action: 'snt_tracker'
-                }, '*');
-            });
         }
         p()
     }
@@ -546,13 +434,6 @@ dynamic_widget = function () {
             rounds++;
             checkBlankImages();
         }
-        //todo: plug in actual api date values here
-        var date = new Date();
-        var monthNames = ["January", "February", "March", "April", "May", "June",
-            "July", "August", "September", "October", "November", "December"];
-        var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-        $('meta').innerHTML = "Posted on " + dayNames[date.getDay()] + ", " + monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
-
         if (currentConfig.category == "football") {
             var e = r.data.listData[i];
             var v_link = '';
@@ -690,10 +571,6 @@ dynamic_widget = function () {
                 e.li_url = "http:" + e.li_url.replace('{partner}', l.dom);
                 e.li_line_url = "http:" + e.li_line_url.replace('{partner}', l.dom);
             }
-            if (s) {
-                e.li_url = e.li_url.replace('www.myinvestkit.com', o);
-                e.li_line_url = e.li_line_url.replace('www.myinvestkit.com', o)
-            }
 
             $('line1').innerHTML = e.li_title;
             $('line2').innerHTML = e.li_sub_txt;
@@ -711,144 +588,68 @@ dynamic_widget = function () {
             if (l.showLink != 'false') {
                 $('line1').href = e.li_line_url;
             }
-            var t = $('mainimg');
-            var n = t.getAttribute('onerror');
-            t.setAttribute('onerror', '');
-            t.setAttribute('src', '');
-            var fallbackImg = "http://images.synapsys.us/01/fallback/stock/2017/03/";
-            var cssClass = "";
-            switch (l.category) {
-                case "nfl":
-                case "ncaaf":
-                    fallbackImg += "football_stock.jpg";
-                    cssClass = "football";
-                    break;
-                case "nba":
-                case "college_basketball":
-                    fallbackImg += "basketball_stock.jpg";
-                    cssClass = "basketball";
-                    break;
-                case "finance":
-                    fallbackImg += "finance_stock.jpg";
-                    cssClass = "finance";
-                    break;
-                case "mlb":
-                    fallbackImg += "baseball_stock.jpg";
-                    cssClass = "baseball";
-                    break;
-                case "disaster":
-                case "demographics":
-                case "crime":
-                case "weather":
-                case "politics":
-                    cssClass = "realestate";
-                    fallbackImg += "real_estate_stock.jpg";
-                    break;
-                default:
-                    cssClass = "finance";
-                    fallbackImg += "finance_stock.jpg";
-            }
-            fallbackImg += "?width=" + (300 * window.devicePixelRatio);
-            // $('carouselOverlay').className = cssClass;
-            if (l.category == "college_basketball" || l.category == "nba") {
-                if (e.player_wide_img != "" && e.player_wide_img != null) {
-                    e.li_img = "//" + l.env + "images.synapsys.us" + e.player_wide_img;
-                }
-                else {
-                    e.li_img = "//" + l.env + "images.synapsys.us" + e.team_wide_img;
-                }
-            }
-            if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1 || e.li_img.indexOf("_stock") != -1 || window.location.pathname.indexOf('_970') != -1) {
-                t.setAttribute('src', fallbackImg + "?width=" + (300 * window.devicePixelRatio));
-                $('carouselOverlay').style.display = "block";
-                $('carouselShader').style.display = "none";
-            }
-            else {
-                t.setAttribute('src', e.li_img.replace(/'/g, "") + "?width=" + (300 * window.devicePixelRatio));
-                $('carouselOverlay').style.display = "none";
-                $('carouselShader').style.display = "block";
-            }
-            setTimeout(function (e, t) {
-                t.setAttribute('onerror', e)
-            }.bind(undefined, n, t), 0);
-            $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
-            $('fallbackNum').innerHTML = '#' + e.li_rank;
-            // if (e.li_subimg !== false) {
-            //     var a = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
-            //     if (s) {
-            //         a = a.replace('www.myinvestkit.com', o)
+            //TODO
+            // var t = $('puzzle-background');
+            // var n = t.getAttribute('onerror');
+            // t.setAttribute('onerror', '');
+            // t.setAttribute('src', '');
+            // var fallbackImg = "http://images.synapsys.us/01/fallback/stock/2017/03/";
+            // var cssClass = "";
+            // switch (l.category) {
+            //     case "nfl":
+            //     case "ncaaf":
+            //         fallbackImg += "football_stock.jpg";
+            //         cssClass = "football";
+            //         break;
+            //     case "nba":
+            //     case "college_basketball":
+            //         fallbackImg += "basketball_stock.jpg";
+            //         cssClass = "basketball";
+            //         break;
+            //     case "mlb":
+            //         fallbackImg += "baseball_stock.jpg";
+            //         cssClass = "baseball";
+            //         break;
+            //     default:
+            //         //TODO
+            //         cssClass = "finance";
+            //         fallbackImg += "finance_stock.jpg";
+            // }
+            // fallbackImg += "?width=" + (300 * window.devicePixelRatio);
+            // // $('carouselOverlay').className = cssClass;
+            // if (l.category == "college_basketball" || l.category == "nba") {
+            //     if (e.player_wide_img != "" && e.player_wide_img != null) {
+            //         e.li_img = "//" + l.env + "images.synapsys.us" + e.player_wide_img;
             //     }
-            //     var c = $('subimg');
-            //     var n = c.getAttribute('onerror');
-            //     c.setAttribute('onerror', '');
-            //     c.setAttribute('src', '');
-            //
-            //     //hide double image if second image is blank for this profile
-            //     convertImage(l.category, c, e);
-            //
-            //     setTimeout(function(e, t) {
-            //         t.setAttribute('onerror', e)
-            //     }.bind(null, n, c), 0);
-            //     $('suburl').href = "http:"+a;
-            //     var m = $('carousel');
-            //     if (m.className.indexOf('two') == -1) {
-            //         m.className += ' two'
+            //     else {
+            //         e.li_img = "//" + l.env + "images.synapsys.us" + e.team_wide_img;
             //     }
             // }
+            // if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1 || e.li_img.indexOf("_stock") != -1 || window.location.pathname.indexOf('_970') != -1) {
+            //     t.setAttribute('src', fallbackImg + "?width=" + (300 * window.devicePixelRatio));
+            //     $('carouselOverlay').style.display = "block";
+            //     $('carouselShader').style.display = "none";
+            // }
             // else {
-            //set double image off if we dont have it for this list
-            $('carousel').setAttribute('class', 'one');
-            $('suburl').setAttribute('style', 'display: none');
+            //     t.setAttribute('src', e.li_img.replace(/'/g, "") + "?width=" + (300 * window.devicePixelRatio));
+            //     $('carouselOverlay').style.display = "none";
+            //     $('carouselShader').style.display = "block";
+            // }
+            // setTimeout(function (e, t) {
+            //     t.setAttribute('onerror', e)
+            // }.bind(undefined, n, t), 0);
+            $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
             // }
             if ($('list-link')) {
                 var u = d.getElementsByClassName('dw-btn')[0];
-                // if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight) {
-                //     $('title').setAttribute('style', 'font-size: 14px');
-                //     if (d.getElementsByClassName('dw')[0].clientHeight <= 250) {
-                //         $('title').setAttribute('style', 'font-size: 12px')
-                //     }
-                // }
                 if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight - 10 && d.getElementsByClassName('dw')[0].clientHeight <= 250) {
                     d.getElementsByClassName('dw-btn')[0].setAttribute('style', 'margin-top: 0')
                 }
             }
             var p = $('title');
-            // if (p.offsetTop + p.scrollHeight > $('carousel').offsetTop) {
-            //     $('title').setAttribute('style', 'font-size: 14px')
-            // }
         }
         //This will eventually send the actual image. For now it is just the rank so that I can order my temp array of images.
-        createPuzzle(e.li_rank);
-    }
-
-    function convertImage(category, c, e) {
-        switch (category) {
-            case 'mlb':
-            case 'ncaaf':
-            case 'nfl':
-            case 'college_basketball':
-            case 'nba':
-                $("suburl").style.cssText += "pointer-events:none; cursor:default";
-                $("carousel").className = "one";
-                break;
-            case 'finance':
-                if (e.li_subimg.img == "//w1.synapsys.us/widgets/css/public/no_image.jpg") {
-                    $('carouselOverlay').style.display = "block";
-                    $('carouselShader').style.display = "none";
-                    c.setAttribute('src', e.li_subimg.img);
-                    $('carousel').setAttribute('class', 'two');
-                    $('suburl').setAttribute('style', 'display: block');
-                }
-                else {
-                    $('carouselOverlay').style.display = "none";
-                    $('carouselShader').style.display = "block";
-                    c.setAttribute('src', e.li_subimg.img);
-                    //set double image css to "on" if we have a double image for this list
-                    $('carousel').setAttribute('class', 'two');
-                    $('suburl').setAttribute('style', 'display: block');
-                }
-                break;
-        }
+        createPuzzle(e.li_img, false);
     }
 
     function w(e, autoAdvance) {
@@ -859,11 +660,12 @@ dynamic_widget = function () {
         else {
             i = i >= r.l_data.length ? 0 : i < 0 ? r.l_data.length - 1 : i;
         }
-        p();
+        //TODO
+       // p();
         if (typeof dataLayer != 'undefined' && autoAdvance != true) {
             dataLayer.push({
                 event: e == 1 ? 'nav-right' : 'nav-left',
-                eventAction: dynamic_widget.get_title()
+                eventAction: image_puzzle.get_title()
             })
         }
     }
@@ -924,18 +726,18 @@ dynamic_widget = function () {
         // $('verticalDisplayName').innerHTML = currentConfig.displayName;
     }
 
-    function createPuzzle(mainImage) {
+    function createPuzzle(mainImage, isSolved) {
         (function () {
             //set global variables
             var _empty, _puzzle, _square;
             _puzzle = (function () {
-                function _puzzle(images) {
+                function _puzzle(image, isSolved) {
                     //set variables
+                    if (!isSolved) {
                     var i, index, tile, xPos, yPos;
-                    this.images = images;
+                    this.image = image;
                     this.initialTiles = [];
                     this.tiles = [];
-                    this.image = this.images[0];
                     //bind the function and array arguments to the called method
                     this.emptyTile.bind(this.emptyTile, this);
                     this.randomize.bind(this.randomize, this);
@@ -945,8 +747,8 @@ dynamic_widget = function () {
                     //assign each tile with dimensions, position, and image
                     for (i = index = 0; index <= 7; i = ++index) {
                         xPos = Math.floor(i % 3) * 100;
-                        yPos = Math.floor(i / 3) * 73;
-                        tile = new _square(i, 100, 73, xPos, yPos, this.image);
+                        yPos = Math.floor(i / 3) * 104;
+                        tile = new _square(i, 100, 104, xPos, yPos, this.image);
                         this.tiles.push(tile);
                     }
                     //set the 8th position to be empty
@@ -954,6 +756,9 @@ dynamic_widget = function () {
                     //save the initial tile setup.
                     this.initialTiles = this.tiles.slice(0);
                     this.randomize();
+                    } else {
+                        this.solveMe(image);
+                    }
                 }
 
                 _puzzle.prototype.emptyTile = function () {
@@ -986,26 +791,26 @@ dynamic_widget = function () {
                     $('puzzle').innerHTML = '';
                     if (this.solved()) {
                         //create solved message
-                        var solvedBackground = document.createElement('span');
+                        var solvedBackground = document.createElement('div');
                         solvedBackground.setAttribute('id', 'puzzle-div');
-                        var solvedImage = document.createElement('img');
-                        solvedImage.setAttribute('src', this.image);
-                        solvedBackground.appendChild(solvedImage);
-                        var solvedMessage = document.createElement('div');
-                        solvedMessage.setAttribute('class', 'message');
-                        solvedMessage.innerHTML = 'You solved the puzzle!</br> Please check out the content below.';
-                        solvedBackground.appendChild(solvedMessage);
+                        solvedBackground.setAttribute('style', 'background-image: url(' + this.image + ')');
+                        $('solve').style.display = 'none';
                         $('puzzle').appendChild(solvedBackground);
+                        $('dw-container').style.display = 'block';
                         return $('puzzle-div').style.display = 'block';
                     } else {
                         //render tiles
-                        var background = document.createElement('span');
+                        var background = document.createElement('div');
                         background.setAttribute('id', 'puzzle-background');
-                        var image = document.createElement('img');
-                        image.setAttribute('src', this.image);
+                        background.setAttribute('style', 'background-image: url(' + this.image + ')');
+                        var image = document.createElement('div');
                         image.setAttribute('id', 'img-background');
                         background.appendChild(image);
+                        var onClick = $('solve-me');
+                        onClick.setAttribute('onclick', "image_puzzle.createPuzzle('"+ this.image +"', true);");
+                        $('solve').style.display = 'block';
                         $('puzzle').appendChild(background);
+                        $('dw-container').style.display = 'none';
                         val = this.tiles;
                         for (index = 0, _length = val.length; index < _length; index++) {
                             tile = val[index];
@@ -1013,7 +818,7 @@ dynamic_widget = function () {
                         }
                         var tileClass = document.getElementsByClassName('tile');
                         //add click event to tiles that are available to be swapped
-                        Array.from(tileClass).forEach(function(element) {
+                        Array.from(tileClass).forEach(function (element) {
                             return element.addEventListener('click', function (event) {
                                 var toSwitch;
                                 toSwitch = parseInt(event.target.id);
@@ -1021,6 +826,16 @@ dynamic_widget = function () {
                             });
                         });
                     }
+                };
+                _puzzle.prototype.solveMe = function (image) {
+                    console.log('Fuck yeah!!!');
+                    var solvedBackground = document.createElement('div');
+                    solvedBackground.setAttribute('id', 'puzzle-div');
+                    solvedBackground.setAttribute('style', 'background-image: url(' + image + ')');
+                    $('solve').style.display = 'none';
+                    $('puzzle').appendChild(solvedBackground);
+                    $('dw-container').style.display = 'block';
+                    return $('puzzle-div').style.display = 'block';
                 };
                 _puzzle.prototype.swapTile = function (xPos, yPos) {
                     var x, y;
@@ -1068,6 +883,17 @@ dynamic_widget = function () {
                     } else {
                         setAttributes(puzzle, {"id": this.position, "class": "innerTile image"});
                     }
+                    var hoverClick = document.createElement('div');
+                    if (this.position === 4 && !$('4')) {
+                        hoverClick.setAttribute('class', 'animated pulse');
+                        puzzle.appendChild(hoverClick);
+                    }
+                    else if (this.position === 7 && !$('4')) {
+                        hoverClick.setAttribute('class', 'animated pulse');
+                        puzzle.appendChild(hoverClick);
+                    }
+
+
                     $('puzzle').appendChild(puzzle);
                     $(this.position).style.backgroundPosition = '-' + this.x + 'px -' + this.y + 'px';
                     return $(this.position).style.backgroundImage = "url('" + this.image + "')";
@@ -1088,32 +914,27 @@ dynamic_widget = function () {
                 _empty.prototype.show = function () {
                     var emptyTile = document.createElement('div');
                     emptyTile.setAttribute('class', 'innerTile empty');
+                    emptyTile.setAttribute('id', 'emptyTile');
                     return $('puzzle').appendChild(emptyTile);
                 };
-
+                $('solve').style.display = 'block';
+                $('dw-container').style.display = 'none';
                 return _empty;
             })();
             var image, puzzle;
-            var tempImageArray = ['http://images.synapsys.us/mlb/players/liveimages/633547f9-79a0-408e-ac7f-e7e79b412bec.jpg',
-                'http://images.synapsys.us/mlb/players/liveimages/1aca6574-f37e-4a77-9b80-e17d19ab954b.jpg',
-                'http://images.synapsys.us/mlb/players/liveimages/6ee108da-ea32-442c-8641-21d8835cda1b.jpg',
-                'http://images.synapsys.us/mlb/players/liveimages/1cfd4d87-b877-49e7-ae8c-59870fa0947c.jpg',
-                'http://images.synapsys.us/mlb/players/liveimages/2a886783-aa99-4ebd-ad78-b8e27cb29685.jpg',
-                'http://images.synapsys.us/mlb/players/liveimages/4a5a201f-acd2-405f-ac94-db200c7e8405.jpg',
-                'http://images.synapsys.us/mlb/players/liveimages/a41a275e-da4a-44cf-9fa0-8ea2f3d43a30.jpg',
-                'http://images.synapsys.us/mlb/players/liveimages/ea06aa7a-68ce-458f-9f17-21930e4e5184.jpg',
-                'http://images.synapsys.us/mlb/players/liveimages/a023c197-eae7-411d-9844-1ae62767dca6.jpg',
-                'http://images.synapsys.us/mlb/players/liveimages/f43e3426-7ad0-4311-bc2b-992dee3898f3.jpg'];
-            image = [tempImageArray[mainImage] + '?width=300'];
-            puzzle = new _puzzle(image);
+            if (!isSolved) {
+                image = 'http:' + mainImage;
+                puzzle = new _puzzle(image, isSolved);
+            } else {
+                puzzle = new _puzzle(mainImage, isSolved);
+            }
         }).call(this);
     }
 
     m();
-    c(h);
+    createPuzzle();
     return {
-        carousel: w,
-        get_title: f,
-        m: m
+        m: m,
+        createPuzzle: createPuzzle
     }
 }();
