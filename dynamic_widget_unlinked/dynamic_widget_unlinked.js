@@ -535,7 +535,7 @@ function setCategoryColors(category) {
 function updateIndex(difference) {
     currentIndex += difference;
     if (currentIndex < 0) {
-        currentIndex = 0;
+        currentIndex = maxIndex -1;
     } else if (currentIndex >= maxIndex) {
         currentIndex = 0;
     } else {}
