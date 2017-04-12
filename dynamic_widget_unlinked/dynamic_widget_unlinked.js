@@ -377,7 +377,7 @@ function setCategoryColors(category) {
             break;
         case 'baseball':
         case 'mlb':
-            category = 'baseball';
+        category = 'baseball';
             break;
         case "realestate":
         case "disaster":
@@ -385,9 +385,11 @@ function setCategoryColors(category) {
         case "crime":
         case "weather":
         case "politics":
+        category = 'realestate';
             break;
         case "finance":
         case "money":
+        category = 'finance';
             break;
         default:
             category = 'default';
