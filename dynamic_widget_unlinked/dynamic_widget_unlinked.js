@@ -319,8 +319,10 @@ function displayWidget() {
             /***************************END OF FOOTBALL DATA*******************************/
         } else { /***************************DYNAMIC DATA APPLIANCE*******************************/
             let dataArray = widgetData.l_data;
-            if (widgetData.category != null) {
+            if ( query.group != null && widgetData.category != null) {
                 subCategory = widgetData.category;
+            }else if ( query.group != null && widgetData.category == null ){
+                subCategory = null;
             }
             setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
@@ -608,7 +610,7 @@ function checkImage(image) {
       fallbackImg = "real_estate_stock.jpg";
       break;
       default:
-      fallbackImg = "finance_stock.jpg";
+      fallbackImg = "real_estate_stock.jpg";
     }
     //prep return
     if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && image.indexOf('no_player') == -1 && window.location.pathname.indexOf('_970') == -1) {
