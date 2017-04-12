@@ -65,10 +65,10 @@ button:hover {
 }
 .snt_brand .snt_close{
   width: 6px;
-  height: 9px;
+  height: 8px;
   position: absolute;
-  left: 4px;
-  top: 3px;
+  left: 4.5px;
+  top: 3.5px;
   z-index: 11;
 }
 .snt_brand .snt_expand{
@@ -84,7 +84,7 @@ button:hover {
   display:none;
 }
 .snt_brand:hover .snt_expand{
-  width: 55px;
+  width: 57px;
   top:3px;
   left:5px;
 }
