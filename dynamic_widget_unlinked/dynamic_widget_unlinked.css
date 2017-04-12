@@ -234,6 +234,18 @@ button:hover {
     color: #000000;
 }
 
+.profile-rank-pound {
+  font-weight: 300;
+  font-size: 15px;
+  position: relative;
+  bottom:2px;
+  left:3px;
+}
+
+#profile-rank{
+  font-weight: bold;
+}
+
 .profile-data {
     height: 50px;
     width: calc(100% - 50px);

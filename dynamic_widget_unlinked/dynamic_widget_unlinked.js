@@ -288,7 +288,7 @@ function displayWidget() {
             //list title
             $("profile-title").innerHTML = widgetData.data.listInfo.listName;
             // $("mainimg").setAttribute('onerror', "this.src='//images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg'");
-            $("profile-rank").innerHTML = '#' + curData.rank;
+            $("profile-rank").innerHTML = curData.rank;
             $("mainimg-rank").innerHTML = curData.rank;
 
             //current index of a player or team to display
@@ -335,7 +335,7 @@ function displayWidget() {
               $("mainimg").style.backgroundImage = "url('"+image+"')";
             }
 
-            $("profile-rank").innerHTML = '#' + curData.li_rank;
+            $("profile-rank").innerHTML = curData.li_rank;
             $("mainimg-rank").innerHTML = curData.li_rank;
             $("profile-name").innerHTML = curData.li_title;
             // $("profile-datapoint1").innerHTML = curData.li_value;
