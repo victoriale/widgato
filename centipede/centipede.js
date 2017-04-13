@@ -649,7 +649,7 @@ loadData();
     worm.scrollLeft = 0;
     loadData();
   }
-
+  var adCounter = 0;
   //initial event listeners declaration
   worm.addEventListener("scroll", onSwipe);
   function onSwipe(e) {
@@ -667,10 +667,12 @@ loadData();
     }
     var rect = firstAd.getBoundingClientRect();
     if (rect.left < -600 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 600)) % 2 == 0) { //logic to jump ad to next space when you scroll past it
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*296.5) + 300) + "px";
+      var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft-150) /600)].parentElement.offsetLeft + 150;
+      firstAd.style.left = (left - firstAd.offsetWidth) + "px";
     }
      else if (rect.left > 600 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 600) % 2) == 1) { //logic to jump ad to prev space when you scroll past it
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*298) - 300) + "px";
+      var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft-150) /600)].parentElement.offsetLeft + 150;
+      firstAd.style.left = (left - firstAd.offsetWidth) + "px";
     }
     clearTimeout(scrollingTimout);
     scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
