@@ -1,1 +1,56 @@
-<svg width="6" height="8" viewBox="0 0 6 8" xmlns="http://www.w3.org/2000/svg"><title>CEE6D554-5008-4550-A2B9-9B4515FD0C4D</title><g fill="none" fill-rule="evenodd"><path fill="#3098FF" d="M0 0h6v4.5H0z"/><path fill="#272727" d="M0 5h6v3H0z"/></g></svg>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="15px" viewBox="0 0 15 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 43.1 (39012) - http://www.bohemiancoding.com/sketch -->
+    <title>SNT Badge / Default</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="15" height="15" rx="7.5"></rect>
+        <filter x="-56.7%" y="-43.3%" width="213.3%" height="213.3%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.1 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <rect id="path-3" x="0" y="0" width="5.84693556" height="5.5221058"></rect>
+        <rect id="path-5" x="0" y="0" width="5.84693556" height="3.24829753"></rect>
+    </defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="SNT-Badge-/-Default">
+            <g id="Icon-BG">
+                <g>
+                    <use fill="black" fill-opacity="1" filter="url(#filter-2)" xlink:href="#path-1"></use>
+                    <use fill-opacity="0.75" fill="#FFFFFF" fill-rule="evenodd" xlink:href="#path-1"></use>
+                </g>
+            </g>
+            <g id="Logo:-SNT" transform="translate(4.500000, 3.000000)">
+                <g id="Group" transform="translate(0.000000, 0.046451)">
+                    <mask id="mask-4" fill="white">
+                        <use xlink:href="#path-3"></use>
+                    </mask>
+                    <use id="Mask" fill="#E0DFE0" xlink:href="#path-3"></use>
+                    <g mask="url(#mask-4)" id="Rectangle-2">
+                        <g transform="translate(3.123587, 2.750224) rotate(-45.000000) translate(-3.123587, -2.750224) translate(-2.125337, -2.289672)">
+                            <rect fill="#3098FF" x="0.00394084573" y="0.0285421296" width="2.63924174" height="9.97227342"></rect>
+                            <rect fill="#2D94F9" x="2.62021366" y="0.097448926" width="2.63924174" height="9.97227342"></rect>
+                            <rect fill="#2A8FF2" x="5.23648647" y="0.0744799938" width="2.63924174" height="9.97227342"></rect>
+                            <rect fill="#2388EF" x="7.82979035" y="0.0744799938" width="2.63924174" height="9.97227342"></rect>
+                        </g>
+                    </g>
+                </g>
+                <g id="Group" transform="translate(0.000000, 5.666980)">
+                    <mask id="mask-6" fill="white">
+                        <use xlink:href="#path-5"></use>
+                    </mask>
+                    <use id="Mask" fill="#000000" xlink:href="#path-5"></use>
+                    <g mask="url(#mask-6)" id="Rectangle-2">
+                        <g transform="translate(2.199203, 1.718510) rotate(-45.000000) translate(-2.199203, -1.718510) translate(-1.747479, -3.316352)">
+                            <rect fill="#171818" x="0.00394084573" y="0.0285421296" width="2.63924174" height="9.97227342"></rect>
+                            <rect fill="#202123" x="2.62021366" y="0.097448926" width="2.63924174" height="9.97227342"></rect>
+                            <rect fill="#161718" x="5.23648647" y="0.0744799938" width="2.63924174" height="9.97227342"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

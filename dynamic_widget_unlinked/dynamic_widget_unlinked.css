@@ -1,3 +1,5 @@
+@import url("../css/inheritor_colors/inheritor.css");
+
 html, body {
     margin: 0 !important;
     width: 100%;
@@ -33,29 +35,6 @@ button:hover {
     cursor: pointer;
 }
 
-/*
-** Classes in here will be used in javascript to dynamically change inheritted colors
-*/
-.inheritor {
-    color: #43B149;
-}
-
-.inheritor_border{
-    border: 1px solid #43B149 !important;
-}
-
-.inheritor_img_bg {
-    background-color: #43B149 !important;
-}
-
-.inheritor_bg:hover:before {
-    background-color: #43B149 !important;
-}
-
-/*
-** Classes in here will be used in javascript to dynamically change inheritted colors
-*/
-
 .black_background:hover:before {
     background-color: #000000 !important;
 }
@@ -85,19 +64,18 @@ button:hover {
   transition: width .3s ease-in-out;
 }
 .snt_brand .snt_close{
-  content:url("../css/public/snt_logo_close.svg");
-  width: 6px;
-  height: 9px;
+  width: 100%;
+  height: 100%;
   position: absolute;
-  left: 5px;
-  top: 3px;
+  left: 0;
+  top: 0;
   z-index: 11;
 }
 .snt_brand .snt_expand{
-  content:url("../css/public/snt_logo_expand.svg");
+  display:none;
   position: absolute;
-  width: 0px;
-  height: 9px;
+  width: 65px;
+  height: 15px;
   left:0;
 }
 .snt_brand:hover{
@@ -107,9 +85,7 @@ button:hover {
   display:none;
 }
 .snt_brand:hover .snt_expand{
-  width: 55px;
-  top:3px;
-  left:5px;
+  display:block;
 }
 
 .float-right{
@@ -121,6 +97,7 @@ button:hover {
 }
 
 .text-wrap{
+  color: #000000;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -142,6 +119,7 @@ button:hover {
     width: 100%;
     height: auto;
     border: 1px solid #e1e1e1;
+    background-color: #ffffff;
 }
 
 .e_image-carousel {
@@ -162,6 +140,13 @@ button:hover {
     z-index: 3;
     left: 0;
     bottom: 0;
+
+}
+.line-clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 /*.e_image-carousel:hover {
@@ -180,9 +165,10 @@ button:hover {
 
 .e_image-carousel #mainimg {
     width: 100%;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .e_image-shader {
@@ -199,7 +185,11 @@ button:hover {
   display: none;
   width: 100%;
   height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
   opacity: 0.85;
+  z-index: 1;
 }
 
 .pound {
@@ -244,6 +234,18 @@ button:hover {
     color: #000000;
 }
 
+.profile-rank-pound {
+  font-weight: 300;
+  font-size: 15px;
+  position: relative;
+  bottom:2px;
+  left:3px;
+}
+
+#profile-rank{
+  font-weight: bold;
+}
+
 .profile-data {
     height: 50px;
     width: calc(100% - 50px);
@@ -280,6 +282,11 @@ button:hover {
     font-weight: 900;
 }
 
+.profile-data #profile-datapoint2 {
+    color: #000000;
+    font-size: 14px;
+}
+
 .block-date {
     width: 100%;
     height: auto;
@@ -311,6 +318,7 @@ button:hover {
     height: 100%;
     margin-left: 15px;
     border: 1px solid;
+    font-size: 12px;
     fill: inherit;
     color: inherit;
     background-color: #ffffff;
@@ -385,7 +393,7 @@ button:hover {
     color: #999999 !important;
     width: 57px;
     height: 100%;
-    margin-left: 10px;
+    margin-left: 6px;
     border: 1px solid;
     font-size: 12px;
 }
@@ -401,7 +409,7 @@ button:hover {
     color: #999999 !important;
     width: 57px;
     height: 100%;
-    margin-left: 5px;
+    margin-left: 1px;
     border: 1px solid;
     font-size: 12px;
 }
@@ -426,8 +434,8 @@ button:hover {
     height: 20px;
 }
 
-.e_advertisement {
+/*.e_advertisement {
     width: 100%;
     height: 250px;
     background-color: #000000;
-}
+}*/

@@ -1,0 +1,204 @@
+
+/* USE BELOW AS BASE COPY AND PASE THEN CHANGE COLORS AND NAME OF CLASSES TO WHAT YOU WANT TO USE
+** Classes in here will be used dynamically to change inheritted colors
+*/
+.inheritor {
+    color: #444444 ;
+}
+
+.inheritor_border{
+    border: 1px solid #444444  !important;
+}
+
+.inheritor_img_bg {
+    background-color: #444444  !important;
+}
+
+.inheritor_bg:hover:before {
+    background-color: #444444  !important;
+}
+
+/*
+** Classes in here will be used dynamically to change inheritted colors
+*/
+
+
+/*******************************FOOTBALL*******************************/
+.football-inheritor {
+    color: #004e87;
+}
+
+.football-inheritor_border{
+    border: 1px solid #004e87 !important;
+}
+
+.football-inheritor_img_bg {
+    background-color: #004e87 !important;
+}
+
+.football-inheritor_bg:hover:before {
+    background-color: #004e87 !important;
+}
+/*******************************FOOTBALL*******************************/
+
+/*******************************BASKETBALL*******************************/
+.basketball-inheritor {
+    color: #f26f26;
+}
+
+.basketball-inheritor_border{
+    border: 1px solid #f26f26 !important;
+}
+
+.basketball-inheritor_img_bg {
+    background-color: #f26f26 !important;
+}
+
+.basketball-inheritor_bg:hover:before {
+    background-color: #f26f26 !important;
+}
+/*******************************BASKETBALL*******************************/
+
+/*******************************BASEBALL*******************************/
+.baseball-inheritor {
+    color: #bc2027;
+}
+
+.baseball-inheritor_border{
+    border: 1px solid #bc2027 !important;
+}
+
+.baseball-inheritor_img_bg {
+    background-color: #bc2027 !important;
+}
+
+.baseball-inheritor_bg:hover:before {
+    background-color: #bc2027 !important;
+}
+/*******************************BASEBALL*******************************/
+
+/*******************************FINANCE*******************************/
+.finance-inheritor {
+    color: #3098ff;
+}
+
+.finance-inheritor_border{
+    border: 1px solid #3098ff !important;
+}
+
+.finance-inheritor_img_bg {
+    background-color: #3098ff !important;
+}
+
+.finance-inheritor_bg:hover:before {
+    background-color: #3098ff !important;
+}
+/*******************************FINANCE*******************************/
+
+/*******************************REALESTATE*******************************/
+.realestate-inheritor {
+    color: #43B149;
+}
+
+.realestate-inheritor_border{
+    border: 1px solid #43B149 !important;
+}
+
+.realestate-inheritor_img_bg {
+    background-color: #43B149 !important;
+}
+
+.realestate-inheritor_bg:hover:before {
+    background-color: #43B149 !important;
+}
+/*******************************REALESTATE*******************************/
+
+/*******************************LIFESTYLE*******************************/
+.lifestyle-inheritor {
+    color: #43B149;
+}
+
+.lifestyle-inheritor_border{
+    border: 1px solid #43B149 !important;
+}
+
+.lifestyle-inheritor_img_bg {
+    background-color: #43B149 !important;
+}
+
+.lifestyle-inheritor_bg:hover:before {
+    background-color: #43B149 !important;
+}
+/*******************************LIFESTYLE*******************************/
+
+/*******************************DISASTER*******************************/
+.disaster-inheritor {
+    color: #43B149;
+}
+
+.disaster-inheritor_border{
+    border: 1px solid #43B149 !important;
+}
+
+.disaster-inheritor_img_bg {
+    background-color: #43B149 !important;
+}
+
+.disaster-inheritor_bg:hover:before {
+    background-color: #43B149 !important;
+}
+/*******************************DISASTER*******************************/
+
+/*******************************POLITICS*******************************/
+.politics-inheritor {
+    color: #43B149;
+}
+
+.politics-inheritor_border{
+    border: 1px solid #43B149 !important;
+}
+
+.politics-inheritor_img_bg {
+    background-color: #43B149 !important;
+}
+
+.politics-inheritor_bg:hover:before {
+    background-color: #43B149 !important;
+}
+/*******************************POLITICS*******************************/
+
+/*******************************CRIME*******************************/
+.crime-inheritor {
+    color: #43B149;
+}
+
+.crime-inheritor_border{
+    border: 1px solid #43B149 !important;
+}
+
+.crime-inheritor_img_bg {
+    background-color: #43B149 !important;
+}
+
+.crime-inheritor_bg:hover:before {
+    background-color: #43B149 !important;
+}
+/*******************************CRIME*******************************/
+
+/*******************************WEATHER*******************************/
+.weather-inheritor {
+    color: #43B149;
+}
+
+.weather-inheritor_border{
+    border: 1px solid #43B149 !important;
+}
+
+.weather-inheritor_img_bg {
+    background-color: #43B149 !important;
+}
+
+.weather-inheritor_bg:hover:before {
+    background-color: #43B149 !important;
+}
+/*******************************WEATHER*******************************/

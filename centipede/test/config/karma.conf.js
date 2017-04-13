@@ -24,8 +24,9 @@ module.exports = function(config) {
       namedFiles: true,
     },
     client: {
+      captureConsole: true,
       mocha: {
-        timeout : 20000, // 20 seconds
+        timeout : 60000, // 20 seconds
       },
     },
   });

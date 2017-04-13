@@ -1,6 +1,9 @@
+var centipede = function() {
 //create friendly iframe to place ourselves inside
+var countSelf = document.getElementsByClassName("centipedeIframe");
 var friendlyIframe = document.createElement('iframe');
-friendlyIframe.id = "friendlyIframe";
+friendlyIframe.id = "friendlyIframe_" + countSelf.length;
+friendlyIframe.className = "centipedeIframe"
 friendlyIframe.width = '300';
 friendlyIframe.height = '250';
 friendlyIframe.src = 'about:blank';
@@ -14,7 +17,7 @@ var iframeContent = friendlyIframe.contentWindow;
       border: none;
       margin: 0;
       padding: 0;
-      -webkit-overflow-scrolling: auto;
+      -webkit-overflow-scrolling: touch;
     }
     .icon {
       background-position: 50%;
@@ -28,6 +31,8 @@ var iframeContent = friendlyIframe.contentWindow;
       width: 300px;
       height: 250px;
       background-color: #f7f7f7;
+      border: 1px solid #e1e1e1;
+      box-sizing: border-box;
     }
     .edge_shader {
       position: absolute;
@@ -55,7 +60,7 @@ var iframeContent = friendlyIframe.contentWindow;
       color: black;
       -webkit-backdrop-filter: blur(3px);
       backdrop-filter: blur(3px);
-      background-color: rgba(248, 248, 248, 0.9);
+      background-color: rgba(248, 248, 248, 0.8);
       transition: opacity 0.2s ease-in-out;
       z-index: 9999;
     }
@@ -158,9 +163,9 @@ var iframeContent = friendlyIframe.contentWindow;
     .worm_block:nth-of-type(2) {
       padding-left: 0px;
     }
-    .worm_block:nth-of-type(3n+1) {
-      padding-left: 0px;
-    }
+    // .worm_block:nth-of-type(3n+1) {
+    //   padding-left: 0px;
+    // }
     .worm_block:last-of-type {
       margin-right: 10px;
     }
@@ -177,8 +182,11 @@ var iframeContent = friendlyIframe.contentWindow;
       margin-left: 2px;
     }
     .ad_spacer {
-      width: 300px;
+      width: 295px;
       height: 100%;
+    }
+    .worm_block:nth-of-type(3n+5) {
+      margin-left:2px;
     }
     .ad_item {
       position: absolute;
@@ -199,7 +207,7 @@ var iframeContent = friendlyIframe.contentWindow;
       image-rendering: -webkit-optimize-contrast; /* Chrome (and Safari) */
       image-rendering: optimize-contrast;         /* CSS3 Proposed       */
       -ms-interpolation-mode: nearest-neighbor;   /* IE8+                */
-      border-bottom: 1px solid rgba(50,50,50,0.1);
+      /*border-bottom: 1px solid rgba(50,50,50,0.1);*/
     }
     .profile_image {
       position: absolute;
@@ -208,6 +216,7 @@ var iframeContent = friendlyIframe.contentWindow;
       transform: translateY(-50%);
     }
     .num {
+      font-family: lato;
       position: absolute;
       right: -5px;
       top: -20px;
@@ -235,7 +244,8 @@ var iframeContent = friendlyIframe.contentWindow;
       text-align: center;
     }
     .name {
-      font-weight: bold;
+      font-weight: 900;
+      color: #666666;
       font-size: 14px;
       max-width 95%;
       white-space: nowrap;
@@ -264,7 +274,8 @@ var iframeContent = friendlyIframe.contentWindow;
     }
     .value {
       font-size: 20px;
-      color: #545454;
+      color: #272727;
+      font-weight: 900;
       margin-bottom: 5px;
       white-space: nowrap;
       overflow: hidden;
@@ -279,7 +290,15 @@ var iframeContent = friendlyIframe.contentWindow;
       text-overflow: ellipsis;
       padding: 0 5px;
     }
-
+    .next_list {
+      font-family: lato;
+      position: relative;
+      top: -45%;
+      margin: 0 10px 0 10px;
+      border: 1px solid gray;
+      padding: 5px 10px 7px 10px;
+      border-radius: 5px;
+    }
     </style>
     <div class="wrapper">
       <div class="helper" id="helper">
@@ -316,10 +335,15 @@ var iframeContent = friendlyIframe.contentWindow;
         myScript = scripts[i];
       }
     }
-    var queryString = myScript.src.replace(/^[^\?]+\??/,'');
+    var queryString = myScript.src.split("centipede.js?")[1];
+
     if (queryString != "" && queryString != null) {
-      console.log("fired query string");
-      // input = JSON.parse(decodeURI(queryString));
+      try {
+        input = JSON.parse(decodeURI(queryString));
+      }
+      catch(e) {
+        console.log(e);
+      }
     }
   }
   if (input.env != "prod-" && input.env != "dev-") {
@@ -346,7 +370,7 @@ var iframeContent = friendlyIframe.contentWindow;
   if (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1) {
       input.category = 'finance'; //default category fallback
   }
-
+  friendlyIframe.classList.add("centipede_"+input.category);
   function getPublisher (pub) {
     var pubs = {
       mlb: {
@@ -373,7 +397,7 @@ var iframeContent = friendlyIframe.contentWindow;
       crime: {
         hex: "#43B149"
       },
-      dempgraphics: {
+      demographics: {
         hex: "#43B149"
       },
       politics: {
@@ -383,15 +407,17 @@ var iframeContent = friendlyIframe.contentWindow;
         hex: "#43B149"
       }
     };
-      if (pub == null || pub == "" || !pubs[pub.split(".")[0]]) {
-        return pubs[currentConfig.pub];
+      if (pub == null || pub == "" || !pubs[pub]) {
+        return pubs["finance"];
       }
       else {
-        return pubs[pub.split(".")[0]];
+        return pubs[pub];
       }
   }
 
   var currentPub = getPublisher(input.category);
+
+  function loadData() {
     //rand is a random value (1-50) that coresponds to a specific list for a given category (does not apply to football)
     var e = rand;
     while (e == rand) {
@@ -439,11 +465,11 @@ var iframeContent = friendlyIframe.contentWindow;
         rand = Math.floor((Math.random() * 2) + 1);
         if (rand == 1) {
           var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array_ncaaf.json';
-          l.category = "ncaaf";
+          input.category = "ncaaf";
         }
         else {
           var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array.json';
-          l.category = "nfl";
+          input.category = "nfl";
         }
       }
       var xmlHttp = new XMLHttpRequest();
@@ -476,6 +502,8 @@ var iframeContent = friendlyIframe.contentWindow;
     i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&cat=' + input.category + '&rand=' + e, true);
     i.send()
   }
+}
+loadData();
 
   function populateWorm(data) {
     if (input.category == "nfl" || input.category == "ncaaf") { //if TDL data, transform it
@@ -519,9 +547,9 @@ var iframeContent = friendlyIframe.contentWindow;
     worm.innerHTML = `
       <div class="worm_block">
         <div class="list_item">
-          <div class="profile_image_div" style="background-image:url('`+image+`')">
+          <div class="profile_image_div" style="background-image:url('`+image+"?width=138"+`')">
           <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>1</b></div></div>
-            <img class="profile_image" src="`+image+`">
+            <img class="profile_image" src="`+image+"?width=138"+`">
           </div>
           <div class="info">
             <div class="name">
@@ -538,29 +566,40 @@ var iframeContent = friendlyIframe.contentWindow;
       </div>
       <div class="worm_block">
       <div class="ad_spacer"></div>
-        <div id="first_ad" class="ad_item">
+        <div id="first_ad" class="ad_item" style="background-color: gray; width: 300px; height: 300px;">
 
         </div>
       </div>
     `;
-    setTimeout(function(){ //wait for dom to render before executing igloo script
-      var s = iframeContent.document.createElement("script");
-      s.type = "text/javascript";
-      s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
-      firstAd = iframeContent.document.getElementById('first_ad');
-      firstAd.appendChild(s);
-    }, 100);
+    if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
+      setTimeout(function(){ //wait for dom to render before executing igloo script
+        firstAd = iframeContent.document.getElementById('first_ad');
+        var s = iframeContent.document.createElement("script");
+        s.type = "text/javascript";
+        s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
+        firstAd.appendChild(s);
+      }, 100);
+    }
+    else {
+      setTimeout(function(){
+        firstAd = iframeContent.document.getElementById('first_ad');
+      }, 100);
+    }
 
+    var outputHTML = "";
+    var maxOutput = 10;
     //every other item (except the first)
-    for (var i = 1; i < items.length && i < 10; i ++) {
+    for (var i = 1; i < items.length && i < maxOutput; i ++) {
       items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
       image = items[i].li_img;
-      worm.innerHTML += `
-        <div class="worm_block">
+      if (Math.abs(i % 2) == 1) { //every odd number
+        outputHTML += `<div class="worm_block">`;
+      }
+      outputHTML += `
           <div class="list_item">
-            <div class="profile_image_div" style="background-image:url('`+image+`')">
+            <div class="profile_image_div" style="background-image:url('`+image+"?width=138"+`')">
             <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+(i+1)+`</b></div></div>
-              <img class="profile_image" src="`+image+`">
+              <img class="profile_image" src="`+image+"?width=138"+`">
             </div>
             <div class="info">
               <div class="name">
@@ -574,10 +613,12 @@ var iframeContent = friendlyIframe.contentWindow;
               </div>
             </div>
           </div>
-        </div>
       `;
-      if (i % 2 == 0) { //show ad every even number
-        worm.innerHTML += `
+      if (i % 2 == 0) { //end block div every even number
+        outputHTML += `</div>`;
+      }
+      if (i && (i % 4 === 0)) { //show ad every 4 items
+        outputHTML += `
         <div class="worm_block">
         <div class="ad_spacer"></div>
           <div class="ad_item">
@@ -585,11 +626,32 @@ var iframeContent = friendlyIframe.contentWindow;
           </div>
         </div>`;
       }
+      if (i == items.length || i == maxOutput-1) { //fire when done iterating over all items
+        outputHTML += `
+        </div>
+        <div class="worm_block">
+          <div class="next_list" id="next_list">
+            Next List
+          </div>
+        </div>
+        `;
+        worm.innerHTML += outputHTML; //write out the accumulated item's html
+        setTimeout(function(){
+          iframeContent.document.getElementById("next_list").addEventListener("touchend", nextList);
+        }, 100);
+        friendlyIframe.classList.add("widget_loaded"); //set leaded flag on bounding iframe
+      }
     }
   }
 
-  //initial event listeners declaration
+  function nextList(e) {
+    worm.innerHTML = "";
+    firstAd.style.left = "0px";
+    worm.scrollLeft = 0;
+    loadData();
+  }
 
+  //initial event listeners declaration
   worm.addEventListener("scroll", onSwipe);
   function onSwipe(e) {
     isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
@@ -605,13 +667,11 @@ var iframeContent = friendlyIframe.contentWindow;
       helper2.style.opacity = '1';
     }
     var rect = firstAd.getBoundingClientRect();
-    if (rect.left < -320) { //logic to jump ad to next space when you scroll past it
-      // console.log("fire move next");
-      firstAd.style.left = (Math.floor(this.scrollLeft / 300)*304 + 300) + "px";
+    if (rect.left < -600 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 600)) % 2 == 0) { //logic to jump ad to next space when you scroll past it
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*296.5) + 300) + "px";
     }
-     else if (rect.left > 320) { //logic to jump ad to prev space when you scroll past it
-      // console.log("fire move prev");
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*304) - 300) + "px";
+     else if (rect.left > 600 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 600) % 2) == 1) { //logic to jump ad to prev space when you scroll past it
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*298) - 300) + "px";
     }
     clearTimeout(scrollingTimout);
     scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
@@ -637,46 +697,69 @@ var iframeContent = friendlyIframe.contentWindow;
   }
   worm.addEventListener("touchstart", onFingerDown);
   function onFingerDown(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+    console.log("new touch event - canceled interpolation");
     clearTimeout(setSmoothScrollInterval);
   }
 
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
     for (i = 0; i < wormBlocks.length;  i++) {
-      if ((worm.scrollLeft + 180) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 180) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
+      if ((worm.scrollLeft + 150) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 150) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
         scrollTo = wormBlocks[i].offsetLeft;
         if (worm.scrollLeft < scrollTo) {
-          scrollIncrements = 1;
+          scrollIncrements = 10; //advance
         }
         else {
-          scrollIncrements = -1;
+          scrollIncrements = -10; //retreat
         }
         setSmoothScrollInterval = setInterval(function(){
-          var marginOfError = 0;
+          var marginOfError = Math.abs(scrollIncrements) - 1;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
+            if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
+              scrollIncrements = -1;
+            }
+            else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
+              scrollIncrements = 1;
+            }
             //if within margin of error of target, end scroll
             if (i == (wormBlocks.length - 1)) {
-              clearTimeout(setSmoothScrollInterval);
+              clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
-              worm.scrollLeft = worm.scrollLeft + scrollIncrements;
+              worm.scrollLeft = worm.scrollLeft + scrollIncrements; //apply the interpolation step
             }
           }
-          else {
+          else if (worm.scrollLeft < (scrollTo) || worm.scrollLeft > (scrollTo)) {// if in the last frame of interpolation
+            if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
+              scrollIncrements = -1;
+            }
+            else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
+              scrollIncrements = 1;
+            }
+            if (i == (wormBlocks.length - 1)) {
+              clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
+            }
+            else {
+              worm.scrollLeft = worm.scrollLeft + 1; //apply the interpolation step
+            }
+          }
+          else { //we have reached the end of the interpolation. stop the loop
             userScroll = false;
             setTimeout(function(){
               userScroll = true;
             }, 500);
             clearTimeout(setSmoothScrollInterval);
           }
-        }, 2);
+        }, 20);
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
+          iframeContent.ig_rotation_control=true; //unpause ad if its in view
         }
         else {
           helper.style.opacity = '1';
+          iframeContent.ig_rotation_control=false; //pause ad when its out of view
         }
         return;
       }
@@ -716,3 +799,5 @@ var iframeContent = friendlyIframe.contentWindow;
     //   currentBlock = (currentBlock + 1);
     // }
   }
+}
+centipede();
