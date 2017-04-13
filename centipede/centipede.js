@@ -187,7 +187,6 @@ var iframeContent = friendlyIframe.contentWindow;
     }
     .worm_block:nth-of-type(3n+5) {
       margin-left:2px;
-      background-color: red;
     }
     .ad_item {
       position: absolute;
