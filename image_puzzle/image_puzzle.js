@@ -379,53 +379,6 @@ image_puzzle = function () {
                 default:
                     $('desc').innerHTML = statType + ": " + stat;
             }
-
-            var t = $('mainimg');
-            var n = t.getAttribute('onerror');
-            t.setAttribute('onerror', '');
-            t.setAttribute('src', '');
-            $('carouselOverlay').className = "football";
-            if (e.rankType == "team") {
-                if (e.teamLogo != null && e.teamLogo != "null" && e.teamLogo.indexOf('no-image') == -1 && window.location.pathname.indexOf('_970') == -1) {
-                    $('carouselOverlay').style.display = "none";
-                    $('carouselShader').style.display = "block";
-
-                    t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.teamLogo + "?width=" + (t.width * window.devicePixelRatio));
-                }
-                else {
-                    $('carouselOverlay').style.display = "block";
-                    $('carouselShader').style.display = "none";
-
-                    t.setAttribute('src', protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg" + "?width=" + (300 * window.devicePixelRatio));
-                }
-            }
-            else {
-                if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && e.playerHeadshotUrl.indexOf('no-image') == -1 && window.location.pathname.indexOf('_970') == -1) {
-                    $('carouselOverlay').style.display = "none";
-                    $('carouselShader').style.display = "block";
-
-                    t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl + "?width=" + (t.width * window.devicePixelRatio));
-                }
-                else {
-                    $('carouselOverlay').style.display = "block";
-                    $('carouselShader').style.display = "none";
-
-                    t.setAttribute('src', protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg" + "?width=" + (300 * window.devicePixelRatio));
-                }
-            }
-            setTimeout(function (e, t) {
-                t.setAttribute('onerror', e)
-            }.bind(undefined, n, t), 0);
-
-            $('num').innerHTML = '<hash>#</hash>' + e.rank;
-
-            if ($('list-link')) {
-                var u = d.getElementsByClassName('dw-btn')[0];
-                if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight - 10 && d.getElementsByClassName('dw')[0].clientHeight <= 250) {
-                    d.getElementsByClassName('dw-btn')[0].setAttribute('style', 'margin-top: 0')
-                }
-            }
-            var p = $('title');
         }
         else {
             var e = r.l_data[i];
@@ -469,13 +422,6 @@ image_puzzle = function () {
                 }
             }
             $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
-            // }
-            if ($('list-link')) {
-                var u = d.getElementsByClassName('dw-btn')[0];
-                if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight - 10 && d.getElementsByClassName('dw')[0].clientHeight <= 250) {
-                    d.getElementsByClassName('dw-btn')[0].setAttribute('style', 'margin-top: 0')
-                }
-            }
             var p = $('title');
         }
         createPuzzle(e.li_img, false);
