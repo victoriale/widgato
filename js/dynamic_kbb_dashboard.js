@@ -20,9 +20,6 @@ function getCategoryMetadata (category) {
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var currentConfig;
 var referrer = document.referrer ? document.referrer : window.location.href;
-var season;
-var currentDomain = "";
-var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
 //TODO: waiting on API with KBB data
 /**
@@ -44,22 +41,22 @@ function generateArticleLink (scope, linkType, destinationId, articleType, remn)
 * List tab options
 */
 function getTabInfo(option){
-  var tabObj = {
+  var tabObj = {//TODO false category for testing
     "trending": {
       display: "Trending News",
-      category: "trending-news"
+      category: "automotive"
     },
     "reviews": {
       display: "Reviews",
-      category: "reviews"
+      category: "food"
     },
     "top10": {
       display: "Top 10 Lists",
-      category: "top-10-lists"
+      category: "travel"
     },
     "videos": {
       display: "Videos",
-      category: "videos"
+      category: "entertainment"
     }
   }
   if(tabObj[option] == null || typeof tabObj[option] == "undefined"){// default return
@@ -87,6 +84,11 @@ dynamic_widget = function() {
     currentConfig = getCategoryMetadata(l.category);
     var s = false;
     var o = '';
+    var selectedTab;
+    if( l.category == "kbb"){
+      l.category = getTabInfo("trending").category;//TODO need to update l.category to not be kbb
+    }
+
     function onLoad(e) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
             e()
@@ -114,9 +116,9 @@ dynamic_widget = function() {
     */
     function httpGetData(ignoreRandom) {
       //Category is default to KBB if undefined, exception only for KBB widgets
-      if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
-          l.category = 'kbb'
-      }
+      // if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
+      //     l.category = 'kbb'
+      // }
       if (ignoreRandom == null) {
         var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
       }
@@ -134,6 +136,7 @@ dynamic_widget = function() {
           if (i.readyState == XMLHttpRequest.DONE) {
               if (i.status == 200) {
                   r = JSON.parse(i.responseText);
+                  console.log("r", r);
                   onLoad(getData)
               } else {
                   var e = i.statusText;
@@ -155,24 +158,25 @@ dynamic_widget = function() {
       //TODO: waiting on new api call with KBB data
       //Test API: http://dev-article-library.synapsys.us/articles?category=automotive&metaDataOnly=1&readyToPublish=true&count=
       var count = 20;
-      var category = "automotive";//TODO
+      var category =  l.category;//TODO
+      console.log("CATEGORY: ", category);
       var subCategory = currentConfig.subCategory;
       i.open('GET', protocol+"://dev-article-library.synapsys.us/articles?category="+category+"&subCategory="+subCategory+ "&metaDataOnly=1&readyToPublish=true&count="+count, true);
       // i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
       // i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=" + "http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true);
       //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
       i.send()
-    }
+    }//function httpGetData ends
 
     function getData() {
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: 'widget-title',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
+        // if (typeof dataLayer != 'undefined') {
+        //     dataLayer.push({
+        //         event: 'widget-title',
+        //         eventAction: dynamic_widget.get_title()
+        //     })
+        // }
         var n = true;
-        getTab();
+        setTabs();
         formattedData();
         artData()
     }
@@ -244,27 +248,74 @@ dynamic_widget = function() {
         });
     }
     /**
-    * @function getTab
+    * @function getTabNames
     * Set up tab options menu
     */
-    function getTab(){
-      var arr = ['trending', 'reviews', 'top10', 'videos'];
-      var tabName;
-      var first = true;
-      for(var o in arr){
-        tabName = getTabInfo(arr[o]).display;
+    function getTabNames(){
+      var tabArray = ['trending', 'reviews', 'top10', 'videos'];//array of tab items you want to call
+      sendTabNames(tabArray);
+      return tabArray;
+    }
+    /**
+    * @function sendTabNames
+    * Send dashboard tab name to top level
+    */
+    function sendTabNames(tabs){
+      var arrString = tabs.join(",");//convert tab array to string
+      top.postMessage("dashboard_category:" + arrString, "*");
+    }
+
+    // function receiveMessage(event){
+    //   if (event.data != null && event.data != "") {
+    //     if (event.data.indexOf("dashboard_category:") != -1) {
+    //       var string = event.data.replace("dashboard_category:", "");
+    //     }
+    //   }
+    // }
+    // top.addEventListener("message", receiveMessage);
+    /**
+    * @function setTabs
+    * Format the tabs' options
+    **/
+    function setTabs(){
+      var tabNames = getTabNames();
+      if (typeof selectedTab == "undefined") {//default to first tab if none is selected
+          selectedTab = tabNames[0];
+      } else {
+          tabNames.unshift(selectedTab);
+      }
+      var category;
+      for (var i = 0; i < tabNames.length; i++) {
+        var tabDisplay;
+        category = getTabInfo(tabNames[i]).category;//get category value for each tab option
+        tabDisplay = getTabInfo(tabNames[i]).display;//get display name for each tab option
         var navBarUrl = document.createElement('a');
-        navBarUrl.className = "navBar-url";
-        var genNavUrl =  "";//TODO:generate navigation link for tab
-        navBarUrl.href = genNavUrl;
-        if(first){
+        navBarUrl.className = "navBar-url";//set class name navBar-url for each tab option
+        navBarUrl.id = category;
+        navBarUrl.innerHTML = tabDisplay;
+        if(i == 0){//default to first tab on first load, TODO: get the widget id from script to default to the right tab
           navBarUrl.className += " selected";
-          first = false;
+        }
+        if(category != selectedTab) {//if the tab category is not the same with the selected tab category
+          navBarUrl.addEventListener('click', tabSelect, false);//set tab select event to false
         }
         var parent = document.getElementById("navBarId");
-        navBarUrl.innerHTML = '<div class="navBar-item">'+tabName+'</div>';
         parent.appendChild(navBarUrl);
       }
+    }
+    /**
+    * @function tabSelect
+    * Listen to select event and activate tab
+    **/
+    function tabSelect(event) {
+        var target = event.target || event.srcElement;
+        var tablinks = document.getElementsByClassName("navBar-url");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" selected", "");
+        }
+        target.className += " selected";
+        selectedTab = target.id;
+        console.log("EVENT", event);
     }
     /**
     * @function carData
@@ -282,13 +333,9 @@ dynamic_widget = function() {
         if (typeof dataLayer != 'undefined') {
             dataLayer.push({
                 event: e == 1 ? 'nav-right' : 'nav-left',
-                eventAction: dynamic_widget.get_title()
+                // eventAction: dynamic_widget.get_title()
             })
         }
-    }
-
-    function getTitle() {
-        return l.dom + ':' + l.category + ':' + (r.l_sort == null ? r.l_param : r.l_sort) + ':' + r.l_title
     }
 
     function setHomeLink() {
@@ -310,7 +357,7 @@ dynamic_widget = function() {
     onLoad(setHomeLink);
     return {
         carousel: carData,
-        get_title: getTitle,
-        m: reset
+        m: reset,
+        tabSelect: tabSelect
     }
 }();
