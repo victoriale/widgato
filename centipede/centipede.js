@@ -182,7 +182,7 @@ var iframeContent = friendlyIframe.contentWindow;
       margin-left: 2px;
     }
     .ad_spacer {
-      width: 295px;
+      width: 296px;
       height: 100%;
     }
     .worm_block:nth-of-type(3n+5) {
@@ -649,7 +649,6 @@ loadData();
     worm.scrollLeft = 0;
     loadData();
   }
-  var adCounter = 0;
   //initial event listeners declaration
   worm.addEventListener("scroll", onSwipe);
   function onSwipe(e) {
@@ -666,11 +665,7 @@ loadData();
       helper2.style.opacity = '1';
     }
     var rect = firstAd.getBoundingClientRect();
-    if (rect.left < -600 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 600)) % 2 == 0) { //logic to jump ad to next space when you scroll past it
-      var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft-150) /600)].parentElement.offsetLeft + 150;
-      firstAd.style.left = (left - firstAd.offsetWidth) + "px";
-    }
-     else if (rect.left > 600 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 600) % 2) == 1) { //logic to jump ad to prev space when you scroll past it
+    if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
       var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft-150) /600)].parentElement.offsetLeft + 150;
       firstAd.style.left = (left - firstAd.offsetWidth) + "px";
     }
