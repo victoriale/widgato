@@ -624,7 +624,7 @@ function checkImage(image) {
     }
     //prep return
     if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && image.indexOf('no_player') == -1 && window.location.pathname.indexOf('_970') == -1) {
-        imageReturn = image;
+        imageReturn = image + "?width=" + (300 * window.devicePixelRatio);
         showCover = false;
     } else {
         showCover = true;
