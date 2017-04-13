@@ -589,7 +589,7 @@ loadData();
     var outputHTML = "";
     var maxOutput = 10;
     //every other item (except the first)
-    for (var i = 1; i < items.length && i < maxOutput; i ++) {
+    for (var i = 1; i < items.length && i < maxOutput; i++) {
       items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
       image = items[i].li_img;
       if (Math.abs(i % 2) == 1) { //every odd number
@@ -626,7 +626,7 @@ loadData();
           </div>
         </div>`;
       }
-      if (i == items.length || i == maxOutput-1) { //fire when done iterating over all items
+      if (i == items.length-1 || i == maxOutput-1) { //fire when done iterating over all items
         outputHTML += `
         </div>
         <div class="worm_block">
