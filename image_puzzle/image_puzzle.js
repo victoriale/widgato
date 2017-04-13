@@ -1,5 +1,5 @@
 function getCategoryMetadata(category) {
-    var globalMeta = {
+    let globalMeta = {
         nfl: {
             displayName: "Football",
             domain: "www.touchdownloyal.com",
@@ -76,17 +76,17 @@ function getCategoryMetadata(category) {
 }
 
 function getPublisher(pub, env) {
-    var apiFallback = false;
-    var xmlHttp = new XMLHttpRequest();
+    let apiFallback = false;
+    let xmlHttp = new XMLHttpRequest();
     xmlHttp.open("GET", "http://" + env + "synapview.synapsys.us/?action=get_partner_branding&domain=" + pub, false);
     xmlHttp.send(null);
     try {
-        var pubResponce = JSON.parse(xmlHttp.responseText);
+        var pubResponse = JSON.parse(xmlHttp.responseText);
     }
     catch (err) {
         apiFallback = true;
     }
-    if (pubResponce == null || pubResponce.logo == null || pubResponce.logo == "") {
+    if (pubResponse == null || pubResponse.logo == null || pubResponse.logo == "") {
         apiFallback = true;
     }
     var pubs = {
@@ -118,38 +118,17 @@ function getPublisher(pub, env) {
         }
     }
     else {
-        return pubResponce;
+        return pubResponse;
     }
 }
 
-function copyToClipboard(text) {
-    if (window.clipboardData && window.clipboardData.setData) {
-        return clipboardData.setData("Text", text);
-    } else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
-        var textarea = document.createElement("textarea");
-        textarea.textContent = text;
-        textarea.style.position = "fixed";
-        document.body.appendChild(textarea);
-        textarea.select();
-        try {
-            return document.execCommand("copy");
-        } catch (ex) {
-            console.warn("Copy to clipboard failed.", ex);
-            return false;
-        } finally {
-            document.body.removeChild(textarea);
-        }
-    }
-}
-
-var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+var protocolToUse = (location.protocol === "https:") ? "https://" : "http://";
 var currentConfig;
 var currentPub;
 var referrer = document.referrer;
 var season;
 var SpecialDomain = "";
 var currentDomain = "";
-var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 var rounds = 0;
 var rand;
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
@@ -161,40 +140,35 @@ function getBaseUrl(string) {
     return protocolToUse + "//" + domain;
 }
 
-
 image_puzzle = function () {
-
-
-    var e = location.protocol == 'https:' ? 'https' : 'http',
-        protocol = location.protocol == 'https:' ? 'https' : 'http',
+    let e = location.protocol === 'https:' ? 'https' : 'http',
+        protocol = location.protocol === 'https:' ? 'https' : 'http',
         i = 0,
         r = {},
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['nba', 'college_basketball', 'mlb', 'nfl', 'ncaaf', 'nflncaaf'];
-    if (l.env != "prod-" && l.env != "dev-") {
+    if (l.env !== "prod-" && l.env !== "dev-") {
         l.env = "prod-";
     }
     t = e + '://' + l.env.replace("prod-", "") + 'dw.synapsys.us/list_api.php';
-    if (l.subd && l.subd.indexOf("/") == -1) {
+    if (l.subd && l.subd.indexOf("/") === -1) {
         SpecialDomain = l.subd;
     }
     currentConfig = getCategoryMetadata(l.category);
     currentPub = getPublisher(l.dom, l.env.replace("prod-", ""));
-
-    //new dyanmic pub color css code
-    var css = '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
-    if (window.location.pathname.indexOf("_970") != -1) {
-        css += '#list-link .dw-btn {background-color: ' + currentPub.hex + '; border: none;}';
-        css += '#list-link .dw-btn:before {background-color: black;}';
+    //new dynamic pub color css code
+    let css = '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
+    if (window.location.pathname.indexOf("_970") !== -1) {
+        css += '#next-list-link .dw-btn {background-color: ' + currentPub.hex + '; border: none;}';
+        css += '#next-list-link .dw-btn:before {background-color: black;}';
     }
     else {
-        css += '#list-link .dw-btn:before {background-color: ' + currentPub.hex + ';}';
+        css += '#next-list-link .dw-btn:before {background-color: ' + currentPub.hex + ';}';
     }
     css += '.dw-info {border-left: 3px solid ' + currentPub.hex + '; padding-left: 10px;}';
-    css += '#list-link .dw-btn {fill: ' + currentPub.hex + '; color: ' + currentPub.hex + '; border-color: ' + currentPub.hex + ';}';
-    css += '#carouselOverlay {background-color:' + currentPub.hex + ';}';
-    style = document.createElement('style');
+    css += '#next-list-link .dw-btn {fill: ' + currentPub.hex + '; color: ' + currentPub.hex + '; border-color: ' + currentPub.hex + ';}';
+    let style = document.createElement('style');
     if (style.styleSheet) {
         style.styleSheet.cssText = css;
     } else {
@@ -203,20 +177,17 @@ image_puzzle = function () {
     document.getElementsByTagName('head')[0].appendChild(style);
     //end dynamic pub color css code
 
-    if (typeof(l.subd) == 'undefined' || !l.subd || l.subd == '' || l.subd == null) {
-        l.subd = (l.remn == 'false') ? currentConfig.partnerDomain + '/' + l.dom : currentConfig.domain;
+    if (typeof(l.subd) === 'undefined' || !l.subd || l.subd === '' || l.subd === null) {
+        l.subd = (l.remn === 'false') ? currentConfig.partnerDomain + '/' + l.dom : currentConfig.domain;
     }
-    var s = false;
-    var o = '';
-
     function c(e) {
-        if (d.readyState == 'complete' || d.readyState == 'interactive') {
+        if (d.readyState === 'complete' || d.readyState === 'interactive') {
             e();
         } else if (d.addEventListener) {
             d.addEventListener('DOMContentLoaded', e)
         } else if (d.attachEvent) {
             d.attachEvent('onreadystatechange', function () {
-                if (d.readyState == 'complete') {
+                if (d.readyState === 'complete') {
                     e();
                 }
             })
@@ -248,7 +219,7 @@ image_puzzle = function () {
                 initData = JSON.parse(xmlHttp.responseText);
                 getRandList(initData);
             }
-        }
+        };
         xmlHttp.open("GET", url, true); // false for synchronous request
         xmlHttp.send(null);
     }
@@ -279,18 +250,17 @@ image_puzzle = function () {
         else {
             httpGetData("", ignoreRandom);
         }
-
     }
 
     function httpGetData(query, ignoreRandom) {
-        if (ignoreRandom == null) {
-            var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 50);
+        if (ignoreRandom === null) {
+            var e = typeof l.rand !== 'undefined' && n === 0 ? l.rand : Math.floor(Math.random() * 50);
         }
         else {
             var e = rand;
-            while (e == rand) {
+            while (e === rand) {
                 e = Math.floor(Math.random() * 50);
-                if (e == 0) {
+                if (e === 0) {
                     e = 1;
                 }
             }
@@ -372,60 +342,6 @@ image_puzzle = function () {
             currentDomain = currentDomain.split('/')[2];
         }
         currentDomain = currentDomain.replace(/^[^.]*\.(?=\w+\.\w+$)/, ""); //remove www.
-        switch (l.category) {
-            case 'nba':
-            case 'college_basketball':
-                var a = l.remn == 'true' ? 'http://' + l.subd + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + l.subd + '/' + currentConfig.subCategory + '/w-list';
-                break;
-            case "mlb":
-                var a = "";
-                a = l.remn == 'true' ? 'http://' + l.subd + '/list' : "http://" + l.subd + '/list';
-                var n = false
-                break;
-            case "nfl":
-            case "ncaaf":
-            case "nflncaaf":
-                $("suburl").style.cssText += "pointer-events:none; cursor:default";
-                $("carousel").className = "one";
-                var a = "";
-                a = l.remn == 'true' ? 'http://' + l.subd : "http://" + l.subd;
-                var n = false
-                break;
-            default:
-                var a = l.remn == 'true' ? 'http://' + l.subd + '/wlist' : 'http://' + l.subd + '/wlist';
-                var n = false
-        }
-        if (currentConfig.category != "football" && (l.county == null || l.county == "")) { //normal links (not football or ajc)
-            a += n ? '?tw=' + r.l_param + '&sw=' + r.l_sort + '&input=' + r.l_input : '/tw-' + r.l_param + '+sw-' + r.l_sort + '+input-' + r.l_input;
-        }
-        else if (currentConfig.category == "football") { //football links
-            a += "/" + l.category + "/list/" + r.data.listData[0].rankType + "/" + r.data.listData[0].statType.replace(r.data.listData[0].rankType + "_", "") + "/" + season + "/" + r.data.listInfo.ordering + "/" + "10" + "/" + "1";
-        }
-        else if (l.county != null || l.county != "") { //ajc only links
-            a += '/category-' + currentConfig.category + '+location-' + l.county + '+rand-' + rand;
-        }
-        if ($('list-link') && l.showLink != 'false') {
-            $('list-link').href = a;
-            $('imgurl').href = a;
-            $('title-link').href = a;
-            $('shareFacebook').href = "https://www.facebook.com/sharer/sharer.php?u=" + a;
-            $('shareTwitter').href = "https://twitter.com/home?status=" + a;
-            $('shareLink').addEventListener("click", function () {
-                copyToClipboard(a);
-                $('shareSuccess').style.display = "block";
-                setTimeout(function () {
-                    $('shareSuccess').style.display = "none";
-                }, 2000);
-            });
-        }
-        if (l.showLink == 'false') {
-            $('list-link').style.display = "none";
-            $('next-list-link').getElementsByClassName("dw-btn")[0].style.marginLeft = "calc(50% - 85px)";
-            var linkHovers = document.getElementsByClassName("hover");
-            for (i = 0; i < linkHovers.length; i++) {
-                linkHovers[i].style.display = "none";
-            }
-        }
         p()
     }
 
@@ -440,40 +356,9 @@ image_puzzle = function () {
             if (e.rankType == "team") {
                 $('line1').innerHTML = e.teamName;
                 $('line2').innerHTML = "Division: <b>" + e.divisionName + "</b>";
-                var a = "";
-                if (SpecialDomain == "") {// if no special link then create
-                    v_link = l.remn == 'true' ? "/team/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.teamId : "/t/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.teamId;
-
-                    a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" + l.category + v_link : "http://" + currentConfig.partnerDomain + "/" + l.dom + "/" + l.category + v_link;
-                }
-                else {
-                    v_link = "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId;
-
-                    a = 'http://' + SpecialDomain + "/" + l.category + v_link;
-                }
-                if (l.showLink != 'false') {
-                    $('line1').href = a.replace("(", "").replace(")", "");
-                }
             }
             else {
                 $('line1').innerHTML = e.playerFirstName + " " + e.playerLastName;
-                var a = "";
-                if (SpecialDomain == "") {
-                    v_link = l.remn == 'true' ? "/player/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId : "/p/" + e.teamName.replace(/ /g, "-").toLowerCase() + '/' + e.playerFirstName.replace(/ /g, "-").toLowerCase() + '-' + e.playerLastName.replace(/ /g, "-").toLowerCase() + "/" + e.playerId;
-
-                    a = l.remn == 'true' ? 'http://' + currentConfig.domain + "/" + l.category + v_link : "http://" + currentConfig.partnerDomain + "/" + l.dom + "/" + l.category + v_link;
-                    $('line2').innerHTML = "Team: <a href='" + 'http://' + l.subd + "/" + l.category + "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId + "'><b>" + e.teamName + "</b></a>";
-
-                }
-                else {
-                    v_link = "/player/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + escape(e.playerFirstName.replace(/ /g, "-").toLowerCase()) + '-' + escape(e.playerLastName.replace(/ /g, "-").toLowerCase()) + "/" + e.playerId;
-
-                    a = 'http://' + SpecialDomain + "/" + l.category + v_link;
-                    $('line2').innerHTML = "Team: <a href='" + 'http://' + SpecialDomain + "/" + l.category + "/team/" + escape(e.teamName.replace(/ /g, "-").toLowerCase()) + '/' + e.teamId + "'><b>" + e.teamName + "</b></a>";
-                }
-                if (l.showLink != 'false') {
-                    $('line1').href = a.replace("(", "").replace(")", "");
-                }
             }
             var statType = e.statDescription.replace(/_/g, " ");
             statType = statType.replace("player", "");
@@ -533,45 +418,17 @@ image_puzzle = function () {
             }.bind(undefined, n, t), 0);
 
             $('num').innerHTML = '<hash>#</hash>' + e.rank;
-            $('fallbackNum').innerHTML = '#' + e.rank;
 
             if ($('list-link')) {
                 var u = d.getElementsByClassName('dw-btn')[0];
-                // if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight) {
-                //     $('title').setAttribute('style', 'font-size: 14px');
-                //     if (d.getElementsByClassName('dw')[0].clientHeight <= 250) {
-                //         $('title').setAttribute('style', 'font-size: 12px')
-                //     }
-                // }
                 if (u.offsetTop + u.scrollHeight > d.getElementsByClassName('dw')[0].clientHeight - 10 && d.getElementsByClassName('dw')[0].clientHeight <= 250) {
                     d.getElementsByClassName('dw-btn')[0].setAttribute('style', 'margin-top: 0')
                 }
             }
             var p = $('title');
-            // if (p.offsetTop + p.scrollHeight > $('carousel').offsetTop) {
-            //     $('title').setAttribute('style', 'font-size: 14px')
-            // }
         }
         else {
             var e = r.l_data[i];
-            e.li_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
-            e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
-            if (currentConfig.category == "basketball" || currentConfig.category == "baseball") {
-                e.li_url = e.li_url.replace("/t/", "/team/");
-                e.li_url = e.li_url.replace("/p/", "/player/");
-                e.li_line_url = e.li_line_url.replace("/t/", "/team/");
-                e.li_line_url = e.li_line_url.replace("/p/", "/player/");
-            }
-            e.li_url = e.li_url.replace("/w-list", "/widget-list");
-            if (SpecialDomain) {
-                e.li_url = "http://" + e.li_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/").replace('/{partner}', "");
-                e.li_line_url = "http://" + e.li_line_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/").replace('/{partner}', "");
-            }
-            else {
-                e.li_url = "http:" + e.li_url.replace('{partner}', l.dom);
-                e.li_line_url = "http:" + e.li_line_url.replace('{partner}', l.dom);
-            }
-
             $('line1').innerHTML = e.li_title;
             $('line2').innerHTML = e.li_sub_txt;
             if ($('line4') == null) {
@@ -585,59 +442,32 @@ image_puzzle = function () {
                 $('desc').innerHTML = e.li_value;
                 $('line4').innerHTML = e.li_tag
             }
-            if (l.showLink != 'false') {
-                $('line1').href = e.li_line_url;
+            var fallbackImg = "http://images.synapsys.us/01/fallback/stock/2017/03/";
+            var cssClass = "";
+            switch (l.category) {
+                case "nfl":
+                case "ncaaf":
+                    fallbackImg += "football_stock.jpg";
+                    cssClass = "football";
+                    break;
+                case "nba":
+                case "college_basketball":
+                    fallbackImg += "basketball_stock.jpg";
+                    cssClass = "basketball";
+                    break;
+                case "mlb":
+                    fallbackImg += "baseball_stock.jpg";
+                    cssClass = "baseball";
+                    break;
             }
-            //TODO
-            // var t = $('puzzle-background');
-            // var n = t.getAttribute('onerror');
-            // t.setAttribute('onerror', '');
-            // t.setAttribute('src', '');
-            // var fallbackImg = "http://images.synapsys.us/01/fallback/stock/2017/03/";
-            // var cssClass = "";
-            // switch (l.category) {
-            //     case "nfl":
-            //     case "ncaaf":
-            //         fallbackImg += "football_stock.jpg";
-            //         cssClass = "football";
-            //         break;
-            //     case "nba":
-            //     case "college_basketball":
-            //         fallbackImg += "basketball_stock.jpg";
-            //         cssClass = "basketball";
-            //         break;
-            //     case "mlb":
-            //         fallbackImg += "baseball_stock.jpg";
-            //         cssClass = "baseball";
-            //         break;
-            //     default:
-            //         //TODO
-            //         cssClass = "finance";
-            //         fallbackImg += "finance_stock.jpg";
-            // }
-            // fallbackImg += "?width=" + (300 * window.devicePixelRatio);
-            // // $('carouselOverlay').className = cssClass;
-            // if (l.category == "college_basketball" || l.category == "nba") {
-            //     if (e.player_wide_img != "" && e.player_wide_img != null) {
-            //         e.li_img = "//" + l.env + "images.synapsys.us" + e.player_wide_img;
-            //     }
-            //     else {
-            //         e.li_img = "//" + l.env + "images.synapsys.us" + e.team_wide_img;
-            //     }
-            // }
-            // if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1 || e.li_img.indexOf("_stock") != -1 || window.location.pathname.indexOf('_970') != -1) {
-            //     t.setAttribute('src', fallbackImg + "?width=" + (300 * window.devicePixelRatio));
-            //     $('carouselOverlay').style.display = "block";
-            //     $('carouselShader').style.display = "none";
-            // }
-            // else {
-            //     t.setAttribute('src', e.li_img.replace(/'/g, "") + "?width=" + (300 * window.devicePixelRatio));
-            //     $('carouselOverlay').style.display = "none";
-            //     $('carouselShader').style.display = "block";
-            // }
-            // setTimeout(function (e, t) {
-            //     t.setAttribute('onerror', e)
-            // }.bind(undefined, n, t), 0);
+            if (l.category == "college_basketball" || l.category == "nba") {
+                if (e.player_wide_img != "" && e.player_wide_img != null) {
+                    e.li_img = "//" + l.env + "images.synapsys.us" + e.player_wide_img;
+                }
+                else {
+                    e.li_img = "//" + l.env + "images.synapsys.us" + e.team_wide_img;
+                }
+            }
             $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
             // }
             if ($('list-link')) {
@@ -648,7 +478,6 @@ image_puzzle = function () {
             }
             var p = $('title');
         }
-        //This will eventually send the actual image. For now it is just the rank so that I can order my temp array of images.
         createPuzzle(e.li_img, false);
     }
 
@@ -661,7 +490,7 @@ image_puzzle = function () {
             i = i >= r.l_data.length ? 0 : i < 0 ? r.l_data.length - 1 : i;
         }
         //TODO
-       // p();
+        p();
         if (typeof dataLayer != 'undefined' && autoAdvance != true) {
             dataLayer.push({
                 event: e == 1 ? 'nav-right' : 'nav-left',
@@ -706,10 +535,6 @@ image_puzzle = function () {
         w(goodNumber, true);
     }
 
-    function f() {
-        return l.dom + ':' + l.category + ':' + (r.l_sort == null ? r.l_param : r.l_sort) + ':' + r.l_title
-    }
-
     function h() {
         if (l.carousel == true) {
             var e = d.getElementsByTagName('a');
@@ -734,28 +559,28 @@ image_puzzle = function () {
                 function _puzzle(image, isSolved) {
                     //set variables
                     if (!isSolved) {
-                    var i, index, tile, xPos, yPos;
-                    this.image = image;
-                    this.initialTiles = [];
-                    this.tiles = [];
-                    //bind the function and array arguments to the called method
-                    this.emptyTile.bind(this.emptyTile, this);
-                    this.randomize.bind(this.randomize, this);
-                    this.render.bind(this.render, this);
-                    this.swapTile.bind(this.swapTile, this);
-                    this.solved.bind(this.solved, this);
-                    //assign each tile with dimensions, position, and image
-                    for (i = index = 0; index <= 7; i = ++index) {
-                        xPos = Math.floor(i % 3) * 100;
-                        yPos = Math.floor(i / 3) * 104;
-                        tile = new _square(i, 100, 104, xPos, yPos, this.image);
-                        this.tiles.push(tile);
-                    }
-                    //set the 8th position to be empty
-                    this.tiles.push(new _empty(8));
-                    //save the initial tile setup.
-                    this.initialTiles = this.tiles.slice(0);
-                    this.randomize();
+                        var i, index, tile, xPos, yPos;
+                        this.image = image;
+                        this.initialTiles = [];
+                        this.tiles = [];
+                        //bind the function and array arguments to the called method
+                        this.emptyTile.bind(this.emptyTile, this);
+                        this.randomize.bind(this.randomize, this);
+                        this.render.bind(this.render, this);
+                        this.swapTile.bind(this.swapTile, this);
+                        this.solved.bind(this.solved, this);
+                        //assign each tile with dimensions, position, and image
+                        for (i = index = 0; index <= 7; i = ++index) {
+                            xPos = Math.floor(i % 3) * 100;
+                            yPos = Math.floor(i / 3) * 104;
+                            tile = new _square(i, 100, 104, xPos, yPos, this.image);
+                            this.tiles.push(tile);
+                        }
+                        //set the 8th position to be empty
+                        this.tiles.push(new _empty(8));
+                        //save the initial tile setup.
+                        this.initialTiles = this.tiles.slice(0);
+                        this.randomize();
                     } else {
                         this.solveMe(image);
                     }
@@ -807,7 +632,7 @@ image_puzzle = function () {
                         image.setAttribute('id', 'img-background');
                         background.appendChild(image);
                         var onClick = $('solve-me');
-                        onClick.setAttribute('onclick', "image_puzzle.createPuzzle('"+ this.image +"', true);");
+                        onClick.setAttribute('onclick', "image_puzzle.createPuzzle('" + this.image + "', true);");
                         $('solve').style.display = 'block';
                         $('puzzle').appendChild(background);
                         $('dw-container').style.display = 'none';
@@ -828,7 +653,6 @@ image_puzzle = function () {
                     }
                 };
                 _puzzle.prototype.solveMe = function (image) {
-                    console.log('Fuck yeah!!!');
                     var solvedBackground = document.createElement('div');
                     solvedBackground.setAttribute('id', 'puzzle-div');
                     solvedBackground.setAttribute('style', 'background-image: url(' + image + ')');
@@ -892,8 +716,6 @@ image_puzzle = function () {
                         hoverClick.setAttribute('class', 'animated pulse');
                         puzzle.appendChild(hoverClick);
                     }
-
-
                     $('puzzle').appendChild(puzzle);
                     $(this.position).style.backgroundPosition = '-' + this.x + 'px -' + this.y + 'px';
                     return $(this.position).style.backgroundImage = "url('" + this.image + "')";
@@ -932,8 +754,10 @@ image_puzzle = function () {
     }
 
     m();
+    c(h);
     createPuzzle();
     return {
+        next: w,
         m: m,
         createPuzzle: createPuzzle
     }
