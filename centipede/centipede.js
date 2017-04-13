@@ -31,6 +31,8 @@ var iframeContent = friendlyIframe.contentWindow;
       width: 300px;
       height: 250px;
       background-color: #f7f7f7;
+      border: 1px solid #e1e1e1;
+      box-sizing: border-box;
     }
     .edge_shader {
       position: absolute;
@@ -183,7 +185,7 @@ var iframeContent = friendlyIframe.contentWindow;
       width: 296px;
       height: 100%;
     }
-    .worm_block:nth-of-type(2n+4) {
+    .worm_block:nth-of-type(4n+4) {
       margin-left:2px;
     }
     .ad_item {
@@ -214,6 +216,7 @@ var iframeContent = friendlyIframe.contentWindow;
       transform: translateY(-50%);
     }
     .num {
+      font-family: lato;
       position: absolute;
       right: -5px;
       top: -20px;
@@ -241,7 +244,8 @@ var iframeContent = friendlyIframe.contentWindow;
       text-align: center;
     }
     .name {
-      font-weight: bold;
+      font-weight: 900;
+      color: #666666;
       font-size: 14px;
       max-width 95%;
       white-space: nowrap;
@@ -270,7 +274,8 @@ var iframeContent = friendlyIframe.contentWindow;
     }
     .value {
       font-size: 20px;
-      color: #545454;
+      color: #272727;
+      font-weight: 900;
       margin-bottom: 5px;
       white-space: nowrap;
       overflow: hidden;
@@ -549,12 +554,11 @@ var iframeContent = friendlyIframe.contentWindow;
       </div>
       <div class="worm_block">
       <div class="ad_spacer"></div>
-        <div id="first_ad" class="ad_item">
+        <div id="first_ad" class="ad_item" style="background-color: red; width: 300px; height: 300px;">
 
         </div>
       </div>
     `;
-    firstAd = iframeContent.document.getElementById('first_ad');
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
       setTimeout(function(){ //wait for dom to render before executing igloo script
         firstAd = iframeContent.document.getElementById('first_ad');
@@ -562,6 +566,11 @@ var iframeContent = friendlyIframe.contentWindow;
         s.type = "text/javascript";
         s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
         firstAd.appendChild(s);
+      }, 100);
+    }
+    else {
+      setTimeout(function(){
+        firstAd = iframeContent.document.getElementById('first_ad');
       }, 100);
     }
 
@@ -593,9 +602,11 @@ var iframeContent = friendlyIframe.contentWindow;
             </div>
           </div>
       `;
-      if (i % 2 == 0) { //show ad every even number
+      if (i % 2 == 0) { //end block div every even number
+        outputHTML += `</div>`;
+      }
+      if (i && (i % 4 === 0)) { //show ad every 4 items
         outputHTML += `
-        </div>
         <div class="worm_block">
         <div class="ad_spacer"></div>
           <div class="ad_item">
@@ -627,11 +638,11 @@ var iframeContent = friendlyIframe.contentWindow;
       helper2.style.opacity = '1';
     }
     var rect = firstAd.getBoundingClientRect();
-    if (rect.left < -300 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 300)) % 2 == 0) { //logic to jump ad to next space when you scroll past it
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) + 300) + "px";
+    if (rect.left < -600 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 600)) % 2 == 0) { //logic to jump ad to next space when you scroll past it
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*297) + 300) + "px";
     }
-     else if (rect.left > 300 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 300) % 2) == 1) { //logic to jump ad to prev space when you scroll past it
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) - 300) + "px";
+     else if (rect.left > 600 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 600) % 2) == 1) { //logic to jump ad to prev space when you scroll past it
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*298.5) - 300) + "px";
     }
     clearTimeout(scrollingTimout);
     scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
