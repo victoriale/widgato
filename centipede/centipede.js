@@ -55,9 +55,9 @@ var iframeContent = friendlyIframe.contentWindow;
       text-overflow: ellipsis;
       padding: 5px 10px;
       font-family: lato;
-      /*font-weight: 300;*/
+      font-weight: 900;
+      color: #666666;
       font-size: 12px;
-      color: black;
       -webkit-backdrop-filter: blur(3px);
       backdrop-filter: blur(3px);
       background-color: rgba(248, 248, 248, 0.8);
@@ -244,16 +244,15 @@ var iframeContent = friendlyIframe.contentWindow;
       text-align: center;
     }
     .name {
-      font-weight: 900;
-      color: #666666;
       font-size: 14px;
       max-width 95%;
-      white-space: nowrap;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: normal;
       overflow: hidden;
       text-overflow: ellipsis;
       padding: 0 5px;
-      margin-bottom: 5px;
-      margin-top: 5px;
     }
     .symbl, .location {
       font-size: 12px;
