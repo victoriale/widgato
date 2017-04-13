@@ -16,16 +16,7 @@ var listRand = 0; // used to increment index of random list in database
 var subCategory; // with a vast amount groups and categories need we need the currently shown category for the rest of the code
 // var categoryColors = { // Brand Color Palette
 //     'football': '#2d3e50',
-//     'basketball': '#f7701d',
-//     'baseball': '#bc2027',
-//     'finance': '#3098ff',
-//     'realestate': '#43B149',
-//     'lifestyle': '#65398e',
-//     'disaster': '#902d8e',
-//     'politics': '#ff0101',
-//     'crime': '#f6af05',
-//     'weather': '#ffdf30',
-//     'default': '#00b9e3',
+//     'default': '#009dfb',
 // };
 
 //Initial load Waits for the DOMContent to load
@@ -111,6 +102,8 @@ function setupEnvironment(widgetQuery) {
             apiCallUrl += "&partner=" + dom;
         }
     }
+
+    //FALL BACK API SET HERE INCASE Dynamic widget api fails to make a call
     fallBackApi =  protocolToUse + synapsysENV(environment) + dwApi + "?group=sports";
 }
 
@@ -319,20 +312,35 @@ function displayWidget() {
             /***************************END OF FOOTBALL DATA*******************************/
         } else { /***************************DYNAMIC DATA APPLIANCE*******************************/
             let dataArray = widgetData.l_data;
+
+            //checks if a category from group lists is being sent back then setting it as the subCategoryto be checked for proper color and fallback images
             if ( query.group != null && widgetData.category != null) {
                 subCategory = widgetData.category;
             }else if ( query.group != null && widgetData.category == null ){
                 subCategory = null;
             }
+
+
             setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
             maxIndex = dataArray.length;
+            //current index of list
             let curData = dataArray[currentIndex];
 
             //list title
             $("profile-title").innerHTML = widgetData.l_title;
-            //current index of list
-            let image = checkImage(curData.li_img);
+
+            //checks if a proper live image is being sent from team_wide_img or player_wide_img otherwise default to li_img datapoint
+            let image;
+
+            if(curData.player_wide_img != null && curData.player_wide_img != ""){
+              image = checkImage(imageUrl+curData.player_wide_img);
+            }else if( (curData.player_wide_img == null || curData.player_wide_img == "") && (curData.team_wide_img != null && curData.team_wide_img != "") ){
+              image = checkImage(imageUrl+curData.team_wide_img);
+            }else{
+              image = checkImage(curData.li_img);
+            }
+
             if (image != null) {
               $("mainimg").style.backgroundImage = "url('"+image+"')";
             }
@@ -612,7 +620,7 @@ function checkImage(image) {
       fallbackImg = "real_estate_stock.jpg";
       break;
       default:
-      fallbackImg = "real_estate_stock.jpg";
+      fallbackImg = "failback.jpg";
     }
     //prep return
     if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && image.indexOf('no_player') == -1 && window.location.pathname.indexOf('_970') == -1) {
