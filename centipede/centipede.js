@@ -182,11 +182,12 @@ var iframeContent = friendlyIframe.contentWindow;
       margin-left: 2px;
     }
     .ad_spacer {
-      width: 296px;
+      width: 295px;
       height: 100%;
     }
-    .worm_block:nth-of-type(4n+4) {
+    .worm_block:nth-of-type(3n+5) {
       margin-left:2px;
+      background-color: red;
     }
     .ad_item {
       position: absolute;
@@ -290,7 +291,15 @@ var iframeContent = friendlyIframe.contentWindow;
       text-overflow: ellipsis;
       padding: 0 5px;
     }
-
+    .next_list {
+      font-family: lato;
+      position: relative;
+      top: -45%;
+      margin: 0 10px 0 10px;
+      border: 1px solid gray;
+      padding: 5px 10px 7px 10px;
+      border-radius: 5px;
+    }
     </style>
     <div class="wrapper">
       <div class="helper" id="helper">
@@ -408,6 +417,8 @@ var iframeContent = friendlyIframe.contentWindow;
   }
 
   var currentPub = getPublisher(input.category);
+
+  function loadData() {
     //rand is a random value (1-50) that coresponds to a specific list for a given category (does not apply to football)
     var e = rand;
     while (e == rand) {
@@ -492,6 +503,8 @@ var iframeContent = friendlyIframe.contentWindow;
     i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&cat=' + input.category + '&rand=' + e, true);
     i.send()
   }
+}
+loadData();
 
   function populateWorm(data) {
     if (input.category == "nfl" || input.category == "ncaaf") { //if TDL data, transform it
@@ -554,7 +567,7 @@ var iframeContent = friendlyIframe.contentWindow;
       </div>
       <div class="worm_block">
       <div class="ad_spacer"></div>
-        <div id="first_ad" class="ad_item" style="background-color: red; width: 300px; height: 300px;">
+        <div id="first_ad" class="ad_item" style="background-color: gray; width: 300px; height: 300px;">
 
         </div>
       </div>
@@ -615,14 +628,31 @@ var iframeContent = friendlyIframe.contentWindow;
         </div>`;
       }
       if (i == items.length || i == maxOutput-1) { //fire when done iterating over all items
+        outputHTML += `
+        </div>
+        <div class="worm_block">
+          <div class="next_list" id="next_list">
+            Next List
+          </div>
+        </div>
+        `;
         worm.innerHTML += outputHTML; //write out the accumulated item's html
+        setTimeout(function(){
+          iframeContent.document.getElementById("next_list").addEventListener("touchend", nextList);
+        }, 100);
         friendlyIframe.classList.add("widget_loaded"); //set leaded flag on bounding iframe
       }
     }
   }
 
-  //initial event listeners declaration
+  function nextList(e) {
+    worm.innerHTML = "";
+    firstAd.style.left = "0px";
+    worm.scrollLeft = 0;
+    loadData();
+  }
 
+  //initial event listeners declaration
   worm.addEventListener("scroll", onSwipe);
   function onSwipe(e) {
     isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
@@ -639,10 +669,10 @@ var iframeContent = friendlyIframe.contentWindow;
     }
     var rect = firstAd.getBoundingClientRect();
     if (rect.left < -600 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 600)) % 2 == 0) { //logic to jump ad to next space when you scroll past it
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*297) + 300) + "px";
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*296.5) + 300) + "px";
     }
      else if (rect.left > 600 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 600) % 2) == 1) { //logic to jump ad to prev space when you scroll past it
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*298.5) - 300) + "px";
+      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*298) - 300) + "px";
     }
     clearTimeout(scrollingTimout);
     scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
