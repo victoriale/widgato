@@ -237,6 +237,7 @@ var iframeContent = friendlyIframe.contentWindow;
       border-left: 30px solid black;
       transform: rotate(-45deg);
       z-index: 100;
+      outline: 1px solid rgba(255,255,255,0.4);
     }
     .num_text {
     	font-size: 12px;
