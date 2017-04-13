@@ -111,7 +111,7 @@ function setupEnvironment(widgetQuery) {
             apiCallUrl += "&partner=" + dom;
         }
     }
-    fallBackApi =  protocolToUse + synapsysENV(environment) + dwApi + "?cat=finance";
+    fallBackApi =  protocolToUse + synapsysENV(environment) + dwApi + "?group=sports";
 }
 
 /************************ UPDATE LIST ***********************
