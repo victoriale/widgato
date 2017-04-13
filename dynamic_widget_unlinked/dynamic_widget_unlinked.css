@@ -119,6 +119,7 @@ button:hover {
     width: 100%;
     height: auto;
     border: 1px solid #e1e1e1;
+    background-color: #ffffff;
 }
 
 .e_image-carousel {
