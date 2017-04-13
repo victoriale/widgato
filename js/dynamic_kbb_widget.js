@@ -162,9 +162,10 @@ dynamic_widget = function() {
             })
         }
         var n = true;
-        p()
+        formattedData()
       }
-function p() {
+
+      function formattedData() {
         if (r.data.length <= 1) {
           $('next-list-link').classList.add("disabled-button");
         }
@@ -172,63 +173,52 @@ function p() {
           $('next-list-link').classList.remove("disabled-button");
         }
         var e = r.data[i];
-        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
-        if ($('list-link')) {
-            $('list-link').href = a
+        var genLink = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);// generate current article url
+        $('mainUrl').href = genLink;
+        if($('mainTitle')){
+          $('mainTitle').innerHTML = e['title'] ? (e['title'].length > 52 ? e['title'].replace(/[\\]/g,"").substring(0,52) : e['title'].replace(/[\\]/g,"")) : "";//limit to 2 lines aka 55 characters
+          $('mainTitle').innerHTML += e['title'].length > 52 ? "..." : "";
         }
-        if ($('title-link')) {
-            $('title-link').href = a
+        if($('teaser')){
+          var len = e['title'].length < 25 ? 135 : 95;//increase limit of character in teaser if title is one line or less
+          $('teaser').innerHTML = e['teaser'] ? (e['teaser'].length > len ? e['teaser'].replace(/[\\]/g,"").substring(0,len) : e['teaser'].replace(/[\\]/g,"")) : "";//limit to 3 or 4 lines depends on the number of lines in the title
+          $('teaser').innerHTML += e['teaser'].length > len ? "..." : "";
         }
-        $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
-        if ($('keyword') && e.category) {
-          $('keyword').innerHTML = e.category.replace(/-/g," ");
-        }
-
-        //todo: possibly make this a function
-        if ($('date')) {
-          var date = new Date(e.last_updated*1000);
-          var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
-          var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-            "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"
-          ];
-          var month = date.getMonth();
-          var day = date.getDate();
-          var dayofWeek = date.getDay();
-          var year = date.getFullYear();
-
-          var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
-          $('date').innerHTML = formattedDate;
-        }
-        var stat = Math.floor(Number(e.stat));
-        $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
-        var t = $('mainimg');
+        var t = $('mainImg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
         t.setAttribute('src', '');
-          if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
-          }
-          else { //todo: use placeholder images as fallback for articles instead of no-image image
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
-          }
+        if (e['image_url'] != null && e['image_url'] != "null") {
+          t.setAttribute('src', protocolToUse + "images.synapsys.us" + e['image_url'] + "?width=" + (t.width * window.devicePixelRatio));
+        } else {
+          t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+        }
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
     }
-
-    function w(e) {
-        i += e;
+    /**
+    * @function carData
+    * This function goes to the next or previous carousel item by adding dir to
+    * the current index. This is usually called via the onClick event on the nav
+    * buttons.
+    *
+    * @param int dir - This number is added to the index to create the index of
+    * the item to be shown.
+    */
+    function carData(dir) {
+        i += dir;
         i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
-        p();
+        formattedData();
         if (typeof dataLayer != 'undefined') {
             dataLayer.push({
-                event: e == 1 ? 'nav-right' : 'nav-left',
+                event: dir == 1 ? 'nav-right' : 'nav-left',
                 eventAction: dynamic_widget.get_title()
             })
         }
     }
 
-    function f() {
+    function getTitle() {
         return l.dom + ':' + l.category + ':' + (r.l_sort == null ? r.l_param : r.l_sort) + ':' + r.l_title
     }
 
@@ -250,8 +240,8 @@ function p() {
     m();
     c(h);
     return {
-        carousel: w,
-        get_title: f,
+        carousel: carData,
+        get_title: getTitle,
         m: m
     }
 }();

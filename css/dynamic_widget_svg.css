@@ -67,6 +67,7 @@ i {
   float:left;
   background-repeat: no-repeat;
   background-position: left center;
+  background-size: contain;
 }
 #verticalDisplayName {
   width: 125px;

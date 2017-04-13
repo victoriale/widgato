@@ -1,3 +1,7 @@
+/**
+* @function getCategoryMetadata
+* Get meta info based on partner info
+*/
 function getCategoryMetadata (category) {
   var globalMeta = {
     kbb: {
@@ -15,65 +19,62 @@ function getCategoryMetadata (category) {
 
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var currentConfig;
-var referrer;
-if (document.referrer != "" && document.referrer != null) {
-  referrer = document.referrer;
-}
-else {
-  referrer = window.location.href;
-}
+var referrer = document.referrer ? document.referrer : window.location.href;
 var season;
-var SpecialDomain = "";
 var currentDomain = "";
-var specialDomains = [
-  "latimes.com",
-  "orlandosentinel.com",
-  "sun-sentinel.com",
-  "baltimoresun.com",
-  "mcall.com",
-  "courant.com",
-  "dailypress.com",
-  "southflorida.com",
-  "citypaper.com",
-  "themash.com",
-  "coastlinepilot.com",
-  "sandiegouniontribune.com",
-  "ramonasentinel.com",
-  "capitalgazette.com",
-  "chicagotribune.com"
-];
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
+//TODO: waiting on API with KBB data
+/**
+* @function generateArticleLink
+* Generate offsite article link
+* scope: article category, linkType: depends article source, destinationId: unique article/event id,
+* articleType: article type, such as story, video, etc., remn: partner or non-partner
+*/
 function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
-  var baseUrl;
+  var baseUrl = "http://";
   var output = "";
-  if (remn == "false") { //if partner
-    if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
-      for (var i = 0; i < specialDomains.length; i++) {
-        if (referrer.includes(specialDomains[i])) {
-          baseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
-          break;
-        }
-      }
-    }
-    else { //only partner, not subdomain
-      baseUrl = "http://" + currentConfig.partnerDomain;
-    }
-  }
-  else { // not partner site and not partner domain
-    baseUrl = "http://" + currentConfig.domain;
-  }
-
-  // now that we have the base Url, format the rest of the link
-  if (linkType == "syndicated") {
-    output = baseUrl + "/" + scope + "/news/story/" + destinationId;
-  }
-  else if (linkType = "ai") {
-    output = baseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
-  }
+  baseUrl += (remn == "false") ? currentConfig.partnerDomain : currentConfig.domain;
+  //now that we have the base Url, format the rest of the link
+  output = baseUrl + "/" + scope + "/news/story/" + destinationId;
   return output;
 }
-
+/**
+* @function getTabInfo
+* List tab options
+*/
+function getTabInfo(option){
+  var tabObj = {
+    "trending": {
+      display: "Trending News",
+      category: "trending-news"
+    },
+    "reviews": {
+      display: "Reviews",
+      category: "reviews"
+    },
+    "top10": {
+      display: "Top 10 Lists",
+      category: "top-10-lists"
+    },
+    "videos": {
+      display: "Videos",
+      category: "videos"
+    }
+  }
+  if(tabObj[option] == null || typeof tabObj[option] == "undefined"){// default return
+    return{
+      display: null,
+      scope: null
+    };
+  } else {
+    return tabObj[option];
+  }
+}
+/**
+* @function dynamic_widget
+* Set up dynamic widget data here
+*/
 dynamic_widget = function() {
     var e = location.protocol == 'https:' ? 'https' : 'http',
         protocol = location.protocol == 'https:' ? 'https' : 'http',
@@ -86,7 +87,7 @@ dynamic_widget = function() {
     currentConfig = getCategoryMetadata(l.category);
     var s = false;
     var o = '';
-    function c(e) {
+    function onLoad(e) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
             e()
         } else if (d.addEventListener) {
@@ -99,15 +100,20 @@ dynamic_widget = function() {
             })
         }
     }
-    function m(ignoreRandom) {
-      i = 0;// resets index count to 0 when swapping lists
+    /**
+    * @function reset
+    * Resets index count to 0 when swapping lists
+    */
+    function reset(ignoreRandom) {
+      i = 0;
       httpGetData(ignoreRandom);
     }
+    /**
+    * @function httpGetData
+    * Get data from API
+    */
     function httpGetData(ignoreRandom) {
-      if (l.dom == 'lasvegasnow.com') {
-          s = true;
-          o = 'finance.lasvegasnow.com'
-      }
+      //Category is default to KBB if undefined, exception only for KBB widgets
       if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
           l.category = 'kbb'
       }
@@ -128,7 +134,7 @@ dynamic_widget = function() {
           if (i.readyState == XMLHttpRequest.DONE) {
               if (i.status == 200) {
                   r = JSON.parse(i.responseText);
-                  c(u)
+                  onLoad(getData)
               } else {
                   var e = i.statusText;
                   if (i.status == 500) {
@@ -146,15 +152,19 @@ dynamic_widget = function() {
               }
           }
       };
-      i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + "automotive" + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
-
+      //TODO: waiting on new api call with KBB data
+      //Test API: http://dev-article-library.synapsys.us/articles?category=automotive&metaDataOnly=1&readyToPublish=true&count=
+      var count = 20;
+      var category = "automotive";//TODO
+      var subCategory = currentConfig.subCategory;
+      i.open('GET', protocol+"://dev-article-library.synapsys.us/articles?category="+category+"&subCategory="+subCategory+ "&metaDataOnly=1&readyToPublish=true&count="+count, true);
       // i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
-        // i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=" + "http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true);
-        //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
-        i.send()
+      // i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=" + "http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true);
+      //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
+      i.send()
     }
 
-    function u() {
+    function getData() {
         if (typeof dataLayer != 'undefined') {
             dataLayer.push({
                 event: 'widget-title',
@@ -162,58 +172,113 @@ dynamic_widget = function() {
             })
         }
         var n = true;
-        p()
-      }
-function p() {
-        var e = r.data[i];
-        a = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);
-        if ($('list-link')) {
-            $('list-link').href = a
-        }
-        if ($('title-link')) {
-            $('title-link').href = a
-        }
-        $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
-        if ($('keyword') && e.category) {
-          $('keyword').innerHTML = e.category.replace(/-/g," ");
-        }
-
-        //todo: possibly make this a function
-        if ($('date')) {
-          var date = new Date(e.last_updated*1000);
-          var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
-          var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
-            "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"
-          ];
-          var month = date.getMonth();
-          var day = date.getDate();
-          var dayofWeek = date.getDay();
-          var year = date.getFullYear();
-
-          var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
-          $('date').innerHTML = formattedDate;
-        }
-        var stat = Math.floor(Number(e.stat));
-        $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
-        var t = $('mainimg');
-        var n = t.getAttribute('onerror');
-        t.setAttribute('onerror', '');
-        t.setAttribute('src', '');
-          if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
-          }
-          else { //todo: use placeholder images as fallback for articles instead of no-image image
-            t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
-          }
-        setTimeout(function(e, t) {
-            t.setAttribute('onerror', e)
-        }.bind(undefined, n, t), 0);
+        getTab();
+        formattedData();
+        artData()
     }
 
-    function w(e) {
-        i += e;
+    /**
+    * @function formattedData
+    * Format data accordingly to specs before displaying for top articles
+    **/
+    function formattedData() {
+      if(r.data == null || typeof r.data == "undefined" || r.data.length == 0){
+        return null;
+      }
+      if (r.data.length <= 1) {
+        $('next-list-link').classList.add("disabled-button");
+      }
+      else {
+        $('next-list-link').classList.remove("disabled-button");
+      }
+      /**Top Article/Carousel Data**/
+      var dataList = r.data[i];
+      var genLink =  generateArticleLink(l.category, dataList['source'], dataList['article_id'], dataList['article_type'], l.remn); //Generate current article link
+      var playBtn = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486"><title>Asset 2</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M243,486C109,486,0,377,0,243S109,0,243,0,486,109,486,243,377,486,243,486Zm0-462.1C122.19,23.9,23.9,122.19,23.9,243S122.19,462.1,243,462.1,462.1,363.81,462.1,243,363.81,23.9,243,23.9Z"/><path d="M359.46,235.13,197.32,104.66a8.65,8.65,0,0,0-14.07,6.74V372.33a8.65,8.65,0,0,0,14.07,6.74L359.46,248.6A8.65,8.65,0,0,0,359.46,235.13Z"/></g></g></svg>';//play button svg source
+      $('playBtn').innerHTML = playBtn;
+      // $('mainTitle').innerHTML = dataList['title'] ? dataList['title'].replace(/[\\]/g,"") : "";
+      if($('mainTitle')){
+        $('mainTitle').innerHTML = dataList['title'] ? (dataList['title'].length > 80 ? dataList['title'].replace(/[\\]/g,"").substring(0,80) : dataList['title'].replace(/[\\]/g,"")) : "";//limit to 2 lines aka 55 characters
+        $('mainTitle').innerHTML += dataList['title'].length > 80 ? "..." : "";
+      }
+      if($('teaser')){
+        var readMore = "<span><a href='"+genLink+"'target=_blank>Read More</a></span>";
+        var len = dataList['title'].length < 55 ? 130 : 95;//increase limit of character in teaser if title is one line or less
+        $('teaser').innerHTML = dataList['teaser'] ? (dataList['teaser'].length > len ? dataList['teaser'].replace(/[\\]/g,"").substring(0,len):dataList['teaser'].replace(/[\\]/g,"")) : "";
+        $('teaser').innerHTML += dataList['teaser'].length > len ? "... " + readMore : readMore;
+      }
+      $('mainUrl').href = genLink;
+      var t = $('mainImg');
+      var n = t.getAttribute('onerror');
+      t.setAttribute('onerror', '');
+      t.setAttribute('src', '');
+      if (dataList['image_url'] != null && dataList['image_url'] != "null") {
+        t.setAttribute('src', protocolToUse + "images.synapsys.us" + dataList['image_url'] + "?width=" + (t.width * window.devicePixelRatio));
+      } else {
+        t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+      }
+
+      setTimeout(function(e, t) {
+        t.setAttribute('onerror', e)
+      }.bind(undefined, n, t), 0);
+    }
+    /**
+    * @function artData
+    * Format data accordingly to specs before displaying for bottom articles
+    **/
+    function artData(){
+        var dataArr = r.data.length > 3 ? r.data.splice(0,3) : r.data;//Get current data of article on Dashboard
+        var playBtn = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486"><title>Asset 2</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M243,486C109,486,0,377,0,243S109,0,243,0,486,109,486,243,377,486,243,486Zm0-462.1C122.19,23.9,23.9,122.19,23.9,243S122.19,462.1,243,462.1,462.1,363.81,462.1,243,363.81,23.9,243,23.9Z"/><path d="M359.46,235.13,197.32,104.66a8.65,8.65,0,0,0-14.07,6.74V372.33a8.65,8.65,0,0,0,14.07,6.74L359.46,248.6A8.65,8.65,0,0,0,359.46,235.13Z"/></g></g></svg>';//play button svg source
+        /**Bottom Article Data
+        ** Append child element to thumbArt to display the 3 articles in the bottom of dashboard
+        **/
+        dataArr.forEach(function(val, index){
+          var thumbItem = document.createElement('div');//this is the 3 bottom articles/video thumbnails
+          thumbItem.className = "thumbnails-item";//set className for new element
+          var parent = document.getElementById("thumbnail");//get element id thumbnail
+          var titleText = val['title'].replace(/[\\]/g,"");//get title value from api
+          var artUrl =  generateArticleLink(l.category, val['source'], val['article_id'], val['article_type'], l.remn);//generate article url
+          var thumbImage = val.image_url != null ? (protocolToUse + "images.synapsys.us" + val.image_url + "?width=" + (t.width * window.devicePixelRatio)) : (protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");//get image, if no image, then display no-image image
+          thumbItem.innerHTML = '<a href="'+artUrl+'" target="_blank"><div class="sixteen-nine"><img class="main-thumb-item" src="'+thumbImage+'" /><div class="play-button small" id=playBtnSm>'+playBtn+'</div></div></a><a href="'+artUrl+'" target="_blank"><div class="thumbnails-title">'+titleText+'</div></a>';
+          parent.appendChild(thumbItem);//append thumbnail items to thumbnails class
+        });
+    }
+    /**
+    * @function getTab
+    * Set up tab options menu
+    */
+    function getTab(){
+      var arr = ['trending', 'reviews', 'top10', 'videos'];
+      var tabName;
+      var first = true;
+      for(var o in arr){
+        tabName = getTabInfo(arr[o]).display;
+        var navBarUrl = document.createElement('a');
+        navBarUrl.className = "navBar-url";
+        var genNavUrl =  "";//TODO:generate navigation link for tab
+        navBarUrl.href = genNavUrl;
+        if(first){
+          navBarUrl.className += " selected";
+          first = false;
+        }
+        var parent = document.getElementById("navBarId");
+        navBarUrl.innerHTML = '<div class="navBar-item">'+tabName+'</div>';
+        parent.appendChild(navBarUrl);
+      }
+    }
+    /**
+    * @function carData
+    * This function goes to the next or previous carousel item by adding dir to
+    * the current index. This is usually called via the onClick event on the nav
+    * buttons.
+    *
+    * @param int dir - This number is added to the index to create the index of
+    * the item to be shown.
+    */
+    function carData(dir) {
+        i += dir;
         i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
-        p();
+        formattedData();
         if (typeof dataLayer != 'undefined') {
             dataLayer.push({
                 event: e == 1 ? 'nav-right' : 'nav-left',
@@ -222,30 +287,30 @@ function p() {
         }
     }
 
-    function f() {
+    function getTitle() {
         return l.dom + ':' + l.category + ':' + (r.l_sort == null ? r.l_param : r.l_sort) + ':' + r.l_title
     }
 
-    function h() {
-      var hn = "";
-        if (l.carousel == true) {
-            var e = d.getElementsByTagName('a');
-            for (var t = 0; t < e.length; t++) {
-                e[t].setAttribute('onclick', 'event.preventDefault(); return false;')
-            }
-            var i = d.querySelectorAll('.hover');
-            for (var t = 0; t < i.length; t++) {
-                i[t].parentNode.removeChild(i[t])
-            }
-            $('list-link').parentNode.removeChild($('list-link'));
-            return false
-        }
+    function setHomeLink() {
+      var link = "";
+      if (l.carousel == true) {
+          var e = d.getElementsByTagName('a');
+          for (var t = 0; t < e.length; t++) {
+              e[t].setAttribute('onclick', 'event.preventDefault(); return false;')
+          }
+          var i = d.querySelectorAll('.hover');
+          for (var t = 0; t < i.length; t++) {
+              i[t].parentNode.removeChild(i[t])
+          }
+          $('thumb-link').parentNode.removeChild($('thumb-link'));
+          return false
+      }
     }
-    m();
-    c(h);
+    reset();
+    onLoad(setHomeLink);
     return {
-        carousel: w,
-        get_title: f,
-        m: m
+        carousel: carData,
+        get_title: getTitle,
+        m: reset
     }
 }();
