@@ -697,12 +697,16 @@ loadData();
   }
   worm.addEventListener("touchstart", onFingerDown);
   function onFingerDown(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
-    console.log("new touch event - canceled interpolation");
-    clearTimeout(setSmoothScrollInterval);
+    userScroll = false;
+    setTimeout(function(){
+      userScroll = true;
+    }, 500);
+    clearInterval(setSmoothScrollInterval);
   }
 
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
+    var counter = 0;
     for (i = 0; i < wormBlocks.length;  i++) {
       if ((worm.scrollLeft + 150) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 150) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
@@ -723,10 +727,15 @@ loadData();
               scrollIncrements = 1;
             }
             //if within margin of error of target, end scroll
-            if (i == (wormBlocks.length - 1)) {
-              clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
+            if (i == (wormBlocks.length - 1) || counter > 30) {
+              userScroll = false;
+              setTimeout(function(){
+                userScroll = true;
+              }, 500);
+              clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
+              counter++;
               worm.scrollLeft = worm.scrollLeft + scrollIncrements; //apply the interpolation step
             }
           }
@@ -737,10 +746,15 @@ loadData();
             else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
               scrollIncrements = 1;
             }
-            if (i == (wormBlocks.length - 1)) {
-              clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
+            if (i == (wormBlocks.length - 1) || counter > 30) {
+              userScroll = false;
+              setTimeout(function(){
+                userScroll = true;
+              }, 500);
+              clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
+              counter++;
               worm.scrollLeft = worm.scrollLeft + 1; //apply the interpolation step
             }
           }
@@ -749,7 +763,7 @@ loadData();
             setTimeout(function(){
               userScroll = true;
             }, 500);
-            clearTimeout(setSmoothScrollInterval);
+            clearInterval(setSmoothScrollInterval);
           }
         }, 20);
         currentBlock = i;
@@ -775,8 +789,12 @@ loadData();
         setSmoothScrollInterval = setInterval(function(){
           var marginOfError = 0;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
-            if (i == (wormBlocks.length - 1)) {
-              clearTimeout(setSmoothScrollInterval);
+            if (i == (wormBlocks.length - 1) || counter > 30) {
+              userScroll = false;
+              setTimeout(function(){
+                userScroll = true;
+              }, 500);
+              clearInterval(setSmoothScrollInterval);
             }
             else {
               worm.scrollLeft = worm.scrollLeft + scrollIncrements;
@@ -787,7 +805,7 @@ loadData();
             setTimeout(function(){
               userScroll = true;
             }, 500);
-            clearTimeout(setSmoothScrollInterval);
+            clearInterval(setSmoothScrollInterval);
           }
         }, 15);
         currentBlock = 0;
