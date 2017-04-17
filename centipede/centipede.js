@@ -305,10 +305,10 @@ var iframeContent = friendlyIframe.contentWindow;
       font-family: lato;
       font-size: 12px;
       position: relative;
-      top: -95px;
+      top: -96px;
       width: 56px;
       margin: 0 5px 0 0;
-      padding: 80px 10px 87px 10px;
+      padding: 80px 10px 88px 10px;
       text-align: center;
       color: white;
     }
@@ -675,9 +675,9 @@ loadData();
         <div class="worm_block">
           <div class="next_list" style="background-color:`+currentPub.hex+`;" id="next_list">
           <div class="next_arrow">
-            <svg width='16.9px' height='29.6px' viewBox='500 600 700 700'>
-              <path fill='white' d='M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z'/>
-            </svg>
+          <svg width="17" height="30" viewBox="0 0 17 30">
+              <path fill="#FFF" fill-rule="nonzero" d="M16.89 14.463l-14.967 14.9s-.801.555-1.577-.218c-.778-.772 0-1.449 0-1.449L13.663 14.44.976 1.81s-.66-.791.05-1.496c.707-.706 1.696 0 1.696 0l14.168 14.15z"/>
+          </svg>
           </div>
           Next List
           </div>
