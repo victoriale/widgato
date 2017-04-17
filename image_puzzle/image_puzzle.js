@@ -379,6 +379,23 @@ image_puzzle = function () {
                 default:
                     $('desc').innerHTML = statType + ": " + stat;
             }
+            if (e.rankType == "team") {
+                if (e.teamLogo != null && e.teamLogo != "null" && e.teamLogo.indexOf('no-image') == -1 && window.location.pathname.indexOf('_970') == -1) {
+                    e.li_img = protocolToUse + "images.synapsys.us" + e.teamLogo + "?width=300";
+                }
+                else {
+                    e.li_img = protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg" + "?width=300";
+                }
+            }
+            else {
+                if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && e.playerHeadshotUrl.indexOf('no-image') == -1 && window.location.pathname.indexOf('_970') == -1) {
+                    e.li_img = "http://images.synapsys.us" + e.playerHeadshotUrl + "?width=300";
+                }
+                else {
+                    e.li_img = protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg" + "?width=300";
+                }
+            }
+            $('num').innerHTML = '<hash>#</hash>' + e.rank;
         }
         else {
             var e = r.l_data[i];
@@ -491,10 +508,8 @@ image_puzzle = function () {
             for (var t = 0; t < i.length; t++) {
                 i[t].parentNode.removeChild(i[t])
             }
-            $('list-link').parentNode.removeChild($('list-link'));
             return false
         }
-        // $('verticalDisplayName').innerHTML = currentConfig.displayName;
     }
 
     function createPuzzle(mainImage, isSolved) {
