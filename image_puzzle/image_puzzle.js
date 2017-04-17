@@ -439,7 +439,6 @@ image_puzzle = function () {
                 }
             }
             $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
-            var p = $('title');
         }
         createPuzzle(e.li_img, false);
     }
@@ -704,13 +703,8 @@ image_puzzle = function () {
                 $('dw-container').style.display = 'none';
                 return _empty;
             })();
-            var image, puzzle;
-            if (!isSolved) {
-                image = 'http:' + mainImage;
-                puzzle = new _puzzle(image, isSolved);
-            } else {
-                puzzle = new _puzzle(mainImage, isSolved);
-            }
+            var puzzle;
+            puzzle = new _puzzle(mainImage, isSolved);
         }).call(this);
     }
 
