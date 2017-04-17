@@ -305,10 +305,10 @@ var iframeContent = friendlyIframe.contentWindow;
       font-family: lato;
       font-size: 12px;
       position: relative;
-      top: -105px;
+      top: -95px;
       width: 56px;
       margin: 0 5px 0 0;
-      padding: 70px 10px 97px 10px;
+      padding: 80px 10px 87px 10px;
       text-align: center;
       color: white;
     }
