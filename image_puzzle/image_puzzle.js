@@ -122,7 +122,7 @@ function getPublisher(pub, env) {
     }
 }
 
-var protocolToUse = (location.protocol === "https:") ? "https://" : "http://";
+var protocolToUse = (location.protocol === "https:") ? "https:" : "http:";
 var currentConfig;
 var currentPub;
 var referrer = document.referrer;
@@ -381,18 +381,18 @@ image_puzzle = function () {
             }
             if (e.rankType == "team") {
                 if (e.teamLogo != null && e.teamLogo != "null" && e.teamLogo.indexOf('no-image') == -1 && window.location.pathname.indexOf('_970') == -1) {
-                    e.li_img = protocolToUse + "images.synapsys.us" + e.teamLogo + "?width=300";
+                    e.li_img = "//images.synapsys.us" + e.teamLogo;
                 }
                 else {
-                    e.li_img = protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg" + "?width=300";
+                    e.li_img = "//images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg";
                 }
             }
             else {
                 if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && e.playerHeadshotUrl.indexOf('no-image') == -1 && window.location.pathname.indexOf('_970') == -1) {
-                    e.li_img = protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl + "?width=300";
+                    e.li_img = "//images.synapsys.us" + e.playerHeadshotUrl;
                 }
                 else {
-                    e.li_img = protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg" + "?width=300";
+                    e.li_img = "//images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg";
                 }
             }
             $('num').innerHTML = '<hash>#</hash>' + e.rank;
@@ -412,7 +412,7 @@ image_puzzle = function () {
                 $('desc').innerHTML = e.li_value;
                 $('line4').innerHTML = e.li_tag
             }
-            var fallbackImg = "http://images.synapsys.us/01/fallback/stock/2017/03/";
+            var fallbackImg = "//images.synapsys.us/01/fallback/stock/2017/03/";
             var cssClass = "";
             switch (l.category) {
                 case "nfl":
@@ -430,13 +430,11 @@ image_puzzle = function () {
                     cssClass = "baseball";
                     break;
             }
-            if (l.category == "college_basketball" || l.category == "nba") {
-                if (e.player_wide_img != "" && e.player_wide_img != null) {
-                    e.li_img = "//" + l.env + "images.synapsys.us" + e.player_wide_img;
-                }
-                else {
-                    e.li_img = "//" + l.env + "images.synapsys.us" + e.team_wide_img;
-                }
+            if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1 || e.li_img.indexOf("_stock") != -1 ||  window.location.pathname.indexOf('_970') != -1) {
+                e.li_img = fallbackImg;
+            }
+            else {
+                e.li_img = e.li_img.replace(/'/g,"");
             }
             $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
         }
@@ -703,8 +701,13 @@ image_puzzle = function () {
                 $('dw-container').style.display = 'none';
                 return _empty;
             })();
-            var puzzle;
-            puzzle = new _puzzle(mainImage, isSolved);
+            var image, puzzle;
+            if (!isSolved) {
+                image = protocolToUse + mainImage + "?width=" + (300 * window.devicePixelRatio);
+                puzzle = new _puzzle(image, isSolved);
+            } else {
+                puzzle = new _puzzle(mainImage, isSolved);
+            }
         }).call(this);
     }
 
