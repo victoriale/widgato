@@ -650,12 +650,18 @@ var currentField;
 function generateWidget() {
   var widget = document.getElementById("wType").value;
   var url = options[widget].output;
+  var preCookie = '{"type":"'+widget+'",';
   for (var field in options[widget]) {
     if (field != "output" && options[widget][field].enabled == true) {
       domElem = document.getElementById(field);
       url = url.replace("<" + field + ">",domElem.value);
+      preCookie += '"'+field+'":"'+document.getElementById(field).value+'",';
     }
   }
+  preCookie = preCookie.replace(/,\s*$/, '');
+  preCookie += "}";
+  console.log(preCookie);
+  document.cookie = preCookie;
   document.getElementById("previewFrame").contentWindow.document.location.href = url;
   document.getElementById("outputTextarea").value = url.replace("..","http://w1.synapsys.us/widgets");
 }
@@ -686,19 +692,6 @@ function changeWidget(newWidget) {
       settingsInputs.appendChild(htmlField);
     }
   }
-  var domain;
-  if (document.getElementById("domain")) {
-    domain = document.getElementById("domain").value;
-  }
-  var sub_domain;
-  if (document.getElementById("sub_domain")) {
-    sub_domain = document.getElementById("sub_domain").value;
-  }
-  var category;
-  if (document.getElementById("category")) {
-    category = document.getElementById("category").value;
-  }
-  document.cookie = '{"type":"'+newWidget+'","domain":"'+domain+'","sub_domain":"'+sub_domain+'","category":"'+category+'"}';
 }
 function setSize() {
   var ifWidth = document.getElementById("prevWidth").value;
@@ -707,15 +700,31 @@ function setSize() {
   document.getElementById("previewFrame").style.height = ifHeight + "px";
 }
 if (document.cookie != null) { //onload check for a cookie from prev session
-  var cookie = JSON.parse(document.cookie.split(";")[0]);
-  if (cookie.type && cookie.type != "") {
-    console.log("loading in prev session config data",cookie);
-    changeWidget(cookie.type); //if cookie has type data, load that instead of default
+  try {
+    var cookie = JSON.parse(document.cookie.split(";")[0]);
+    if (cookie.type != null && cookie.type != "") {
+      console.log("loading in prev session config data",cookie);
+      document.getElementById("wType").value = cookie.type;
+      changeWidget(cookie.type); //if cookie has type data, load that instead of default
+      for (var value in cookie) {
+        if (value != "type") {
+          document.getElementById(value).value = cookie[value];
+        }
+      }
+      generateWidget()
+    }
+    else { // if no valid cookie, fallback to default
+      console.log("no valid cookie... falling back");
+      changeWidget(document.getElementById("wType").value);
+      generateWidget()
+    }
   }
-  else { // if no valid cookie, fallback to default
-    changeWidget(document.getElementById("wType").value);
+  catch(e) {
+    console.log("Bad saved session cookie:",e)
   }
 }
 else { // if no valid cookie, fallback to default
+  console.log("no valid cookie... falling back");
   changeWidget(document.getElementById("wType").value);
+  generateWidget()
 }
