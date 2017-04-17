@@ -692,14 +692,10 @@ function generateWidget() {
     if (field != "output" && options[widget][field].enabled == true) {
       domElem = document.getElementById(field);
       url = url.replace("<" + field + ">",domElem.value);
-      if () {
-        preCookie += '"'+field+'":"'+document.getElementById(field).value+'",';
-      }
-      else {
-        preCookie += '"'+field+'":"'+document.getElementById(field).value+'"';
-      }
+      preCookie += '"'+field+'":"'+document.getElementById(field).value+'",';
     }
   }
+  preCookie = preCookie.replace(/,\s*$/, '');
   preCookie += "}";
   console.log(preCookie);
   document.cookie = preCookie;
