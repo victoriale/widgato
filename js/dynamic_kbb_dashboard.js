@@ -85,9 +85,6 @@ dynamic_widget = function() {
     var s = false;
     var o = '';
     var selectedTab;
-    if( l.category == "kbb"){
-      l.category = getTabInfo("trending").category;//TODO need to update l.category to not be kbb
-    }
 
     function onLoad(e) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
@@ -116,9 +113,9 @@ dynamic_widget = function() {
     */
     function httpGetData(ignoreRandom) {
       //Category is default to KBB if undefined, exception only for KBB widgets
-      // if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
-      //     l.category = 'kbb'
-      // }
+      if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
+        l.category = "automotive";//TODO need to update
+      }
       if (ignoreRandom == null) {
         var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
       }
@@ -136,7 +133,6 @@ dynamic_widget = function() {
           if (i.readyState == XMLHttpRequest.DONE) {
               if (i.status == 200) {
                   r = JSON.parse(i.responseText);
-                  console.log("r", r);
                   onLoad(getData)
               } else {
                   var e = i.statusText;
@@ -151,17 +147,15 @@ dynamic_widget = function() {
                   if (n++ > 10) {
                       throw e
                   }
-                  setTimeout(m, 500)
+                  setTimeout(reset, 500)
               }
           }
       };
       //TODO: waiting on new api call with KBB data
       //Test API: http://dev-article-library.synapsys.us/articles?category=automotive&metaDataOnly=1&readyToPublish=true&count=
       var count = 20;
-      var category =  l.category;//TODO
-      console.log("CATEGORY: ", category);
       var subCategory = currentConfig.subCategory;
-      i.open('GET', protocol+"://dev-article-library.synapsys.us/articles?category="+category+"&subCategory="+subCategory+ "&metaDataOnly=1&readyToPublish=true&count="+count, true);
+      i.open('GET', protocol+"://dev-article-library.synapsys.us/articles?category="+l.category+"&subCategory="+subCategory+ "&metaDataOnly=1&readyToPublish=true&count="+count, true);
       // i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
       // i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=" + "http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true);
       //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
@@ -231,6 +225,7 @@ dynamic_widget = function() {
     * Format data accordingly to specs before displaying for bottom articles
     **/
     function artData(){
+      if(r.data){        
         var dataArr = r.data.length > 3 ? r.data.splice(0,3) : r.data;//Get current data of article on Dashboard
         var playBtn = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486"><title>Asset 2</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M243,486C109,486,0,377,0,243S109,0,243,0,486,109,486,243,377,486,243,486Zm0-462.1C122.19,23.9,23.9,122.19,23.9,243S122.19,462.1,243,462.1,462.1,363.81,462.1,243,363.81,23.9,243,23.9Z"/><path d="M359.46,235.13,197.32,104.66a8.65,8.65,0,0,0-14.07,6.74V372.33a8.65,8.65,0,0,0,14.07,6.74L359.46,248.6A8.65,8.65,0,0,0,359.46,235.13Z"/></g></g></svg>';//play button svg source
         /**Bottom Article Data
@@ -246,6 +241,7 @@ dynamic_widget = function() {
           thumbItem.innerHTML = '<a href="'+artUrl+'" target="_blank"><div class="sixteen-nine"><img class="main-thumb-item" src="'+thumbImage+'" /><div class="play-button small" id=playBtnSm>'+playBtn+'</div></div></a><a href="'+artUrl+'" target="_blank"><div class="thumbnails-title">'+titleText+'</div></a>';
           parent.appendChild(thumbItem);//append thumbnail items to thumbnails class
         });
+      }
     }
     /**
     * @function getTabNames
@@ -265,14 +261,6 @@ dynamic_widget = function() {
       top.postMessage("dashboard_category:" + arrString, "*");
     }
 
-    // function receiveMessage(event){
-    //   if (event.data != null && event.data != "") {
-    //     if (event.data.indexOf("dashboard_category:") != -1) {
-    //       var string = event.data.replace("dashboard_category:", "");
-    //     }
-    //   }
-    // }
-    // top.addEventListener("message", receiveMessage);
     /**
     * @function setTabs
     * Format the tabs' options
@@ -297,7 +285,7 @@ dynamic_widget = function() {
           navBarUrl.className += " selected";
         }
         if(category != selectedTab) {//if the tab category is not the same with the selected tab category
-          navBarUrl.addEventListener('click', tabSelect, false);//set tab select event to false
+          navBarUrl.addEventListener('click', tabSelect, false);//call tabSelect function
         }
         var parent = document.getElementById("navBarId");
         parent.appendChild(navBarUrl);
@@ -314,8 +302,7 @@ dynamic_widget = function() {
             tablinks[i].className = tablinks[i].className.replace(" selected", "");
         }
         target.className += " selected";
-        selectedTab = target.id;
-        console.log("EVENT", event);
+        l.category = target.id;
     }
     /**
     * @function carData
@@ -357,7 +344,7 @@ dynamic_widget = function() {
     onLoad(setHomeLink);
     return {
         carousel: carData,
-        m: reset,
+        reset: reset,
         tabSelect: tabSelect
     }
 }();
