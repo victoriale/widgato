@@ -439,7 +439,8 @@ function setCategoryColors(category) {
                 for (var i = 0; i < classes.length; i++) {
                     htmlClass.classList.remove(classes[i]);
                 }
-                htmlClass.classList.add(categoryClass + "inheritor_border", categoryClass + "inheritor_bg");
+                htmlClass.classList.add(categoryClass + "inheritor_border");
+                htmlClass.classList.add(categoryClass + "inheritor_bg");
                 break;
         }
     }
