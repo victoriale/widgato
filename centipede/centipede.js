@@ -167,7 +167,8 @@ var iframeContent = friendlyIframe.contentWindow;
     //   padding-left: 0px;
     // }
     .worm_block:last-of-type {
-      margin-right: 10px;
+      margin: 0;
+      padding: 0;
     }
     .list_item {
       overflow: hidden;
@@ -242,8 +243,11 @@ var iframeContent = friendlyIframe.contentWindow;
     .num_text {
     	font-size: 12px;
       color: white;
-      top: -8px;
-      right: 12px;
+      width: 20px;
+      top: -9px;
+      right: 9px;
+      text-align: center;
+      font-weight: lighter;
       position: absolute;
       transform: rotate(45deg);
     }
@@ -302,12 +306,18 @@ var iframeContent = friendlyIframe.contentWindow;
     }
     .next_list {
       font-family: lato;
+      font-size: 12px;
       position: relative;
-      top: -45%;
-      margin: 0 10px 0 10px;
-      border: 1px solid gray;
-      padding: 5px 10px 7px 10px;
-      border-radius: 5px;
+      top: -96px;
+      width: 56px;
+      margin: 0 5px 0 0;
+      padding: 80px 10px 88px 10px;
+      text-align: center;
+      color: white;
+    }
+    .next_arrow {
+      font-size: 30px;
+      margin-bottom: 5px;
     }
     </style>
     <div class="wrapper">
@@ -666,8 +676,13 @@ loadData();
         outputHTML += `
         </div>
         <div class="worm_block">
-          <div class="next_list" id="next_list">
-            Next List
+          <div class="next_list" style="background-color:`+currentPub.hex+`;" id="next_list">
+          <div class="next_arrow">
+          <svg width="17" height="30" viewBox="0 0 17 30">
+              <path fill="#FFF" fill-rule="nonzero" d="M16.89 14.463l-14.967 14.9s-.801.555-1.577-.218c-.778-.772 0-1.449 0-1.449L13.663 14.44.976 1.81s-.66-.791.05-1.496c.707-.706 1.696 0 1.696 0l14.168 14.15z"/>
+          </svg>
+          </div>
+          Next List
           </div>
         </div>
         `;
