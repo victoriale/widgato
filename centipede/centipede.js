@@ -55,9 +55,9 @@ var iframeContent = friendlyIframe.contentWindow;
       text-overflow: ellipsis;
       padding: 5px 10px;
       font-family: lato;
-      /*font-weight: 300;*/
+      font-weight: 900;
+      color: #666666;
       font-size: 12px;
-      color: black;
       -webkit-backdrop-filter: blur(3px);
       backdrop-filter: blur(3px);
       background-color: rgba(248, 248, 248, 0.8);
@@ -182,7 +182,7 @@ var iframeContent = friendlyIframe.contentWindow;
       margin-left: 2px;
     }
     .ad_spacer {
-      width: 295px;
+      width: 296px;
       height: 100%;
     }
     .worm_block:nth-of-type(3n+5) {
@@ -209,6 +209,16 @@ var iframeContent = friendlyIframe.contentWindow;
       -ms-interpolation-mode: nearest-neighbor;   /* IE8+                */
       /*border-bottom: 1px solid rgba(50,50,50,0.1);*/
     }
+    .profile_image_div.fallback::before {
+      content: "";
+      height: 100%;
+      width: 100%;
+      top:0;
+      left:0;
+      position: absolute;
+      z-index: 99;
+      opacity: 0.6;
+    }
     .profile_image {
       position: absolute;
       width: 100%;
@@ -226,7 +236,8 @@ var iframeContent = friendlyIframe.contentWindow;
       border-bottom: 30px solid transparent;
       border-left: 30px solid black;
       transform: rotate(-45deg);
-      z-index: 9;
+      z-index: 100;
+      outline: 1px solid rgba(255,255,255,0.4);
     }
     .num_text {
     	font-size: 12px;
@@ -244,16 +255,15 @@ var iframeContent = friendlyIframe.contentWindow;
       text-align: center;
     }
     .name {
-      font-weight: 900;
-      color: #666666;
       font-size: 14px;
       max-width 95%;
-      white-space: nowrap;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: normal;
       overflow: hidden;
       text-overflow: ellipsis;
       padding: 0 5px;
-      margin-bottom: 5px;
-      margin-top: 5px;
     }
     .symbl, .location {
       font-size: 12px;
@@ -374,37 +384,48 @@ var iframeContent = friendlyIframe.contentWindow;
   function getPublisher (pub) {
     var pubs = {
       mlb: {
-        hex: "#bc2027"
+        hex: "#bc2027",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/baseball_stock.jpg"
       },
       nfl: {
-        hex: "#004e87"
+        hex: "#004e87",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg"
       },
       ncaaf: {
-        hex: "#004e87"
+        hex: "#004e87",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg"
       },
       nba: {
-        hex: "#f26f26"
+        hex: "#f26f26",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/basketball_stock.jpg"
       },
       college_basketball: {
-        hex: "#f26f26"
+        hex: "#f26f26",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/basketball_stock.jpg"
       },
       finance: {
-        hex: "#3098ff"
+        hex: "#3098ff",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg"
       },
       weather: {
-        hex: "#43B149"
+        hex: "#43B149",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/real_estate_stock.jpg"
       },
       crime: {
-        hex: "#43B149"
+        hex: "#43B149",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/real_estate_stock.jpg"
       },
       demographics: {
-        hex: "#43B149"
+        hex: "#43B149",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/real_estate_stock.jpg"
       },
       politics: {
-        hex: "#43B149"
+        hex: "#43B149",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/real_estate_stock.jpg"
       },
       disaster: {
-        hex: "#43B149"
+        hex: "#43B149",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/real_estate_stock.jpg"
       }
     };
       if (pub == null || pub == "" || !pubs[pub]) {
@@ -543,13 +564,23 @@ loadData();
     //1st item before the ad
     items[0].li_value = items[0].li_value.replace(items[0].li_tag,"");
     var image = items[0].li_img;
+    if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
+      image = protocolToUse + currentPub.fallbackImage;
+      var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
+      var image_class = "fallback";
+    }
     helper.innerHTML = data.l_title;
     worm.innerHTML = `
+    <style>
+      .profile_image_div.fallback::before {
+        background-color: `+currentPub.hex+`;
+      }
+    </style>
       <div class="worm_block">
         <div class="list_item">
-          <div class="profile_image_div" style="background-image:url('`+image+"?width=138"+`')">
+          <div class="profile_image_div `+image_class+`" style="background-image:url('`+image+"?width=138"+`')">
           <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>1</b></div></div>
-            <img class="profile_image" src="`+image+"?width=138"+`">
+            <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
           </div>
           <div class="info">
             <div class="name">
@@ -589,17 +620,22 @@ loadData();
     var outputHTML = "";
     var maxOutput = 10;
     //every other item (except the first)
-    for (var i = 1; i < items.length && i < maxOutput; i ++) {
+    for (var i = 1; i < items.length && i < maxOutput; i++) {
       items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
       image = items[i].li_img;
+      if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
+        image = protocolToUse + currentPub.fallbackImage;
+        var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
+        var image_class = "fallback";
+      }
       if (Math.abs(i % 2) == 1) { //every odd number
         outputHTML += `<div class="worm_block">`;
       }
       outputHTML += `
           <div class="list_item">
-            <div class="profile_image_div" style="background-image:url('`+image+"?width=138"+`')">
+            <div class="profile_image_div `+image_class+`" style="background-image:url('`+image+"?width=138"+`')">
             <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+(i+1)+`</b></div></div>
-              <img class="profile_image" src="`+image+"?width=138"+`">
+              <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
             </div>
             <div class="info">
               <div class="name">
@@ -626,7 +662,7 @@ loadData();
           </div>
         </div>`;
       }
-      if (i == items.length || i == maxOutput-1) { //fire when done iterating over all items
+      if (i == items.length-1 || i == maxOutput-1) { //fire when done iterating over all items
         outputHTML += `
         </div>
         <div class="worm_block">
@@ -650,7 +686,6 @@ loadData();
     worm.scrollLeft = 0;
     loadData();
   }
-
   //initial event listeners declaration
   worm.addEventListener("scroll", onSwipe);
   function onSwipe(e) {
@@ -667,11 +702,9 @@ loadData();
       helper2.style.opacity = '1';
     }
     var rect = firstAd.getBoundingClientRect();
-    if (rect.left < -600 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 600)) % 2 == 0) { //logic to jump ad to next space when you scroll past it
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*296.5) + 300) + "px";
-    }
-     else if (rect.left > 600 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 600) % 2) == 1) { //logic to jump ad to prev space when you scroll past it
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*298) - 300) + "px";
+    if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
+      var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft-150) /600)].parentElement.offsetLeft + 150;
+      firstAd.style.left = (left - firstAd.offsetWidth) + "px";
     }
     clearTimeout(scrollingTimout);
     scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
@@ -697,12 +730,16 @@ loadData();
   }
   worm.addEventListener("touchstart", onFingerDown);
   function onFingerDown(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
-    console.log("new touch event - canceled interpolation");
-    clearTimeout(setSmoothScrollInterval);
+    userScroll = false;
+    setTimeout(function(){
+      userScroll = true;
+    }, 500);
+    clearInterval(setSmoothScrollInterval);
   }
 
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
+    var counter = 0;
     for (i = 0; i < wormBlocks.length;  i++) {
       if ((worm.scrollLeft + 150) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 150) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
@@ -723,10 +760,15 @@ loadData();
               scrollIncrements = 1;
             }
             //if within margin of error of target, end scroll
-            if (i == (wormBlocks.length - 1)) {
-              clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
+            if (i == (wormBlocks.length - 1) || counter > 30) {
+              userScroll = false;
+              setTimeout(function(){
+                userScroll = true;
+              }, 500);
+              clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
+              counter++;
               worm.scrollLeft = worm.scrollLeft + scrollIncrements; //apply the interpolation step
             }
           }
@@ -737,10 +779,15 @@ loadData();
             else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
               scrollIncrements = 1;
             }
-            if (i == (wormBlocks.length - 1)) {
-              clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
+            if (i == (wormBlocks.length - 1) || counter > 30) {
+              userScroll = false;
+              setTimeout(function(){
+                userScroll = true;
+              }, 500);
+              clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
+              counter++;
               worm.scrollLeft = worm.scrollLeft + 1; //apply the interpolation step
             }
           }
@@ -749,7 +796,7 @@ loadData();
             setTimeout(function(){
               userScroll = true;
             }, 500);
-            clearTimeout(setSmoothScrollInterval);
+            clearInterval(setSmoothScrollInterval);
           }
         }, 20);
         currentBlock = i;
@@ -775,8 +822,12 @@ loadData();
         setSmoothScrollInterval = setInterval(function(){
           var marginOfError = 0;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
-            if (i == (wormBlocks.length - 1)) {
-              clearTimeout(setSmoothScrollInterval);
+            if (i == (wormBlocks.length - 1) || counter > 30) {
+              userScroll = false;
+              setTimeout(function(){
+                userScroll = true;
+              }, 500);
+              clearInterval(setSmoothScrollInterval);
             }
             else {
               worm.scrollLeft = worm.scrollLeft + scrollIncrements;
@@ -787,7 +838,7 @@ loadData();
             setTimeout(function(){
               userScroll = true;
             }, 500);
-            clearTimeout(setSmoothScrollInterval);
+            clearInterval(setSmoothScrollInterval);
           }
         }, 15);
         currentBlock = 0;
