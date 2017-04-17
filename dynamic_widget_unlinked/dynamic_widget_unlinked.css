@@ -63,9 +63,9 @@ button:hover {
   -o-transition: width .3s ease-in-out;
   transition: width .3s ease-in-out;
 }
-.snt_brand .snt_close{
-  width: 100%;
-  height: 100%;
+.snt_brand .snt_default{
+  width: 15px;
+  height: 15px;
   position: absolute;
   left: 0;
   top: 0;
@@ -76,12 +76,12 @@ button:hover {
   position: absolute;
   width: 65px;
   height: 15px;
-  left:0;
+  left:-5px;
 }
 .snt_brand:hover{
-  width: 65px;
+  width: 56px;
 }
-.snt_brand:hover .snt_close{
+.snt_brand:hover .snt_default{
   display:none;
 }
 .snt_brand:hover .snt_expand{
