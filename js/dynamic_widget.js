@@ -519,11 +519,13 @@ dynamic_widget = function() {
             window.top.postMessage({snt_data: {event: "widget-clicked", w: l.event.w, url: this.href}, action: 'snt_tracker'}, '*');
           });
 
+          var interactionEvent = l.event;
+          interactionEvent.event = "widget-interaction";
           document.getElementById("navLeft").addEventListener("click", function(){
-            window.top.postMessage({snt_data: {event: "widget-interaction", w: l.event.w, p: l.dom, url: this.href}, action: 'snt_tracker'}, '*');
+            window.top.postMessage({snt_data: interactionEvent, action: 'snt_tracker'}, '*');
           });
           document.getElementById("navRight").addEventListener("click", function(){
-            window.top.postMessage({snt_data: {event: "widget-interaction", w: l.event.w, p: l.dom, url: this.href}, action: 'snt_tracker'}, '*');
+            window.top.postMessage({snt_data: interactionEvent, action: 'snt_tracker'}, '*');
           });
         }
 
