@@ -511,13 +511,30 @@ dynamic_widget = function() {
             linkHovers[i].style.display = "none";
           }
         } else {
-          //clickthrough analitics code
-          document.getElementById("list-link").addEventListener("click", function(){
-            window.top.postMessage({snt_data: {event: "widget-clicked", w: "pr_type", url: this.href}, action: 'snt_tracker'}, '*');
-          });
-          document.getElementById("imgurl").addEventListener("click", function(){
-            window.top.postMessage({snt_data: {event: "widget-clicked", w: "pr_type", url: this.href}, action: 'snt_tracker'}, '*');
-          });
+          try {
+            //clickthrough analitics code
+            var clickthroughEvent = l.event;
+            clickthroughEvent.event = "widget-clicked";
+
+            document.getElementById("list-link").addEventListener("click", function(){
+              window.top.postMessage({snt_data: clickthroughEvent, action: 'snt_tracker'}, '*');
+            });
+            document.getElementById("imgurl").addEventListener("click", function(){
+              window.top.postMessage({snt_data: clickthroughEvent, action: 'snt_tracker'}, '*');
+            });
+
+            var interactionEvent = l.event;
+            interactionEvent.event = "widget-interaction";
+            document.getElementById("navLeft").addEventListener("click", function(){
+              window.top.postMessage({snt_data: interactionEvent, action: 'snt_tracker'}, '*');
+            });
+            document.getElementById("navRight").addEventListener("click", function(){
+              window.top.postMessage({snt_data: interactionEvent, action: 'snt_tracker'}, '*');
+            });
+          }
+          catch(e) {
+            console.log("Not currently hosted inside igloo... disabling analytics");
+          }
         }
 
         p()

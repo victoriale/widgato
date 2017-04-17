@@ -12,8 +12,8 @@
         <td id="settingsPane">
           Type
           <select id="wType" onchange="changeWidget(this.value)">
-            <option value="kbb_widget">KBB Widget (pre-prod)</option>
             <option value="kbb_dashboard">KBB Dashboard (pre-prod)</option>
+            <option value="kbb_widget">KBB Widget (pre-prod)</option>
             <option value="kbb_articles">KBB Articles (pre-prod)</option>
             <option value="dynamic_widget">Dynamic Widget</option>
             <option value="dynamic_widget_unlinked">Dynamic Widget UnLinked</option>
@@ -81,7 +81,7 @@
           <button id="setSize" type="button" onclick="setSize()">Set Size</button>
         </th>
         <td id="previewPane">
-          <iframe id="previewFrame" scrolling="no" src='../dynamic_widget/dynamic_widget.html?{"dom":"chicagotribune.com","remn":"false","targ":"_blank","category":"nfl","subd":"mytouchdownzone.com/chicagotribune.com","rand":"1"}'></iframe>
+          <iframe id="previewFrame" scrolling="no"></iframe>
         </th>
       </tr>
     </table>
