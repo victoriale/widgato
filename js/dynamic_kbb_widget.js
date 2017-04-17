@@ -162,25 +162,10 @@ dynamic_widget = function() {
             })
         }
         var n = true;
-        p()
+        formattedData()
       }
-      /**
-      * @function formattedDate
-      * Format from epoch date to human readable format, example: Tuesday, Mar. 21, 2017
-      */
-      function formattedDate(eDate){
-        var date = eDate ? new Date(eDate) : new Date();
-        var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
-        var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"];
-        var month = date.getMonth();
-        var day = date.getDate();
-        var dayofWeek = date.getDay();
-        var year = date.getFullYear();
 
-        var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
-        return formattedDate;
-      }
-      function p() {
+      function formattedData() {
         if (r.data.length <= 1) {
           $('next-list-link').classList.add("disabled-button");
         }
@@ -188,27 +173,24 @@ dynamic_widget = function() {
           $('next-list-link').classList.remove("disabled-button");
         }
         var e = r.data[i];
-        artLink = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);// generate current article url
-        if ($('list-link')) {
-            $('list-link').href = artLink
+        var genLink = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);// generate current article url
+        $('mainUrl').href = genLink;
+        if($('mainTitle')){
+          $('mainTitle').innerHTML = e['title'] ? (e['title'].length > 52 ? e['title'].replace(/[\\]/g,"").substring(0,52) : e['title'].replace(/[\\]/g,"")) : "";//limit to 2 lines aka 55 characters
+          $('mainTitle').innerHTML += e['title'].length > 52 ? "..." : "";
         }
-        if ($('title-link')) {
-            $('title-link').href = artLink
+        if($('teaser')){
+          var len = e['title'].length < 25 ? 135 : 95;//increase limit of character in teaser if title is one line or less
+          $('teaser').innerHTML = e['teaser'] ? (e['teaser'].length > len ? e['teaser'].replace(/[\\]/g,"").substring(0,len) : e['teaser'].replace(/[\\]/g,"")) : "";//limit to 3 or 4 lines depends on the number of lines in the title
+          $('teaser').innerHTML += e['teaser'].length > len ? "..." : "";
         }
-          $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
-          $('fb-share').href = "https://www.facebook.com/sharer/sharer.php?u="+artLink;
-          $('twitter-share').href = "https://twitter.com/home?status="+artLink;
-          $('google-share').href = "https://plus.google.com/share?url="+artLink;
-          var stat = Math.floor(Number(e.stat));
-          $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
-          var t = $('mainimg');
-          var n = t.getAttribute('onerror');
-          t.setAttribute('onerror', '');
-          t.setAttribute('src', '');
-          if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
-        }
-        else { //TODO: use placeholder images as fallback for articles instead of no-image image
+        var t = $('mainImg');
+        var n = t.getAttribute('onerror');
+        t.setAttribute('onerror', '');
+        t.setAttribute('src', '');
+        if (e['image_url'] != null && e['image_url'] != "null") {
+          t.setAttribute('src', protocolToUse + "images.synapsys.us" + e['image_url'] + "?width=" + (t.width * window.devicePixelRatio));
+        } else {
           t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
         }
         setTimeout(function(e, t) {
@@ -227,7 +209,7 @@ dynamic_widget = function() {
     function carData(dir) {
         i += dir;
         i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
-        p();
+        formattedData();
         if (typeof dataLayer != 'undefined') {
             dataLayer.push({
                 event: dir == 1 ? 'nav-right' : 'nav-left',

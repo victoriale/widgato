@@ -6,6 +6,8 @@
     <meta charset=utf-8>
     <base target=_blank>
     <link rel=stylesheet type=text/css href=../css/dynamic_kbb_widget_svg.css>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
+
     <link href="//fonts.googleapis.com/css?family=Lato:400,300,100,700,900" rel=stylesheet type=text/css>
     <script>
         d = document, $ = function(e) {
@@ -31,98 +33,33 @@
 </head>
 
 <body>
-    <div class=dw>
-        <div id="verticalName">
-          <a target=_blank id=homelink>
-              <div></div>
-              <img id="verticalDisplayName" src="../css/public/kbb.png">
-              <div class="shareIcons">
-                <a id=fb-share href="" target=_blank>
-                  <div class="shareIcon facebook">
-                    <img src="../css/public/icon-facebook.svg">
-                  </div>
-                </a>
-                <a id=twitter-share href="" target=_blank>
-                  <div class="shareIcon twitter">
-                    <img src="../css/public/icon-twitter.svg">
-                  </div>
-                </a>
-                <a id=google-share href="" target=_blank>
-                  <div class="shareIcon google">
-                    <img src="../css/public/icon-google.svg">
+  <section class=dw>
+      <div class="main-art">
+          <div class="main-thumb">
+              <!-- Previous Button -->
+              <a target=self class="main-nav" id=prev-list-link onclick=dynamic_widget.carousel(-1)><i class="fa fa-chevron-left"></i></a>
+              <div class="main-car">
+                <a id=mainUrl href="" target="_blank">
+                  <div class="sixteen-nine">
+                    <img id=mainImg src="" onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;" class="main-thumb-item" />
                   </div>
                 </a>
               </div>
-          </a>
-        </div>
-        <div id=carousel>
-          <div class="carouselShader"></div>
-            <a target=_blank href="" class=img-link id=suburl> <img class="dw-big dw-c-sub" id=subimg onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;">
-                <div class="hover dw-c-sub dw-big"> View
-                    <br> <span>Profile</span> </div>
-            </a>
-            <a target=_blank href="" class=img-link id=mainurl> <img class="dw-big dw-c-img" id=mainimg onerror="this.src=&quot;//w1.synapsys.us/widgets/css/public/no_image.jpg&quot;">
-              <a target=_blank id=title-link href="">
-                <div id=title-text></div>
-              </a>
-                <div class="hover dw-c-img dw-big"> View
-                    <br> <span>Profile</span> </div>
-            </a>
-            <div id=num></div>
-        </div>
-        <div class=dw-info>
-            <div class=dw-i-title>
-                <a target=_blank id=line1></a>
-            </div>
-            <div class=dw-i-title id=line2></div>
-            <div id=desc class="line-clamp"></div>
-        </div>
-        <a target=_blank id=list-link href="">
-            <div class=dw-btn> Read the Story
-            </div>
-        </a>
-        <a target=self id=next-list-link onclick="dynamic_widget.carousel(1)">
-            <div class=dw-btn> Next Story
-              <svg height="12" width="12" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-                 viewBox="0 0 82.1 86.9" style="enable-background:new 0 0 82.1 86.9;" xml:space="preserve">
-              <g>
-                <path d="M82.1,43.5c0,2-0.7,3.7-2.1,5.1L43.8,84.9c-1.5,1.4-3.1,2.1-5.1,2.1c-1.9,0-3.6-0.7-5-2.1l-4.2-4.2
-                  c-1.4-1.4-2.1-3.1-2.1-5.1s0.7-3.7,2.1-5.1l16.4-16.4H6.5c-1.9,0-3.5-0.7-4.7-2.1C0.6,50.7,0,49,0,47v-7.1c0-2,0.6-3.7,1.8-5.1
-                  s2.8-2.1,4.7-2.1h39.3L29.5,16.4c-1.4-1.3-2.1-3-2.1-5s0.7-3.7,2.1-5l4.2-4.2c1.4-1.4,3.1-2.1,5-2.1c2,0,3.7,0.7,5.1,2.1l36.3,36.3
-                  C81.5,39.8,82.1,41.4,82.1,43.5z"/>
-              </g>
-              </svg>
-            </div>
-        </a>
-        <div class=presented></div>
-    </div>
-    <script>
-        function add_css_link(e) {
-            var t = d.createElement("link");
-            t.href = e, t.type = "text/css", t.rel = "stylesheet";
-            var n = d.getElementsByTagName("head")[0];
-            n.insertBefore(t, n.childNodes[0])
-        }! function() {
-            var e = "../css/dynamic_widget_",
-                t = JSON.parse(decodeURIComponent(location.search.substr(1))),
-                n = {
-                    kbb: "kbb"
-                };
-            return "politics" == t.category ? !1 : (("undefined" == typeof t.category || "undefined" == typeof n[t.category]) && (t.category = "finance"), e += n[t.category] + ".css", void add_css_link(e))
-        }();
-        var hoverInterval = null,
-            dw = d.getElementsByClassName("dw")[0];
-        dw.addEventListener("mouseover", function() {
-            hoverInterval = setInterval(function() {
-                "undefined" != typeof dynamic_widget && "undefined" != typeof dataLayer && dataLayer.push({
-                    event: "widget-hover",
-                    eventAction: dynamic_widget.get_title()
-                })
-            }, 1e3)
-        }), dw.addEventListener("mouseout", function() {
-            "undefined" != typeof hoverInterval && null != hoverInterval && clearInterval(hoverInterval)
-        });
-    </script>
+              <!-- Next Button -->
+              <a target=self class="main-nav" id=next-list-link onclick=dynamic_widget.carousel(1)><i class="fa fa-chevron-right"></i></a>
+          </div>
+          <div class="main-details">
+              <a id=mainUrl href="" target="_blank"><div class="main-title" id=mainTitle></div></a>
+              <div class="main-teaser" id=teaser></div>
+          </div>
+          <a id=mainUrl href="" target="_blank"><div class="main-btn">Read the Story</div></a>
+      </div>
+      <div class="main-ad">
+          <!-- Ad Goes Here  -->
+          <div id="adSpot"></div>
+          <div class="main-ad-txt">Advertisement</div>
+      </div>
+  </section>
 </body>
 
 </html>

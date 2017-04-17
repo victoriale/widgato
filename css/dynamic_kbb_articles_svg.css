@@ -14,10 +14,11 @@ body {
 
 a {
     text-decoration: none;
-    outline: 0
+    outline: 0;
+    cursor: pointer;
 }
 a:hover{
-  color: #0000ff;
+  text-decoration: underline;
 }
 i {
   font-style: normal;
@@ -29,10 +30,10 @@ i {
 .sixteen-nine {
   position: relative;
   -webkit-box-flex: 0;
-  -webkit-flex: 0 0 33.333333%;
-  -ms-flex: 0 0 33.333333%;
-  flex: 0 0 33.333333%;
-  max-width: 33.333333%;
+  -webkit-flex: 0 0 41.666667%;
+  -ms-flex: 0 0 41.666667%;
+  flex: 0 0 41.666667%;
+  max-width: 41.666667%;
   overflow: hidden;
 }
 .sixteen-nine:before {
@@ -54,16 +55,17 @@ i {
   box-shadow: 0 0 0 1px #b7b7b7 inset;
   height: auto;
   margin: 0 auto;
-  max-width: 768px;
   width: 100%;
-  padding: 15px;
   position: relative;
+  width: 600px;/*fixed width for kbb*/
 }
 .headline{
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 22px;
-  text-align: center;
+  font-weight: 700;
+  font-size: 28px;
+  color: #333;
+  line-height: 32px;
+  margin-bottom: 10px;
+  text-align: left;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -80,20 +82,83 @@ i {
   -webkit-flex-wrap: wrap;
   -ms-flex-wrap: wrap;
   flex-wrap: wrap;
-  margin-top: 20px;
 }
 .main-ar{
   -webkit-box-flex: 0;
-  -webkit-flex: 0 0 66.666667%;
-  -ms-flex: 0 0 66.666667%;
-  flex: 0 0 66.666667%;
-  color: #000;
-  max-width: 66.666667%;
+  -webkit-flex: 0 0 58.333333%;
+  -ms-flex: 0 0 58.333333%;
+  flex: 0 0 58.333333%;
+  color: #333;
+  max-height: 132px;
+  max-width: 58.333333%;
   padding-left: 15px;
   overflow: hidden;
   width: 100%;
 }
-
+.main-arList{
+  align-items: flex-end;
+  border-bottom: 1px solid #ccc;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+.main-arList:first-child{
+  margin-top: 0;
+}
 .main-ar-title{
-  font-weight: bold;
+  color: #333;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+  margin-bottom: 8px;
+}
+.main-ar-title:hover{
+  text-decoration: underline;
+  color: #005cb0;
+}
+.main-ar-posted{
+  color: #7e8b98;
+  font-size: 11px;
+  font-weight: normal;
+  line-height: 14px;
+  margin-bottom: 5px;
+}
+.main-ar-teaser{
+  color: #333;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 18px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+.main-ar-btn{
+  background: #fff; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#fff, #edf3f9); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#fff, #edf3f9); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#fff, #edf3f9); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#fff, #edf3f9); /* Standard syntax */
+  border: 1px solid #bec8d3;
+  border-radius: 4px;
+  color: #005cb0;
+  line-height: 28px;
+  float: right;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 16px 0 16px;
+  text-decoration: none;
+}
+.main-ar-btn:hover{
+  background-color: #f4f4f4;
+  background: -webkit-linear-gradient(#f4f4f4, #e1e1e1); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#f4f4f4, #e1e1e1); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#f4f4f4, #e1e1e1); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#f4f4f4, #e1e1e1); /* Standard syntax */
+}
+.disabled-button {
+  opacity: 0.3;
+  pointer-events: none;
 }
