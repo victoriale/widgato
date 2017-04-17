@@ -246,6 +246,7 @@ var iframeContent = friendlyIframe.contentWindow;
       width: 20px;
       top: -9px;
       right: 9px;
+      text-align: center;
       font-weight: lighter;
       position: absolute;
       transform: rotate(45deg);
