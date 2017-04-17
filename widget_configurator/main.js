@@ -723,11 +723,36 @@ function changeWidget(newWidget) {
       settingsInputs.appendChild(htmlField);
     }
   }
+  var domain;
+  if (document.getElementById("domain")) {
+    domain = document.getElementById("domain").value;
+  }
+  var sub_domain;
+  if (document.getElementById("sub_domain")) {
+    sub_domain = document.getElementById("sub_domain").value;
+  }
+  var category;
+  if (document.getElementById("category")) {
+    category = document.getElementById("category").value;
+  }
+  document.cookie = '{"type":"'+newWidget+'","domain":"'+domain+'","sub_domain":"'+sub_domain+'","category":"'+category+'"}';
 }
-changeWidget(document.getElementById("wType").value);
 function setSize() {
   var ifWidth = document.getElementById("prevWidth").value;
   var ifHeight = document.getElementById("prevHeight").value;
   document.getElementById("previewFrame").style.width = ifWidth + "px";
   document.getElementById("previewFrame").style.height = ifHeight + "px";
+}
+if (document.cookie != null) { //onload check for a cookie from prev session
+  var cookie = JSON.parse(document.cookie.split(";")[0]);
+  if (cookie.type && cookie.type != "") {
+    console.log("loading in prev session config data",cookie);
+    changeWidget(cookie.type); //if cookie has type data, load that instead of default
+  }
+  else { // if no valid cookie, fallback to default
+    changeWidget(document.getElementById("wType").value);
+  }
+}
+else { // if no valid cookie, fallback to default
+  changeWidget(document.getElementById("wType").value);
 }

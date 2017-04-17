@@ -31,6 +31,8 @@ var iframeContent = friendlyIframe.contentWindow;
       width: 300px;
       height: 250px;
       background-color: #f7f7f7;
+      border: 1px solid #e1e1e1;
+      box-sizing: border-box;
     }
     .edge_shader {
       position: absolute;
@@ -53,9 +55,9 @@ var iframeContent = friendlyIframe.contentWindow;
       text-overflow: ellipsis;
       padding: 5px 10px;
       font-family: lato;
-      /*font-weight: 300;*/
+      font-weight: 900;
+      color: #666666;
       font-size: 12px;
-      color: black;
       -webkit-backdrop-filter: blur(3px);
       backdrop-filter: blur(3px);
       background-color: rgba(248, 248, 248, 0.8);
@@ -183,7 +185,7 @@ var iframeContent = friendlyIframe.contentWindow;
       width: 296px;
       height: 100%;
     }
-    .worm_block:nth-of-type(2n+4) {
+    .worm_block:nth-of-type(3n+5) {
       margin-left:2px;
     }
     .ad_item {
@@ -207,6 +209,16 @@ var iframeContent = friendlyIframe.contentWindow;
       -ms-interpolation-mode: nearest-neighbor;   /* IE8+                */
       /*border-bottom: 1px solid rgba(50,50,50,0.1);*/
     }
+    .profile_image_div.fallback::before {
+      content: "";
+      height: 100%;
+      width: 100%;
+      top:0;
+      left:0;
+      position: absolute;
+      z-index: 99;
+      opacity: 0.6;
+    }
     .profile_image {
       position: absolute;
       width: 100%;
@@ -214,6 +226,7 @@ var iframeContent = friendlyIframe.contentWindow;
       transform: translateY(-50%);
     }
     .num {
+      font-family: lato;
       position: absolute;
       right: -5px;
       top: -20px;
@@ -223,7 +236,8 @@ var iframeContent = friendlyIframe.contentWindow;
       border-bottom: 30px solid transparent;
       border-left: 30px solid black;
       transform: rotate(-45deg);
-      z-index: 9;
+      z-index: 100;
+      outline: 1px solid rgba(255,255,255,0.4);
     }
     .num_text {
     	font-size: 12px;
@@ -241,15 +255,15 @@ var iframeContent = friendlyIframe.contentWindow;
       text-align: center;
     }
     .name {
-      font-weight: bold;
       font-size: 14px;
       max-width 95%;
-      white-space: nowrap;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: normal;
       overflow: hidden;
       text-overflow: ellipsis;
       padding: 0 5px;
-      margin-bottom: 5px;
-      margin-top: 5px;
     }
     .symbl, .location {
       font-size: 12px;
@@ -270,7 +284,8 @@ var iframeContent = friendlyIframe.contentWindow;
     }
     .value {
       font-size: 20px;
-      color: #545454;
+      color: #272727;
+      font-weight: 900;
       margin-bottom: 5px;
       white-space: nowrap;
       overflow: hidden;
@@ -285,7 +300,15 @@ var iframeContent = friendlyIframe.contentWindow;
       text-overflow: ellipsis;
       padding: 0 5px;
     }
-
+    .next_list {
+      font-family: lato;
+      position: relative;
+      top: -45%;
+      margin: 0 10px 0 10px;
+      border: 1px solid gray;
+      padding: 5px 10px 7px 10px;
+      border-radius: 5px;
+    }
     </style>
     <div class="wrapper">
       <div class="helper" id="helper">
@@ -361,37 +384,48 @@ var iframeContent = friendlyIframe.contentWindow;
   function getPublisher (pub) {
     var pubs = {
       mlb: {
-        hex: "#bc2027"
+        hex: "#bc2027",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/baseball_stock.jpg"
       },
       nfl: {
-        hex: "#004e87"
+        hex: "#004e87",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg"
       },
       ncaaf: {
-        hex: "#004e87"
+        hex: "#004e87",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg"
       },
       nba: {
-        hex: "#f26f26"
+        hex: "#f26f26",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/basketball_stock.jpg"
       },
       college_basketball: {
-        hex: "#f26f26"
+        hex: "#f26f26",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/basketball_stock.jpg"
       },
       finance: {
-        hex: "#3098ff"
+        hex: "#3098ff",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg"
       },
       weather: {
-        hex: "#43B149"
+        hex: "#43B149",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/real_estate_stock.jpg"
       },
       crime: {
-        hex: "#43B149"
+        hex: "#43B149",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/real_estate_stock.jpg"
       },
       demographics: {
-        hex: "#43B149"
+        hex: "#43B149",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/real_estate_stock.jpg"
       },
       politics: {
-        hex: "#43B149"
+        hex: "#43B149",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/real_estate_stock.jpg"
       },
       disaster: {
-        hex: "#43B149"
+        hex: "#43B149",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/real_estate_stock.jpg"
       }
     };
       if (pub == null || pub == "" || !pubs[pub]) {
@@ -403,6 +437,8 @@ var iframeContent = friendlyIframe.contentWindow;
   }
 
   var currentPub = getPublisher(input.category);
+
+  function loadData() {
     //rand is a random value (1-50) that coresponds to a specific list for a given category (does not apply to football)
     var e = rand;
     while (e == rand) {
@@ -487,6 +523,8 @@ var iframeContent = friendlyIframe.contentWindow;
     i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&cat=' + input.category + '&rand=' + e, true);
     i.send()
   }
+}
+loadData();
 
   function populateWorm(data) {
     if (input.category == "nfl" || input.category == "ncaaf") { //if TDL data, transform it
@@ -526,13 +564,23 @@ var iframeContent = friendlyIframe.contentWindow;
     //1st item before the ad
     items[0].li_value = items[0].li_value.replace(items[0].li_tag,"");
     var image = items[0].li_img;
+    if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
+      image = protocolToUse + currentPub.fallbackImage;
+      var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
+      var image_class = "fallback";
+    }
     helper.innerHTML = data.l_title;
     worm.innerHTML = `
+    <style>
+      .profile_image_div.fallback::before {
+        background-color: `+currentPub.hex+`;
+      }
+    </style>
       <div class="worm_block">
         <div class="list_item">
-          <div class="profile_image_div" style="background-image:url('`+image+"?width=138"+`')">
+          <div class="profile_image_div `+image_class+`" style="background-image:url('`+image+"?width=138"+`')">
           <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>1</b></div></div>
-            <img class="profile_image" src="`+image+"?width=138"+`">
+            <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
           </div>
           <div class="info">
             <div class="name">
@@ -549,12 +597,11 @@ var iframeContent = friendlyIframe.contentWindow;
       </div>
       <div class="worm_block">
       <div class="ad_spacer"></div>
-        <div id="first_ad" class="ad_item">
+        <div id="first_ad" class="ad_item" style="background-color: gray; width: 300px; height: 300px;">
 
         </div>
       </div>
     `;
-    firstAd = iframeContent.document.getElementById('first_ad');
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
       setTimeout(function(){ //wait for dom to render before executing igloo script
         firstAd = iframeContent.document.getElementById('first_ad');
@@ -564,21 +611,31 @@ var iframeContent = friendlyIframe.contentWindow;
         firstAd.appendChild(s);
       }, 100);
     }
+    else {
+      setTimeout(function(){
+        firstAd = iframeContent.document.getElementById('first_ad');
+      }, 100);
+    }
 
     var outputHTML = "";
     var maxOutput = 10;
     //every other item (except the first)
-    for (var i = 1; i < items.length && i < maxOutput; i ++) {
+    for (var i = 1; i < items.length && i < maxOutput; i++) {
       items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
       image = items[i].li_img;
+      if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
+        image = protocolToUse + currentPub.fallbackImage;
+        var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
+        var image_class = "fallback";
+      }
       if (Math.abs(i % 2) == 1) { //every odd number
         outputHTML += `<div class="worm_block">`;
       }
       outputHTML += `
           <div class="list_item">
-            <div class="profile_image_div" style="background-image:url('`+image+"?width=138"+`')">
+            <div class="profile_image_div `+image_class+`" style="background-image:url('`+image+"?width=138"+`')">
             <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+(i+1)+`</b></div></div>
-              <img class="profile_image" src="`+image+"?width=138"+`">
+              <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
             </div>
             <div class="info">
               <div class="name">
@@ -593,9 +650,11 @@ var iframeContent = friendlyIframe.contentWindow;
             </div>
           </div>
       `;
-      if (i % 2 == 0) { //show ad every even number
+      if (i % 2 == 0) { //end block div every even number
+        outputHTML += `</div>`;
+      }
+      if (i && (i % 4 === 0)) { //show ad every 4 items
         outputHTML += `
-        </div>
         <div class="worm_block">
         <div class="ad_spacer"></div>
           <div class="ad_item">
@@ -603,15 +662,31 @@ var iframeContent = friendlyIframe.contentWindow;
           </div>
         </div>`;
       }
-      if (i == items.length || i == maxOutput-1) { //fire when done iterating over all items
+      if (i == items.length-1 || i == maxOutput-1) { //fire when done iterating over all items
+        outputHTML += `
+        </div>
+        <div class="worm_block">
+          <div class="next_list" id="next_list">
+            Next List
+          </div>
+        </div>
+        `;
         worm.innerHTML += outputHTML; //write out the accumulated item's html
+        setTimeout(function(){
+          iframeContent.document.getElementById("next_list").addEventListener("touchend", nextList);
+        }, 100);
         friendlyIframe.classList.add("widget_loaded"); //set leaded flag on bounding iframe
       }
     }
   }
 
+  function nextList(e) {
+    worm.innerHTML = "";
+    firstAd.style.left = "0px";
+    worm.scrollLeft = 0;
+    loadData();
+  }
   //initial event listeners declaration
-
   worm.addEventListener("scroll", onSwipe);
   function onSwipe(e) {
     isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
@@ -627,11 +702,9 @@ var iframeContent = friendlyIframe.contentWindow;
       helper2.style.opacity = '1';
     }
     var rect = firstAd.getBoundingClientRect();
-    if (rect.left < -300 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 300)) % 2 == 0) { //logic to jump ad to next space when you scroll past it
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) + 300) + "px";
-    }
-     else if (rect.left > 300 && Math.abs(rect.left) % 300 < 100 && Math.abs(Math.floor(rect.left / 300) % 2) == 1) { //logic to jump ad to prev space when you scroll past it
-      firstAd.style.left = ((Math.floor(this.scrollLeft / 300)*300) - 300) + "px";
+    if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
+      var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft-150) /600)].parentElement.offsetLeft + 150;
+      firstAd.style.left = (left - firstAd.offsetWidth) + "px";
     }
     clearTimeout(scrollingTimout);
     scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
@@ -657,12 +730,16 @@ var iframeContent = friendlyIframe.contentWindow;
   }
   worm.addEventListener("touchstart", onFingerDown);
   function onFingerDown(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
-    console.log("new touch event - canceled interpolation");
-    clearTimeout(setSmoothScrollInterval);
+    userScroll = false;
+    setTimeout(function(){
+      userScroll = true;
+    }, 500);
+    clearInterval(setSmoothScrollInterval);
   }
 
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
+    var counter = 0;
     for (i = 0; i < wormBlocks.length;  i++) {
       if ((worm.scrollLeft + 150) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 150) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
@@ -683,10 +760,15 @@ var iframeContent = friendlyIframe.contentWindow;
               scrollIncrements = 1;
             }
             //if within margin of error of target, end scroll
-            if (i == (wormBlocks.length - 1)) {
-              clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
+            if (i == (wormBlocks.length - 1) || counter > 30) {
+              userScroll = false;
+              setTimeout(function(){
+                userScroll = true;
+              }, 500);
+              clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
+              counter++;
               worm.scrollLeft = worm.scrollLeft + scrollIncrements; //apply the interpolation step
             }
           }
@@ -697,10 +779,15 @@ var iframeContent = friendlyIframe.contentWindow;
             else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
               scrollIncrements = 1;
             }
-            if (i == (wormBlocks.length - 1)) {
-              clearTimeout(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
+            if (i == (wormBlocks.length - 1) || counter > 30) {
+              userScroll = false;
+              setTimeout(function(){
+                userScroll = true;
+              }, 500);
+              clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
+              counter++;
               worm.scrollLeft = worm.scrollLeft + 1; //apply the interpolation step
             }
           }
@@ -709,7 +796,7 @@ var iframeContent = friendlyIframe.contentWindow;
             setTimeout(function(){
               userScroll = true;
             }, 500);
-            clearTimeout(setSmoothScrollInterval);
+            clearInterval(setSmoothScrollInterval);
           }
         }, 20);
         currentBlock = i;
@@ -735,8 +822,12 @@ var iframeContent = friendlyIframe.contentWindow;
         setSmoothScrollInterval = setInterval(function(){
           var marginOfError = 0;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
-            if (i == (wormBlocks.length - 1)) {
-              clearTimeout(setSmoothScrollInterval);
+            if (i == (wormBlocks.length - 1) || counter > 30) {
+              userScroll = false;
+              setTimeout(function(){
+                userScroll = true;
+              }, 500);
+              clearInterval(setSmoothScrollInterval);
             }
             else {
               worm.scrollLeft = worm.scrollLeft + scrollIncrements;
@@ -747,7 +838,7 @@ var iframeContent = friendlyIframe.contentWindow;
             setTimeout(function(){
               userScroll = true;
             }, 500);
-            clearTimeout(setSmoothScrollInterval);
+            clearInterval(setSmoothScrollInterval);
           }
         }, 15);
         currentBlock = 0;
