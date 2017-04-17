@@ -737,15 +737,31 @@ function setSize() {
   document.getElementById("previewFrame").style.height = ifHeight + "px";
 }
 if (document.cookie != null) { //onload check for a cookie from prev session
-  var cookie = JSON.parse(document.cookie.split(";")[0]);
-  if (cookie.type && cookie.type != "") {
-    console.log("loading in prev session config data",cookie);
-    changeWidget(cookie.type); //if cookie has type data, load that instead of default
+  try {
+    var cookie = JSON.parse(document.cookie.split(";")[0]);
+    if (cookie.type != null && cookie.type != "") {
+      console.log("loading in prev session config data",cookie);
+      document.getElementById("wType").value = cookie.type;
+      changeWidget(cookie.type); //if cookie has type data, load that instead of default
+      for (var value in cookie) {
+        if (value != "type") {
+          document.getElementById(value).value = cookie[value];
+        }
+      }
+      generateWidget()
+    }
+    else { // if no valid cookie, fallback to default
+      console.log("no valid cookie... falling back");
+      changeWidget(document.getElementById("wType").value);
+      generateWidget()
+    }
   }
-  else { // if no valid cookie, fallback to default
-    changeWidget(document.getElementById("wType").value);
+  catch(e) {
+    console.log("Bad saved session cookie:",e)
   }
 }
 else { // if no valid cookie, fallback to default
+  console.log("no valid cookie... falling back");
   changeWidget(document.getElementById("wType").value);
+  generateWidget()
 }
