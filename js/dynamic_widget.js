@@ -512,11 +512,14 @@ dynamic_widget = function() {
           }
         } else {
           //clickthrough analitics code
+          var clickthroughEvent = l.event;
+          clickthroughEvent.event = "widget-clicked";
+
           document.getElementById("list-link").addEventListener("click", function(){
-            window.top.postMessage({snt_data: {event: "widget-clicked", w: l.event.w, url: this.href}, action: 'snt_tracker'}, '*');
+            window.top.postMessage({snt_data: clickthroughEvent, action: 'snt_tracker'}, '*');
           });
           document.getElementById("imgurl").addEventListener("click", function(){
-            window.top.postMessage({snt_data: {event: "widget-clicked", w: l.event.w, url: this.href}, action: 'snt_tracker'}, '*');
+            window.top.postMessage({snt_data: clickthroughEvent, action: 'snt_tracker'}, '*');
           });
 
           var interactionEvent = l.event;
