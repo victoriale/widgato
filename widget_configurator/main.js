@@ -606,6 +606,18 @@ var currentField;
 
 function generateWidget() {
   var widget = document.getElementById("wType").value;
+  var domain;
+  if (document.getElementById("domain")) {
+    domain = document.getElementById("domain").value;
+  }
+  var sub_domain;
+  if (document.getElementById("sub_domain")) {
+    sub_domain = document.getElementById("sub_domain").value;
+  }
+  var category;
+  if (document.getElementById("category")) {
+    category = document.getElementById("category").value;
+  }
   var url = options[widget].output;
   for (var field in options[widget]) {
     if (field != "output" && options[widget][field].enabled == true) {
@@ -613,6 +625,7 @@ function generateWidget() {
       url = url.replace("<" + field + ">",domElem.value);
     }
   }
+  document.cookie = '{"type":"'+widget+'","domain":"'+domain+'","sub_domain":"'+sub_domain+'","category":"'+category+'"}';
   document.getElementById("previewFrame").contentWindow.document.location.href = url;
   document.getElementById("outputTextarea").value = url.replace("..","http://w1.synapsys.us/widgets");
 }
@@ -643,19 +656,6 @@ function changeWidget(newWidget) {
       settingsInputs.appendChild(htmlField);
     }
   }
-  var domain;
-  if (document.getElementById("domain")) {
-    domain = document.getElementById("domain").value;
-  }
-  var sub_domain;
-  if (document.getElementById("sub_domain")) {
-    sub_domain = document.getElementById("sub_domain").value;
-  }
-  var category;
-  if (document.getElementById("category")) {
-    category = document.getElementById("category").value;
-  }
-  document.cookie = '{"type":"'+newWidget+'","domain":"'+domain+'","sub_domain":"'+sub_domain+'","category":"'+category+'"}';
 }
 function setSize() {
   var ifWidth = document.getElementById("prevWidth").value;

@@ -513,10 +513,17 @@ dynamic_widget = function() {
         } else {
           //clickthrough analitics code
           document.getElementById("list-link").addEventListener("click", function(){
-            window.top.postMessage({snt_data: {event: "widget-clicked", w: "pr_type", url: this.href}, action: 'snt_tracker'}, '*');
+            window.top.postMessage({snt_data: {event: "widget-clicked", w: l.event.w, url: this.href}, action: 'snt_tracker'}, '*');
           });
           document.getElementById("imgurl").addEventListener("click", function(){
-            window.top.postMessage({snt_data: {event: "widget-clicked", w: "pr_type", url: this.href}, action: 'snt_tracker'}, '*');
+            window.top.postMessage({snt_data: {event: "widget-clicked", w: l.event.w, url: this.href}, action: 'snt_tracker'}, '*');
+          });
+
+          document.getElementById("navLeft").addEventListener("click", function(){
+            window.top.postMessage({snt_data: {event: "widget-interaction", w: l.event.w, p: l.dom, url: this.href}, action: 'snt_tracker'}, '*');
+          });
+          document.getElementById("navRight").addEventListener("click", function(){
+            window.top.postMessage({snt_data: {event: "widget-interaction", w: l.event.w, p: l.dom, url: this.href}, action: 'snt_tracker'}, '*');
           });
         }
 
