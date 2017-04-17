@@ -1,60 +1,27 @@
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var referrer = document.referrer ? document.referrer : window.location.href;
-/**
-* @function getCategoryMetadata
-* Get meta info based on partner info
-*/
-// function getCategoryMetadata (category) {
-//   var globalMeta = {
-//     kbb: {
-//       displayName: "Kelly Blue Book",
-//       domain: "www.kbb.com",
-//       partnerDomain: "www.kbb.com",
-//       usesPartnerSubdomain: true,
-//       hasAiArticles: false,
-//       category: "kbb",
-//       subCategory: ""
-//     }
-//   };
-//   return globalMeta[category];
-// }
-
 
 /**
-* @function getTabInfo
 * List tab options
 */
-function getTabInfo(option){
-  var tabObj = {//TODO false category for testing
-    "trending": {
-      display: "Trending News",
-      category: "automotive"
-    },
-    "reviews": {
-      display: "Reviews",
-      category: "food"
-    },
-    "top10": {
-      display: "Top 10 Lists",
-      category: "travel"
-    },
-    "videos": {
-      display: "Videos",
-      category: "entertainment"
-    }
-  }
-  if(tabObj[option] == null || typeof tabObj[option] == "undefined"){// default return
-    return{
-      display: null,
-      scope: null
-    };
-  } else {
-    return tabObj[option];
+var tabObj = {//TODO false category for testing
+  "trending": {
+    display: "Trending News",
+    category: "automotive"
+  },
+  "reviews": {
+    display: "Reviews",
+    category: "food"
+  },
+  "top10": {
+    display: "Top 10 Lists",
+    category: "travel"
+  },
+  "videos": {
+    display: "Videos",
+    category: "entertainment"
   }
 }
-
-
-
 
 /**
 * @function dynamic_widget
@@ -63,11 +30,11 @@ function getTabInfo(option){
 dynamic_widget = function() {
     var currentIndex = 0,
         widgetData = {},
-        query = JSON.parse(decodeURIComponent(location.search.substr(1))),
+        // query = JSON.parse(decodeURIComponent(location.search.substr(1))),
         retryCount = 0,
-        tabOptions = ['kbb'];//TODO where tapOptions being used
+        currentCategory;
     var selectedTab;
-    console.log("query", query);
+    // console.log("query", query);
     function onLoad(func) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
             func()
@@ -85,26 +52,67 @@ dynamic_widget = function() {
     * @function reset
     * Resets index count to 0 when swapping lists
     */
-    function reset(ignoreRandom) {
+    function reset() {
       currentIndex = 0;
-      httpGetData(ignoreRandom);
+      getTabNames();
+      httpGetData();
     }
+
+
+    /**
+    * @function getTabNames
+    * Set up tab options menu
+    */
+    function getTabNames(){
+      var tabArray = [];
+      for(var cat in tabObj){
+        tabArray.push(tabObj[cat].category);
+      }
+      setTabs();//TODO comments
+      sendTabNames(tabArray);
+    }
+
+
+    /**
+    * @function sendTabNames
+    * Send dashboard tab name to top level
+    */
+    function sendTabNames(tabs){
+      var arrString = tabs.join(",");//convert tab array to string
+      top.postMessage("dashboard_category:" + arrString, "*");
+    }
+
+
+    /**
+    * @function setTabs
+    * Format the tabs' options
+    **/
+    function setTabs(){
+      var i = 0;
+      for(var cat in tabObj){
+        var tabDisplay = tabObj[cat].display;//get display name for each tab option
+        var category = tabObj[cat].category;//get category value for each tab option
+        var navBarUrl = document.createElement('a');
+        navBarUrl.className = "navBar-url";//set class name navBar-url for each tab option
+        navBarUrl.setAttribute("data-attr", category);
+        navBarUrl.innerHTML = tabDisplay;
+        if(i == 0){//default to first tab onload
+          selectedTab = tabObj[cat].displayName;
+          navBarUrl.className += " selected";
+          currentCategory = tabObj[cat].category;
+        }
+        i++;
+        navBarUrl.addEventListener('click', tabSelect, false);//create event listener on clik to run tabSelect function
+        $("navBarId").appendChild(navBarUrl);
+      }
+    }
+
+
     /**
     * @function httpGetData
     * Get data from API
     */
-    function httpGetData(ignoreRandom) {
-      //Category is default to KBB if undefined, exception only for KBB widgets
-      if (typeof query.category == 'undefined' || tabOptions.indexOf(query.category) == -1) {
-        query.category = "automotive";//TODO need to update
-      }
-      if (ignoreRandom == null) {
-        var e = typeof query.rand != 'undefined' && retryCount == 0 ? query.rand : Math.floor(Math.random() * 10);
-      }
-      else {
-        var e = Math.floor(Math.random() * 10);
-      }
-
+    function httpGetData() {
       var xHttp;
       if (window.XMLHttpRequest) {
           xHttp = new XMLHttpRequest
@@ -115,11 +123,9 @@ dynamic_widget = function() {
           if (this.readyState == XMLHttpRequest.DONE) {
               if (this.status == 200) {
                   widgetData = JSON.parse(this.responseText);
-                  console.log("WIDGET DATA:", widgetData);
                   onLoad(getData)
               } else {
-                  // Error handling
-                  // Get the message
+                  // Error handling - Get the message
                   var msg = this.statusText;
                   if (this.status == 500) {
                       try {
@@ -140,11 +146,14 @@ dynamic_widget = function() {
       //Test API: http://dev-article-library.synapsys.us/articles?category=automotive&metaDataOnly=1&readyToPublish=true&count=
       var count = 20;
       var subCategory = "";//TODO
-      console.log("QUERY: ", query);
-      xHttp.open('GET', protocolToUse+"dev-article-library.synapsys.us/articles?category="+query.category+"&subCategory="+subCategory+ "&metaDataOnly=1&readyToPublish=true&count="+count, true);
+      xHttp.open('GET', protocolToUse+"dev-article-library.synapsys.us/articles?category="+currentCategory+"&subCategory="+subCategory+ "&metaDataOnly=1&readyToPublish=true&count="+count, true);
       xHttp.send()
     }//function httpGetData ends
 
+    /**
+    * @function getData
+    * functions to call onload
+    **/
     function getData() {
         // if (typeof dataLayer != 'undefined') {
         //     dataLayer.push({
@@ -152,7 +161,6 @@ dynamic_widget = function() {
         //         eventAction: dynamic_widget.get_title()
         //     })
         // }
-        setTabs();
         formattedData();
         artData()
     }
@@ -173,7 +181,7 @@ dynamic_widget = function() {
       }
       /**Top Article/Carousel Data**/
       var dataList = widgetData.data[currentIndex];
-      var genLink =  generateArticleLink(query.category, dataList['source'], dataList['article_id'], dataList['article_type'], query.remn); //Generate current article link
+      var genLink =  generateArticleLink(currentCategory, dataList['source'], dataList['article_id'], dataList['article_type']); //Generate current article link
       var playBtn = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486"><title>Asset 2</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M243,486C109,486,0,377,0,243S109,0,243,0,486,109,486,243,377,486,243,486Zm0-462.1C122.19,23.9,23.9,122.19,23.9,243S122.19,462.1,243,462.1,462.1,363.81,462.1,243,363.81,23.9,243,23.9Z"/><path d="M359.46,235.13,197.32,104.66a8.65,8.65,0,0,0-14.07,6.74V372.33a8.65,8.65,0,0,0,14.07,6.74L359.46,248.6A8.65,8.65,0,0,0,359.46,235.13Z"/></g></g></svg>';//play button svg source
       $('playBtn').innerHTML = playBtn;
       // $('mainTitle').innerHTML = dataList['title'] ? dataList['title'].replace(/[\\]/g,"") : "";
@@ -198,6 +206,8 @@ dynamic_widget = function() {
       }
       mainImg.setAttribute('onerror', "this.src='"+ protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg'");//TODO
     }
+
+
     /**
     * @function artData
     * Format data accordingly to specs before displaying for bottom articles
@@ -209,66 +219,22 @@ dynamic_widget = function() {
         /**Bottom Article Data
         ** Append child element to thumbArt to display the 3 articles in the bottom of dashboard
         **/
+        var parent = $("thumbnail");//get element id thumbnail
+        parent.innerHTML = ""; // empties out the contents of the parent identifier
+
         dataArr.forEach(function(val, index){
           var thumbItem = document.createElement('div');//this is the 3 bottom articles/video thumbnails
           thumbItem.className = "thumbnails-item";//set className for new element
-          var parent = document.getElementById("thumbnail");//get element id thumbnail
           var titleText = val['title'].replace(/[\\]/g,"");//get title value from api
-          var artUrl =  generateArticleLink(query.category, val['source'], val['article_id'], val['article_type'], query.remn);//generate article url
+          var artUrl =  generateArticleLink(currentCategory, val['source'], val['article_id'], val['article_type']);//generate article url
           var thumbImage = val.image_url != null ? (protocolToUse + "images.synapsys.us" + val.image_url + "?width=" + (250 * window.devicePixelRatio)) : (protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");//get image, if no image, then display no-image image
           thumbItem.innerHTML = '<a href="'+artUrl+'" target="_blank"><div class="sixteen-nine"><img class="main-thumb-item" src="'+thumbImage+'" /><div class="play-button small" id=playBtnSm>'+playBtn+'</div></div></a><a href="'+artUrl+'" target="_blank"><div class="thumbnails-title">'+titleText+'</div></a>';
           parent.appendChild(thumbItem);//append thumbnail items to thumbnails class
         });
       }
     }
-    /**
-    * @function getTabNames
-    * Set up tab options menu
-    */
-    function getTabNames(){
-      var tabArray = ['trending', 'reviews', 'top10', 'videos'];//array of tab items you want to call
-      sendTabNames(tabArray);
-      return tabArray;
-    }
-    /**
-    * @function sendTabNames
-    * Send dashboard tab name to top level
-    */
-    function sendTabNames(tabs){
-      var arrString = tabs.join(",");//convert tab array to string
-      top.postMessage("dashboard_category:" + arrString, "*");
-    }
 
-    /**
-    * @function setTabs
-    * Format the tabs' options
-    **/
-    function setTabs(){
-      var tabNames = getTabNames();
-      if (typeof selectedTab == "undefined") {//default to first tab if none is selected
-          selectedTab = tabNames[0];
-      } else {
-          tabNames.unshift(selectedTab);
-      }
-      var category;
-      for (var i = 0; i < tabNames.length; i++) {
-        var tabDisplay;
-        category = getTabInfo(tabNames[i]).category;//get category value for each tab option
-        tabDisplay = getTabInfo(tabNames[i]).display;//get display name for each tab option
-        var navBarUrl = document.createElement('a');
-        navBarUrl.className = "navBar-url";//set class name navBar-url for each tab option
-        navBarUrl.id = category;
-        navBarUrl.innerHTML = tabDisplay;
-        if(i == 0){//default to first tab on first load, TODO: get the widget id from script to default to the right tab
-          navBarUrl.className += " selected";
-        }
-        if(category != selectedTab) {//if the tab category is not the same with the selected tab category
-          navBarUrl.addEventListener('click', tabSelect, false);//call tabSelect function
-        }
-        var parent = document.getElementById("navBarId");
-        parent.appendChild(navBarUrl);
-      }
-    }
+
     /**
     * @function tabSelect
     * Listen to select event and activate tab
@@ -277,11 +243,14 @@ dynamic_widget = function() {
         var target = event.target || event.srcElement;
         var tablinks = document.getElementsByClassName("navBar-url");
         for (var i = 0; i < tablinks.length; i++) {
+            //remove all selected className found in elements
             tablinks[i].className = tablinks[i].className.replace(" selected", "");
         }
         target.className += " selected";
-        query.category = target.id;
+        currentCategory = target.getAttribute("data-attr");//set currentCategory to attr value of selected target
+        httpGetData();
     }
+
     /**
     * @function carData
     * This function goes to the next or previous carousel item by adding dir to
@@ -304,9 +273,6 @@ dynamic_widget = function() {
     }
 
 
-
-
-
     //TODO: waiting on API with KBB data
     /**
     * @function generateArticleLink
@@ -314,7 +280,7 @@ dynamic_widget = function() {
     * scope: article category, linkType: depends article source, destinationId: unique article/event id,
     * articleType: article type, such as story, video, etc., remn: partner or non-partner
     */
-    function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
+    function generateArticleLink (scope, linkType, destinationId, articleType) {
       var baseUrl = "http://";
       var output = "";
       baseUrl += "www.kbb.com";//TODO may be something else
@@ -322,19 +288,6 @@ dynamic_widget = function() {
       output = baseUrl + "/" + scope + "/news/story/" + destinationId;
       return output;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     reset();
     return {
