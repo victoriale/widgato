@@ -533,7 +533,7 @@ dynamic_widget = function() {
             });
           }
           catch(e) {
-            console.log("Not currently hosted inside igloo... disabling analytics");
+            console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
           }
         }
 

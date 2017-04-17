@@ -660,7 +660,6 @@ function generateWidget() {
   }
   preCookie = preCookie.replace(/,\s*$/, '');
   preCookie += "}";
-  console.log(preCookie);
   document.cookie = preCookie;
   document.getElementById("previewFrame").contentWindow.document.location.href = url;
   document.getElementById("outputTextarea").value = url.replace("..","http://w1.synapsys.us/widgets");
