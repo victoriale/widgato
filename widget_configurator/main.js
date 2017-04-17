@@ -686,26 +686,23 @@ var currentField;
 
 function generateWidget() {
   var widget = document.getElementById("wType").value;
-  var domain;
-  if (document.getElementById("domain")) {
-    domain = document.getElementById("domain").value;
-  }
-  var sub_domain;
-  if (document.getElementById("sub_domain")) {
-    sub_domain = document.getElementById("sub_domain").value;
-  }
-  var category;
-  if (document.getElementById("category")) {
-    category = document.getElementById("category").value;
-  }
   var url = options[widget].output;
+  var preCookie = '{"type":"'+widget+'",';
   for (var field in options[widget]) {
     if (field != "output" && options[widget][field].enabled == true) {
       domElem = document.getElementById(field);
       url = url.replace("<" + field + ">",domElem.value);
+      if () {
+        preCookie += '"'+field+'":"'+document.getElementById(field).value+'",';
+      }
+      else {
+        preCookie += '"'+field+'":"'+document.getElementById(field).value+'"';
+      }
     }
   }
-  document.cookie = '{"type":"'+widget+'","domain":"'+domain+'","sub_domain":"'+sub_domain+'","category":"'+category+'"}';
+  preCookie += "}";
+  console.log(preCookie);
+  document.cookie = preCookie;
   document.getElementById("previewFrame").contentWindow.document.location.href = url;
   document.getElementById("outputTextarea").value = url.replace("..","http://w1.synapsys.us/widgets");
 }
