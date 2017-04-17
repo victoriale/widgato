@@ -167,7 +167,8 @@ var iframeContent = friendlyIframe.contentWindow;
     //   padding-left: 0px;
     // }
     .worm_block:last-of-type {
-      margin-right: 10px;
+      margin: 0;
+      padding: 0;
     }
     .list_item {
       overflow: hidden;
@@ -302,12 +303,17 @@ var iframeContent = friendlyIframe.contentWindow;
     }
     .next_list {
       font-family: lato;
+      font-size: 12px;
       position: relative;
-      top: -45%;
-      margin: 0 10px 0 10px;
-      border: 1px solid gray;
-      padding: 5px 10px 7px 10px;
-      border-radius: 5px;
+      top: -105px;
+      width: 56px;
+      margin: 0 5px 0 0;
+      padding: 70px 10px 97px 10px;
+      text-align: center;
+      color: white;
+    }
+    .next_arrow {
+      font-size: 30px;
     }
     </style>
     <div class="wrapper">
@@ -666,8 +672,14 @@ loadData();
         outputHTML += `
         </div>
         <div class="worm_block">
-          <div class="next_list" id="next_list">
-            Next List
+          <div class="next_list" style="background-color:`+currentPub.hex+`;" id="next_list">
+          <span class="next_arrow">
+            <svg width='16.9px' height='29.6px' viewBox='500 600 700 700'>
+              <path fill='white' d='M1171 960q0 13-10 23l-466 466q-10 10-23 10t-23-10l-50-50q-10-10-10-23t10-23l393-393-393-393q-10-10-10-23t10-23l50-50q10-10 23-10t23 10l466 466q10 10 10 23z'/>
+            </svg>
+          </span>
+          <br>
+          Next List
           </div>
         </div>
         `;
