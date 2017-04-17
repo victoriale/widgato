@@ -389,7 +389,7 @@ image_puzzle = function () {
             }
             else {
                 if (e.playerHeadshotUrl != null && e.playerHeadshotUrl != "null" && e.playerHeadshotUrl.indexOf('no-image') == -1 && window.location.pathname.indexOf('_970') == -1) {
-                    e.li_img = "http://images.synapsys.us" + e.playerHeadshotUrl + "?width=300";
+                    e.li_img = protocolToUse + "images.synapsys.us" + e.playerHeadshotUrl + "?width=300";
                 }
                 else {
                     e.li_img = protocolToUse + "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg" + "?width=300";
