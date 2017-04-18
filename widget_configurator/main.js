@@ -157,6 +157,7 @@ var options = {
       type: "select",
       options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
     },
+
     group:{
       default: "sports",
       enabled: true,
@@ -615,6 +616,14 @@ var options = {
       name: "Category",
       type: "select",
       options: ["nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+    },
+    group:{
+      default: "sports",
+      enabled: true,
+      explanation: "The card of lists and style of widget to use.",
+      name: "Group",
+      type: "select",
+      options: ["","sports","weather","money"]
     },
     rand:{
       default: "1",
