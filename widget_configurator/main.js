@@ -640,7 +640,7 @@ var options = {
       type: "select",
       options: ["prod-","dev-"]
     },
-    output: '../centipede/centipede.html?{"dom":"<domain>","category":"<category>","rand":"<rand>","env":"<env>"}'
+    output: '../centipede/centipede.html?{"dom":"<domain>","category":"<category>","group":"<group>","rand":"<rand>","env":"<env>"}'
   },
   megaphone:{
     domain:{
