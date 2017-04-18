@@ -239,11 +239,6 @@ button:focus {
     transition-timing-function: ease-out;
 }
 
-.rightTransform:hover:before {
-    -webkit-transform: scaleX(1);
-    transform: scaleX(1);
-}
-
 .cta_button-list span {
     color: inherit;
     font-weight: 700;

@@ -478,203 +478,201 @@ function checkImage(image) {
 }
 
 function createPuzzle(mainImage, isSolved) {
-    (function () {
-        //set global variables
-        var _empty, _puzzle, _square;
-        _puzzle = (function () {
-            function _puzzle(image, isSolved) {
-                //set variables
-                if (!isSolved) {
-                    var i, index, tile, xPos, yPos;
-                    this.image = image;
-                    this.initialTiles = [];
-                    this.tiles = [];
-                    //bind the function and array arguments to the called method
-                    this.emptyTile.bind(this.emptyTile, this);
-                    this.randomize.bind(this.randomize, this);
-                    this.render.bind(this.render, this);
-                    this.swapTile.bind(this.swapTile, this);
-                    this.solved.bind(this.solved, this);
-                    //assign each tile with dimensions, position, and image
-                    for (i = index = 0; index <= 7; i = ++index) {
-                        xPos = Math.floor(i % 3) * 100;
-                        yPos = Math.floor(i / 3) * 104;
-                        tile = new _square(i, 100, 104, xPos, yPos, this.image);
-                        this.tiles.push(tile);
-                    }
-                    //set the 8th position to be empty
-                    this.tiles.push(new _empty(8));
-                    //save the initial tile setup.
-                    this.initialTiles = this.tiles.slice(0);
-                    this.randomize();
-                } else {
-                    this.solveMe(image);
+    //set global variables
+    var _empty, _puzzle, _square;
+    _puzzle = (function () {
+        function _puzzle(image, isSolved) {
+            //set variables
+            if (!isSolved) {
+                var i, index, tile, xPos, yPos;
+                this.image = image;
+                this.initialTiles = [];
+                this.tiles = [];
+                //bind the function and array arguments to the called method
+                this.emptyTile.bind(this.emptyTile, this);
+                this.randomize.bind(this.randomize, this);
+                this.render.bind(this.render, this);
+                this.swapTile.bind(this.swapTile, this);
+                this.solved.bind(this.solved, this);
+                //assign each tile with dimensions, position, and image
+                for (i = index = 0; index <= 7; i = ++index) {
+                    xPos = Math.floor(i % 3) * 100;
+                    yPos = Math.floor(i / 3) * 104;
+                    tile = new _square(i, 100, 104, xPos, yPos, this.image);
+                    this.tiles.push(tile);
+                }
+                //set the 8th position to be empty
+                this.tiles.push(new _empty(8));
+                //save the initial tile setup.
+                this.initialTiles = this.tiles.slice(0);
+                this.randomize();
+            } else {
+                this.solveMe(image);
+            }
+        }
+
+        _puzzle.prototype.emptyTile = function () {
+            var index, _length, position, tile, val;
+            val = this.tiles;
+            //loop through tile array and find the empty tile's position
+            for (position = index = 0, _length = val.length; index < _length; position = ++index) {
+                tile = val[position];
+                if (tile["class"] === 'empty') {
+                    return position;
                 }
             }
-
-            _puzzle.prototype.emptyTile = function () {
-                var index, _length, position, tile, val;
-                val = this.tiles;
-                //loop through tile array and find the empty tile's position
-                for (position = index = 0, _length = val.length; index < _length; position = ++index) {
-                    tile = val[position];
-                    if (tile["class"] === 'empty') {
-                        return position;
-                    }
-                }
-            };
-            _puzzle.prototype.randomize = function () {
-                var emptyPos, i, index, random, randomNum;
-                emptyPos = 8;
-                random = [];
-                //iterate through to create an array of random numbers and assign them to the tiles
-                for (i = index = 0; index <= 10; i = ++index) {
-                    randomNum = Math.floor(Math.random() * 9);
-                    this.swapTile(randomNum, emptyPos);
-                    random.push(emptyPos = randomNum);
-                }
-                return random;
-            };
-            _puzzle.prototype.render = function () {
-                var empty, index, _length, tile, val,
-                    _this = this;
-                empty = this.emptyTile();
-                $('puzzle').innerHTML = '';
-                if (this.solved()) {
-                    //create solved message
-                    var solvedBackground = document.createElement('div');
-                    solvedBackground.setAttribute('id', 'puzzle-div');
-                    solvedBackground.setAttribute('style', 'background-image: url(' + this.image + ')');
-                    $('solve').style.display = 'none';
-                    $('puzzle').appendChild(solvedBackground);
-                    $('dw-container').style.display = 'block';
-                    return $('puzzle-div').style.display = 'block';
-                } else {
-                    //render tiles
-                    var background = document.createElement('div');
-                    background.setAttribute('id', 'puzzle-background');
-                    background.setAttribute('style', 'background-image: url(' + this.image + ')');
-                    var image = document.createElement('div');
-                    image.setAttribute('id', 'img-background');
-                    background.appendChild(image);
-                    var onClick = $('solve-me');
-                    onClick.setAttribute('onclick', "createPuzzle('" + this.image + "', true);");
-                    $('solve').style.display = 'block';
-                    $('puzzle').appendChild(background);
-                    $('dw-container').style.display = 'none';
-                    val = this.tiles;
-                    for (index = 0, _length = val.length; index < _length; index++) {
-                        tile = val[index];
-                        tile.show(empty);
-                    }
-                    var tileClass = document.getElementsByClassName('tile');
-                    //add click event to tiles that are available to be swapped
-                    Array.from(tileClass).forEach(function (element) {
-                        return element.addEventListener('click', function (event) {
-                            var toSwitch;
-                            toSwitch = parseInt(event.target.id);
-                            return _this.swapTile(toSwitch, _this.emptyTile());
-                        });
-                    });
-                }
-            };
-            _puzzle.prototype.solveMe = function (image) {
+        };
+        _puzzle.prototype.randomize = function () {
+            var emptyPos, i, index, random, randomNum;
+            emptyPos = 8;
+            random = [];
+            //iterate through to create an array of random numbers and assign them to the tiles
+            for (i = index = 0; index <= 10; i = ++index) {
+                randomNum = Math.floor(Math.random() * 9);
+                this.swapTile(randomNum, emptyPos);
+                random.push(emptyPos = randomNum);
+            }
+            return random;
+        };
+        _puzzle.prototype.render = function () {
+            var empty, index, _length, tile, val,
+                _this = this;
+            empty = this.emptyTile();
+            $('puzzle').innerHTML = '';
+            if (this.solved()) {
+                //create solved message
                 var solvedBackground = document.createElement('div');
                 solvedBackground.setAttribute('id', 'puzzle-div');
-                solvedBackground.setAttribute('style', 'background-image: url(' + image + ')');
+                solvedBackground.setAttribute('style', 'background-image: url(' + this.image + ')');
                 $('solve').style.display = 'none';
                 $('puzzle').appendChild(solvedBackground);
                 $('dw-container').style.display = 'block';
                 return $('puzzle-div').style.display = 'block';
-            };
-            _puzzle.prototype.swapTile = function (xPos, yPos) {
-                var x, y;
-                x = this.tiles[xPos];
-                y = this.tiles[yPos];
-                this.tiles[yPos] = x;
-                this.tiles[xPos] = y;
-                this.tiles[yPos].position = yPos;
-                return this.render();
-            };
-            _puzzle.prototype.solved = function () {
-                var i, index;
-                //check if puzzle is solved by comparing the current tiles array with the initialTiles array
-                for (i = index = 0; index <= 8; i = ++index) {
-                    if (this.tiles[i] !== this.initialTiles[i]) {
-                        return false
-                    }
+            } else {
+                //render tiles
+                var background = document.createElement('div');
+                background.setAttribute('id', 'puzzle-background');
+                background.setAttribute('style', 'background-image: url(' + this.image + ')');
+                var image = document.createElement('div');
+                image.setAttribute('id', 'img-background');
+                background.appendChild(image);
+                var onClick = $('solve-me');
+                onClick.setAttribute('onclick', "createPuzzle('" + this.image + "', true);");
+                $('solve').style.display = 'block';
+                $('puzzle').appendChild(background);
+                $('dw-container').style.display = 'none';
+                val = this.tiles;
+                for (index = 0, _length = val.length; index < _length; index++) {
+                    tile = val[index];
+                    tile.show(empty);
                 }
-                return true;
-            };
-            return _puzzle;
-        })();
-        _square = (function () {
-            function _square(position, width, height, xPos, yPos, image) {
-                this.height = height;
-                this.image = image;
-                this.position = position;
-                this.width = width;
-                this.x = xPos;
-                this.y = yPos;
-                this["class"] = 'square';
+                var tileClass = document.getElementsByClassName('tile');
+                //add click event to tiles that are available to be swapped
+                Array.from(tileClass).forEach(function (element) {
+                    return element.addEventListener('click', function (event) {
+                        var toSwitch;
+                        toSwitch = parseInt(event.target.id);
+                        return _this.swapTile(toSwitch, _this.emptyTile());
+                    });
+                });
             }
-
-            _square.prototype.show = function (emptyTile) {
-                var puzzle = document.createElement('div');
-
-                function setAttributes(el, attr) {
-                    for (var key in attr) {
-                        el.setAttribute(key, attr[key]);
-                    }
+        };
+        _puzzle.prototype.solveMe = function (image) {
+            var solvedBackground = document.createElement('div');
+            solvedBackground.setAttribute('id', 'puzzle-div');
+            solvedBackground.setAttribute('style', 'background-image: url(' + image + ')');
+            $('solve').style.display = 'none';
+            $('puzzle').appendChild(solvedBackground);
+            $('dw-container').style.display = 'block';
+            return $('puzzle-div').style.display = 'block';
+        };
+        _puzzle.prototype.swapTile = function (xPos, yPos) {
+            var x, y;
+            x = this.tiles[xPos];
+            y = this.tiles[yPos];
+            this.tiles[yPos] = x;
+            this.tiles[xPos] = y;
+            this.tiles[yPos].position = yPos;
+            return this.render();
+        };
+        _puzzle.prototype.solved = function () {
+            var i, index;
+            //check if puzzle is solved by comparing the current tiles array with the initialTiles array
+            for (i = index = 0; index <= 8; i = ++index) {
+                if (this.tiles[i] !== this.initialTiles[i]) {
+                    return false
                 }
-
-                if (this.isNext(emptyTile)) {
-                    setAttributes(puzzle, {"id": this.position, "class": "innerTile image tile"});
-                } else {
-                    setAttributes(puzzle, {"id": this.position, "class": "innerTile image"});
-                }
-                var hoverClick = document.createElement('div');
-                if (this.position === 4 && !$('4')) {
-                    hoverClick.setAttribute('class', 'animated pulse');
-                    puzzle.appendChild(hoverClick);
-                }
-                else if (this.position === 7 && !$('4')) {
-                    hoverClick.setAttribute('class', 'animated pulse');
-                    puzzle.appendChild(hoverClick);
-                }
-                $('puzzle').appendChild(puzzle);
-                $(this.position).style.backgroundPosition = '-' + this.x + 'px -' + this.y + 'px';
-                return $(this.position).style.backgroundImage = "url('" + this.image + "')";
-            };
-            _square.prototype.isNext = function (emptyPosition) {
-                return emptyPosition - 1 === this.position && (emptyPosition % 3) > 0 || emptyPosition + 1 === this.position &&
-                    (emptyPosition % 3) < 2 || emptyPosition + 3 === this.position && (emptyPosition / 3) < 2 ||
-                    emptyPosition - 3 === this.position && (emptyPosition / 3) > 0
-            };
-            return _square;
-        })();
-        _empty = (function () {
-            function _empty(position) {
-                this.position = position;
-                this["class"] = 'empty';
             }
-
-            _empty.prototype.show = function () {
-                var emptyTile = document.createElement('div');
-                emptyTile.setAttribute('class', 'innerTile empty');
-                emptyTile.setAttribute('id', 'emptyTile');
-                return $('puzzle').appendChild(emptyTile);
-            };
-            $('solve').style.display = 'block';
-            $('dw-container').style.display = 'none';
-            return _empty;
-        })();
-        var image, puzzle;
-        if (!isSolved) {
-            image = mainImage;
-            puzzle = new _puzzle(image, isSolved);
-        } else {
-            puzzle = new _puzzle(mainImage, isSolved);
+            return true;
+        };
+        return _puzzle;
+    })();
+    _square = (function () {
+        function _square(position, width, height, xPos, yPos, image) {
+            this.height = height;
+            this.image = image;
+            this.position = position;
+            this.width = width;
+            this.x = xPos;
+            this.y = yPos;
+            this["class"] = 'square';
         }
-    }).call(this);
+
+        _square.prototype.show = function (emptyTile) {
+            var puzzle = document.createElement('div');
+
+            function setAttributes(el, attr) {
+                for (var key in attr) {
+                    el.setAttribute(key, attr[key]);
+                }
+            }
+
+            if (this.isNext(emptyTile)) {
+                setAttributes(puzzle, {"id": this.position, "class": "innerTile image tile"});
+            } else {
+                setAttributes(puzzle, {"id": this.position, "class": "innerTile image"});
+            }
+            var hoverClick = document.createElement('div');
+            if (this.position === 4 && !$('4')) {
+                hoverClick.setAttribute('class', 'animated pulse');
+                puzzle.appendChild(hoverClick);
+            }
+            else if (this.position === 7 && !$('4')) {
+                hoverClick.setAttribute('class', 'animated pulse');
+                puzzle.appendChild(hoverClick);
+            }
+            $('puzzle').appendChild(puzzle);
+            $(this.position).style.backgroundPosition = '-' + this.x + 'px -' + this.y + 'px';
+            return $(this.position).style.backgroundImage = "url('" + this.image + "')";
+        };
+        _square.prototype.isNext = function (emptyPosition) {
+            return emptyPosition - 1 === this.position && (emptyPosition % 3) > 0 || emptyPosition + 1 === this.position &&
+                (emptyPosition % 3) < 2 || emptyPosition + 3 === this.position && (emptyPosition / 3) < 2 ||
+                emptyPosition - 3 === this.position && (emptyPosition / 3) > 0
+        };
+        return _square;
+    })();
+    _empty = (function () {
+        function _empty(position) {
+            this.position = position;
+            this["class"] = 'empty';
+        }
+
+        _empty.prototype.show = function () {
+            var emptyTile = document.createElement('div');
+            emptyTile.setAttribute('class', 'innerTile empty');
+            emptyTile.setAttribute('id', 'emptyTile');
+            return $('puzzle').appendChild(emptyTile);
+        };
+        $('solve').style.display = 'block';
+        $('dw-container').style.display = 'none';
+        return _empty;
+    })();
+    var image, puzzle;
+    if (!isSolved) {
+        image = mainImage;
+        puzzle = new _puzzle(image, isSolved);
+    } else {
+        puzzle = new _puzzle(mainImage, isSolved);
+    }
 }
