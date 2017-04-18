@@ -652,10 +652,24 @@ var options = {
     output: 'http://10.40.0.37:8070/megaphone.html'
   },
   dodgydrone:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
     type:"dodgy_drone",
     output: '../dodgydrone/index.html'
   },
   imagepuzzle:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
     category:{
       default: "nfl",
       enabled: true,
