@@ -726,6 +726,9 @@ function generateWidget() { //create the output widget based on the user-configu
     else if (options[widget].type.indexOf("<group>") != -1) {
       xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type.replace("<group>",document.getElementById("group").value), false);
     }
+    else {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type, false);
+    }
     xmlHttp.send( null );
     try {
       responce = xmlHttp.responseText;
