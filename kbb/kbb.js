@@ -6,12 +6,12 @@ var snt_id = "snt_container";
 var widget_id = "widget";
 var snt_widget_type1 = "//w1.synapsys.us/embeds/football_pro/dynamic_300x600/nfl.js";
 
+var post_message_tab_listener = []; //converts post message string and push all tab content into this array
 var valid_widget_identifiers = []; // store all valid widget identifers in this array so that it cannot be called again
 var snt_widget_count = 1; // counter for amount of widgets showing on page
 var max_widget_count = 6;
 var intervalFailSafe = 0;
 var maxScrollPercent = 80;
-
 
 //Waits for the DOMContent to load so we know where to append the widget
 document.addEventListener("DOMContentLoaded", function(event) {
@@ -26,6 +26,16 @@ document.addEventListener("DOMContentLoaded", function(event) {
         sntListener()
     };
     // snt_id_container.addEventListener("onscroll", sntListener);
+
+
+    function receiveMessage(event){
+      if (event.data != null && event.data != "") {
+        if (event.data.indexOf("dashboard_category:") != -1) {
+          var string = event.data.replace("dashboard_category:", "");
+        }
+      }
+    }
+    top.addEventListener("message", receiveMessage);
 
     /*<---------------------------------------------------------------------------------------------------------->*/
 
@@ -72,6 +82,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
             /*
             ** CODE HERE to determine what widgets to call
             */
+            receiveMessage();
 
             //if 80% of snt_id_container is visible then call next widget unless it is the first call then index it
             if (heightListener >= maxScrollPercent || valid_widget_identifiers.length == 0) {

@@ -142,50 +142,13 @@ var options = {
     output: '../dynamic_widget/dynamic_widget_970.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
   dynamic_widget_unlinked:{
-    domain:{
-      default: "chicagotribune.com",
-      enabled: true,
-      explanation: "The top level domain that the widget will be embeded on.",
-      name: "Domain",
-      type: "text"
-    },
-    sub_domain:{
-      default: "mytouchdownzone.com/chicagotribune.com",
-      enabled: true,
-      explanation: "The subdomain (and sometimes the partner part of the url) that will form the base url for the linkbacks on the widget.",
-      name: "Sub Domain",
-      type: "text"
-    },
-    county:{
-      default: "",
-      enabled: true,
-      explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled, set to 'atl_metro' to use the combination of all the atl counties",
-      name: "County",
-      type: "text"
-    },
-    remn:{
-      default: "false",
-      enabled: true,
-      explanation: "If true, the widget will use internal logic as if it was embeded on one of our own house sites. If false, it will run as if its on a partner site",
-      name: "Remnant?",
-      type: "select",
-      options: ["false", "true"]
-    },
-    targ:{
-      default: "_blank",
-      enabled: true,
-      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
-      name: "Target",
-      type: "select",
-      options: ["_blank","_top"]
-    },
     category:{
       default: "nfl",
       enabled: true,
       explanation: "The category of lists and style of widget to use.",
       name: "Category",
       type: "select",
-      options: ["nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+      options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
     },
     group:{
       default: "sports",
