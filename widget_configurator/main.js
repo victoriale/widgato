@@ -67,6 +67,7 @@ var options = {
       type: "select",
       options: ["prod-","dev-"]
     },
+    type: "dynamic_<category>",
     output: '../dynamic_widget/dynamic_widget.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
   dynamic_widget_wide:{
@@ -137,9 +138,9 @@ var options = {
       type: "select",
       options: ["prod-","dev-"]
     },
+    type: "dynamic_<category>",
     output: '../dynamic_widget/dynamic_widget_970.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
-
   dynamic_widget_unlinked:{
     category:{
       default: "nfl",
@@ -179,7 +180,8 @@ var options = {
       type: "select",
       options: ["prod","qa","dev"]
     },
-    output: '../dynamic_widget_unlinked/index.html?{"category":"<category>","group":"<group>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
+    type: "dynamic_group_<group>",
+    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","group":"<group>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
 
   dynamic_article_widget:{
@@ -646,13 +648,6 @@ var options = {
     output: '../dodgydrone/index.html'
   },
   imagepuzzle:{
-    domain:{
-      default: "chicagotribune.com",
-      enabled: true,
-      explanation: "The top level domain that the widget will be embeded on.",
-      name: "Domain",
-      type: "text"
-    },
     category:{
       default: "nfl",
       enabled: true,
@@ -688,7 +683,7 @@ function generateWidget() {
   var url = options[widget].output;
   var preCookie = '{"type":"'+widget+'",';
   for (var field in options[widget]) {
-    if (field != "output" && options[widget][field].enabled == true) {
+    if (field != "type" && field != "output" && options[widget][field].enabled == true) {
       domElem = document.getElementById(field);
       url = url.replace("<" + field + ">",domElem.value);
       preCookie += '"'+field+'":"'+document.getElementById(field).value+'",';
