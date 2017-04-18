@@ -640,7 +640,7 @@ loadData();
     }
 
     var outputHTML = "";
-    var maxOutput = 25;
+    var maxOutput = 50;
     //every other item (except the first)
     for (var i = 1; i < items.length && i < maxOutput; i++) {
       items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
