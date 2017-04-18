@@ -387,7 +387,7 @@ var iframeContent = friendlyIframe.contentWindow;
   var userScroll = true;
   var firstAd;
 
-  if (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1) {
+  if (typeof input.group == 'undefined' && (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1)) {
       input.category = 'finance'; //default category fallback
   }
   friendlyIframe.classList.add("centipede_"+input.category);
@@ -446,8 +446,6 @@ var iframeContent = friendlyIframe.contentWindow;
       }
   }
 
-  var currentPub = getPublisher(input.category);
-
   function loadData() {
     //rand is a random value (1-50) that coresponds to a specific list for a given category (does not apply to football)
     var e = rand;
@@ -485,7 +483,9 @@ var iframeContent = friendlyIframe.contentWindow;
       }
   };
   rand = e;
-  if (input.category == "nfl" || input.category == "ncaaf" || input.category == "nflncaaf") { //fetch curated TDL API queries
+  if (input.category != null && input.category != "") { //category param
+    var currentPub = getPublisher(input.category);
+    if (input.category == "nfl" || input.category == "ncaaf" || input.category == "nflncaaf") { //fetch curated TDL API queries
       if (input.category == "nfl") {
         var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array.json';
       }
@@ -528,15 +528,23 @@ var iframeContent = friendlyIframe.contentWindow;
       }
       xmlHttp.open( "GET", url, true ); // false for synchronous request
       xmlHttp.send( null );
+    }
+    else { //normal, non TDL api query
+      i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&cat=' + input.category + '&rand=' + e, true);
+      i.send()
+    }
   }
-  else { //normal, non TDL api query
-    i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&cat=' + input.category + '&rand=' + e, true);
+  else { //group param
+    i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&group=' + input.group + '&rand=' + e, true);
     i.send()
   }
 }
 loadData();
 
   function populateWorm(data) {
+    if ((input.category == null || input.category == "") && input.group != null && input.group != "") {
+      var currentPub = getPublisher(data.category);
+    }
     if (input.category == "nfl" || input.category == "ncaaf") { //if TDL data, transform it
       data = data.data;
       data.l_title = data.listInfo.listName;
@@ -578,6 +586,10 @@ loadData();
       image = protocolToUse + currentPub.fallbackImage;
       var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
       var image_class = "fallback";
+    }
+    else {
+      var style="";
+      var image_class = "";
     }
     helper.innerHTML = data.l_title;
     worm.innerHTML = `
@@ -628,7 +640,7 @@ loadData();
     }
 
     var outputHTML = "";
-    var maxOutput = 50;
+    var maxOutput = 25;
     //every other item (except the first)
     for (var i = 1; i < items.length && i < maxOutput; i++) {
       items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
@@ -637,6 +649,10 @@ loadData();
         image = protocolToUse + currentPub.fallbackImage;
         var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
         var image_class = "fallback";
+      }
+      else {
+        var style="";
+        var image_class = "";
       }
       if (Math.abs(i % 2) == 1) { //every odd number
         outputHTML += `<div class="worm_block">`;
