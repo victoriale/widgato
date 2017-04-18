@@ -83,8 +83,7 @@ function setupEnvironment(widgetQuery) {
     if (widgetQuery.category == 'nfl' || widgetQuery.category == 'ncaaf' || widgetQuery.category == 'football' || widgetQuery.category == 'nflncaaf') {
         apiCallUrl += env + "-" + tdlApi;
     } else {
-        //TODO reword comment
-        //if group does exist here then add group query parameter otherwise add categeory parameter for api
+        //if category is not football related then add the appropriate api url.
         apiCallUrl += synapsysENV(environment) + dwApi + "?cat=" + cat;
     }
     //FALL BACK API SET HERE INCASE Dynamic widget api fails to make a call
