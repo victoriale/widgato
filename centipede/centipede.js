@@ -290,7 +290,7 @@ var iframeContent = friendlyIframe.contentWindow;
       font-size: 20px;
       color: #272727;
       font-weight: 900;
-      margin-bottom: 5px;
+      margin-top: 3px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -649,7 +649,7 @@ loadData();
             </div>
             <div class="info">
               <div class="name">
-                `+items[i].li_title.replace("Corporation","Corp")+`
+                `+items[i].li_title+`
               </div>
               <div class="value">
                 `+items[i].li_value+`
@@ -678,9 +678,9 @@ loadData();
         <div class="worm_block">
           <div class="next_list" style="background-color:`+currentPub.hex+`;" id="next_list">
           <div class="next_arrow">
-          <svg width="17" height="30" viewBox="0 0 17 30">
-              <path fill="#FFF" fill-rule="nonzero" d="M16.89 14.463l-14.967 14.9s-.801.555-1.577-.218c-.778-.772 0-1.449 0-1.449L13.663 14.44.976 1.81s-.66-.791.05-1.496c.707-.706 1.696 0 1.696 0l14.168 14.15z"/>
-          </svg>
+            <svg width="17" height="30" viewBox="0 0 17 30">
+                <path fill="#FFF" fill-rule="nonzero" d="M16.89 14.463l-14.967 14.9s-.801.555-1.577-.218c-.778-.772 0-1.449 0-1.449L13.663 14.44.976 1.81s-.66-.791.05-1.496c.707-.706 1.696 0 1.696 0l14.168 14.15z"/>
+            </svg>
           </div>
           Next List
           </div>
