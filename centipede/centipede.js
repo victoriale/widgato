@@ -386,6 +386,7 @@ var iframeContent = friendlyIframe.contentWindow;
   var n = 0;
   var userScroll = true;
   var firstAd;
+  var currentPub;
 
   if (typeof input.group == 'undefined' && (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1)) {
       input.category = 'finance'; //default category fallback
@@ -484,7 +485,7 @@ var iframeContent = friendlyIframe.contentWindow;
   };
   rand = e;
   if (input.category != null && input.category != "") { //category param
-    var currentPub = getPublisher(input.category);
+    currentPub = getPublisher(input.category);
     if (input.category == "nfl" || input.category == "ncaaf" || input.category == "nflncaaf") { //fetch curated TDL API queries
       if (input.category == "nfl") {
         var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array.json';
@@ -543,7 +544,7 @@ loadData();
 
   function populateWorm(data) {
     if ((input.category == null || input.category == "") && input.group != null && input.group != "") {
-      var currentPub = getPublisher(data.category);
+      currentPub = getPublisher(data.category);
     }
     if (input.category == "nfl" || input.category == "ncaaf") { //if TDL data, transform it
       data = data.data;
