@@ -136,7 +136,7 @@ function getFootballList(league) {
             jsonArray = JSON.parse(xmlHttp.responseText);
             getRandFootballList(jsonArray);
         }
-    }
+    };
     xmlHttp.open("GET", url, true); // false for synchronous request
     xmlHttp.send(null);
 }
@@ -247,13 +247,7 @@ function runAPI(apiUrl) { //Make it to where it is easy to be reused by anyone
  */
 function displayWidget() {
     try {
-        //sets the last updated date
-        // var date = new Date();
-        // var formatedDate = dateFormat(date.getDay(), date.getDate(), date.getMonth(), date.getFullYear());
-        // $('profile-updated').innerHTML = formatedDate.weekday + ", " + formatedDate.month + " " + formatedDate.day + ", " + formatedDate.year;
-
         //Run dynamic color of widget
-
         /***************************FOOTBALL DATA APPLIANCE*******************************/
         if (query.category == "football" || query.category == "nfl" || query.category == "ncaaf") {
             let dataArray = widgetData.data.listData;
@@ -266,20 +260,28 @@ function displayWidget() {
             //current index of a player or team to display
             if (curData.rankType == "player") {
                 let image = checkImage(imageUrl + curData.playerHeadshotUrl);
-                createPuzzle(image, false);
-                $("profile-name").innerHTML = curData.playerFirstName + " " + curData.playerLastName;
-                $("profile-datapoint1").innerHTML = "Team: ";
-                $("profile-datavalue1").innerHTML = curData.teamName;
-                $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
-                $("profile-datapoint2").innerHTML = " " + curData.statDescription;
+                if (image != null) {
+                    createPuzzle(image, false);
+                    $("profile-name").innerHTML = curData.playerFirstName + " " + curData.playerLastName;
+                    $("profile-datapoint1").innerHTML = "Team: ";
+                    $("profile-datavalue1").innerHTML = curData.teamName;
+                    $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
+                    $("profile-datapoint2").innerHTML = " " + curData.statDescription;
+                } else {
+                    updateIndex(1);
+                }
             } else {
                 let image = checkImage(imageUrl + curData.teamLogo);
-                createPuzzle(image, false);
-                $("profile-name").innerHTML = curData.teamName;
-                $("profile-datapoint1").innerHTML = "Division: ";
-                $("profile-datavalue1").innerHTML = curData.divisionName;
-                $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
-                $("profile-datapoint2").innerHTML = ": " + curData.statDescription;
+                if (image != null) {
+                    createPuzzle(image, false);
+                    $("profile-name").innerHTML = curData.teamName;
+                    $("profile-datapoint1").innerHTML = "Division: ";
+                    $("profile-datavalue1").innerHTML = curData.divisionName;
+                    $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
+                    $("profile-datapoint2").innerHTML = ": " + curData.statDescription;
+                } else {
+                    updateIndex(1);
+                }
             }
             /***************************END OF FOOTBALL DATA*******************************/
         } else {
@@ -301,13 +303,16 @@ function displayWidget() {
             } else {
                 image = checkImage(curData.li_img);
             }
-            createPuzzle(image, false);
-
-            $("profile-rank").innerHTML = curData.li_rank;
-            $("profile-name").innerHTML = curData.li_title;
-            $("profile-datavalue1").innerHTML = curData.li_sub_txt;
-            $("profile-datapoint2").innerHTML = curData.li_tag;
-            $("profile-datavalue2").innerHTML = " " + curData.li_value;
+            if (image != null) {
+                createPuzzle(image, false);
+                $("profile-rank").innerHTML = curData.li_rank;
+                $("profile-name").innerHTML = curData.li_title;
+                $("profile-datavalue1").innerHTML = curData.li_sub_txt;
+                $("profile-datapoint2").innerHTML = curData.li_tag;
+                $("profile-datavalue2").innerHTML = " " + curData.li_value;
+            } else {
+                updateIndex(1);
+            }
         }
         /***************************END OF DYNAMIC DATA*******************************/
     } catch (e) {
@@ -325,7 +330,6 @@ function displayWidget() {
  * @param function category - sets the base category for colors that are stored in the global ./css/inheritor/inheritor.css
  */
 function setCategoryColors(category) {
-    let color;
     switch (category) {
         case 'football':
         case 'nfl':
@@ -421,71 +425,24 @@ function updateIndex(difference) {
  */
 function checkImage(image) {
     let imageReturn;
-    let showCover;
-    var fallbackImg;
-
-    // $("mainimg").setAttribute('src', '');
-
-    //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
-    switch (subCategory) {
-        case "football":
-        case "nfl":
-        case "ncaaf":
-        case "nflncaaf":
-            fallbackImg = "football_stock.jpg";
-            break;
-        case 'basketball':
-        case "nba":
-        case 'ncaam':
-        case "college_basketball":
-            fallbackImg = "basketball_stock.jpg";
-            break;
-        case "finance":
-            fallbackImg = "finance_stock.jpg";
-            break;
-        case "mlb":
-            fallbackImg = "baseball_stock.jpg";
-            break;
-        default:
-            fallbackImg = "failback.jpg";
-    }
     //prep return
     if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && image.indexOf('no_player') == -1 && window.location.pathname.indexOf('_970') == -1) {
         imageReturn = image + "?width=" + (300 * window.devicePixelRatio);
-        showCover = false;
+        return imageReturn;
     } else {
-        showCover = true;
-        //make sure there is a fallback image
-        imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
-        //sets flag for image api to send back image with set size based on devicePixelRatio
-        imageReturn += "?width=" + (300 * window.devicePixelRatio);
+        return null;
     }
-
-    // $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
-
-    //USED to display background color of category if a fallback image is sent back
-    let imageBackground = document.getElementsByClassName('e_image-cover');
-    for (var j = 0; j < imageBackground.length; j++) {
-        if (showCover) {
-            $("e_image-shader").style.display = "none";
-            imageBackground[j].style.display = 'block';
-        } else {
-            $("e_image-shader").style.display = "block";
-            imageBackground[j].style.display = 'none';
-        }
-    }
-    return imageReturn;
 }
 
 function createPuzzle(mainImage, isSolved) {
     //set global variables
     var _empty, _puzzle, _square;
     _puzzle = (function () {
-        function _puzzle(image, isSolved) {
+        function _puzzle(mainImage, isSolved) {
             //set variables
             if (!isSolved) {
                 var i, index, tile, xPos, yPos;
-                this.image = image;
+                this.puzzleImage = mainImage;
                 this.initialTiles = [];
                 this.tiles = [];
                 //bind the function and array arguments to the called method
@@ -498,7 +455,7 @@ function createPuzzle(mainImage, isSolved) {
                 for (i = index = 0; index <= 7; i = ++index) {
                     xPos = Math.floor(i % 3) * 100;
                     yPos = Math.floor(i / 3) * 104;
-                    tile = new _square(i, 100, 104, xPos, yPos, this.image);
+                    tile = new _square(i, 100, 104, xPos, yPos, this.puzzleImage);
                     this.tiles.push(tile);
                 }
                 //set the 8th position to be empty
@@ -507,7 +464,7 @@ function createPuzzle(mainImage, isSolved) {
                 this.initialTiles = this.tiles.slice(0);
                 this.randomize();
             } else {
-                this.solveMe(image);
+                this.solveMe(mainImage);
             }
         }
 
@@ -543,7 +500,7 @@ function createPuzzle(mainImage, isSolved) {
                 //create solved message
                 var solvedBackground = document.createElement('div');
                 solvedBackground.setAttribute('id', 'puzzle-div');
-                solvedBackground.setAttribute('style', 'background-image: url(' + this.image + ')');
+                solvedBackground.setAttribute('style', 'background-image: url(' + this.puzzleImage + ')');
                 $('solve').style.display = 'none';
                 $('puzzle').appendChild(solvedBackground);
                 $('dw-container').style.display = 'block';
@@ -552,12 +509,12 @@ function createPuzzle(mainImage, isSolved) {
                 //render tiles
                 var background = document.createElement('div');
                 background.setAttribute('id', 'puzzle-background');
-                background.setAttribute('style', 'background-image: url(' + this.image + ')');
+                background.setAttribute('style', 'background-image: url(' + this.puzzleImage + ')');
                 var image = document.createElement('div');
                 image.setAttribute('id', 'img-background');
                 background.appendChild(image);
                 var onClick = $('solve-me');
-                onClick.setAttribute('onclick', "createPuzzle('" + this.image + "', true);");
+                onClick.setAttribute('onclick', "createPuzzle('" + this.puzzleImage + "', true);");
                 $('solve').style.display = 'block';
                 $('puzzle').appendChild(background);
                 $('dw-container').style.display = 'none';
@@ -577,10 +534,10 @@ function createPuzzle(mainImage, isSolved) {
                 });
             }
         };
-        _puzzle.prototype.solveMe = function (image) {
+        _puzzle.prototype.solveMe = function (solvedImage) {
             var solvedBackground = document.createElement('div');
             solvedBackground.setAttribute('id', 'puzzle-div');
-            solvedBackground.setAttribute('style', 'background-image: url(' + image + ')');
+            solvedBackground.setAttribute('style', 'background-image: url(' + solvedImage + ')');
             $('solve').style.display = 'none';
             $('puzzle').appendChild(solvedBackground);
             $('dw-container').style.display = 'block';
@@ -608,9 +565,9 @@ function createPuzzle(mainImage, isSolved) {
         return _puzzle;
     })();
     _square = (function () {
-        function _square(position, width, height, xPos, yPos, image) {
+        function _square(position, width, height, xPos, yPos, tileImage) {
             this.height = height;
-            this.image = image;
+            this.puzzleImage = tileImage;
             this.position = position;
             this.width = width;
             this.x = xPos;
@@ -643,7 +600,7 @@ function createPuzzle(mainImage, isSolved) {
             }
             $('puzzle').appendChild(puzzle);
             $(this.position).style.backgroundPosition = '-' + this.x + 'px -' + this.y + 'px';
-            return $(this.position).style.backgroundImage = "url('" + this.image + "')";
+            return $(this.position).style.backgroundImage = "url('" + this.puzzleImage + "')";
         };
         _square.prototype.isNext = function (emptyPosition) {
             return emptyPosition - 1 === this.position && (emptyPosition % 3) > 0 || emptyPosition + 1 === this.position &&
@@ -668,11 +625,6 @@ function createPuzzle(mainImage, isSolved) {
         $('dw-container').style.display = 'none';
         return _empty;
     })();
-    var image, puzzle;
-    if (!isSolved) {
-        image = mainImage;
-        puzzle = new _puzzle(image, isSolved);
-    } else {
-        puzzle = new _puzzle(mainImage, isSolved);
-    }
+    var puzzle;
+    puzzle = new _puzzle(mainImage, isSolved);
 }
