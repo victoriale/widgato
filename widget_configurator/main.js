@@ -652,6 +652,7 @@ var options = {
     output: 'http://10.40.0.37:8070/megaphone.html'
   },
   dodgydrone:{
+    type:"dodgy_drone",
     output: '../dodgydrone/index.html'
   },
   imagepuzzle:{
@@ -678,6 +679,7 @@ var options = {
       type: "select",
       options: ["prod-","dev-"]
     },
+    type:"image_puzzle",
     output: '../image_puzzle/image_puzzle.html?{"dom":"<domain>","category":"<category>","rand":"<rand>","env":"<env>"}'
   },
 };
@@ -685,7 +687,7 @@ var options = {
 var settingsInputs = document.getElementById('settingsInputs');
 var currentField;
 
-function generateWidget() {
+function generateWidget() { //create the output widget based on the user-configured settings
   var widget = document.getElementById("wType").value;
   var url = options[widget].output;
   var preCookie = '{"type":"'+widget+'",';
@@ -723,7 +725,7 @@ function generateWidget() {
     document.getElementById("outputEmbedTextarea").value = "N/A";
   }
 }
-function changeWidget(newWidget) {
+function changeWidget(newWidget) { // create the settings boxes and info for the newly selected widget type
   settingsInputs.innerHTML = "";
   for (var field in options[newWidget]) {
     currentField = options[newWidget][field];
