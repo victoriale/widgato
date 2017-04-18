@@ -67,6 +67,7 @@ var options = {
       type: "select",
       options: ["prod-","dev-"]
     },
+    type: "dynamic_<category>",
     output: '../dynamic_widget/dynamic_widget.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
   dynamic_widget_wide:{
@@ -137,10 +138,17 @@ var options = {
       type: "select",
       options: ["prod-","dev-"]
     },
+    type: "dynamic_<category>_wide",
     output: '../dynamic_widget/dynamic_widget_970.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
-
   dynamic_widget_unlinked:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
     category:{
       default: "nfl",
       enabled: true,
@@ -179,7 +187,8 @@ var options = {
       type: "select",
       options: ["prod","qa","dev"]
     },
-    output: '../dynamic_widget_unlinked/index.html?{"category":"<category>","group":"<group>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
+    type: "dynamic_group_<group>",
+    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","group":"<group>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
 
   dynamic_article_widget:{
@@ -641,18 +650,63 @@ var options = {
       options: ["prod-","dev-"]
     },
     output: 'http://10.40.0.37:8070/megaphone.html'
-  }
+  },
+  dodgydrone:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    type:"dodgy_drone",
+    output: '../dodgydrone/index.html'
+  },
+  imagepuzzle:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["nfl", "ncaaf","mlb","nba","college_basketball"]
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    type:"image_puzzle",
+    output: '../image_puzzle/image_puzzle.html?{"dom":"<domain>","category":"<category>","rand":"<rand>","env":"<env>"}'
+  },
 };
 
 var settingsInputs = document.getElementById('settingsInputs');
 var currentField;
 
-function generateWidget() {
+function generateWidget() { //create the output widget based on the user-configured settings
   var widget = document.getElementById("wType").value;
   var url = options[widget].output;
   var preCookie = '{"type":"'+widget+'",';
   for (var field in options[widget]) {
-    if (field != "output" && options[widget][field].enabled == true) {
+    if (field != "type" && field != "output" && options[widget][field].enabled == true) {
       domElem = document.getElementById(field);
       url = url.replace("<" + field + ">",domElem.value);
       preCookie += '"'+field+'":"'+document.getElementById(field).value+'",';
@@ -663,8 +717,32 @@ function generateWidget() {
   document.cookie = preCookie;
   document.getElementById("previewFrame").contentWindow.document.location.href = url;
   document.getElementById("outputTextarea").value = url.replace("..","http://w1.synapsys.us/widgets");
+  if (options[widget].type != null) {
+    var xmlHttp = new XMLHttpRequest();
+    var responce;
+    if (options[widget].type.indexOf("<category>") != -1) {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type.replace("<category>",document.getElementById("category").value), false);
+    }
+    else if (options[widget].type.indexOf("<group>") != -1) {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type.replace("<group>",document.getElementById("group").value), false);
+    }
+    else {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type, false);
+    }
+    xmlHttp.send( null );
+    try {
+      responce = xmlHttp.responseText;
+      document.getElementById("outputEmbedTextarea").value = responce;
+    }
+    catch(err) {
+
+    }
+  }
+  else {
+    document.getElementById("outputEmbedTextarea").value = "N/A";
+  }
 }
-function changeWidget(newWidget) {
+function changeWidget(newWidget) { // create the settings boxes and info for the newly selected widget type
   settingsInputs.innerHTML = "";
   for (var field in options[newWidget]) {
     currentField = options[newWidget][field];

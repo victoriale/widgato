@@ -290,7 +290,7 @@ var iframeContent = friendlyIframe.contentWindow;
       font-size: 20px;
       color: #272727;
       font-weight: 900;
-      margin-bottom: 5px;
+      margin-top: 3px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -649,7 +649,7 @@ loadData();
             </div>
             <div class="info">
               <div class="name">
-                `+items[i].li_title.replace("Corporation","Corp")+`
+                `+items[i].li_title+`
               </div>
               <div class="value">
                 `+items[i].li_value+`
@@ -678,9 +678,9 @@ loadData();
         <div class="worm_block">
           <div class="next_list" style="background-color:`+currentPub.hex+`;" id="next_list">
           <div class="next_arrow">
-          <svg width="17" height="30" viewBox="0 0 17 30">
-              <path fill="#FFF" fill-rule="nonzero" d="M16.89 14.463l-14.967 14.9s-.801.555-1.577-.218c-.778-.772 0-1.449 0-1.449L13.663 14.44.976 1.81s-.66-.791.05-1.496c.707-.706 1.696 0 1.696 0l14.168 14.15z"/>
-          </svg>
+            <svg width="17" height="30" viewBox="0 0 17 30">
+                <path fill="#FFF" fill-rule="nonzero" d="M16.89 14.463l-14.967 14.9s-.801.555-1.577-.218c-.778-.772 0-1.449 0-1.449L13.663 14.44.976 1.81s-.66-.791.05-1.496c.707-.706 1.696 0 1.696 0l14.168 14.15z"/>
+            </svg>
           </div>
           Next List
           </div>
@@ -749,11 +749,13 @@ loadData();
     setTimeout(function(){
       userScroll = true;
     }, 500);
+    console.log("cleared setSmoothScrollInterval");
     clearInterval(setSmoothScrollInterval);
   }
 
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
+    console.log("called set scroll");
     var counter = 0;
     for (i = 0; i < wormBlocks.length;  i++) {
       if ((worm.scrollLeft + 150) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 150) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
@@ -765,7 +767,9 @@ loadData();
         else {
           scrollIncrements = -10; //retreat
         }
+        clearInterval(setSmoothScrollInterval);
         setSmoothScrollInterval = setInterval(function(){
+          console.log("setSmoothScrollInterval interpolation routine");
           var marginOfError = Math.abs(scrollIncrements) - 1;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
             if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
@@ -780,6 +784,7 @@ loadData();
               setTimeout(function(){
                 userScroll = true;
               }, 500);
+              console.log("cleared setSmoothScrollInterval");
               clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
@@ -799,6 +804,7 @@ loadData();
               setTimeout(function(){
                 userScroll = true;
               }, 500);
+              console.log("cleared setSmoothScrollInterval");
               clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
@@ -811,6 +817,7 @@ loadData();
             setTimeout(function(){
               userScroll = true;
             }, 500);
+            console.log("cleared setSmoothScrollInterval");
             clearInterval(setSmoothScrollInterval);
           }
         }, 20);
@@ -842,6 +849,7 @@ loadData();
               setTimeout(function(){
                 userScroll = true;
               }, 500);
+              console.log("cleared setSmoothScrollInterval");
               clearInterval(setSmoothScrollInterval);
             }
             else {
@@ -853,6 +861,7 @@ loadData();
             setTimeout(function(){
               userScroll = true;
             }, 500);
+            console.log("cleared setSmoothScrollInterval");
             clearInterval(setSmoothScrollInterval);
           }
         }, 15);
