@@ -615,7 +615,7 @@ var options = {
       explanation: "The category of lists and style of widget to use.",
       name: "Category",
       type: "select",
-      options: ["nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+      options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
     },
     group:{
       default: "sports",
