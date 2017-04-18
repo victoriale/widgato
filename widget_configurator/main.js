@@ -694,6 +694,27 @@ function generateWidget() {
   document.cookie = preCookie;
   document.getElementById("previewFrame").contentWindow.document.location.href = url;
   document.getElementById("outputTextarea").value = url.replace("..","http://w1.synapsys.us/widgets");
+  if (options[widget].type != null) {
+    var xmlHttp = new XMLHttpRequest();
+    var responce;
+    if (options[widget].type.indexOf("<category>") != -1) {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type.replace("<category>",document.getElementById("category").value), false);
+    }
+    else if (options[widget].type.indexOf("<group>") != -1) {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type.replace("<group>",document.getElementById("group").value), false);
+    }
+    xmlHttp.send( null );
+    try {
+      responce = xmlHttp.responseText;
+      document.getElementById("outputEmbedTextarea").value = responce;
+    }
+    catch(err) {
+
+    }
+  }
+  else {
+    document.getElementById("outputEmbedTextarea").value = "N/A";
+  }
 }
 function changeWidget(newWidget) {
   settingsInputs.innerHTML = "";
