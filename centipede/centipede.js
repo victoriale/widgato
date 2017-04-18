@@ -628,7 +628,7 @@ loadData();
     }
 
     var outputHTML = "";
-    var maxOutput = 10;
+    var maxOutput = 50;
     //every other item (except the first)
     for (var i = 1; i < items.length && i < maxOutput; i++) {
       items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
@@ -749,13 +749,11 @@ loadData();
     setTimeout(function(){
       userScroll = true;
     }, 500);
-    console.log("cleared setSmoothScrollInterval");
     clearInterval(setSmoothScrollInterval);
   }
 
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
-    console.log("called set scroll");
     var counter = 0;
     for (i = 0; i < wormBlocks.length;  i++) {
       if ((worm.scrollLeft + 150) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 150) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
@@ -769,7 +767,6 @@ loadData();
         }
         clearInterval(setSmoothScrollInterval);
         setSmoothScrollInterval = setInterval(function(){
-          console.log("setSmoothScrollInterval interpolation routine");
           var marginOfError = Math.abs(scrollIncrements) - 1;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
             if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
@@ -784,7 +781,6 @@ loadData();
               setTimeout(function(){
                 userScroll = true;
               }, 500);
-              console.log("cleared setSmoothScrollInterval");
               clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
@@ -804,7 +800,6 @@ loadData();
               setTimeout(function(){
                 userScroll = true;
               }, 500);
-              console.log("cleared setSmoothScrollInterval");
               clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
@@ -817,7 +812,6 @@ loadData();
             setTimeout(function(){
               userScroll = true;
             }, 500);
-            console.log("cleared setSmoothScrollInterval");
             clearInterval(setSmoothScrollInterval);
           }
         }, 20);
@@ -849,7 +843,6 @@ loadData();
               setTimeout(function(){
                 userScroll = true;
               }, 500);
-              console.log("cleared setSmoothScrollInterval");
               clearInterval(setSmoothScrollInterval);
             }
             else {
@@ -861,7 +854,6 @@ loadData();
             setTimeout(function(){
               userScroll = true;
             }, 500);
-            console.log("cleared setSmoothScrollInterval");
             clearInterval(setSmoothScrollInterval);
           }
         }, 15);
