@@ -767,6 +767,7 @@ loadData();
         else {
           scrollIncrements = -10; //retreat
         }
+        clearInterval(setSmoothScrollInterval);
         setSmoothScrollInterval = setInterval(function(){
           console.log("setSmoothScrollInterval interpolation routine");
           var marginOfError = Math.abs(scrollIncrements) - 1;
