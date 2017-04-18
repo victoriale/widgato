@@ -641,7 +641,43 @@ var options = {
       options: ["prod-","dev-"]
     },
     output: 'http://10.40.0.37:8070/megaphone.html'
-  }
+  },
+  dodgydrone:{
+    output: '../dodgydrone/index.html'
+  },
+  imagepuzzle:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["nfl", "ncaaf","mlb","nba","college_basketball"]
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    output: '../image_puzzle/image_puzzle.html?{"dom":"<domain>","category":"<category>","rand":"<rand>","env":"<env>"}'
+  },
 };
 
 var settingsInputs = document.getElementById('settingsInputs');
