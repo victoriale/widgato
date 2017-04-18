@@ -439,7 +439,8 @@ function setCategoryColors(category) {
                 for (var i = 0; i < classes.length; i++) {
                     htmlClass.classList.remove(classes[i]);
                 }
-                htmlClass.classList.add(categoryClass + "inheritor_border", categoryClass + "inheritor_bg");
+                htmlClass.classList.add(categoryClass + "inheritor_border");
+                htmlClass.classList.add(categoryClass + "inheritor_bg");
                 break;
         }
     }
@@ -624,7 +625,7 @@ function checkImage(image) {
     }
     //prep return
     if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && image.indexOf('no_player') == -1 && window.location.pathname.indexOf('_970') == -1) {
-        imageReturn = image;
+        imageReturn = image + "?width=" + (300 * window.devicePixelRatio);
         showCover = false;
     } else {
         showCover = true;
