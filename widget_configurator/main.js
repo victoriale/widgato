@@ -694,7 +694,7 @@ var options = {
       options: ["prod-","dev-"]
     },
     type:"image_puzzle",
-    output: '../image_puzzle/image_puzzle.html?{"dom":"<domain>","category":"<category>","rand":"<rand>","env":"<env>"}'
+    output: '../image_puzzle_unlinked/image_puzzle_unlinked.html?{"dom":"<domain>","category":"<category>","rand":"<rand>","env":"<env>"}'
   },
 };
 
