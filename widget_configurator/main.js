@@ -138,10 +138,17 @@ var options = {
       type: "select",
       options: ["prod-","dev-"]
     },
-    type: "dynamic_<category>",
+    type: "dynamic_<category>_wide",
     output: '../dynamic_widget/dynamic_widget_970.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
   dynamic_widget_unlinked:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
     category:{
       default: "nfl",
       enabled: true,
