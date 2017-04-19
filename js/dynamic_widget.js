@@ -513,23 +513,23 @@ dynamic_widget = function() {
         } else {
           try {
             //clickthrough analitics code
-            var clickthroughEvent = l.event;
-            clickthroughEvent.event = "widget-clicked";
-
+            var baseEvent = l.event;
             document.getElementById("list-link").addEventListener("click", function(){
-              window.top.postMessage({snt_data: clickthroughEvent, action: 'snt_tracker'}, '*');
+              baseEvent.event = "widget-clicked";
+              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
             });
             document.getElementById("imgurl").addEventListener("click", function(){
-              window.top.postMessage({snt_data: clickthroughEvent, action: 'snt_tracker'}, '*');
+              baseEvent.event = "widget-clicked";
+              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
             });
 
-            var interactionEvent = l.event;
-            interactionEvent.event = "widget-interaction";
             document.getElementById("navLeft").addEventListener("click", function(){
-              window.top.postMessage({snt_data: interactionEvent, action: 'snt_tracker'}, '*');
+              baseEvent.event = "widget-interaction";
+              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
             });
             document.getElementById("navRight").addEventListener("click", function(){
-              window.top.postMessage({snt_data: interactionEvent, action: 'snt_tracker'}, '*');
+              baseEvent.event = "widget-interaction";
+              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
             });
           }
           catch(e) {
