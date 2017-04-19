@@ -18,6 +18,11 @@ var iframeContent = friendlyIframe.contentWindow;
       margin: 0;
       padding: 0;
       -webkit-overflow-scrolling: touch;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      user-select: none;
     }
     .icon {
       background-position: 50%;
@@ -127,6 +132,7 @@ var iframeContent = friendlyIframe.contentWindow;
       white-space: nowrap;
       background-color: #f7f7f7;
       animation:bounce 2s infinite;
+      cursor: move;
     }
     .worm.stopAnim {
       -webkit-animation: 0;
@@ -743,6 +749,7 @@ loadData();
       if (userScroll == true) {
         setScroll();
       }
+      worm.removeEventListener("mousemove", onMouseMove);
       isScrolling = false; //will return true or false based on whether the user is currently scrolling or not
     }, 250);
   }
@@ -767,6 +774,21 @@ loadData();
       userScroll = true;
     }, 500);
     clearInterval(setSmoothScrollInterval);
+  }
+
+  var initialMouseX;
+  worm.addEventListener("mousedown", onMouseDown);
+  function onMouseDown(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+    initialMouseX = e.clientX;
+    worm.addEventListener("mousemove", onMouseMove);
+  }
+  function onMouseMove(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+    worm.scrollLeft = worm.scrollLeft + (initialMouseX - e.clientX);
+    initialMouseX = e.clientX;
+  }
+  worm.addEventListener("mouseup", onMouseUp);
+  function onMouseUp(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+    worm.removeEventListener("mousemove", onMouseMove);
   }
 
   //logic to snap scrolled block into view, when user scroll has ended
