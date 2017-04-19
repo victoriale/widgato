@@ -251,6 +251,39 @@ dynamic_widget = function() {
         currentConfig = getCategoryMetadata(l.category);
         currentPub = getPublisher(l.dom, l.env.replace("prod-",""));
 
+        try {
+          //clickthrough analitics code
+          var baseEvent = l.event;
+          document.getElementById("list-link").addEventListener("click", function(){
+            baseEvent.event = "widget-clicked";
+            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+          });
+          document.getElementById("imgurl").addEventListener("click", function(){
+            baseEvent.event = "widget-clicked";
+            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+          });
+          document.getElementById("title").addEventListener("click", function(){
+            baseEvent.event = "widget-clicked";
+            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+          });
+
+          document.getElementById("navLeft").addEventListener("click", function(){
+            baseEvent.event = "widget-interaction";
+            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+          });
+          document.getElementById("navRight").addEventListener("click", function(){
+            baseEvent.event = "widget-interaction";
+            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+          });
+          document.getElementById("next-list-link").addEventListener("click", function(){
+            baseEvent.event = "widget-interaction";
+            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+          });
+        }
+        catch(e) {
+          console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
+        }
+
         //new dyanmic pub color css code
         $('pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
         $('pub_link').href = "http://" + currentPub.link;
@@ -511,30 +544,7 @@ dynamic_widget = function() {
             linkHovers[i].style.display = "none";
           }
         } else {
-          try {
-            //clickthrough analitics code
-            var baseEvent = l.event;
-            document.getElementById("list-link").addEventListener("click", function(){
-              baseEvent.event = "widget-clicked";
-              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
-            });
-            document.getElementById("imgurl").addEventListener("click", function(){
-              baseEvent.event = "widget-clicked";
-              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
-            });
 
-            document.getElementById("navLeft").addEventListener("click", function(){
-              baseEvent.event = "widget-interaction";
-              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
-            });
-            document.getElementById("navRight").addEventListener("click", function(){
-              baseEvent.event = "widget-interaction";
-              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
-            });
-          }
-          catch(e) {
-            console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
-          }
         }
 
         p()
