@@ -13,14 +13,17 @@
           Type
           <select id="wType" onchange="changeWidget(this.value)">
             <option value="dynamic_widget">Dynamic Widget</option>
+            <option value="dynamic_widget_unlinked">Dynamic Widget UnLinked</option>
             <option value="dynamic_widget_wide">Dynamic Widget Wide</option>
             <option value="dynamic_article_widget">Dynamic Article Widget (tcx)</option>
             <option value="dynamic_article_widget_wide">Dynamic Article Widget Wide (tcx)</option>
             <option value="nba_ai_article_widget">NBA AI Article Widget</option>
             <option value="nfl_ai_article_widget">NFL AI Article Widget</option>
             <option value="mlb_ai_article_widget">MLB AI Article Widget</option>
+            <option value="ai_article_wide">AI Article Widget Wide (pre-prod)</option>
             <option value="caw_widget">CAW Widget (pre-prod)</option>
             <option value="caw_widget_wide">CAW Widget Wide (pre-prod)</option>
+            <option value="excavator_widget">Excavator Widget (pre-prod)</option>
             <option value="swp_wdgt_list">Swap Widget List</option>
             <option value="swp_wdgt_article">Swap Widget Article</option>
             <option value="billboard">Billboard (tcx)</option>
@@ -28,6 +31,14 @@
             <option value="salad_bar">Juicy Bar (sports)</option>
             <option value="schedule_bar">Schedule Bar (football)</option>
             <option value="finance_graph_widget">Finance Graph Widget (old)</option>
+            <option value="realestate_lol_widget">Real Estate List of Lists Widget (old)</option>
+            <option value="centipede">Centipede (mobile) (pre-prod)</option>
+            <option value="megaphone">Megaphone (pre-prod)</option>
+            <option value="kbb_articles">KBB Articles (pre-prod)</option>
+            <option value="kbb_dashboard">KBB Dashboard (pre-prod)</option>
+            <option value="kbb_widget">KBB Widget (pre-prod)</option>
+            <option value="dodgydrone">Dodgy Drone Game Widget (pre-prod)</option>
+            <option value="imagepuzzle">Image Puzzle Game Widget (pre-prod)</option>
           </select>
           <br>
           <br>
@@ -72,7 +83,7 @@
           <button id="setSize" type="button" onclick="setSize()">Set Size</button>
         </th>
         <td id="previewPane">
-          <iframe id="previewFrame" scrolling="no" src='../dynamic_widget/dynamic_widget.html?{"dom":"chicagotribune.com","remn":"false","targ":"_blank","category":"nfl","subd":"mytouchdownzone.com/chicagotribune.com","rand":"1"}'></iframe>
+          <iframe id="previewFrame" scrolling="no"></iframe>
         </th>
       </tr>
     </table>

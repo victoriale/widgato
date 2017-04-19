@@ -59,7 +59,16 @@ var options = {
       name: "Random#",
       type: "text"
     },
-    output: '../dynamic_widget/dynamic_widget.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>"}'
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    type: "dynamic_<category>",
+    output: '../dynamic_widget/dynamic_widget.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
   dynamic_widget_wide:{
     domain:{
@@ -121,8 +130,69 @@ var options = {
       name: "Random#",
       type: "text"
     },
-    output: '../dynamic_widget/dynamic_widget_970.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>"}'
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    type: "dynamic_<category>_wide",
+    output: '../dynamic_widget/dynamic_widget_970.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
+  dynamic_widget_unlinked:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    
+    category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+    },
+
+    group:{
+      default: "sports",
+      enabled: true,
+      explanation: "The card of lists and style of widget to use.",
+      name: "Group",
+      type: "select",
+      options: ["","sports","weather","money"]
+    },
+    sub_category:{
+      default: "",
+      enabled: false,
+      explanation: "",
+      name: "Sub Category",
+      type: "text"
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod","qa","dev"]
+    },
+    type: "dynamic_group_<group>",
+    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","targ":"<targ>","category":"<category>","group":"<group>","rand":"<rand>","env":"<env>"}'
+  },
+
   dynamic_article_widget:{
     domain:{
       default: "chicagotribune.com",
@@ -307,15 +377,15 @@ var options = {
       type: "select",
       options: ["_blank","_top"]
     },
-    category:{
+    league:{
       default: "football_pro",
       enabled: true,
       explanation: "The category of lists and style of widget to use.",
-      name: "Category",
+      name: "League",
       type: "select",
       options: ["football_pro","ncaaf"]
     },
-    output:'../sports/tdl_sidekick_vertical.html?{"dom":"<domain>","remn":"<remn>","category":"<category>","targ":"<targ>"}'
+    output:'../sports/tdl_sidekick_vertical.html?{"dom":"<domain>","remn":"<remn>","league":"<league>","targ":"<targ>"}'
   },
   mlb_ai_article_widget:{
     domain:{
@@ -351,11 +421,47 @@ var options = {
     },
     output:'../sports/hrl_sidekick_vertical.html?{"dom":"<domain>","remn":"<remn>","category":"<category>","targ":"<targ>"}'
   },
+  ai_article_wide: {
+    output:'../sports/ai_article_wide.html'
+  },
   caw_widget:{
-    output:'../dynamic_caw_widget/dynamic_caw_widget.html?{"dom":"tcxmedia.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"c_id":null,"remn":"true","bord":false,"caw_url":"http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html","subd":"football.chicagotribune.com","rand":5}'
+    caw_url:{
+      default: "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html",
+      enabled: true,
+      explanation: "The input url (the page that has content we are trying to find relevance from) to send to the content aware widget.",
+      name: "Input Page URL",
+      type: "text"
+    },
+    output:'../dynamic_caw_widget/dynamic_caw_widget.html?{"dom":"chicagotribune.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"c_id":null,"remn":"false","caw_url":"<caw_url>","targ":"_blank","cat":"null","subd":"","rand":2}'
   },
   caw_widget_wide:{
-    output:'../dynamic_caw_widget/dynamic_caw_widget_970.html?{"dom":"tcxmedia.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"c_id":null,"remn":"true","bord":false,"caw_url":"http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html","subd":"football.chicagotribune.com","rand":5}'
+    caw_url:{
+      default: "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html",
+      enabled: true,
+      explanation: "The input url (the page that has content we are trying to find relevance from) to send to the content aware widget.",
+      name: "Input Page URL",
+      type: "text"
+    },
+    output:'../dynamic_caw_widget/dynamic_caw_widget_970.html?{"dom":"chicagotribune.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"c_id":null,"remn":"false","caw_url":"<caw_url>","targ":"_blank","cat":"null","subd":"","rand":2}'
+  },
+  excavator_widget:{
+    caw_url:{
+      default: "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html",
+      enabled: true,
+      explanation: "The input url (the page that has content we are trying to find relevance from) to send to the content aware widget.",
+      name: "Input Page URL",
+      type: "text"
+    },
+    output:'../dynamic_tronc_widget/dynamic_tronc_widget.html?{"dom":"chicagotribune.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"category":"tcx","remn":"false","caw_url":"<caw_url>","targ":"_blank","cat":"null","subd":"","rand":2}'
+  },
+  kbb_widget:{
+    output:'../dynamic_kbb_widget/dynamic_kbb_widget.html?%7B"dom"%3A"basketball.chicagotribune.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A"100971247"%2C"remn"%3A"true"%2C"bord"%3A"false"%2C"category"%3A"kbb"%2C"targ"%3A"_top"%7D'
+  },
+  kbb_dashboard:{
+    output:'../dynamic_kbb_widget/dynamic_kbb_dashboard.html?%7B"dom"%3A"basketball.chicagotribune.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A"100971247"%2C"remn"%3A"true"%2C"bord"%3A"false"%2C"category"%3A"kbb"%2C"targ"%3A"_top"%7D'
+  },
+  kbb_articles:{
+    output:'../dynamic_kbb_widget/dynamic_kbb_articles.html?%7B"dom"%3A"basketball.chicagotribune.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A"100971247"%2C"remn"%3A"true"%2C"bord"%3A"false"%2C"category"%3A"kbb"%2C"targ"%3A"_top"%7D'
   },
   swp_wdgt_list:{
     show_link:{
@@ -492,25 +598,161 @@ var options = {
       type: "text"
     },
     output:'../finance/national_widget.html?{"dom":"<domain>","loc":{"loc_name":"<location>"},"remn":"<remn>","bord":false,"targ":"<targ>"}'
-  }
+  },
+  realestate_lol_widget: {
+    output: '../realestate/standard.html'
+  },
+  centipede:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    category:{
+      default: "finance",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+    },
+    group:{
+      default: "sports",
+      enabled: true,
+      explanation: "The card of lists and style of widget to use.",
+      name: "Group",
+      type: "select",
+      options: ["","sports","weather","money"]
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    output: '../centipede/centipede.html?{"dom":"<domain>","category":"<category>","group":"<group>","rand":"<rand>","env":"<env>"}'
+  },
+  megaphone:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    output: 'http://10.40.0.37:8070/megaphone.html'
+  },
+  dodgydrone:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    type:"dodgy_drone",
+    output: '../dodgydrone/index.html'
+  },
+  imagepuzzle:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["nfl", "ncaaf","mlb","nba","college_basketball"]
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    type:"image_puzzle",
+    output: '../image_puzzle_unlinked/image_puzzle_unlinked.html?{"dom":"<domain>","category":"<category>","rand":"<rand>","env":"<env>"}'
+  },
 };
 
 var settingsInputs = document.getElementById('settingsInputs');
 var currentField;
 
-function generateWidget() {
+function generateWidget() { //create the output widget based on the user-configured settings
   var widget = document.getElementById("wType").value;
   var url = options[widget].output;
+  var preCookie = '{"type":"'+widget+'",';
   for (var field in options[widget]) {
-    if (field != "output" && options[widget][field].enabled == true) {
+    if (field != "type" && field != "output" && options[widget][field].enabled == true) {
       domElem = document.getElementById(field);
       url = url.replace("<" + field + ">",domElem.value);
+      preCookie += '"'+field+'":"'+document.getElementById(field).value+'",';
     }
   }
+  preCookie = preCookie.replace(/,\s*$/, '');
+  preCookie += "}";
+  document.cookie = preCookie;
   document.getElementById("previewFrame").contentWindow.document.location.href = url;
   document.getElementById("outputTextarea").value = url.replace("..","http://w1.synapsys.us/widgets");
+  if (options[widget].type != null) {
+    var xmlHttp = new XMLHttpRequest();
+    var responce;
+    if (options[widget].type.indexOf("<category>") != -1) {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type.replace("<category>",document.getElementById("category").value), false);
+    }
+    else if (options[widget].type.indexOf("<group>") != -1) {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type.replace("<group>",document.getElementById("group").value), false);
+    }
+    else {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type, false);
+    }
+    xmlHttp.send( null );
+    try {
+      responce = xmlHttp.responseText;
+      document.getElementById("outputEmbedTextarea").value = responce;
+    }
+    catch(err) {
+
+    }
+  }
+  else {
+    document.getElementById("outputEmbedTextarea").value = "N/A";
+  }
 }
-function changeWidget(newWidget) {
+function changeWidget(newWidget) { // create the settings boxes and info for the newly selected widget type
   settingsInputs.innerHTML = "";
   for (var field in options[newWidget]) {
     currentField = options[newWidget][field];
@@ -538,10 +780,38 @@ function changeWidget(newWidget) {
     }
   }
 }
-changeWidget(document.getElementById("wType").value);
 function setSize() {
   var ifWidth = document.getElementById("prevWidth").value;
   var ifHeight = document.getElementById("prevHeight").value;
   document.getElementById("previewFrame").style.width = ifWidth + "px";
   document.getElementById("previewFrame").style.height = ifHeight + "px";
+}
+if (document.cookie != null) { //onload check for a cookie from prev session
+  try {
+    var cookie = JSON.parse(document.cookie.split(";")[0]);
+    if (cookie.type != null && cookie.type != "") {
+      console.log("loading in prev session config data",cookie);
+      document.getElementById("wType").value = cookie.type;
+      changeWidget(cookie.type); //if cookie has type data, load that instead of default
+      for (var value in cookie) {
+        if (value != "type") {
+          document.getElementById(value).value = cookie[value];
+        }
+      }
+      generateWidget()
+    }
+    else { // if no valid cookie, fallback to default
+      console.log("no valid cookie... falling back");
+      changeWidget(document.getElementById("wType").value);
+      generateWidget()
+    }
+  }
+  catch(e) {
+    console.log("Bad saved session cookie:",e)
+  }
+}
+else { // if no valid cookie, fallback to default
+  console.log("no valid cookie... falling back");
+  changeWidget(document.getElementById("wType").value);
+  generateWidget()
 }
