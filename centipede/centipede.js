@@ -24,6 +24,13 @@ var iframeContent = friendlyIframe.contentWindow;
       -o-user-select: none;
       user-select: none;
     }
+    img {
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      user-select: none;
+    }
     .icon {
       background-position: 50%;
       background-repeat: no-repeat;
