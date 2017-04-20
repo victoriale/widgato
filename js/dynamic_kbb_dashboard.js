@@ -6,20 +6,20 @@ var referrer = document.referrer ? document.referrer : window.location.href;
 */
 var tabObj = {//TODO false category for testing
   "trending": {
-    display: "Trending News",
+    display: "Latest News",
     category: "automotive"
   },
   "reviews": {
-    display: "Reviews",
+    display: "Expert Reviews",
     category: "food"
-  },
-  "top10": {
-    display: "Top 10 Lists",
-    category: "travel"
   },
   "videos": {
     display: "Videos",
     category: "entertainment"
+  },
+  "toplists": {
+    display: "Top Lists",
+    category: "travel"
   }
 }
 
@@ -31,8 +31,10 @@ dynamic_widget = function() {
     var currentIndex = 0,
         widgetData = {},
         retryCount = 0,
-        currentCategory;
-    var selectedTab;
+        selectedTab,
+        query = JSON.parse(decodeURIComponent(location.search.substr(1))),
+        currentCategory = query.category;
+
     function onLoad(func) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
             func()
@@ -46,6 +48,8 @@ dynamic_widget = function() {
             })
         }
     }
+
+
     /**
     * @function reset
     * Resets index count to 0 when swapping lists
@@ -86,7 +90,7 @@ dynamic_widget = function() {
     * Format the tabs' options
     **/
     function setTabs(){
-      var i = 0;
+      // var i = 0;
       for(var cat in tabObj){
         var tabDisplay = tabObj[cat].display;//get display name for each tab option
         var category = tabObj[cat].category;//get category value for each tab option
@@ -94,12 +98,12 @@ dynamic_widget = function() {
         navBarUrl.className = "navBar-url";//set class name navBar-url for each tab option
         navBarUrl.setAttribute("data-attr", category);
         navBarUrl.innerHTML = tabDisplay;
-        if(i == 0){//default to first tab onload
+        if(currentCategory == category){//default to first tab onload
           selectedTab = tabObj[cat].displayName;
           navBarUrl.className += " selected";
           currentCategory = tabObj[cat].category;
         }
-        i++;
+        // i++;
         navBarUrl.addEventListener('click', tabSelect, false);//create event listener on clik to run tabSelect function
         $("navBarId").appendChild(navBarUrl);
       }
@@ -144,9 +148,11 @@ dynamic_widget = function() {
       //Test API: http://dev-article-library.synapsys.us/articles?category=automotive&metaDataOnly=1&readyToPublish=true&count=
       var count = 20;
       var subCategory = "";//TODO
-      xHttp.open('GET', protocolToUse+"dev-article-library.synapsys.us/articles?category="+currentCategory+"&subCategory="+subCategory+ "&metaDataOnly=1&readyToPublish=true&count="+count, true);
+      query.category = currentCategory;
+      xHttp.open('GET', protocolToUse+"dev-article-library.synapsys.us/articles?category="+query.category+"&subCategory="+subCategory+ "&metaDataOnly=1&readyToPublish=true&count="+count, true);
       xHttp.send()
     }//function httpGetData ends
+
 
     /**
     * @function getData
@@ -162,6 +168,7 @@ dynamic_widget = function() {
         formattedData();
         artData()
     }
+
 
     /**
     * @function formattedData

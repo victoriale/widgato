@@ -149,6 +149,7 @@ var options = {
       name: "Domain",
       type: "text"
     },
+    
     category:{
       default: "nfl",
       enabled: true,
@@ -157,6 +158,7 @@ var options = {
       type: "select",
       options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
     },
+
     group:{
       default: "sports",
       enabled: true,
@@ -188,7 +190,7 @@ var options = {
       options: ["prod","qa","dev"]
     },
     type: "dynamic_group_<group>",
-    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","group":"<group>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
+    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","targ":"<targ>","category":"<category>","group":"<group>","rand":"<rand>","env":"<env>"}'
   },
 
   dynamic_article_widget:{
@@ -614,7 +616,15 @@ var options = {
       explanation: "The category of lists and style of widget to use.",
       name: "Category",
       type: "select",
-      options: ["nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+      options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+    },
+    group:{
+      default: "sports",
+      enabled: true,
+      explanation: "The card of lists and style of widget to use.",
+      name: "Group",
+      type: "select",
+      options: ["","sports","weather","money"]
     },
     rand:{
       default: "1",
@@ -631,7 +641,7 @@ var options = {
       type: "select",
       options: ["prod-","dev-"]
     },
-    output: '../centipede/centipede.html?{"dom":"<domain>","category":"<category>","rand":"<rand>","env":"<env>"}'
+    output: '../centipede/centipede.html?{"dom":"<domain>","category":"<category>","group":"<group>","rand":"<rand>","env":"<env>"}'
   },
   megaphone:{
     domain:{
@@ -694,7 +704,7 @@ var options = {
       options: ["prod-","dev-"]
     },
     type:"image_puzzle",
-    output: '../image_puzzle/image_puzzle.html?{"dom":"<domain>","category":"<category>","rand":"<rand>","env":"<env>"}'
+    output: '../image_puzzle_unlinked/image_puzzle_unlinked.html?{"dom":"<domain>","category":"<category>","rand":"<rand>","env":"<env>"}'
   },
 };
 

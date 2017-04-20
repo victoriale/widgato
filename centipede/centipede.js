@@ -18,6 +18,11 @@ var iframeContent = friendlyIframe.contentWindow;
       margin: 0;
       padding: 0;
       -webkit-overflow-scrolling: touch;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      user-select: none;
     }
     .icon {
       background-position: 50%;
@@ -127,6 +132,7 @@ var iframeContent = friendlyIframe.contentWindow;
       white-space: nowrap;
       background-color: #f7f7f7;
       animation:bounce 2s infinite;
+      cursor: move;
     }
     .worm.stopAnim {
       -webkit-animation: 0;
@@ -386,8 +392,9 @@ var iframeContent = friendlyIframe.contentWindow;
   var n = 0;
   var userScroll = true;
   var firstAd;
+  var currentPub;
 
-  if (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1) {
+  if (typeof input.group == 'undefined' && (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1)) {
       input.category = 'finance'; //default category fallback
   }
   friendlyIframe.classList.add("centipede_"+input.category);
@@ -446,8 +453,6 @@ var iframeContent = friendlyIframe.contentWindow;
       }
   }
 
-  var currentPub = getPublisher(input.category);
-
   function loadData() {
     //rand is a random value (1-50) that coresponds to a specific list for a given category (does not apply to football)
     var e = rand;
@@ -485,7 +490,9 @@ var iframeContent = friendlyIframe.contentWindow;
       }
   };
   rand = e;
-  if (input.category == "nfl" || input.category == "ncaaf" || input.category == "nflncaaf") { //fetch curated TDL API queries
+  if (input.category != null && input.category != "") { //category param
+    currentPub = getPublisher(input.category);
+    if (input.category == "nfl" || input.category == "ncaaf" || input.category == "nflncaaf") { //fetch curated TDL API queries
       if (input.category == "nfl") {
         var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array.json';
       }
@@ -528,15 +535,23 @@ var iframeContent = friendlyIframe.contentWindow;
       }
       xmlHttp.open( "GET", url, true ); // false for synchronous request
       xmlHttp.send( null );
+    }
+    else { //normal, non TDL api query
+      i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&cat=' + input.category + '&rand=' + e, true);
+      i.send()
+    }
   }
-  else { //normal, non TDL api query
-    i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&cat=' + input.category + '&rand=' + e, true);
+  else { //group param
+    i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&group=' + input.group + '&rand=' + e, true);
     i.send()
   }
 }
 loadData();
 
   function populateWorm(data) {
+    if ((input.category == null || input.category == "") && input.group != null && input.group != "") {
+      currentPub = getPublisher(data.category);
+    }
     if (input.category == "nfl" || input.category == "ncaaf") { //if TDL data, transform it
       data = data.data;
       data.l_title = data.listInfo.listName;
@@ -578,6 +593,10 @@ loadData();
       image = protocolToUse + currentPub.fallbackImage;
       var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
       var image_class = "fallback";
+    }
+    else {
+      var style="";
+      var image_class = "";
     }
     helper.innerHTML = data.l_title;
     worm.innerHTML = `
@@ -628,7 +647,7 @@ loadData();
     }
 
     var outputHTML = "";
-    var maxOutput = 10;
+    var maxOutput = 50;
     //every other item (except the first)
     for (var i = 1; i < items.length && i < maxOutput; i++) {
       items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
@@ -637,6 +656,10 @@ loadData();
         image = protocolToUse + currentPub.fallbackImage;
         var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
         var image_class = "fallback";
+      }
+      else {
+        var style="";
+        var image_class = "";
       }
       if (Math.abs(i % 2) == 1) { //every odd number
         outputHTML += `<div class="worm_block">`;
@@ -718,7 +741,7 @@ loadData();
     }
     var rect = firstAd.getBoundingClientRect();
     if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
-      var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft-150) /600)].parentElement.offsetLeft + 150;
+      var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft+450) /900)].parentElement.offsetLeft + 150;
       firstAd.style.left = (left - firstAd.offsetWidth) + "px";
     }
     clearTimeout(scrollingTimout);
@@ -726,6 +749,7 @@ loadData();
       if (userScroll == true) {
         setScroll();
       }
+      worm.removeEventListener("mousemove", onMouseMove);
       isScrolling = false; //will return true or false based on whether the user is currently scrolling or not
     }, 250);
   }
@@ -749,13 +773,26 @@ loadData();
     setTimeout(function(){
       userScroll = true;
     }, 500);
-    console.log("cleared setSmoothScrollInterval");
     clearInterval(setSmoothScrollInterval);
+  }
+
+  var initialMouseX;
+  worm.addEventListener("mousedown", onMouseDown);
+  function onMouseDown(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+    initialMouseX = e.clientX;
+    worm.addEventListener("mousemove", onMouseMove);
+  }
+  function onMouseMove(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+    worm.scrollLeft = worm.scrollLeft + (initialMouseX - e.clientX);
+    initialMouseX = e.clientX;
+  }
+  worm.addEventListener("mouseup", onMouseUp);
+  function onMouseUp(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+    worm.removeEventListener("mousemove", onMouseMove);
   }
 
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
-    console.log("called set scroll");
     var counter = 0;
     for (i = 0; i < wormBlocks.length;  i++) {
       if ((worm.scrollLeft + 150) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 150) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
@@ -769,7 +806,6 @@ loadData();
         }
         clearInterval(setSmoothScrollInterval);
         setSmoothScrollInterval = setInterval(function(){
-          console.log("setSmoothScrollInterval interpolation routine");
           var marginOfError = Math.abs(scrollIncrements) - 1;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
             if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
@@ -784,7 +820,6 @@ loadData();
               setTimeout(function(){
                 userScroll = true;
               }, 500);
-              console.log("cleared setSmoothScrollInterval");
               clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
@@ -804,7 +839,6 @@ loadData();
               setTimeout(function(){
                 userScroll = true;
               }, 500);
-              console.log("cleared setSmoothScrollInterval");
               clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
@@ -817,7 +851,6 @@ loadData();
             setTimeout(function(){
               userScroll = true;
             }, 500);
-            console.log("cleared setSmoothScrollInterval");
             clearInterval(setSmoothScrollInterval);
           }
         }, 20);
@@ -849,7 +882,6 @@ loadData();
               setTimeout(function(){
                 userScroll = true;
               }, 500);
-              console.log("cleared setSmoothScrollInterval");
               clearInterval(setSmoothScrollInterval);
             }
             else {
@@ -861,7 +893,6 @@ loadData();
             setTimeout(function(){
               userScroll = true;
             }, 500);
-            console.log("cleared setSmoothScrollInterval");
             clearInterval(setSmoothScrollInterval);
           }
         }, 15);
