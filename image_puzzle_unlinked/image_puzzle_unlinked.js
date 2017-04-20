@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function (event) { // TAKE ANOTHER
     //if no query is snet then nothing is shown
     if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
-        listRand = query.rand ? query.rand : 1;
+        listRand = query.rand ? query.rand : 0;
         //FIRST THING IS SETUP ENVIRONMENTS
         setupEnvironment(query);
 
@@ -249,6 +249,7 @@ function displayWidget() {
     try {
         //Run dynamic color of widget
         /***************************FOOTBALL DATA APPLIANCE*******************************/
+        var image;
         if (query.category == "football" || query.category == "nfl" || query.category == "ncaaf") {
             let dataArray = widgetData.data.listData;
             setCategoryColors(subCategory);
@@ -256,10 +257,13 @@ function displayWidget() {
             maxIndex = dataArray.length;
             let curData = dataArray[currentIndex];
             $("profile-rank").innerHTML = curData.rank;
-
             //current index of a player or team to display
             if (curData.rankType == "player") {
-                let image = checkImage(imageUrl + curData.playerHeadshotUrl);
+                if (curData.playerHeadshotUrl != null && curData.playerHeadshotUrl != "") {
+                    image = checkImage(imageUrl + curData.playerHeadshotUrl);
+                } else {
+                    image = null;
+                }
                 if (image != null) {
                     createPuzzle(image, false);
                     $("profile-name").innerHTML = curData.playerFirstName + " " + curData.playerLastName;
@@ -271,7 +275,11 @@ function displayWidget() {
                     updateIndex(1);
                 }
             } else {
-                let image = checkImage(imageUrl + curData.teamLogo);
+                if (curData.teamLogo != null && curData.teamLogo != "") {
+                    image = checkImage(imageUrl + curData.teamLogo);
+                } else {
+                    image = null;
+                }
                 if (image != null) {
                     createPuzzle(image, false);
                     $("profile-name").innerHTML = curData.teamName;
@@ -287,21 +295,16 @@ function displayWidget() {
         } else {
             /***************************DYNAMIC DATA APPLIANCE*******************************/
             let dataArray = widgetData.l_data;
-
             setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
             maxIndex = dataArray.length;
             //current index of list
             let curData = dataArray[currentIndex];
             //checks if a proper live image is being sent from team_wide_img or player_wide_img otherwise default to li_img datapoint
-            let image;
-
-            if (curData.player_wide_img != null && curData.player_wide_img != "") {
-                image = checkImage(imageUrl + curData.player_wide_img);
-            } else if ((curData.player_wide_img == null || curData.player_wide_img == "") && (curData.team_wide_img != null && curData.team_wide_img != "")) {
-                image = checkImage(imageUrl + curData.team_wide_img);
-            } else {
+            if (curData.li_img != null && curData.li_img != "") {
                 image = checkImage(curData.li_img);
+            } else {
+                image = null;
             }
             if (image != null) {
                 createPuzzle(image, false);
@@ -314,6 +317,7 @@ function displayWidget() {
                 updateIndex(1);
             }
         }
+        $('dw').style.display = 'block';
         /***************************END OF DYNAMIC DATA*******************************/
     } catch (e) {
         console.log('Error in displaying widget Data');

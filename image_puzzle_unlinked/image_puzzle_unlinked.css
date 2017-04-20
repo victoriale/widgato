@@ -26,7 +26,8 @@ button:focus {
     outline: 0;
 }
 
-.dw {
+#dw {
+    display: none;
     width: 300px;
     height: 350px;
     background-color: #fff;
@@ -52,16 +53,15 @@ button:focus {
     animation: fadein 1s ease 1s forwards;
 }
 
-
-.float-right{
-    float:right;
+.float-right {
+    float: right;
 }
 
-.float-left{
-    float:left;
+.float-left {
+    float: left;
 }
 
-.text-wrap{
+.text-wrap {
     color: #000000;
     overflow: hidden;
     white-space: nowrap;
@@ -97,11 +97,11 @@ button:focus {
     font-weight: 300;
     font-size: 15px;
     position: relative;
-    bottom:2px;
-    left:3px;
+    bottom: 2px;
+    left: 3px;
 }
 
-#profile-rank{
+#profile-rank {
     font-weight: bold;
 }
 
@@ -334,13 +334,13 @@ button:focus {
     margin: 0;
 }
 
-.dw:hover .animated {
+#dw:hover .animated {
     visibility: hidden;
     opacity: 0;
     transition: visibility 0s linear 500ms, opacity 500ms;
 }
 
-.dw:active .animated {
+#dw:active .animated {
     visibility: hidden;
     opacity: 0;
 }
@@ -367,7 +367,7 @@ button:focus {
     left: 0;
     z-index: 0;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
 }
 
 #puzzle #puzzle-div {
@@ -376,7 +376,7 @@ button:focus {
     height: 100%;
     width: 100%;
     background-repeat: no-repeat;
-    background-size: cover;
+    background-size: 100% 100%;
     z-index: 1;
     -webkit-animation: mainFadein 300ms ease;
     -moz-animation: mainFadein 300ms ease;
@@ -389,7 +389,6 @@ button:focus {
     height: 104px;
     float: left;
     background-repeat: no-repeat;
-    transition: all .3s, opacity 1s ease-in, filter 1s ease-in;
 }
 
 #puzzle .innerTile.image {
@@ -399,6 +398,7 @@ button:focus {
     z-index: 1;
     position: relative;
     background-size: 300px 312px;
+    transition: all 3s, opacity 3s ease-in, filter 1s ease-in;
 }
 
 #puzzle .innerTile.image:hover {
