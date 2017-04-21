@@ -1,4 +1,5 @@
 var centipede = function() {
+var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 //create friendly iframe to place ourselves inside
 var countSelf = document.getElementsByClassName("centipedeIframe");
 var friendlyIframe = document.createElement('iframe');
@@ -347,7 +348,7 @@ var iframeContent = friendlyIframe.contentWindow;
     `);
     //inject Google font CSS
     var link = iframeContent.document.createElement( "link" );
-    link.href = "http://fonts.googleapis.com/css?family=Lato:400,300,100,700,900";
+    link.href = protocolToUse+"fonts.googleapis.com/css?family=Lato:400,300,100,700,900";
     link.type = "text/css";
     link.rel = "stylesheet";
     link.media = "screen,print";
@@ -355,7 +356,6 @@ var iframeContent = friendlyIframe.contentWindow;
 
   //begin centipede logic
   //initial variable declaration
-  var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
   var input = {dom:"chicagotribune.com",category:"nba",rand:"1",env:"prod-"};
   if (decodeURIComponent(location.search.substr(1)) != null && decodeURIComponent(location.search.substr(1)) != "") {
     input = JSON.parse(decodeURIComponent(location.search.substr(1)));
@@ -643,7 +643,12 @@ loadData();
         firstAd = iframeContent.document.getElementById('first_ad');
         var s = iframeContent.document.createElement("script");
         s.type = "text/javascript";
-        s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
+        if (input.group != null && input.group != "" && input.p != null && input.p != "") {
+          s.src = "//content.synapsys.us/embeds/placement.js?p=" + input.p + "&type=centipede_" + input.group;
+        }
+        else {
+          s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
+        }
         firstAd.appendChild(s);
       }, 100);
     }
@@ -785,16 +790,16 @@ loadData();
 
   var initialMouseX;
   worm.addEventListener("mousedown", onMouseDown);
-  function onMouseDown(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+  function onMouseDown(e) {
     initialMouseX = e.clientX;
     worm.addEventListener("mousemove", onMouseMove);
   }
-  function onMouseMove(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+  function onMouseMove(e) {
     worm.scrollLeft = worm.scrollLeft + (initialMouseX - e.clientX);
     initialMouseX = e.clientX;
   }
   worm.addEventListener("mouseup", onMouseUp);
-  function onMouseUp(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+  function onMouseUp(e) {
     worm.removeEventListener("mousemove", onMouseMove);
   }
 
