@@ -644,7 +644,7 @@ loadData();
         var s = iframeContent.document.createElement("script");
         s.type = "text/javascript";
         if (input.group != null && input.group != "" && input.p != null && input.p != "") {
-          s.src = "//content.synapsys.us/embeds/placement.js?p=" + input.p + "&type=centipede_" + input.group;
+          s.src = "//content.synapsys.us/embeds/placement.js?p=" + input.p + "&type=centipede_" + input.group + "&style=inline";
         }
         else {
           s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
