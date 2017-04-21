@@ -149,6 +149,7 @@ var options = {
       name: "Domain",
       type: "text"
     },
+    
     category:{
       default: "nfl",
       enabled: true,
@@ -189,7 +190,7 @@ var options = {
       options: ["prod","qa","dev"]
     },
     type: "dynamic_group_<group>",
-    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","group":"<group>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
+    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","targ":"<targ>","category":"<category>","group":"<group>","rand":"<rand>","env":"<env>"}'
   },
 
   dynamic_article_widget:{
