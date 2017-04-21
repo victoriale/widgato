@@ -242,9 +242,9 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
-        // hardcoding nba to point at ncaam
-        // if (l.category == "nba") {
-        //   l.category = "college_basketball";
+        // hardcoding nba to point at ncaam		
+        // if (l.category == "nba") {		
+        //   l.category = "college_basketball";		
         // }
         if (l.env != "prod-" && l.env != "dev-") {
           l.env = "prod-";
@@ -255,6 +255,39 @@ dynamic_widget = function() {
         }
         currentConfig = getCategoryMetadata(l.category);
         currentPub = getPublisher(l.dom, l.env.replace("prod-",""));
+
+        try {
+          //clickthrough analitics code
+          var baseEvent = l.event;
+          document.getElementById("list-link").addEventListener("click", function(){
+            baseEvent.event = "widget-clicked";
+            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+          });
+          document.getElementById("imgurl").addEventListener("click", function(){
+            baseEvent.event = "widget-clicked";
+            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+          });
+          document.getElementById("title").addEventListener("click", function(){
+            baseEvent.event = "widget-clicked";
+            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+          });
+
+          document.getElementById("navLeft").addEventListener("click", function(){
+            baseEvent.event = "widget-interaction";
+            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+          });
+          document.getElementById("navRight").addEventListener("click", function(){
+            baseEvent.event = "widget-interaction";
+            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+          });
+          document.getElementById("next-list-link").addEventListener("click", function(){
+            baseEvent.event = "widget-interaction";
+            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+          });
+        }
+        catch(e) {
+          console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
+        }
 
         //new dyanmic pub color css code
         $('pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
@@ -516,13 +549,7 @@ dynamic_widget = function() {
             linkHovers[i].style.display = "none";
           }
         } else {
-          //clickthrough analitics code
-          document.getElementById("list-link").addEventListener("click", function(){
-            window.top.postMessage({snt_data: {event: "widget-clicked", w: "pr_type", url: this.href}, action: 'snt_tracker'}, '*');
-          });
-          document.getElementById("imgurl").addEventListener("click", function(){
-            window.top.postMessage({snt_data: {event: "widget-clicked", w: "pr_type", url: this.href}, action: 'snt_tracker'}, '*');
-          });
+
         }
 
         p()
@@ -734,9 +761,8 @@ function p() {
               cssClass = "finance";
               fallbackImg += "finance_stock.jpg";
         }
-        // fallbackImg += "?width=" + (300 * window.devicePixelRatio);
+        //fallbackImg += "?width=" + (300 * window.devicePixelRatio);
         // $('carouselOverlay').className = cssClass;
-
         //player live image logic
         // if (l.category == "college_basketball" || l.category == "nba") {
         //   if (e.player_wide_img != "" && e.player_wide_img != null) {
@@ -746,7 +772,6 @@ function p() {
         //     e.li_img = "//" + l.env + "images.synapsys.us" + e.team_wide_img;
         //   }
         // }
-
         if (e.li_img.indexOf("no_player_icon") != -1 || e.li_img.indexOf("no-image-fb") != -1 || e.li_img.indexOf("no_image") != -1 || e.li_img.indexOf("_stock") != -1 ||  window.location.pathname.indexOf('_970') != -1) {
           t.setAttribute('src', fallbackImg + "?width=" + (300 * window.devicePixelRatio));
           $('carouselOverlay').style.display = "block";
