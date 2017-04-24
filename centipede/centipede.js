@@ -369,7 +369,7 @@ var iframeContent = friendlyIframe.contentWindow;
     var scripts = document.getElementsByTagName('script');
     var myScript;
     for (i = 0; i < scripts.length; i++) {
-      if (scripts[i].src.indexOf("centipede") != -1) {
+      if (scripts[i].src.indexOf("centipede.js") != -1) {
         myScript = scripts[i];
       }
     }
