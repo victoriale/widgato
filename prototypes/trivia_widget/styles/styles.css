@@ -234,7 +234,7 @@ p.submission_display {
 #completed_overlay {
     visibility: visible;
     position: absolute;
-    overflow: auto;
+    /*overflow: auto;*/
     z-index: 5;
     top: 0;
     width: 100%;
@@ -552,6 +552,7 @@ li.sm_icon i {
     background: white;
 }
 .trivia_options_container {
+    overflow: hidden;
     display: block;
     position: relative;
     width: 100%;
@@ -565,7 +566,6 @@ li.sm_icon i {
     margin: 0;
     padding: 20px 5px 0 5px;
     text-align: center;
-    overflow: auto;
     list-style-type: none;
 }
 .trivia_options .button {

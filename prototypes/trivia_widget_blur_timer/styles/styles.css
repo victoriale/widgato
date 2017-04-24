@@ -552,6 +552,7 @@ li.sm_icon i {
 }
 .trivia_options_container {
     display: block;
+    overflow: hidden;
     position: relative;
     width: 100%;
     height: auto;
@@ -564,7 +565,6 @@ li.sm_icon i {
     margin: 0;
     padding: 20px 5px 0 5px;
     text-align: center;
-    overflow: auto;
     list-style-type: none;
 }
 .trivia_options .button {
