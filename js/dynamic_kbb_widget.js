@@ -1,220 +1,116 @@
-function getCategoryMetadata (category) {
-  var globalMeta = {
-    kbb: {
-      displayName: "Kelly Blue Book",
-      domain: "www.kbb.com",
-      partnerDomain: "www.kbb.com",
-      usesPartnerSubdomain: true,
-      hasAiArticles: false,
-      category: "kbb",
-      subCategory: ""
-    }
-  };
-  return globalMeta[category];
-}
-
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var currentConfig;
-var referrer;
-if (document.referrer != "" && document.referrer != null) {
-  referrer = document.referrer;
-}
-else {
-  referrer = window.location.href;
-}
-var season;
-var SpecialDomain = "";
-var currentDomain = "";
-var specialDomains = [
-  "latimes.com",
-  "orlandosentinel.com",
-  "sun-sentinel.com",
-  "baltimoresun.com",
-  "mcall.com",
-  "courant.com",
-  "dailypress.com",
-  "southflorida.com",
-  "citypaper.com",
-  "themash.com",
-  "coastlinepilot.com",
-  "sandiegouniontribune.com",
-  "ramonasentinel.com",
-  "capitalgazette.com",
-  "chicagotribune.com"
-];
-var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
-
-function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
-  var baseUrl;
-  var output = "";
-  if (remn == "false") { //if partner
-    if (currentConfig.usesPartnerSubdomain) { // if partner AND subdomain partner
-      for (var i = 0; i < specialDomains.length; i++) {
-        if (referrer.includes(specialDomains[i])) {
-          baseUrl = "http://" + currentConfig.partnerSubdomain + specialDomains[i];
-          break;
-        }
-      }
-    }
-    else { //only partner, not subdomain
-      baseUrl = "http://" + currentConfig.partnerDomain;
-    }
-  }
-  else { // not partner site and not partner domain
-    baseUrl = "http://" + currentConfig.domain;
-  }
-
-  // now that we have the base Url, format the rest of the link
-  if (linkType == "syndicated") {
-    output = baseUrl + "/" + scope + "/news/story/" + destinationId;
-  }
-  else if (linkType = "ai") {
-    output = baseUrl + "/" + scope + "/articles/" + articleType + "/" + destinationId;
-  }
-  return output;
-}
 
 dynamic_widget = function() {
-    var e = location.protocol == 'https:' ? 'https' : 'http',
-        protocol = location.protocol == 'https:' ? 'https' : 'http',
-        t = e + '://dw.synapsys.us/list_api.php',
-        i = 0,
-        r = {},
-        l = JSON.parse(decodeURIComponent(location.search.substr(1))),
-        n = 0,
-        a = ['kbb'];
-    currentConfig = getCategoryMetadata(l.category);
-    var s = false;
-    var o = '';
-    function c(e) {
+    var t = protocolToUse + 'dw.synapsys.us/list_api.php',
+        currentIndex = 0,
+        widgetData = {},
+        retryCount = 0,
+        query = JSON.parse(decodeURIComponent(location.search.substr(1)));
+
+
+    function onLoad(func) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
-            e()
+            func()
         } else if (d.addEventListener) {
-            d.addEventListener('DOMContentLoaded', e)
+            d.addEventListener('DOMContentLoaded', func)
         } else if (d.attachEvent) {
             d.attachEvent('onreadystatechange', function() {
                 if (d.readyState == 'complete') {
-                    e()
+                    func()
                 }
             })
         }
     }
-    function m(ignoreRandom) {
-      i = 0;// resets index count to 0 when swapping lists
-      httpGetData(ignoreRandom);
-    }
-    function httpGetData(ignoreRandom) {
-      if (l.dom == 'lasvegasnow.com') {
-          s = true;
-          o = 'finance.lasvegasnow.com'
-      }
-      if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
-          l.category = 'kbb'
-      }
-      if (ignoreRandom == null) {
-        var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
-      }
-      else {
-        var e = Math.floor(Math.random() * 10);
-      }
 
-      var i;
+
+    /**
+    * @function reset
+    * Resets index count to 0 when swapping lists
+    */
+    function reset() {
+      currentIndex = 0;// resets index count to 0 when swapping lists
+      httpGetData();
+    }
+
+
+    /**
+    * @function httpGetData
+    * Get data from API
+    */
+    function httpGetData() {
+      var xHttp;
       if (window.XMLHttpRequest) {
-          i = new XMLHttpRequest
+          xHttp = new XMLHttpRequest
       } else {
-          i = new ActiveXObject('Microsoft.XMLHTTP')
+          xHttp = new ActiveXObject('Microsoft.XMLHTTP')
       }
-      i.onreadystatechange = function() {
-          if (i.readyState == XMLHttpRequest.DONE) {
-              if (i.status == 200) {
-                  r = JSON.parse(i.responseText);
-                  c(u)
+      xHttp.onreadystatechange = function() {
+          if (this.readyState == XMLHttpRequest.DONE) {
+              if (this.status == 200) {
+                  widgetData = JSON.parse(this.responseText);
+                  onLoad(formattedData)
               } else {
-                  var e = i.statusText;
-                  if (i.status == 500) {
+                  // Error handling - Get the message
+                  var msg = this.statusText;
+                  if (this.status == 500) {
                       try {
-                          e = JSON.parse(i.responseText).message
+                          msg = JSON.parse(this.responseText).message
                       } catch (t) {
                           console.log('No JSON message')
                       }
                   }
-                  e = 'HTTP Error (' + i.status + '): ' + e;
-                  if (n++ > 10) {
-                      throw e
+                  msg = 'HTTP Error (' + this.status + '): ' + msg;
+                  if (retryCount++ > 5) {
+                      throw msg
                   }
-                  setTimeout(m, 500)
+                  setTimeout(reset, 500)
               }
           }
       };
-      i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + "automotive" + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
-
-      // i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
-        // i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=" + "http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true);
-        //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
-        i.send()
+      var category = query.category ? query.category : "automotive";
+      var subCategory = "";
+      var count = 20;
+      xHttp.open('GET', protocolToUse + "dev-article-library.synapsys.us/articles?category=" + category + "&subCategory=" + subCategory + "&metaDataOnly=1&readyToPublish=true&count=" + count , true);
+      xHttp.send()
     }
 
-    function u() {
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: 'widget-title',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
-        var n = true;
-        p()
-      }
-      /**
-      * @function formattedDate
-      * Format from epoch date to human readable format, example: Tuesday, Mar. 21, 2017
-      */
-      function formattedDate(eDate){
-        var date = eDate ? new Date(eDate) : new Date();
-        var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
-        var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"];
-        var month = date.getMonth();
-        var day = date.getDate();
-        var dayofWeek = date.getDay();
-        var year = date.getFullYear();
-
-        var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
-        return formattedDate;
-      }
-      function p() {
-        if (r.data.length <= 1) {
+    /**
+    * @function formattedData
+    * Format data accordingly to specs before displaying for top articles
+    **/
+    function formattedData() {
+        if (widgetData.data.length <= 1) {
           $('next-list-link').classList.add("disabled-button");
         }
         else {
           $('next-list-link').classList.remove("disabled-button");
         }
-        var e = r.data[i];
-        artLink = generateArticleLink(l.category, e.source, e.article_id, e['article_type'], l.remn);// generate current article url
-        if ($('list-link')) {
-            $('list-link').href = artLink
+        var dataLists = widgetData.data[currentIndex];
+        var genLink = generateArticleLink(query.category, dataLists.source, dataLists.article_id, dataLists['article_type']);// generate current article url
+        $('mainUrl').href = genLink;
+        if($('mainTitle')){
+          $('mainTitle').innerHTML = dataLists['title'] ? (dataLists['title'].length > 52 ? dataLists['title'].replace(/[\\]/g,"").substring(0,52) : dataLists['title'].replace(/[\\]/g,"")) : "";//limit to 2 lines aka 55 characters
+          $('mainTitle').innerHTML += dataLists['title'].length > 52 ? "..." : "";
         }
-        if ($('title-link')) {
-            $('title-link').href = artLink
+        if($('teaser')){
+          var len = dataLists['title'].length < 25 ? 135 : 95;//increase limit of character in teaser if title is one line or less
+          $('teaser').innerHTML = dataLists['teaser'] ? (dataLists['teaser'].length > len ? dataLists['teaser'].replace(/[\\]/g,"").substring(0,len) : dataLists['teaser'].replace(/[\\]/g,"")) : "";//limit to 3 or 4 lines depends on the number of lines in the title
+          $('teaser').innerHTML += dataLists['teaser'].length > len ? "..." : "";
         }
-          $('title-text').innerHTML = e.title.replace(/[\\]/g,"");
-          $('fb-share').href = "https://www.facebook.com/sharer/sharer.php?u="+artLink;
-          $('twitter-share').href = "https://twitter.com/home?status="+artLink;
-          $('google-share').href = "https://plus.google.com/share?url="+artLink;
-          var stat = Math.floor(Number(e.stat));
-          $('desc').innerHTML = e.teaser.replace(/[\\]/g,"");
-          var t = $('mainimg');
-          var n = t.getAttribute('onerror');
-          t.setAttribute('onerror', '');
-          t.setAttribute('src', '');
-          if (e.image_url != null && e.image_url != "null") {
-            t.setAttribute('src', protocolToUse + "images.synapsys.us" + e.image_url + "?width=" + (t.width * window.devicePixelRatio));
+        var mainImg = $('mainImg');
+        var mainImgErr = mainImg.getAttribute('onerror');
+        mainImg.setAttribute('onerror', '');
+        mainImg.setAttribute('src', '');
+        if (dataLists['image_url'] != null && dataLists['image_url'] != "null") {
+          mainImg.setAttribute('src', protocolToUse + "images.synapsys.us" + dataLists['image_url'] + "?width=" + (t.width * window.devicePixelRatio));
+        } else {
+          mainImg.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
         }
-        else { //TODO: use placeholder images as fallback for articles instead of no-image image
-          t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
-        }
-        setTimeout(function(e, t) {
-            t.setAttribute('onerror', e)
-        }.bind(undefined, n, t), 0);
+        mainImg.setAttribute('onerror', "this.src='"+ protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg'");//TODO
     }
+
+
     /**
     * @function carData
     * This function goes to the next or previous carousel item by adding dir to
@@ -225,41 +121,35 @@ dynamic_widget = function() {
     * the item to be shown.
     */
     function carData(dir) {
-        i += dir;
-        i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
-        p();
+        currentIndex += dir;
+        currentIndex = currentIndex >= widgetData.data.length ? 0 : currentIndex < 0 ? widgetData.data.length - 1 : currentIndex;
+        formattedData();
         if (typeof dataLayer != 'undefined') {
             dataLayer.push({
                 event: dir == 1 ? 'nav-right' : 'nav-left',
-                eventAction: dynamic_widget.get_title()
             })
         }
     }
 
-    function getTitle() {
-        return l.dom + ':' + l.category + ':' + (r.l_sort == null ? r.l_param : r.l_sort) + ':' + r.l_title
-    }
-
-    function h() {
-      var hn = "";
-        if (l.carousel == true) {
-            var e = d.getElementsByTagName('a');
-            for (var t = 0; t < e.length; t++) {
-                e[t].setAttribute('onclick', 'event.preventDefault(); return false;')
-            }
-            var i = d.querySelectorAll('.hover');
-            for (var t = 0; t < i.length; t++) {
-                i[t].parentNode.removeChild(i[t])
-            }
-            $('list-link').parentNode.removeChild($('list-link'));
-            return false
-        }
-    }
-    m();
-    c(h);
+    reset();
     return {
         carousel: carData,
-        get_title: getTitle,
-        m: m
+        reset: reset
+    }
+
+    //TODO: waiting on API with KBB data
+    /**
+    * @function generateArticleLink
+    * Generate offsite article link
+    * scope: article category, linkType: depends article source, destinationId: unique article/event id,
+    * articleType: article type, such as story, video, etc., remn: partner or non-partner
+    */
+    function generateArticleLink (scope, linkType, destinationId, articleType) {
+      var baseUrl = "http://";
+      var output = "";
+      baseUrl += "www.kbb.com";//TODO may be something else
+      //now that we have the base Url, format the rest of the link
+      output = baseUrl + "/" + scope + "/news/story/" + destinationId;
+      return output;
     }
 }();

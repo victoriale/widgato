@@ -1,185 +1,260 @@
-function getCategoryMetadata (category) {
-  var globalMeta = {
-    kbb: {
-      displayName: "Kelly Blue Book",
-      domain: "www.kbb.com",
-      partnerDomain: "www.kbb.com",
-      usesPartnerSubdomain: true,
-      hasAiArticles: false,
-      category: "kbb",
-      subCategory: ""
-    }
-  };
-  return globalMeta[category];
-}
-
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-var currentConfig;
 var referrer = document.referrer ? document.referrer : window.location.href;
-var season;
-var currentDomain = "";
-var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 
-//TODO: waiting on API with KBB data
-function generateArticleLink (scope, linkType, destinationId, articleType, remn) {
-  var baseUrl = "http://";
-  var output = "";
-  baseUrl += (remn == "false") ? currentConfig.partnerDomain : currentConfig.domain;
-  //now that we have the base Url, format the rest of the link
-  output = baseUrl + "/" + scope + "/news/story/" + destinationId;
-  return output;
+/**
+* List tab options
+*/
+var tabObj = {//TODO false category for testing
+  "trending": {
+    display: "Latest News",
+    category: "automotive"
+  },
+  "reviews": {
+    display: "Expert Reviews",
+    category: "food"
+  },
+  "videos": {
+    display: "Videos",
+    category: "entertainment"
+  },
+  "toplists": {
+    display: "Top Lists",
+    category: "travel"
+  }
 }
 
+/**
+* @function dynamic_widget
+* Set up dynamic widget data here
+*/
 dynamic_widget = function() {
-    var e = location.protocol == 'https:' ? 'https' : 'http',
-        protocol = location.protocol == 'https:' ? 'https' : 'http',
-        t = e + '://dw.synapsys.us/list_api.php',
-        i = 0,
-        r = {},
-        l = JSON.parse(decodeURIComponent(location.search.substr(1))),
-        n = 0,
-        a = ['kbb'];
-    currentConfig = getCategoryMetadata(l.category);
-    var s = false;
-    var o = '';
-    function onLoad(e) {
+    var currentIndex = 0,
+        widgetData = {},
+        retryCount = 0,
+        selectedTab,
+        query = JSON.parse(decodeURIComponent(location.search.substr(1))),
+        currentCategory = query.category;
+
+    function onLoad(func) {
         if (d.readyState == 'complete' || d.readyState == 'interactive') {
-            e()
+            func()
         } else if (d.addEventListener) {
-            d.addEventListener('DOMContentLoaded', e)
+            d.addEventListener('DOMContentLoaded', func)
         } else if (d.attachEvent) {
             d.attachEvent('onreadystatechange', function() {
                 if (d.readyState == 'complete') {
-                    e()
+                    func()
                 }
             })
         }
     }
-    //Resets index count to 0 when swapping lists
-    function reset(ignoreRandom) {
-      i = 0;
-      httpGetData(ignoreRandom);
-    }
-    function httpGetData(ignoreRandom) {
-      //Category is default to KBB if undefined, exception only for KBB widgets
-      if (typeof l.category == 'undefined' || a.indexOf(l.category) == -1) {
-          l.category = 'kbb'
-      }
-      if (ignoreRandom == null) {
-        var e = typeof l.rand != 'undefined' && n == 0 ? l.rand : Math.floor(Math.random() * 10);
-      }
-      else {
-        var e = Math.floor(Math.random() * 10);
-      }
 
-      var i;
-      if (window.XMLHttpRequest) {
-          i = new XMLHttpRequest
-      } else {
-          i = new ActiveXObject('Microsoft.XMLHTTP')
+
+    /**
+    * @function reset
+    * Resets index count to 0 when swapping lists
+    */
+    function reset() {
+      currentIndex = 0;
+      getTabNames();
+      httpGetData();
+    }
+
+
+    /**
+    * @function getTabNames
+    * Set up tab options menu
+    */
+    function getTabNames(){
+      var tabArray = [];
+      for(var cat in tabObj){
+        tabArray.push(tabObj[cat].category);
       }
-      i.onreadystatechange = function() {
-          if (i.readyState == XMLHttpRequest.DONE) {
-              if (i.status == 200) {
-                  r = JSON.parse(i.responseText);
+      setTabs();//TODO comments
+      sendTabNames(tabArray);
+    }
+
+
+    /**
+    * @function sendTabNames
+    * Send dashboard tab name to top level
+    */
+    function sendTabNames(tabs){
+      var arrString = tabs.join(",");//convert tab array to string
+      top.postMessage("dashboard_category:" + arrString, "*");
+    }
+
+
+    /**
+    * @function setTabs
+    * Format the tabs' options
+    **/
+    function setTabs(){
+      // var i = 0;
+      for(var cat in tabObj){
+        var tabDisplay = tabObj[cat].display;//get display name for each tab option
+        var category = tabObj[cat].category;//get category value for each tab option
+        var navBarUrl = document.createElement('a');
+        navBarUrl.className = "navBar-url";//set class name navBar-url for each tab option
+        navBarUrl.setAttribute("data-attr", category);
+        navBarUrl.innerHTML = tabDisplay;
+        if(currentCategory == category){//default to first tab onload
+          selectedTab = tabObj[cat].displayName;
+          navBarUrl.className += " selected";
+          currentCategory = tabObj[cat].category;
+        }
+        // i++;
+        navBarUrl.addEventListener('click', tabSelect, false);//create event listener on clik to run tabSelect function
+        $("navBarId").appendChild(navBarUrl);
+      }
+    }
+
+
+    /**
+    * @function httpGetData
+    * Get data from API
+    */
+    function httpGetData() {
+      var xHttp;
+      if (window.XMLHttpRequest) {
+          xHttp = new XMLHttpRequest
+      } else {
+          xHttp = new ActiveXObject('Microsoft.XMLHTTP')
+      }
+      xHttp.onreadystatechange = function() {
+          if (this.readyState == XMLHttpRequest.DONE) {
+              if (this.status == 200) {
+                  widgetData = JSON.parse(this.responseText);
                   onLoad(getData)
               } else {
-                  var e = i.statusText;
-                  if (i.status == 500) {
+                  // Error handling - Get the message
+                  var msg = this.statusText;
+                  if (this.status == 500) {
                       try {
-                          e = JSON.parse(i.responseText).message
+                          msg = JSON.parse(this.responseText).message
                       } catch (t) {
                           console.log('No JSON message')
                       }
                   }
-                  e = 'HTTP Error (' + i.status + '): ' + e;
-                  if (n++ > 10) {
-                      throw e
+                  msg = 'HTTP Error (' + this.status + '): ' + msg;
+                  if (retryCount++ > 5) {
+                      throw msg
                   }
-                  setTimeout(m, 500)
+                  setTimeout(reset, 500)
               }
           }
       };
       //TODO: waiting on new api call with KBB data
-      i.open('GET', protocol + "://dev-article-library.synapsys.us/articles?category=" + "automotive" + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
-      // i.open('GET', protocol + "://dev-tcxmedia-api.synapsys.us/articles?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" , true);
-      // i.open('GET', protocol + "://dev-dw.synapsys.us/api_json/new_api_article_tdlcontext.php?category=" + currentConfig.category + "&subCategory=" + currentConfig.subCategory + "&metaDataOnly=1&readyToPublish=true&count=20" + "&referrer=" + "http://www.courant.com/sports/football/hc-tom-brady-1009-20161006-story.html" , true);
-      //todo: change to prod on deployment, and change the hardcoded url to "referer" when embedding
-      i.send()
+      //Test API: http://dev-article-library.synapsys.us/articles?category=automotive&metaDataOnly=1&readyToPublish=true&count=
+      var count = 20;
+      var subCategory = "";//TODO
+      query.category = currentCategory;
+      xHttp.open('GET', protocolToUse+"dev-article-library.synapsys.us/articles?category="+query.category+"&subCategory="+subCategory+ "&metaDataOnly=1&readyToPublish=true&count="+count, true);
+      xHttp.send()
+    }//function httpGetData ends
+
+
+    /**
+    * @function getData
+    * functions to call onload
+    **/
+    function getData() {
+        // if (typeof dataLayer != 'undefined') {
+        //     dataLayer.push({
+        //         event: 'widget-title',
+        //         eventAction: dynamic_widget.get_title()
+        //     })
+        // }
+        formattedData();
+        artData()
     }
 
-    function getData() {
-        if (typeof dataLayer != 'undefined') {
-            dataLayer.push({
-                event: 'widget-title',
-                eventAction: dynamic_widget.get_title()
-            })
-        }
-        var n = true;
-        formattedData()
-      }
-      /**
-      * @function formattedDate
-      * Format from epoch date to human readable format, example: Tuesday, Mar. 21, 2017
-      */
-      function formattedDate(eDate){
-        var date = eDate ? new Date(eDate) : new Date();
-        var days = ['SUNDAY','MONDAY','TUESDAY','WEDNESDAY','THURSDAY','FRIDAY','SATURDAY'];
-        var monthNames = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOW", "DEC"];
-        var month = date.getMonth();
-        var day = date.getDate();
-        var dayofWeek = date.getDay();
-        var year = date.getFullYear();
 
-        var formattedDate = days[dayofWeek] + ", " + monthNames[month] + ". " + day + ", " + year;
-        return formattedDate;
+    /**
+    * @function formattedData
+    * Format data accordingly to specs before displaying for top articles
+    **/
+    function formattedData() {
+      if(widgetData.data == null || typeof widgetData.data == "undefined" || widgetData.data.length == 0){
+        return null;
+      }
+      if (widgetData.data.length <= 1) {
+        $('next-list-link').classList.add("disabled-button");
+      }
+      else {
+        $('next-list-link').classList.remove("disabled-button");
+      }
+      /**Top Article/Carousel Data**/
+      var dataList = widgetData.data[currentIndex];
+      var genLink =  generateArticleLink(currentCategory, dataList['source'], dataList['article_id'], dataList['article_type']); //Generate current article link
+      var playBtn = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486"><title>Asset 2</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M243,486C109,486,0,377,0,243S109,0,243,0,486,109,486,243,377,486,243,486Zm0-462.1C122.19,23.9,23.9,122.19,23.9,243S122.19,462.1,243,462.1,462.1,363.81,462.1,243,363.81,23.9,243,23.9Z"/><path d="M359.46,235.13,197.32,104.66a8.65,8.65,0,0,0-14.07,6.74V372.33a8.65,8.65,0,0,0,14.07,6.74L359.46,248.6A8.65,8.65,0,0,0,359.46,235.13Z"/></g></g></svg>';//play button svg source
+      $('playBtn').innerHTML = playBtn;
+      if($('mainTitle')){
+        $('mainTitle').innerHTML = dataList['title'] ? (dataList['title'].length > 80 ? dataList['title'].replace(/[\\]/g,"").substring(0,80) : dataList['title'].replace(/[\\]/g,"")) : "";//limit to 2 lines aka 55 characters
+        $('mainTitle').innerHTML += dataList['title'].length > 80 ? "..." : "";
       }
 
-      function formattedData() {
-        if(r.data == null || typeof r.data == "undefined" || r.data.length == 0){
-          return null;
-        }
-        /**Top Article/Carousel Information**/
-        var dataList = r.data.length > 1 ? r.data.splice(0,1)[i] : r.data;
-        var genLink =  generateArticleLink(l.category, dataList['source'], dataList['article_id'], dataList['article_type'], l.remn); //Generate current article link
-        $('fb-share').href = "https://www.facebook.com/sharer/sharer.php?u="+genLink;
-        $('twitter-share').href = "https://twitter.com/home?status="+genLink;
-        $('google-share').href = "https://plus.google.com/share?url="+genLink;
-        if ($('title-link') && $('title-text')) {
-          $('title-link').href = genLink;
-          $('title-text').innerHTML = dataList['title'] ? dataList['title'].replace(/[\\]/g,"") : "";
-        }
-        if($('desc')){
-          $('desc').innerHTML = dataList['teaser'] ? dataList['teaser'].replace(/[\\]/g,"") : "";
-        }
-        var t = $('carousel-img');
-        var n = t.getAttribute('onerror');
-        t.setAttribute('onerror', '');
-        t.setAttribute('src', '');
-        if (dataList['image_url'] != null && dataList['image_url'] != "null") {
-          t.setAttribute('src', protocolToUse + "images.synapsys.us" + dataList['image_url'] + "?width=" + (t.width * window.devicePixelRatio));
-        } else { //TODO: use placeholder images as fallback for articles instead of no-image image
-          t.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
-        }
-        /**Bottom Article Information
+      if($('teaser')){
+        var readMore = "<span><a href='"+genLink+"'target=_blank>Read More</a></span>";
+        var len = dataList['title'].length < 55 ? 130 : 95;//increase limit of character in teaser if title is one line or less
+        $('teaser').innerHTML = dataList['teaser'] ? (dataList['teaser'].length > len ? dataList['teaser'].replace(/[\\]/g,"").substring(0,len):dataList['teaser'].replace(/[\\]/g,"")) : "";
+        $('teaser').innerHTML += dataList['teaser'].length > len ? "... " + readMore : readMore;
+      }
+      $('mainUrl').href = genLink;
+      var mainImg = $('mainImg');
+      var mainImgErr = mainImg.getAttribute('onerror');
+      if (dataList['image_url'] != null && dataList['image_url'] != "null") {
+        mainImg.setAttribute('src', protocolToUse + "images.synapsys.us" + dataList['image_url'] + "?width=" + (mainImg.width * window.devicePixelRatio));
+      } else {
+        mainImg.setAttribute('src', protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
+      }
+      mainImg.setAttribute('onerror', "this.src='"+ protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg'");//TODO
+    }
+
+
+    /**
+    * @function artData
+    * Format data accordingly to specs before displaying for bottom articles
+    **/
+    function artData(){
+      if(widgetData.data){
+        var dataArr = widgetData.data.length > 3 ? widgetData.data.splice(0,3) : widgetData.data;//Get current data of article on Dashboard
+        var playBtn = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486 486"><title>Asset 2</title><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path d="M243,486C109,486,0,377,0,243S109,0,243,0,486,109,486,243,377,486,243,486Zm0-462.1C122.19,23.9,23.9,122.19,23.9,243S122.19,462.1,243,462.1,462.1,363.81,462.1,243,363.81,23.9,243,23.9Z"/><path d="M359.46,235.13,197.32,104.66a8.65,8.65,0,0,0-14.07,6.74V372.33a8.65,8.65,0,0,0,14.07,6.74L359.46,248.6A8.65,8.65,0,0,0,359.46,235.13Z"/></g></g></svg>';//play button svg source
+        /**Bottom Article Data
         ** Append child element to thumbArt to display the 3 articles in the bottom of dashboard
         **/
-        var dataArr = r.data.length > 3 ? r.data.splice(0,3) : r.data;//Get current data of article on Dashboard
-        dataArr.forEach(function(val, index){
-          var artDetails = document.createElement('div');
-          artDetails.className = "thumbItem";
-          var parent = document.getElementById("thumbArt");
-          var titleText = val['title'].replace(/[\\]/g,"");
-          var artUrl =  generateArticleLink(l.category, val['source'], val['article_id'], val['article_type'], l.remn);
-          var artImg = val.image_url != null ? (protocolToUse + "images.synapsys.us" + val.image_url + "?width=" + (t.width * window.devicePixelRatio)) : (protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");
-          artDetails.innerHTML = '<img class="thumbImg" src='+artImg+' /></div><div class="thumbTitle"><a class="thumbTitleLink" href="'+artUrl+'">'+titleText+'</a>';
-          parent.appendChild(artDetails);
-        });
+        var parent = $("thumbnail");//get element id thumbnail
+        parent.innerHTML = ""; // empties out the contents of the parent identifier
 
-        // setTimeout(function(e, t) {
-        //   t.setAttribute('onerror', e)
-        // }.bind(undefined, n, t), 0);
+        dataArr.forEach(function(val, index){
+          var thumbItem = document.createElement('div');//this is the 3 bottom articles/video thumbnails
+          thumbItem.className = "thumbnails-item";//set className for new element
+          var titleText = val['title'].replace(/[\\]/g,"");//get title value from api
+          var artUrl =  generateArticleLink(currentCategory, val['source'], val['article_id'], val['article_type']);//generate article url
+          var thumbImage = val.image_url != null ? (protocolToUse + "images.synapsys.us" + val.image_url + "?width=" + (250 * window.devicePixelRatio)) : (protocolToUse + "w1.synapsys.us/widgets/css/public/no_image.jpg");//get image, if no image, then display no-image image
+          thumbItem.innerHTML = '<a href="'+artUrl+'" target="_blank"><div class="sixteen-nine"><img class="main-thumb-item" src="'+thumbImage+'" /><div class="play-button small" id=playBtnSm>'+playBtn+'</div></div></a><a href="'+artUrl+'" target="_blank"><div class="thumbnails-title">'+titleText+'</div></a>';
+          parent.appendChild(thumbItem);//append thumbnail items to thumbnails class
+        });
+      }
     }
+
+
+    /**
+    * @function tabSelect
+    * Listen to select event and activate tab
+    **/
+    function tabSelect(event) {
+        var target = event.target || event.srcElement;
+        var tablinks = document.getElementsByClassName("navBar-url");
+        for (var i = 0; i < tablinks.length; i++) {
+            //remove all selected className found in elements
+            tablinks[i].className = tablinks[i].className.replace(" selected", "");
+        }
+        target.className += " selected";
+        currentCategory = target.getAttribute("data-attr");//set currentCategory to attr value of selected target
+        httpGetData();
+    }
+
     /**
     * @function carData
     * This function goes to the next or previous carousel item by adding dir to
@@ -190,41 +265,38 @@ dynamic_widget = function() {
     * the item to be shown.
     */
     function carData(dir) {
-        i += dir;
-        i = i >= r.data.length ? 0 : i < 0 ? r.data.length - 1 : i;
+        currentIndex += dir;
+        currentIndex = currentIndex >= widgetData.data.length ? 0 : currentIndex < 0 ? widgetData.data.length - 1 : currentIndex;
         formattedData();
         if (typeof dataLayer != 'undefined') {
             dataLayer.push({
                 event: e == 1 ? 'nav-right' : 'nav-left',
-                eventAction: dynamic_widget.get_title()
+                // eventAction: dynamic_widget.get_title()
             })
         }
     }
 
-    function getTitle() {
-        return l.dom + ':' + l.category + ':' + (r.l_sort == null ? r.l_param : r.l_sort) + ':' + r.l_title
+
+    //TODO: waiting on API with KBB data
+    /**
+    * @function generateArticleLink
+    * Generate offsite article link
+    * scope: article category, linkType: depends article source, destinationId: unique article/event id,
+    * articleType: article type, such as story, video, etc., remn: partner or non-partner
+    */
+    function generateArticleLink (scope, linkType, destinationId, articleType) {
+      var baseUrl = "http://";
+      var output = "";
+      baseUrl += "www.kbb.com";//TODO may be something else
+      //now that we have the base Url, format the rest of the link
+      output = baseUrl + "/" + scope + "/news/story/" + destinationId;
+      return output;
     }
 
-    function setHomeLink() {
-      var link = "";
-      if (l.carousel == true) {
-          var e = d.getElementsByTagName('a');
-          for (var t = 0; t < e.length; t++) {
-              e[t].setAttribute('onclick', 'event.preventDefault(); return false;')
-          }
-          var i = d.querySelectorAll('.hover');
-          for (var t = 0; t < i.length; t++) {
-              i[t].parentNode.removeChild(i[t])
-          }
-          $('thumb-link').parentNode.removeChild($('thumb-link'));
-          return false
-      }
-    }
     reset();
-    onLoad(setHomeLink);
     return {
         carousel: carData,
-        get_title: getTitle,
-        m: reset
+        reset: reset,
+        tabSelect: tabSelect
     }
 }();

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang=en>
+
+<head>
+    <title>Image Puzzle</title>
+    <meta charset=utf-8>
+    <base target=_blank>
+    <link href="//fonts.googleapis.com/css?family=Lato:400,300,100,700,900" rel=stylesheet lazyload="1">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all"
+          rel="stylesheet" type="text/css">
+    <link rel=stylesheet type=text/css href=../image_puzzle/image_puzzle.css>
+    <script>
+        d = document, $ = function (e) {
+            return d.getElementById(e)
+        };
+    </script>
+    <script async type=text/javascript src=../image_puzzle/image_puzzle.js></script>
+</head>
+
+<body>
+<div class=dw>
+    <div id="puzzle"></div>
+    <div id="dw-container">
+        <div class=dw-info>
+            <div id=num></div>
+            <div class=dw-i-title id="line1"></div>
+            <div class=dw-i-title id=line2></div>
+            <div id=desc class="line-clamp"></div>
+        </div>
+        <a target=self id=next-list-link onclick="image_puzzle.next(1)">
+            <div class=dw-btn> Next Puzzle</div>
+        </a>
+    </div>
+    <div class=presented>
+        <a target=self id=solve-me>
+            <div id="solve"><i class="fa fa-check-circle-o"></i> Solve for me</div>
+        </a>
+        <img src="../css/public/icons/snt_badge.png" class="badge"/>
+        <span class="powered">Powered by SNT Media, Inc</span>
+    </div>
+</div>
+<!-- <script>
+    function add_css_link(e) {
+        var t = d.createElement("link");
+        t.href = e, t.type = "text/css", t.rel = "stylesheet";
+        var n = d.getElementsByTagName("head")[0];
+        n.insertBefore(t, n.childNodes[0])
+    }! function() {
+        var e = "../css/dynamic_widget_",
+            t = JSON.parse(decodeURIComponent(location.search.substr(1))),
+            n = {
+                nba: "basketball",
+                college_basketball: "basketball",
+                mlb: "mlb",
+                nfl: "nfl",
+                ncaaf: "ncaaf",
+                nflncaaf: "nflncaaf",
+                finance: "finance",
+                crime: "crime",
+                demographics: "demographics",
+                disaster: "disaster",
+                weather: "weather"
+            };
+        return "politics" == t.category ? !1 : (("undefined" == typeof t.category || "undefined" == typeof n[t.category]) && (t.category = "finance"), e += n[t.category] + ".css", void add_css_link(e))
+    }();
+</script> -->
+</body>
+
+</html>
+
+
+
+
+
+
+
