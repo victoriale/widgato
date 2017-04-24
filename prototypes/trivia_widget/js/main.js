@@ -621,7 +621,7 @@
 
     // function used to reduce size of text in options if it is too tall for container
     function reduceTextSizeCheck(element) {
-        let standardHeight = 34,
+        var standardHeight = 34,
             elementHeight = element.offsetHeight;
         if (elementHeight > standardHeight) {
             /*--TODO make this a class?--*/
@@ -639,7 +639,7 @@
         nextQuestionButton_el.innerHTML = "<p>Next Question</p>";
         dataKey = 'data_'+questionIterator;
         activeDataSet = activeDataSet ? activeDataSet : localDataStore;
-        let question = activeDataSet[dataKey].question,
+        var question = activeDataSet[dataKey].question,
             resultDisplay = activeDataSet[dataKey] ? activeDataSet[dataKey].correct_result : 'Whoops!',
             backgroundImage = activeDataSet[dataKey] ? "url("+imagePath_el+activeDataSet[dataKey].image+")" : '';
         triviaQuestion_el.innerHTML = question; //inserts active question into view
@@ -757,7 +757,7 @@
     function nextQuestionFn() {
         // if last question show results screen
         if ( questionIterator >= totalQuestions ) {
-            nextQuestionButton_el.onclick = function() { showCompleteFn() };
+            nextQuestionButton_el.onclick = function() { showCompletedFn() };
             nextQuestionButton_el.innerHTML = "<p>Show Results</p>";
         }
         else {
@@ -774,7 +774,7 @@
         initialInteraction = true;
         // if last question show results screen
         if ( questionIterator >= totalQuestions ) {
-            showCompleteFn();
+            showCompletedFn();
             nextQuestionButton_el.innerHTML = "<p>Show Results</p>";
         }
         else {
@@ -786,8 +786,8 @@
 
 
     // run function when last question is submitted
-    function showCompleteFn() {
-        let comment;
+    function showCompletedFn() {
+        var comment;
         switch(userScore) {
             case 0: case 1: case 2:
             comment = "Ouch!"
@@ -800,7 +800,7 @@
         }
         scoreComment_el.innerHTML = comment;
         completedOverlay_el.className = "show";
-    } //showCompleteFn
+    } //showCompletedFn
 
 
 
