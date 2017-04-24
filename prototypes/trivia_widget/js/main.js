@@ -800,7 +800,7 @@
         }
         scoreComment_el.innerHTML = comment;
         completedOverlay_el.className = "show";
-    } //showCompvareFn
+    } //showCompletedFn
 
 
 
