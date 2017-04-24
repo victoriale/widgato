@@ -876,10 +876,17 @@
                 pixelationDivision = pixelationDivision/1.1;
             }
 
-            intervalWidth = intervalWidth + (pixelatedContainerWidth/pixelationDivision) >= pixelatedContainerWidth ? pixelatedContainerWidth : intervalWidth + (pixelatedContainerWidth/pixelationDivision);
-            intervalHeight = intervalWidth + (pixelatedContainerWidth/pixelationDivision) >= pixelatedContainerHeight ? pixelatedContainerHeight : intervalHeight + (pixelatedContainerHeight/pixelationDivision);
-            drawImageProp(ctx, pixelatedImage, 0, 0, intervalWidth, intervalHeight);
-            ctx.drawImage(pixelateContainer, 0, 0, intervalWidth, intervalHeight, 0, 0, pixelatedContainerWidth, pixelatedContainerHeight);
+            intervalWidth = intervalWidth + (pixelatedContainerWidth/pixelationDivision);
+            intervalHeight = intervalHeight + (pixelatedContainerHeight/pixelationDivision);
+
+            // as long as the canvas image's (pixelation effect) height or width is less than container continue the effect, 5 is just a buffer to ensure it doesn't reach at either dimension
+            if ( intervalWidth + (pixelatedContainerWidth/pixelationDivision) <= pixelatedContainerWidth-5 || intervalHeight + (pixelatedContainerWidth/pixelationDivision) <= pixelatedContainerHeight-5 ) {
+              drawImageProp(ctx, pixelatedImage, 0, 0, intervalWidth, intervalHeight);
+              ctx.drawImage(pixelateContainer, 0, 0, intervalWidth, intervalHeight, 0, 0, pixelatedContainerWidth, pixelatedContainerHeight);
+            }
+            else {
+              removePixelationFn();
+            }
         }, intervalMiliSeconds/intervalSeconds);
     } //adjustPixelationFn
 
