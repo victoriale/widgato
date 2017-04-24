@@ -149,14 +149,6 @@ var options = {
       name: "Domain",
       type: "text"
     },
-    wide:{
-      default: "",
-      enabled: true,
-      explanation: "Choose which type of dynamic unlink to render (normal/wide)",
-      name: "Wide",
-      type: "select",
-      options: ["","true", "false"]
-    },
     category:{
       default: "nfl",
       enabled: true,

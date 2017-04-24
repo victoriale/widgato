@@ -29,9 +29,6 @@ document.addEventListener("DOMContentLoaded", function(event) { // TAKE ANOTHER 
         //FIRST THING IS SETUP ENVIRONMENTS
         setupEnvironment(query);
 
-        //CHOOSE NORMAL OR WIDE .css
-        cssFile(query.wide);
-
         //THEN START UPDATING THE LISTS
         updateList(0);
     } else {
@@ -61,24 +58,6 @@ function synapsysENV(env) {
     }
     return env;
 }
-
-// this will work in IE 10, 11 and Safari/Chrome/Firefox/Edge
-// add ES6 poly-fill for the Promise, if needed (or rewrite to use a callback)
-function cssFile(wide) {
-  cssWide = wide != null && wide != '' && wide != 'false' ? '_wide' : "";
-
-  return new Promise((resolve, reject) => {
-    let link = document.createElement('link');
-    let extension = ".css";
-    link.type = 'text/css';
-    link.rel = 'stylesheet';
-    link.onload = function() { resolve(); console.log('style has loaded'); };
-    link.href = "./dynamic_widget_unlinked" + cssWide + extension;
-
-    let headScript = document.querySelector('script');
-    headScript.parentNode.insertBefore(link, headScript);
-  });
-};
 
 /***************************** SETUP ENVIRONMENTS ******************************
  * @function setupEnvironment
