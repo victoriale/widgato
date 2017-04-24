@@ -149,7 +149,14 @@ var options = {
       name: "Domain",
       type: "text"
     },
-    
+    wide:{
+      default: "",
+      enabled: true,
+      explanation: "Choose which type of dynamic unlink to render (normal/wide)",
+      name: "Wide",
+      type: "select",
+      options: ["","true", "false"]
+    },
     category:{
       default: "nfl",
       enabled: true,
@@ -158,7 +165,6 @@ var options = {
       type: "select",
       options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
     },
-
     group:{
       default: "sports",
       enabled: true,

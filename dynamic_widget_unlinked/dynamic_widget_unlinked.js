@@ -1,6 +1,7 @@
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var temp = location.search;
 var query = {}; //query string from sent parameters
+var cssWide;
 var apiCallUrl; // this is global call that is used for api calls
 var imageUrl = "images.synapsys.us"; // this is global call that is used for images
 var dwApi = "dw.synapsys.us/list_api.php"; // dynamic widget api
@@ -27,6 +28,9 @@ document.addEventListener("DOMContentLoaded", function(event) { // TAKE ANOTHER 
         listRand = query.rand ? query.rand : 1;
         //FIRST THING IS SETUP ENVIRONMENTS
         setupEnvironment(query);
+
+        //CHOOSE NORMAL OR WIDE .css
+        cssFile(query.wide);
 
         //THEN START UPDATING THE LISTS
         updateList(0);
@@ -57,6 +61,24 @@ function synapsysENV(env) {
     }
     return env;
 }
+
+// this will work in IE 10, 11 and Safari/Chrome/Firefox/Edge
+// add ES6 poly-fill for the Promise, if needed (or rewrite to use a callback)
+function cssFile(wide) {
+  cssWide = wide != null && wide != '' && wide != 'false' ? '_wide' : "";
+
+  return new Promise((resolve, reject) => {
+    let link = document.createElement('link');
+    let extension = ".css";
+    link.type = 'text/css';
+    link.rel = 'stylesheet';
+    link.onload = function() { resolve(); console.log('style has loaded'); };
+    link.href = "./dynamic_widget_unlinked" + cssWide + extension;
+
+    let headScript = document.querySelector('script');
+    headScript.parentNode.insertBefore(link, headScript);
+  });
+};
 
 /***************************** SETUP ENVIRONMENTS ******************************
  * @function setupEnvironment
@@ -346,7 +368,6 @@ function displayWidget() {
             }
 
             //FINANCE ONE OFF where if finance we want to use only 100% of the height;
-            console.log(subCategory);
             if (subCategory == 'finance') {
                 $("mainimg").style.backgroundSize = "auto 100%";
             } else {
