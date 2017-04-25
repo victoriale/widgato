@@ -19,7 +19,7 @@ friendlyIframe.width = '300';
 friendlyIframe.height = '250';
 friendlyIframe.src = 'about:blank';
 friendlyIframe.style.border = 'none';
-document.body.insertBefore(friendlyIframe, currentScript);
+currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
 var iframeContent = friendlyIframe.contentWindow;
 //inject HTML and CSS structure
   iframeContent.document.write(`
