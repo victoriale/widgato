@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", function(event) { // TAKE ANOTHER 
         setupEnvironment(query);
 
         //Flag if wideScript exists then run certain scripts differently
-        wideScript();
+        wideScript(query.wide);
 
         //THEN START UPDATING THE LISTS
         updateList(0);
@@ -67,9 +67,9 @@ function synapsysENV(env) {
 //simple flag that checks if there is an identifier and it is javascript
 // DOES NOT CHANGE ON RESIZE use onresize or event listener for that
 // currently it is to run on first load
-function wideScript(){
+function wideScript(wide){
   windowWidth = window.innerWidth;
-  if(windowWidth > widthBreakpoint){
+  if( windowWidth > widthBreakpoint ){
     wideWidget = true;
   }
 }
