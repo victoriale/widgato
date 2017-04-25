@@ -1,7 +1,7 @@
 var centipede = function() {
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-//create friendly iframe to place ourselves inside
 var countSelf = document.getElementsByClassName("centipedeIframe");
+//grab the current script dom element
 var embedURL = "centipede.js";
 var currentScript = document.currentScript || (function() {
   var scripts = document.getElementsByTagName('script');
@@ -11,6 +11,7 @@ var currentScript = document.currentScript || (function() {
     }
   }
 })();
+//create friendly iframe to place ourselves inside
 var friendlyIframe = document.createElement('iframe');
 friendlyIframe.id = "friendlyIframe_" + countSelf.length;
 friendlyIframe.className = "centipedeIframe"
@@ -18,7 +19,7 @@ friendlyIframe.width = '300';
 friendlyIframe.height = '250';
 friendlyIframe.src = 'about:blank';
 friendlyIframe.style.border = 'none';
-document.body.insertBefore(friendlyIframe, currentScript);
+currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
 var iframeContent = friendlyIframe.contentWindow;
 //inject HTML and CSS structure
   iframeContent.document.write(`
