@@ -1,6 +1,9 @@
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var temp = location.search;
 var query = {}; //query string from sent parameters
+var widthBreakpoint = 649; // in pixels
+var wideWidget = false; // flag that changes certain functions to run differently (default = false)
+var windowWidth;
 var apiCallUrl; // this is global call that is used for api calls
 var imageUrl = "images.synapsys.us"; // this is global call that is used for images
 var dwApi = "dw.synapsys.us/list_api.php"; // dynamic widget api
@@ -27,6 +30,9 @@ document.addEventListener("DOMContentLoaded", function(event) { // TAKE ANOTHER 
         listRand = query.rand ? query.rand : 1;
         //FIRST THING IS SETUP ENVIRONMENTS
         setupEnvironment(query);
+
+        //Flag if wideScript exists then run certain scripts differently
+        wideScript();
 
         //THEN START UPDATING THE LISTS
         updateList(0);
@@ -56,6 +62,16 @@ function synapsysENV(env) {
         env = '';
     }
     return env;
+}
+
+//simple flag that checks if there is an identifier and it is javascript
+// DOES NOT CHANGE ON RESIZE use onresize or event listener for that
+// currently it is to run on first load
+function wideScript(){
+  windowWidth = window.innerWidth;
+  if(windowWidth > widthBreakpoint){
+    wideWidget = true;
+  }
 }
 
 /***************************** SETUP ENVIRONMENTS ******************************
@@ -104,7 +120,7 @@ function setupEnvironment(widgetQuery) {
     }
 
     //FALL BACK API SET HERE INCASE Dynamic widget api fails to make a call
-    fallBackApi =  protocolToUse + synapsysENV(environment) + dwApi + "?group=sports";
+    fallBackApi = protocolToUse + synapsysENV(environment) + dwApi + "?group=sports";
 }
 
 /************************ UPDATE LIST ***********************
@@ -236,10 +252,10 @@ function runAPI(apiUrl) { //Make it to where it is easy to be reused by anyone
                     }
                 }
                 msg = 'HTTP Error (' + this.status + '): ' + msg;
-                if ( tries > (maxTries - 2) ){
-                  console.warn( msg + " | hiding widget container | => SWAPPING TO FALLBACK" );
-                  apiUrl = fallBackApi+"&rand=1";
-                  apiCallUrl = fallBackApi;
+                if (tries > (maxTries - 2)) {
+                    console.warn(msg + " | hiding widget container | => SWAPPING TO FALLBACK");
+                    apiUrl = fallBackApi + "&rand=1";
+                    apiCallUrl = fallBackApi;
                 }
                 if (tries++ > maxTries) { // IF WIDGET FAILS THEN HIDE THE ENTIRE CONTAINER
                     document.getElementsByClassName('e_container')[0].style.display = 'none';
@@ -288,7 +304,7 @@ function displayWidget() {
             if (curData.rankType == "player") {
                 let image = checkImage(imageUrl + curData.playerHeadshotUrl);
                 if (image != null) {
-                  $("mainimg").style.backgroundImage = "url('"+image+"')";
+                    $("mainimg").style.backgroundImage = "url('" + image + "')";
                 }
 
                 $("profile-name").innerHTML = curData.playerFirstName + " " + curData.playerLastName;
@@ -300,7 +316,7 @@ function displayWidget() {
             } else {
                 let image = checkImage(imageUrl + curData.teamLogo);
                 if (image != null) {
-                  $("mainimg").style.backgroundImage = "url('"+image+"')";
+                    $("mainimg").style.backgroundImage = "url('" + image + "')";
                 }
 
                 $("profile-name").innerHTML = curData.teamName;
@@ -314,9 +330,9 @@ function displayWidget() {
             let dataArray = widgetData.l_data;
 
             //checks if a category from group lists is being sent back then setting it as the subCategoryto be checked for proper color and fallback images
-            if ( query.group != null && widgetData.category != null) {
+            if (query.group != null && widgetData.category != null) {
                 subCategory = widgetData.category;
-            }else if ( query.group != null && widgetData.category == null ){
+            } else if (query.group != null && widgetData.category == null) {
                 subCategory = null;
             }
 
@@ -333,17 +349,26 @@ function displayWidget() {
             //checks if a proper live image is being sent from team_wide_img or player_wide_img otherwise default to li_img datapoint
             let image;
 
-            if(curData.player_wide_img != null && curData.player_wide_img != ""){
-              image = checkImage(imageUrl+curData.player_wide_img);
-            }else if( (curData.player_wide_img == null || curData.player_wide_img == "") && (curData.team_wide_img != null && curData.team_wide_img != "") ){
-              image = checkImage(imageUrl+curData.team_wide_img);
-            }else{
-              image = checkImage(curData.li_img);
+            if (curData.player_wide_img != null && curData.player_wide_img != "") {
+                image = checkImage(imageUrl + curData.player_wide_img);
+            } else if ((curData.player_wide_img == null || curData.player_wide_img == "") && (curData.team_wide_img != null && curData.team_wide_img != "")) {
+                image = checkImage(imageUrl + curData.team_wide_img);
+            } else {
+                image = checkImage(curData.li_img);
             }
 
             if (image != null) {
-              $("mainimg").style.backgroundImage = "url('"+image+"')";
+                $("mainimg").style.backgroundImage = "url('" + image + "')";
             }
+
+            //FINANCE ONE OFF where if finance we want to use only 100% of the height;
+            if (subCategory == 'finance') {
+                $("mainimg").style.backgroundSize = "auto 100%";
+            } else {
+                $("mainimg").style.backgroundSize = "cover";
+            }
+
+            $("mainimg").style.backgroundImage
 
             $("profile-rank").innerHTML = curData.li_rank;
             $("mainimg-rank").innerHTML = curData.li_rank;
@@ -385,7 +410,7 @@ function setCategoryColors(category) {
             break;
         case 'baseball':
         case 'mlb':
-        category = 'baseball';
+            category = 'baseball';
             break;
         case "realestate":
         case "disaster":
@@ -393,11 +418,14 @@ function setCategoryColors(category) {
         case "crime":
         case "weather":
         case "politics":
-        category = 'realestate';
+            category = 'realestate';
             break;
         case "finance":
         case "money":
-        category = 'finance';
+            category = 'finance';
+            break;
+        case "celebrities":
+            category = 'celebrities';
             break;
         default:
             category = 'default';
@@ -546,7 +574,7 @@ function setCategoryColors(category) {
 function updateIndex(difference) {
     currentIndex += difference;
     if (currentIndex < 0) {
-        currentIndex = maxIndex -1;
+        currentIndex = maxIndex - 1;
     } else if (currentIndex >= maxIndex) {
         currentIndex = 0;
     } else {}
@@ -589,50 +617,60 @@ function checkImage(image) {
     let imageReturn;
     let showCover;
     var fallbackImg;
-
+    let imageWidth = wideWidget ? 690 : 300; //determine which quality widget to use based on if the wide widget is in view
     // $("mainimg").setAttribute('src', '');
 
     //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
     switch (subCategory) {
-      case "football":
-      case "nfl":
-      case "ncaaf":
-      case "nflncaaf":
-      fallbackImg = "football_stock.jpg";
-      break;
-      case 'basketball':
-      case "nba":
-      case 'ncaam':
-      case "college_basketball":
-      fallbackImg = "basketball_stock.jpg";
-      break;
-      case "finance":
-      fallbackImg = "finance_stock.jpg";
-      break;
-      case "mlb":
-      fallbackImg = "baseball_stock.jpg";
-      break;
-      case "realestate":
-      case "disaster":
-      case "demographics":
-      case "crime":
-      case "weather":
-      case "politics":
-      fallbackImg = "real_estate_stock.jpg";
-      break;
-      default:
-      fallbackImg = "failback.jpg";
+        case "football":
+        case "nfl":
+        case "ncaaf":
+        case "nflncaaf":
+            fallbackImg = "football_stock.jpg";
+            break;
+        case 'basketball':
+        case "nba":
+        case 'ncaam':
+        case "college_basketball":
+            fallbackImg = "basketball_stock.jpg";
+            break;
+        case "finance":
+            fallbackImg = "finance_stock.jpg";
+            break;
+        case "mlb":
+            fallbackImg = "baseball_stock.jpg";
+            break;
+        case "realestate":
+        case "disaster":
+        case "demographics":
+        case "crime":
+        case "weather":
+        case "politics":
+            fallbackImg = "real_estate_stock.jpg";
+            break;
+        case "celebrities":
+            fallbackImg = "failback.jpg";
+            break;
+        default:
+            fallbackImg = "failback.jpg";
     }
     //prep return
-    if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && image.indexOf('no_player') == -1 && window.location.pathname.indexOf('_970') == -1) {
-        imageReturn = image + "?width=" + (300 * window.devicePixelRatio);
+    //use global flag for wideWidget (if wide widget is being used then all images are to be returned as fallback stock images)
+    if (image != null
+      && image.indexOf('no-image') == -1
+      && image.indexOf('no_image') == -1
+      && image.indexOf('no_player') == -1
+      && window.location.pathname.indexOf('_970') == -1
+      && !wideWidget
+    ) {
+        imageReturn = image + "?width=" + (imageWidth * window.devicePixelRatio);
         showCover = false;
     } else {
         showCover = true;
         //make sure there is a fallback image
         imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
         //sets flag for image api to send back image with set size based on devicePixelRatio
-        imageReturn += "?width=" + (300 * window.devicePixelRatio);
+        imageReturn += "?width=" + (imageWidth * window.devicePixelRatio);
     }
 
     // $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE

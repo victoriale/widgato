@@ -165,7 +165,7 @@ button:hover {
 .line-clamp {
   /*Modifed for _wide.css*/
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -493,4 +493,7 @@ button:hover {
     .e_image-title {
         font-size: 16px;
     }
+
+
+
 }
