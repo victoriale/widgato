@@ -149,7 +149,6 @@ var options = {
       name: "Domain",
       type: "text"
     },
-    
     category:{
       default: "nfl",
       enabled: true,
@@ -158,7 +157,6 @@ var options = {
       type: "select",
       options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
     },
-
     group:{
       default: "sports",
       enabled: true,
@@ -191,6 +189,56 @@ var options = {
     },
     type: "dynamic_group_<group>",
     output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","targ":"<targ>","category":"<category>","group":"<group>","rand":"<rand>","env":"<env>"}'
+  },
+
+  dynamic_widget_unlinked_wide:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+    },
+    group:{
+      default: "sports",
+      enabled: true,
+      explanation: "The card of lists and style of widget to use.",
+      name: "Group",
+      type: "select",
+      options: ["","sports","weather","money"]
+    },
+    sub_category:{
+      default: "",
+      enabled: false,
+      explanation: "",
+      name: "Sub Category",
+      type: "text"
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod","qa","dev"]
+    },
+    type: "dynamic_group_<group>_wide",
+    output: '../dynamic_widget_unlinked/index_wide.html?{"dom":"<domain>","targ":"<targ>","category":"<category>","group":"<group>","rand":"<rand>","env":"<env>"}'
   },
 
   dynamic_article_widget:{
