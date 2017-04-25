@@ -62,7 +62,7 @@ function synapsysENV(env) {
     return env;
 }
 
-//simple flag that checks if there is an identifier
+//simple flag that checks if there is an identifier and it is javascript
 function wideScript(){
   var script = $('wideScript');
   if(script && script.type == 'text/javascript'){
@@ -420,8 +420,8 @@ function setCategoryColors(category) {
         case "money":
             category = 'finance';
             break;
-        case "celebrity":
-            category = 'celebrity';
+        case "celebrities":
+            category = 'celebrities';
             break;
         default:
             category = 'default';
@@ -644,7 +644,7 @@ function checkImage(image) {
         case "politics":
             fallbackImg = "real_estate_stock.jpg";
             break;
-        case "celebrity":
+        case "celebrities":
             fallbackImg = "failback.jpg";
             break;
         default:

@@ -8,19 +8,24 @@
   <link title="5embed" rel="stylesheet" type="text/css" href="./dynamic_widget_unlinked_wide.css">
   <script id="wideScript" type="text/javascript" src="./dynamic_widget_unlinked.js"></script>
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
-  <script>var $ = function(e) {return document.getElementById(e)};</script>
+  <script>
+    var $ = function(e) {
+      return document.getElementById(e)
+    };
+  </script>
   <base target="_blank">
 </head>
+
 <body>
   <div class="widget_ad">
     <div class="e_container inheritor" id="color_inheritor">
       <div class="e_widget">
         <div class="e_image-carousel">
           <div class="snt_logo">
-              <div class="snt_brand float-right">
-                <img src="../css/public/snt_logo_default.jpg" class="float-left snt_default"/>
-                <img src="../css/public/snt_logo_expand.jpg" class="float-left snt_expand"/>
-              </div>
+            <div class="snt_brand float-right">
+              <img src="../css/public/snt_logo_default.jpg" class="float-left snt_default" />
+              <img src="../css/public/snt_logo_expand.jpg" class="float-left snt_expand" />
+            </div>
           </div>
           <div class="e_image-shader" id="e_image-shader"></div>
           <div class="e_image-cover inheritor_img_bg" id="background_inheritor">
@@ -46,7 +51,7 @@
                         <span id="profile-datapoint1"></span>
                         <span id="profile-datavalue1"></span>
                       </div>
-                      <div  class="lh18 text-wrap">
+                      <div class="lh18 text-wrap">
                         <span id="profile-datavalue2"></span>
                         <span id="profile-datapoint2"></span>
                       </div>
@@ -58,14 +63,14 @@
                   <span>Last Updated on </span>
                   <span id="profile-updated"></span>
                 </div> -->
+                </div>
+              </div>
+              <div class="e_info_box-cta">
+                <button id="button_inheritor" class="cta_button-list leftTransform inheritor_border inheritor_bg" onclick="updateList(1)"><span>Next List</span></button>
+                <button class="cta_button-previous rightTransform black_background" onclick="updateIndex(-1)"><i class="fa fa-arrow-left"></i></button>
+                <button class="cta_button-next leftTransform black_background" onclick="updateIndex(1)"><i class="fa fa-arrow-right"></i></button>
               </div>
             </div>
-            <div class="e_info_box-cta">
-              <button id="button_inheritor" class="cta_button-list leftTransform inheritor_border inheritor_bg" onclick="updateList(1)"><span>Next List</span></button>
-              <button class="cta_button-previous rightTransform black_background" onclick="updateIndex(-1)"><i class="fa fa-arrow-left"></i></button>
-              <button class="cta_button-next leftTransform black_background" onclick="updateIndex(1)"><i class="fa fa-arrow-right"></i></button>
-            </div>
-          </div>
           </div>
 
         </div>
@@ -73,7 +78,7 @@
       </div>
       <div class="margin_gap"></div>
     </div>
-    <div class="e_advertisement"></div>
+    <!-- <div class="e_advertisement"></div> -->
   </div>
 </body>
 
