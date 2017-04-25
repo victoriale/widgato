@@ -1,7 +1,7 @@
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var temp = location.search;
 var query = {}; //query string from sent parameters
-var cssWide;
+var wideWidget = false; // flag that changes certain functions to run differently (default = false)
 var apiCallUrl; // this is global call that is used for api calls
 var imageUrl = "images.synapsys.us"; // this is global call that is used for images
 var dwApi = "dw.synapsys.us/list_api.php"; // dynamic widget api
@@ -28,6 +28,9 @@ document.addEventListener("DOMContentLoaded", function(event) { // TAKE ANOTHER 
         listRand = query.rand ? query.rand : 1;
         //FIRST THING IS SETUP ENVIRONMENTS
         setupEnvironment(query);
+
+        //Flag if wideScript exists then run certain scripts differently
+        wideScript();
 
         //THEN START UPDATING THE LISTS
         updateList(0);
@@ -57,6 +60,14 @@ function synapsysENV(env) {
         env = '';
     }
     return env;
+}
+
+//simple flag that checks if there is an identifier
+function wideScript(){
+  var script = $('wideScript');
+  if(script && script.type == 'text/javascript'){
+    wideWidget = true;
+  }
 }
 
 /***************************** SETUP ENVIRONMENTS ******************************
@@ -640,7 +651,14 @@ function checkImage(image) {
             fallbackImg = "failback.jpg";
     }
     //prep return
-    if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && image.indexOf('no_player') == -1 && window.location.pathname.indexOf('_970') == -1) {
+    //use global flag for wideWidget (if wide widget is being used then all images are to be returned as fallback stock images)
+    if (image != null
+      && image.indexOf('no-image') == -1
+      && image.indexOf('no_image') == -1
+      && image.indexOf('no_player') == -1
+      && window.location.pathname.indexOf('_970') == -1
+      && !wideWidget
+    ) {
         imageReturn = image + "?width=" + (300 * window.devicePixelRatio);
         showCover = false;
     } else {

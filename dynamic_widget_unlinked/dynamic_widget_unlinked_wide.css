@@ -111,7 +111,7 @@ button:hover {
 .widget_ad {
     /*Modifed for _wide.css*/
     width: 100%;
-    max-width: 972px;
+    max-width: 992px;
     min-width: 650px;
     height: 250px;
     margin: auto;
@@ -142,22 +142,30 @@ button:hover {
     position: relative;
 }
 
+.e_data_box{
+  /*Modifed for _wide.css*/
+  width:100%;
+  height:100%;
+  position: absolute;
+  top:0;
+  left:0;
+  z-index: 3;
+}
+
 .e_image-title {
-    /*Modifed for _wide.css*/
+  /*Modifed for _wide.css*/
     color: white;
-    margin: 0 30px 0 30px;
-    font-size: 16px;
-    line-height: 26px;
+    margin: 30px;
+    font-size: 20px;
+    line-height: 24px;
+    height:48px;
     text-align: left;
-    position: absolute;
-    z-index: 3;
-    left: 0;
-    top: 30px;
 }
 
 .line-clamp {
+  /*Modifed for _wide.css*/
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
@@ -186,18 +194,20 @@ button:hover {
 }
 
 .e_image-shader {
-    /*Modifed for _wide.css*/
+  /*Modifed for _wide.css*/
+    display: block !important;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.8));
+    background-color: rgba(0, 0, 0, 0.45);
     z-index: 1;
 }
 
 .e_image-cover {
-    display: none;
+  /*Modifed for _wide.css*/
+    display: block !important;
     width: 100%;
     height: 100%;
     position: absolute;
@@ -230,7 +240,6 @@ button:hover {
 
 .e_info_box {
     /*Modifed for _wide.css*/
-    position: absolute;
     width: auto;
     min-width: 350px;
     height: 140px;
@@ -241,14 +250,15 @@ button:hover {
 .e_info_box-profile {
     /*Modifed for _wide.css*/
     width: 100%;
-    height: 90px;
+    margin-bottom: 30px;
 }
 
 .block-data {
     /*Modifed for _wide.css*/
     margin-left: 15px;
-    width: 100%;
+    width: auto;
     height: 50px;
+    text-align: left;
 }
 
 .profile-rank {
@@ -335,25 +345,28 @@ button:hover {
     width: 100%;
     height: 35px;
     color: inherit;
+    text-align: left;
 }
 
 .e_info_box-cta button {
+    /*Modifed for _wide.css*/
     border-radius: 5px;
     color: inherit;
-    background-color: #ffffff;
+    background-color: transparent;
     display: inline-block;
     position: relative;
 }
 
 .cta_button-list {
+  /*Modifed for _wide.css*/
+  background-color: #ffffff !important;
     width: 140px;
     height: 100%;
-    margin-left: 15px;
+    margin-left: 30px;
     border: 1px solid;
     font-size: 12px;
     fill: inherit;
     color: inherit;
-    background-color: #ffffff;
 }
 
 .cta_button-list:hover {
@@ -422,7 +435,8 @@ button:hover {
 }
 
 .cta_button-previous {
-    color: #999999 !important;
+    /*Modifed for _wide.css*/
+    color: #ffffff !important;
     width: 57px;
     height: 100%;
     margin-left: 6px;
@@ -438,7 +452,8 @@ button:hover {
 }
 
 .cta_button-next {
-    color: #999999 !important;
+    /*Modifed for _wide.css*/
+    color: #ffffff !important;
     width: 57px;
     height: 100%;
     margin-left: 1px;
@@ -471,4 +486,11 @@ button:hover {
     width: 300px;
     height: 250px;
     background-color: #000000;
+}
+
+/*Modifed for _wide.css*/
+@media only screen and (max-width: 992px) {
+    .e_image-title {
+        font-size: 16px;
+    }
 }
