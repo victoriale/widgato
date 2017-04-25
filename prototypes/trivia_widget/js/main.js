@@ -213,7 +213,7 @@
                 question: "Which of these films did not win the Academy Award for Best Picture?",
                 options: {
                     "1": {
-                        value: "Chicaog",
+                        value: "Chicago",
                         correct: false
                     },
                     "2": {
