@@ -83,11 +83,11 @@ function wideScript(wide){
  */
 function setupEnvironment(widgetQuery) {
     apiCallUrl = protocolToUse;
-    let dom = widgetQuery.dom;
-    let cat = widgetQuery.category;
-    let group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
-    let environment = window.location.hostname.split('.')[0];
-    let env;
+    var dom = widgetQuery.dom;
+    var cat = widgetQuery.category;
+    var group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
+    var environment = window.location.hostname.split('.')[0];
+    var env;
     if (widgetQuery.env != null) {
         env = widgetQuery.env ? widgetQuery.env : 'prod';
     } else {
@@ -136,7 +136,7 @@ function updateList(listNum) {
         getFootballList(query.category);
     } else {
         listRand = Number(listRand) + Number(listNum);
-        let currentApi = apiCallUrl + "&rand=" + listRand;
+        var currentApi = apiCallUrl + "&rand=" + listRand;
         runAPI(currentApi);
     }
 }
@@ -185,7 +185,7 @@ function getRandFootballList(jsonArray) {
     rand = Math.floor((Math.random() * (jsonArray.length - 1)) + 1);
     var date = new Date;
     var compareDate = new Date('09/15/' + date.getFullYear());
-    let season;
+    var season;
     if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
         season = jsonArray[rand] + "&season=" + date.getFullYear();
     } else if (date.getMonth() > compareDate.getMonth()) {
@@ -288,11 +288,11 @@ function displayWidget() {
 
         /***************************FOOTBALL DATA APPLIANCE*******************************/
         if (query.group == null && (query.category == "football" || query.category == "nfl" || query.category == "ncaaf")) {
-            let dataArray = widgetData.data.listData;
+            var dataArray = widgetData.data.listData;
             setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
             maxIndex = dataArray.length;
-            let curData = dataArray[currentIndex];
+            var curData = dataArray[currentIndex];
 
             //list title
             $("profile-title").innerHTML = widgetData.data.listInfo.listName;
@@ -302,7 +302,7 @@ function displayWidget() {
 
             //current index of a player or team to display
             if (curData.rankType == "player") {
-                let image = checkImage(imageUrl + curData.playerHeadshotUrl);
+                var image = checkImage(imageUrl + curData.playerHeadshotUrl);
                 if (image != null) {
                     $("mainimg").style.backgroundImage = "url('" + image + "')";
                 }
@@ -314,7 +314,7 @@ function displayWidget() {
                 $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
                 $("profile-datapoint2").innerHTML = " " + curData.statDescription;
             } else {
-                let image = checkImage(imageUrl + curData.teamLogo);
+                var image = checkImage(imageUrl + curData.teamLogo);
                 if (image != null) {
                     $("mainimg").style.backgroundImage = "url('" + image + "')";
                 }
@@ -327,7 +327,7 @@ function displayWidget() {
             }
             /***************************END OF FOOTBALL DATA*******************************/
         } else { /***************************DYNAMIC DATA APPLIANCE*******************************/
-            let dataArray = widgetData.l_data;
+            var dataArray = widgetData.l_data;
 
             //checks if a category from group lists is being sent back then setting it as the subCategoryto be checked for proper color and fallback images
             if (query.group != null && widgetData.category != null) {
@@ -340,13 +340,13 @@ function displayWidget() {
             //set maximum index of returned dataLayer
             maxIndex = dataArray.length;
             //current index of list
-            let curData = dataArray[currentIndex];
+            var curData = dataArray[currentIndex];
 
             //list title
             $("profile-title").innerHTML = widgetData.l_title;
 
             //checks if a proper live image is being sent from team_wide_img or player_wide_img otherwise default to li_img datapoint
-            let image;
+            var image;
 
             if (curData.player_wide_img != null && curData.player_wide_img != "") {
                 image = checkImage(imageUrl + curData.player_wide_img);
@@ -410,7 +410,7 @@ function displayWidget() {
  * @param function category - sets the base category for colors that are stored in the global ./css/inheritor/inheritor.css
  */
 function setCategoryColors(category) {
-    let color;
+    var color;
     switch (category) {
         case 'football':
         case 'nfl':
@@ -506,7 +506,7 @@ function setCategoryColors(category) {
     //  *     styleColor - uses color based on the categoryColors and category
     //  */
     // function classLoop(cssName, style, styleColor) {
-    //     let styleSheets = getCssSelector("5embed");
+    //     var styleSheets = getCssSelector("5embed");
     //
     //     //delete inheritor rule and RE-APPLY css with new rule (easier when only one cssrule is needed to change)
     //     if (styleSheets) {
@@ -549,7 +549,7 @@ function setCategoryColors(category) {
     //  * @param function title - send in the title to choose which selector
     //  */
     // function getCssSelector(title) {
-    //     let selector = document.styleSheets;
+    //     var selector = document.styleSheets;
     //     for (var index = 0; index < selector.length; index++) {
     //         if (selector[index].title == title) {
     //             return selector[index];
@@ -613,10 +613,10 @@ function updateIndex(difference) {
  *       yearNum - displays year
  */
 function dateFormat(weekdayNum, dayNum, monthNum, yearNum) {
-    let monthNames = ["January", "February", "March", "April", "May", "June",
+    var monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
-    let dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     var formatedDate = {
         weekday: dayNames[weekdayNum],
@@ -634,10 +634,10 @@ function dateFormat(weekdayNum, dayNum, monthNum, yearNum) {
  * @param function image - tosses in image to be check to be replaced with proper stock photo for the specific category
  */
 function checkImage(image) {
-    let imageReturn;
-    let showCover;
+    var imageReturn;
+    var showCover;
     var fallbackImg;
-    let imageWidth = wideWidget ? 690 : 300; //determine which quality widget to use based on if the wide widget is in view
+    var imageWidth = wideWidget ? 690 : 300; //determine which quality widget to use based on if the wide widget is in view
     // $("mainimg").setAttribute('src', '');
 
     //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
@@ -699,7 +699,7 @@ function checkImage(image) {
     // $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
 
     //USED to display background color of category if a fallback image is sent back
-    let imageBackground = document.getElementsByClassName('e_image-cover');
+    var imageBackground = document.getElementsByClassName('e_image-cover');
     for (var j = 0; j < imageBackground.length; j++) {
         if (showCover) {
             $("e_image-shader").style.display = "none";
