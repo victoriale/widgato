@@ -1,7 +1,12 @@
 
-/* USE BELOW AS BASE COPY AND PASE THEN CHANGE COLORS AND NAME OF CLASSES TO WHAT YOU WANT TO USE
+/* USE BELOW AS BASE COPY AND PASE THEN CHANGE COLORS
+** NAME OF CLASSES TO WHAT YOU WANT TO USE
 ** Classes in here will be used dynamically to change inheritted colors
+** NOTE there is a breakpoint that reverses logic of a few inheritors
+** PLEASE Search for QUERY BREAKPOINT to find these query breakpoints
 */
+
+/*******************************DEFAULT*******************************/
 .inheritor {
     color: #009dfb ;
 }
@@ -17,11 +22,7 @@
 .inheritor_bg:hover:before {
     background-color: #009dfb  !important;
 }
-
-/*
-** Classes in here will be used dynamically to change inheritted colors
-*/
-
+/*******************************DEFAULT*******************************/
 
 /*******************************FOOTBALL*******************************/
 .football-inheritor {
@@ -203,20 +204,172 @@
 }
 /*******************************WEATHER*******************************/
 
-/*******************************CELEBRITY*****************************/
-.celebrity-inheritor {
+/*******************************ENTERTAINMENT*****************************/
+.entertainment-inheritor {
     color: #6459d3;
 }
 
-.celebrity-inheritor_border{
+.entertainment-inheritor_border{
     border: 1px solid #6459d3 !important;
 }
 
-.celebrity-inheritor_img_bg {
+.entertainment-inheritor_img_bg {
     background-color: #6459d3 !important;
 }
 
-.celebrity-inheritor_bg:hover:before {
+.entertainment-inheritor_bg:hover:before {
     background-color: #6459d3 !important;
 }
-/*******************************CELEBRITY*******************************/
+/*******************************ENTERTAINMENT*******************************/
+
+
+
+
+
+/*NOTE******************************QUERY BREAKPOINTS*************************NOTE*/
+@media screen and (min-width: 650px), (min-width: 992px){
+  /*******************************DEFAULT*******************************/
+  .inheritor_border{
+      border: 1px solid #009dfb  !important;
+  }
+  .inheritor_bg {
+      background-color: #009dfb  !important;
+  }
+  .inheritor_bg:hover:before {
+      background-color: #ffffff  !important;
+  }
+  /*******************************DEFAULT*******************************/
+
+  /*******************************FOOTBALL*******************************/
+  .football-inheritor_border{
+      border: 1px solid #004e87 !important;
+  }
+  .football-inheritor_bg {
+      background-color: #004e87  !important;
+  }
+  .football-inheritor_bg:hover:before {
+      background-color: #ffffff  !important;
+  }
+  /*******************************FOOTBALL*******************************/
+
+  /*******************************BASKETBALL*******************************/
+  .basketball-inheritor_border{
+      border: 1px solid #f26f26 !important;
+  }
+  .basketball-inheritor_bg {
+      background-color: #f26f26  !important;
+  }
+  .basketball-inheritor_bg:hover:before {
+      background-color: #ffffff  !important;
+  }
+  /*******************************BASKETBALL*******************************/
+
+  /*******************************BASEBALL*******************************/
+  .baseball-inheritor_border{
+      border: 1px solid #bc2027 !important;
+  }
+  .baseball-inheritor_bg {
+      background-color: #bc2027  !important;
+  }
+  .baseball-inheritor_bg:hover:before {
+      background-color: #ffffff  !important;
+  }
+  /*******************************BASEBALL*******************************/
+
+  /*******************************FINANCE*******************************/
+  .finance-inheritor_border{
+      border: 1px solid #3098ff !important;
+  }
+  .finance-inheritor_bg {
+      background-color: #3098ff  !important;
+  }
+  .finance-inheritor_bg:hover:before {
+      background-color: #ffffff  !important;
+  }
+  /*******************************FINANCE*******************************/
+
+  /*******************************REALESTATE*******************************/
+  .realestate-inheritor_border{
+      border: 1px solid #43B149 !important;
+  }
+  .realestate-inheritor_bg {
+      background-color: #43B149  !important;
+  }
+  .realestate-inheritor_bg:hover:before {
+      background-color: #ffffff  !important;
+  }
+  /*******************************REALESTATE*******************************/
+
+  /*******************************LIFESTYLE*******************************/
+  .lifestyle-inheritor_border{
+      border: 1px solid #43B149 !important;
+  }
+  .lifestyle-inheritor_bg {
+      background-color: #43B149  !important;
+  }
+  .lifestyle-inheritor_bg:hover:before {
+      background-color: #ffffff  !important;
+  }
+  /*******************************LIFESTYLE*******************************/
+
+  /*******************************DISASTER*******************************/
+  .disaster-inheritor_border{
+      border: 1px solid #43B149 !important;
+  }
+  .disaster-inheritor_bg {
+      background-color: #43B149  !important;
+  }
+  .disaster-inheritor_bg:hover:before {
+      background-color: #ffffff  !important;
+  }
+  /*******************************DISASTER*******************************/
+
+  /*******************************POLITICS*******************************/
+  .politics-inheritor_border{
+      border: 1px solid #43B149 !important;
+  }
+  .politics-inheritor_bg {
+      background-color: #43B149  !important;
+  }
+  .politics-inheritor_bg:hover:before {
+      background-color: #ffffff  !important;
+  }
+  /*******************************POLITICS*******************************/
+
+  /*******************************CRIME*******************************/
+  .crime-inheritor_border{
+      border: 1px solid #43B149 !important;
+  }
+  .crime-inheritor_bg {
+      background-color: #43B149  !important;
+  }
+  .crime-inheritor_bg:hover:before {
+      background-color: #ffffff  !important;
+  }
+  /*******************************CRIME*******************************/
+
+  /*******************************WEATHER*******************************/
+  .weather-inheritor_border{
+      border: 1px solid #43B149 !important;
+  }
+  .weather-inheritor_bg {
+      background-color: #43B149  !important;
+  }
+  .weather-inheritor_bg:hover:before {
+      background-color: #ffffff  !important;
+  }
+  /*******************************WEATHER*******************************/
+
+  /*******************************ENTERTAINMENT*****************************/
+  .entertainment-inheritor_border{
+      border: 1px solid #6459d3 !important;
+  }
+  .entertainment-inheritor_bg {
+      background-color: #6459d3  !important;
+  }
+  .entertainment-inheritor_bg:hover:before {
+      background-color: #ffffff  !important;
+  }
+  /*******************************ENTERTAINMENT*******************************/
+}
+/*NOTE******************************QUERY BREAKPOINTS*************************NOTE*/
