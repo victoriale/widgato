@@ -336,7 +336,6 @@ function displayWidget() {
                 subCategory = null;
             }
 
-
             setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
             maxIndex = dataArray.length;
@@ -369,14 +368,31 @@ function displayWidget() {
             }
 
             $("mainimg").style.backgroundImage
+            //CELEBRITIES ONE OFF to set proper structure
+            if(subCategory == 'celebrities'){
+              $("profile-rank").innerHTML = curData.li_rank;
+              $("mainimg-rank").innerHTML = curData.li_rank;
+              $("profile-name").innerHTML = curData.li_title;
+              // $("profile-datapoint1").innerHTML = curData.li_value;
+              if(curData.data_value_1){
+                $("profile-datavalue1").innerHTML = curData.data_value_1;
+                $("profile-datapoint1").innerHTML = curData.data_point_1 != null ? curData.data_point_1 : '';
+              }else{
+                $("profile-datavalue1").innerHTML = curData.fallback_data_value_1 != null ? curData.fallback_data_value_1 : '';
+                $("profile-datapoint1").innerHTML = curData.fallback_data_point_1 != null ? curData.fallback_data_point_1 : '';
+              }
 
-            $("profile-rank").innerHTML = curData.li_rank;
-            $("mainimg-rank").innerHTML = curData.li_rank;
-            $("profile-name").innerHTML = curData.li_title;
-            // $("profile-datapoint1").innerHTML = curData.li_value;
-            $("profile-datavalue1").innerHTML = curData.li_sub_txt;
-            $("profile-datapoint2").innerHTML = curData.li_tag;
-            $("profile-datavalue2").innerHTML = " " + curData.li_value;
+              $("profile-datapoint2").innerHTML = curData.data_point_2;
+              $("profile-datavalue2").innerHTML = " " + curData.data_value_2;
+            }else{
+              $("profile-rank").innerHTML = curData.li_rank;
+              $("mainimg-rank").innerHTML = curData.li_rank;
+              $("profile-name").innerHTML = curData.li_title;
+              // $("profile-datapoint1").innerHTML = curData.li_value;
+              $("profile-datavalue1").innerHTML = curData.li_sub_txt;
+              $("profile-datapoint2").innerHTML = curData.li_tag;
+              $("profile-datavalue2").innerHTML = " " + curData.li_value;
+            }
         }
         /***************************END OF DYNAMIC DATA*******************************/
     } catch (e) {
@@ -424,8 +440,12 @@ function setCategoryColors(category) {
         case "money":
             category = 'finance';
             break;
+        case "entertainment":
         case "celebrities":
-            category = 'celebrities';
+        case "actor":
+        case "musician":
+        case "director":
+            category = 'entertainment';
             break;
         default:
             category = 'default';
@@ -649,6 +669,9 @@ function checkImage(image) {
             fallbackImg = "real_estate_stock.jpg";
             break;
         case "celebrities":
+        case "actor":
+        case "musician":
+        case "director":
             fallbackImg = "failback.jpg";
             break;
         default:

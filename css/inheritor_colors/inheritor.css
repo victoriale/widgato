@@ -204,23 +204,23 @@
 }
 /*******************************WEATHER*******************************/
 
-/*******************************CELEBRITY*****************************/
-.celebrity-inheritor {
+/*******************************ENTERTAINMENT*****************************/
+.entertainment-inheritor {
     color: #6459d3;
 }
 
-.celebrity-inheritor_border{
+.entertainment-inheritor_border{
     border: 1px solid #6459d3 !important;
 }
 
-.celebrity-inheritor_img_bg {
+.entertainment-inheritor_img_bg {
     background-color: #6459d3 !important;
 }
 
-.celebrity-inheritor_bg:hover:before {
+.entertainment-inheritor_bg:hover:before {
     background-color: #6459d3 !important;
 }
-/*******************************CELEBRITY*******************************/
+/*******************************ENTERTAINMENT*******************************/
 
 
 
@@ -360,16 +360,16 @@
   }
   /*******************************WEATHER*******************************/
 
-  /*******************************CELEBRITY*****************************/
-  .celebrity-inheritor_border{
+  /*******************************ENTERTAINMENT*****************************/
+  .entertainment-inheritor_border{
       border: 1px solid #6459d3 !important;
   }
-  .celebrity-inheritor_bg {
+  .entertainment-inheritor_bg {
       background-color: #6459d3  !important;
   }
-  .celebrity-inheritor_bg:hover:before {
+  .entertainment-inheritor_bg:hover:before {
       background-color: #ffffff  !important;
   }
-  /*******************************CELEBRITY*******************************/
+  /*******************************ENTERTAINMENT*******************************/
 }
 /*NOTE******************************QUERY BREAKPOINTS*************************NOTE*/
