@@ -188,7 +188,7 @@ var options = {
       options: ["prod","qa","dev"]
     },
     type: "dynamic_group_<group>",
-    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","targ":"<targ>","category":"<category>","group":"<group>","rand":"<rand>","env":"<env>"}'
+    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","category":"<category>","group":"<group>","rand":"<rand>"}'
   },
 
   dynamic_article_widget:{
