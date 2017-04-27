@@ -49,8 +49,8 @@ gulp.task('default', ['clean','sportsbar-css','sportsbar-scripts'], function() {
 });
 
 gulp.task('uglify', function() {
-  gulp.src('dynamic_widget_unlinked/dynamic_widget_unlinked.unmin.js')
-    .pipe(rename('dynamic_widget_unlinked/dynamic_widget_unlinked.js'))
+  gulp.src('dynamic_widget_unlinked/dynamic_widget_unlinked.js')
     .pipe(uglify())
-    .pipe(gulp.dest('/'))
+    .pipe(rename('dynamic_widget_unlinked.min.js'))
+    .pipe(gulp.dest('dynamic_widget_unlinked'))
 });
