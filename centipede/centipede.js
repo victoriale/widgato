@@ -778,6 +778,7 @@ loadData();
   }
 
   function nextList(e) {
+    lazyLoaded = false;
     worm.innerHTML = "";
     firstAd.style.left = "0px";
     worm.scrollLeft = 0;
@@ -878,13 +879,7 @@ loadData();
         setSmoothScrollInterval = setInterval(function(){
           userScrolling = false;
           var marginOfError = Math.abs(scrollIncrements) - 1;
-          if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
-            if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
-              scrollIncrements = -1;
-            }
-            else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
-              scrollIncrements = 1;
-            }
+          if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) { //if we still have autoscrolling to do...
             //if within margin of error of target, end scroll
             if (i == (wormBlocks.length - 1) || counter > 30) {
               userScrolling = true;
@@ -895,17 +890,17 @@ loadData();
               clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
+              if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
+                scrollIncrements = -1;
+              }
+              else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
+                scrollIncrements = 1;
+              }
               counter++;
               worm.scrollLeft = worm.scrollLeft + scrollIncrements; //apply the interpolation step
             }
           }
-          else if (worm.scrollLeft < (scrollTo) || worm.scrollLeft > (scrollTo)) {// if in the last frame of interpolation
-            if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
-              scrollIncrements = -1;
-            }
-            else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
-              scrollIncrements = 1;
-            }
+          else if (worm.scrollLeft < scrollTo || worm.scrollLeft > scrollTo) {// if in the last frame of interpolation
             if (i == (wormBlocks.length - 1) || counter > 30) {
               userScrolling = true;
               userScroll = false;
@@ -915,6 +910,12 @@ loadData();
               clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
+              if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
+                scrollIncrements = -1;
+              }
+              else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
+                scrollIncrements = 1;
+              }
               counter++;
               worm.scrollLeft = worm.scrollLeft + 1; //apply the interpolation step
             }
@@ -927,7 +928,7 @@ loadData();
             }, 500);
             clearInterval(setSmoothScrollInterval);
           }
-        }, 20);
+        }, 15);
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
