@@ -971,4 +971,13 @@ loadData();
     // }
   }
 }
-centipede();
+if(document.readyState == "complete"){
+  centipede();
+}
+else {
+  document.onreadystatechange = function () {
+    if(document.readyState == "complete"){
+      centipede();
+    }
+  }
+}
