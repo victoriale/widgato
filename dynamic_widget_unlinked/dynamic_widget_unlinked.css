@@ -109,7 +109,6 @@ button:hover {
 }
 
 .text-wrap {
-    /*Modifed for _wide.css*/
     color: #ffffff;
     overflow: hidden;
     white-space: nowrap;
@@ -117,7 +116,6 @@ button:hover {
 }
 
 .widget_ad {
-    /*Modifed for _wide.css*/
     width: 100%;
     max-width: 992px;
     min-width: 650px;
@@ -126,7 +124,6 @@ button:hover {
 }
 
 .e_container {
-    /*Modifed for _wide.css*/
     width: calc(100% - 300px);
     height: 100%;
     overflow: hidden;
@@ -134,7 +131,6 @@ button:hover {
 }
 
 .e_widget {
-    /*Modifed for _wide.css*/
     width: 100%;
     height: 100%;
     border: 1px solid #e1e1e1;
@@ -142,7 +138,6 @@ button:hover {
 }
 
 .e_image-carousel {
-    /*Modifed for _wide.css*/
     width: 100%;
     height: 100%;
     text-align: center;
@@ -151,7 +146,6 @@ button:hover {
 }
 
 .e_data_box {
-    /*Modifed for _wide.css*/
     width: 100%;
     height: 100%;
     position: absolute;
@@ -161,7 +155,6 @@ button:hover {
 }
 
 .e_image-title {
-    /*Modifed for _wide.css*/
     color: #ffffff;
     font-size: 20px;
     line-height: 24px;
@@ -170,7 +163,6 @@ button:hover {
 }
 
 .line-clamp {
-    /*Modifed for _wide.css*/
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -201,7 +193,6 @@ button:hover {
 }
 
 .e_image-shader {
-    /*Modifed for _wide.css*/
     position: absolute;
     top: 0;
     left: 0;
@@ -213,7 +204,6 @@ button:hover {
 }
 
 .e_image-cover {
-    /*Modifed for _wide.css*/
     width: 100%;
     height: 100%;
     position: absolute;
@@ -224,7 +214,6 @@ button:hover {
 }
 
 .pound {
-    /*Modifed for _wide.css*/
     font-weight: 300;
     color: #000000;
     font-size: 100px;
@@ -234,7 +223,6 @@ button:hover {
 }
 
 #mainimg-rank {
-    /*Modifed for _wide.css*/
     font-weight: 700;
     font-size: 130px;
     line-height: 180px;
@@ -243,20 +231,17 @@ button:hover {
 }
 
 .e_info_box-profile {
-    /*Modifed for _wide.css*/
     width: 100%;
 }
 
 .block-data {
-    /*Modifed for _wide.css*/
-    margin-left: 15px;
+    padding-left: 15px;
     width: auto;
     height: 50px;
     text-align: left;
 }
 
 .profile-rank {
-    /*Modifed for _wide.css*/
     width: 50px;
     height: 50px;
     line-height: 50px;
@@ -292,33 +277,28 @@ button:hover {
 }
 
 .profile-data #profile-name {
-    /*Modifed for _wide.css*/
     color: #ffffff;
     font-size: 18px;
 }
 
 .profile-data #profile-datapoint1 {
-    /*Modifed for _wide.css*/
     color: #ffffff;
     font-size: 12px;
 }
 
 .profile-data #profile-datavalue1 {
-    /*Modifed for _wide.css*/
     color: #ffffff;
     font-size: 12px;
     font-weight: 700;
 }
 
 .profile-data #profile-datavalue2 {
-    /*Modifed for _wide.css*/
     color: #ffffff;
     font-size: 14px;
     font-weight: 900;
 }
 
 .profile-data #profile-datapoint2 {
-    /*Modifed for _wide.css*/
     color: #ffffff;
     font-size: 14px;
 }
@@ -343,7 +323,6 @@ button:hover {
 }
 
 .e_info_box-cta button {
-    /*Modifed for _wide.css*/
     border-radius: 5px;
     background-color: transparent;
     display: inline-block;
@@ -351,7 +330,6 @@ button:hover {
 }
 
 .cta_button-list {
-    /*Modifed for _wide.css*/
     width: 140px;
     height: 100%;
     margin-left: 30px;

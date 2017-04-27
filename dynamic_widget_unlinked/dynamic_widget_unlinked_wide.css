@@ -249,7 +249,7 @@ button:hover {
 
 .block-data {
     /*Modifed for _wide.css*/
-    margin-left: 15px;
+    padding-left: 15px;
     width: auto;
     height: 50px;
     text-align: left;
