@@ -407,6 +407,7 @@ var iframeContent = friendlyIframe.contentWindow;
   var userScroll = true;
   var firstAd;
   var currentPub;
+  var lazyLoaded = false;
 
   if (typeof input.group == 'undefined' && (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1)) {
       input.category = 'finance'; //default category fallback
@@ -671,6 +672,7 @@ loadData();
 
     var outputHTML = "";
     var maxOutput = 25;
+    var backStyle;
     //every other item (except the first)
     for (var i = 1; i < items.length && i < maxOutput; i++) {
       items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
@@ -687,11 +689,17 @@ loadData();
       if (Math.abs(i % 2) == 1) { //every odd number
         outputHTML += `<div class="worm_block">`;
       }
+      if (input.category == "finance" || input.group == "money") {
+        backStyle = `style="background-image:url('`+image+"?width=138"+`')"`;
+      }
+      else {
+        backStyle = `style="background-color: black;"`;
+      }
       outputHTML += `
           <div class="list_item">
-            <div class="profile_image_div `+image_class+`" style="background-image:url('`+image+"?width=138"+`')">
+            <div class="profile_image_div `+image_class+`" `+backStyle+`>
             <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+items[i].li_rank+`</b></div></div>
-              <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
+              <img class="profile_image" alt="`+image+"?width=138"+`" style="`+style+`">
             </div>
             <div class="info">
               <div class="name">
@@ -751,6 +759,13 @@ loadData();
   //initial event listeners declaration
   worm.addEventListener("scroll", onSwipe);
   function onSwipe(e) {
+    if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
+      lazyLoaded = true;
+      var notLoadedImages = worm.getElementsByClassName("profile_image");
+      for (var index = 1; index < notLoadedImages.length; index++) {
+        notLoadedImages[index].src = notLoadedImages[index].alt;
+      }
+    }
     isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
 
     // set visibility of helper and list title, based on scroll position
