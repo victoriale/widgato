@@ -225,7 +225,6 @@ button:hover {
 
 .pound {
     /*Modifed for _wide.css*/
-    display: none;
     font-weight: 300;
     color: #000000;
     font-size: 100px;
@@ -236,7 +235,6 @@ button:hover {
 
 #mainimg-rank {
     /*Modifed for _wide.css*/
-    display: none;
     font-weight: 700;
     font-size: 130px;
     line-height: 180px;
