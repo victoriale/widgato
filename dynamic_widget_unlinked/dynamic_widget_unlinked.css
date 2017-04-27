@@ -116,10 +116,8 @@ button:hover {
 }
 
 .widget_ad {
-    width: 100%;
-    max-width: 992px;
-    min-width: 650px;
-    height: 250px;
+    width: 300px;
+    height: 600px;
     margin: auto;
 }
 
@@ -465,11 +463,6 @@ background-color: #000000;
 
 .text-wrap {
     color: #000000;
-}
-
-.widget_ad {
-    width: 300px;
-    height: 600px;
 }
 
 .e_container {
