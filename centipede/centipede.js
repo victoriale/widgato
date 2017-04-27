@@ -796,8 +796,10 @@ loadData();
 
     // set visibility of helper and list title, based on scroll position
     if (this.scrollLeft > 20) {
-      worm.classList.add("stopAnim");
-      helper2.style.opacity = '0';
+      if (helper2.style.opacity != '0') {
+        worm.classList.add("stopAnim");
+        helper2.style.opacity = '0';
+      }
     }
     else {
       worm.classList.remove("stopAnim");
