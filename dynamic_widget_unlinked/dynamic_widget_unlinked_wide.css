@@ -3,10 +3,8 @@
 ** Otherwise QUERY BREAKPOINTS is where css code difference resides for dynamic widget
 */
 
-
 /*************************************DEFAULT*********************************/
-
-@import url("../css/inheritor_colors/inheritor.css"); /*NOTE this is calling inheritor.css which differs from inheritor.css*/
+@import url("../css/inheritor_colors/inheritor.css");/*NOTE this is calling inheritor_wide.css which differs from inheritor.css*/
 html, body {
     margin: 0 !important;
     width: 100%;
@@ -366,6 +364,10 @@ button:hover {
     color: #ffffff;
     position: relative;
     z-index: 2;
+    -webkit-transition: border .3s ease-in-out;
+    -moz-transition: border .3s ease-in-out;
+    -o-transition: border .3s ease-in-out;
+    transition: border .3s ease-in-out;
 }
 
 .leftTransform:before {
@@ -471,116 +473,86 @@ button:hover {
     height: 20px;
 }
 
-
 /*.e_advertisement {
 width: 100%;
 height: 250px;
 background-color: #000000;
 }*/
 
-
 /*************************************DEFAULT*********************************/
 
-
 /*************************************QUERY BREAKPOINS*********************************/
-
-
-/*@media screen and (max-width: 649px) {*/
-
-.text-wrap {
-    color: #000000;
+@media screen and (min-width: 650px), (min-width: 992px){
+  .default_background:hover:before {
+      background-color: #ffffff !important;
+  }
+  .e_image-title {
+      margin: 30px 0;
+      padding: 0 30px;
+      position: absolute;
+      top:0;
+      left:0;
+      z-index: 2;
+      font-size: 16px;
+  }
+  .e_info_box {
+      width: auto;
+      min-width: 350px;
+      height: 140px;
+      position: absolute;
+      top: 110px;
+      z-index: 10;
+  }
+  .e_info_box-profile{
+    margin-bottom: 24px;
+  }
+  .e_image-shader {
+      display: block !important;
+  }
+  .e_image-cover {
+      display: block !important;
+  }
+  .cta_button-list {
+      color: #ffffff;
+  }
+  .cta_button-list:hover {
+      border: none !important;
+      color: inherit;
+  }
+  .cta_button-previous {
+      color: #ffffff !important;
+  }
+  .cta_button-previous:hover {
+      border: 1px solid #ffffff;
+      color: #000000 !important;
+  }
+  .cta_button-next {
+      color: #ffffff !important;
+  }
+  .cta_button-next:hover {
+      border: 1px solid #ffffff;
+      color: #000000 !important;
+  }
+  .margin_gap {
+      display:none;
+  }
 }
 
-.widget_ad {
+@media screen and (min-width: 992px) {
+    .e_image-title {
+      font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 649px) {
+  .widget_ad{
     width: 300px;
-    height: 600px;
-}
-
-.e_container {
-    width: 300px;
-    height: 350px;
-}
-
-.e_widget {
-    height: auto;
-}
-
-.e_image-carousel {
-    height: 190px;
-}
-
-.e_image-title {
-    margin: 0 15px 15px 15px;
-    font-size: 18px;
-    line-height: 26px;
-    position: absolute;
-    z-index: 3;
-    left: 0;
-    bottom: 0;
-}
-
-.e_image-shader {
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.8));
-    background-color: transparent;
-}
-
-.e_image-cover {
+    min-width: 300px;
+    max-width: 649px;
+    margin:0 auto;
+  }
+  .e_container{
     display: none;
-    opacity: 0.85;
+  }
 }
-
-.e_info_box {
-    width: 100%;
-    height: 140px;
-}
-
-.e_info_box-profile {
-    width: 100%;
-    height: 90px;
-    padding-top: 20px;
-}
-
-.block-data {
-    width: 100%;
-    height: 50px;
-}
-
-.profile-rank {
-    color: #000000;
-}
-
-.profile-data #profile-name {
-    color: #000000;
-}
-
-.profile-data #profile-datapoint1 {
-    color: #000000;
-}
-
-.profile-data #profile-datavalue1 {
-    color: #000000;
-}
-
-.profile-data #profile-datavalue2 {
-    color: #000000;
-}
-
-.profile-data #profile-datapoint2 {
-    color: #000000;
-}
-
-.e_info_box-cta button {
-    color: inherit;
-    background-color: #ffffff;
-}
-
-.cta_button-list {
-    background-color: #ffffff !important;
-    margin-left: 15px;
-}
-
-
-/*}*/
-
-
 /*************************************QUERY BREAKPOINS*********************************/
