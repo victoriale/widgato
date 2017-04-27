@@ -1230,6 +1230,10 @@
             else {
 
               if (listData[index].li_img != null) {
+                if (listData[index].li_img.indexOf("city_image.php" != -1)) {
+                  var rand = Math.floor((Math.random() * 10) + 1);
+                  listData[index].li_img = "//w1.synapsys.us/widgets/css/public/nophoto_"+ rand +".png"
+                }
                 A('.fcw-image').src = protocolToUse + listData[index].li_img.replace("//","");
               }
               else {
