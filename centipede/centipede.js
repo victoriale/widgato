@@ -865,11 +865,13 @@ loadData();
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
     var counter = 0;
+    var wormScroll = worm.scrollLeft;
     for (i = 0; i < wormBlocks.length;  i++) {
-      if ((worm.scrollLeft + 150) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 150) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
+      var currentBlock = wormBlocks[i];
+      if ((wormScroll + 150) >= currentBlock.offsetLeft && (wormScroll + 150) <= (currentBlock.offsetLeft + currentBlock.offsetWidth) && wormScroll > 20) {
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
-        scrollTo = wormBlocks[i].offsetLeft;
-        if (worm.scrollLeft < scrollTo) {
+        scrollTo = currentBlock.offsetLeft;
+        if (wormScroll < scrollTo) {
           scrollIncrements = 10; //advance
         }
         else {
@@ -877,9 +879,10 @@ loadData();
         }
         clearInterval(setSmoothScrollInterval);
         setSmoothScrollInterval = setInterval(function(){
+          wormScroll = worm.scrollLeft;
           userScrolling = false;
           var marginOfError = Math.abs(scrollIncrements) - 1;
-          if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) { //if we still have autoscrolling to do...
+          if (wormScroll < (scrollTo - marginOfError) || wormScroll > (scrollTo + marginOfError)) { //if we still have autoscrolling to do...
             //if within margin of error of target, end scroll
             if (i == (wormBlocks.length - 1) || counter > 30) {
               userScrolling = true;
@@ -890,17 +893,17 @@ loadData();
               clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
-              if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
+              if (scrollIncrements > 0 && wormScroll > scrollTo) { // we have overshot
                 scrollIncrements = -1;
               }
-              else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
+              else if (scrollIncrements < 0 && wormScroll < scrollTo) { // we have overshot other side
                 scrollIncrements = 1;
               }
               counter++;
-              worm.scrollLeft = worm.scrollLeft + scrollIncrements; //apply the interpolation step
+              worm.scrollLeft = wormScroll + scrollIncrements; //apply the interpolation step
             }
           }
-          else if (worm.scrollLeft < scrollTo || worm.scrollLeft > scrollTo) {// if in the last frame of interpolation
+          else if (wormScroll < scrollTo || wormScroll > scrollTo) {// if in the last frame of interpolation
             if (i == (wormBlocks.length - 1) || counter > 30) {
               userScrolling = true;
               userScroll = false;
@@ -910,14 +913,14 @@ loadData();
               clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
-              if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
+              if (scrollIncrements > 0 && wormScroll > scrollTo) { // we have overshot
                 scrollIncrements = -1;
               }
-              else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
+              else if (scrollIncrements < 0 && wormScroll < scrollTo) { // we have overshot other side
                 scrollIncrements = 1;
               }
               counter++;
-              worm.scrollLeft = worm.scrollLeft + 1; //apply the interpolation step
+              worm.scrollLeft = wormScroll + 1; //apply the interpolation step
             }
           }
           else { //we have reached the end of the interpolation. stop the loop
@@ -950,6 +953,7 @@ loadData();
           scrollIncrements = -1;
         }
         setSmoothScrollInterval = setInterval(function(){
+          wormScroll = worm.scrollLeft;
           userScrolling = false;
           var marginOfError = 0;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
