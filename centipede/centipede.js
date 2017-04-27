@@ -578,7 +578,8 @@ loadData();
               li_value: data.listData[i].stat,
               li_tag: data.listData[i].statDescription,
               li_title: data.listData[i].teamName,
-              li_sub_txt: data.listData[i].divisionName
+              li_sub_txt: data.listData[i].divisionName,
+              li_rank: data.listData[i].rank
             }
           );
         }
@@ -591,7 +592,8 @@ loadData();
               li_value: data.listData[i].stat,
               li_tag: data.listData[i].statDescription,
               li_title: data.listData[i].playerFirstName + " " + data.listData[i].playerLastName,
-              li_sub_txt: data.listData[i].teamName
+              li_sub_txt: data.listData[i].teamName,
+              li_rank: data.listData[i].rank
             }
           );
         }
@@ -600,9 +602,11 @@ loadData();
     else { //non TDL data
       var items = data.l_data;
     }
+    items = items.slice(0,25);
+    items = items.reverse();
     //1st item before the ad
     items[0].li_value = items[0].li_value.replace(items[0].li_tag,"");
-    var image = items[0].li_img;
+    var image = items[0].li_img.replace("'","");
     if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
       image = protocolToUse + currentPub.fallbackImage;
       var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
@@ -622,7 +626,7 @@ loadData();
       <div class="worm_block">
         <div class="list_item">
           <div class="profile_image_div `+image_class+`" style="background-image:url('`+image+"?width=138"+`')">
-          <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>1</b></div></div>
+          <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+items[0].li_rank+`</b></div></div>
             <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
           </div>
           <div class="info">
@@ -666,11 +670,11 @@ loadData();
     }
 
     var outputHTML = "";
-    var maxOutput = 50;
+    var maxOutput = 25;
     //every other item (except the first)
     for (var i = 1; i < items.length && i < maxOutput; i++) {
       items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
-      image = items[i].li_img;
+      image = items[i].li_img.replace("'","");
       if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
         image = protocolToUse + currentPub.fallbackImage;
         var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
@@ -686,7 +690,7 @@ loadData();
       outputHTML += `
           <div class="list_item">
             <div class="profile_image_div `+image_class+`" style="background-image:url('`+image+"?width=138"+`')">
-            <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+(i+1)+`</b></div></div>
+            <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+items[i].li_rank+`</b></div></div>
               <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
             </div>
             <div class="info">
