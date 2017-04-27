@@ -24,6 +24,39 @@ var iframeContent = friendlyIframe.contentWindow;
 //inject HTML and CSS structure
   iframeContent.document.write(`
     <style>
+    /* google fonts */
+    /* latin-ext */
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(http://fonts.gstatic.com/s/lato/v13/8qcEw_nrk_5HEcCpYdJu8BTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+      unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+    }
+    /* latin */
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(http://fonts.gstatic.com/s/lato/v13/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+    }
+    /* latin-ext */
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(http://fonts.gstatic.com/s/lato/v13/rZPI2gHXi8zxUjnybc2ZQFKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+      unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+    }
+    /* latin */
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(http://fonts.gstatic.com/s/lato/v13/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+    }
     body {
       border: none;
       margin: 0;
@@ -361,13 +394,6 @@ var iframeContent = friendlyIframe.contentWindow;
     </div>
   </div>
     `);
-    //inject Google font CSS
-    var link = iframeContent.document.createElement( "link" );
-    link.href = protocolToUse+"fonts.googleapis.com/css?family=Lato:400,300,100,700,900";
-    link.type = "text/css";
-    link.rel = "stylesheet";
-    link.media = "screen,print";
-    iframeContent.document.getElementsByTagName( "head" )[0].appendChild( link );
 
   //begin centipede logic
   //initial variable declaration
@@ -407,6 +433,7 @@ var iframeContent = friendlyIframe.contentWindow;
   var userScroll = true;
   var firstAd;
   var currentPub;
+  var lazyLoaded = false;
 
   if (typeof input.group == 'undefined' && (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1)) {
       input.category = 'finance'; //default category fallback
@@ -578,7 +605,8 @@ loadData();
               li_value: data.listData[i].stat,
               li_tag: data.listData[i].statDescription,
               li_title: data.listData[i].teamName,
-              li_sub_txt: data.listData[i].divisionName
+              li_sub_txt: data.listData[i].divisionName,
+              li_rank: data.listData[i].rank
             }
           );
         }
@@ -591,7 +619,8 @@ loadData();
               li_value: data.listData[i].stat,
               li_tag: data.listData[i].statDescription,
               li_title: data.listData[i].playerFirstName + " " + data.listData[i].playerLastName,
-              li_sub_txt: data.listData[i].teamName
+              li_sub_txt: data.listData[i].teamName,
+              li_rank: data.listData[i].rank
             }
           );
         }
@@ -600,9 +629,11 @@ loadData();
     else { //non TDL data
       var items = data.l_data;
     }
+    items = items.slice(0,25);
+    items = items.reverse();
     //1st item before the ad
     items[0].li_value = items[0].li_value.replace(items[0].li_tag,"");
-    var image = items[0].li_img;
+    var image = items[0].li_img.replace("'","");
     if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
       image = protocolToUse + currentPub.fallbackImage;
       var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
@@ -622,7 +653,7 @@ loadData();
       <div class="worm_block">
         <div class="list_item">
           <div class="profile_image_div `+image_class+`" style="background-image:url('`+image+"?width=138"+`')">
-          <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>1</b></div></div>
+          <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+items[0].li_rank+`</b></div></div>
             <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
           </div>
           <div class="info">
@@ -666,11 +697,12 @@ loadData();
     }
 
     var outputHTML = "";
-    var maxOutput = 50;
+    var maxOutput = 25;
+    var backStyle;
     //every other item (except the first)
     for (var i = 1; i < items.length && i < maxOutput; i++) {
       items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
-      image = items[i].li_img;
+      image = items[i].li_img.replace("'","");
       if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
         image = protocolToUse + currentPub.fallbackImage;
         var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
@@ -683,11 +715,17 @@ loadData();
       if (Math.abs(i % 2) == 1) { //every odd number
         outputHTML += `<div class="worm_block">`;
       }
+      if (input.category == "finance" || input.group == "money") {
+        backStyle = `style="background-image:url('`+image+"?width=138"+`')"`;
+      }
+      else {
+        backStyle = `style="background-color: black;"`;
+      }
       outputHTML += `
           <div class="list_item">
-            <div class="profile_image_div `+image_class+`" style="background-image:url('`+image+"?width=138"+`')">
-            <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+(i+1)+`</b></div></div>
-              <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
+            <div class="profile_image_div `+image_class+`" `+backStyle+`>
+            <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+items[i].li_rank+`</b></div></div>
+              <img class="profile_image" alt="`+image+"?width=138"+`" style="`+style+`">
             </div>
             <div class="info">
               <div class="name">
@@ -747,6 +785,13 @@ loadData();
   //initial event listeners declaration
   worm.addEventListener("scroll", onSwipe);
   function onSwipe(e) {
+    if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
+      lazyLoaded = true;
+      var notLoadedImages = worm.getElementsByClassName("profile_image");
+      for (var index = 1; index < notLoadedImages.length; index++) {
+        notLoadedImages[index].src = notLoadedImages[index].alt;
+      }
+    }
     isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
 
     // set visibility of helper and list title, based on scroll position
