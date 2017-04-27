@@ -430,6 +430,7 @@ var iframeContent = friendlyIframe.contentWindow;
   var rand;
   var setSmoothScrollInterval;
   var n = 0;
+  var userScrolling = true;
   var userScroll = true;
   var firstAd;
   var currentPub;
@@ -784,41 +785,43 @@ loadData();
   }
   //initial event listeners declaration
   worm.addEventListener("scroll", onSwipe);
-  function onSwipe(e) {
-    if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
-      lazyLoaded = true;
-      var notLoadedImages = worm.getElementsByClassName("profile_image");
-      for (var index = 1; index < notLoadedImages.length; index++) {
-        notLoadedImages[index].src = notLoadedImages[index].alt;
+  function onSwipe() {
+    if (userScrolling == true) {
+      if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
+        lazyLoaded = true;
+        var notLoadedImages = worm.getElementsByClassName("profile_image");
+        for (var index = 1; index < notLoadedImages.length; index++) {
+          notLoadedImages[index].src = notLoadedImages[index].alt;
+        }
       }
-    }
-    isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
+      isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
 
-    // set visibility of helper and list title, based on scroll position
-    if (this.scrollLeft > 20) {
-      if (helper2.style.opacity != '0') {
-        worm.classList.add("stopAnim");
-        helper2.style.opacity = '0';
+      // set visibility of helper and list title, based on scroll position
+      if (this.scrollLeft > 20) {
+        if (helper2.style.opacity != '0') {
+          worm.classList.add("stopAnim");
+          helper2.style.opacity = '0';
+        }
       }
-    }
-    else {
-      worm.classList.remove("stopAnim");
-      helper.style.opacity = '1';
-      helper2.style.opacity = '1';
-    }
-    var rect = firstAd.getBoundingClientRect();
-    if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
-      var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft+450) /900)].parentElement.offsetLeft + 150;
-      firstAd.style.left = (left - firstAd.offsetWidth) + "px";
-    }
-    clearTimeout(scrollingTimout);
-    scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
-      if (userScroll == true) {
-        setScroll();
+      else {
+        worm.classList.remove("stopAnim");
+        helper.style.opacity = '1';
+        helper2.style.opacity = '1';
       }
-      worm.removeEventListener("mousemove", onMouseMove);
-      isScrolling = false; //will return true or false based on whether the user is currently scrolling or not
-    }, 250);
+      var rect = firstAd.getBoundingClientRect();
+      if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
+        var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft+450) /900)].parentElement.offsetLeft + 150;
+        firstAd.style.left = (left - firstAd.offsetWidth) + "px";
+      }
+      clearTimeout(scrollingTimout);
+      scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
+        if (userScroll == true) {
+          setScroll();
+        }
+        worm.removeEventListener("mousemove", onMouseMove);
+        isScrolling = false; //will return true or false based on whether the user is currently scrolling or not
+      }, 250);
+    }
   }
   worm.addEventListener("touchend", onFingerUp);
   function onFingerUp(e) { //logic to determine if the user is currently actively scrolling
@@ -873,6 +876,7 @@ loadData();
         }
         clearInterval(setSmoothScrollInterval);
         setSmoothScrollInterval = setInterval(function(){
+          userScrolling = false;
           var marginOfError = Math.abs(scrollIncrements) - 1;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
             if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
@@ -883,6 +887,7 @@ loadData();
             }
             //if within margin of error of target, end scroll
             if (i == (wormBlocks.length - 1) || counter > 30) {
+              userScrolling = true;
               userScroll = false;
               setTimeout(function(){
                 userScroll = true;
@@ -902,6 +907,7 @@ loadData();
               scrollIncrements = 1;
             }
             if (i == (wormBlocks.length - 1) || counter > 30) {
+              userScrolling = true;
               userScroll = false;
               setTimeout(function(){
                 userScroll = true;
@@ -914,6 +920,7 @@ loadData();
             }
           }
           else { //we have reached the end of the interpolation. stop the loop
+            userScrolling = true;
             userScroll = false;
             setTimeout(function(){
               userScroll = true;
@@ -942,9 +949,11 @@ loadData();
           scrollIncrements = -1;
         }
         setSmoothScrollInterval = setInterval(function(){
+          userScrolling = false;
           var marginOfError = 0;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
             if (i == (wormBlocks.length - 1) || counter > 30) {
+              userScrolling = true;
               userScroll = false;
               setTimeout(function(){
                 userScroll = true;
@@ -956,6 +965,7 @@ loadData();
             }
           }
           else {
+            userScrolling = true;
             userScroll = false;
             setTimeout(function(){
               userScroll = true;
