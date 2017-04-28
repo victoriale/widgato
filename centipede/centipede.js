@@ -631,12 +631,12 @@ loadData();
         }
       }
     }
-    else if (input.group == "entertainment" || input.category == "entertainment") { //if celeb data, transform it
+    else if (input.group == "entertainment" || data.category == "entertainment") { //if celeb data, transform it
       var items = [];
         for (i = 0; i < data.l_data.length; i++) {
           if (data.l_data[i].data_point_2 == null || data.l_data[i].data_value_2 == null) {
-            data.l_data[i].data_point_2 = data.l_data[i].fallback_data_point_1;
-            data.l_data[i].data_value_2 = data.l_data[i].fallback_data_value_1;
+            data.l_data[i].data_point_2 = data.l_data[i].data_point_1;
+            data.l_data[i].data_value_2 = data.l_data[i].data_value_1;
           }
           items.push(
             {
