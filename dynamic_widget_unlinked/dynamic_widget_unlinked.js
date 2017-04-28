@@ -385,8 +385,7 @@ function displayWidget() {
               $("mainimg-rank").innerHTML = curData.li_rank;
               $("profile-name").innerHTML = curData.li_title;
               $("name-title").setAttribute("title", curData.li_title);
-
-              if(curData.data_value_1){
+              if(curData.data_value_1 != null){
                 $("profile-datavalue1").innerHTML = curData.data_value_1;
                 $("profile-datapoint1").innerHTML = curData.data_point_1 != null ? curData.data_point_1 : '';
                 $("data-title1").setAttribute("title", curData.data_value_1);
