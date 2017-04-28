@@ -312,8 +312,13 @@ function displayWidget() {
 
                 $("profile-datapoint1").innerHTML = "Team: ";
                 $("profile-datavalue1").innerHTML = curData.teamName;
+
                 $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
                 $("profile-datapoint2").innerHTML = " " + curData.statDescription;
+
+                $("name-title").setAttribute("title", curData.playerFirstName + " " + curData.playerLastName);
+                $("data-title1").setAttribute("title",  "Team: " + curData.teamName);
+                $("data-title2").setAttribute("title", Number(curData.stat).toFixed(2) + " " + curData.statDescription);
             } else {
                 var image = checkImage(imageUrl + curData.teamLogo);
                 if (image != null) {
@@ -323,8 +328,13 @@ function displayWidget() {
                 $("profile-name").innerHTML = curData.teamName;
                 $("profile-datapoint1").innerHTML = "Division: ";
                 $("profile-datavalue1").innerHTML = curData.divisionName;
+
                 $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
                 $("profile-datapoint2").innerHTML = ": " + curData.statDescription;
+
+                $("name-title").setAttribute("title", curData.teamName);
+                $("data-title1").setAttribute("title", "Division: " + curData.divisionName);
+                $("data-title2").setAttribute("title",  Number(curData.stat).toFixed(2) + ": " + curData.statDescription);
             }
             /***************************END OF FOOTBALL DATA*******************************/
         } else { /***************************DYNAMIC DATA APPLIANCE*******************************/
@@ -370,21 +380,25 @@ function displayWidget() {
 
             $("mainimg").style.backgroundImage
             //CELEBRITIES ONE OFF to set proper structure
-            if(subCategory == 'celebrities'){
+            if(subCategory == 'celebrities'){//TODO make a more efficient way to set values than whats being done below inside each if else statement
               $("profile-rank").innerHTML = curData.li_rank;
               $("mainimg-rank").innerHTML = curData.li_rank;
               $("profile-name").innerHTML = curData.li_title;
-              // $("profile-datapoint1").innerHTML = curData.li_value;
+              $("name-title").setAttribute("title", curData.li_title);
+
               if(curData.data_value_1){
                 $("profile-datavalue1").innerHTML = curData.data_value_1;
                 $("profile-datapoint1").innerHTML = curData.data_point_1 != null ? curData.data_point_1 : '';
+                $("data-title1").setAttribute("title", curData.data_value_1);
               }else{
                 $("profile-datavalue1").innerHTML = curData.fallback_data_value_1 != null ? curData.fallback_data_value_1 : '';
                 $("profile-datapoint1").innerHTML = curData.fallback_data_point_1 != null ? curData.fallback_data_point_1 : '';
+                $("data-title1").setAttribute("title", curData.fallback_data_value_1);
               }
 
-              $("profile-datapoint2").innerHTML = curData.data_point_2;
-              $("profile-datavalue2").innerHTML = " " + curData.data_value_2;
+              $("profile-datapoint2").innerHTML = curData.data_point_2 != null ? curData.data_point_2 : '';
+              $("profile-datavalue2").innerHTML = curData.data_value_2 != null ? " " + curData.data_value_2 : '';
+              $("data-title2").setAttribute("title", curData.data_value_2);
             }else{
               $("profile-rank").innerHTML = curData.li_rank;
               $("mainimg-rank").innerHTML = curData.li_rank;
@@ -393,6 +407,10 @@ function displayWidget() {
               $("profile-datavalue1").innerHTML = curData.li_sub_txt;
               $("profile-datapoint2").innerHTML = curData.li_tag;
               $("profile-datavalue2").innerHTML = " " + curData.li_value;
+
+              $("name-title").setAttribute("title", curData.li_title);
+              $("data-title1").setAttribute("title", curData.li_sub_txt);
+              $("data-title2").setAttribute("title", curData.li_value + " " + curData.li_tag);
             }
         }
         /***************************END OF DYNAMIC DATA*******************************/
