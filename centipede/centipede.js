@@ -792,7 +792,6 @@ loadData();
         lazyLoaded = true;
         setTimeout(function(){ // wait for dom loaded before grabbing array of images
           var notLoadedImages = worm.getElementsByClassName("profile_image");
-          console.log(notLoadedImages);
           for (var index = 1; index < notLoadedImages.length; index++) {
             notLoadedImages[index].src = notLoadedImages[index].alt;
           }
