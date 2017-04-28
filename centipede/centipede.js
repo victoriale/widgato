@@ -787,7 +787,7 @@ loadData();
   //initial event listeners declaration
   worm.addEventListener("scroll", onSwipe);
   function onSwipe() {
-    if (userScrolling == true) {
+    if (userScrolling) {
       if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
         lazyLoaded = true;
         var notLoadedImages = worm.getElementsByClassName("profile_image");
@@ -878,7 +878,18 @@ loadData();
           scrollIncrements = -10; //retreat
         }
         clearInterval(setSmoothScrollInterval);
-        setSmoothScrollInterval = setInterval(function(){
+        // var currentTime;
+        // var prevTime = 0;
+        setSmoothScrollInterval = setInterval(autoScroll, 20);
+        function autoScroll(){
+          // var date = new Date();
+          // currentTime = date.getTime();
+          // if (prevTime != 0) {
+          //   console.log("time between intervals: "+(currentTime - prevTime));
+          // }
+          // if (currentTime - prevTime > 50 && prevTime != 0) {
+          //   debugger;
+          // }
           wormScroll = worm.scrollLeft;
           userScrolling = false;
           var marginOfError = Math.abs(scrollIncrements) - 1;
@@ -931,7 +942,10 @@ loadData();
             }, 500);
             clearInterval(setSmoothScrollInterval);
           }
-        }, 15);
+          // date = new Date();
+          // prevTime = date.getTime();
+          // console.log("code execution time: " + (prevTime - currentTime));
+        }
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
