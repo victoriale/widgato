@@ -415,7 +415,7 @@ var iframeContent = friendlyIframe.contentWindow;
   if (input.env != "prod-" && input.env != "dev-") {
     input.env = "prod-";
   }
-  var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
+  var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','celebrities'];
   var apiUrl = protocolToUse +input.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
   var helper = iframeContent.document.getElementById('helper');
   var helper2 = iframeContent.document.getElementById('helper2');
@@ -627,13 +627,34 @@ loadData();
         }
       }
     }
+    else if (input.group == "entertainment" || input.category == "entertainment") { //if celeb data, transform it
+      var items = [];
+        for (i = 0; i < data.l_data.length; i++) {
+          if (data.l_data[i].data_point_1 == null || data.l_data[i].data_value_1 == null) {
+            data.l_data[i].data_point_1 = data.l_data[i].fallback_data_point_1;
+            data.l_data[i].data_value_1 = data.l_data[i].fallback_data_value_1;
+          }
+          items.push(
+            {
+              li_img: data.l_data[i].li_img,
+              li_value: data.l_data[i].data_value_1,
+              li_tag: data.l_data[i].data_point_1,
+              li_title: data.l_data[i].li_title,
+              li_sub_txt: data.l_data[i].li_sub_txt,
+              li_rank: data.l_data[i].li_rank
+            }
+          );
+        }
+    }
     else { //non TDL data
       var items = data.l_data;
     }
     items = items.slice(0,25);
     items = items.reverse();
     //1st item before the ad
-    items[0].li_value = items[0].li_value.replace(items[0].li_tag,"");
+    if (items[0].li_value) {
+      items[0].li_value = items[0].li_value.replace(items[0].li_tag,"");
+    }
     var image = items[0].li_img.replace("'","");
     if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
       image = protocolToUse + currentPub.fallbackImage;
@@ -702,7 +723,9 @@ loadData();
     var backStyle;
     //every other item (except the first)
     for (var i = 1; i < items.length && i < maxOutput; i++) {
-      items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
+      if (items[i].li_value) {
+        items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
+      }
       image = items[i].li_img.replace("'","");
       if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
         image = protocolToUse + currentPub.fallbackImage;
