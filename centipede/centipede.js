@@ -24,6 +24,39 @@ var iframeContent = friendlyIframe.contentWindow;
 //inject HTML and CSS structure
   iframeContent.document.write(`
     <style>
+    /* google fonts */
+    /* latin-ext */
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(http://fonts.gstatic.com/s/lato/v13/8qcEw_nrk_5HEcCpYdJu8BTbgVql8nDJpwnrE27mub0.woff2) format('woff2');
+      unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+    }
+    /* latin */
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 400;
+      src: local('Lato Regular'), local('Lato-Regular'), url(http://fonts.gstatic.com/s/lato/v13/MDadn8DQ_3oT6kvnUq_2r_esZW2xOQ-xsNqO47m55DA.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+    }
+    /* latin-ext */
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(http://fonts.gstatic.com/s/lato/v13/rZPI2gHXi8zxUjnybc2ZQFKPGs1ZzpMvnHX-7fPOuAc.woff2) format('woff2');
+      unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+    }
+    /* latin */
+    @font-face {
+      font-family: 'Lato';
+      font-style: normal;
+      font-weight: 700;
+      src: local('Lato Bold'), local('Lato-Bold'), url(http://fonts.gstatic.com/s/lato/v13/MgNNr5y1C_tIEuLEmicLmwLUuEpTyoUstqEm5AMlJo4.woff2) format('woff2');
+      unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
+    }
     body {
       border: none;
       margin: 0;
@@ -361,13 +394,6 @@ var iframeContent = friendlyIframe.contentWindow;
     </div>
   </div>
     `);
-    //inject Google font CSS
-    var link = iframeContent.document.createElement( "link" );
-    link.href = protocolToUse+"fonts.googleapis.com/css?family=Lato:400,300,100,700,900";
-    link.type = "text/css";
-    link.rel = "stylesheet";
-    link.media = "screen,print";
-    iframeContent.document.getElementsByTagName( "head" )[0].appendChild( link );
 
   //begin centipede logic
   //initial variable declaration
@@ -389,7 +415,7 @@ var iframeContent = friendlyIframe.contentWindow;
   if (input.env != "prod-" && input.env != "dev-") {
     input.env = "prod-";
   }
-  var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
+  var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','celebrities'];
   var apiUrl = protocolToUse +input.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
   var helper = iframeContent.document.getElementById('helper');
   var helper2 = iframeContent.document.getElementById('helper2');
@@ -404,9 +430,11 @@ var iframeContent = friendlyIframe.contentWindow;
   var rand;
   var setSmoothScrollInterval;
   var n = 0;
+  var userScrolling = true;
   var userScroll = true;
   var firstAd;
   var currentPub;
+  var lazyLoaded = false;
 
   if (typeof input.group == 'undefined' && (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1)) {
       input.category = 'finance'; //default category fallback
@@ -457,6 +485,10 @@ var iframeContent = friendlyIframe.contentWindow;
       disaster: {
         hex: "#43B149",
         fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/real_estate_stock.jpg"
+      },
+      celebrities: {
+        hex: "#6459d3",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/04/actor.jpg"
       }
     };
       if (pub == null || pub == "" || !pubs[pub]) {
@@ -578,7 +610,8 @@ loadData();
               li_value: data.listData[i].stat,
               li_tag: data.listData[i].statDescription,
               li_title: data.listData[i].teamName,
-              li_sub_txt: data.listData[i].divisionName
+              li_sub_txt: data.listData[i].divisionName,
+              li_rank: data.listData[i].rank
             }
           );
         }
@@ -591,18 +624,44 @@ loadData();
               li_value: data.listData[i].stat,
               li_tag: data.listData[i].statDescription,
               li_title: data.listData[i].playerFirstName + " " + data.listData[i].playerLastName,
-              li_sub_txt: data.listData[i].teamName
+              li_sub_txt: data.listData[i].teamName,
+              li_rank: data.listData[i].rank
             }
           );
         }
       }
     }
+    else if (input.group == "entertainment" || data.category == "celebrities") { //if celeb data, transform it
+      var items = [];
+        for (i = 0; i < data.l_data.length; i++) {
+          if (data.l_data[i].data_point_2 == null) {
+            data.l_data[i].data_point_2 = "";
+          }
+          if (data.l_data[i].data_value_2 == null) {
+            data.l_data[i].data_value_2 = "";
+          }
+          items.push(
+            {
+              li_img: data.l_data[i].li_img,
+              li_value: data.l_data[i].data_value_2,
+              li_tag: data.l_data[i].data_point_2,
+              li_title: data.l_data[i].li_title,
+              li_sub_txt: data.l_data[i].li_sub_txt,
+              li_rank: data.l_data[i].li_rank
+            }
+          );
+        }
+    }
     else { //non TDL data
       var items = data.l_data;
     }
+    items = items.slice(0,25);
+    items = items.reverse();
     //1st item before the ad
-    items[0].li_value = items[0].li_value.replace(items[0].li_tag,"");
-    var image = items[0].li_img;
+    if (items[0].li_value) {
+      items[0].li_value = items[0].li_value.replace(items[0].li_tag,"");
+    }
+    var image = items[0].li_img.replace("'","");
     if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
       image = protocolToUse + currentPub.fallbackImage;
       var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
@@ -611,6 +670,12 @@ loadData();
     else {
       var style="";
       var image_class = "";
+    }
+    if (input.category == "finance" || input.group == "money") {
+      backStyle = `style="background-image:url('`+image+"?width=138"+`')"`;
+    }
+    else {
+      backStyle = `style="background-color: black;"`;
     }
     helper.innerHTML = data.l_title;
     worm.innerHTML = `
@@ -621,8 +686,8 @@ loadData();
     </style>
       <div class="worm_block">
         <div class="list_item">
-          <div class="profile_image_div `+image_class+`" style="background-image:url('`+image+"?width=138"+`')">
-          <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>1</b></div></div>
+          <div class="profile_image_div `+image_class+`" `+backStyle+`>
+          <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+items[0].li_rank+`</b></div></div>
             <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
           </div>
           <div class="info">
@@ -666,11 +731,14 @@ loadData();
     }
 
     var outputHTML = "";
-    var maxOutput = 50;
+    var maxOutput = 25;
+    var backStyle;
     //every other item (except the first)
     for (var i = 1; i < items.length && i < maxOutput; i++) {
-      items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
-      image = items[i].li_img;
+      if (items[i].li_value) {
+        items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
+      }
+      image = items[i].li_img.replace("'","");
       if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
         image = protocolToUse + currentPub.fallbackImage;
         var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
@@ -683,11 +751,17 @@ loadData();
       if (Math.abs(i % 2) == 1) { //every odd number
         outputHTML += `<div class="worm_block">`;
       }
+      if (input.category == "finance" || input.group == "money") {
+        backStyle = `style="background-image:url('`+image+"?width=138"+`')"`;
+      }
+      else {
+        backStyle = `style="background-color: black;"`;
+      }
       outputHTML += `
           <div class="list_item">
-            <div class="profile_image_div `+image_class+`" style="background-image:url('`+image+"?width=138"+`')">
-            <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+(i+1)+`</b></div></div>
-              <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
+            <div class="profile_image_div `+image_class+`" `+backStyle+`>
+            <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+items[i].li_rank+`</b></div></div>
+              <img class="profile_image" alt="`+image+"?width=138"+`" style="`+style+`">
             </div>
             <div class="info">
               <div class="name">
@@ -739,6 +813,7 @@ loadData();
   }
 
   function nextList(e) {
+    lazyLoaded = false;
     worm.innerHTML = "";
     firstAd.style.left = "0px";
     worm.scrollLeft = 0;
@@ -746,32 +821,45 @@ loadData();
   }
   //initial event listeners declaration
   worm.addEventListener("scroll", onSwipe);
-  function onSwipe(e) {
-    isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
-
-    // set visibility of helper and list title, based on scroll position
-    if (this.scrollLeft > 20) {
-      worm.classList.add("stopAnim");
-      helper2.style.opacity = '0';
-    }
-    else {
-      worm.classList.remove("stopAnim");
-      helper.style.opacity = '1';
-      helper2.style.opacity = '1';
-    }
-    var rect = firstAd.getBoundingClientRect();
-    if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
-      var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft+450) /900)].parentElement.offsetLeft + 150;
-      firstAd.style.left = (left - firstAd.offsetWidth) + "px";
-    }
-    clearTimeout(scrollingTimout);
-    scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
-      if (userScroll == true) {
-        setScroll();
+  function onSwipe() {
+    if (userScrolling) {
+      if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
+        lazyLoaded = true;
+        setTimeout(function(){ // wait for dom loaded before grabbing array of images
+          var notLoadedImages = worm.getElementsByClassName("profile_image");
+          for (var index = 1; index < notLoadedImages.length; index++) {
+            notLoadedImages[index].src = notLoadedImages[index].alt;
+          }
+        }, 400);
       }
-      worm.removeEventListener("mousemove", onMouseMove);
-      isScrolling = false; //will return true or false based on whether the user is currently scrolling or not
-    }, 250);
+      isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
+
+      // set visibility of helper and list title, based on scroll position
+      if (this.scrollLeft > 20) {
+        if (helper2.style.opacity != '0') {
+          worm.classList.add("stopAnim");
+          helper2.style.opacity = '0';
+        }
+      }
+      else {
+        worm.classList.remove("stopAnim");
+        helper.style.opacity = '1';
+        helper2.style.opacity = '1';
+      }
+      var rect = firstAd.getBoundingClientRect();
+      if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
+        var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft+450) /900)].parentElement.offsetLeft + 150;
+        firstAd.style.left = (left - firstAd.offsetWidth) + "px";
+      }
+      clearTimeout(scrollingTimout);
+      scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
+        if (userScroll == true) {
+          setScroll();
+        }
+        worm.removeEventListener("mousemove", onMouseMove);
+        isScrolling = false; //will return true or false based on whether the user is currently scrolling or not
+      }, 250);
+    }
   }
   worm.addEventListener("touchend", onFingerUp);
   function onFingerUp(e) { //logic to determine if the user is currently actively scrolling
@@ -814,28 +902,38 @@ loadData();
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
     var counter = 0;
+    var wormScroll = worm.scrollLeft;
     for (i = 0; i < wormBlocks.length;  i++) {
-      if ((worm.scrollLeft + 150) >= wormBlocks[i].offsetLeft && (worm.scrollLeft + 150) <= (wormBlocks[i].offsetLeft + wormBlocks[i].offsetWidth) && worm.scrollLeft > 20) {
+      var currentBlock = wormBlocks[i];
+      if ((wormScroll + 150) >= currentBlock.offsetLeft && (wormScroll + 150) <= (currentBlock.offsetLeft + currentBlock.offsetWidth) && wormScroll > 20) {
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
-        scrollTo = wormBlocks[i].offsetLeft;
-        if (worm.scrollLeft < scrollTo) {
+        scrollTo = currentBlock.offsetLeft;
+        if (wormScroll < scrollTo) {
           scrollIncrements = 10; //advance
         }
         else {
           scrollIncrements = -10; //retreat
         }
         clearInterval(setSmoothScrollInterval);
-        setSmoothScrollInterval = setInterval(function(){
+        // var currentTime;
+        // var prevTime = 0;
+        setSmoothScrollInterval = setInterval(autoScroll, 20);
+        function autoScroll(){
+          // var date = new Date();
+          // currentTime = date.getTime();
+          // if (prevTime != 0) {
+          //   console.log("time between intervals: "+(currentTime - prevTime));
+          // }
+          // if (currentTime - prevTime > 50 && prevTime != 0) {
+          //   debugger;
+          // }
+          wormScroll = worm.scrollLeft;
+          userScrolling = false;
           var marginOfError = Math.abs(scrollIncrements) - 1;
-          if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
-            if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
-              scrollIncrements = -1;
-            }
-            else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
-              scrollIncrements = 1;
-            }
+          if (wormScroll < (scrollTo - marginOfError) || wormScroll > (scrollTo + marginOfError)) { //if we still have autoscrolling to do...
             //if within margin of error of target, end scroll
-            if (i == (wormBlocks.length - 1) || counter > 30) {
+            if (i == (wormBlocks.length - 2) || counter > 30) {
+              userScrolling = true;
               userScroll = false;
               setTimeout(function(){
                 userScroll = true;
@@ -843,18 +941,19 @@ loadData();
               clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
+              if (scrollIncrements > 0 && wormScroll > scrollTo) { // we have overshot
+                scrollIncrements = -1;
+              }
+              else if (scrollIncrements < 0 && wormScroll < scrollTo) { // we have overshot other side
+                scrollIncrements = 1;
+              }
               counter++;
-              worm.scrollLeft = worm.scrollLeft + scrollIncrements; //apply the interpolation step
+              worm.scrollLeft = wormScroll + scrollIncrements; //apply the interpolation step
             }
           }
-          else if (worm.scrollLeft < (scrollTo) || worm.scrollLeft > (scrollTo)) {// if in the last frame of interpolation
-            if (scrollIncrements > 0 && worm.scrollLeft > scrollTo) { // we have overshot
-              scrollIncrements = -1;
-            }
-            else if (scrollIncrements < 0 && worm.scrollLeft < scrollTo) { // we have overshot other side
-              scrollIncrements = 1;
-            }
-            if (i == (wormBlocks.length - 1) || counter > 30) {
+          else if (wormScroll < scrollTo || wormScroll > scrollTo) {// if in the last frame of interpolation
+            if (i == (wormBlocks.length - 2) || counter > 30) {
+              userScrolling = true;
               userScroll = false;
               setTimeout(function(){
                 userScroll = true;
@@ -862,18 +961,28 @@ loadData();
               clearInterval(setSmoothScrollInterval); //we have reached the end of the list. stop the loop
             }
             else {
+              if (scrollIncrements > 0 && wormScroll > scrollTo) { // we have overshot
+                scrollIncrements = -1;
+              }
+              else if (scrollIncrements < 0 && wormScroll < scrollTo) { // we have overshot other side
+                scrollIncrements = 1;
+              }
               counter++;
-              worm.scrollLeft = worm.scrollLeft + 1; //apply the interpolation step
+              worm.scrollLeft = wormScroll + 1; //apply the interpolation step
             }
           }
           else { //we have reached the end of the interpolation. stop the loop
+            userScrolling = true;
             userScroll = false;
             setTimeout(function(){
               userScroll = true;
             }, 500);
             clearInterval(setSmoothScrollInterval);
           }
-        }, 20);
+          // date = new Date();
+          // prevTime = date.getTime();
+          // console.log("code execution time: " + (prevTime - currentTime));
+        }
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
@@ -895,9 +1004,12 @@ loadData();
           scrollIncrements = -1;
         }
         setSmoothScrollInterval = setInterval(function(){
+          wormScroll = worm.scrollLeft;
+          userScrolling = false;
           var marginOfError = 0;
           if (worm.scrollLeft < (scrollTo - marginOfError) || worm.scrollLeft > (scrollTo + marginOfError)) {
             if (i == (wormBlocks.length - 1) || counter > 30) {
+              userScrolling = true;
               userScroll = false;
               setTimeout(function(){
                 userScroll = true;
@@ -909,6 +1021,7 @@ loadData();
             }
           }
           else {
+            userScrolling = true;
             userScroll = false;
             setTimeout(function(){
               userScroll = true;
@@ -926,4 +1039,13 @@ loadData();
     // }
   }
 }
-centipede();
+if(document.readyState == "complete"){
+  centipede();
+}
+else {
+  document.onreadystatechange = function () {
+    if(document.readyState == "complete"){
+      centipede();
+    }
+  }
+}
