@@ -634,15 +634,15 @@ loadData();
     else if (input.group == "entertainment" || input.category == "entertainment") { //if celeb data, transform it
       var items = [];
         for (i = 0; i < data.l_data.length; i++) {
-          if (data.l_data[i].data_point_1 == null || data.l_data[i].data_value_1 == null) {
-            data.l_data[i].data_point_1 = data.l_data[i].fallback_data_point_1;
-            data.l_data[i].data_value_1 = data.l_data[i].fallback_data_value_1;
+          if (data.l_data[i].data_point_2 == null || data.l_data[i].data_value_2 == null) {
+            data.l_data[i].data_point_2 = data.l_data[i].fallback_data_point_1;
+            data.l_data[i].data_value_2 = data.l_data[i].fallback_data_value_1;
           }
           items.push(
             {
               li_img: data.l_data[i].li_img,
-              li_value: data.l_data[i].data_value_1,
-              li_tag: data.l_data[i].data_point_1,
+              li_value: data.l_data[i].data_value_2,
+              li_tag: data.l_data[i].data_point_2,
               li_title: data.l_data[i].li_title,
               li_sub_txt: data.l_data[i].li_sub_txt,
               li_rank: data.l_data[i].li_rank
@@ -669,6 +669,12 @@ loadData();
       var style="";
       var image_class = "";
     }
+    if (input.category == "finance" || input.group == "money") {
+      backStyle = `style="background-image:url('`+image+"?width=138"+`')"`;
+    }
+    else {
+      backStyle = `style="background-color: black;"`;
+    }
     helper.innerHTML = data.l_title;
     worm.innerHTML = `
     <style>
@@ -678,7 +684,7 @@ loadData();
     </style>
       <div class="worm_block">
         <div class="list_item">
-          <div class="profile_image_div `+image_class+`" style="background-image:url('`+image+"?width=138"+`')">
+          <div class="profile_image_div `+image_class+`" `+backStyle+`>
           <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+items[0].li_rank+`</b></div></div>
             <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
           </div>
