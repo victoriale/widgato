@@ -485,6 +485,10 @@ var iframeContent = friendlyIframe.contentWindow;
       disaster: {
         hex: "#43B149",
         fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/real_estate_stock.jpg"
+      },
+      celebrities: {
+        hex: "#6459d3",
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/04/actor.jpg"
       }
     };
       if (pub == null || pub == "" || !pubs[pub]) {
