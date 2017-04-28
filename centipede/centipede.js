@@ -790,10 +790,12 @@ loadData();
     if (userScrolling) {
       if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
         lazyLoaded = true;
-        var notLoadedImages = worm.getElementsByClassName("profile_image");
-        for (var index = 1; index < notLoadedImages.length; index++) {
-          notLoadedImages[index].src = notLoadedImages[index].alt;
-        }
+        setTimeout(function(){ // wait for dom loaded before grabbing array of images
+          var notLoadedImages = worm.getElementsByClassName("profile_image");
+          for (var index = 1; index < notLoadedImages.length; index++) {
+            notLoadedImages[index].src = notLoadedImages[index].alt;
+          }
+        }, 200);
       }
       isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
 
@@ -895,7 +897,7 @@ loadData();
           var marginOfError = Math.abs(scrollIncrements) - 1;
           if (wormScroll < (scrollTo - marginOfError) || wormScroll > (scrollTo + marginOfError)) { //if we still have autoscrolling to do...
             //if within margin of error of target, end scroll
-            if (i == (wormBlocks.length - 1) || counter > 30) {
+            if (i == (wormBlocks.length - 2) || counter > 30) {
               userScrolling = true;
               userScroll = false;
               setTimeout(function(){
@@ -915,7 +917,7 @@ loadData();
             }
           }
           else if (wormScroll < scrollTo || wormScroll > scrollTo) {// if in the last frame of interpolation
-            if (i == (wormBlocks.length - 1) || counter > 30) {
+            if (i == (wormBlocks.length - 2) || counter > 30) {
               userScrolling = true;
               userScroll = false;
               setTimeout(function(){
