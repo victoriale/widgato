@@ -882,8 +882,8 @@ loadData();
         // var prevTime = 0;
         setSmoothScrollInterval = setInterval(autoScroll, 20);
         function autoScroll(){
-          var date = new Date();
-          currentTime = date.getTime();
+          // var date = new Date();
+          // currentTime = date.getTime();
           // if (prevTime != 0) {
           //   console.log("time between intervals: "+(currentTime - prevTime));
           // }
