@@ -818,7 +818,7 @@ loadData();
           for (var index = 1; index < notLoadedImages.length; index++) {
             notLoadedImages[index].src = notLoadedImages[index].alt;
           }
-        }, 200);
+        }, 400);
       }
       isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
 
