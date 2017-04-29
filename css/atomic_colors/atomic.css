@@ -1,0 +1,287 @@
+
+/* USE BELOW AS BASE COPY AND PASE THEN CHANGE COLORS
+** NAME OF CLASSES TO WHAT YOU WANT TO USE
+** Classes in here will be used dynamically to change inheritted colors
+** NOTE there is a breakpoint that reverses logic of a few atomics
+** PLEASE Search for QUERY BREAKPOINT to find these query breakpoints
+*/
+
+/*******************************DEFAULT*******************************/
+#default .atomic {
+    color: #009dfb;
+}
+#default .atomic_border{
+    border: 1px solid #009dfb  !important;
+}
+#default .atomic_img_bg {
+    background-color: #009dfb  !important;
+}
+#default .atomic_bg:hover:before {
+    background-color: #009dfb  !important;
+}
+
+/*WIDE VERSION*/
+#default-wide .atomic {
+    color: #009dfb;
+}
+#default-wide .atomic_border{
+    border: 1px solid #009dfb  !important;
+}
+#default-wide .atomic_border:hover{
+    border: 1px solid #ffffff  !important;
+}
+#default-wide .atomic_img_bg {
+    background-color: #009dfb  !important;
+}
+#default-wide .atomic_bg {
+    background-color: #009dfb  !important;
+}
+#default-wide .atomic_bg:hover:before {
+    background-color: #ffffff  !important;
+}
+/*******************************DEFAULT*******************************/
+
+/*******************************FOOTBALL*******************************/
+#football .atomic {
+    color: #004e87;
+}
+#football .atomic_border{
+    border: 1px solid #004e87 !important;
+}
+#football .atomic_img_bg {
+    background-color: #004e87 !important;
+}
+#football .atomic_bg:hover:before {
+    background-color: #004e87 !important;
+}
+
+/*WIDE VERSION*/
+#football-wide .atomic {
+    color: #004e87;
+}
+#football-wide .atomic_border{
+    border: 1px solid #004e87 !important;
+}
+#football-wide .atomic_border:hover{
+    border: 1px solid #ffffff  !important;
+}
+#football-wide .atomic_img_bg {
+    background-color: #004e87 !important;
+}
+#football-wide .atomic_bg {
+    background-color: #009dfb  !important;
+}
+#football-wide .atomic_bg:hover:before {
+    background-color: #ffffff !important;
+}
+/*******************************FOOTBALL*******************************/
+
+/*******************************BASKETBALL*******************************/
+#basketball .atomic {
+    color: #f26f26;
+}
+#basketball .atomic_border{
+    border: 1px solid #f26f26 !important;
+}
+#basketball .atomic_img_bg {
+    background-color: #f26f26 !important;
+}
+#basketball .atomic_bg:hover:before {
+    background-color: #f26f26 !important;
+}
+
+/*WIDE VERSION*/
+#basketball-wide .atomic {
+    color: #f26f26;
+}
+#basketball-wide .atomic_border{
+    border: 1px solid #f26f26 !important;
+}
+#basketball-wide .atomic_border:hover{
+    border: 1px solid #ffffff  !important;
+}
+#basketball-wide .atomic_img_bg {
+    background-color: #f26f26 !important;
+}
+#basketball-wide .atomic_bg {
+    background-color: #f26f26  !important;
+}
+#basketball-wide .atomic_bg:hover:before {
+    background-color: #ffffff !important;
+}
+/*******************************BASKETBALL*******************************/
+
+/*******************************BASEBALL*******************************/
+#baseball .atomic {
+    color: #bc2027;
+}
+#baseball .atomic_border{
+    border: 1px solid #bc2027 !important;
+}
+#baseball .atomic_img_bg {
+    background-color: #bc2027 !important;
+}
+#baseball .atomic_bg:hover:before {
+    background-color: #bc2027 !important;
+}
+
+/*WIDE VERSION*/
+#baseball-wide .atomic {
+    color: #bc2027;
+}
+#baseball-wide .atomic_border{
+    border: 1px solid #bc2027 !important;
+}
+#baseball-wide .atomic_border:hover{
+    border: 1px solid #ffffff  !important;
+}
+#baseball-wide .atomic_img_bg {
+    background-color: #bc2027 !important;
+}
+#baseball-wide .atomic_bg {
+    background-color: #bc2027  !important;
+}
+#baseball-wide .atomic_bg:hover:before {
+    background-color: #ffffff !important;
+}
+/*******************************BASEBALL*******************************/
+
+/*******************************FINANCE*******************************/
+#finance .atomic {
+    color: #3098ff;
+}
+#finance .atomic_border{
+    border: 1px solid #3098ff !important;
+}
+#finance .atomic_img_bg {
+    background-color: #3098ff !important;
+}
+#finance .atomic_bg:hover:before {
+    background-color: #3098ff !important;
+}
+
+/*WIDE VERSION*/
+#finance-wide .atomic {
+    color: #3098ff;
+}
+#finance-wide .atomic_border{
+    border: 1px solid #3098ff !important;
+}
+#finance-wide .atomic_border:hover{
+    border: 1px solid #ffffff  !important;
+}
+#finance-wide .atomic_img_bg {
+    background-color: #3098ff !important;
+}
+#finance-wide .atomic_bg {
+    background-color: #3098ff  !important;
+}
+#finance-wide .atomic_bg:hover:before {
+    background-color: #ffffff !important;
+}
+/*******************************FINANCE*******************************/
+
+/*******************************REALESTATE*******************************/
+#realestate .atomic {
+    color: #43B149;
+}
+#realestate .atomic_border{
+    border: 1px solid #43B149 !important;
+}
+#realestate .atomic_img_bg {
+    background-color: #43B149 !important;
+}
+#realestate .atomic_bg:hover:before {
+    background-color: #43B149 !important;
+}
+
+/*WIDE VERSION*/
+#realestate-wide .atomic {
+    color: #43B149;
+}
+#realestate-wide .atomic_border{
+    border: 1px solid #43B149 !important;
+}
+#realestate-wide .atomic_border:hover{
+    border: 1px solid #ffffff  !important;
+}
+#realestate-wide .atomic_img_bg {
+    background-color: #43B149 !important;
+}
+#realestate-wide .atomic_bg {
+    background-color: #43B149  !important;
+}
+#realestate-wide .atomic_bg:hover:before {
+    background-color: #ffffff !important;
+}
+/*******************************REALESTATE*******************************/
+
+/*******************************WEATHER*******************************/
+#weather .atomic {
+    color: #43B149;
+}
+#weather .atomic_border{
+    border: 1px solid #43B149 !important;
+}
+#weather .atomic_img_bg {
+    background-color: #43B149 !important;
+}
+#weather .atomic_bg:hover:before {
+    background-color: #43B149 !important;
+}
+
+/*WIDE VERSION*/
+#weather-wide .atomic {
+    color: #43B149;
+}
+#weather-wide .atomic_border{
+    border: 1px solid #43B149 !important;
+}
+#weather-wide .atomic_border:hover{
+    border: 1px solid #ffffff  !important;
+}
+#weather-wide .atomic_img_bg {
+    background-color: #43B149 !important;
+}
+#weather-wide .atomic_bg {
+    background-color: #43B149  !important;
+}
+#weather-wide .atomic_bg:hover:before {
+    background-color: #ffffff !important;
+}
+/*******************************WEATHER*******************************/
+
+/*******************************ENTERTAINMENT*****************************/
+#entertainment .atomic {
+    color: #6459d3;
+}
+#entertainment .atomic_border{
+    border: 1px solid #6459d3 !important;
+}
+#entertainment .atomic_img_bg {
+    background-color: #6459d3 !important;
+}
+#entertainment .atomic_bg:hover:before {
+    background-color: #6459d3 !important;
+}
+
+/*WIDE VERSION*/
+#entertainment-wide .atomic {
+    color: #6459d3;
+}
+#entertainment-wide .atomic_border{
+    border: 1px solid #6459d3 !important;
+}
+#entertainment-wide .atomic_border:hover{
+    border: 1px solid #ffffff  !important;
+}
+#entertainment-wide .atomic_img_bg {
+    background-color: #6459d3 !important;
+}
+#entertainment-wide .atomic_bg {
+    background-color: #6459d3  !important;
+}
+#entertainment-wide .atomic_bg:hover:before {
+    background-color: #ffffff !important;
+}
+/*******************************ENTERTAINMENT*******************************/
