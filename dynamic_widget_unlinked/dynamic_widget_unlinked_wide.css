@@ -3,9 +3,7 @@
 ** Otherwise QUERY BREAKPOINTS is where css code difference resides for dynamic widget
 */
 
-
 /*************************************DEFAULT*********************************/
-
 @import url("../css/atomic_colors/atomic.css");
 html, body {
     margin: 0 !important;
@@ -109,6 +107,7 @@ button:hover {
 }
 
 .text-wrap {
+    /*Modifed for _wide.css*/
     color: #ffffff;
     overflow: hidden;
     white-space: nowrap;
@@ -116,12 +115,16 @@ button:hover {
 }
 
 .widget_ad {
-    width: 300px;
-    height: 600px;
+    /*Modifed for _wide.css*/
+    width: 100%;
+    max-width: 992px;
+    min-width: 650px;
+    height: 250px;
     margin: auto;
 }
 
 .e_container {
+    /*Modifed for _wide.css*/
     width: calc(100% - 300px);
     height: 100%;
     overflow: hidden;
@@ -129,6 +132,7 @@ button:hover {
 }
 
 .e_widget {
+    /*Modifed for _wide.css*/
     width: 100%;
     height: 100%;
     border: 1px solid #e1e1e1;
@@ -136,6 +140,7 @@ button:hover {
 }
 
 .e_image-carousel {
+    /*Modifed for _wide.css*/
     width: 100%;
     height: 100%;
     text-align: center;
@@ -144,6 +149,7 @@ button:hover {
 }
 
 .e_data_box {
+    /*Modifed for _wide.css*/
     width: 100%;
     height: 100%;
     position: absolute;
@@ -153,6 +159,7 @@ button:hover {
 }
 
 .e_image-title {
+    /*Modifed for _wide.css*/
     color: #ffffff;
     font-size: 20px;
     line-height: 24px;
@@ -161,6 +168,7 @@ button:hover {
 }
 
 .line-clamp {
+    /*Modifed for _wide.css*/
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -191,6 +199,7 @@ button:hover {
 }
 
 .e_image-shader {
+    /*Modifed for _wide.css*/
     position: absolute;
     top: 0;
     left: 0;
@@ -202,6 +211,7 @@ button:hover {
 }
 
 .e_image-cover {
+    /*Modifed for _wide.css*/
     width: 100%;
     height: 100%;
     position: absolute;
@@ -212,6 +222,8 @@ button:hover {
 }
 
 .pound {
+    /*Modifed for _wide.css*/
+    display: none;
     font-weight: 300;
     color: #000000;
     font-size: 100px;
@@ -221,6 +233,8 @@ button:hover {
 }
 
 #mainimg-rank {
+    /*Modifed for _wide.css*/
+    display: none;
     font-weight: 700;
     font-size: 130px;
     line-height: 180px;
@@ -229,10 +243,12 @@ button:hover {
 }
 
 .e_info_box-profile {
+    /*Modifed for _wide.css*/
     width: 100%;
 }
 
 .block-data {
+    /*Modifed for _wide.css*/
     padding-left: 15px;
     width: auto;
     height: 50px;
@@ -240,6 +256,7 @@ button:hover {
 }
 
 .profile-rank {
+    /*Modifed for _wide.css*/
     width: 50px;
     height: 50px;
     line-height: 50px;
@@ -275,28 +292,33 @@ button:hover {
 }
 
 .profile-data #profile-name {
+    /*Modifed for _wide.css*/
     color: #ffffff;
     font-size: 18px;
 }
 
 .profile-data #profile-datapoint1 {
+    /*Modifed for _wide.css*/
     color: #ffffff;
     font-size: 12px;
 }
 
 .profile-data #profile-datavalue1 {
+    /*Modifed for _wide.css*/
     color: #ffffff;
     font-size: 12px;
     font-weight: 700;
 }
 
 .profile-data #profile-datavalue2 {
+    /*Modifed for _wide.css*/
     color: #ffffff;
     font-size: 14px;
     font-weight: 900;
 }
 
 .profile-data #profile-datapoint2 {
+    /*Modifed for _wide.css*/
     color: #ffffff;
     font-size: 14px;
 }
@@ -321,6 +343,7 @@ button:hover {
 }
 
 .e_info_box-cta button {
+    /*Modifed for _wide.css*/
     border-radius: 5px;
     background-color: transparent;
     display: inline-block;
@@ -328,6 +351,7 @@ button:hover {
 }
 
 .cta_button-list {
+    /*Modifed for _wide.css*/
     width: 140px;
     height: 100%;
     margin-left: 30px;
@@ -340,6 +364,10 @@ button:hover {
     color: #ffffff;
     position: relative;
     z-index: 2;
+    -webkit-transition: border .3s ease-in-out;
+    -moz-transition: border .3s ease-in-out;
+    -o-transition: border .3s ease-in-out;
+    transition: border .3s ease-in-out;
 }
 
 .leftTransform:before {
@@ -445,111 +473,86 @@ button:hover {
     height: 20px;
 }
 
-
 /*.e_advertisement {
 width: 100%;
 height: 250px;
 background-color: #000000;
 }*/
 
-
 /*************************************DEFAULT*********************************/
 
-
 /*************************************QUERY BREAKPOINS*********************************/
-
-
-/*@media screen and (max-width: 649px) {*/
-
-.text-wrap {
-    color: #000000;
+@media screen and (min-width: 650px), (min-width: 992px){
+  .default_background:hover:before {
+      background-color: #ffffff !important;
+  }
+  .e_image-title {
+      margin: 30px 0;
+      padding: 0 30px;
+      position: absolute;
+      top:0;
+      left:0;
+      z-index: 2;
+      font-size: 16px;
+  }
+  .e_info_box {
+      width: auto;
+      min-width: 350px;
+      height: 140px;
+      position: absolute;
+      top: 110px;
+      z-index: 10;
+  }
+  .e_info_box-profile{
+    margin-bottom: 24px;
+  }
+  .e_image-shader {
+      display: block !important;
+  }
+  .e_image-cover {
+      display: block !important;
+  }
+  .cta_button-list {
+      color: #ffffff;
+  }
+  .cta_button-list:hover {
+      border: none !important;
+      color: inherit;
+  }
+  .cta_button-previous {
+      color: #ffffff !important;
+  }
+  .cta_button-previous:hover {
+      border: 1px solid #ffffff;
+      color: #000000 !important;
+  }
+  .cta_button-next {
+      color: #ffffff !important;
+  }
+  .cta_button-next:hover {
+      border: 1px solid #ffffff;
+      color: #000000 !important;
+  }
+  .margin_gap {
+      display:none;
+  }
 }
 
-.e_container {
+@media screen and (min-width: 992px) {
+    .e_image-title {
+      font-size: 20px;
+    }
+}
+
+@media screen and (max-width: 649px) {
+  .widget_ad{
     width: 300px;
-    height: 350px;
-}
-
-.e_widget {
-    height: auto;
-}
-
-.e_image-carousel {
-    height: 190px;
-}
-
-.e_image-title {
-    margin: 0 15px 15px 15px;
-    font-size: 18px;
-    line-height: 26px;
-    position: absolute;
-    z-index: 3;
-    left: 0;
-    bottom: 0;
-}
-
-.e_image-shader {
-    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.8));
-    background-color: transparent;
-}
-
-.e_image-cover {
+    min-width: 300px;
+    max-width: 649px;
+    margin:0 auto;
+  }
+  .e_container{
     display: none;
-    opacity: 0.85;
+  }
 }
-
-.e_info_box {
-    width: 100%;
-    height: 140px;
-}
-
-.e_info_box-profile {
-    width: 100%;
-    height: 90px;
-    padding-top: 20px;
-}
-
-.block-data {
-    width: 100%;
-    height: 50px;
-}
-
-.profile-rank {
-    color: #000000;
-}
-
-.profile-data #profile-name {
-    color: #000000;
-}
-
-.profile-data #profile-datapoint1 {
-    color: #000000;
-}
-
-.profile-data #profile-datavalue1 {
-    color: #000000;
-}
-
-.profile-data #profile-datavalue2 {
-    color: #000000;
-}
-
-.profile-data #profile-datapoint2 {
-    color: #000000;
-}
-
-.e_info_box-cta button {
-    color: inherit;
-    background-color: #ffffff;
-}
-
-.cta_button-list {
-    background-color: #ffffff !important;
-    margin-left: 15px;
-}
-
-
-/*}*/
-
-
 /*************************************QUERY BREAKPOINS*********************************/

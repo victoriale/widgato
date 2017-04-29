@@ -1,6 +1,9 @@
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var temp = location.search;
 var query = {}; //query string from sent parameters
+var widthBreakpoint = 649; // in pixels
+var wideWidget = false; // flag that changes certain functions to run differently (default = false)
+var windowWidth;
 var apiCallUrl; // this is global call that is used for api calls
 var imageUrl = "images.synapsys.us"; // this is global call that is used for images
 var dwApi = "dw.synapsys.us/list_api.php"; // dynamic widget api
@@ -27,6 +30,9 @@ document.addEventListener("DOMContentLoaded", function(event) { // TAKE ANOTHER 
         listRand = query.rand ? query.rand : 1;
         //FIRST THING IS SETUP ENVIRONMENTS
         setupEnvironment(query);
+
+        //Flag if wideScript exists then run certain scripts differently
+        wideScript();
 
         //THEN START UPDATING THE LISTS
         updateList(0);
@@ -58,6 +64,17 @@ function synapsysENV(env) {
     return env;
 }
 
+//simple flag that checks if there is an identifier and it is javascript
+// DOES NOT CHANGE ON RESIZE use onresize or event listener for that
+// currently it is to run on first load
+function wideScript(){
+  var checkScriptID = $("dw_wide");
+  windowWidth = window.innerWidth;
+  if( (windowWidth > widthBreakpoint) && checkScriptID != null){
+    wideWidget = true;
+  }
+}
+
 /***************************** SETUP ENVIRONMENTS ******************************
  * @function setupEnvironment
  * setup Environment function
@@ -67,11 +84,11 @@ function synapsysENV(env) {
  */
 function setupEnvironment(widgetQuery) {
     apiCallUrl = protocolToUse;
-    let dom = widgetQuery.dom;
-    let cat = widgetQuery.category;
-    let group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
-    let environment = window.location.hostname.split('.')[0];
-    let env;
+    var dom = widgetQuery.dom;
+    var cat = widgetQuery.category;
+    var group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
+    var environment = window.location.hostname.split('.')[0];
+    var env;
     if (widgetQuery.env != null) {
         env = widgetQuery.env ? widgetQuery.env : 'prod';
     } else {
@@ -104,7 +121,7 @@ function setupEnvironment(widgetQuery) {
     }
 
     //FALL BACK API SET HERE INCASE Dynamic widget api fails to make a call
-    fallBackApi =  protocolToUse + synapsysENV(environment) + dwApi + "?group=sports";
+    fallBackApi = protocolToUse + synapsysENV(environment) + dwApi + "?group=sports";
 }
 
 /************************ UPDATE LIST ***********************
@@ -120,7 +137,7 @@ function updateList(listNum) {
         getFootballList(query.category);
     } else {
         listRand = Number(listRand) + Number(listNum);
-        let currentApi = apiCallUrl + "&rand=" + listRand;
+        var currentApi = apiCallUrl + "&rand=" + listRand;
         runAPI(currentApi);
     }
 }
@@ -169,7 +186,7 @@ function getRandFootballList(jsonArray) {
     rand = Math.floor((Math.random() * (jsonArray.length - 1)) + 1);
     var date = new Date;
     var compareDate = new Date('09/15/' + date.getFullYear());
-    let season;
+    var season;
     if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
         season = jsonArray[rand] + "&season=" + date.getFullYear();
     } else if (date.getMonth() > compareDate.getMonth()) {
@@ -236,10 +253,10 @@ function runAPI(apiUrl) { //Make it to where it is easy to be reused by anyone
                     }
                 }
                 msg = 'HTTP Error (' + this.status + '): ' + msg;
-                if ( tries > (maxTries - 2) ){
-                  console.warn( msg + " | hiding widget container | => SWAPPING TO FALLBACK" );
-                  apiUrl = fallBackApi+"&rand=1";
-                  apiCallUrl = fallBackApi;
+                if (tries > (maxTries - 2)) {
+                    console.warn(msg + " | hiding widget container | => SWAPPING TO FALLBACK");
+                    apiUrl = fallBackApi + "&rand=1";
+                    apiCallUrl = fallBackApi;
                 }
                 if (tries++ > maxTries) { // IF WIDGET FAILS THEN HIDE THE ENTIRE CONTAINER
                     document.getElementsByClassName('e_container')[0].style.display = 'none';
@@ -272,11 +289,11 @@ function displayWidget() {
 
         /***************************FOOTBALL DATA APPLIANCE*******************************/
         if (query.group == null && (query.category == "football" || query.category == "nfl" || query.category == "ncaaf")) {
-            let dataArray = widgetData.data.listData;
+            var dataArray = widgetData.data.listData;
             setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
             maxIndex = dataArray.length;
-            let curData = dataArray[currentIndex];
+            var curData = dataArray[currentIndex];
 
             //list title
             $("profile-title").innerHTML = widgetData.data.listInfo.listName;
@@ -286,72 +303,114 @@ function displayWidget() {
 
             //current index of a player or team to display
             if (curData.rankType == "player") {
-                let image = checkImage(imageUrl + curData.playerHeadshotUrl);
+                var image = checkImage(imageUrl + curData.playerHeadshotUrl);
                 if (image != null) {
-                  $("mainimg").style.backgroundImage = "url('"+image+"')";
+                    $("mainimg").style.backgroundImage = "url('" + image + "')";
                 }
 
                 $("profile-name").innerHTML = curData.playerFirstName + " " + curData.playerLastName;
 
                 $("profile-datapoint1").innerHTML = "Team: ";
                 $("profile-datavalue1").innerHTML = curData.teamName;
+
                 $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
                 $("profile-datapoint2").innerHTML = " " + curData.statDescription;
+
+                $("name-title").setAttribute("title", curData.playerFirstName + " " + curData.playerLastName);
+                $("data-title1").setAttribute("title",  "Team: " + curData.teamName);
+                $("data-title2").setAttribute("title", Number(curData.stat).toFixed(2) + " " + curData.statDescription);
             } else {
-                let image = checkImage(imageUrl + curData.teamLogo);
+                var image = checkImage(imageUrl + curData.teamLogo);
                 if (image != null) {
-                  $("mainimg").style.backgroundImage = "url('"+image+"')";
+                    $("mainimg").style.backgroundImage = "url('" + image + "')";
                 }
 
                 $("profile-name").innerHTML = curData.teamName;
                 $("profile-datapoint1").innerHTML = "Division: ";
                 $("profile-datavalue1").innerHTML = curData.divisionName;
+
                 $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
                 $("profile-datapoint2").innerHTML = ": " + curData.statDescription;
+
+                $("name-title").setAttribute("title", curData.teamName);
+                $("data-title1").setAttribute("title", "Division: " + curData.divisionName);
+                $("data-title2").setAttribute("title",  Number(curData.stat).toFixed(2) + ": " + curData.statDescription);
             }
             /***************************END OF FOOTBALL DATA*******************************/
         } else { /***************************DYNAMIC DATA APPLIANCE*******************************/
-            let dataArray = widgetData.l_data;
+            var dataArray = widgetData.l_data;
 
             //checks if a category from group lists is being sent back then setting it as the subCategoryto be checked for proper color and fallback images
-            if ( query.group != null && widgetData.category != null) {
+            if (query.group != null && widgetData.category != null) {
                 subCategory = widgetData.category;
-            }else if ( query.group != null && widgetData.category == null ){
+            } else if (query.group != null && widgetData.category == null) {
                 subCategory = null;
             }
-
 
             setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
             maxIndex = dataArray.length;
             //current index of list
-            let curData = dataArray[currentIndex];
+            var curData = dataArray[currentIndex];
 
             //list title
             $("profile-title").innerHTML = widgetData.l_title;
 
             //checks if a proper live image is being sent from team_wide_img or player_wide_img otherwise default to li_img datapoint
-            let image;
+            var image;
 
-            if(curData.player_wide_img != null && curData.player_wide_img != ""){
-              image = checkImage(imageUrl+curData.player_wide_img);
-            }else if( (curData.player_wide_img == null || curData.player_wide_img == "") && (curData.team_wide_img != null && curData.team_wide_img != "") ){
-              image = checkImage(imageUrl+curData.team_wide_img);
-            }else{
-              image = checkImage(curData.li_img);
+            if (curData.player_wide_img != null && curData.player_wide_img != "") {
+                image = checkImage(imageUrl + curData.player_wide_img);
+            } else if ((curData.player_wide_img == null || curData.player_wide_img == "") && (curData.team_wide_img != null && curData.team_wide_img != "")) {
+                image = checkImage(imageUrl + curData.team_wide_img);
+            } else {
+                image = checkImage(curData.li_img);
             }
 
             if (image != null) {
-              $("mainimg").style.backgroundImage = "url('"+image+"')";
+                $("mainimg").style.backgroundImage = "url('" + image + "')";
             }
 
-            $("profile-rank").innerHTML = curData.li_rank;
-            $("mainimg-rank").innerHTML = curData.li_rank;
-            $("profile-name").innerHTML = curData.li_title;
-            // $("profile-datapoint1").innerHTML = curData.li_value;
-            $("profile-datavalue1").innerHTML = curData.li_sub_txt;
-            $("profile-datapoint2").innerHTML = curData.li_tag;
-            $("profile-datavalue2").innerHTML = " " + curData.li_value;
+            //FINANCE ONE OFF where if finance we want to use only 100% of the height;
+            if (subCategory == 'finance') {
+                $("mainimg").style.backgroundSize = "auto 100%";
+            } else {
+                $("mainimg").style.backgroundSize = "cover";
+            }
+
+            $("mainimg").style.backgroundImage
+            //CELEBRITIES ONE OFF to set proper structure
+            if(subCategory == 'celebrities'){//TODO make a more efficient way to set values than whats being done below inside each if else statement
+              $("profile-rank").innerHTML = curData.li_rank;
+              $("mainimg-rank").innerHTML = curData.li_rank;
+              $("profile-name").innerHTML = curData.li_title;
+              $("name-title").setAttribute("title", curData.li_title);
+              if(curData.data_value_1 != null){
+                $("profile-datavalue1").innerHTML = curData.data_value_1;
+                $("profile-datapoint1").innerHTML = curData.data_point_1 != null ? curData.data_point_1 : '';
+                $("data-title1").setAttribute("title", curData.data_value_1);
+              }else{
+                $("profile-datavalue1").innerHTML = curData.fallback_data_value_1 != null ? curData.fallback_data_value_1 : '';
+                $("profile-datapoint1").innerHTML = curData.fallback_data_point_1 != null ? curData.fallback_data_point_1 : '';
+                $("data-title1").setAttribute("title", curData.fallback_data_value_1);
+              }
+
+              $("profile-datapoint2").innerHTML = curData.data_point_2 != null ? curData.data_point_2 : '';
+              $("profile-datavalue2").innerHTML = curData.data_value_2 != null ? " " + curData.data_value_2 : '';
+              $("data-title2").setAttribute("title", curData.data_value_2);
+            }else{
+              $("profile-rank").innerHTML = curData.li_rank;
+              $("mainimg-rank").innerHTML = curData.li_rank;
+              $("profile-name").innerHTML = curData.li_title;
+              // $("profile-datapoint1").innerHTML = curData.li_value;
+              $("profile-datavalue1").innerHTML = curData.li_sub_txt;
+              $("profile-datapoint2").innerHTML = curData.li_tag;
+              $("profile-datavalue2").innerHTML = " " + curData.li_value;
+
+              $("name-title").setAttribute("title", curData.li_title);
+              $("data-title1").setAttribute("title", curData.li_sub_txt);
+              $("data-title2").setAttribute("title", curData.li_value + " " + curData.li_tag);
+            }
         }
         /***************************END OF DYNAMIC DATA*******************************/
     } catch (e) {
@@ -369,7 +428,7 @@ function displayWidget() {
  * @param function category - sets the base category for colors that are stored in the global ./css/inheritor/inheritor.css
  */
 function setCategoryColors(category) {
-    let color;
+    var color;
     switch (category) {
         case 'football':
         case 'nfl':
@@ -385,7 +444,7 @@ function setCategoryColors(category) {
             break;
         case 'baseball':
         case 'mlb':
-        category = 'baseball';
+            category = 'baseball';
             break;
         case "realestate":
         case "disaster":
@@ -393,23 +452,34 @@ function setCategoryColors(category) {
         case "crime":
         case "weather":
         case "politics":
-        category = 'realestate';
+            category = 'realestate';
             break;
         case "finance":
         case "money":
-        category = 'finance';
+            category = 'finance';
+            break;
+        case "entertainment":
+        case "celebrities":
+        case "actor":
+        case "musician":
+        case "director":
+            category = 'entertainment';
             break;
         default:
             category = 'default';
             break;
     }
 
+    var atomicClass = document.getElementsByClassName("widget_ad")[0];
+
+    atomicClass.id = wideWidget ? category+'-wide' : category;
+
     /* SNT DEFINED CLASSES TO BE FOUND AND USED FOR
      * function classInheritorReplace(identifier, category)
      */
-    classInheritorReplace("color_inheritor", category);
-    classInheritorReplace("background_inheritor", category);
-    classInheritorReplace("button_inheritor", category);
+    // classInheritorReplace("color_inheritor", category);
+    // classInheritorReplace("background_inheritor", category);
+    // classInheritorReplace("button_inheritor", category);
 
     /********************** SETUP CATEGORY COLORS **********************
      * @function classInheritorReplace
@@ -419,31 +489,31 @@ function setCategoryColors(category) {
      *      identifier - unique identifier in the html used to run a function that replaces the color scheme based on category
      *      category - sets the base category for colors that are stored in the global ./css/inheritor/inheritor.css
      */
-    function classInheritorReplace(identifier, category) {
-        var htmlClass = document.getElementById(identifier);
-        var re = new RegExp('inheritor', "g");
-        var categoryClass = category == 'default' ? '' : category + '-'; // ex default returns nothing , football-, baseball-
-        var classes = htmlClass.className.split(" ").filter(function(c) {
-            return c.match(re) != null ? c.match(re) : null;
-        });
-        switch (identifier) {
-            case "color_inheritor":
-                htmlClass.classList.remove(classes[0]);
-                htmlClass.classList.add(categoryClass + "inheritor");
-                break;
-            case "background_inheritor":
-                htmlClass.classList.remove(classes[0]);
-                htmlClass.classList.add(categoryClass + "inheritor_img_bg");
-                break;
-            case "button_inheritor":
-                for (var i = 0; i < classes.length; i++) {
-                    htmlClass.classList.remove(classes[i]);
-                }
-                htmlClass.classList.add(categoryClass + "inheritor_border");
-                htmlClass.classList.add(categoryClass + "inheritor_bg");
-                break;
-        }
-    }
+    // function classInheritorReplace(identifier, category) {
+    //     var htmlClass = document.getElementById(identifier);
+    //     var re = new RegExp('inheritor', "g");
+    //     var categoryClass = category == 'default' ? '' : category + '-'; // ex default returns nothing , football-, baseball-
+    //     var classes = htmlClass.className.split(" ").filter(function(c) {
+    //         return c.match(re) != null ? c.match(re) : null;
+    //     });
+    //     switch (identifier) {
+    //         case "color_inheritor":
+    //             htmlClass.classList.remove(classes[0]);
+    //             htmlClass.classList.add(categoryClass + "inheritor");
+    //             break;
+    //         case "background_inheritor":
+    //             htmlClass.classList.remove(classes[0]);
+    //             htmlClass.classList.add(categoryClass + "inheritor_img_bg");
+    //             break;
+    //         case "button_inheritor":
+    //             for (var i = 0; i < classes.length; i++) {
+    //                 htmlClass.classList.remove(classes[i]);
+    //             }
+    //             htmlClass.classList.add(categoryClass + "inheritor_border");
+    //             htmlClass.classList.add(categoryClass + "inheritor_bg");
+    //             break;
+    //     }
+    // }
 
 
     /**************************************************************DEPRECATED*****************************************************/
@@ -458,7 +528,7 @@ function setCategoryColors(category) {
     //  *     styleColor - uses color based on the categoryColors and category
     //  */
     // function classLoop(cssName, style, styleColor) {
-    //     let styleSheets = getCssSelector("5embed");
+    //     var styleSheets = getCssSelector("5embed");
     //
     //     //delete inheritor rule and RE-APPLY css with new rule (easier when only one cssrule is needed to change)
     //     if (styleSheets) {
@@ -501,7 +571,7 @@ function setCategoryColors(category) {
     //  * @param function title - send in the title to choose which selector
     //  */
     // function getCssSelector(title) {
-    //     let selector = document.styleSheets;
+    //     var selector = document.styleSheets;
     //     for (var index = 0; index < selector.length; index++) {
     //         if (selector[index].title == title) {
     //             return selector[index];
@@ -546,7 +616,7 @@ function setCategoryColors(category) {
 function updateIndex(difference) {
     currentIndex += difference;
     if (currentIndex < 0) {
-        currentIndex = maxIndex -1;
+        currentIndex = maxIndex - 1;
     } else if (currentIndex >= maxIndex) {
         currentIndex = 0;
     } else {}
@@ -565,10 +635,10 @@ function updateIndex(difference) {
  *       yearNum - displays year
  */
 function dateFormat(weekdayNum, dayNum, monthNum, yearNum) {
-    let monthNames = ["January", "February", "March", "April", "May", "June",
+    var monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
-    let dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     var formatedDate = {
         weekday: dayNames[weekdayNum],
@@ -586,59 +656,77 @@ function dateFormat(weekdayNum, dayNum, monthNum, yearNum) {
  * @param function image - tosses in image to be check to be replaced with proper stock photo for the specific category
  */
 function checkImage(image) {
-    let imageReturn;
-    let showCover;
+    var imageReturn;
+    var showCover;
     var fallbackImg;
-
+    var imageWidth = wideWidget ? 690 : 300; //determine which quality widget to use based on if the wide widget is in view
     // $("mainimg").setAttribute('src', '');
 
     //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
     switch (subCategory) {
-      case "football":
-      case "nfl":
-      case "ncaaf":
-      case "nflncaaf":
-      fallbackImg = "football_stock.jpg";
-      break;
-      case 'basketball':
-      case "nba":
-      case 'ncaam':
-      case "college_basketball":
-      fallbackImg = "basketball_stock.jpg";
-      break;
-      case "finance":
-      fallbackImg = "finance_stock.jpg";
-      break;
-      case "mlb":
-      fallbackImg = "baseball_stock.jpg";
-      break;
-      case "realestate":
-      case "disaster":
-      case "demographics":
-      case "crime":
-      case "weather":
-      case "politics":
-      fallbackImg = "real_estate_stock.jpg";
-      break;
-      default:
-      fallbackImg = "failback.jpg";
+        case "football":
+        case "nfl":
+        case "ncaaf":
+        case "nflncaaf":
+            fallbackImg = "football_stock.jpg";
+            break;
+        case 'basketball':
+        case "nba":
+        case 'ncaam':
+        case "college_basketball":
+            fallbackImg = "basketball_stock.jpg";
+            break;
+        case "finance":
+            fallbackImg = "finance_stock.jpg";
+            break;
+        case "mlb":
+            fallbackImg = "baseball_stock.jpg";
+            break;
+        case "realestate":
+        case "disaster":
+        case "demographics":
+        case "crime":
+        case "weather":
+        case "politics":
+            fallbackImg = "real_estate_stock.jpg";
+            break;
+        case "celebrities":
+        case "actor":
+        case "musician":
+        case "director":
+            fallbackImg = "actor.jpg";
+            break;
+        default:
+            fallbackImg = "failback.jpg";
     }
     //prep return
-    if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && image.indexOf('no_player') == -1 && window.location.pathname.indexOf('_970') == -1) {
-        imageReturn = image + "?width=" + (300 * window.devicePixelRatio);
+    //use global flag for wideWidget (if wide widget is being used then all images are to be returned as fallback stock images)
+    if (image != null
+      && image.indexOf('no-image') == -1
+      && image.indexOf('no_image') == -1
+      && image.indexOf('no_player') == -1
+      && image.indexOf('fallback') == -1
+      && window.location.pathname.indexOf('_970') == -1
+      && !wideWidget
+    ) {
+        imageReturn = image + "?width=" + (imageWidth * window.devicePixelRatio);
         showCover = false;
     } else {
         showCover = true;
         //make sure there is a fallback image
-        imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
+        if(subCategory == "celebrities"){
+          imageReturn = imageUrl + "/01/fallback/stock/2017/04/" + fallbackImg;
+        }else{
+          imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
+        }
         //sets flag for image api to send back image with set size based on devicePixelRatio
-        imageReturn += "?width=" + (300 * window.devicePixelRatio);
+        imageReturn += "?width=" + (imageWidth * window.devicePixelRatio);
     }
 
     // $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
 
     //USED to display background color of category if a fallback image is sent back
-    let imageBackground = document.getElementsByClassName('e_image-cover');
+    var imageBackground = document.getElementsByClassName('e_image-cover');
     for (var j = 0; j < imageBackground.length; j++) {
         if (showCover) {
             $("e_image-shader").style.display = "none";
