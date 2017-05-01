@@ -662,7 +662,7 @@ loadData();
       items[0].li_value = items[0].li_value.replace(items[0].li_tag,"");
     }
     var image = items[0].li_img.replace("'","");
-    if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
+    if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1 || image.indexOf("actor.jpg") != -1) {
       image = protocolToUse + currentPub.fallbackImage;
       var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
       var image_class = "fallback";
@@ -670,6 +670,9 @@ loadData();
     else {
       var style="";
       var image_class = "";
+    }
+    if (input.group == "entertainment" || data.category == "celebrities") {
+      style = "width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
     }
     if (input.category == "finance" || input.group == "money") {
       backStyle = `style="background-image:url('`+image+"?width=138"+`')"`;
@@ -739,7 +742,7 @@ loadData();
         items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
       }
       image = items[i].li_img.replace("'","");
-      if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
+      if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1 || image.indexOf("actor.jpg") != -1) {
         image = protocolToUse + currentPub.fallbackImage;
         var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
         var image_class = "fallback";
@@ -747,6 +750,9 @@ loadData();
       else {
         var style="";
         var image_class = "";
+      }
+      if (input.group == "entertainment" || data.category == "celebrities") {
+        style = "width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
       }
       if (Math.abs(i % 2) == 1) { //every odd number
         outputHTML += `<div class="worm_block">`;
