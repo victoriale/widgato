@@ -720,6 +720,7 @@ loadData();
     `;
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
       setTimeout(function(){ //wait for dom to render before executing igloo script
+        //inject igloo into first_ad div
         firstAd = iframeContent.document.getElementById('first_ad');
         var s = iframeContent.document.createElement("script");
         s.type = "text/javascript";
@@ -790,7 +791,7 @@ loadData();
       if (i % 2 == 0) { //end block div every even number
         outputHTML += `</div>`;
       }
-      if (i && (i % 4 === 0)) { //show ad every 4 items
+      if (i && (i % 4 === 0)) { //show ad every 4 items, the initial single igloo frame snaps into the ad_spacer on scroll
         outputHTML += `
         <div class="worm_block">
         <div class="ad_spacer"></div>
@@ -824,13 +825,17 @@ loadData();
   }
 
   function nextList(e) {
+    // when next list is clicked, clear the worm and any scroll vars, then reload new data
     lazyLoaded = false;
     worm.innerHTML = "";
     firstAd.style.left = "0px";
     worm.scrollLeft = 0;
     loadData();
   }
+
   //initial event listeners declaration
+
+  // browser fallback for the passive event listener handler - a way to use non draw blocking event listeners
   var passiveSupported = false;
   try {
     var options = Object.defineProperty({}, "passive", {
@@ -908,6 +913,7 @@ loadData();
     clearInterval(setSmoothScrollInterval);
   }
 
+  // logic to allow mouse drag scrolling on desktop browsers
   var initialMouseX;
   worm.addEventListener("mousedown", onMouseDown);
   function onMouseDown(e) {
@@ -1027,7 +1033,7 @@ loadData();
         return;
       }
 
-      else if (worm.scrollLeft < 20) { // special logic for first list item
+      else if (worm.scrollLeft < 20) { // special logic for when you scroll back to the first list item
         scrollTo = 0;
         if (worm.scrollLeft < scrollTo) {
           scrollIncrements = 1;
@@ -1071,10 +1077,10 @@ loadData();
     // }
   }
 }
-if(document.readyState == "complete"){
+if(document.readyState == "complete"){ // if page is already loaded, fire centipede
   centipede();
 }
-else {
+else { // else fire centipede once page has finished loading, so as not to slowdown the page load at all
   document.onreadystatechange = function () {
     if(document.readyState == "complete"){
       centipede();
