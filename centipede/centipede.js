@@ -925,7 +925,6 @@ loadData();
 
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
-    console.log("fire set scroll");
     var counter = 0;
     var wormScroll = worm.scrollLeft;
     for (i = 0; i < wormBlocks.length;  i++) {
