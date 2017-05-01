@@ -187,6 +187,7 @@ var iframeContent = friendlyIframe.contentWindow;
       overflow-y: hidden;
       white-space: nowrap;
       background-color: #f7f7f7;
+      transform: translateX(0); //force hw accel
       animation:bounce 2s infinite;
       cursor: move;
     }
@@ -263,7 +264,7 @@ var iframeContent = friendlyIframe.contentWindow;
       display: block;
       overflow:hidden;
       position: absolute;
-      background-size: 10000% 10000%;
+      background-size: 1000% 1000%;
       image-rendering: optimizeSpeed;             /*                     */
       image-rendering: -moz-crisp-edges;          /* Firefox             */
       image-rendering: -o-crisp-edges;            /* Opera               */
@@ -435,6 +436,7 @@ var iframeContent = friendlyIframe.contentWindow;
   var firstAd;
   var currentPub;
   var lazyLoaded = false;
+  var pastBeginning = false;
 
   if (typeof input.group == 'undefined' && (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1)) {
       input.category = 'finance'; //default category fallback
@@ -826,7 +828,17 @@ loadData();
     loadData();
   }
   //initial event listeners declaration
-  worm.addEventListener("scroll", onSwipe);
+  var passiveSupported = false;
+  try {
+    var options = Object.defineProperty({}, "passive", {
+      get: function() {
+        passiveSupported = true;
+      }
+    });
+    window.addEventListener("test", null, options);
+  } catch(err) {}
+
+  worm.addEventListener("scroll", onSwipe, passiveSupported ? { passive: true } : false);
   function onSwipe() {
     if (userScrolling) {
       if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
@@ -842,15 +854,17 @@ loadData();
 
       // set visibility of helper and list title, based on scroll position
       if (this.scrollLeft > 20) {
-        if (helper2.style.opacity != '0') {
+        if (pastBeginning == false) {
           worm.classList.add("stopAnim");
           helper2.style.opacity = '0';
+          pastBeginning = true;
         }
       }
       else {
         worm.classList.remove("stopAnim");
         helper.style.opacity = '1';
         helper2.style.opacity = '1';
+        pastBeginning = false;
       }
       var rect = firstAd.getBoundingClientRect();
       if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
@@ -867,7 +881,7 @@ loadData();
       }, 250);
     }
   }
-  worm.addEventListener("touchend", onFingerUp);
+  worm.addEventListener("touchend", onFingerUp, passiveSupported ? { passive: true } : false);
   function onFingerUp(e) { //logic to determine if the user is currently actively scrolling
     if (isScrolling == false) {
       // setScroll();
@@ -881,8 +895,9 @@ loadData();
       }, 250);
     }
   }
-  worm.addEventListener("touchstart", onFingerDown);
+  worm.addEventListener("touchstart", onFingerDown, passiveSupported ? { passive: true } : false);
   function onFingerDown(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+    userScrolling = true;
     userScroll = false;
     setTimeout(function(){
       userScroll = true;
