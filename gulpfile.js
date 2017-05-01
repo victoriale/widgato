@@ -47,3 +47,10 @@ gulp.task('sportsbar-scripts', ['sportsbar-babel'], function() {
 gulp.task('default', ['clean','sportsbar-css','sportsbar-scripts'], function() {
   // place code for your default task here
 });
+
+gulp.task('uglify', function() {
+  gulp.src('dynamic_widget_unlinked/dynamic_widget_unlinked.js')
+    .pipe(uglify())
+    .pipe(rename('dynamic_widget_unlinked.min.js'))
+    .pipe(gulp.dest('dynamic_widget_unlinked'))
+});
