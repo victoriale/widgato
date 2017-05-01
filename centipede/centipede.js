@@ -914,16 +914,16 @@ loadData();
 
   // logic to allow mouse drag scrolling on desktop browsers
   var initialMouseX;
-  worm.addEventListener("mousedown", onMouseDown);
+  worm.addEventListener("mousedown", onMouseDown, passiveSupported ? { passive: true } : false);
   function onMouseDown(e) {
     initialMouseX = e.clientX;
-    worm.addEventListener("mousemove", onMouseMove);
+    worm.addEventListener("mousemove", onMouseMove, passiveSupported ? { passive: true } : false);
   }
   function onMouseMove(e) {
     worm.scrollLeft = worm.scrollLeft + (initialMouseX - e.clientX);
     initialMouseX = e.clientX;
   }
-  worm.addEventListener("mouseup", onMouseUp);
+  worm.addEventListener("mouseup", onMouseUp, passiveSupported ? { passive: true } : false);
   function onMouseUp(e) {
     worm.removeEventListener("mousemove", onMouseMove);
   }
