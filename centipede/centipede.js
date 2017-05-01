@@ -848,7 +848,7 @@ loadData();
 
   worm.addEventListener("scroll", onSwipe);
   function onSwipe() {
-    if (userScrolling) {
+    if (userScrolling) { // only execute this code if the user is dragging the worm, not if we are autoscrolling
       if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
         lazyLoaded = true;
         setTimeout(function(){ // wait for dom loaded before grabbing array of images
@@ -861,14 +861,14 @@ loadData();
       isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
 
       // set visibility of helper and list title, based on scroll position
-      if (this.scrollLeft > 20) {
+      if (this.scrollLeft > 20) { // scrolled past the first block
         if (pastBeginning == false) {
           worm.classList.add("stopAnim");
           helper2.style.opacity = '0';
           pastBeginning = true;
         }
       }
-      else {
+      else { // currently on the first block
         worm.classList.remove("stopAnim");
         helper.style.opacity = '1';
         helper2.style.opacity = '1';
@@ -880,12 +880,12 @@ loadData();
         firstAd.style.left = (left - firstAd.offsetWidth) + "px";
       }
       clearTimeout(scrollingTimout);
-      scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
-        if (userScroll == true) {
+      scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set isScrolling flag as false
+        if (userScroll == true) { // since the user has ended a series of scroll events, we can now start our autoscroll snap logic
           setScroll();
         }
         worm.removeEventListener("mousemove", onMouseMove);
-        isScrolling = false; //will return true or false based on whether the user is currently scrolling or not
+        isScrolling = false; //set false now since it has been 300ms since the last scroll event
       }, 300);
     }
   }
