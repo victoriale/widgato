@@ -187,11 +187,11 @@ var iframeContent = friendlyIframe.contentWindow;
       overflow-y: hidden;
       white-space: nowrap;
       background-color: #f7f7f7;
-      transform: translateX(0); //force hw accel
       animation:bounce 2s infinite;
       cursor: move;
     }
     .worm.stopAnim {
+      transform: translateX(0); //force hw accel
       -webkit-animation: 0;
       animation: 0;
     }
@@ -354,7 +354,10 @@ var iframeContent = friendlyIframe.contentWindow;
       color: #272727;
       font-weight: 900;
       margin-top: 3px;
-      white-space: nowrap;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: normal;
       overflow: hidden;
       text-overflow: ellipsis;
       padding: 0 5px;
@@ -938,7 +941,7 @@ loadData();
         clearInterval(setSmoothScrollInterval);
         // var currentTime;
         // var prevTime = 0;
-        setSmoothScrollInterval = setInterval(autoScroll, 20);
+        setSmoothScrollInterval = setInterval(autoScroll, 30);
         function autoScroll(){
           // var date = new Date();
           // currentTime = date.getTime();
