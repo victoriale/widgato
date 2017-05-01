@@ -191,6 +191,7 @@ var iframeContent = friendlyIframe.contentWindow;
       cursor: move;
     }
     .worm.stopAnim {
+      transform: translateX(0); //force hw accel
       -webkit-animation: 0;
       animation: 0;
     }
@@ -263,7 +264,7 @@ var iframeContent = friendlyIframe.contentWindow;
       display: block;
       overflow:hidden;
       position: absolute;
-      background-size: 10000% 10000%;
+      background-size: 1000% 1000%;
       image-rendering: optimizeSpeed;             /*                     */
       image-rendering: -moz-crisp-edges;          /* Firefox             */
       image-rendering: -o-crisp-edges;            /* Opera               */
@@ -353,7 +354,10 @@ var iframeContent = friendlyIframe.contentWindow;
       color: #272727;
       font-weight: 900;
       margin-top: 3px;
-      white-space: nowrap;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: normal;
       overflow: hidden;
       text-overflow: ellipsis;
       padding: 0 5px;
@@ -415,26 +419,26 @@ var iframeContent = friendlyIframe.contentWindow;
   if (input.env != "prod-" && input.env != "dev-") {
     input.env = "prod-";
   }
-  var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','celebrities'];
+  var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','celebrities']; // an array of all the possible categories this widget accepts and is limited to. if you specify one not in here, it will fallback to finance
   var apiUrl = protocolToUse +input.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
-  var helper = iframeContent.document.getElementById('helper');
-  var helper2 = iframeContent.document.getElementById('helper2');
-  var wormBlocks = iframeContent.document.getElementsByClassName('worm_block');
-  var worm = iframeContent.document.getElementById('worm');
-  var position;
-  var currentBlock = 0;
-  var isScrolling = false;
-  var scrollingTimout;
-  var scrollTo = 0;
-  var scrollIncrements = 0;
-  var rand;
-  var setSmoothScrollInterval;
+  var helper = iframeContent.document.getElementById('helper'); // the top title
+  var helper2 = iframeContent.document.getElementById('helper2'); // the swipe indicator
+  var wormBlocks = iframeContent.document.getElementsByClassName('worm_block'); // an array of all the blocks in our worm
+  var worm = iframeContent.document.getElementById('worm'); // the container for all the blocks that the user can scroll in
+  var currentBlock = 0; // what block are we snapped to right now?
+  var isScrolling = false; // are we scrolling at all? (both autoscroll and user scroll)
+  var scrollingTimout; // the user scroll setTimout reference name
+  var scrollTo = 0; // the destination pixel value to interpolate our autoscroll to
+  var scrollIncrements = 0; // how much to increase the scroll by in this interpolation loop?
+  var rand; // list random ID
+  var setSmoothScrollInterval; // the autoscroll setInterval reference name
   var n = 0;
-  var userScrolling = true;
+  var userScrolling = true; // is the user currently scrolling an not the JS autoscrolling?
   var userScroll = true;
-  var firstAd;
-  var currentPub;
-  var lazyLoaded = false;
+  var firstAd; // the div for the actual igloo stack to live in, that gets moved around as you scroll
+  var currentPub; // the current color scheme and fallback imageset to use
+  var lazyLoaded = false; // are the images after the first one loaded in yet?
+  var pastBeginning = false; // are we on the first pixel of the first item or not
 
   if (typeof input.group == 'undefined' && (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1)) {
       input.category = 'finance'; //default category fallback
@@ -662,7 +666,7 @@ loadData();
       items[0].li_value = items[0].li_value.replace(items[0].li_tag,"");
     }
     var image = items[0].li_img.replace("'","");
-    if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
+    if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1 || image.indexOf("actor.jpg") != -1) {
       image = protocolToUse + currentPub.fallbackImage;
       var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
       var image_class = "fallback";
@@ -671,8 +675,11 @@ loadData();
       var style="";
       var image_class = "";
     }
+    if (input.group == "entertainment" || data.category == "celebrities") {
+      style = "width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
+    }
     if (input.category == "finance" || input.group == "money") {
-      backStyle = `style="background-image:url('`+image+"?width=138"+`')"`;
+      backStyle = `style="background-image:url('`+image+"?width=200"+`')"`;
     }
     else {
       backStyle = `style="background-color: black;"`;
@@ -688,7 +695,7 @@ loadData();
         <div class="list_item">
           <div class="profile_image_div `+image_class+`" `+backStyle+`>
           <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+items[0].li_rank+`</b></div></div>
-            <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
+            <img class="profile_image" src="`+image+"?width=200"+`" style="`+style+`">
           </div>
           <div class="info">
             <div class="name">
@@ -712,6 +719,7 @@ loadData();
     `;
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
       setTimeout(function(){ //wait for dom to render before executing igloo script
+        //inject igloo into first_ad div
         firstAd = iframeContent.document.getElementById('first_ad');
         var s = iframeContent.document.createElement("script");
         s.type = "text/javascript";
@@ -739,7 +747,7 @@ loadData();
         items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
       }
       image = items[i].li_img.replace("'","");
-      if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1) {
+      if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1 || image.indexOf("actor.jpg") != -1) {
         image = protocolToUse + currentPub.fallbackImage;
         var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
         var image_class = "fallback";
@@ -748,11 +756,14 @@ loadData();
         var style="";
         var image_class = "";
       }
+      if (input.group == "entertainment" || data.category == "celebrities") {
+        style = "width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
+      }
       if (Math.abs(i % 2) == 1) { //every odd number
         outputHTML += `<div class="worm_block">`;
       }
       if (input.category == "finance" || input.group == "money") {
-        backStyle = `style="background-image:url('`+image+"?width=138"+`')"`;
+        backStyle = `style="background-image:url('`+image+"?width=200"+`')"`;
       }
       else {
         backStyle = `style="background-color: black;"`;
@@ -761,7 +772,7 @@ loadData();
           <div class="list_item">
             <div class="profile_image_div `+image_class+`" `+backStyle+`>
             <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+items[i].li_rank+`</b></div></div>
-              <img class="profile_image" alt="`+image+"?width=138"+`" style="`+style+`">
+              <img class="profile_image" alt="`+image+"?width=200"+`" style="`+style+`">
             </div>
             <div class="info">
               <div class="name">
@@ -779,7 +790,7 @@ loadData();
       if (i % 2 == 0) { //end block div every even number
         outputHTML += `</div>`;
       }
-      if (i && (i % 4 === 0)) { //show ad every 4 items
+      if (i && (i % 4 === 0)) { //show ad every 4 items, the initial single igloo frame snaps into the ad_spacer on scroll
         outputHTML += `
         <div class="worm_block">
         <div class="ad_spacer"></div>
@@ -813,16 +824,30 @@ loadData();
   }
 
   function nextList(e) {
+    // when next list is clicked, clear the worm and any scroll vars, then reload new data
     lazyLoaded = false;
     worm.innerHTML = "";
     firstAd.style.left = "0px";
     worm.scrollLeft = 0;
     loadData();
   }
+
   //initial event listeners declaration
+
+  // browser fallback for the passive event listener handler - a way to use non draw blocking event listeners
+  var passiveSupported = false;
+  try {
+    var options = Object.defineProperty({}, "passive", {
+      get: function() {
+        passiveSupported = true;
+      }
+    });
+    window.addEventListener("test", null, options);
+  } catch(err) {}
+
   worm.addEventListener("scroll", onSwipe);
   function onSwipe() {
-    if (userScrolling) {
+    if (userScrolling) { // only execute this code if the user is dragging the worm, not if we are autoscrolling
       if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
         lazyLoaded = true;
         setTimeout(function(){ // wait for dom loaded before grabbing array of images
@@ -835,16 +860,18 @@ loadData();
       isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
 
       // set visibility of helper and list title, based on scroll position
-      if (this.scrollLeft > 20) {
-        if (helper2.style.opacity != '0') {
+      if (this.scrollLeft > 20) { // scrolled past the first block
+        if (pastBeginning == false) {
           worm.classList.add("stopAnim");
           helper2.style.opacity = '0';
+          pastBeginning = true;
         }
       }
-      else {
+      else { // currently on the first block
         worm.classList.remove("stopAnim");
         helper.style.opacity = '1';
         helper2.style.opacity = '1';
+        pastBeginning = false;
       }
       var rect = firstAd.getBoundingClientRect();
       if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
@@ -852,16 +879,16 @@ loadData();
         firstAd.style.left = (left - firstAd.offsetWidth) + "px";
       }
       clearTimeout(scrollingTimout);
-      scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set flag as false
-        if (userScroll == true) {
+      scrollingTimout = setTimeout(function(){ // wait till scroll is finished and set isScrolling flag as false
+        if (userScroll == true) { // since the user has ended a series of scroll events, we can now start our autoscroll snap logic
           setScroll();
         }
         worm.removeEventListener("mousemove", onMouseMove);
-        isScrolling = false; //will return true or false based on whether the user is currently scrolling or not
-      }, 250);
+        isScrolling = false; //set false now since it has been 300ms since the last scroll event
+      }, 300);
     }
   }
-  worm.addEventListener("touchend", onFingerUp);
+  worm.addEventListener("touchend", onFingerUp, passiveSupported ? { passive: true } : false);
   function onFingerUp(e) { //logic to determine if the user is currently actively scrolling
     if (isScrolling == false) {
       // setScroll();
@@ -875,8 +902,9 @@ loadData();
       }, 250);
     }
   }
-  worm.addEventListener("touchstart", onFingerDown);
+  worm.addEventListener("touchstart", onFingerDown, passiveSupported ? { passive: true } : false);
   function onFingerDown(e) { //if another swipe interups our snap animation, stop the snap and allow the swipe
+    userScrolling = true;
     userScroll = false;
     setTimeout(function(){
       userScroll = true;
@@ -884,17 +912,18 @@ loadData();
     clearInterval(setSmoothScrollInterval);
   }
 
+  // logic to allow mouse drag scrolling on desktop browsers
   var initialMouseX;
-  worm.addEventListener("mousedown", onMouseDown);
+  worm.addEventListener("mousedown", onMouseDown, passiveSupported ? { passive: true } : false);
   function onMouseDown(e) {
     initialMouseX = e.clientX;
-    worm.addEventListener("mousemove", onMouseMove);
+    worm.addEventListener("mousemove", onMouseMove, passiveSupported ? { passive: true } : false);
   }
   function onMouseMove(e) {
     worm.scrollLeft = worm.scrollLeft + (initialMouseX - e.clientX);
     initialMouseX = e.clientX;
   }
-  worm.addEventListener("mouseup", onMouseUp);
+  worm.addEventListener("mouseup", onMouseUp, passiveSupported ? { passive: true } : false);
   function onMouseUp(e) {
     worm.removeEventListener("mousemove", onMouseMove);
   }
@@ -917,7 +946,9 @@ loadData();
         clearInterval(setSmoothScrollInterval);
         // var currentTime;
         // var prevTime = 0;
-        setSmoothScrollInterval = setInterval(autoScroll, 20);
+
+        // setSmoothScrollInterval = setInterval(autoScroll, 30);
+        window.requestAnimationFrame(autoScroll);
         function autoScroll(){
           // var date = new Date();
           // currentTime = date.getTime();
@@ -932,7 +963,7 @@ loadData();
           var marginOfError = Math.abs(scrollIncrements) - 1;
           if (wormScroll < (scrollTo - marginOfError) || wormScroll > (scrollTo + marginOfError)) { //if we still have autoscrolling to do...
             //if within margin of error of target, end scroll
-            if (i == (wormBlocks.length - 2) || counter > 30) {
+            if (i == (wormBlocks.length - 2) || counter > 30) { // stop our runnaway animation loop if we are over 30 frames so far, or we are at the last list item
               userScrolling = true;
               userScroll = false;
               setTimeout(function(){
@@ -949,10 +980,13 @@ loadData();
               }
               counter++;
               worm.scrollLeft = wormScroll + scrollIncrements; //apply the interpolation step
+              if (userScrolling != true) {
+                window.requestAnimationFrame(autoScroll);
+              }
             }
           }
           else if (wormScroll < scrollTo || wormScroll > scrollTo) {// if in the last frame of interpolation
-            if (i == (wormBlocks.length - 2) || counter > 30) {
+            if (i == (wormBlocks.length - 2) || counter > 30) { // stop our runnaway animation loop if we are over 30 frames so far, or we are at the last list item
               userScrolling = true;
               userScroll = false;
               setTimeout(function(){
@@ -967,8 +1001,11 @@ loadData();
               else if (scrollIncrements < 0 && wormScroll < scrollTo) { // we have overshot other side
                 scrollIncrements = 1;
               }
-              counter++;
+              counter++; // incremenet our frame counter scoped to this animation sequence
               worm.scrollLeft = wormScroll + 1; //apply the interpolation step
+              if (userScrolling != true) {
+                window.requestAnimationFrame(autoScroll);
+              }
             }
           }
           else { //we have reached the end of the interpolation. stop the loop
@@ -995,7 +1032,7 @@ loadData();
         return;
       }
 
-      else if (worm.scrollLeft < 20) { // special logic for first list item
+      else if (worm.scrollLeft < 20) { // special logic for when you scroll back to the first list item
         scrollTo = 0;
         if (worm.scrollLeft < scrollTo) {
           scrollIncrements = 1;
@@ -1039,10 +1076,10 @@ loadData();
     // }
   }
 }
-if(document.readyState == "complete"){
+if(document.readyState == "complete"){ // if page is already loaded, fire centipede
   centipede();
 }
-else {
+else { // else fire centipede once page has finished loading, so as not to slowdown the page load at all
   document.onreadystatechange = function () {
     if(document.readyState == "complete"){
       centipede();
