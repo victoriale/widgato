@@ -841,7 +841,7 @@ loadData();
     window.addEventListener("test", null, options);
   } catch(err) {}
 
-  worm.addEventListener("scroll", onSwipe, passiveSupported ? { passive: true } : false);
+  worm.addEventListener("scroll", onSwipe);
   function onSwipe() {
     if (userScrolling) {
       if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
@@ -881,7 +881,7 @@ loadData();
         }
         worm.removeEventListener("mousemove", onMouseMove);
         isScrolling = false; //will return true or false based on whether the user is currently scrolling or not
-      }, 250);
+      }, 300);
     }
   }
   worm.addEventListener("touchend", onFingerUp, passiveSupported ? { passive: true } : false);
@@ -925,6 +925,7 @@ loadData();
 
   //logic to snap scrolled block into view, when user scroll has ended
   function setScroll() {
+    console.log("fire set scroll");
     var counter = 0;
     var wormScroll = worm.scrollLeft;
     for (i = 0; i < wormBlocks.length;  i++) {
@@ -941,7 +942,9 @@ loadData();
         clearInterval(setSmoothScrollInterval);
         // var currentTime;
         // var prevTime = 0;
-        setSmoothScrollInterval = setInterval(autoScroll, 30);
+
+        // setSmoothScrollInterval = setInterval(autoScroll, 30);
+        window.requestAnimationFrame(autoScroll);
         function autoScroll(){
           // var date = new Date();
           // currentTime = date.getTime();
@@ -973,6 +976,9 @@ loadData();
               }
               counter++;
               worm.scrollLeft = wormScroll + scrollIncrements; //apply the interpolation step
+              if (userScrolling != true) {
+                window.requestAnimationFrame(autoScroll);
+              }
             }
           }
           else if (wormScroll < scrollTo || wormScroll > scrollTo) {// if in the last frame of interpolation
@@ -993,6 +999,9 @@ loadData();
               }
               counter++;
               worm.scrollLeft = wormScroll + 1; //apply the interpolation step
+              if (userScrolling != true) {
+                window.requestAnimationFrame(autoScroll);
+              }
             }
           }
           else { //we have reached the end of the interpolation. stop the loop
