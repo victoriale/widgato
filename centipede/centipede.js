@@ -680,7 +680,7 @@ loadData();
       style = "width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
     }
     if (input.category == "finance" || input.group == "money") {
-      backStyle = `style="background-image:url('`+image+"?width=138"+`')"`;
+      backStyle = `style="background-image:url('`+image+"?width=200"+`')"`;
     }
     else {
       backStyle = `style="background-color: black;"`;
@@ -696,7 +696,7 @@ loadData();
         <div class="list_item">
           <div class="profile_image_div `+image_class+`" `+backStyle+`>
           <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+items[0].li_rank+`</b></div></div>
-            <img class="profile_image" src="`+image+"?width=138"+`" style="`+style+`">
+            <img class="profile_image" src="`+image+"?width=200"+`" style="`+style+`">
           </div>
           <div class="info">
             <div class="name">
@@ -763,7 +763,7 @@ loadData();
         outputHTML += `<div class="worm_block">`;
       }
       if (input.category == "finance" || input.group == "money") {
-        backStyle = `style="background-image:url('`+image+"?width=138"+`')"`;
+        backStyle = `style="background-image:url('`+image+"?width=200"+`')"`;
       }
       else {
         backStyle = `style="background-color: black;"`;
@@ -772,7 +772,7 @@ loadData();
           <div class="list_item">
             <div class="profile_image_div `+image_class+`" `+backStyle+`>
             <div class="num" style="border-color:`+currentPub.hex+`"><div class="num_text">#<b>`+items[i].li_rank+`</b></div></div>
-              <img class="profile_image" alt="`+image+"?width=138"+`" style="`+style+`">
+              <img class="profile_image" alt="`+image+"?width=200"+`" style="`+style+`">
             </div>
             <div class="info">
               <div class="name">
