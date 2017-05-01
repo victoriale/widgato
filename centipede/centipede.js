@@ -419,27 +419,26 @@ var iframeContent = friendlyIframe.contentWindow;
   if (input.env != "prod-" && input.env != "dev-") {
     input.env = "prod-";
   }
-  var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','celebrities'];
+  var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','celebrities']; // an array of all the possible categories this widget accepts and is limited to. if you specify one not in here, it will fallback to finance
   var apiUrl = protocolToUse +input.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
-  var helper = iframeContent.document.getElementById('helper');
-  var helper2 = iframeContent.document.getElementById('helper2');
-  var wormBlocks = iframeContent.document.getElementsByClassName('worm_block');
-  var worm = iframeContent.document.getElementById('worm');
-  var position;
-  var currentBlock = 0;
-  var isScrolling = false;
-  var scrollingTimout;
-  var scrollTo = 0;
-  var scrollIncrements = 0;
-  var rand;
-  var setSmoothScrollInterval;
+  var helper = iframeContent.document.getElementById('helper'); // the top title
+  var helper2 = iframeContent.document.getElementById('helper2'); // the swipe indicator
+  var wormBlocks = iframeContent.document.getElementsByClassName('worm_block'); // an array of all the blocks in our worm
+  var worm = iframeContent.document.getElementById('worm'); // the container for all the blocks that the user can scroll in
+  var currentBlock = 0; // what block are we snapped to right now?
+  var isScrolling = false; // are we scrolling at all? (both autoscroll and user scroll)
+  var scrollingTimout; // the user scroll setTimout reference name
+  var scrollTo = 0; // the destination pixel value to interpolate our autoscroll to
+  var scrollIncrements = 0; // how much to increase the scroll by in this interpolation loop?
+  var rand; // list random ID
+  var setSmoothScrollInterval; // the autoscroll setInterval reference name
   var n = 0;
-  var userScrolling = true;
+  var userScrolling = true; // is the user currently scrolling an not the JS autoscrolling?
   var userScroll = true;
-  var firstAd;
-  var currentPub;
-  var lazyLoaded = false;
-  var pastBeginning = false;
+  var firstAd; // the div for the actual igloo stack to live in, that gets moved around as you scroll
+  var currentPub; // the current color scheme and fallback imageset to use
+  var lazyLoaded = false; // are the images after the first one loaded in yet?
+  var pastBeginning = false; // are we on the first pixel of the first item or not
 
   if (typeof input.group == 'undefined' && (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1)) {
       input.category = 'finance'; //default category fallback
@@ -964,7 +963,7 @@ loadData();
           var marginOfError = Math.abs(scrollIncrements) - 1;
           if (wormScroll < (scrollTo - marginOfError) || wormScroll > (scrollTo + marginOfError)) { //if we still have autoscrolling to do...
             //if within margin of error of target, end scroll
-            if (i == (wormBlocks.length - 2) || counter > 30) {
+            if (i == (wormBlocks.length - 2) || counter > 30) { // stop our runnaway animation loop if we are over 30 frames so far, or we are at the last list item
               userScrolling = true;
               userScroll = false;
               setTimeout(function(){
@@ -987,7 +986,7 @@ loadData();
             }
           }
           else if (wormScroll < scrollTo || wormScroll > scrollTo) {// if in the last frame of interpolation
-            if (i == (wormBlocks.length - 2) || counter > 30) {
+            if (i == (wormBlocks.length - 2) || counter > 30) { // stop our runnaway animation loop if we are over 30 frames so far, or we are at the last list item
               userScrolling = true;
               userScroll = false;
               setTimeout(function(){
@@ -1002,7 +1001,7 @@ loadData();
               else if (scrollIncrements < 0 && wormScroll < scrollTo) { // we have overshot other side
                 scrollIncrements = 1;
               }
-              counter++;
+              counter++; // incremenet our frame counter scoped to this animation sequence
               worm.scrollLeft = wormScroll + 1; //apply the interpolation step
               if (userScrolling != true) {
                 window.requestAnimationFrame(autoScroll);
