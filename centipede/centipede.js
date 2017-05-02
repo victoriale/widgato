@@ -719,20 +719,24 @@ loadData();
       </div>
     `;
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
-      setTimeout(function(){ //wait for dom to render before executing igloo script
-        //inject igloo into first_ad div
-        firstAd = iframeContent.document.getElementById('first_ad');
-        var s = iframeContent.document.createElement("script");
-        s.type = "text/javascript";
-        if (input.group != null && input.group != "" && input.p != null && input.p != "") {
-          s.src = "//content.synapsys.us/embeds/placement.js?p=" + input.p + "&type=centipede_" + input.group + "&style=inline&league=no_centipede";
-        }
-        else {
-          s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
-        }
-        firstAd.appendChild(s);
-      }, 100);
-    }
+    //   setTimeout(function(){ //wait for dom to render before executing igloo script
+    //     //inject igloo into first_ad div
+    //     firstAd = iframeContent.document.getElementById('first_ad');
+    //     var s = iframeContent.document.createElement("script");
+    //     s.type = "text/javascript";
+    //     if (input.group != null && input.group != "" && input.p != null && input.p != "") {
+    //       s.src = "//content.synapsys.us/embeds/placement.js?p=" + input.p + "&type=centipede_" + input.group + "&style=inline&league=no_centipede";
+    //     }
+    //     else {
+    //       s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
+    //     }
+    //     firstAd.appendChild(s);
+    //   }, 100);
+    // }
+    setTimeout(function(){
+      firstAd = iframeContent.document.getElementById('first_ad');
+      firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
+    }, 100);
     else {
       setTimeout(function(){
         firstAd = iframeContent.document.getElementById('first_ad');
