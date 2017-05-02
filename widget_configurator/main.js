@@ -1,7 +1,7 @@
 var options = {
   dynamic_widget:{
     name:"Dynamic Widget",
-    image:"",
+    image:"icons/dynamic_widget.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -79,7 +79,7 @@ var options = {
   },
   dynamic_widget_wide:{
     name:"Dynamic Widget Wide",
-    image:"",
+    image:"icons/dynamic_widget_wide.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -157,7 +157,7 @@ var options = {
   },
   dynamic_widget_unlinked:{
     name:"Dynamic Widget Unlinked",
-    image:"",
+    image:"icons/dynamic_widget_unlinked.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -213,7 +213,7 @@ var options = {
   },
   dynamic_widget_unlinked_wide:{
     name:"Dynamic Widget Unlinked Wide",
-    image:"",
+    image:"icons/dynamic_widget_unlinked_wide.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -270,7 +270,7 @@ var options = {
 
   dynamic_article_widget:{
     name:"Dynamic Article Widget (TCX)",
-    image:"",
+    image:"icons/dynamic_article_widget.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -337,7 +337,7 @@ var options = {
   },
   dynamic_article_widget_wide:{
     name:"Dynamic Article Widget Wide (TCX)",
-    image:"",
+    image:"icons/dynamic_article_widget_wide.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -404,7 +404,7 @@ var options = {
   },
   nba_ai_article_widget:{
     name:"HPL AI Article widget",
-    image:"",
+    image:"icons/nba_ai_article_widget.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -442,7 +442,7 @@ var options = {
   },
   nfl_ai_article_widget:{
     name:"TDL AI Article Widget",
-    image:"",
+    image:"icons/nfl_ai_article_widget.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -480,7 +480,7 @@ var options = {
   },
   mlb_ai_article_widget:{
     name:"MLB AI Article Widget",
-    image:"",
+    image:"icons/mlb_ai_article_widget.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -518,14 +518,14 @@ var options = {
   },
   ai_article_wide: {
     name:"Sports AI Article Widget Wide-thin",
-    image:"",
+    image:"icons/ai_article_wide.png",
     settings:{
       output:'../sports/ai_article_wide.html'
     }
   },
   caw_widget:{
     name:"CAW Article Wiget (TCX)",
-    image:"",
+    image:"icons/caw_widget.png",
     settings:{
       caw_url:{
         default: "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html",
@@ -539,7 +539,7 @@ var options = {
   },
   caw_widget_wide:{
     name:"CAW Article Wiget Wide (TCX)",
-    image:"",
+    image:"icons/caw_widget_wide.png",
     settings:{
       caw_url:{
         default: "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html",
@@ -553,7 +553,7 @@ var options = {
   },
   excavator_widget:{
     name:"Excavator Widget (Branded)",
-    image:"",
+    image:"icons/excavator_widget.png",
     settings:{
       caw_url:{
         default: "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html",
@@ -567,28 +567,28 @@ var options = {
   },
   kbb_widget:{
     name:"KBB Sidekick Widget (CAW)",
-    image:"",
+    image:"icons/no_image.jpg",
     settings:{
       output:'../dynamic_kbb_widget/dynamic_kbb_widget.html?%7B"dom"%3A"basketball.chicagotribune.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A"100971247"%2C"remn"%3A"true"%2C"bord"%3A"false"%2C"category"%3A"kbb"%2C"targ"%3A"_top"%7D'
     }
   },
   kbb_dashboard:{
     name:"KBB Dashboard Widget (CAW)",
-    image:"",
+    image:"icons/no_image.jpg",
     settings:{
       output:'../dynamic_kbb_widget/dynamic_kbb_dashboard.html?%7B"dom"%3A"basketball.chicagotribune.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A"100971247"%2C"remn"%3A"true"%2C"bord"%3A"false"%2C"category"%3A"kbb"%2C"targ"%3A"_top"%7D'
     }
   },
   kbb_articles:{
     name:"KBB Related Articles (CAW)",
-    image:"",
+    image:"icons/no_image.jpg",
     settings:{
       output:'../dynamic_kbb_widget/dynamic_kbb_articles.html?%7B"dom"%3A"basketball.chicagotribune.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A"100971247"%2C"remn"%3A"true"%2C"bord"%3A"false"%2C"category"%3A"kbb"%2C"targ"%3A"_top"%7D'
     }
   },
   swp_wdgt_list:{
     name:"Swap Widget List (Passback)",
-    image:"",
+    image:"icons/swp_wdgt_list.png",
     settings:{
       show_link:{
         default: "true",
@@ -603,7 +603,7 @@ var options = {
   },
   swp_wdgt_article:{
     name:"Swap Widget Article (Passback)",
-    image:"",
+    image:"icons/swp_wdgt_article.png",
     settings:{
       show_link:{
         default: "true",
@@ -618,7 +618,7 @@ var options = {
   },
   billboard:{
     name:"Billboard Widget (TCX)",
-    image:"",
+    image:"icons/billboard.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -663,7 +663,7 @@ var options = {
   },
   chatterbox:{
     name:"Chatterbox (TCX)",
-    image:"",
+    image:"icons/chatterbox.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -701,21 +701,21 @@ var options = {
   },
   salad_bar:{
     name:"Salad Bar (Deepdives)",
-    image:"",
+    image:"icons/no_image.jpg",
     settings:{
       output:"../deepdive/bar/test.html"
     }
   },
   schedule_bar: {
     name:"Schedule Bar (TDL)",
-    image:"",
+    image:"icons/schedule_bar.png",
     settings:{
       output:"../deepdive/boxscores/nfl.html"
     }
   },
   finance_graph_widget: {
     name:"Finance Graph Widget (Old)",
-    image:"",
+    image:"icons/finance_graph_widget.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -752,14 +752,14 @@ var options = {
   },
   realestate_lol_widget: {
     name:"RealEstate List of Lists Widget (Old)",
-    image:"",
+    image:"icons/realestate_lol_widget.png",
     settings:{
       output: '../realestate/standard.html'
     }
   },
   centipede:{
     name:"Centipede Widget (Mobile)",
-    image:"",
+    image:"icons/centipede.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -808,7 +808,7 @@ var options = {
   },
   megaphone:{
     name:"Megaphone (Pre-Prod)",
-    image:"",
+    image:"icons/megaphone.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -830,7 +830,7 @@ var options = {
   },
   dodgydrone:{
     name:"Dodgy Drone Game (Pre-Prod)",
-    image:"",
+    image:"icons/dodgydrone.png",
     settings:{
       domain:{
         default: "chicagotribune.com",
@@ -848,7 +848,7 @@ var options = {
   },
   imagepuzzle:{
     name:"Image Puzzle Game (Pre-Prod)",
-    image:"",
+    image:"icons/no_image.jpg",
     settings:{
       domain:{
         default: "chicagotribune.com",
