@@ -732,11 +732,11 @@ loadData();
     //     }
     //     firstAd.appendChild(s);
     //   }, 100);
-    // }
-    setTimeout(function(){
-      firstAd = iframeContent.document.getElementById('first_ad');
-      firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
-    }, 100);
+      setTimeout(function(){
+        firstAd = iframeContent.document.getElementById('first_ad');
+        firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
+      }, 100);
+    }
     else {
       setTimeout(function(){
         firstAd = iframeContent.document.getElementById('first_ad');
