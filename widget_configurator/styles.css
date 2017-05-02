@@ -197,6 +197,14 @@ button {
 	padding: 0;
 	display: block;
 	position: relative;
+  overflow-y: scroll;
+  height: 10px;
+}
+.cd-active ul {
+  position: absolute;
+	height: 500px;
+  box-shadow: 0 1px 1px rgba(0,0,0,0.3);
+
 }
 
 .cd-dropdown ul li {
