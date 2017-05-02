@@ -30,7 +30,7 @@
           echo $row["p_placement_id"];
         }
       }
-      echo "&type=".$_GET['type']."&style=standard";
+      echo "&type=".$_GET['type'];
   }
   else {
       echo '{"success":"false"}';
