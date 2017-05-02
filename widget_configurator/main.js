@@ -67,7 +67,10 @@ var options = {
       type: "select",
       options: ["prod-","dev-"]
     },
-    type: "dynamic_<category>",
+    embed: {
+      type: "dynamic_<category>",
+      style: "standard"
+    },
     output: '../dynamic_widget/dynamic_widget.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
   dynamic_widget_wide:{
@@ -138,7 +141,10 @@ var options = {
       type: "select",
       options: ["prod-","dev-"]
     },
-    type: "dynamic_<category>_wide",
+    embed: {
+      type: "dynamic_<category>_wide",
+      style: "standard"
+    },
     output: '../dynamic_widget/dynamic_widget_970.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
   },
   dynamic_widget_unlinked:{
@@ -187,7 +193,10 @@ var options = {
       type: "select",
       options: ["prod","qa","dev"]
     },
-    type: "dynamic_group_<group>",
+    embed: {
+      type: "dynamic_group_<group>",
+      style: "standard"
+    },
     output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","category":"<category>","group":"<group>","rand":"<rand>"}'
   },
   dynamic_widget_unlinked_wide:{
@@ -236,7 +245,10 @@ var options = {
       type: "select",
       options: ["prod","qa","dev"]
     },
-    type: "dynamic_group_<group>",
+    embed: {
+      type: "dynamic_group_<group>",
+      style: "standard"
+    },
     output: '../dynamic_widget_unlinked/index_wide.html?{"dom":"<domain>","category":"<category>","group":"<group>","rand":"<rand>"}'
   },
 
@@ -663,7 +675,7 @@ var options = {
       explanation: "The category of lists and style of widget to use.",
       name: "Category",
       type: "select",
-      options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+      options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics","celebrities"]
     },
     group:{
       default: "sports",
@@ -671,7 +683,7 @@ var options = {
       explanation: "The card of lists and style of widget to use.",
       name: "Group",
       type: "select",
-      options: ["","sports","weather","money"]
+      options: ["","sports","weather","money","entertainment"]
     },
     rand:{
       default: "1",
@@ -687,6 +699,10 @@ var options = {
       name: "API Environment",
       type: "select",
       options: ["prod-","dev-"]
+    },
+    embed: {
+      type: "centipede_<group>",
+      style: "inline"
     },
     output: '../centipede/centipede.html?{"dom":"<domain>","category":"<category>","group":"<group>","rand":"<rand>","env":"<env>"}'
   },
@@ -716,7 +732,10 @@ var options = {
       name: "Domain",
       type: "text"
     },
-    type:"dodgy_drone",
+    embed: {
+      type: "dodgy_drone",
+      style: "standard"
+    },
     output: '../dodgydrone/index.html'
   },
   imagepuzzle:{
@@ -750,7 +769,10 @@ var options = {
       type: "select",
       options: ["prod-","dev-"]
     },
-    type:"image_puzzle",
+    embed: {
+      type: "image_puzzle",
+      style: "standard"
+    },
     output: '../image_puzzle_unlinked/image_puzzle_unlinked.html?{"dom":"<domain>","category":"<category>","rand":"<rand>","env":"<env>"}'
   },
 };
@@ -763,7 +785,7 @@ function generateWidget() { //create the output widget based on the user-configu
   var url = options[widget].output;
   var preCookie = '{"type":"'+widget+'",';
   for (var field in options[widget]) {
-    if (field != "type" && field != "output" && options[widget][field].enabled == true) {
+    if (field != "embed" && field != "output" && options[widget][field].enabled == true) {
       domElem = document.getElementById(field);
       url = url.replace("<" + field + ">",domElem.value);
       preCookie += '"'+field+'":"'+document.getElementById(field).value+'",';
@@ -774,22 +796,22 @@ function generateWidget() { //create the output widget based on the user-configu
   document.cookie = preCookie;
   document.getElementById("previewFrame").contentWindow.document.location.href = url;
   document.getElementById("outputTextarea").value = url.replace("..","http://w1.synapsys.us/widgets");
-  if (options[widget].type != null) {
+  if (options[widget].embed != null) {
     var xmlHttp = new XMLHttpRequest();
     var responce;
-    if (options[widget].type.indexOf("<category>") != -1) {
-      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type.replace("<category>",document.getElementById("category").value), false);
+    if (options[widget].embed.type.indexOf("<category>") != -1) {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].embed.type.replace("<category>",document.getElementById("category").value), false);
     }
-    else if (options[widget].type.indexOf("<group>") != -1) {
-      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type.replace("<group>",document.getElementById("group").value), false);
+    else if (options[widget].embed.type.indexOf("<group>") != -1) {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].embed.type.replace("<group>",document.getElementById("group").value), false);
     }
     else {
-      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type, false);
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].embed.type, false);
     }
     xmlHttp.send( null );
     try {
       responce = xmlHttp.responseText;
-      document.getElementById("outputEmbedTextarea").value = responce;
+      document.getElementById("outputEmbedTextarea").value = responce + "&style=" + options[widget].embed.style;
     }
     catch(err) {
 
