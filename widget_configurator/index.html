@@ -10,7 +10,8 @@
     <table id="wcApp">
       <tr>
         <td id="settingsPane">
-          Type
+          <!-- Type
+          <br><br>
           <select id="wType" onchange="changeWidget(this.value)">
             <option value="dynamic_widget">Dynamic Widget</option>
             <option value="dynamic_widget_unlinked">Dynamic Widget UnLinked</option>
@@ -40,8 +41,15 @@
             <option value="kbb_widget">KBB Widget (pre-prod)</option>
             <option value="dodgydrone">Dodgy Drone Game Widget (pre-prod)</option>
             <option value="imagepuzzle">Image Puzzle Game Widget (pre-prod)</option>
-          </select>
-          <br>
+          </select> -->
+          <div id="wType_dropdown" class="cd-dropdown">
+          	<span class="dropdown_target">Choose a Widget</span>
+          	<input type="hidden" class="dropdown_input" name="cd-dropdown" id="wType" onchange="changeWidget(this.value)">
+          	<ul class="dropdown_list">
+          		<!-- list items go here -->
+          	</ul>
+          </div>
+          <!-- <br> -->
           <br>
           <h2>Settings</h2>
           <table id="settingsInputs">
