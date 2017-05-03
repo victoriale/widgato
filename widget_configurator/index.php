@@ -17,7 +17,7 @@
         $_POST['password'] == 'p1zz4') {
         $_SESSION['valid'] = true;
         $_SESSION['timeout'] = time();
-        $_SESSION['username'] = 'user';
+        $_SESSION['username'] = 'MyHouseIsAPizza';
 
         echo '
         <!doctype html>
