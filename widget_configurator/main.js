@@ -30,22 +30,22 @@ function generateWidget() { //create the output widget based on the user-configu
   document.cookie = preCookie;
   document.getElementById("previewFrame").contentWindow.document.location.href = url;
   document.getElementById("outputTextarea").value = url.replace("..","http://w1.synapsys.us/widgets");
-  if (options[widget].settings.embed != null) {
+  if (options[widget].embed != null && options[widget].embed != {} && options[widget].embed.type != "") {
     var xmlHttp = new XMLHttpRequest();
     var responce;
-    if (options[widget].settings.embed.type.indexOf("%category%") != -1) {
-      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].settings.embed.type.replace("<category>",document.getElementById("category").value), false);
+    if (options[widget].embed.type.indexOf("%category%") != -1) {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].embed.type.replace("%category%",document.getElementById("category").value), false);
     }
-    else if (options[widget].settings.embed.type.indexOf("%group%") != -1) {
-      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].settings.embed.type.replace("<group>",document.getElementById("group").value), false);
+    else if (options[widget].embed.type.indexOf("%group%") != -1) {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].embed.type.replace("%group%",document.getElementById("group").value), false);
     }
     else {
-      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].settings.embed.type, false);
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].embed.type, false);
     }
     xmlHttp.send( null );
     try {
       responce = xmlHttp.responseText;
-      document.getElementById("outputEmbedTextarea").value = responce + "&style=" + options[widget].settings.embed.style;
+      document.getElementById("outputEmbedTextarea").value = responce + "&style=" + options[widget].embed.style;
     }
     catch(err) {
 
@@ -78,7 +78,6 @@ function changeWidget(newWidget) { // create the settings boxes and info for the
         htmlField.innerHTML ="<td>" + currentField.name + " </td><td><select type='text' class='selectInput' name='" + field + "' id='" + field + "'>" + selectOptions +  "</select>" + "</td>";
       }
       htmlField.innerHTML = htmlField.innerHTML + "<div class='explanation'>" + currentField.explanation + "</div>";
-      htmlField.innerHTML = htmlField.innerHTML;
       settingsInputs.appendChild(htmlField);
     }
   }
