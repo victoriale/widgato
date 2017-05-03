@@ -836,6 +836,9 @@ loadData();
   function nextList(e) {
     // when next list is clicked, clear the worm and any scroll vars, then reload new data
     lazyLoaded = false;
+    //take igloo out before we wipe the worm
+    friendlyIframe.parentElement.appendChild(firstAd.getElementsByClassName("widget_zone")[0]);
+    //wipe worm and reset everything
     worm.innerHTML = "";
     firstAd.style.left = "0px";
     worm.scrollLeft = 0;
