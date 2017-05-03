@@ -33,10 +33,10 @@ function generateWidget() { //create the output widget based on the user-configu
   if (options[widget].embed != null && options[widget].embed != {} && options[widget].embed.type != "") {
     var xmlHttp = new XMLHttpRequest();
     var responce;
-    if (options[widget].embed.type.indexOf("%category%") != -1) {
+    if (options[widget].embed.type.indexOf("%category%") != -1 && document.getElementById("category").value != "") {
       xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].embed.type.replace("%category%",document.getElementById("category").value), false);
     }
-    else if (options[widget].embed.type.indexOf("%group%") != -1) {
+    else if (options[widget].embed.type.indexOf("%group%") != -1 && document.getElementById("group").value != "") {
       xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].embed.type.replace("%group%",document.getElementById("group").value), false);
     }
     else {
