@@ -392,7 +392,7 @@ function displayWidget() {
               }else{
                 $("profile-datavalue1").innerHTML = curData.fallback_data_value_1 != null ? curData.fallback_data_value_1 : '';
                 $("profile-datapoint1").innerHTML = curData.fallback_data_point_1 != null ? curData.fallback_data_point_1 : '';
-                $("data-title1").setAttribute("title", curData.data_value_1);
+                $("data-title1").setAttribute("title", curData.fallback_data_value_1);
               }
 
               $("profile-datapoint2").innerHTML = curData.data_point_2 != null ? curData.data_point_2 : '';
