@@ -17,28 +17,40 @@ var tries = 0; // flag for api to try atleast 10 times before failing completely
 var maxTries = 5;
 var listRand = 0; // used to increment index of random list in database
 var subCategory; // with a vast amount groups and categories need we need the currently shown category for the rest of the code
-// var categoryColors = { // Brand Color Palette
-//     'football': '#2d3e50',
-//     'default': '#009dfb',
-// };
+var currentFriendlyIframe;
+var embedURL = "dynamic_widget_unlinked";
+var currentScript = document.currentScript || (function() {// resolution for IE since it does not have currentScript to find the currently running script on the page
+  var scripts = document.getElementsByTagName('script');
+  for ( var i = scripts.length - 1; i >= 0; i-- ) {
+    if ( scripts[i].src.indexOf(embedURL) != -1 ) {
+      return scripts[i];
+    }
+  }
+})();
 
 //Initial load Waits for the DOMContent to load
-document.addEventListener("DOMContentLoaded", function(event) { // TAKE ANOTHER LOOK AT THIS AND ONLOAD function both can be optimized
-    //if no query is snet then nothing is shown
-    if (temp != null) {
+document.addEventListener("DOMContentLoaded", function(event) {
+  if (document.readyState == "complete" || document.readyState == "interactive") {
+      //if no query is snet then nothing is shown
+      if (temp != null) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         listRand = query.rand ? query.rand : 1;
         //FIRST THING IS SETUP ENVIRONMENTS
         setupEnvironment(query);
 
+        currentFriendlyIframe = createFriendlyIframe();
+
+        createInlineHTML(currentFriendlyIframe);
+        createInlineStyle(currentFriendlyIframe);
         //Flag if wideScript exists then run certain scripts differently
         wideScript();
 
         //THEN START UPDATING THE LISTS
         updateList(0);
-    } else {
+      } else {
         console.log('No query found on widget');
-    }
+      }
+  }
 });
 
 function getEnv(env) {
@@ -198,29 +210,6 @@ function getRandFootballList(jsonArray) {
     runAPI(apiCallUrl)
 }
 
-
-/****************************** onLoad ***************************
- * @function onLoad
- * Once the DOM has loaded, Adds a function to the "onLoad" event OR runs the function if the page is
- * already loaded
- *
- * @param function func - The function to run when the page has loaded
- */
-function onLoad(func) {
-    if (document.readyState == "complete" || document.readyState == "interactive") {
-        func();
-    } else if (document.addEventListener) {
-        document.addEventListener('DOMContentLoaded', func);
-    } else if (document.attachEvent) {
-        document.attachEvent('onreadystatechange', function() {
-            if (document.readyState == "complete") {
-                func();
-            }
-        });
-    }
-} /*************************** onLoad ***************************/
-
-
 /***************************** runAPI ***************************
  * @function runAPI
  * function that makes an asynchronous request using http and setting a global variable equal to the response of the text.
@@ -240,7 +229,7 @@ function runAPI(apiUrl) { //Make it to where it is easy to be reused by anyone
             if (this.status == 200) {
                 // On success parse out the response
                 widgetData = JSON.parse(this.responseText);
-                onLoad(displayWidget); //send in the name of the function that needs to be ran once data has been confirmed
+                displayWidget(); //send in the name of the function that needs to be ran once data has been confirmed
             } else {
                 // Error handling
                 // Get the message
@@ -473,137 +462,6 @@ function setCategoryColors(category) {
     var atomicClass = document.getElementsByClassName("widget_ad")[0];
 
     atomicClass.id = wideWidget ? category+'-wide' : category;
-
-    /* SNT DEFINED CLASSES TO BE FOUND AND USED FOR
-     * function classInheritorReplace(identifier, category)
-     */
-    // classInheritorReplace("color_inheritor", category);
-    // classInheritorReplace("background_inheritor", category);
-    // classInheritorReplace("button_inheritor", category);
-
-    /********************** SETUP CATEGORY COLORS **********************
-     * @function classInheritorReplace
-     * dynamically set the colors of the css Rules each identifier in the html for dynamic colors
-     *
-     * @param function
-     *      identifier - unique identifier in the html used to run a function that replaces the color scheme based on category
-     *      category - sets the base category for colors that are stored in the global ./css/inheritor/inheritor.css
-     */
-    // function classInheritorReplace(identifier, category) {
-    //     var htmlClass = document.getElementById(identifier);
-    //     var re = new RegExp('inheritor', "g");
-    //     var categoryClass = category == 'default' ? '' : category + '-'; // ex default returns nothing , football-, baseball-
-    //     var classes = htmlClass.className.split(" ").filter(function(c) {
-    //         return c.match(re) != null ? c.match(re) : null;
-    //     });
-    //     switch (identifier) {
-    //         case "color_inheritor":
-    //             htmlClass.classList.remove(classes[0]);
-    //             htmlClass.classList.add(categoryClass + "inheritor");
-    //             break;
-    //         case "background_inheritor":
-    //             htmlClass.classList.remove(classes[0]);
-    //             htmlClass.classList.add(categoryClass + "inheritor_img_bg");
-    //             break;
-    //         case "button_inheritor":
-    //             for (var i = 0; i < classes.length; i++) {
-    //                 htmlClass.classList.remove(classes[i]);
-    //             }
-    //             htmlClass.classList.add(categoryClass + "inheritor_border");
-    //             htmlClass.classList.add(categoryClass + "inheritor_bg");
-    //             break;
-    //     }
-    // }
-
-
-    /**************************************************************DEPRECATED*****************************************************/
-    // color = categoryColors[category];
-    // /************************* CSS CLASS LOOPING *********************
-    //  * @function classLoop
-    //  * Loops throught stylesheet and finds cssName and change the cssRules
-    //  *
-    //  * @param function
-    //  *     cssName - name of css class to change its cssRule
-    //  *     style - the style with specific cases currently available styles => color, border-color, background-color
-    //  *     styleColor - uses color based on the categoryColors and category
-    //  */
-    // function classLoop(cssName, style, styleColor) {
-    //     var styleSheets = getCssSelector("5embed");
-    //
-    //     //delete inheritor rule and RE-APPLY css with new rule (easier when only one cssrule is needed to change)
-    //     if (styleSheets) {
-    //         var attribute = findCss(cssName, styleSheets);
-    //         styleSheets.deleteRule(attribute.index);
-    //         //try catch statements are for ie compatibility
-    //         switch (style) {
-    //             case 'color':
-    //                 try {
-    //                     styleSheets.insertRule('.' + cssName + ' { color: ' + styleColor + ' !important; }', 0);
-    //                 } catch (e) {
-    //                     styleSheets.addRule('.' + cssName, 'color: ' + styleColor + ' !important', 0);
-    //                 }
-    //                 break;
-    //             case 'border-color':
-    //                 try {
-    //                     styleSheets.insertRule('.' + cssName + ' { border-color: ' + styleColor + ' !important; }', 0);
-    //                 } catch (e) {
-    //                     styleSheets.addRule('.' + cssName, 'border-color: ' + styleColor + ' !important', 0);
-    //                 }
-    //                 break;
-    //             case 'background-color':
-    //                 try {
-    //                     styleSheets.insertRule('.' + cssName + ' { background-color: ' + styleColor + ' !important; }', 0);
-    //                 } catch (e) {
-    //                     styleSheets.addRule('.' + cssName, 'background-color: ' + styleColor + ' !important', 0);
-    //                 }
-    //                 break;
-    //             default:
-    //                 break;
-    //         }
-    //     }
-    //
-    // }
-    //
-    // /*********************** GET CSS SELECTOR **********************
-    //  * @function getCssSelector
-    //  * find the css File with the title given to the function
-    //  *
-    //  * @param function title - send in the title to choose which selector
-    //  */
-    // function getCssSelector(title) {
-    //     var selector = document.styleSheets;
-    //     for (var index = 0; index < selector.length; index++) {
-    //         if (selector[index].title == title) {
-    //             return selector[index];
-    //         }
-    //     }
-    // }
-    //
-    // /********************* FIND CSS NAME ******************
-    //  * @function findCss
-    //  * find the the specific css element by the given selector Text (ex: .inheritor , body, html, #profile-name)
-    //  *
-    //  * @param function
-    //  *     cssName - cssName of the rule we want to find
-    //  *     styleSheets - the chosen style seet that we need to change the cssName for
-    //  */
-    // function findCss(cssName, styleSheets) {
-    //     if (styleSheets.cssRules != null) {
-    //         for (var index = 0; index < styleSheets.cssRules.length; index++) {
-    //             if (styleSheets.cssRules[index].selectorText == "." + cssName) {
-    //                 styleSheets.cssRules[index].index = index;
-    //                 return styleSheets.cssRules[index];
-    //             }
-    //         }
-    //     }
-    // }
-    //
-    // //Class Loop will change the color by looping through cssSelector File and changing the given class
-    // classLoop('inheritor', 'color', color);
-    // classLoop('inheritor_border', 'border-color', color);
-    // classLoop('inheritor_img_bg', 'background-color', color);
-    // classLoop('inheritor_bg:hover::before', 'background-color', color);
-    /**************************************************************DEPRECATED*****************************************************/
 }
 
 /************************ Update Index *************************
@@ -738,4 +596,29 @@ function checkImage(image) {
         }
     }
     return imageReturn;
+}
+
+function createFriendlyIframe(){
+  //create friendly iframe to place ourselves inside
+  var friendlyIframe = document.createElement('iframe');
+  // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
+  friendlyIframe.className = "centipedeIframe"
+  friendlyIframe.width = '300';
+  friendlyIframe.height = '250';
+  friendlyIframe.src = 'about:blank';
+  friendlyIframe.style.border = 'none';
+  currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
+  return friendlyIframe.contentWindow;
+}
+
+function createInlineHTML(friendlyIframe){
+  console.log('createInlineHTML');
+  console.log(friendlyIframe);
+
+}
+
+function createInlineStyle(friendlyIframe){
+  console.log('createInlineStyle');
+  console.log(friendlyIframe);
+
 }
