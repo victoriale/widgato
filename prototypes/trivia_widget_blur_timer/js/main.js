@@ -705,7 +705,7 @@
             initialInteraction = true;
             clearInterval(intervalTimer);
             clearInterval(pixelationInterval);
-            submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Inorrect";
+            submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
             submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
             triviaContainer_el.className = "incorrect_submission";
             nextQuestionFn();

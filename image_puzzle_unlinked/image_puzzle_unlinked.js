@@ -18,7 +18,7 @@ var subCategory; // with a vast amount groups and categories need we need the cu
 //Initial load Waits for the DOMContent to load
 document.addEventListener("DOMContentLoaded", function (event) { // TAKE ANOTHER LOOK AT THIS AND ONLOAD function both can be optimized
     //if no query is snet then nothing is shown
-    if (temp != null) {
+    if (temp != null && temp.length > 0) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         listRand = query.rand ? query.rand : 0;
         //FIRST THING IS SETUP ENVIRONMENTS
@@ -151,7 +151,7 @@ function getFootballList(league) {
 function getRandFootballList(jsonArray) {
     rand = Math.floor((Math.random() * (jsonArray.length - 1)) + 1);
     var date = new Date;
-    var compareDate = new Date('09/15/' + date.getFullYear());
+    var compareDate = new Date('09/15/' + date.getFullYear());//TODO get an API from BE to determine when a new season starts
     let season;
     if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
         season = jsonArray[rand] + "&season=" + date.getFullYear();

@@ -54,3 +54,13 @@ gulp.task('uglify', function() {
     .pipe(rename('dynamic_widget_unlinked.min.js'))
     .pipe(gulp.dest('dynamic_widget_unlinked'))
 });
+
+gulp.task('droneuglify', function() {
+    gulp.src('dodgydrone/**/*.js')
+    .pipe(uglify())
+    .pipe(rename(function(path){
+      path.basename += ".min";
+      path.extname = ".js";
+    }))
+    .pipe(gulp.dest('dodgydrone'))
+});
