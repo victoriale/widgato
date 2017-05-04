@@ -686,7 +686,7 @@ loadData();
     else {
       backStyle = `style="background-color: black;"`;
     }
-    helper.innerHTML = data.l_alt_title != null || data.l_alt_title == '' ? data.l_alt_title : data.l_titl;// used due to the fact centipede is not wide enought to have more than 50 characters for title
+    helper.innerHTML = data.l_alt_title != null && data.l_alt_title == '' ? data.l_alt_title : data.l_titl;// used due to the fact centipede is not wide enought to have more than 50 characters for title
     worm.innerHTML = `
     <style>
       .profile_image_div.fallback::before {
