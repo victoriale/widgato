@@ -44,8 +44,8 @@ document.addEventListener("DOMContentLoaded", function(event) {
         //FIRST THING IS SETUP ENVIRONMENTS
         setupEnvironment(query);
 
-        currentFriendlyIframe = createFriendlyIframe();
 
+        currentFriendlyIframe = createFriendlyIframe();
         createInlineHTML(currentFriendlyIframe);
         createInlineStyle(currentFriendlyIframe);
         //Flag if wideScript exists then run certain scripts differently
@@ -608,9 +608,9 @@ function createFriendlyIframe(){
   //create friendly iframe to place ourselves inside
   var friendlyIframe = document.createElement('iframe');
   // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
-  friendlyIframe.className = "centipedeIframe"
+  friendlyIframe.className = "dwunlinkIframe"
   friendlyIframe.width = '300';
-  friendlyIframe.height = '250';
+  friendlyIframe.height = '600';
   friendlyIframe.src = 'about:blank';
   friendlyIframe.style.border = 'none';
   currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
@@ -619,10 +619,10 @@ function createFriendlyIframe(){
 
 function createInlineHTML(friendlyIframe){
   console.log('createInlineHTML',friendlyIframe);
-
+  console.log('html',htmlFile);
 }
 
 function createInlineStyle(friendlyIframe){
   console.log('createInlineStyle',friendlyIframe);
-
+  console.log('css',cssFile);
 }

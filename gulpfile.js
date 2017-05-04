@@ -62,7 +62,10 @@ gulp.task('dwunlinked-clean', function() {
 gulp.task('dwunlinked-html', function() {
   return gulp
   .src(['dynamic_widget_unlinked/index.html'])
-  .pipe(htmlmin({collapseWhitespace: true}))
+  .pipe(htmlmin({
+    collapseWhitespace: true,
+    quoteCharacter:"'"
+  }))
   .pipe(concat('index.min.html'))
   .pipe(gulp.dest('dynamic_widget_unlinked/min'));
 });
@@ -85,7 +88,7 @@ gulp.task('dwunlinked-scripts', ['dwunlinked-html', 'dwunlinked-css'],function()
 });
 
 gulp.task('dwunlinked-uglify', ['dwunlinked-scripts'],function() {
-  gulp.src('dynamic_widget_unlinked/min/dynamic_widget_unlinked.js')
+  gulp.src('dynamic_widget_unlinked/dynamic_widget_unlinked.import.js')
     .pipe(uglify())
     .pipe(concat('dynamic_widget_unlinked.min.js'))
     .pipe(gulp.dest('dynamic_widget_unlinked/min'))
