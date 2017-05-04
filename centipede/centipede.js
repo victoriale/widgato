@@ -204,17 +204,17 @@ var iframeContent = friendlyIframe.contentWindow;
         -o-transform: translateX(0);
         transform: translateX(0); }
       40% {
-        -webkit-transform: translateX(30px);
-        -moz-transform: translateX(30px);
-        -ms-transform: translateX(30px);
-        -o-transform: translateX(30px);
-        transform: translateX(30px); }
+        -webkit-transform: translateX(12px);
+        -moz-transform: translateX(12px);
+        -ms-transform: translateX(12px);
+        -o-transform: translateX(12px);
+        transform: translateX(12px); }
       60% {
-        -webkit-transform: translateX(15px);
-        -moz-transform: translateX(15px);
-        -ms-transform: translateX(15px);
-        -o-transform: translateX(15px);
-        transform: translateX(15px); } }
+        -webkit-transform: translateX(2px);
+        -moz-transform: translateX(2px);
+        -ms-transform: translateX(2px);
+        -o-transform: translateX(2px);
+        transform: translateX(2px); } }
     .worm_block {
       position: relative;
       display: inline-block;
@@ -222,7 +222,7 @@ var iframeContent = friendlyIframe.contentWindow;
       padding-left: 5px;
     }
     .worm_block:nth-of-type(1) {
-      padding-left: 5px!important;
+      padding-left: 2px!important;
     }
     .worm_block:nth-of-type(2) {
       padding-left: 0px;
