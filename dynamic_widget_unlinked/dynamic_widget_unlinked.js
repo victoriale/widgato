@@ -17,6 +17,12 @@ var tries = 0; // flag for api to try atleast 10 times before failing completely
 var maxTries = 5;
 var listRand = 0; // used to increment index of random list in database
 var subCategory; // with a vast amount groups and categories need we need the currently shown category for the rest of the code
+
+//it is required to use gulp process to fill in the @@imports and get inline coding with friendlyIframe to work properly;
+//single quotes and @@import are important for gulp task to work for these files
+var htmlFile = '@@import /min/index.min.html';
+var cssFile = '@@import /min/dynamic_widget_unlinked.min.css';
+
 var currentFriendlyIframe;
 var embedURL = "dynamic_widget_unlinked";
 var currentScript = document.currentScript || (function() {// resolution for IE since it does not have currentScript to find the currently running script on the page
@@ -612,13 +618,11 @@ function createFriendlyIframe(){
 }
 
 function createInlineHTML(friendlyIframe){
-  console.log('createInlineHTML');
-  console.log(friendlyIframe);
+  console.log('createInlineHTML',friendlyIframe);
 
 }
 
 function createInlineStyle(friendlyIframe){
-  console.log('createInlineStyle');
-  console.log(friendlyIframe);
+  console.log('createInlineStyle',friendlyIframe);
 
 }
