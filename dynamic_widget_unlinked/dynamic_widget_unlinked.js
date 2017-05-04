@@ -46,6 +46,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
 
 
         currentFriendlyIframe = createFriendlyIframe();
+        currentFriendlyIframe.document.write(htmlFile + cssFile);
         createInlineHTML(currentFriendlyIframe);
         createInlineStyle(currentFriendlyIframe);
         //Flag if wideScript exists then run certain scripts differently
