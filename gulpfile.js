@@ -9,7 +9,9 @@ var strip            = require('gulp-strip-comments');
 var removeEmptyLines = require('gulp-remove-empty-lines');
 var trimLines        = require('gulp-trimlines');
 var clean            = require('gulp-clean');
-var rename            = require('gulp-rename');
+var rename           = require('gulp-rename');
+var plumber          = require('gulp-plumber');//Use .pipe(plumber()) and place it in the beginning after source to debug if needed
+
 
 gulp.task('clean', function() {
   return gulp
@@ -55,6 +57,7 @@ gulp.task('uglify', function() {
     .pipe(gulp.dest('dynamic_widget_unlinked'))
 });
 
+//uglify function for all js files inside dodgydrone folder for the dodgydrone game
 gulp.task('droneuglify', function() {
     gulp.src('dodgydrone/**/*.js')
     .pipe(uglify())
@@ -63,4 +66,12 @@ gulp.task('droneuglify', function() {
       path.extname = ".js";
     }))
     .pipe(gulp.dest('dodgydrone'))
+});
+
+//uglify function for image puzzle unlinked game
+gulp.task('puzzleuglify', function() {
+  gulp.src('image_puzzle_unlinked/image_puzzle_unlinked.js')
+    .pipe(uglify())
+    .pipe(rename('image_puzzle_unlinked.min.js'))
+    .pipe(gulp.dest('image_puzzle_unlinked'))
 });
