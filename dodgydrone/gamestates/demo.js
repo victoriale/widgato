@@ -1,1 +1,753 @@
-var _0x6846=['\x6f\x62\x73\x74\x61\x63\x6c\x65\x2d\x62\x6f\x74\x74\x6f\x6d\x2d\x34','\x6f\x62\x73\x74\x61\x63\x6c\x65\x2d\x62\x6f\x74\x74\x6f\x6d\x2d\x35','\x74\x6f\x70','\x6f\x62\x73\x74\x61\x63\x6c\x65\x2d\x74\x6f\x70\x2d\x33','\x6f\x62\x73\x74\x61\x63\x6c\x65\x2d\x74\x6f\x70\x2d\x34','\x6f\x62\x73\x74\x61\x63\x6c\x65\x2d\x74\x6f\x70\x2d\x35','\x35\x7c\x30\x7c\x38\x7c\x34\x7c\x37\x7c\x36\x7c\x33\x7c\x31\x7c\x32','\x67\x65\x74\x52\x61\x6e\x64\x6f\x6d\x42\x6f\x74','\x54\x51\x4a','\x56\x52\x4b','\x6c\x6f\x52','\x51\x49\x43','\x6c\x6e\x79','\x67\x65\x74\x52\x61\x6e\x64\x6f\x6d','\x30\x7c\x31\x7c\x34\x7c\x32\x7c\x33','\x67\x53\x44','\x62\x64\x74','\x61\x64\x64\x53\x63\x6f\x72\x65','\x73\x70\x61\x77\x6e\x4f\x62\x73\x74\x61\x63\x6c\x65\x73','\x41\x6c\x78','\x4b\x6e\x6f','\x4c\x57\x78','\x59\x64\x6b','\x5a\x46\x7a','\x6c\x63\x51','\x68\x56\x42','\x79\x68\x65','\x6f\x56\x6d','\x31\x30\x7c\x39\x7c\x38\x7c\x31\x32\x7c\x36\x7c\x30\x7c\x32\x7c\x31\x7c\x37\x7c\x35\x7c\x31\x31\x7c\x33\x7c\x34','\x70\x69\x67\x65\x6f\x6e\x44\x65\x61\x74\x68\x43\x6f\x6d\x70\x6c\x65\x74\x65','\x66\x6c\x79','\x6f\x6e\x4f\x75\x74\x4f\x66\x42\x6f\x75\x6e\x64\x73','\x70\x69\x67\x65\x6f\x6e\x4f\x75\x74\x4f\x66\x42\x6f\x75\x6e\x64\x73','\x63\x68\x65\x63\x6b\x57\x6f\x72\x6c\x64\x42\x6f\x75\x6e\x64\x73','\x70\x69\x67\x65\x6f\x6e','\x65\x78\x70\x6c\x6f\x64\x65','\x69\x73\x45\x78\x70\x6c\x6f\x64\x69\x6e\x67','\x46\x74\x79','\x59\x70\x46','\x53\x58\x77','\x63\x72\x65\x61\x74\x65\x70\x69\x67\x65\x6f\x6e\x73','\x67\x65\x74\x46\x69\x72\x73\x74\x44\x65\x61\x64','\x32\x7c\x34\x7c\x35\x7c\x33\x7c\x30\x7c\x31','\x35\x7c\x36\x7c\x32\x7c\x34\x7c\x31\x7c\x30\x7c\x37\x7c\x33','\x63\x65\x6e\x74\x65\x72\x58','\x63\x65\x6e\x74\x65\x72\x59','\x74\x64\x54','\x6b\x6a\x53','\x37\x7c\x39\x7c\x38\x7c\x35\x7c\x34\x7c\x36\x7c\x31\x30\x7c\x31\x32\x7c\x32\x7c\x33\x7c\x31\x31\x7c\x31\x7c\x30','\x73\x74\x79\x6c\x65','\x62\x6f\x6c\x64\x20\x31\x32\x38\x70\x78\x20\x4c\x61\x74\x6f','\x53\x45\x43\x4f\x4e\x44','\x70\x6c\x61\x79\x54\x68\x65\x47\x61\x6d\x65','\x72\x6f\x75\x6e\x64','\x75\x6f\x6a','\x23\x66\x66\x66\x66\x66\x66','\x69\x6e\x74\x65\x72\x66\x61\x63\x65\x42\x61\x63\x6b\x67\x72\x6f\x75\x6e\x64','\x66\x6c\x6f\x6f\x72','\x6f\x52\x57','\x6a\x74\x6f','\x73\x75\x62\x73\x74\x72','\x47\x61\x6d\x65\x4c\x6f\x6f\x70','\x70\x72\x6f\x74\x6f\x74\x79\x70\x65','\x73\x70\x6c\x69\x74','\x69\x6e\x70\x75\x74\x45\x6e\x61\x62\x6c\x65\x64','\x73\x63\x61\x6c\x65','\x73\x65\x74\x54\x6f','\x61\x64\x64','\x74\x65\x78\x74','\x69\x56\x43','\x77\x6f\x72\x6c\x64','\x77\x69\x64\x74\x68','\x61\x6e\x69\x6d\x61\x74\x69\x6f\x6e\x73','\x70\x6c\x61\x79','\x61\x6e\x63\x68\x6f\x72','\x73\x70\x72\x69\x74\x65','\x69\x63\x6f\x6e\x2d\x66\x65\x61\x74\x68\x65\x72','\x69\x63\x6f\x6e\x2d\x68\x65\x61\x72\x74','\x72\x65\x41','\x62\x6f\x6c\x64\x20\x32\x30\x70\x78\x20\x4c\x61\x74\x6f','\x23\x34\x34\x61\x64\x32\x36','\x76\x69\x73\x69\x62\x6c\x65','\x65\x6e\x61\x62\x6c\x65\x42\x6f\x64\x79','\x68\x65\x69\x67\x68\x74','\x73\x6b\x79\x2d\x70\x61\x72\x72\x61\x6c\x61\x78','\x73\x65\x74\x53\x63\x6f\x72\x65','\x67\x61\x6d\x65','\x68\x6f\x76\x65\x72','\x67\x72\x6f\x75\x70','\x75\x69\x2d\x62\x67','\x63\x72\x65\x61\x74\x65','\x73\x6b\x79','\x6c\x6f\x67','\x25\x63\x44\x65\x6d\x6f\x20\x53\x74\x61\x72\x74\x65\x64\x2e','\x63\x6f\x6c\x6f\x72\x3a\x77\x68\x69\x74\x65\x3b\x20\x62\x61\x63\x6b\x67\x72\x6f\x75\x6e\x64\x3a\x72\x65\x64','\x65\x76\x65\x6e\x74\x73','\x6f\x6e\x49\x6e\x70\x75\x74\x4f\x76\x65\x72','\x67\x61\x6d\x65\x43\x6f\x75\x6e\x74\x44\x6f\x77\x6e','\x6c\x69\x66\x74\x2d\x62\x75\x74\x74\x6f\x6e','\x62\x75\x74\x74\x6f\x6e','\x7a\x41\x71','\x70\x61\x75\x73\x65\x2d\x62\x75\x74\x74\x6f\x6e','\x63\x6c\x69\x63\x6b\x54\x6f\x50\x61\x75\x73\x65\x42\x75\x74\x74\x6f\x6e\x41\x63\x74\x69\x6f\x6e','\x68\x6f\x76\x65\x72\x2d\x69\x63\x6f\x6e','\x63\x72\x65\x61\x74\x65\x49\x6e\x69\x74\x69\x61\x6c\x4f\x62\x73\x74\x61\x63\x6c\x65\x73','\x61\x6c\x70\x68\x61','\x70\x68\x79\x73\x69\x63\x73','\x61\x72\x63\x61\x64\x65','\x6f\x76\x65\x72\x6c\x61\x70','\x63\x6f\x6c\x6c\x65\x63\x74\x70\x69\x67\x65\x6f\x6e','\x70\x6c\x61\x79\x65\x72\x44\x65\x61\x74\x68','\x58\x71\x76','\x70\x6f\x73\x69\x74\x69\x6f\x6e','\x61\x61\x4e','\x64\x4e\x77','\x61\x69\x43\x6c\x69\x63\x6b\x43\x68\x65\x63\x6b','\x63\x68\x65\x63\x6b\x4f\x62\x73\x74\x61\x63\x6c\x65\x73','\x63\x68\x65\x63\x6b\x70\x69\x67\x65\x6f\x6e\x73','\x63\x68\x65\x63\x6b\x43\x6c\x6f\x75\x64\x73','\x63\x68\x65\x63\x6b\x53\x6b\x79\x6c\x69\x6e\x65\x73','\x74\x69\x6d\x65\x72','\x66\x6f\x72\x6d\x61\x74\x54\x69\x6d\x65','\x62\x73\x7a','\x74\x69\x6d\x65\x72\x45\x76\x65\x6e\x74','\x64\x65\x6c\x61\x79','\x63\x6f\x75\x6e\x74\x64\x6f\x77\x6e','\x73\x65\x74\x54\x65\x78\x74','\x78\x62\x71','\x6e\x59\x61','\x50\x6c\x61\x79\x21','\x48\x42\x6c','\x31\x7c\x33\x7c\x30\x7c\x32\x7c\x34','\x66\x6f\x72\x45\x61\x63\x68','\x61\x6c\x69\x76\x65','\x62\x6f\x64\x79','\x57\x74\x4a','\x64\x69\x73\x74\x61\x6e\x63\x65\x42\x65\x74\x77\x65\x65\x6e','\x70\x6c\x61\x79\x65\x72','\x42\x6f\x64','\x70\x75\x73\x68\x50\x6c\x61\x79\x65\x72\x55\x70','\x7a\x61\x4c','\x76\x65\x6c\x6f\x63\x69\x74\x79','\x6e\x6f\x72\x6d\x61\x6c','\x4e\x4c\x44','\x69\x6e\x63\x72\x65\x61\x73\x65\x2d\x68\x65\x69\x67\x68\x74','\x31\x33\x7c\x31\x35\x7c\x33\x7c\x30\x7c\x31\x31\x7c\x31\x7c\x31\x34\x7c\x38\x7c\x39\x7c\x37\x7c\x36\x7c\x32\x7c\x31\x32\x7c\x34\x7c\x31\x30\x7c\x35','\x66\x6f\x72\x45\x61\x63\x68\x41\x6c\x69\x76\x65','\x6b\x69\x6c\x6c','\x72\x65\x76\x69\x76\x65\x50\x6c\x61\x79\x65\x72','\x36\x7c\x31\x7c\x32\x7c\x34\x7c\x33\x7c\x30\x7c\x35','\x72\x6e\x64','\x72\x65\x61\x6c\x49\x6e\x52\x61\x6e\x67\x65','\x67\x72\x61\x76\x69\x74\x79','\x69\x6e\x74\x65\x67\x65\x72\x49\x6e\x52\x61\x6e\x67\x65','\x63\x6c\x6f\x75\x64','\x65\x49\x72','\x72\x65\x73\x65\x74','\x63\x6f\x75\x6e\x74\x4c\x69\x76\x69\x6e\x67','\x48\x79\x54','\x63\x72\x65\x61\x74\x65\x43\x6c\x6f\x75\x64','\x77\x71\x79','\x31\x7c\x32\x7c\x34\x7c\x33\x7c\x36\x7c\x35\x7c\x30','\x31\x30\x7c\x31\x7c\x32\x7c\x39\x7c\x31\x32\x7c\x35\x7c\x31\x31\x7c\x30\x7c\x31\x33\x7c\x37\x7c\x36\x7c\x34\x7c\x38\x7c\x33\x7c\x31\x34','\x6d\x61\x6b\x65\x50\x61\x72\x74\x69\x63\x6c\x65\x73','\x6d\x61\x78\x50\x61\x72\x74\x69\x63\x6c\x65\x41\x6c\x70\x68\x61','\x6d\x69\x6e\x50\x61\x72\x74\x69\x63\x6c\x65\x41\x6c\x70\x68\x61','\x6d\x69\x6e\x50\x61\x72\x74\x69\x63\x6c\x65\x53\x63\x61\x6c\x65','\x73\x74\x61\x72\x74','\x7a\x54\x6f','\x69\x63\x6f\x6e\x2d\x68\x65\x61\x72\x74\x2d\x65\x6d\x70\x74\x79','\x65\x6d\x69\x74\x74\x65\x72','\x6d\x61\x78\x50\x61\x72\x74\x69\x63\x6c\x65\x53\x63\x61\x6c\x65','\x30\x7c\x31\x31\x7c\x32\x7c\x34\x7c\x35\x7c\x37\x7c\x39\x7c\x38\x7c\x31\x7c\x36\x7c\x33\x7c\x31\x30','\x62\x6f\x75\x6e\x63\x65','\x64\x65\x61\x74\x68','\x6f\x6e\x43\x6f\x6d\x70\x6c\x65\x74\x65','\x70\x6c\x61\x79\x65\x72\x44\x65\x61\x74\x68\x41\x6e\x69\x6d\x61\x74\x69\x6f\x6e\x44\x6f\x6e\x65','\x65\x6e\x61\x62\x6c\x65','\x63\x6f\x6c\x6c\x69\x64\x65\x57\x6f\x72\x6c\x64\x42\x6f\x75\x6e\x64\x73','\x6d\x6f\x76\x65\x73','\x6f\x62\x73\x74\x61\x63\x6c\x65\x2d\x62\x6f\x74\x74\x6f\x6d\x2d\x31','\x6c\x74\x79\x70\x65','\x6f\x62\x73\x74\x61\x63\x6c\x65\x2d\x62\x6f\x74\x74\x6f\x6d\x2d\x32','\x73\x65\x74\x53\x69\x7a\x65','\x69\x6d\x6d\x6f\x76\x61\x62\x6c\x65','\x6f\x62\x73\x74\x61\x63\x6c\x65\x2d\x62\x6f\x74\x74\x6f\x6d\x2d\x33','\x62\x6f\x74\x74\x6f\x6d'];(function(_0x478b4f,_0x1bacd6){var _0x29d818=function(_0x510c40){while(--_0x510c40){_0x478b4f['\x70\x75\x73\x68'](_0x478b4f['\x73\x68\x69\x66\x74']());}};var _0x87d3f4=function(){var _0x3954d9={'\x64\x61\x74\x61':{'\x6b\x65\x79':'\x63\x6f\x6f\x6b\x69\x65','\x76\x61\x6c\x75\x65':'\x74\x69\x6d\x65\x6f\x75\x74'},'\x73\x65\x74\x43\x6f\x6f\x6b\x69\x65':function(_0x440087,_0x298179,_0x238beb,_0x54a18d){_0x54a18d=_0x54a18d||{};var _0x3b9595=_0x298179+'\x3d'+_0x238beb;var _0x509d73=0x0;for(var _0x509d73=0x0,_0x507326=_0x440087['\x6c\x65\x6e\x67\x74\x68'];_0x509d73<_0x507326;_0x509d73++){var _0x3f7b46=_0x440087[_0x509d73];_0x3b9595+='\x3b\x20'+_0x3f7b46;var _0x72cbf6=_0x440087[_0x3f7b46];_0x440087['\x70\x75\x73\x68'](_0x72cbf6);_0x507326=_0x440087['\x6c\x65\x6e\x67\x74\x68'];if(_0x72cbf6!==!![]){_0x3b9595+='\x3d'+_0x72cbf6;}}_0x54a18d['\x63\x6f\x6f\x6b\x69\x65']=_0x3b9595;},'\x72\x65\x6d\x6f\x76\x65\x43\x6f\x6f\x6b\x69\x65':function(){return'\x64\x65\x76';},'\x67\x65\x74\x43\x6f\x6f\x6b\x69\x65':function(_0x5c901f,_0x1085fe){_0x5c901f=_0x5c901f||function(_0x4a9cdc){return _0x4a9cdc;};var _0x152c52=_0x5c901f(new RegExp('\x28\x3f\x3a\x5e\x7c\x3b\x20\x29'+_0x1085fe['\x72\x65\x70\x6c\x61\x63\x65'](/([.$?*|{}()[]\/+^])/g,'\x24\x31')+'\x3d\x28\x5b\x5e\x3b\x5d\x2a\x29'));var _0x1884f5=function(_0x47467e,_0x4a9fe2){_0x47467e(++_0x4a9fe2);};_0x1884f5(_0x29d818,_0x1bacd6);return _0x152c52?decodeURIComponent(_0x152c52[0x1]):undefined;}};var _0x4ea1a1=function(){var _0x1580ba=new RegExp('\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d');return _0x1580ba['\x74\x65\x73\x74'](_0x3954d9['\x72\x65\x6d\x6f\x76\x65\x43\x6f\x6f\x6b\x69\x65']['\x74\x6f\x53\x74\x72\x69\x6e\x67']());};_0x3954d9['\x75\x70\x64\x61\x74\x65\x43\x6f\x6f\x6b\x69\x65']=_0x4ea1a1;var _0x20df8a='';var _0x53dd51=_0x3954d9['\x75\x70\x64\x61\x74\x65\x43\x6f\x6f\x6b\x69\x65']();if(!_0x53dd51){_0x3954d9['\x73\x65\x74\x43\x6f\x6f\x6b\x69\x65'](['\x2a'],'\x63\x6f\x75\x6e\x74\x65\x72',0x1);}else if(_0x53dd51){_0x20df8a=_0x3954d9['\x67\x65\x74\x43\x6f\x6f\x6b\x69\x65'](null,'\x63\x6f\x75\x6e\x74\x65\x72');}else{_0x3954d9['\x72\x65\x6d\x6f\x76\x65\x43\x6f\x6f\x6b\x69\x65']();}};_0x87d3f4();}(_0x6846,0xf9));var _0x6684=function(_0x252d7e,_0xfd209){_0x252d7e=_0x252d7e-0x0;var _0x4b7000=_0x6846[_0x252d7e];return _0x4b7000;};var _0x3a605d=function(){var _0x59a2c1=!![];return function(_0x3aa0ae,_0x4025a9){var _0x2babc2=_0x59a2c1?function(){if(_0x4025a9){var _0x1e251d=_0x4025a9['\x61\x70\x70\x6c\x79'](_0x3aa0ae,arguments);_0x4025a9=null;return _0x1e251d;}}:function(){};_0x59a2c1=![];return _0x2babc2;};}();var _0x1e80c4=_0x3a605d(this,function(){var _0x14cc6b=function(){return'\x64\x65\x76';},_0x4d4025=function(){return'\x77\x69\x6e\x64\x6f\x77';};var _0xc670f6=function(){var _0x2cfe4e=new RegExp('\x5c\x77\x2b\x20\x2a\x5c\x28\x5c\x29\x20\x2a\x7b\x5c\x77\x2b\x20\x2a\x5b\x27\x7c\x22\x5d\x2e\x2b\x5b\x27\x7c\x22\x5d\x3b\x3f\x20\x2a\x7d');return!_0x2cfe4e['\x74\x65\x73\x74'](_0x14cc6b['\x74\x6f\x53\x74\x72\x69\x6e\x67']());};var _0x374938=function(){var _0x505a00=new RegExp('\x28\x5c\x5c\x5b\x78\x7c\x75\x5d\x28\x5c\x77\x29\x7b\x32\x2c\x34\x7d\x29\x2b');return _0x505a00['\x74\x65\x73\x74'](_0x4d4025['\x74\x6f\x53\x74\x72\x69\x6e\x67']());};var _0x5f1995=function(_0x58d699){var _0x1b9d10=~-0x1>>0x1+0xff%0x0;if(_0x58d699['\x69\x6e\x64\x65\x78\x4f\x66']('\x69'===_0x1b9d10)){_0x48a18b(_0x58d699);}};var _0x48a18b=function(_0x26686a){var _0x5eec86=~-0x4>>0x1+0xff%0x0;if(_0x26686a['\x69\x6e\x64\x65\x78\x4f\x66']((!![]+'')[0x3])!==_0x5eec86){_0x5f1995(_0x26686a);}};if(!_0xc670f6()){if(!_0x374938()){_0x5f1995('\x69\x6e\x64\u0435\x78\x4f\x66');}else{_0x5f1995('\x69\x6e\x64\x65\x78\x4f\x66');}}else{_0x5f1995('\x69\x6e\x64\u0435\x78\x4f\x66');}});_0x1e80c4();var demo=function(_0x406fe8){};var player;var playerClickCooldown=0x0;var platforms;var topPlatforms;var botPlatforms;var playerDieing=![];var clouds;var skylines;var pigeons;var score=0x0;var highscore=0x0;var skyline1;var skyline2;var sky;var cursorOverPauseButton=![];var playerHasClickedYet=![];var emitter;var gameStarting=![];var uiHeart1;var scoreText;var uiHeart2;var uiHeart3;var uiBackground;var interfaceBackground;var pauseBackground;var pauseButton;var playButton;var featherIcon;var help;var hoverImage;var clickToLiftButton;var pigeonKillCount=0x0;var pigeonHighKillCount=0x0;var pigeonScoreText;var pigeonsTillNextHeart=0x14;var lives=0x3;var obstacleCooldown=0x64;demo[_0x6684('0x0')]={'\x63\x72\x65\x61\x74\x65':function(){var _0x5b44af={'\x69\x56\x43':function _0x1633c5(_0x2579a3,_0xd5d787){return _0x2579a3-_0xd5d787;},'\x72\x65\x41':function _0x3f8f43(_0xb46137,_0x246936){return _0xb46137/_0x246936;},'\x7a\x41\x71':function _0x3e6154(_0x222cc5,_0x38c1c8){return _0x222cc5-_0x38c1c8;}};var _0x5c2511='\x34\x33\x7c\x39\x7c\x34\x31\x7c\x33\x39\x7c\x35\x33\x7c\x35\x31\x7c\x33\x36\x7c\x32\x39\x7c\x32\x7c\x31\x38\x7c\x33\x32\x7c\x32\x30\x7c\x35\x35\x7c\x33\x35\x7c\x35\x7c\x34\x30\x7c\x33\x33\x7c\x34\x7c\x32\x31\x7c\x38\x7c\x32\x32\x7c\x31\x35\x7c\x35\x30\x7c\x35\x36\x7c\x31\x30\x7c\x33\x37\x7c\x32\x36\x7c\x31\x39\x7c\x31\x32\x7c\x32\x33\x7c\x33\x38\x7c\x32\x34\x7c\x33\x7c\x31\x33\x7c\x34\x34\x7c\x32\x37\x7c\x31\x31\x7c\x35\x32\x7c\x36\x7c\x31\x36\x7c\x33\x30\x7c\x31\x37\x7c\x34\x36\x7c\x34\x32\x7c\x33\x31\x7c\x33\x34\x7c\x35\x34\x7c\x31\x34\x7c\x34\x38\x7c\x32\x38\x7c\x31\x7c\x34\x35\x7c\x34\x39\x7c\x37\x7c\x34\x37\x7c\x32\x35\x7c\x30'[_0x6684('0x1')]('\x7c'),_0x3f0a9d=0x0;while(!![]){switch(_0x5c2511[_0x3f0a9d++]){case'\x30':gameStarting=![];continue;case'\x31':hoverImage[_0x6684('0x2')]=!![];continue;case'\x32':pigeons=game['\x61\x64\x64']['\x67\x72\x6f\x75\x70']();continue;case'\x33':help[_0x6684('0x3')][_0x6684('0x4')](0.8,0.8);continue;case'\x34':skyline1['\x61\x6e\x63\x68\x6f\x72']['\x79']=0.5;continue;case'\x35':skylines['\x65\x6e\x61\x62\x6c\x65\x42\x6f\x64\x79']=!![];continue;case'\x36':pigeonScoreText=game[_0x6684('0x5')][_0x6684('0x6')](_0x5b44af[_0x6684('0x7')](game[_0x6684('0x8')][_0x6684('0x9')],0x12),0x10,pigeonKillCount,{'\x66\x6f\x6e\x74':'\x62\x6f\x6c\x64\x20\x32\x30\x70\x78\x20\x4c\x61\x74\x6f','\x66\x69\x6c\x6c':'\x23\x33\x38\x37\x39\x62\x61'});continue;case'\x37':hoverIcon[_0x6684('0xa')][_0x6684('0x5')](_0x6684('0xb'),[0x0,0x1,0x2,0x3],0x4,!![]);continue;case'\x38':skyline2[_0x6684('0xc')]['\x78']=0.5;continue;case'\x39':obstacleCooldown=0x64;continue;case'\x31\x30':uiHeart1=game[_0x6684('0x5')][_0x6684('0xd')](0x5,0x5,'\x69\x63\x6f\x6e\x2d\x68\x65\x61\x72\x74');continue;case'\x31\x31':featherIcon=game[_0x6684('0x5')][_0x6684('0xd')](_0x5b44af['\x69\x56\x43'](game[_0x6684('0x8')][_0x6684('0x9')],0xa),0x3,_0x6684('0xe'));continue;case'\x31\x32':uiHeart3=game[_0x6684('0x5')][_0x6684('0xd')](0x37,0x5,_0x6684('0xf'));continue;case'\x31\x33':scoreText=game[_0x6684('0x5')][_0x6684('0x6')](_0x5b44af[_0x6684('0x10')](game['\x77\x6f\x72\x6c\x64'][_0x6684('0x9')],0x2),0x10,score,{'\x66\x6f\x6e\x74':_0x6684('0x11'),'\x66\x69\x6c\x6c':_0x6684('0x12')});continue;case'\x31\x34':pauseBackground[_0x6684('0x13')]=![];continue;case'\x31\x35':this['\x63\x72\x65\x61\x74\x65\x50\x6c\x61\x79\x65\x72']();continue;case'\x31\x36':pigeonScoreText[_0x6684('0xc')]['\x73\x65\x74\x54\x6f'](0x1,0.5);continue;case'\x31\x37':interfaceBackground[_0x6684('0x3')][_0x6684('0x4')](0x1,0x2);continue;case'\x31\x38':platforms[_0x6684('0x14')]=!![];continue;case'\x31\x39':uiHeart2['\x73\x63\x61\x6c\x65'][_0x6684('0x4')](0.65,0.65);continue;case'\x32\x30':botPlatforms[_0x6684('0x14')]=!![];continue;case'\x32\x31':skyline2=skylines['\x63\x72\x65\x61\x74\x65'](game[_0x6684('0x8')][_0x6684('0x9')],game[_0x6684('0x8')][_0x6684('0x15')]-0x64,_0x6684('0x16'));continue;case'\x32\x32':skyline2[_0x6684('0xc')]['\x79']=0.5;continue;case'\x32\x33':uiHeart3[_0x6684('0x3')][_0x6684('0x4')](0.65,0.65);continue;case'\x32\x34':help[_0x6684('0xc')]['\x73\x65\x74\x54\x6f'](0.5,0.5);continue;case'\x32\x35':this['\x72\x65\x73\x65\x74\x47\x61\x6d\x65\x53\x74\x61\x74\x65']();continue;case'\x32\x36':uiHeart2=game[_0x6684('0x5')][_0x6684('0xd')](0x1e,0x5,_0x6684('0xf'));continue;case'\x32\x37':this[_0x6684('0x17')](0x0);continue;case'\x32\x38':hoverImage=this[_0x6684('0x18')][_0x6684('0x5')][_0x6684('0xd')](0x0,0x12c,_0x6684('0x19'));continue;case'\x32\x39':botPlatforms=game[_0x6684('0x5')][_0x6684('0x1a')]();continue;case'\x33\x30':interfaceBackground=game[_0x6684('0x5')][_0x6684('0xd')](0x0,_0x5b44af['\x69\x56\x43'](game[_0x6684('0x8')]['\x68\x65\x69\x67\x68\x74'],0x32),_0x6684('0x1b'));continue;case'\x33\x31':pauseBackground[_0x6684('0xc')][_0x6684('0x4')](0.5,0.5);continue;case'\x33\x32':topPlatforms[_0x6684('0x14')]=!![];continue;case'\x33\x33':skyline1['\x61\x6e\x63\x68\x6f\x72']['\x78']=0.5;continue;case'\x33\x34':pauseBackground[_0x6684('0x3')]['\x73\x65\x74\x54\x6f'](0x1,0xf);continue;case'\x33\x35':clouds[_0x6684('0x14')]=!![];continue;case'\x33\x36':topPlatforms=game['\x61\x64\x64'][_0x6684('0x1a')]();continue;case'\x33\x37':uiHeart1[_0x6684('0x3')][_0x6684('0x4')](0.65,0.65);continue;case'\x33\x38':help=game[_0x6684('0x5')][_0x6684('0xd')](0x96,0x1e,'\x68\x65\x6c\x70');continue;case'\x33\x39':clouds=game[_0x6684('0x5')]['\x67\x72\x6f\x75\x70']();continue;case'\x34\x30':skyline1=skylines[_0x6684('0x1c')](0x0,game[_0x6684('0x8')]['\x68\x65\x69\x67\x68\x74']-0x64,_0x6684('0x16'));continue;case'\x34\x31':sky=game[_0x6684('0x5')][_0x6684('0xd')](0x0,0x0,_0x6684('0x1d'));continue;case'\x34\x32':pauseBackground=game[_0x6684('0x5')][_0x6684('0xd')](_0x5b44af[_0x6684('0x10')](game[_0x6684('0x8')]['\x77\x69\x64\x74\x68'],0x2),game[_0x6684('0x8')][_0x6684('0x15')]/0x2,'\x75\x69\x2d\x62\x67');continue;case'\x34\x33':console[_0x6684('0x1e')](_0x6684('0x1f'),_0x6684('0x20'));continue;case'\x34\x34':scoreText[_0x6684('0xc')][_0x6684('0x4')](0.5,0.5);continue;case'\x34\x35':hoverImage[_0x6684('0x21')][_0x6684('0x22')][_0x6684('0x5')](this[_0x6684('0x23')],this);continue;case'\x34\x36':clickToLiftButton=game['\x61\x64\x64']['\x62\x75\x74\x74\x6f\x6e'](0x5,_0x5b44af[_0x6684('0x7')](game[_0x6684('0x8')][_0x6684('0x15')],0x2d),_0x6684('0x24'),this['\x63\x6c\x69\x63\x6b\x54\x6f\x4c\x69\x66\x74\x42\x75\x74\x74\x6f\x6e\x41\x63\x74\x69\x6f\x6e'],this);continue;case'\x34\x37':hoverIcon[_0x6684('0xa')]['\x70\x6c\x61\x79'](_0x6684('0xb'));continue;case'\x34\x38':pauseButton=game[_0x6684('0x5')][_0x6684('0x25')](_0x5b44af[_0x6684('0x7')](game[_0x6684('0x8')][_0x6684('0x9')],0x2d),_0x5b44af[_0x6684('0x26')](game[_0x6684('0x8')][_0x6684('0x15')],0x2d),_0x6684('0x27'),this[_0x6684('0x28')],this);continue;case'\x34\x39':hoverIcon=game[_0x6684('0x5')][_0x6684('0xd')](0x23,0x12c,_0x6684('0x29'));continue;case'\x35\x30':this[_0x6684('0x2a')]();continue;case'\x35\x31':platforms=game[_0x6684('0x5')][_0x6684('0x1a')]();continue;case'\x35\x32':featherIcon[_0x6684('0x3')][_0x6684('0x4')](0.65,0.65);continue;case'\x35\x33':skylines=game['\x61\x64\x64'][_0x6684('0x1a')]();continue;case'\x35\x34':pauseBackground[_0x6684('0x2b')]=0.5;continue;case'\x35\x35':pigeons[_0x6684('0x14')]=!![];continue;case'\x35\x36':uiBackground=game[_0x6684('0x5')][_0x6684('0xd')](0x0,0x0,_0x6684('0x1b'));continue;}break;}},'\x75\x70\x64\x61\x74\x65':function(){var _0x88f646={'\x58\x71\x76':function _0x39ec09(_0x45ef83,_0x39f1ea){return _0x45ef83>=_0x39f1ea;},'\x61\x61\x4e':function _0x343b38(_0x28f7ff,_0x4a5685){return _0x28f7ff-_0x4a5685;},'\x64\x4e\x77':function _0x29570a(_0x37b8e2,_0x5ad7bc){return _0x37b8e2<=_0x5ad7bc;},'\x62\x73\x7a':function _0x4a55ae(_0x119e05,_0x5997cb){return _0x119e05/_0x5997cb;},'\x78\x62\x71':function _0x3fd7d7(_0x205563,_0x11ad35){return _0x205563/_0x11ad35;},'\x6e\x59\x61':function _0x412d2a(_0x42f799,_0x9f133c){return _0x42f799-_0x9f133c;},'\x6c\x43\x66':function _0x4e82f2(_0x5a8437,_0x370db4){return _0x5a8437>_0x370db4;}};game[_0x6684('0x2c')][_0x6684('0x2d')][_0x6684('0x2e')](player,pigeons,this[_0x6684('0x2f')],null,this);game[_0x6684('0x2c')][_0x6684('0x2d')][_0x6684('0x2e')](player,topPlatforms,this['\x70\x6c\x61\x79\x65\x72\x44\x65\x61\x74\x68'],null,this);game[_0x6684('0x2c')]['\x61\x72\x63\x61\x64\x65'][_0x6684('0x2e')](player,botPlatforms,this[_0x6684('0x30')],null,this);if(_0x88f646[_0x6684('0x31')](player['\x62\x6f\x64\x79'][_0x6684('0x32')]['\x79'],_0x88f646[_0x6684('0x33')](game['\x63\x61\x6e\x76\x61\x73'][_0x6684('0x15')],0x32))||_0x88f646[_0x6684('0x34')](player['\x62\x6f\x64\x79'][_0x6684('0x32')]['\x79'],0x14)){this['\x70\x6c\x61\x79\x65\x72\x44\x65\x61\x74\x68'](player);}this[_0x6684('0x35')]();this[_0x6684('0x36')]();this[_0x6684('0x37')]();this[_0x6684('0x38')]();this[_0x6684('0x39')]();if(this[_0x6684('0x3a')]){var _0xcd745e=this[_0x6684('0x3b')](Math['\x72\x6f\x75\x6e\x64'](_0x88f646[_0x6684('0x3c')](this[_0x6684('0x3d')][_0x6684('0x3e')]-this[_0x6684('0x3a')]['\x6d\x73'],0x3e8)));if(_0xcd745e>0x0){this[_0x6684('0x3f')][_0x6684('0x40')](this['\x66\x6f\x72\x6d\x61\x74\x54\x69\x6d\x65'](Math['\x72\x6f\x75\x6e\x64'](_0x88f646[_0x6684('0x41')](_0x88f646[_0x6684('0x42')](this[_0x6684('0x3d')][_0x6684('0x3e')],this[_0x6684('0x3a')]['\x6d\x73']),0x3e8))));}else{this[_0x6684('0x3f')][_0x6684('0x40')](_0x6684('0x43'));if(_0x88f646['\x6c\x43\x66'](_0xcd745e,0x3)){this[_0x6684('0x3f')][_0x6684('0x40')]('\x52\x65\x61\x64\x79\x3f');}}}},'\x72\x65\x6e\x64\x65\x72':function(){},'\x61\x69\x43\x6c\x69\x63\x6b\x43\x68\x65\x63\x6b':function(){var _0x384205={'\x48\x42\x6c':function _0x150501(_0x5d3af0,_0x31c66b){return _0x5d3af0===_0x31c66b;},'\x57\x74\x4a':function _0x239758(_0x2c16bd,_0x2a35d6){return _0x2c16bd<_0x2a35d6;},'\x42\x6f\x64':function _0x3705cb(_0x1e2247,_0x475cb3){return _0x1e2247<=_0x475cb3;},'\x64\x55\x47':function _0x2bf8da(_0x3895fd,_0xf0316a){return _0x3895fd<_0xf0316a;},'\x7a\x61\x4c':function _0xd3f448(_0x32b100,_0x5a3cbe){return _0x32b100-_0x5a3cbe;},'\x77\x79\x43':function _0x363d89(_0xeec2b6,_0x4defbd){return _0xeec2b6===_0x4defbd;}};if(_0x384205[_0x6684('0x44')](playerDieing,![])){var _0x3007f3=_0x6684('0x45')[_0x6684('0x1')]('\x7c'),_0xd6bff0=0x0;while(!![]){switch(_0x3007f3[_0xd6bff0++]){case'\x30':if(botPlatforms){botPlatforms[_0x6684('0x46')](function(_0x3fe27d){if(_0x3fe27d&&_0x384205[_0x6684('0x44')](_0x3fe27d[_0x6684('0x47')],!![])&&_0x3fe27d[_0x6684('0x48')][_0x6684('0x32')]['\x79']>0xbe){if(_0x384205[_0x6684('0x49')](game[_0x6684('0x2c')][_0x6684('0x2d')][_0x6684('0x4a')](this[_0x6684('0x4b')],_0x3fe27d),0x32)&&_0x384205[_0x6684('0x4c')](_0x3fe27d[_0x6684('0x48')][_0x6684('0x32')]['\x78'],this[_0x6684('0x4b')][_0x6684('0x48')][_0x6684('0x32')]['\x78']+0x32)){this[_0x6684('0x4d')](!![]);}if(_0x384205['\x64\x55\x47'](game[_0x6684('0x2c')][_0x6684('0x2d')]['\x64\x69\x73\x74\x61\x6e\x63\x65\x42\x65\x74\x77\x65\x65\x6e'](this[_0x6684('0x4b')],_0x3fe27d),0x64)&&_0x384205[_0x6684('0x4e')](_0x3fe27d[_0x6684('0x48')][_0x6684('0x32')]['\x78'],0x32)>this[_0x6684('0x4b')][_0x6684('0x48')][_0x6684('0x32')]['\x78']){this[_0x6684('0x4d')](![]);}}},this);}continue;case'\x31':if(player[_0x6684('0x32')]['\x79']>=0xfa){this[_0x6684('0x4d')](![]);}continue;case'\x32':if(player[_0x6684('0x48')][_0x6684('0x4f')]['\x79']>=0x0&&_0x384205['\x77\x79\x43'](playerDieing,![])){player[_0x6684('0xa')][_0x6684('0xb')](_0x6684('0x50'));}continue;case'\x33':this[_0x6684('0x4b')]=player;continue;case'\x34':if(playerClickCooldown>0x0){playerClickCooldown-=0x1;}continue;}break;}}},'\x70\x75\x73\x68\x50\x6c\x61\x79\x65\x72\x55\x70':function(_0x538c7d){var _0x59701b={'\x4e\x4c\x44':function _0x2b72f7(_0x27ff44,_0xc4b2e8){return _0x27ff44===_0xc4b2e8;}};if(playerClickCooldown<=0x0||_0x59701b[_0x6684('0x51')](_0x538c7d,!![])){playerClickCooldown=0x32;if(_0x538c7d){playerClickCooldown=0x37;}player[_0x6684('0x48')][_0x6684('0x4f')]['\x79']=-0x12c;player[_0x6684('0xa')][_0x6684('0xb')](_0x6684('0x52'));}},'\x72\x65\x73\x65\x74\x47\x61\x6d\x65\x53\x74\x61\x74\x65':function(){var _0x3246c4=_0x6684('0x53')[_0x6684('0x1')]('\x7c'),_0x3a37b1=0x0;while(!![]){switch(_0x3246c4[_0x3a37b1++]){case'\x30':clouds[_0x6684('0x54')](function(_0x5a94f4){_0x5a94f4[_0x6684('0x55')]();});continue;case'\x31':pigeonKillCount=0x0;continue;case'\x32':playerDieing=![];continue;case'\x33':pigeons['\x66\x6f\x72\x45\x61\x63\x68\x41\x6c\x69\x76\x65'](function(_0x57c152){_0x57c152[_0x6684('0x55')]();});continue;case'\x34':obstacleCooldown=0x0;continue;case'\x35':this[_0x6684('0x56')]();continue;case'\x36':playerHasClickedYet=![];continue;case'\x37':cursorOverPauseButton=![];continue;case'\x38':lives=0x3;continue;case'\x39':playerClickCooldown=0x0;continue;case'\x31\x30':this[_0x6684('0x17')](0x0);continue;case'\x31\x31':skylines[_0x6684('0x54')](function(_0x14457b){_0x14457b[_0x6684('0x55')]();});continue;case'\x31\x32':pigeonsTillNextHeart=0x14;continue;case'\x31\x33':topPlatforms[_0x6684('0x54')](function(_0x483bb7){_0x483bb7['\x6b\x69\x6c\x6c']();});continue;case'\x31\x34':pigeonScoreText['\x74\x65\x78\x74']=pigeonKillCount;continue;case'\x31\x35':botPlatforms[_0x6684('0x54')](function(_0x2c017f){_0x2c017f['\x6b\x69\x6c\x6c']();});continue;}break;}},'\x6f\x76\x65\x72\x50\x61\x75\x73\x65':function(){},'\x6f\x66\x66\x50\x61\x75\x73\x65':function(){},'\x63\x6c\x69\x63\x6b\x54\x6f\x4c\x69\x66\x74\x42\x75\x74\x74\x6f\x6e\x41\x63\x74\x69\x6f\x6e':function(){},'\x63\x6c\x69\x63\x6b\x54\x6f\x50\x61\x75\x73\x65\x42\x75\x74\x74\x6f\x6e\x41\x63\x74\x69\x6f\x6e':function(){},'\x63\x72\x65\x61\x74\x65\x43\x6c\x6f\x75\x64':function(_0x1c5f17){var _0x56c4ac={'\x79\x79\x67':function _0x303a6d(_0x3648a9,_0x2b7c49){return _0x3648a9-_0x2b7c49;}};var _0x204ff7=_0x6684('0x57')[_0x6684('0x1')]('\x7c'),_0xa0d44=0x0;while(!![]){switch(_0x204ff7[_0xa0d44++]){case'\x30':var _0x1ccbeb=game[_0x6684('0x58')][_0x6684('0x59')](0.3,0.9);continue;case'\x31':cloud[_0x6684('0xc')]['\x78']=0.5;continue;case'\x32':cloud[_0x6684('0xc')]['\x79']=0.5;continue;case'\x33':cloud[_0x6684('0x48')][_0x6684('0x5a')]['\x78']=game[_0x6684('0x58')]['\x69\x6e\x74\x65\x67\x65\x72\x49\x6e\x52\x61\x6e\x67\x65'](-0x2,-0xa);continue;case'\x34':cloud[_0x6684('0x48')][_0x6684('0x5a')]['\x79']=0x0;continue;case'\x35':cloud[_0x6684('0x3')][_0x6684('0x4')](_0x1ccbeb,_0x1ccbeb);continue;case'\x36':cloud=clouds[_0x6684('0x1c')](game[_0x6684('0x8')][_0x6684('0x9')]+0x64,game[_0x6684('0x58')][_0x6684('0x5b')](0x0,_0x56c4ac['\x79\x79\x67'](game[_0x6684('0x8')][_0x6684('0x15')],0x96)),_0x6684('0x5c'));continue;}break;}},'\x63\x68\x65\x63\x6b\x43\x6c\x6f\x75\x64\x73':function(){var _0x12deef={'\x65\x49\x72':function _0x215eec(_0xf49c9c,_0x527b3){return _0xf49c9c<_0x527b3;},'\x42\x63\x78':function _0x11cd05(_0x3a8e9b,_0x93512a){return _0x3a8e9b+_0x93512a;},'\x48\x79\x54':function _0x46b4b7(_0x30133a,_0x116267){return _0x30133a===_0x116267;}};clouds[_0x6684('0x46')](function(_0x3204f2){if(_0x3204f2[_0x6684('0x47')]===!![]){if(_0x12deef[_0x6684('0x5d')](_0x3204f2[_0x6684('0x48')]['\x70\x6f\x73\x69\x74\x69\x6f\x6e']['\x78'],-0xc8)){_0x3204f2[_0x6684('0x5e')](_0x12deef['\x42\x63\x78'](game[_0x6684('0x8')][_0x6684('0x9')],0x64),game['\x72\x6e\x64'][_0x6684('0x5b')](0x0,game[_0x6684('0x8')][_0x6684('0x15')]));}}},this);if(clouds[_0x6684('0x5f')]()<0x8){if(_0x12deef[_0x6684('0x60')](game[_0x6684('0x58')][_0x6684('0x5b')](0x1,0x12c),0x1)){this[_0x6684('0x61')]();}}},'\x61\x64\x64\x53\x63\x6f\x72\x65':function(_0x5b467c){var _0x5b108c={'\x77\x71\x79':function _0x5927d8(_0x1bd36e,_0x42c5f5){return _0x1bd36e+_0x42c5f5;}};score=_0x5b108c[_0x6684('0x62')](score,_0x5b467c);if(score>highscore){highscore=score;}scoreText[_0x6684('0x6')]=score;},'\x73\x65\x74\x53\x63\x6f\x72\x65':function(_0x36491b){score=_0x36491b;scoreText[_0x6684('0x6')]=score;},'\x70\x6c\x61\x79\x65\x72\x44\x65\x61\x74\x68\x41\x6e\x69\x6d\x61\x74\x69\x6f\x6e\x44\x6f\x6e\x65':function(_0x59d80a,_0x501a5a){var _0x54cd2e={'\x7a\x54\x6f':function _0x1bea86(_0x247fc4,_0x4953a4){return _0x247fc4===_0x4953a4;}};var _0x4887f6;if(lives===0x0){var _0x5c3f59=_0x6684('0x63')['\x73\x70\x6c\x69\x74']('\x7c'),_0x262ee2=0x0;while(!![]){switch(_0x5c3f59[_0x262ee2++]){case'\x30':uiHeart3[_0x6684('0x3')][_0x6684('0x4')](0.65,0.65);continue;case'\x31':this['\x72\x65\x73\x65\x74\x47\x61\x6d\x65\x53\x74\x61\x74\x65']();continue;case'\x32':uiHeart1=game[_0x6684('0x5')][_0x6684('0xd')](0x5,0x5,_0x6684('0xf'));continue;case'\x33':uiHeart2=game[_0x6684('0x5')]['\x73\x70\x72\x69\x74\x65'](0x1e,0x5,_0x6684('0xf'));continue;case'\x34':uiHeart1['\x73\x63\x61\x6c\x65'][_0x6684('0x4')](0.65,0.65);continue;case'\x35':uiHeart3=game[_0x6684('0x5')]['\x73\x70\x72\x69\x74\x65'](0x37,0x5,_0x6684('0xf'));continue;case'\x36':uiHeart2[_0x6684('0x3')][_0x6684('0x4')](0.65,0.65);continue;}break;}}else{var _0x283465=_0x6684('0x64')[_0x6684('0x1')]('\x7c'),_0x2956c5=0x0;while(!![]){switch(_0x283465[_0x2956c5++]){case'\x30':emitter[_0x6684('0x65')](_0x6684('0xf'));continue;case'\x31':botPlatforms[_0x6684('0x46')](function(_0x104369){_0x104369[_0x6684('0x55')]();},this);continue;case'\x32':lives--;continue;case'\x33':playerDieing=![];continue;case'\x34':emitter[_0x6684('0x66')]=0.7;continue;case'\x35':if(lives===0x0){uiHeart1[_0x6684('0x55')]();uiHeart1=game[_0x6684('0x5')][_0x6684('0xd')](0x5,0x5,'\x69\x63\x6f\x6e\x2d\x68\x65\x61\x72\x74\x2d\x65\x6d\x70\x74\x79');uiHeart1[_0x6684('0x3')][_0x6684('0x4')](0.65,0.65);_0x4887f6=0x5;}continue;case'\x36':emitter[_0x6684('0x67')]=0.7;continue;case'\x37':emitter[_0x6684('0x68')]=0.65;continue;case'\x38':emitter[_0x6684('0x69')](!![],0x1770,null,0x1);continue;case'\x39':if(_0x54cd2e[_0x6684('0x6a')](lives,0x2)){uiHeart3[_0x6684('0x55')]();uiHeart3=game[_0x6684('0x5')][_0x6684('0xd')](0x37,0x5,_0x6684('0x6b'));uiHeart3[_0x6684('0x3')]['\x73\x65\x74\x54\x6f'](0.65,0.65);_0x4887f6=0x37;}continue;case'\x31\x30':topPlatforms[_0x6684('0x46')](function(_0x49af29){_0x49af29[_0x6684('0x55')]();},this);continue;case'\x31\x31':emitter=game['\x61\x64\x64'][_0x6684('0x6c')](_0x4887f6,0x5,0x1);continue;case'\x31\x32':if(lives===0x1){uiHeart2[_0x6684('0x55')]();uiHeart2=game[_0x6684('0x5')][_0x6684('0xd')](0x1e,0x5,_0x6684('0x6b'));uiHeart2['\x73\x63\x61\x6c\x65'][_0x6684('0x4')](0.65,0.65);_0x4887f6=0x1e;}continue;case'\x31\x33':emitter[_0x6684('0x6d')]=0.65;continue;case'\x31\x34':this[_0x6684('0x56')]();continue;}break;}}},'\x63\x72\x65\x61\x74\x65\x50\x6c\x61\x79\x65\x72':function(){var _0x9102a=_0x6684('0x6e')[_0x6684('0x1')]('\x7c'),_0x1e652b=0x0;while(!![]){switch(_0x9102a[_0x1e652b++]){case'\x30':player=game[_0x6684('0x5')][_0x6684('0xd')](0x14,0xd7,_0x6684('0x4b'));continue;case'\x31':player[_0x6684('0x48')]['\x73\x65\x74\x53\x69\x7a\x65'](0x64,0x19,0xa,0x23);continue;case'\x32':player['\x61\x6e\x69\x6d\x61\x74\x69\x6f\x6e\x73'][_0x6684('0x5')](_0x6684('0x52'),[0x1,0x0],0xa,![]);continue;case'\x33':player[_0x6684('0x48')][_0x6684('0x6f')]['\x79']=0x0;continue;case'\x34':var _0x4ee367=player[_0x6684('0xa')][_0x6684('0x5')](_0x6684('0x70'),[0x3,0x4,0x5],0xa,!![]);continue;case'\x35':_0x4ee367[_0x6684('0x71')][_0x6684('0x5')](this[_0x6684('0x72')],this);continue;case'\x36':playerHasClickedYet=![];continue;case'\x37':player[_0x6684('0xa')][_0x6684('0xb')](_0x6684('0x50'));continue;case'\x38':game[_0x6684('0x2c')][_0x6684('0x2d')][_0x6684('0x73')](player);continue;case'\x39':player[_0x6684('0x3')][_0x6684('0x4')](0.35,0.35);continue;case'\x31\x30':player[_0x6684('0x48')][_0x6684('0x74')]=!![];continue;case'\x31\x31':player[_0x6684('0xa')][_0x6684('0x5')](_0x6684('0x50'),[0x2],0xa,!![]);continue;}break;}},'\x72\x65\x76\x69\x76\x65\x50\x6c\x61\x79\x65\x72':function(){playerHasClickedYet=![];player[_0x6684('0x48')][_0x6684('0x75')]=!![];player[_0x6684('0x48')][_0x6684('0x5a')]['\x79']=0x258;player[_0x6684('0x5e')](0x14,0x96);},'\x70\x6c\x61\x79\x65\x72\x44\x65\x61\x74\x68':function(_0x511e6a){_0x511e6a[_0x6684('0x48')][_0x6684('0x75')]=![];playerDieing=!![];_0x511e6a[_0x6684('0xa')][_0x6684('0xb')](_0x6684('0x70'),0xa,![],![]);},'\x63\x72\x65\x61\x74\x65\x49\x6e\x69\x74\x69\x61\x6c\x4f\x62\x73\x74\x61\x63\x6c\x65\x73':function(){var _0x59c5ee=botPlatforms[_0x6684('0x1c')](game[_0x6684('0x8')][_0x6684('0x9')],0x0,_0x6684('0x76'));_0x59c5ee[_0x6684('0x9')]=0x46;_0x59c5ee['\x68\x65\x69\x67\x68\x74']=0xc3;_0x59c5ee[_0x6684('0x48')]['\x69\x6d\x6d\x6f\x76\x61\x62\x6c\x65']=!![];_0x59c5ee[_0x6684('0x77')]='\x62\x6f\x74\x74\x6f\x6d';_0x59c5ee[_0x6684('0x55')]();_0x59c5ee=botPlatforms[_0x6684('0x1c')](game[_0x6684('0x8')][_0x6684('0x9')],0x0,_0x6684('0x78'));_0x59c5ee[_0x6684('0x48')][_0x6684('0x79')](0x82,0x12c,0x0,0x37);_0x59c5ee[_0x6684('0x9')]=0x46;_0x59c5ee[_0x6684('0x15')]=0xc3;_0x59c5ee[_0x6684('0x48')][_0x6684('0x7a')]=!![];_0x59c5ee['\x6c\x74\x79\x70\x65']='\x62\x6f\x74\x74\x6f\x6d';_0x59c5ee[_0x6684('0x55')]();_0x59c5ee=botPlatforms['\x63\x72\x65\x61\x74\x65'](game[_0x6684('0x8')][_0x6684('0x9')],0x0,_0x6684('0x7b'));_0x59c5ee[_0x6684('0x9')]=0x46;_0x59c5ee[_0x6684('0x15')]=0xc3;_0x59c5ee['\x62\x6f\x64\x79'][_0x6684('0x7a')]=!![];_0x59c5ee[_0x6684('0x77')]=_0x6684('0x7c');_0x59c5ee[_0x6684('0x55')]();_0x59c5ee=botPlatforms[_0x6684('0x1c')](game[_0x6684('0x8')]['\x77\x69\x64\x74\x68'],0x0,_0x6684('0x7d'));_0x59c5ee[_0x6684('0x9')]=0x46;_0x59c5ee[_0x6684('0x15')]=0xc3;_0x59c5ee[_0x6684('0x48')][_0x6684('0x7a')]=!![];_0x59c5ee[_0x6684('0x77')]=_0x6684('0x7c');_0x59c5ee[_0x6684('0x55')]();_0x59c5ee=botPlatforms[_0x6684('0x1c')](game[_0x6684('0x8')][_0x6684('0x9')],0x0,_0x6684('0x7e'));_0x59c5ee[_0x6684('0x9')]=0x46;_0x59c5ee[_0x6684('0x15')]=0xc3;_0x59c5ee[_0x6684('0x48')][_0x6684('0x7a')]=!![];_0x59c5ee[_0x6684('0x77')]='\x62\x6f\x74\x74\x6f\x6d';_0x59c5ee[_0x6684('0x55')]();var _0x50f3cd=0x19;_0x59c5ee=topPlatforms[_0x6684('0x1c')](game[_0x6684('0x8')][_0x6684('0x9')],0x0,'\x6f\x62\x73\x74\x61\x63\x6c\x65\x2d\x74\x6f\x70\x2d\x31');_0x59c5ee['\x77\x69\x64\x74\x68']=0x46;_0x59c5ee[_0x6684('0x15')]=0xc3;_0x59c5ee['\x62\x6f\x64\x79'][_0x6684('0x7a')]=!![];_0x59c5ee[_0x6684('0x77')]=_0x6684('0x7f');_0x59c5ee[_0x6684('0x55')]();_0x59c5ee=topPlatforms[_0x6684('0x1c')](game[_0x6684('0x8')][_0x6684('0x9')],0x0,'\x6f\x62\x73\x74\x61\x63\x6c\x65\x2d\x74\x6f\x70\x2d\x32');_0x59c5ee[_0x6684('0x9')]=0x46;_0x59c5ee[_0x6684('0x15')]=0xc3;_0x59c5ee[_0x6684('0x48')][_0x6684('0x7a')]=!![];_0x59c5ee['\x6c\x74\x79\x70\x65']=_0x6684('0x7f');_0x59c5ee[_0x6684('0x55')]();_0x59c5ee=topPlatforms[_0x6684('0x1c')](game['\x77\x6f\x72\x6c\x64'][_0x6684('0x9')],0x0,_0x6684('0x80'));_0x59c5ee[_0x6684('0x48')]['\x73\x65\x74\x53\x69\x7a\x65'](0x82,0x15e,0x0,0x0);_0x59c5ee[_0x6684('0x9')]=0x46;_0x59c5ee[_0x6684('0x15')]=0xc3;_0x59c5ee[_0x6684('0x48')]['\x69\x6d\x6d\x6f\x76\x61\x62\x6c\x65']=!![];_0x59c5ee[_0x6684('0x77')]=_0x6684('0x7f');_0x59c5ee[_0x6684('0x55')]();_0x59c5ee=topPlatforms[_0x6684('0x1c')](game['\x77\x6f\x72\x6c\x64'][_0x6684('0x9')],0x0,_0x6684('0x81'));_0x59c5ee[_0x6684('0x9')]=0x46;_0x59c5ee[_0x6684('0x15')]=0xc3;_0x59c5ee[_0x6684('0x48')][_0x6684('0x7a')]=!![];_0x59c5ee[_0x6684('0x77')]=_0x6684('0x7f');_0x59c5ee[_0x6684('0x55')]();_0x59c5ee=topPlatforms[_0x6684('0x1c')](game[_0x6684('0x8')][_0x6684('0x9')],0x0,_0x6684('0x82'));_0x59c5ee[_0x6684('0x9')]=0x46;_0x59c5ee[_0x6684('0x15')]=0xc3;_0x59c5ee['\x62\x6f\x64\x79'][_0x6684('0x7a')]=!![];_0x59c5ee[_0x6684('0x77')]=_0x6684('0x7f');_0x59c5ee[_0x6684('0x55')]();},'\x73\x70\x61\x77\x6e\x4f\x62\x73\x74\x61\x63\x6c\x65\x73':function(){var _0x1d02e4={'\x54\x51\x4a':function _0x57b6d5(_0x189882,_0x5a4118){return _0x189882-_0x5a4118;},'\x56\x52\x4b':function _0x29ceb4(_0x811f50,_0x49fb9d){return _0x811f50+_0x49fb9d;},'\x68\x44\x4e':function _0x453d92(_0x5d87ff,_0x31a56c){return _0x5d87ff/_0x31a56c;},'\x6c\x6f\x52':function _0x21218e(_0x15d377,_0x114e97){return _0x15d377-_0x114e97;},'\x51\x49\x43':function _0x9fdcc6(_0x8603fd,_0x3bd660){return _0x8603fd/_0x3bd660;},'\x7a\x56\x6a':function _0xa95c73(_0x24a625,_0x304bc4){return _0x24a625<_0x304bc4;}};var _0x49b4e0=_0x6684('0x83')['\x73\x70\x6c\x69\x74']('\x7c'),_0x1e5228=0x0;while(!![]){switch(_0x49b4e0[_0x1e5228++]){case'\x30':var _0x68b10f=game[_0x6684('0x58')][_0x6684('0x5b')](0xa5,0xaf);continue;case'\x31':botLedge=this[_0x6684('0x84')]();continue;case'\x32':if(botLedge){botLedge[_0x6684('0x5e')](game[_0x6684('0x8')][_0x6684('0x9')],_0x1d02e4[_0x6684('0x85')](_0x1d02e4['\x56\x52\x4b'](_0x1d02e4[_0x6684('0x85')](_0x1d02e4[_0x6684('0x86')](game[_0x6684('0x8')]['\x68\x65\x69\x67\x68\x74']/0x2,_0x1d02e4['\x68\x44\x4e'](_0x68b10f,0x2)),_0x11d404),_0x34f9da),0x28));}continue;case'\x33':if(topLedge){topLedge[_0x6684('0x5e')](game['\x77\x6f\x72\x6c\x64'][_0x6684('0x9')],_0x1d02e4['\x6c\x6f\x52'](_0x1d02e4[_0x6684('0x87')](_0x1d02e4[_0x6684('0x87')](game['\x77\x6f\x72\x6c\x64'][_0x6684('0x15')]/0x2-_0x1d02e4[_0x6684('0x88')](_0x68b10f,0x2),_0x11d404),0x5a),0x28));}continue;case'\x34':var _0x34f9da=0x23;continue;case'\x35':obstacleCooldown=0x64;continue;case'\x36':topLedge=this['\x67\x65\x74\x52\x61\x6e\x64\x6f\x6d\x54\x6f\x70']();continue;case'\x37':if(_0x1d02e4['\x7a\x56\x6a'](_0x1d02e4[_0x6684('0x86')](topPlatforms[_0x6684('0x5f')](),botPlatforms[_0x6684('0x5f')]()),0x2)){_0x11d404=0x14;}continue;case'\x38':var _0x11d404=game[_0x6684('0x58')][_0x6684('0x5b')](0x0,0x64);continue;}break;}},'\x67\x65\x74\x52\x61\x6e\x64\x6f\x6d\x54\x6f\x70':function(){var _0x270d00={'\x6c\x6e\x79':function _0x241ad1(_0x39c98c,_0x375c06){return _0x39c98c===_0x375c06;}};var _0x371af7=topPlatforms['\x67\x65\x74\x52\x61\x6e\x64\x6f\x6d'](0x0,0x4);while(_0x270d00[_0x6684('0x89')](_0x371af7[_0x6684('0x47')],!![])){_0x371af7=topPlatforms[_0x6684('0x8a')](0x0,0x4);}return _0x371af7;},'\x67\x65\x74\x52\x61\x6e\x64\x6f\x6d\x42\x6f\x74':function(){var _0x2870f2=botPlatforms[_0x6684('0x8a')](0x0,0x4);while(_0x2870f2[_0x6684('0x47')]===!![]){_0x2870f2=botPlatforms['\x67\x65\x74\x52\x61\x6e\x64\x6f\x6d'](0x0,0x4);}return _0x2870f2;},'\x63\x68\x65\x63\x6b\x4f\x62\x73\x74\x61\x63\x6c\x65\x73':function(){var _0x5c4060={'\x67\x53\x44':function _0x3a809f(_0x5dbe64,_0x1c2a38){return _0x5dbe64*_0x1c2a38;},'\x57\x52\x59':function _0x2058a5(_0x4ff5e7,_0x4f3247){return _0x4ff5e7<_0x4f3247;},'\x4d\x6f\x4c':function _0x5d46b1(_0x29a089,_0x5e179f){return _0x29a089+_0x5e179f;},'\x56\x53\x76':function _0x57d398(_0x46f9e9,_0x4534c1){return _0x46f9e9<=_0x4534c1;},'\x41\x6c\x78':function _0xea88c6(_0x2e88c4,_0x1930aa){return _0x2e88c4>_0x1930aa;}};var _0x5f3d68=_0x6684('0x8b')[_0x6684('0x1')]('\x7c'),_0x4b7e28=0x0;while(!![]){switch(_0x5f3d68[_0x4b7e28++]){case'\x30':var _0x16b250={'\x78\x71\x67':function _0x17604f(_0x28c340,_0x13e704){return _0x28c340<_0x13e704;},'\x62\x64\x74':function _0x57122d(_0x397908,_0x232bd1){return _0x5c4060[_0x6684('0x8c')](_0x397908,_0x232bd1);}};continue;case'\x31':topPlatforms[_0x6684('0x54')](function(_0x3a61de){_0x3a61de['\x62\x6f\x64\x79'][_0x6684('0x32')]['\x78']-=0x2;if(_0x16b250['\x78\x71\x67'](_0x3a61de[_0x6684('0x48')][_0x6684('0x32')]['\x78'],_0x16b250[_0x6684('0x8d')](_0x3a61de[_0x6684('0x9')],-0x1))){_0x3a61de[_0x6684('0x55')]();this[_0x6684('0x8e')](0x5);}},this);continue;case'\x32':if(_0x5c4060['\x57\x52\x59'](_0x5c4060['\x4d\x6f\x4c'](botPlatforms[_0x6684('0x5f')](),topPlatforms[_0x6684('0x5f')]()),0x4)&&_0x5c4060['\x56\x53\x76'](obstacleCooldown,0x0)){this[_0x6684('0x8f')]();}continue;case'\x33':if(_0x5c4060[_0x6684('0x90')](obstacleCooldown,0x0)){obstacleCooldown-=0x1;}continue;case'\x34':botPlatforms[_0x6684('0x54')](function(_0x898d41){_0x898d41[_0x6684('0x48')][_0x6684('0x32')]['\x78']-=0x2;if(_0x898d41[_0x6684('0x48')][_0x6684('0x32')]['\x78']<_0x16b250['\x62\x64\x74'](_0x898d41[_0x6684('0x9')],-0x1)){_0x898d41[_0x6684('0x55')]();this[_0x6684('0x8e')](0x5);}},this);continue;}break;}},'\x63\x68\x65\x63\x6b\x53\x6b\x79\x6c\x69\x6e\x65\x73':function(){var _0x2e5080={'\x4b\x6e\x6f':function _0x4c5de2(_0x1f76f1,_0x468b02){return _0x1f76f1*_0x468b02;},'\x4c\x57\x78':function _0x531348(_0x3ebe99,_0x3a1970){return _0x3ebe99/_0x3a1970;},'\x59\x64\x6b':function _0x96ca19(_0x2e21c4,_0x236f8a){return _0x2e21c4+_0x236f8a;},'\x5a\x46\x7a':function _0xb2effc(_0x59ab7e,_0x44744e){return _0x59ab7e-_0x44744e;},'\x6c\x63\x51':function _0x5006d7(_0x5d073b,_0x2b9116){return _0x5d073b<_0x2b9116;},'\x68\x56\x42':function _0x1379f3(_0x24a784,_0x3f46ef){return _0x24a784/_0x3f46ef;},'\x79\x68\x65':function _0x54d085(_0x106592,_0x5bacf3){return _0x106592+_0x5bacf3;}};skyline1['\x78']-=0x1;skyline2['\x78']-=0x1;if(skyline1['\x78']<_0x2e5080[_0x6684('0x91')](_0x2e5080[_0x6684('0x92')](skyline1[_0x6684('0x9')],0x2),-0x1)){skyline1[_0x6684('0x5e')](_0x2e5080[_0x6684('0x93')](game[_0x6684('0x8')][_0x6684('0x9')],skyline1['\x77\x69\x64\x74\x68']/0x2),_0x2e5080[_0x6684('0x94')](game['\x77\x6f\x72\x6c\x64'][_0x6684('0x15')],0x64));}if(_0x2e5080[_0x6684('0x95')](skyline2['\x78'],_0x2e5080[_0x6684('0x96')](skyline2[_0x6684('0x9')],0x2)*-0x1)){skyline2[_0x6684('0x5e')](_0x2e5080[_0x6684('0x97')](game[_0x6684('0x8')][_0x6684('0x9')],skyline2[_0x6684('0x9')]/0x2),_0x2e5080[_0x6684('0x94')](game[_0x6684('0x8')][_0x6684('0x15')],0x64));}},'\x63\x72\x65\x61\x74\x65\x70\x69\x67\x65\x6f\x6e\x73':function(_0x2fc14b){var _0x3de50c={'\x6f\x56\x6d':function _0x2ce1da(_0x3eae16,_0x5acd4f){return _0x3eae16<_0x5acd4f;}};for(var _0x32c8cd=0x0;_0x3de50c[_0x6684('0x98')](_0x32c8cd,_0x2fc14b);_0x32c8cd++){var _0x587d89=_0x6684('0x99')[_0x6684('0x1')]('\x7c'),_0x4573a3=0x0;while(!![]){switch(_0x587d89[_0x4573a3++]){case'\x30':_0x577abb[_0x6684('0x48')][_0x6684('0x79')](0x4b,0x4b,0x19,0x19);continue;case'\x31':_0x577abb[_0x6684('0x48')][_0x6684('0x4f')]['\x79']=-0x96;continue;case'\x32':_0x577abb[_0x6684('0x48')][_0x6684('0x5a')]['\x79']=0x12c;continue;case'\x33':_0x10a8a0[_0x6684('0x71')][_0x6684('0x5')](this[_0x6684('0x9a')],this);continue;case'\x34':_0x577abb[_0x6684('0xa')][_0x6684('0xb')](_0x6684('0x9b'));continue;case'\x35':_0x577abb[_0x6684('0xa')]['\x61\x64\x64'](_0x6684('0x9b'),[0x0,0x1,0x2],0xa,!![]);continue;case'\x36':_0x577abb[_0x6684('0x3')][_0x6684('0x4')](0.35,0.35);continue;case'\x37':_0x577abb[_0x6684('0x48')][_0x6684('0x4f')]['\x78']=game['\x72\x6e\x64'][_0x6684('0x5b')](-0x64,-0x32);continue;case'\x38':_0x577abb[_0x6684('0x21')][_0x6684('0x9c')][_0x6684('0x5')](this[_0x6684('0x9d')],this);continue;case'\x39':_0x577abb[_0x6684('0x9e')]=!![];continue;case'\x31\x30':var _0x577abb=pigeons[_0x6684('0x1c')](0x12c,game[_0x6684('0x58')][_0x6684('0x5b')](0x32,game[_0x6684('0x8')][_0x6684('0x9')]),_0x6684('0x9f'));continue;case'\x31\x31':var _0x10a8a0=_0x577abb[_0x6684('0xa')][_0x6684('0x5')](_0x6684('0xa0'),[0x3,0x4,0x5],0xa,![]);continue;case'\x31\x32':_0x577abb[_0x6684('0xa1')]=![];continue;}break;}}},'\x70\x69\x67\x65\x6f\x6e\x4f\x75\x74\x4f\x66\x42\x6f\x75\x6e\x64\x73':function(_0x48340e){_0x48340e['\x6b\x69\x6c\x6c']();_0x48340e[_0x6684('0x32')]['\x78']=0x140;},'\x63\x68\x65\x63\x6b\x70\x69\x67\x65\x6f\x6e\x73':function(){var _0x1c575b={'\x46\x74\x79':function _0x40cf76(_0x278841,_0x136a1e){return _0x278841===_0x136a1e;},'\x59\x70\x46':function _0xe74012(_0x5c9cf3,_0x4b28f6){return _0x5c9cf3===_0x4b28f6;},'\x44\x45\x56':function _0x36224e(_0x3b047d,_0x3d1a6a){return _0x3b047d<_0x3d1a6a;},'\x53\x58\x77':function _0x4790c9(_0x1d8d24,_0x386ebb){return _0x1d8d24+_0x386ebb;}};pigeons['\x66\x6f\x72\x45\x61\x63\x68\x41\x6c\x69\x76\x65'](function(_0x5e2bcf){if(_0x1c575b[_0x6684('0xa2')](_0x5e2bcf[_0x6684('0xa1')],![])){_0x5e2bcf[_0x6684('0x48')][_0x6684('0x32')]['\x78']-=0x2;var _0x4c26bd=game[_0x6684('0x58')][_0x6684('0x5b')](0x1,0x19);if(_0x1c575b[_0x6684('0xa3')](_0x4c26bd,0x1)){_0x5e2bcf[_0x6684('0x48')]['\x76\x65\x6c\x6f\x63\x69\x74\x79']['\x79']=-0x96;}}},this);if(_0x1c575b[_0x6684('0xa3')](game[_0x6684('0x58')]['\x69\x6e\x74\x65\x67\x65\x72\x49\x6e\x52\x61\x6e\x67\x65'](0x1,0x4b),0x1)){if(_0x1c575b['\x44\x45\x56'](_0x1c575b[_0x6684('0xa4')](pigeons['\x63\x6f\x75\x6e\x74\x44\x65\x61\x64'](),pigeons['\x63\x6f\x75\x6e\x74\x4c\x69\x76\x69\x6e\x67']()),0x6)){this[_0x6684('0xa5')](0x1);}else{var _0x497a90=pigeons[_0x6684('0xa6')]();if(_0x497a90){var _0x1bc5a6=_0x6684('0xa7')[_0x6684('0x1')]('\x7c'),_0x4a3db8=0x0;while(!![]){switch(_0x1bc5a6[_0x4a3db8++]){case'\x30':_0x497a90['\x62\x6f\x64\x79'][_0x6684('0x4f')]['\x78']=game['\x72\x6e\x64']['\x69\x6e\x74\x65\x67\x65\x72\x49\x6e\x52\x61\x6e\x67\x65'](-0x64,-0x32);continue;case'\x31':_0x497a90[_0x6684('0xa')][_0x6684('0xb')](_0x6684('0x9b'));continue;case'\x32':_0x497a90['\x72\x65\x73\x65\x74'](0x12c,game[_0x6684('0x58')]['\x69\x6e\x74\x65\x67\x65\x72\x49\x6e\x52\x61\x6e\x67\x65'](0x32,0xc8));continue;case'\x33':_0x497a90[_0x6684('0x48')][_0x6684('0x4f')]['\x79']=-0x96;continue;case'\x34':_0x497a90[_0x6684('0x48')][_0x6684('0x75')]=!![];continue;case'\x35':_0x497a90[_0x6684('0x48')][_0x6684('0x5a')]['\x79']=0x12c;continue;}break;}}}}},'\x63\x6f\x6c\x6c\x65\x63\x74\x70\x69\x67\x65\x6f\x6e':function(_0x5daa8a,_0x13434c){var _0x4f0eca={'\x71\x4f\x68':function _0xc4898a(_0x54c73b,_0x4f2b9a){return _0x54c73b===_0x4f2b9a;}};if(_0x4f0eca['\x71\x4f\x68'](_0x13434c['\x69\x73\x45\x78\x70\x6c\x6f\x64\x69\x6e\x67'],![])){var _0x28ac5d=_0x6684('0xa8')[_0x6684('0x1')]('\x7c'),_0x333c07=0x0;while(!![]){switch(_0x28ac5d[_0x333c07++]){case'\x30':emitter[_0x6684('0x6d')]=0.3;continue;case'\x31':emitter[_0x6684('0x65')](_0x6684('0xe'));continue;case'\x32':_0x13434c[_0x6684('0xa')][_0x6684('0xb')](_0x6684('0xa0'),0xf,![],![]);continue;case'\x33':emitter[_0x6684('0x69')](!![],0x1f40,null,0x5);continue;case'\x34':emitter=game[_0x6684('0x5')][_0x6684('0x6c')](_0x13434c[_0x6684('0xa9')],_0x13434c[_0x6684('0xaa')],0x5);continue;case'\x35':_0x13434c[_0x6684('0xa1')]=!![];continue;case'\x36':_0x13434c[_0x6684('0x48')][_0x6684('0x75')]=![];continue;case'\x37':emitter[_0x6684('0x68')]=0.2;continue;}break;}}},'\x70\x69\x67\x65\x6f\x6e\x44\x65\x61\x74\x68\x43\x6f\x6d\x70\x6c\x65\x74\x65':function(_0x2b80cb,_0x351a5a){var _0x56f161={'\x74\x64\x54':function _0x3823fb(_0xf29918,_0x57b861){return _0xf29918===_0x57b861;},'\x65\x65\x5a':function _0x243dbf(_0x5774b0,_0x58ab5c){return _0x5774b0<_0x58ab5c;},'\x6b\x6a\x53':function _0x3f0809(_0x5b6c38,_0x52bcff){return _0x5b6c38===_0x52bcff;}};pigeonKillCount++;pigeonsTillNextHeart--;if(pigeonKillCount>pigeonHighKillCount){pigeonHighKillCount=pigeonKillCount;}pigeonScoreText[_0x6684('0x6')]=pigeonKillCount;_0x2b80cb[_0x6684('0x55')]();_0x2b80cb[_0x6684('0x48')][_0x6684('0x75')]=!![];_0x2b80cb[_0x6684('0xa1')]=![];_0x2b80cb[_0x6684('0x32')]['\x78']=0x140;this[_0x6684('0x8e')](0xa);if(_0x56f161[_0x6684('0xab')](pigeonsTillNextHeart,0x0)){pigeonsTillNextHeart=0x14;if(_0x56f161['\x65\x65\x5a'](lives,0x3)){if(lives===0x2){uiHeart3[_0x6684('0x55')]();uiHeart3=game[_0x6684('0x5')][_0x6684('0xd')](0x37,0x5,_0x6684('0xf'));uiHeart3[_0x6684('0x3')][_0x6684('0x4')](0.65,0.65);}if(lives===0x1){uiHeart2[_0x6684('0x55')]();uiHeart2=game['\x61\x64\x64'][_0x6684('0xd')](0x1e,0x5,_0x6684('0xf'));uiHeart2['\x73\x63\x61\x6c\x65'][_0x6684('0x4')](0.65,0.65);}if(_0x56f161[_0x6684('0xac')](lives,0x0)){uiHeart1['\x6b\x69\x6c\x6c']();uiHeart1=game[_0x6684('0x5')][_0x6684('0xd')](0x5,0x5,_0x6684('0xf'));uiHeart1[_0x6684('0x3')][_0x6684('0x4')](0.65,0.65);}lives++;}}},'\x67\x61\x6d\x65\x43\x6f\x75\x6e\x74\x44\x6f\x77\x6e':function(){var _0x3e6202={'\x75\x6f\x6a':function _0x320d34(_0x48c09a,_0x4864be){return _0x48c09a/_0x4864be;},'\x56\x48\x6a':function _0x4b2aff(_0x5c3bd8,_0x2cdd89){return _0x5c3bd8-_0x2cdd89;}};if(gameStarting===![]){var _0x3ab11a=_0x6684('0xad')[_0x6684('0x1')]('\x7c'),_0xd4f068=0x0;while(!![]){switch(_0x3ab11a[_0xd4f068++]){case'\x30':this['\x74\x69\x6d\x65\x72'][_0x6684('0x69')]();continue;case'\x31':this[_0x6684('0x3f')][_0x6684('0xae')]['\x66\x6f\x6e\x74']=_0x6684('0xaf');continue;case'\x32':this[_0x6684('0x3d')]=this[_0x6684('0x3a')][_0x6684('0x5')](Phaser['\x54\x69\x6d\x65\x72'][_0x6684('0xb0')]*0x2,this[_0x6684('0xb1')],this);continue;case'\x33':this[_0x6684('0x3f')]=game[_0x6684('0x5')]['\x74\x65\x78\x74'](0x96,0xaf,this[_0x6684('0x3b')](Math[_0x6684('0xb2')](_0x3e6202[_0x6684('0xb3')](_0x3e6202['\x56\x48\x6a'](this[_0x6684('0x3d')][_0x6684('0x3e')],this[_0x6684('0x3a')]['\x6d\x73']),0x3e8))),{'\x66\x6f\x6e\x74':_0x6684('0xaf'),'\x66\x69\x6c\x6c':_0x6684('0xb4')});continue;case'\x34':this['\x69\x6e\x74\x65\x72\x66\x61\x63\x65\x42\x61\x63\x6b\x67\x72\x6f\x75\x6e\x64'][_0x6684('0xc')][_0x6684('0x4')](0.5,0.5);continue;case'\x35':this[_0x6684('0xb5')]=game[_0x6684('0x5')][_0x6684('0xd')](game['\x77\x6f\x72\x6c\x64']['\x77\x69\x64\x74\x68']/0x2,_0x3e6202[_0x6684('0xb3')](game[_0x6684('0x8')][_0x6684('0x15')],0x2),_0x6684('0x1b'));continue;case'\x36':this[_0x6684('0xb5')][_0x6684('0x3')][_0x6684('0x4')](0x1,0xf);continue;case'\x37':hoverImage[_0x6684('0x55')]();continue;case'\x38':gameStarting=!![];continue;case'\x39':hoverIcon[_0x6684('0x55')]();continue;case'\x31\x30':this[_0x6684('0xb5')][_0x6684('0x2b')]=0.8;continue;case'\x31\x31':this['\x63\x6f\x75\x6e\x74\x64\x6f\x77\x6e'][_0x6684('0xc')][_0x6684('0x4')](0.5,0.5);continue;case'\x31\x32':this['\x74\x69\x6d\x65\x72']=game['\x74\x69\x6d\x65'][_0x6684('0x1c')]();continue;}break;}}},'\x66\x6f\x72\x6d\x61\x74\x54\x69\x6d\x65':function(_0x1b7a5b){var _0x2368ca={'\x6a\x74\x6f':function _0x5456c9(_0x4b63de,_0x21fb70){return _0x4b63de+_0x21fb70;},'\x6f\x52\x57':function _0x2e0632(_0x1f344e,_0x242b5b){return _0x1f344e/_0x242b5b;}};var _0x227891=_0x2368ca['\x6a\x74\x6f']('',Math[_0x6684('0xb6')](_0x2368ca[_0x6684('0xb7')](_0x1b7a5b,0x3c)));var _0x295fbc=_0x2368ca[_0x6684('0xb8')]('',_0x1b7a5b-_0x227891*0x3c);return _0x295fbc[_0x6684('0xb9')](-0x2);},'\x70\x6c\x61\x79\x54\x68\x65\x47\x61\x6d\x65':function(){this[_0x6684('0xb5')][_0x6684('0x55')]();this[_0x6684('0x18')]['\x73\x74\x61\x74\x65']['\x73\x74\x61\x72\x74'](_0x6684('0xba'),!![]);hoverImage['\x6b\x69\x6c\x6c']();}};
+var demo = function(game){};
+
+var player;
+var playerClickCooldown = 0;
+var platforms;
+var topPlatforms;
+var botPlatforms;
+var playerDieing = false;
+
+var clouds;
+var skylines;
+var pigeons;
+var score = 0;
+var highscore = 0;
+var skyline1;
+var skyline2;
+var sky;
+var cursorOverPauseButton = false;
+var playerHasClickedYet = false;
+var emitter;
+var gameStarting = false;
+
+
+//UI
+var uiHeart1;
+var scoreText;
+var uiHeart2;
+var uiHeart3;
+var uiBackground;
+var interfaceBackground;
+var pauseBackground;
+var pauseButton;
+var playButton;
+var featherIcon;
+var help;
+var hoverImage;
+
+var clickToLiftButton;
+
+var pigeonKillCount = 0;
+var pigeonHighKillCount = 0;
+var pigeonScoreText;
+var pigeonsTillNextHeart = 20;
+var lives = 3;
+
+var obstacleCooldown = 100;
+
+demo.prototype = {
+
+    create: function () {
+
+        console.log("%cDemo Started.", "color:white; background:red");
+
+        obstacleCooldown = 100;
+
+        //  The game background.
+        sky = game.add.sprite(0, 0, 'sky');
+
+        // billboard = game.add.sprite(300, 100, 'billboard-mock');
+
+        // Create our new groups.
+        clouds = game.add.group();
+        skylines = game.add.group();
+        platforms = game.add.group();
+        topPlatforms = game.add.group();
+        botPlatforms = game.add.group();
+        pigeons = game.add.group();
+
+        //  We will enable physics for any object that is created in this group
+        platforms.enableBody = true;
+        topPlatforms.enableBody = true;
+        botPlatforms.enableBody = true;
+        pigeons.enableBody = true;
+        clouds.enableBody = true;
+        skylines.enableBody = true;
+
+        skyline1 = skylines.create(0, game.world.height - 100, 'sky-parralax');
+        skyline1.anchor.x = 0.5;
+        skyline1.anchor.y = 0.5;
+
+        skyline2 = skylines.create(game.world.width, game.world.height - 100, 'sky-parralax');
+        skyline2.anchor.x = 0.5;
+        skyline2.anchor.y = 0.5;
+
+        this.createPlayer();
+
+        this.createInitialObstacles();
+
+        uiBackground = game.add.sprite(0, 0, 'ui-bg');
+        uiHeart1 = game.add.sprite(5, 5, 'icon-heart');
+        uiHeart1.scale.setTo(0.65, 0.65);
+        uiHeart2 = game.add.sprite(30, 5, 'icon-heart');
+        uiHeart2.scale.setTo(0.65, 0.65);
+        uiHeart3 = game.add.sprite(55, 5, 'icon-heart');
+        uiHeart3.scale.setTo(0.65, 0.65);
+
+        help = game.add.sprite(150, 30, 'help');
+        help.anchor.setTo(0.5,0.5);
+        help.scale.setTo(.8, .8);
+
+        scoreText = game.add.text(game.world.width / 2, 16, score, {font: 'bold 20px Lato', fill: '#44ad26'});
+        scoreText.anchor.setTo(0.5, 0.5);
+        this.setScore(0);
+
+        featherIcon = game.add.sprite(game.world.width - 10, 3, 'icon-feather');
+        featherIcon.scale.setTo(0.65, 0.65);
+
+        pigeonScoreText = game.add.text(game.world.width - 18, 16, pigeonKillCount, {
+            font: 'bold 20px Lato',
+            fill: '#3879ba'
+        });
+        pigeonScoreText.anchor.setTo(1.0, 0.5);
+
+        interfaceBackground = game.add.sprite(0, game.world.height - 50, 'ui-bg');
+        interfaceBackground.scale.setTo(1, 2);
+
+        // Purely cosmetic, used to give the player an idea of what to do and an area to click that does not obfuscate the view.
+        clickToLiftButton = game.add.button(5, game.world.height - 45, 'lift-button', this.clickToLiftButtonAction, this);
+
+        pauseBackground = game.add.sprite((game.world.width / 2), (game.world.height / 2), 'ui-bg');
+        pauseBackground.anchor.setTo(0.5,0.5);
+        pauseBackground.scale.setTo(1, 15);
+        pauseBackground.alpha = 0.5;
+        pauseBackground.visible = false;
+
+        pauseButton = game.add.button(game.world.width - 45, game.world.height - 45, 'pause-button', this.clickToPauseButtonAction, this);
+        // Adds to events to track if we're pausing, this is used to disable payer input when trying to pause.
+
+        hoverImage = this.game.add.sprite(0,300,"hover");
+        hoverImage.inputEnabled = true;
+        hoverImage.events.onInputOver.add(this.gameCountDown, this);
+
+        hoverIcon = game.add.sprite(35, 300, 'hover-icon');
+        hoverIcon.animations.add('play', [0,1,2,3], 4, true);
+        hoverIcon.animations.play('play');
+
+        this.resetGameState();
+
+        gameStarting = false;
+
+    },
+
+
+    update: function () {
+
+        //  Checks to see if the player overlaps with any of the pigeons, if he does call the collectPigeon function
+        game.physics.arcade.overlap(player, pigeons, this.collectpigeon, null, this);
+        // Kill player if they hit an obstacle.
+        game.physics.arcade.overlap(player, topPlatforms, this.playerDeath, null, this);
+        game.physics.arcade.overlap(player, botPlatforms, this.playerDeath, null, this);
+
+        // Kill player if they get to low to the ground or touch the ceiling.
+        if (player.body.position.y >= (game.canvas.height - 50) || player.body.position.y <= (20)) {
+            this.playerDeath(player);
+        }
+
+        this.aiClickCheck();
+
+        this.checkObstacles();
+
+        this.checkpigeons();
+
+        this.checkClouds();
+
+        this.checkSkylines();
+
+
+        // Shows Timer Overlay when ready.
+        if(this.timer) {
+            var timeLeft = this.formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000));
+            if(timeLeft > 0) {
+                this.countdown.setText(this.formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000)));
+            } else {
+                this.countdown.setText('Play!');
+                if(timeLeft > 3) {
+                    this.countdown.setText('Ready?');
+                }
+            }
+        }
+
+
+    },
+
+
+    render: function () {
+
+    },
+
+
+
+// FUNCTIONS
+
+    aiClickCheck: function () {
+        if (playerDieing === false) {
+
+            //  Pushes player up.
+            if (player.position.y >= 250) {
+                this.pushPlayerUp(false);
+            }
+
+            this.player = player;
+            if (botPlatforms) {
+                botPlatforms.forEach(function (item) {
+                    // We are only checking the bottom obstacles.
+                    if(item && item.alive === true && item.body.position.y > 190) {
+
+                        // If we're too close and above an obstacle, lower the check threshold.
+                        if (game.physics.arcade.distanceBetween(this.player, item) < 50 && item.body.position.x <= this.player.body.position.x + 50){
+                            this.pushPlayerUp(true);
+                        }
+
+                        // Normal object detection click.
+                        if (game.physics.arcade.distanceBetween(this.player, item) < 100 && item.body.position.x - 50 > this.player.body.position.x){
+                            this.pushPlayerUp(false);
+                        }
+
+                    }
+                }, this);
+            }
+
+            if (player.body.velocity.y >= 0 && playerDieing === false ) {
+                player.animations.play('normal');
+            }
+
+
+            // Click cooldown is to prevent the user from accidental double click and to add some difficulty to timing.
+            // Lower cooldown if there is one.
+            if (playerClickCooldown > 0) {
+                playerClickCooldown -= 1;
+            }
+        }
+    },
+
+
+    pushPlayerUp: function (override) {
+
+        if(playerClickCooldown <= 0 || override === true) {
+            playerClickCooldown = 50;
+            if(override) {
+                playerClickCooldown = 55;
+            }
+
+            player.body.velocity.y = -300;
+            player.animations.play('increase-height');
+        }
+    },
+
+    resetGameState: function () {
+
+        // Clear all of our groups.
+        topPlatforms.forEachAlive(function (platform) {
+            platform.kill();
+        });
+        botPlatforms.forEachAlive(function (platform) {
+            platform.kill();
+        });
+        pigeons.forEachAlive(function (pigeon) {
+            pigeon.kill();
+        });
+        clouds.forEachAlive(function (cloud) {
+            cloud.kill();
+        });
+        skylines.forEachAlive(function (skyline) {
+            skyline.kill();
+        });
+
+        pigeonKillCount = 0;
+        pigeonScoreText.text = pigeonKillCount;
+        lives = 3;
+        playerClickCooldown = 0;
+        cursorOverPauseButton = false;
+        playerHasClickedYet = false;
+        playerDieing = false;
+        pigeonsTillNextHeart = 20;
+        obstacleCooldown = 0;
+
+        this.setScore(0);
+
+        this.revivePlayer();
+
+
+    },
+
+    overPause: function() {
+    },
+
+    offPause: function() {
+    },
+
+    clickToLiftButtonAction: function() {
+    },
+
+    clickToPauseButtonAction: function() {
+    },
+
+    createCloud: function (numberOfClouds) {
+        cloud = clouds.create(game.world.width + 100, game.rnd.integerInRange(0, game.world.height - 150), 'cloud');
+        cloud.anchor.x = 0.5;
+        cloud.anchor.y = 0.5;
+        cloud.body.gravity.y = 0;
+        cloud.body.gravity.x = game.rnd.integerInRange(-2, -10);
+        var randomScale = game.rnd.realInRange(0.3, 0.9);
+        cloud.scale.setTo(randomScale, randomScale);
+    },
+
+    checkClouds: function () {
+        clouds.forEach(function (cloud) {
+            if (cloud.alive === true) {
+                if (cloud.body.position.x < -200) {
+                    cloud.reset(game.world.width + 100, game.rnd.integerInRange(0, game.world.height));
+                }
+            }
+        }, this);
+
+        if (clouds.countLiving() < 8) {
+            if (game.rnd.integerInRange(1, 300) === 1) {
+                this.createCloud();
+            }
+        }
+    },
+
+    addScore: function (newScore) {
+        score = score + newScore;
+        if (score > highscore) {
+            highscore = score;
+        }
+        scoreText.text = score;
+    },
+
+    setScore: function (newScore) {
+        score = newScore;
+        scoreText.text = score;
+    },
+
+    playerDeathAnimationDone: function (sprite, animation) {
+
+        // Heart Loss when you die.
+        var heartX;
+
+        if (lives === 0) {
+
+            this.resetGameState();
+            uiHeart1 = game.add.sprite(5, 5, 'icon-heart');
+            uiHeart1.scale.setTo(0.65, 0.65);
+            uiHeart2 = game.add.sprite(30, 5, 'icon-heart');
+            uiHeart2.scale.setTo(0.65, 0.65);
+            uiHeart3 = game.add.sprite(55, 5, 'icon-heart');
+            uiHeart3.scale.setTo(0.65, 0.65);
+            //this.game.state.start("GameOver", false, false, score, highscore, pigeonKillCount, pigeonHighKillCount );
+        } else {
+            // Kill all platforms in the group.
+            topPlatforms.forEach(function (item) {
+                item.kill();
+            }, this);
+            botPlatforms.forEach(function (item) {
+                item.kill();
+            }, this);
+
+            lives--;
+
+            if (lives === 2) {
+                uiHeart3.kill();
+                uiHeart3 = game.add.sprite(55, 5, 'icon-heart-empty');
+                uiHeart3.scale.setTo(0.65, 0.65);
+                heartX = 55;
+            }
+            if (lives === 1) {
+                uiHeart2.kill();
+                uiHeart2 = game.add.sprite(30, 5, 'icon-heart-empty');
+                uiHeart2.scale.setTo(0.65, 0.65);
+                heartX = 30;
+            }
+            if (lives === 0) {
+                uiHeart1.kill();
+                uiHeart1 = game.add.sprite(5, 5, 'icon-heart-empty');
+                uiHeart1.scale.setTo(0.65, 0.65);
+                heartX = 5;
+            }
+
+            // Make our heart pop off the top bar.
+            emitter = game.add.emitter(heartX, 5, 1);
+            emitter.makeParticles('icon-heart');
+            emitter.maxParticleScale = .65;
+            emitter.minParticleScale = .65;
+            emitter.minParticleAlpha  = .7;
+            emitter.maxParticleAlpha  = .7;
+
+            emitter.start(true, 6000, null, 1);
+
+            playerDieing = false;
+            this.revivePlayer();
+        }
+    },
+
+    createPlayer: function () {
+        // Create the player.
+        player = game.add.sprite(20, 215, 'player');
+        player.animations.add('normal', [2], 10, true);
+        player.animations.add('increase-height', [1, 0], 10, false);
+        var playerDeathAnim = player.animations.add('death', [3, 4, 5], 10, true);
+        playerDeathAnim.onComplete.add(this.playerDeathAnimationDone, this);
+        player.animations.play('normal');
+        player.scale.setTo(.35, .35);
+
+
+        //  We need to enable physics on the player
+        game.physics.arcade.enable(player);
+        player.body.setSize(100, 25, 10, 35);
+        playerHasClickedYet = false;
+        player.body.bounce.y = 0.0;
+        player.body.collideWorldBounds = true;
+
+    },
+
+    revivePlayer: function () {
+        playerHasClickedYet = false;
+        player.body.moves = true;
+        player.body.gravity.y = 600;
+        player.reset(20, 150);
+    },
+
+    playerDeath: function (player) {
+        player.body.moves = false;
+        playerDieing = true;
+        player.animations.play('death', 10, false, false);
+    },
+
+    createInitialObstacles: function () {
+
+        var ledge = botPlatforms.create(game.world.width, 0, 'obstacle-bottom-1');
+        ledge.width = 70;
+        ledge.height = 195;
+        ledge.body.immovable = true;
+        ledge.ltype = 'bottom';
+        ledge.kill();
+
+        ledge = botPlatforms.create(game.world.width, 0, 'obstacle-bottom-2');
+        // Adjust for the smokestack, let's push the colision body down
+        ledge.body.setSize(130, 300, 0, 55);
+        ledge.width = 70;
+        ledge.height = 195;
+        ledge.body.immovable = true;
+        ledge.ltype = 'bottom';
+        ledge.kill();
+
+        ledge = botPlatforms.create(game.world.width, 0, 'obstacle-bottom-3');
+        ledge.width = 70;
+        ledge.height = 195;
+        ledge.body.immovable = true;
+        ledge.ltype = 'bottom';
+        ledge.kill();
+
+        ledge = botPlatforms.create(game.world.width, 0, 'obstacle-bottom-4');
+        ledge.width = 70;
+        ledge.height = 195;
+        ledge.body.immovable = true;
+        ledge.ltype = 'bottom';
+        ledge.kill();
+
+        ledge = botPlatforms.create(game.world.width, 0, 'obstacle-bottom-5');
+        ledge.width = 70;
+        ledge.height = 195;
+        ledge.body.immovable = true;
+        ledge.ltype = 'bottom';
+        ledge.kill();
+
+
+        var botOffset = 25;
+
+        ledge = topPlatforms.create(game.world.width, 0, 'obstacle-top-1');
+        ledge.width = 70;
+        ledge.height = 195;
+        ledge.body.immovable = true;
+        ledge.ltype = 'top';
+        ledge.kill();
+
+        ledge = topPlatforms.create(game.world.width,0, 'obstacle-top-2');
+        ledge.width = 70;
+        ledge.height = 195;
+        ledge.body.immovable = true;
+        ledge.ltype = 'top';
+        ledge.kill();
+
+        ledge = topPlatforms.create(game.world.width, 0, 'obstacle-top-3');
+        // Adjust for the smokestack, let's push the colision body down
+        ledge.body.setSize(130, 350, 0, 0);
+        ledge.width = 70;
+        ledge.height = 195;
+        ledge.body.immovable = true;
+        ledge.ltype = 'top';
+        ledge.kill();
+
+        ledge = topPlatforms.create(game.world.width, 0, 'obstacle-top-4');
+        ledge.width = 70;
+        ledge.height = 195;
+        ledge.body.immovable = true;
+        ledge.ltype = 'top';
+        ledge.kill();
+
+        ledge = topPlatforms.create(game.world.width, 0, 'obstacle-top-5');
+        ledge.width = 70;
+        ledge.height = 195;
+        ledge.body.immovable = true;
+        ledge.ltype = 'top';
+        ledge.kill();
+
+    },
+
+    spawnObstacles: function () {
+
+        obstacleCooldown = 100;
+
+        var maxGap = game.rnd.integerInRange(165, 175);
+
+        var heightShift = game.rnd.integerInRange(0, 100);
+
+        var botOffset = 35;
+
+        // If it's the first platform, let's make it the same height every time for new players.
+        if(topPlatforms.countLiving() + botPlatforms.countLiving() < 2) {
+            heightShift = 20;
+        }
+
+        topLedge = this.getRandomTop();
+        if(topLedge) {
+            topLedge.reset(game.world.width, ((((game.world.height / 2)) - (maxGap / 2)) - heightShift - 90) - 40);
+        }
+
+        botLedge = this.getRandomBot();
+        if(botLedge) {
+            botLedge.reset(game.world.width, (((game.world.height / 2) + (maxGap / 2)) - heightShift + botOffset) - 40);
+        }
+
+    },
+
+    getRandomTop: function () {
+        var ledge = topPlatforms.getRandom(0,4);
+        while(ledge.alive === true) {
+            ledge = topPlatforms.getRandom(0,4);
+        }
+
+        return ledge;
+    },
+
+    getRandomBot: function () {
+        var ledge = botPlatforms.getRandom(0,4);
+        while(ledge.alive === true) {
+            ledge = botPlatforms.getRandom(0,4);
+        }
+
+        return ledge;
+    },
+
+    checkObstacles: function () {
+        topPlatforms.forEachAlive(function (item) {
+            item.body.position.x -= 2;
+            if (item.body.position.x < (item.width) * -1) {
+                item.kill();
+                this.addScore(5);
+            }
+        }, this);
+
+        botPlatforms.forEachAlive(function (item) {
+            item.body.position.x -= 2;
+            if (item.body.position.x < (item.width) * -1) {
+                item.kill();
+                this.addScore(5);
+            }
+        }, this);
+
+        // Create new obstacles when count is under 4 (2 per 1 column top and bottom)
+        if (botPlatforms.countLiving() + topPlatforms.countLiving() < 4 && obstacleCooldown <= 0) {
+            this.spawnObstacles();
+        }
+
+        if (obstacleCooldown > 0) {
+            obstacleCooldown -= 1;
+        }
+    },
+
+    checkSkylines: function () {
+        skyline1.x -= 1;
+        skyline2.x -= 1;
+        if (skyline1.x < (skyline1.width / 2) * -1) {
+            skyline1.reset(game.world.width + (skyline1.width / 2), game.world.height - 100);
+        }
+        if (skyline2.x < (skyline2.width / 2) * -1) {
+            skyline2.reset(game.world.width + (skyline2.width / 2), game.world.height - 100);
+        }
+    },
+
+    createpigeons: function (maxpigeons) {
+
+        for (var i = 0; i < maxpigeons; i++) {
+            var pigeon = pigeons.create(300, game.rnd.integerInRange(50, game.world.width), 'pigeon');
+
+            pigeon.checkWorldBounds = true;
+            pigeon.events.onOutOfBounds.add(this.pigeonOutOfBounds, this);
+            pigeon.isExploding = false;
+
+            pigeon.scale.setTo(0.35, 0.35);
+            pigeon.body.setSize(75, 75, 25, 25);
+
+            pigeon.body.gravity.y = 300;
+
+            pigeon.body.velocity.y = -150;
+            pigeon.body.velocity.x = game.rnd.integerInRange(-100, -50);
+
+            pigeon.animations.add('fly', [0, 1, 2], 10, true);
+            var pigeonExplodeAnim = pigeon.animations.add('explode', [3, 4, 5], 10, false);
+            pigeonExplodeAnim.onComplete.add(this.pigeonDeathComplete, this);
+            pigeon.animations.play('fly');
+
+        }
+    },
+
+    pigeonOutOfBounds: function (pigeon) {
+        pigeon.kill();
+        pigeon.position.x = 320;
+    },
+
+    checkpigeons: function () {
+        pigeons.forEachAlive(function (pigeon) {
+            if (pigeon.isExploding === false) {
+
+                pigeon.body.position.x -= 2;
+
+                // Flap
+                var random = game.rnd.integerInRange(1, 25);
+                if (random === 1) {
+                    pigeon.body.velocity.y = -150;
+                }
+            }
+        }, this);
+
+        // Spawn pigeons
+        if (game.rnd.integerInRange(1, 75) === 1) {
+
+            // If we have less than 6 made, make a new one.
+            if ((pigeons.countDead() + pigeons.countLiving()) < 6) {
+                this.createpigeons(1);
+            } else {
+                // Otherwise let's grab a dead one and revive him.
+                var pigeon = pigeons.getFirstDead();
+                if (pigeon) {
+                    pigeon.reset(300, game.rnd.integerInRange(50, 200));
+                    pigeon.body.moves = true;
+                    pigeon.body.gravity.y = 300;
+                    pigeon.body.velocity.y = -150;
+                    pigeon.body.velocity.x = game.rnd.integerInRange(-100, -50);
+                    pigeon.animations.play('fly');
+                }
+            }
+        }
+
+    },
+
+    collectpigeon: function (player, pigeon) {
+        if(pigeon.isExploding === false) {
+            pigeon.isExploding = true;
+            pigeon.body.moves = false;
+            pigeon.animations.play('explode', 15, false, false);
+
+            // Feather explosion when you hit a pigeon.
+            emitter = game.add.emitter(pigeon.centerX, pigeon.centerY, 5);
+            emitter.makeParticles('icon-feather');
+            emitter.maxParticleScale = 0.3;
+            emitter.minParticleScale = 0.2;
+
+            emitter.start(true, 8000, null, 5);
+        }
+    },
+
+
+    pigeonDeathComplete: function (pigeon, animation) {
+        pigeonKillCount++;
+        pigeonsTillNextHeart--;
+
+        if (pigeonKillCount > pigeonHighKillCount) {
+            pigeonHighKillCount = pigeonKillCount;
+        }
+
+        pigeonScoreText.text = pigeonKillCount;
+
+        pigeon.kill();
+        pigeon.body.moves = true;
+        pigeon.isExploding = false;
+        pigeon.position.x = 320;
+        this.addScore(10);
+
+        if (pigeonsTillNextHeart === 0) {
+            pigeonsTillNextHeart = 20;
+            if (lives < 3) {
+                if (lives === 2) {
+                    uiHeart3.kill();
+                    uiHeart3 = game.add.sprite(55, 5, 'icon-heart');
+                    uiHeart3.scale.setTo(0.65, 0.65);
+                }
+                if (lives === 1) {
+                    uiHeart2.kill();
+                    uiHeart2 = game.add.sprite(30, 5, 'icon-heart');
+                    uiHeart2.scale.setTo(0.65, 0.65);
+                }
+                if (lives === 0) {
+                    uiHeart1.kill();
+                    uiHeart1 = game.add.sprite(5, 5, 'icon-heart');
+                    uiHeart1.scale.setTo(0.65, 0.65);
+                }
+                lives++;
+            }
+        }
+    },
+
+    gameCountDown: function(){
+
+        if(gameStarting === false) {
+            hoverImage.kill();
+            hoverIcon.kill();
+            gameStarting = true;
+
+            this.interfaceBackground = game.add.sprite((game.world.width / 2), (game.world.height / 2), 'ui-bg');
+            this.interfaceBackground.anchor.setTo(0.5,0.5);
+            this.interfaceBackground.scale.setTo(1, 15);
+            this.interfaceBackground.alpha = 0.8;
+
+            this.timer = game.time.create();
+            this.timerEvent = this.timer.add(Phaser.Timer.SECOND * 2, this.playTheGame, this);
+
+            this.countdown = game.add.text(150, 175, this.formatTime(Math.round((this.timerEvent.delay - this.timer.ms) / 1000)), {
+                font: 'bold 128px Lato',
+                fill: '#ffffff'
+            });
+            this.countdown.anchor.setTo(0.5, 0.5);
+            this.countdown.style.font = 'bold 128px Lato';
+
+            this.timer.start();
+        }
+    },
+
+    formatTime: function(s) {
+        // Convert seconds (s) to a nicely formatted and padded time string
+        var minutes = "" + Math.floor(s / 60);
+        var seconds = "" + (s - minutes * 60);
+        return seconds.substr(-2);
+    },
+
+    playTheGame: function(){
+        this.interfaceBackground.kill();
+        this.game.state.start("GameLoop", true);
+        hoverImage.kill();
+    }
+
+};

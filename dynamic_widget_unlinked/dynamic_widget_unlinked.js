@@ -297,7 +297,7 @@ function displayWidget() {
 
             //list title
             $("profile-title").innerHTML = widgetData.data.listInfo.listName;
-            // $("mainimg").setAttribute('onerror', "this.src='//images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg'");
+
             $("profile-rank").innerHTML = curData.rank;
             $("mainimg-rank").innerHTML = curData.rank;
 
@@ -388,7 +388,7 @@ function displayWidget() {
               if(curData.data_value_1 != null){
                 $("profile-datavalue1").innerHTML = curData.data_value_1;
                 $("profile-datapoint1").innerHTML = curData.data_point_1 != null ? curData.data_point_1 : '';
-                $("data-title1").setAttribute("title", curData.data_value_1);
+                $("data-title1").setAttribute("title", curData.data_value_1 == '' ? curData.data_point_1 : curData.data_value_1);
               }else{
                 $("profile-datavalue1").innerHTML = curData.fallback_data_value_1 != null ? curData.fallback_data_value_1 : '';
                 $("profile-datapoint1").innerHTML = curData.fallback_data_point_1 != null ? curData.fallback_data_point_1 : '';
@@ -723,6 +723,7 @@ function checkImage(image) {
         imageReturn += "?width=" + (imageWidth * window.devicePixelRatio);
     }
 
+    //when mainimg was an <img> tag
     // $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
 
     //USED to display background color of category if a fallback image is sent back
