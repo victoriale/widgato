@@ -731,8 +731,8 @@ loadData();
       else {
         setTimeout(function(){ //wait for dom to render before executing igloo script
           //inject igloo into first_ad div
-          firstAd = iframeContent.document.getElementById('first_ad');
-          var s = iframeContent.document.createElement("script");
+          firstAd = document.getElementById('first_ad');
+          var s = document.createElement("script");
           s.type = "text/javascript";
           if (input.group != null && input.group != "" && input.p != null && input.p != "") {
             s.src = "//content.synapsys.us/embeds/placement.js?p=" + input.p + "&type=centipede_" + input.group + "&style=inline&league=no_centipede";
@@ -892,7 +892,7 @@ loadData();
       }
       var rect = firstAd.getBoundingClientRect();
       if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
-        var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft+450) /900)].parentElement.offsetLeft + 150;
+        var left = iframeContent.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft+450) /900)].parentElement.offsetLeft + 150;
         firstAd.style.left = (left - firstAd.offsetWidth) + "px";
       }
       clearTimeout(scrollingTimout);
