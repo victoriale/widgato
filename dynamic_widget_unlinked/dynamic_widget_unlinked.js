@@ -3,6 +3,7 @@ dwlinked = function() {
     //single quotes and @@import are important for gulp task to work for these files
     var htmlFile = '@@import /min/index.min.html';
     var cssFile = '@@import /min/dynamic_widget_unlinked.min.css';
+    var cssWideFile = '@@import /min/dynamic_widget_unlinked_wide.min.css';
 
     var embedURL = "dynamic_widget_unlinked";
     var currentScript = document.currentScript || (function() { // resolution for IE since it does not have currentScript to find the currently running script on the page
@@ -42,6 +43,7 @@ dwlinked = function() {
         friendlyIframe.className = "dwunlinkIframe"
         friendlyIframe.width = '300';
         friendlyIframe.height = '600';
+        friendlyIframe.overflow = 'none'
         friendlyIframe.src = 'about:blank';
         friendlyIframe.style.border = 'none';
         currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
@@ -55,22 +57,33 @@ dwlinked = function() {
 
         //create inline style for friendlyIframe
         var style = friendlyIframeWindow.document.createElement("style");
-        style.appendChild(friendlyIframeWindow.document.createTextNode(cssFile));
+        if(query.wide != null && query.wide != ''){
+          friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
+          // friendlyIframe.style.maxWidth = '992px';
+          friendlyIframe.height = '250';
+          window.addEventListener('resize', function() {
+              friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
+          }, true);
+          style.appendChild(friendlyIframeWindow.document.createTextNode(cssWideFile));
+          wideWidget = true;//set wide flag
+        }else{
+          style.appendChild(friendlyIframeWindow.document.createTextNode(cssFile));
+        }
+
+        //append the css file into iframe head
         friendlyIframeWindow.document.head.appendChild(style);
 
+        //create variable to be used similar to jquery for id's
         $ = function(e) { // create a simple version for grabbing id's of elements
             return friendlyIframeWindow.document.getElementById(e)
         };
     }
 
-    //create friendly iframe
-    createFriendlyIframe();
-
     //determine if a query string is after the index.html location || if query is after a javascript location
     if (location.search != null && location.search!= '') {
-        query = JSON.parse(decodeURIComponent(location.search.substr(1)));
-        listRand = query.rand ? query.rand : 1;
-        //FIRST THING IS SETUP ENVIRONMENTS
+      query = JSON.parse(decodeURIComponent(location.search.substr(1)));
+      listRand = query.rand ? query.rand : 1;
+      //FIRST THING IS SETUP ENVIRONMENTS
     } else {
       var srcQuery = currentScript.src.split("js?")[1];
       if (srcQuery != "" && srcQuery != null) {
@@ -83,8 +96,19 @@ dwlinked = function() {
       }
     }
 
+    //create friendly iframe
+    createFriendlyIframe();
+
     //after you get the query you set the enironment
     setupEnvironment(query);
+
+    //THEN START UPDATING THE LISTS
+    updateList(0);
+
+    //create event listeners
+    $("button_left").addEventListener("click", updateIndex);
+    $("button_right").addEventListener("click", updateIndex);
+    $("button_atomic").addEventListener("click", updateList);
 
     function getEnv(env) {
         if (env.match(/localhost/g) != null || env.match(/dev/g) != null) {
@@ -107,17 +131,6 @@ dwlinked = function() {
             env = '';
         }
         return env;
-    }
-
-    //simple flag that checks if there is an identifier and it is javascript
-    // DOES NOT CHANGE ON RESIZE use onresize or event listener for that
-    // currently it is to run on first load
-    function wideScript() {
-        var checkScriptID = $("dw_wide");
-        windowWidth = window.innerWidth;
-        if ((windowWidth > widthBreakpoint) && checkScriptID != null) {
-            wideWidget = true;
-        }
     }
 
     /***************************** SETUP ENVIRONMENTS ******************************
@@ -164,16 +177,6 @@ dwlinked = function() {
         //FALL BACK API SET HERE INCASE Dynamic widget api fails to make a call
         fallBackApi = protocolToUse + synapsysENV(environment) + dwApi + "?group=sports";
     }
-    //Flag if wideScript exists then run certain scripts differently
-    wideScript();
-
-    //THEN START UPDATING THE LISTS
-    updateList(0);
-
-    //create event listeners
-    $("button_left").addEventListener("click", updateIndex);
-    $("button_right").addEventListener("click", updateIndex);
-    $("button_atomic").addEventListener("click", updateList);
 
     /************************ UPDATE LIST ***********************
      * @function updateList
@@ -190,7 +193,7 @@ dwlinked = function() {
             listNum = 1;
         }
         widgetData = null;
-        currentIndex = 0;
+        // currentIndex = 0;
         if (query.group == null && (query.category == 'nfl' || query.category == 'ncaaf' || query.category == 'football')) {
             getFootballList(query.category);
         } else {
@@ -228,7 +231,7 @@ dwlinked = function() {
         }
 
         if (widgetData) {
-            currentIndex += difference;
+            currentIndex -= difference;
             if (currentIndex < 0) {
                 currentIndex = maxIndex - 1;
             } else if (currentIndex >= maxIndex) {
@@ -292,7 +295,7 @@ dwlinked = function() {
             season = jsonArray[rand] + "&season=" + (date.getFullYear() - 1);
         }
         apiCallUrl += season;
-        runAPI(apiCallUrl)
+        runAPI(apiCallUrl);
     }
 
     /***************************** runAPI ***************************
@@ -314,6 +317,15 @@ dwlinked = function() {
                 if (this.status == 200) {
                     // On success parse out the response
                     widgetData = JSON.parse(this.responseText);
+                    var dataArray = widgetData.l_data != null ? widgetData.l_data : widgetData.data.listData;
+                    //set maximum index of returned dataLayer
+                    if(dataArray.length >= 25){
+                      currentIndex = 24;
+                      maxIndex = 25;
+                    }else{
+                      currentIndex = dataArray.length - 1;
+                      maxIndex = dataArray.length;
+                    }
                     displayWidget(); //send in the name of the function that needs to be ran once data has been confirmed
                 } else {
                     // Error handling
@@ -366,7 +378,8 @@ dwlinked = function() {
                 var dataArray = widgetData.data.listData;
                 setCategoryColors(subCategory);
                 //set maximum index of returned dataLayer
-                maxIndex = dataArray.length;
+                // maxIndex = dataArray.length;
+
                 var curData = dataArray[currentIndex];
 
                 //list title
@@ -423,7 +436,8 @@ dwlinked = function() {
 
                 setCategoryColors(subCategory);
                 //set maximum index of returned dataLayer
-                maxIndex = dataArray.length;
+                // maxIndex = dataArray.length;
+
                 //current index of list
                 var curData = dataArray[currentIndex];
 
@@ -432,7 +446,6 @@ dwlinked = function() {
 
                 //checks if a proper live image is being sent from team_wide_img or player_wide_img otherwise default to li_img datapoint
                 var image;
-
                 if (curData.player_wide_img != null && curData.player_wide_img != "") {
                     image = checkImage(imageUrl + curData.player_wide_img);
                 } else if ((curData.player_wide_img == null || curData.player_wide_img == "") && (curData.team_wide_img != null && curData.team_wide_img != "")) {
@@ -489,7 +502,7 @@ dwlinked = function() {
             /***************************END OF DYNAMIC DATA*******************************/
         } catch (e) {
             console.log('Error in displaying widget Data');
-            console.log(e);
+            // console.log(e);
         }
     }
     /**************************Display Widget Data END******************/

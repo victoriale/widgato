@@ -71,14 +71,23 @@ gulp.task('dwunlinked-html', function() {
 });
 
 gulp.task('dwunlinked-css', function() {
+  //DEFAULT VERSION
   return gulp
   .src(['dynamic_widget_unlinked/dynamic_widget_unlinked.css'])
   .pipe(concatCss('dynamic_widget_unlinked.min.css'))
   .pipe(cleanCSS())
   .pipe(gulp.dest('dynamic_widget_unlinked/min'));
 });
+gulp.task('dwunlinked-css-wide', function() {
+  //WIDE VERSION
+  return gulp
+  .src(['dynamic_widget_unlinked/dynamic_widget_unlinked_wide.css'])
+  .pipe(concatCss('dynamic_widget_unlinked_wide.min.css'))
+  .pipe(cleanCSS())
+  .pipe(gulp.dest('dynamic_widget_unlinked/min'));
+});
 
-gulp.task('dwunlinked-scripts', ['dwunlinked-html', 'dwunlinked-css'],function() {
+gulp.task('dwunlinked-scripts', ['dwunlinked-css', 'dwunlinked-css-wide', 'dwunlinked-html'],function() {
     return gulp.src('dynamic_widget_unlinked/dynamic_widget_unlinked.js')
     .pipe(inject({
         basepath: 'dynamic_widget_unlinked',
@@ -95,6 +104,10 @@ gulp.task('dwunlinked-uglify', ['dwunlinked-scripts'],function() {
 });
 
 gulp.task('dwunlinked', ['dwunlinked-clean','dwunlinked-uglify'], function() {
+  // place code for your default task here
+});
+
+gulp.task('dwunlinkedwide', ['dwunlinked-clean','dwunlinked-uglify'], function() {
   // place code for your default task here
 });
 /*******************************DYNAMIC WIDGET UNLINKED TASK**************************/
