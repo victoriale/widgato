@@ -726,7 +726,7 @@ loadData();
           firstAd = iframeContent.document.getElementById('first_ad');
           //grab the sibling igloo element and iject it inside centipede where we can control it
           firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
-        }, 100);
+        }, 400);
       }
       else {
         setTimeout(function(){ //wait for dom to render before executing igloo script
@@ -741,13 +741,13 @@ loadData();
             s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
           }
           firstAd.appendChild(s);
-        }, 100);
+        }, 400);
       }
     }
     else {
       setTimeout(function(){
         firstAd = document.getElementById('first_ad');
-      }, 100);
+      }, 400);
     }
 
     var outputHTML = "";
