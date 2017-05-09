@@ -18,7 +18,7 @@ var subCategory; // with a vast amount groups and categories need we need the cu
 //Initial load Waits for the DOMContent to load
 document.addEventListener("DOMContentLoaded", function (event) { // TAKE ANOTHER LOOK AT THIS AND ONLOAD function both can be optimized
     //if no query is snet then nothing is shown
-    if (temp != null) {
+    if (temp != null && temp.length > 0) {
         query = JSON.parse(decodeURIComponent(temp.substr(1)));
         listRand = query.rand ? query.rand : 0;
         //FIRST THING IS SETUP ENVIRONMENTS
@@ -63,9 +63,9 @@ function synapsysENV(env) {
  */
 function setupEnvironment(widgetQuery) {
     apiCallUrl = protocolToUse;
-    let cat = widgetQuery.category;
-    let environment = window.location.hostname.split('.')[0];
-    let env;
+    var cat = widgetQuery.category;
+    var environment = window.location.hostname.split('.')[0];
+    var env;
     if (widgetQuery.env != null) {
         env = widgetQuery.env ? widgetQuery.env : 'prod';
     } else {
@@ -103,7 +103,7 @@ function updateList(listNum) {
         getFootballList(query.category);
     } else {
         listRand = Number(listRand) + Number(listNum);
-        let currentApi = apiCallUrl + "&rand=" + listRand;
+        var currentApi = apiCallUrl + "&rand=" + listRand;
         runAPI(currentApi);
     }
 }
@@ -151,8 +151,8 @@ function getFootballList(league) {
 function getRandFootballList(jsonArray) {
     rand = Math.floor((Math.random() * (jsonArray.length - 1)) + 1);
     var date = new Date;
-    var compareDate = new Date('09/15/' + date.getFullYear());
-    let season;
+    var compareDate = new Date('09/15/' + date.getFullYear());//TODO get an API from BE to determine when a new season starts
+    var season;
     if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
         season = jsonArray[rand] + "&season=" + date.getFullYear();
     } else if (date.getMonth() > compareDate.getMonth()) {
@@ -251,11 +251,11 @@ function displayWidget() {
         /***************************FOOTBALL DATA APPLIANCE*******************************/
         var image;
         if (query.category == "football" || query.category == "nfl" || query.category == "ncaaf") {
-            let dataArray = widgetData.data.listData;
+            var dataArray = widgetData.data.listData;
             setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
             maxIndex = dataArray.length;
-            let curData = dataArray[currentIndex];
+            var curData = dataArray[currentIndex];
             $("profile-rank").innerHTML = curData.rank;
             //current index of a player or team to display
             if (curData.rankType == "player") {
@@ -294,12 +294,12 @@ function displayWidget() {
             /***************************END OF FOOTBALL DATA*******************************/
         } else {
             /***************************DYNAMIC DATA APPLIANCE*******************************/
-            let dataArray = widgetData.l_data;
+            var dataArray = widgetData.l_data;
             setCategoryColors(subCategory);
             //set maximum index of returned dataLayer
             maxIndex = dataArray.length;
             //current index of list
-            let curData = dataArray[currentIndex];
+            var curData = dataArray[currentIndex];
             //checks if a proper live image is being sent from team_wide_img or player_wide_img otherwise default to li_img datapoint
             if (curData.li_img != null && curData.li_img != "") {
                 image = checkImage(curData.li_img);
@@ -428,7 +428,7 @@ function updateIndex(difference) {
  * @param function image - tosses in image to be check to be replaced with proper stock photo for the specific category
  */
 function checkImage(image) {
-    let imageReturn;
+    var imageReturn;
     //prep return
     if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && image.indexOf('no_player') == -1 && window.location.pathname.indexOf('_970') == -1) {
         imageReturn = image + "?width=" + (300 * window.devicePixelRatio);

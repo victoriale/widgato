@@ -204,17 +204,17 @@ var iframeContent = friendlyIframe.contentWindow;
         -o-transform: translateX(0);
         transform: translateX(0); }
       40% {
-        -webkit-transform: translateX(30px);
-        -moz-transform: translateX(30px);
-        -ms-transform: translateX(30px);
-        -o-transform: translateX(30px);
-        transform: translateX(30px); }
+        -webkit-transform: translateX(12px);
+        -moz-transform: translateX(12px);
+        -ms-transform: translateX(12px);
+        -o-transform: translateX(12px);
+        transform: translateX(12px); }
       60% {
-        -webkit-transform: translateX(15px);
-        -moz-transform: translateX(15px);
-        -ms-transform: translateX(15px);
-        -o-transform: translateX(15px);
-        transform: translateX(15px); } }
+        -webkit-transform: translateX(2px);
+        -moz-transform: translateX(2px);
+        -ms-transform: translateX(2px);
+        -o-transform: translateX(2px);
+        transform: translateX(2px); } }
     .worm_block {
       position: relative;
       display: inline-block;
@@ -222,7 +222,7 @@ var iframeContent = friendlyIframe.contentWindow;
       padding-left: 5px;
     }
     .worm_block:nth-of-type(1) {
-      padding-left: 5px!important;
+      padding-left: 2px!important;
     }
     .worm_block:nth-of-type(2) {
       padding-left: 0px;
@@ -678,6 +678,7 @@ loadData();
     }
     if (input.group == "entertainment" || data.category == "celebrities") {
       style = "width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
+    }else{
     }
     if (input.category == "finance" || input.group == "money") {
       backStyle = `style="background-image:url('`+image+"?width=200"+`')"`;
@@ -685,7 +686,8 @@ loadData();
     else {
       backStyle = `style="background-color: black;"`;
     }
-    helper.innerHTML = data.l_title;
+    console.log(data);
+    helper.innerHTML = data.l_alt_title != null && data.l_alt_title != '' ? data.l_alt_title : data.l_title;// used due to the fact centipede is not wide enought to have more than 50 characters for title
     worm.innerHTML = `
     <style>
       .profile_image_div.fallback::before {
@@ -836,6 +838,11 @@ loadData();
   function nextList(e) {
     // when next list is clicked, clear the worm and any scroll vars, then reload new data
     lazyLoaded = false;
+    //take igloo out before we wipe the worm
+    if (firstAd.getElementsByClassName("widget_zone")[0]) {
+      friendlyIframe.parentElement.appendChild(firstAd.getElementsByClassName("widget_zone")[0]);
+    }
+    //wipe worm and reset everything
     worm.innerHTML = "";
     firstAd.style.left = "0px";
     worm.scrollLeft = 0;
