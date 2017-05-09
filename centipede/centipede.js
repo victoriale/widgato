@@ -678,7 +678,6 @@ loadData();
     }
     if (input.group == "entertainment" || data.category == "celebrities") {
       style = "width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
-    }else{
     }
     if (input.category == "finance" || input.group == "money") {
       backStyle = `style="background-image:url('`+image+"?width=200"+`')"`;
@@ -686,7 +685,6 @@ loadData();
     else {
       backStyle = `style="background-color: black;"`;
     }
-    console.log(data);
     helper.innerHTML = data.l_alt_title != null && data.l_alt_title != '' ? data.l_alt_title : data.l_title;// used due to the fact centipede is not wide enought to have more than 50 characters for title
     worm.innerHTML = `
     <style>
