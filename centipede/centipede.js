@@ -12,22 +12,17 @@ var currentScript = document.currentScript || (function() {
   }
 })();
 //create friendly iframe to place ourselves inside
-var encapsulatorDiv = document.createElement('div');
-encapsulatorDiv.style.cssText = '-webkit-overflow-scrolling: touch;overflow: auto;';
-currentScript.parentNode.insertBefore(encapsulatorDiv, currentScript);
-
-var friendlyIframe = document.createElement('iframe');
+var friendlyIframe = document.createElement('div');
 friendlyIframe.id = "friendlyIframe_" + countSelf.length;
 friendlyIframe.className = "centipedeIframe"
 friendlyIframe.width = '300';
 friendlyIframe.height = '250';
 friendlyIframe.src = 'about:blank';
 friendlyIframe.style.border = 'none';
-encapsulatorDiv.appendChild(friendlyIframe);
-// currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
-var iframeContent = friendlyIframe.contentWindow;
+currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
+var iframeContent = friendlyIframe;
 //inject HTML and CSS structure
-  iframeContent.document.write(`
+  iframeContent.innerHTML = `
     <style>
     /* google fonts */
     /* latin-ext */
@@ -99,7 +94,6 @@ var iframeContent = friendlyIframe.contentWindow;
       background-color: #f7f7f7;
       border: 1px solid #e1e1e1;
       box-sizing: border-box;
-      -webkit-overflow-scrolling: touch;
     }
     .edge_shader {
       position: absolute;
@@ -404,7 +398,7 @@ var iframeContent = friendlyIframe.contentWindow;
     <div class="worm" id="worm">
     </div>
   </div>
-    `);
+    `;
 
   //begin centipede logic
   //initial variable declaration
@@ -428,10 +422,10 @@ var iframeContent = friendlyIframe.contentWindow;
   }
   var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','celebrities']; // an array of all the possible categories this widget accepts and is limited to. if you specify one not in here, it will fallback to finance
   var apiUrl = protocolToUse +input.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
-  var helper = iframeContent.document.getElementById('helper'); // the top title
-  var helper2 = iframeContent.document.getElementById('helper2'); // the swipe indicator
-  var wormBlocks = iframeContent.document.getElementsByClassName('worm_block'); // an array of all the blocks in our worm
-  var worm = iframeContent.document.getElementById('worm'); // the container for all the blocks that the user can scroll in
+  var helper = document.getElementById('helper'); // the top title
+  var helper2 = document.getElementById('helper2'); // the swipe indicator
+  var wormBlocks = iframeContent.getElementsByClassName('worm_block'); // an array of all the blocks in our worm
+  var worm = document.getElementById('worm'); // the container for all the blocks that the user can scroll in
   var currentBlock = 0; // what block are we snapped to right now?
   var isScrolling = false; // are we scrolling at all? (both autoscroll and user scroll)
   var scrollingTimout; // the user scroll setTimout reference name
@@ -752,7 +746,7 @@ loadData();
     }
     else {
       setTimeout(function(){
-        firstAd = iframeContent.document.getElementById('first_ad');
+        firstAd = document.getElementById('first_ad');
       }, 100);
     }
 
@@ -833,8 +827,8 @@ loadData();
         `;
         worm.innerHTML += outputHTML; //write out the accumulated item's html
         setTimeout(function(){
-          iframeContent.document.getElementById("next_list").addEventListener("touchend", nextList);
-          iframeContent.document.getElementById("next_list").addEventListener("click", nextList);
+          document.getElementById("next_list").addEventListener("touchend", nextList);
+          document.getElementById("next_list").addEventListener("click", nextList);
         }, 100);
         friendlyIframe.classList.add("widget_loaded"); //set leaded flag on bounding iframe
       }
