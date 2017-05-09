@@ -12,7 +12,7 @@ var currentScript = document.currentScript || (function() {
   }
 })();
 //create friendly iframe to place ourselves inside
-var friendlyIframe = document.createElement('iframe');
+var friendlyIframe = document.createElement('div');
 friendlyIframe.id = "friendlyIframe_" + countSelf.length;
 friendlyIframe.className = "centipedeIframe"
 friendlyIframe.width = '300';
@@ -20,9 +20,9 @@ friendlyIframe.height = '250';
 friendlyIframe.src = 'about:blank';
 friendlyIframe.style.border = 'none';
 currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
-var iframeContent = friendlyIframe.contentWindow;
+var iframeContent = friendlyIframe;
 //inject HTML and CSS structure
-  iframeContent.document.write(`
+  iframeContent.innerHTML = `
     <style>
     /* google fonts */
     /* latin-ext */
@@ -189,6 +189,7 @@ var iframeContent = friendlyIframe.contentWindow;
       background-color: #f7f7f7;
       animation:bounce 2s infinite;
       cursor: move;
+      -ms-overflow-style: none;
     }
     .worm.stopAnim {
       transform: translateX(0); //force hw accel
@@ -203,17 +204,17 @@ var iframeContent = friendlyIframe.contentWindow;
         -o-transform: translateX(0);
         transform: translateX(0); }
       40% {
-        -webkit-transform: translateX(30px);
-        -moz-transform: translateX(30px);
-        -ms-transform: translateX(30px);
-        -o-transform: translateX(30px);
-        transform: translateX(30px); }
+        -webkit-transform: translateX(12px);
+        -moz-transform: translateX(12px);
+        -ms-transform: translateX(12px);
+        -o-transform: translateX(12px);
+        transform: translateX(12px); }
       60% {
-        -webkit-transform: translateX(15px);
-        -moz-transform: translateX(15px);
-        -ms-transform: translateX(15px);
-        -o-transform: translateX(15px);
-        transform: translateX(15px); } }
+        -webkit-transform: translateX(3px);
+        -moz-transform: translateX(3px);
+        -ms-transform: translateX(3px);
+        -o-transform: translateX(3px);
+        transform: translateX(3px); } }
     .worm_block {
       position: relative;
       display: inline-block;
@@ -221,7 +222,7 @@ var iframeContent = friendlyIframe.contentWindow;
       padding-left: 5px;
     }
     .worm_block:nth-of-type(1) {
-      padding-left: 5px!important;
+      padding-left: 2px!important;
     }
     .worm_block:nth-of-type(2) {
       padding-left: 0px;
@@ -397,7 +398,7 @@ var iframeContent = friendlyIframe.contentWindow;
     <div class="worm" id="worm">
     </div>
   </div>
-    `);
+    `;
 
   //begin centipede logic
   //initial variable declaration
@@ -421,10 +422,10 @@ var iframeContent = friendlyIframe.contentWindow;
   }
   var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','celebrities']; // an array of all the possible categories this widget accepts and is limited to. if you specify one not in here, it will fallback to finance
   var apiUrl = protocolToUse +input.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
-  var helper = iframeContent.document.getElementById('helper'); // the top title
-  var helper2 = iframeContent.document.getElementById('helper2'); // the swipe indicator
-  var wormBlocks = iframeContent.document.getElementsByClassName('worm_block'); // an array of all the blocks in our worm
-  var worm = iframeContent.document.getElementById('worm'); // the container for all the blocks that the user can scroll in
+  var helper = document.getElementById('helper'); // the top title
+  var helper2 = document.getElementById('helper2'); // the swipe indicator
+  var wormBlocks = iframeContent.getElementsByClassName('worm_block'); // an array of all the blocks in our worm
+  var worm = document.getElementById('worm'); // the container for all the blocks that the user can scroll in
   var currentBlock = 0; // what block are we snapped to right now?
   var isScrolling = false; // are we scrolling at all? (both autoscroll and user scroll)
   var scrollingTimout; // the user scroll setTimout reference name
@@ -684,7 +685,7 @@ loadData();
     else {
       backStyle = `style="background-color: black;"`;
     }
-    helper.innerHTML = data.l_title;
+    helper.innerHTML = data.l_alt_title != null && data.l_alt_title != '' ? data.l_alt_title : data.l_title;// used due to the fact centipede is not wide enought to have more than 50 characters for title
     worm.innerHTML = `
     <style>
       .profile_image_div.fallback::before {
@@ -712,30 +713,39 @@ loadData();
       </div>
       <div class="worm_block">
       <div class="ad_spacer"></div>
-        <div id="first_ad" class="ad_item" style="background-color: gray; width: 300px; height: 300px;">
+        <div id="first_ad" class="ad_item" style="background-color: gray; width: 300px; height: 250px;">
 
         </div>
       </div>
     `;
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
-      setTimeout(function(){ //wait for dom to render before executing igloo script
-        //inject igloo into first_ad div
-        firstAd = iframeContent.document.getElementById('first_ad');
-        var s = iframeContent.document.createElement("script");
-        s.type = "text/javascript";
-        if (input.group != null && input.group != "" && input.p != null && input.p != "") {
-          s.src = "//content.synapsys.us/embeds/placement.js?p=" + input.p + "&type=centipede_" + input.group + "&style=inline&league=no_centipede";
-        }
-        else {
-          s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
-        }
-        firstAd.appendChild(s);
-      }, 100);
+      if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]) {
+        setTimeout(function(){
+          firstAd = document.getElementById('first_ad');
+          //grab the sibling igloo element and iject it inside centipede where we can control it
+          firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
+        }, 400);
+      }
+      else {
+        setTimeout(function(){ //wait for dom to render before executing igloo script
+          //inject igloo into first_ad div
+          firstAd = document.getElementById('first_ad');
+          var s = document.createElement("script");
+          s.type = "text/javascript";
+          if (input.group != null && input.group != "" && input.p != null && input.p != "") {
+            s.src = "//content.synapsys.us/embeds/placement.js?p=" + input.p + "&type=centipede_" + input.group + "&style=inline&league=no_centipede";
+          }
+          else {
+            s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
+          }
+          firstAd.appendChild(s);
+        }, 400);
+      }
     }
     else {
       setTimeout(function(){
-        firstAd = iframeContent.document.getElementById('first_ad');
-      }, 100);
+        firstAd = document.getElementById('first_ad');
+      }, 400);
     }
 
     var outputHTML = "";
@@ -747,7 +757,7 @@ loadData();
         items[i].li_value = items[i].li_value.replace(items[i].li_tag,"");
       }
       image = items[i].li_img.replace("'","");
-      if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1 || image.indexOf("actor.jpg") != -1) {
+      if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1 || image.indexOf("fallback") != -1) {
         image = protocolToUse + currentPub.fallbackImage;
         var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
         var image_class = "fallback";
@@ -815,8 +825,8 @@ loadData();
         `;
         worm.innerHTML += outputHTML; //write out the accumulated item's html
         setTimeout(function(){
-          iframeContent.document.getElementById("next_list").addEventListener("touchend", nextList);
-          iframeContent.document.getElementById("next_list").addEventListener("click", nextList);
+          document.getElementById("next_list").addEventListener("touchend", nextList);
+          document.getElementById("next_list").addEventListener("click", nextList);
         }, 100);
         friendlyIframe.classList.add("widget_loaded"); //set leaded flag on bounding iframe
       }
@@ -826,6 +836,11 @@ loadData();
   function nextList(e) {
     // when next list is clicked, clear the worm and any scroll vars, then reload new data
     lazyLoaded = false;
+    //take igloo out before we wipe the worm
+    if (firstAd.getElementsByClassName("widget_zone")[0]) {
+      friendlyIframe.parentElement.appendChild(firstAd.getElementsByClassName("widget_zone")[0]);
+    }
+    //wipe worm and reset everything
     worm.innerHTML = "";
     firstAd.style.left = "0px";
     worm.scrollLeft = 0;
@@ -855,7 +870,7 @@ loadData();
           for (var index = 1; index < notLoadedImages.length; index++) {
             notLoadedImages[index].src = notLoadedImages[index].alt;
           }
-        }, 400);
+        }, 600);
       }
       isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
 
@@ -875,7 +890,7 @@ loadData();
       }
       var rect = firstAd.getBoundingClientRect();
       if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
-        var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft+450) /900)].parentElement.offsetLeft + 150;
+        var left = iframeContent.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft+450) /900)].parentElement.offsetLeft + 150;
         firstAd.style.left = (left - firstAd.offsetWidth) + "px";
       }
       clearTimeout(scrollingTimout);
