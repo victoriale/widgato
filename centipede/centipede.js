@@ -715,7 +715,7 @@ loadData();
       </div>
       <div class="worm_block">
       <div class="ad_spacer"></div>
-        <div id="first_ad" class="ad_item" style="background-color: gray; width: 300px; height: 300px;">
+        <div id="first_ad" class="ad_item" style="background-color: gray; width: 300px; height: 250px;">
 
         </div>
       </div>
