@@ -13,7 +13,7 @@ var currentScript = document.currentScript || (function() {
 })();
 //create friendly iframe to place ourselves inside
 var encapsulatorDiv = document.createElement('div');
-encapsulatorDiv.style.cssText = 'overflow: auto; -webkit-overflow-scrolling: touch;';
+encapsulatorDiv.style.cssText = '-webkit-overflow-scrolling: touch;overflow: auto;';
 currentScript.parentNode.insertBefore(encapsulatorDiv, currentScript);
 
 var friendlyIframe = document.createElement('iframe');
@@ -99,6 +99,7 @@ var iframeContent = friendlyIframe.contentWindow;
       background-color: #f7f7f7;
       border: 1px solid #e1e1e1;
       box-sizing: border-box;
+      -webkit-overflow-scrolling: touch;
     }
     .edge_shader {
       position: absolute;
