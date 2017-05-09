@@ -723,7 +723,7 @@ loadData();
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
       if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]) {
         setTimeout(function(){
-          firstAd = iframeContent.document.getElementById('first_ad');
+          firstAd = document.getElementById('first_ad');
           //grab the sibling igloo element and iject it inside centipede where we can control it
           firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
         }, 400);
