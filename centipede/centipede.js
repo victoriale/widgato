@@ -12,6 +12,10 @@ var currentScript = document.currentScript || (function() {
   }
 })();
 //create friendly iframe to place ourselves inside
+var encapsulatorDiv = document.createElement('div');
+encapsulatorDiv.style.cssText = 'overflow: auto; -webkit-overflow-scrolling: touch;';
+currentScript.parentNode.insertBefore(encapsulatorDiv, currentScript);
+
 var friendlyIframe = document.createElement('iframe');
 friendlyIframe.id = "friendlyIframe_" + countSelf.length;
 friendlyIframe.className = "centipedeIframe"
@@ -19,7 +23,8 @@ friendlyIframe.width = '300';
 friendlyIframe.height = '250';
 friendlyIframe.src = 'about:blank';
 friendlyIframe.style.border = 'none';
-currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
+encapsulatorDiv.appendChild(friendlyIframe);
+// currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
 var iframeContent = friendlyIframe.contentWindow;
 //inject HTML and CSS structure
   iframeContent.document.write(`
