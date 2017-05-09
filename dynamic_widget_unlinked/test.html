@@ -6,6 +6,48 @@
   <title>Dynamic Widget Unlink</title>
   <meta charset='utf-8'>
   <base target="_blank">
+  <script type="text/javascript">
+  function createIframe() {
+      //create friendly iframe to place ourselves inside
+      var friendlyIframe = document.createElement('iframe');
+      // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
+      friendlyIframe.width = '992';
+      friendlyIframe.height = '250';
+      friendlyIframe.scrolling = 'no';
+      friendlyIframe.style.overflow = 'hidden';
+      friendlyIframe.src = 'about:blank';
+      friendlyIframe.style.border = 'none';
+      console.log(document.body);
+      document.body.insertBefore(friendlyIframe, document.body.firstChild);
+
+      var v = document.createElement('script');
+      v.src = "./dynamic_widget_unlinked.import.js?{'group':'entertainment','rand':'0','wide':'true'}";
+
+      var friendlyIframeWindow = friendlyIframe.contentWindow
+      if(friendlyIframeWindow.document.readyState == "complete"){ // if page is already loaded, fire centipede
+        friendlyIframeWindow.document.body.appendChild(v, friendlyIframeWindow.document.body.firstChild);
+      }
+      else { // else fire centipede once page has finished loading, so as not to slowdown the page load at all
+        friendlyIframeWindow.document.onreadystatechange = function () {
+          if(friendlyIframeWindow.document.readyState == "complete"){
+            friendlyIframeWindow.document.body.appendChild(v, friendlyIframeWindow.document.body.firstChild);
+          }
+        }
+      }
+
+  }
+  //Initial load Waits for the DOMContent to load
+  if(document.readyState == "complete"){ // if page is already loaded, fire centipede
+    createIframe();
+  }
+  else { // else fire centipede once page has finished loading, so as not to slowdown the page load at all
+    document.onreadystatechange = function () {
+      if(document.readyState == "complete"){
+        createIframe();
+      }
+    }
+  }
+  </script>
 </head>
 <body>
   <script id="dw_wide" type="text/javascript" src="./dynamic_widget_unlinked.import.js?{'group':'entertainment','rand':'0'}"></script>

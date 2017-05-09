@@ -107,10 +107,6 @@ gulp.task('dwunlinked-uglify', ['dwunlinked-scripts'],function() {
 gulp.task('dwunlinked', ['dwunlinked-clean','dwunlinked-uglify'], function() {
   // place code for your default task here
 });
-
-gulp.task('dwunlinkedwide', ['dwunlinked-clean','dwunlinked-uglify'], function() {
-  // place code for your default task here
-});
 /*******************************DYNAMIC WIDGET UNLINKED TASK**************************/
 
 //uglify function for all js files inside dodgydrone folder for the dodgydrone game

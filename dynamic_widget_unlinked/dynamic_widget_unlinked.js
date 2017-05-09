@@ -43,7 +43,8 @@ dwlinked = function() {
         friendlyIframe.className = "dwunlinkIframe"
         friendlyIframe.width = '300';
         friendlyIframe.height = '600';
-        friendlyIframe.overflow = 'none'
+        friendlyIframe.scrolling = 'no';
+        friendlyIframe.style.overflow = 'hidden';
         friendlyIframe.src = 'about:blank';
         friendlyIframe.style.border = 'none';
         currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
