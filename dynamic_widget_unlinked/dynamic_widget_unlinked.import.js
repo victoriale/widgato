@@ -58,17 +58,17 @@ dwlinked = function() {
 
         //create inline style for friendlyIframe
         var style = friendlyIframeWindow.document.createElement("style");
-        if(query.wide != null && query.wide != ''){
-          friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
-          // friendlyIframe.style.maxWidth = '992px';
-          friendlyIframe.height = '250';
-          window.addEventListener('resize', function() {
-              friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
-          }, true);
-          style.appendChild(friendlyIframeWindow.document.createTextNode(cssWideFile));
-          wideWidget = true;//set wide flag
-        }else{
-          style.appendChild(friendlyIframeWindow.document.createTextNode(cssFile));
+        if (query.wide != null && query.wide != '') {
+            friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
+            // friendlyIframe.style.maxWidth = '992px';
+            friendlyIframe.height = '250';
+            window.addEventListener('resize', function() {
+                friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
+            }, true);
+            style.appendChild(friendlyIframeWindow.document.createTextNode(cssWideFile));
+            wideWidget = true; //set wide flag
+        } else {
+            style.appendChild(friendlyIframeWindow.document.createTextNode(cssFile));
         }
 
         //append the css file into iframe head
@@ -81,20 +81,19 @@ dwlinked = function() {
     }
 
     //determine if a query string is after the index.html location || if query is after a javascript location
-    if (location.search != null && location.search!= '') {
-      query = JSON.parse(decodeURIComponent(location.search.substr(1)));
-      listRand = query.rand ? query.rand : 1;
-      //FIRST THING IS SETUP ENVIRONMENTS
+    if (location.search != null && location.search != '') {
+        query = JSON.parse(decodeURIComponent(location.search.substr(1)));
+        listRand = query.rand ? query.rand : 1;
+        //FIRST THING IS SETUP ENVIRONMENTS
     } else {
-      var srcQuery = currentScript.src.split("js?")[1];
-      if (srcQuery != "" && srcQuery != null) {
-        try {
-          query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
+        var srcQuery = currentScript.src.split("js?")[1];
+        if (srcQuery != "" && srcQuery != null) {
+            try {
+                query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
+            } catch (e) {
+                console.log(e);
+            }
         }
-        catch(e) {
-          console.log(e);
-        }
-      }
     }
 
     //create friendly iframe
@@ -106,10 +105,42 @@ dwlinked = function() {
     //THEN START UPDATING THE LISTS
     updateList(0);
 
-    //create event listeners
-    $("button_left").addEventListener("click", updateIndex);
-    $("button_right").addEventListener("click", updateIndex);
-    $("button_atomic").addEventListener("click", updateList);
+    try {
+        var baseEvent = l.event;
+        var postObject = {
+            snt_data: baseEvent,
+            action: 'snt_tracker'
+        };
+        baseEvent.event = "widget-interaction";
+
+        //create event listeners
+        $("button_left").addEventListener("click", function() {
+            updateIndex(-1);
+            sendPostMessageToIgloo(postObject, 5);
+        });
+        $("button_right").addEventListener("click", function() {
+            updateIndex(1);
+            sendPostMessageToIgloo(postObject, 5);
+        });
+        $("button_atomic").addEventListener("click", function() {
+            updateList(1);
+            sendPostMessageToIgloo(postObject, 5);
+        });
+    } catch (e) {
+        console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
+
+        //just enable button click events
+        $("button_left").addEventListener("click", function() {
+            updateIndex(-1);
+        });
+        $("button_right").addEventListener("click", function() {
+            updateIndex(1);
+        });
+        $("button_atomic").addEventListener("click", function() {
+            updateList(1);
+        });
+    }
+
 
     function getEnv(env) {
         if (env.match(/localhost/g) != null || env.match(/dev/g) != null) {
@@ -186,13 +217,7 @@ dwlinked = function() {
      *
      * @param function listNum - list number incremented that will be added to the listRand with listNum
      */
-    function updateList(event) {
-        var listNum = 0;
-        if (event == 0) {
-            listNum = 0;
-        } else if (event.target.id = 'button_atomic') {
-            listNum = 1;
-        }
+    function updateList(listNum) {
         widgetData = null;
         // currentIndex = 0;
         if (query.group == null && (query.category == 'nfl' || query.category == 'ncaaf' || query.category == 'football')) {
@@ -211,26 +236,7 @@ dwlinked = function() {
      *
      * @param function difference - difference that will be added to current index
      */
-    function updateIndex(event) {
-        var difference = 0;
-        try {
-            if (event.target) {
-                if (event.target.id == 'button_right') {
-                    difference = 1;
-                } else if (event.target.parentElement.id == 'button_right') {
-                    difference = 1;
-                }
-
-                if (event.target.id == 'button_left') {
-                    difference = -1;
-                } else if (event.target.parentElement.id == 'button_left') {
-                    difference = -1;
-                }
-            }
-        } catch (e) {
-            difference = 0;
-        }
-
+    function updateIndex(difference) {
         if (widgetData) {
             currentIndex -= difference;
             if (currentIndex < 0) {
@@ -320,12 +326,12 @@ dwlinked = function() {
                     widgetData = JSON.parse(this.responseText);
                     var dataArray = widgetData.l_data != null ? widgetData.l_data : widgetData.data.listData;
                     //set maximum index of returned dataLayer
-                    if(dataArray.length >= 25){
-                      currentIndex = 24;
-                      maxIndex = 25;
-                    }else{
-                      currentIndex = dataArray.length - 1;
-                      maxIndex = dataArray.length;
+                    if (dataArray.length >= 25) {
+                        currentIndex = 24;
+                        maxIndex = 25;
+                    } else {
+                        currentIndex = dataArray.length - 1;
+                        maxIndex = dataArray.length;
                     }
                     displayWidget(); //send in the name of the function that needs to be ran once data has been confirmed
                 } else {
@@ -677,16 +683,45 @@ dwlinked = function() {
         }
         return imageReturn;
     }
+
+    /**
+     * Send a post message to every window up to the top window
+     * @param  {Object}  postObject The object to send as a postMessage
+     * @param  {Integer} maxLoops   The maximum number of layers to traverse up
+     */
+    function sendPostMessageToIgloo(postObject, maxLoops) {
+        // Initialize variables
+        var postWindows = [];
+        var currentWindow = window;
+        var currentLoop = 0;
+        maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
+
+        // Build all of the windows to send the message to
+        try {
+            // Loop through all of the windows
+            while (currentLoop++ < maxLoops && currentWindow !== window.top) {
+                // Add to the postMessage array
+                postWindows.push(currentWindow);
+
+                // Move up a layer
+                currentWindow = currentWindow.parent;
+            }
+        } catch (e) {}
+
+        // Send the post messages
+        for (var i = 0; i < postWindows.length; i++) {
+            postWindows[i].postMessage(postObject, '*');
+        }
+    }
 }
 
 //Initial load Waits for the DOMContent to load
-if(document.readyState == "complete"){ // if page is already loaded, fire centipede
-  dwlinked();
-}
-else { // else fire centipede once page has finished loading, so as not to slowdown the page load at all
-  document.onreadystatechange = function () {
-    if(document.readyState == "complete"){
-      dwlinked();
+if (document.readyState == "complete") { // if page is already loaded, fire centipede
+    dwlinked();
+} else { // else fire centipede once page has finished loading, so as not to slowdown the page load at all
+    document.onreadystatechange = function() {
+        if (document.readyState == "complete") {
+            dwlinked();
+        }
     }
-  }
 }
