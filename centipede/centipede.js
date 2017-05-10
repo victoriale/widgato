@@ -12,7 +12,7 @@ var currentScript = document.currentScript || (function() {
   }
 })();
 //create friendly iframe to place ourselves inside
-var friendlyIframe = document.createElement('iframe');
+var friendlyIframe = document.createElement('div');
 friendlyIframe.id = "friendlyIframe_" + countSelf.length;
 friendlyIframe.className = "centipedeIframe"
 friendlyIframe.width = '300';
@@ -20,9 +20,9 @@ friendlyIframe.height = '250';
 friendlyIframe.src = 'about:blank';
 friendlyIframe.style.border = 'none';
 currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
-var iframeContent = friendlyIframe.contentWindow;
+var iframeContent = friendlyIframe;
 //inject HTML and CSS structure
-  iframeContent.document.write(`
+  iframeContent.innerHTML = `
     <style>
     /* google fonts */
     /* latin-ext */
@@ -210,11 +210,11 @@ var iframeContent = friendlyIframe.contentWindow;
         -o-transform: translateX(12px);
         transform: translateX(12px); }
       60% {
-        -webkit-transform: translateX(2px);
-        -moz-transform: translateX(2px);
-        -ms-transform: translateX(2px);
-        -o-transform: translateX(2px);
-        transform: translateX(2px); } }
+        -webkit-transform: translateX(3px);
+        -moz-transform: translateX(3px);
+        -ms-transform: translateX(3px);
+        -o-transform: translateX(3px);
+        transform: translateX(3px); } }
     .worm_block {
       position: relative;
       display: inline-block;
@@ -398,7 +398,7 @@ var iframeContent = friendlyIframe.contentWindow;
     <div class="worm" id="worm">
     </div>
   </div>
-    `);
+    `;
 
   //begin centipede logic
   //initial variable declaration
@@ -422,10 +422,10 @@ var iframeContent = friendlyIframe.contentWindow;
   }
   var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','celebrities']; // an array of all the possible categories this widget accepts and is limited to. if you specify one not in here, it will fallback to finance
   var apiUrl = protocolToUse +input.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
-  var helper = iframeContent.document.getElementById('helper'); // the top title
-  var helper2 = iframeContent.document.getElementById('helper2'); // the swipe indicator
-  var wormBlocks = iframeContent.document.getElementsByClassName('worm_block'); // an array of all the blocks in our worm
-  var worm = iframeContent.document.getElementById('worm'); // the container for all the blocks that the user can scroll in
+  var helper = document.getElementById('helper'); // the top title
+  var helper2 = document.getElementById('helper2'); // the swipe indicator
+  var wormBlocks = iframeContent.getElementsByClassName('worm_block'); // an array of all the blocks in our worm
+  var worm = document.getElementById('worm'); // the container for all the blocks that the user can scroll in
   var currentBlock = 0; // what block are we snapped to right now?
   var isScrolling = false; // are we scrolling at all? (both autoscroll and user scroll)
   var scrollingTimout; // the user scroll setTimout reference name
@@ -715,7 +715,7 @@ loadData();
       </div>
       <div class="worm_block">
       <div class="ad_spacer"></div>
-        <div id="first_ad" class="ad_item" style="background-color: gray; width: 300px; height: 300px;">
+        <div id="first_ad" class="ad_item" style="background-color: gray; width: 300px; height: 250px;">
 
         </div>
       </div>
@@ -723,16 +723,16 @@ loadData();
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
       if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]) {
         setTimeout(function(){
-          firstAd = iframeContent.document.getElementById('first_ad');
+          firstAd = document.getElementById('first_ad');
           //grab the sibling igloo element and iject it inside centipede where we can control it
           firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
-        }, 100);
+        }, 400);
       }
       else {
         setTimeout(function(){ //wait for dom to render before executing igloo script
           //inject igloo into first_ad div
-          firstAd = iframeContent.document.getElementById('first_ad');
-          var s = iframeContent.document.createElement("script");
+          firstAd = document.getElementById('first_ad');
+          var s = document.createElement("script");
           s.type = "text/javascript";
           if (input.group != null && input.group != "" && input.p != null && input.p != "") {
             s.src = "//content.synapsys.us/embeds/placement.js?p=" + input.p + "&type=centipede_" + input.group + "&style=inline&league=no_centipede";
@@ -741,13 +741,13 @@ loadData();
             s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
           }
           firstAd.appendChild(s);
-        }, 100);
+        }, 400);
       }
     }
     else {
       setTimeout(function(){
-        firstAd = iframeContent.document.getElementById('first_ad');
-      }, 100);
+        firstAd = document.getElementById('first_ad');
+      }, 400);
     }
 
     var outputHTML = "";
@@ -827,8 +827,8 @@ loadData();
         `;
         worm.innerHTML += outputHTML; //write out the accumulated item's html
         setTimeout(function(){
-          iframeContent.document.getElementById("next_list").addEventListener("touchend", nextList);
-          iframeContent.document.getElementById("next_list").addEventListener("click", nextList);
+          document.getElementById("next_list").addEventListener("touchend", nextList);
+          document.getElementById("next_list").addEventListener("click", nextList);
         }, 100);
         friendlyIframe.classList.add("widget_loaded"); //set leaded flag on bounding iframe
       }
@@ -872,7 +872,7 @@ loadData();
           for (var index = 1; index < notLoadedImages.length; index++) {
             notLoadedImages[index].src = notLoadedImages[index].alt;
           }
-        }, 400);
+        }, 600);
       }
       isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
 
@@ -892,7 +892,7 @@ loadData();
       }
       var rect = firstAd.getBoundingClientRect();
       if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
-        var left = iframeContent.document.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft+450) /900)].parentElement.offsetLeft + 150;
+        var left = iframeContent.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft+450) /900)].parentElement.offsetLeft + 150;
         firstAd.style.left = (left - firstAd.offsetWidth) + "px";
       }
       clearTimeout(scrollingTimout);
