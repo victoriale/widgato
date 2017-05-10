@@ -72,7 +72,9 @@ dwlinked = function() {
                     setTimeout(function() {
                         firstAd = friendlyIframeWindow.document.getElementById('e_advertisement');
                         //grab the sibling igloo element and iject it inside centipede where we can control it
-                        firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
+                        if(firstAd){
+                          firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
+                        }
                     }, 400);
                 }
             }, true);
