@@ -6,7 +6,9 @@
 
 /*************************************DEFAULT*********************************/
 
+@import url("../css/font/lato/lato.css");
 @import url("../css/atomic_colors/atomic.css");
+
 html, body {
     margin: 0 !important;
     width: 100%;
