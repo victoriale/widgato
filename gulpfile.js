@@ -88,7 +88,7 @@ gulp.task('dwunlinked-css-wide', function() {
   .pipe(gulp.dest('dynamic_widget_unlinked/min'));
 });
 
-gulp.task('dwunlinked-scripts', ['dwunlinked-css', 'dwunlinked-css-wide', 'dwunlinked-html'],function() {
+gulp.task('dwunlinked-scripts', ['dwunlinked-html', 'dwunlinked-css', 'dwunlinked-css-wide'],function() {
     return gulp.src('dynamic_widget_unlinked/dynamic_widget_unlinked.js')
     .pipe(inject({
         basepath: 'dynamic_widget_unlinked',

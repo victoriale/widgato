@@ -3,7 +3,9 @@
 ** Otherwise QUERY BREAKPOINTS is where css code difference resides for dynamic widget
 */
 
+
 /*************************************DEFAULT*********************************/
+
 @import url("../css/font/lato/lato.css");
 @import url("../css/atomic_colors/atomic.css");
 html, body {
@@ -474,86 +476,91 @@ button:hover {
     height: 20px;
 }
 
-/*.e_advertisement {
-width: 100%;
-height: 250px;
-background-color: #000000;
-}*/
+.e_advertisement {
+    width: 300px;
+    height: 250px;
+    margin: auto;
+}
+
 
 /*************************************DEFAULT*********************************/
 
+
 /*************************************QUERY BREAKPOINS*********************************/
-@media screen and (min-width: 650px), (min-width: 992px){
-  .default_background:hover:before {
-      background-color: #ffffff !important;
-  }
-  .e_image-title {
-      margin: 30px 0;
-      padding: 0 30px;
-      position: absolute;
-      top:0;
-      left:0;
-      z-index: 2;
-      font-size: 16px;
-  }
-  .e_info_box {
-      width: auto;
-      min-width: 350px;
-      height: 140px;
-      position: absolute;
-      top: 110px;
-      z-index: 10;
-  }
-  .e_info_box-profile{
-    margin-bottom: 24px;
-  }
-  .e_image-shader {
-      display: block !important;
-  }
-  .e_image-cover {
-      display: block !important;
-  }
-  .cta_button-list {
-      color: #ffffff;
-  }
-  .cta_button-list:hover {
-      border: none !important;
-      color: inherit;
-  }
-  .cta_button-previous {
-      color: #ffffff !important;
-  }
-  .cta_button-previous:hover {
-      border: 1px solid #ffffff;
-      color: #000000 !important;
-  }
-  .cta_button-next {
-      color: #ffffff !important;
-  }
-  .cta_button-next:hover {
-      border: 1px solid #ffffff;
-      color: #000000 !important;
-  }
-  .margin_gap {
-      display:none;
-  }
+
+@media screen and (min-width: 650px), (min-width: 992px) {
+    .default_background:hover:before {
+        background-color: #ffffff !important;
+    }
+    .e_image-title {
+        margin: 30px 0;
+        padding: 0 30px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        font-size: 16px;
+    }
+    .e_info_box {
+        width: auto;
+        min-width: 350px;
+        height: 140px;
+        position: absolute;
+        top: 110px;
+        z-index: 10;
+    }
+    .e_info_box-profile {
+        margin-bottom: 24px;
+    }
+    .e_image-shader {
+        display: block !important;
+    }
+    .e_image-cover {
+        display: block !important;
+    }
+    .cta_button-list {
+        color: #ffffff;
+    }
+    .cta_button-list:hover {
+        border: none !important;
+        color: inherit;
+    }
+    .cta_button-previous {
+        color: #ffffff !important;
+    }
+    .cta_button-previous:hover {
+        border: 1px solid #ffffff;
+        color: #000000 !important;
+    }
+    .cta_button-next {
+        color: #ffffff !important;
+    }
+    .cta_button-next:hover {
+        border: 1px solid #ffffff;
+        color: #000000 !important;
+    }
+    .margin_gap {
+        display: none;
+    }
 }
 
 @media screen and (min-width: 992px) {
     .e_image-title {
-      font-size: 20px;
+        font-size: 20px;
     }
 }
 
 @media screen and (max-width: 649px) {
-  .widget_ad{
-    width: 300px;
-    min-width: 300px;
-    max-width: 649px;
-    margin:0 auto;
-  }
-  .e_container{
-    display: none;
-  }
+    .widget_ad {
+        width: 300px;
+        min-width: 300px;
+        max-width: 649px;
+        margin: 0 auto;
+    }
+    .e_container {
+        display: none;
+    }
 }
+
+
 /*************************************QUERY BREAKPOINS*********************************/

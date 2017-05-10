@@ -1,6 +1,7 @@
+//it is required to use GULP process to fill in the @@imports and get inline coding with friendlyIframe to work properly;
+//gulpfile.js can be found in root directory
+//single quotes and @@import are important for gulp task to work for these files
 dwlinked = function() {
-    //it is required to use gulp process to fill in the @@imports and get inline coding with friendlyIframe to work properly;
-    //single quotes and @@import are important for gulp task to work for these files
     var htmlFile = '@@import /min/index.min.html';
     var cssFile = '@@import /min/dynamic_widget_unlinked.min.css';
     var cssWideFile = '@@import /min/dynamic_widget_unlinked_wide.min.css';
@@ -63,7 +64,17 @@ dwlinked = function() {
             // friendlyIframe.style.maxWidth = '992px';
             friendlyIframe.height = '250';
             window.addEventListener('resize', function() {
+                //set iframe to width of parent node
                 friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
+
+                //check if widget_zone div exists from parent element
+                if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")) {
+                    setTimeout(function() {
+                        firstAd = document.getElementById('e_advertisement');
+                        //grab the sibling igloo element and iject it inside centipede where we can control it
+                        firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
+                    }, 400);
+                }
             }, true);
             style.appendChild(friendlyIframeWindow.document.createTextNode(cssWideFile));
             wideWidget = true; //set wide flag
