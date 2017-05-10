@@ -331,7 +331,7 @@ function displayWidget() {
  * @function setCategoryColors
  * dynamically set the colors of the css Rules for each of the partners
  *
- * @param function category - sets the base category for colors that are stored in the global ./css/inheritor/inheritor.css
+ * @param function category - sets the base category for colors that are stored in the global ./css/atomic_colors/atomic.css
  */
 function setCategoryColors(category) {
     switch (category) {
@@ -355,51 +355,7 @@ function setCategoryColors(category) {
             category = 'default';
             break;
     }
-
-    /* SNT DEFINED CLASSES TO BE FOUND AND USED FOR
-     * function classInheritorReplace(identifier, category)
-     */
-
-    classInheritorReplace("color_inheritor", category);
-    classInheritorReplace("button_inheritor", category);
-
-    /********************** SETUP CATEGORY COLORS **********************
-     * @function classInheritorReplace
-     * dynamically set the colors of the css Rules each identifier in the html for dynamic colors
-     *
-     * @param function
-     *      identifier - unique identifier in the html used to run a function that replaces the color scheme based on category
-     *      category - sets the base category for colors that are stored in the global ./css/inheritor/inheritor.css
-     */
-    function classInheritorReplace(identifier, category) {
-        try {
-            var htmlClass = $(identifier);
-            var re = new RegExp('inheritor', "g");
-            var categoryClass = category == 'default' ? '' : category + '-'; // ex default returns nothing , football-, baseball-
-            var classes = htmlClass.className.split(" ").filter(function (c) {
-                return c.match(re) != null ? c.match(re) : null;
-            });
-            switch (identifier) {
-                case "color_inheritor":
-                    htmlClass.classList.remove(classes[0]);
-                    htmlClass.classList.add(categoryClass + "inheritor");
-                    break;
-                case "background_inheritor":
-                    htmlClass.classList.remove(classes[0]);
-                    htmlClass.classList.add(categoryClass + "inheritor_img_bg");
-                    break;
-                case "button_inheritor":
-                    for (var i = 0; i < classes.length; i++) {
-                        htmlClass.classList.remove(classes[i]);
-                    }
-                    htmlClass.classList.add(categoryClass + "inheritor_border");
-                    htmlClass.classList.add(categoryClass + "inheritor_bg");
-                    break;
-            }
-        } catch (e) {
-            console.log("Color Inheritor Error", e);
-        }
-    }
+    document.getElementsByClassName("e_container")[0].id = category;
 }
 
 /************************ Update Index *************************
