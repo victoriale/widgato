@@ -687,7 +687,6 @@ loadData();
     else {
       backStyle = `style="background-color: black;"`;
     }
-    console.log(data);
     helper.innerHTML = data.l_alt_title != null && data.l_alt_title != '' ? data.l_alt_title : data.l_title;// used due to the fact centipede is not wide enought to have more than 50 characters for title
     worm.innerHTML = `
     <style>
