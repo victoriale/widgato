@@ -43,7 +43,7 @@ dwlinked = function() {
         // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
         friendlyIframe.className = "dwunlinkIframe"
         friendlyIframe.width = '300';
-        friendlyIframe.height = '600';
+        friendlyIframe.height = 600 - 250;//250 is the add height
         friendlyIframe.scrolling = 'no';
         friendlyIframe.style.overflow = 'hidden';
         friendlyIframe.src = 'about:blank';
@@ -60,7 +60,7 @@ dwlinked = function() {
         //create inline style for friendlyIframe
         var style = friendlyIframeWindow.document.createElement("style");
         if (query.wide != null && query.wide != '') {
-            friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
+            friendlyIframe.width = friendlyIframe.parentNode.clientWidth - 300;//300 being the width
             // friendlyIframe.style.maxWidth = '992px';
             friendlyIframe.height = '250';
 
@@ -74,17 +74,6 @@ dwlinked = function() {
             wideWidget = true; //set wide flag
         } else {
             style.appendChild(friendlyIframeWindow.document.createTextNode(cssFile));
-        }
-
-        //check if widget_zone div exists from parent element
-        if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")) {
-          setTimeout(function() {
-            firstAd = friendlyIframeWindow.document.getElementById('e_advertisement');
-            //grab the sibling igloo element and iject it inside centipede where we can control it
-            if(firstAd){
-              firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
-            }
-          }, 400);
         }
 
         //append the css file into iframe head
