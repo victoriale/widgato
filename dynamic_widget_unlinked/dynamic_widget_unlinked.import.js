@@ -63,24 +63,28 @@ dwlinked = function() {
             friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
             // friendlyIframe.style.maxWidth = '992px';
             friendlyIframe.height = '250';
-            //check if widget_zone div exists from parent element
-            if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")) {
-              setTimeout(function() {
-                firstAd = friendlyIframeWindow.document.getElementById('e_advertisement');
-                //grab the sibling igloo element and iject it inside centipede where we can control it
-                if(firstAd){
-                  firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
-                }
-              }, 400);
-            }
+
+            //CREATE LISTENER FOR RESIZE
             window.addEventListener('resize', function() {
                 //set iframe to width of parent node
                 friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
             }, true);
+
             style.appendChild(friendlyIframeWindow.document.createTextNode(cssWideFile));
             wideWidget = true; //set wide flag
         } else {
             style.appendChild(friendlyIframeWindow.document.createTextNode(cssFile));
+        }
+
+        //check if widget_zone div exists from parent element
+        if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")) {
+          setTimeout(function() {
+            firstAd = friendlyIframeWindow.document.getElementById('e_advertisement');
+            //grab the sibling igloo element and iject it inside centipede where we can control it
+            if(firstAd){
+              firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
+            }
+          }, 400);
         }
 
         //append the css file into iframe head
