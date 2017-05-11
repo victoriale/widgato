@@ -112,11 +112,11 @@ dwlinked = function() {
 
     try {
         var baseEvent = l.event;
+        baseEvent.event = "widget-interaction";
         var postObject = {
             snt_data: baseEvent,
             action: 'snt_tracker'
         };
-        baseEvent.event = "widget-interaction";
 
         //create event listeners
         $("button_left").addEventListener("click", function() {
