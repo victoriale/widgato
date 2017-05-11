@@ -723,7 +723,6 @@ loadData();
     `;
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
       if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]) {
-        console.log("found igloo in situ");
         setTimeout(function(){
           firstAd = document.getElementById('first_ad_'+countSelf);
           //grab the sibling igloo element and iject it inside centipede where we can control it
@@ -731,7 +730,6 @@ loadData();
         }, 400);
       }
       else {
-        console.log("not found igloo in situ");
         setTimeout(function(){ //wait for dom to render before executing igloo script
           //inject igloo into first_ad div
           firstAd = document.getElementById('first_ad_'+countSelf);
@@ -743,7 +741,6 @@ loadData();
           else {
             s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
           }
-          console.log('first_ad_'+countSelf);
           firstAd.appendChild(s);
         }, 400);
       }
@@ -871,12 +868,16 @@ loadData();
     if (userScrolling) { // only execute this code if the user is dragging the worm, not if we are autoscrolling
       if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
         lazyLoaded = true;
-        setTimeout(function(){ // wait for dom loaded before grabbing array of images
-          var notLoadedImages = worm.getElementsByClassName("profile_image");
-          for (var index = 1; index < notLoadedImages.length; index++) {
-            notLoadedImages[index].src = notLoadedImages[index].alt;
+        clearInterval(lazyLoader);
+        var lazyLoader = setInterval(function(){ // wait for dom loaded before grabbing array of images
+          if (worm.getElementsByClassName("profile_image")[0]) {
+            clearInterval(lazyLoader);
+            var notLoadedImages = worm.getElementsByClassName("profile_image");
+            for (var index = 1; index < notLoadedImages.length; index++) {
+              notLoadedImages[index].src = notLoadedImages[index].alt;
+            }
           }
-        }, 400);
+        }, 500);
       }
       isScrolling = true; //will return true or false based on whether the user is currently scrolling or not
 
