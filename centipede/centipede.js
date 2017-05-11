@@ -388,14 +388,14 @@ var iframeContent = friendlyIframe;
     }
     </style>
     <div class="wrapper">
-      <div class="helper" id="helper">
+      <div class="helper" id="helper_`+countSelf.length+`">
       </div>
-      <div class="helper2" id="helper2">
+      <div class="helper2" id="helper2_`+countSelf.length+`">
         <div class="icon swipe_right">
           <svg version="1.1" x="0px" y="0px" viewBox="10 10 80 80" enable-background="new 0 0 100 100" xml:space="preserve"><g><path  d="M36,31.345c0-0.912,0-1.778,0-2.591c-2-1.458-3.402-3.814-3.402-6.476c0-4.416,3.55-8.01,7.965-8.01   c4.418,0,7.881,3.594,7.881,8.01c0,2.662-1.443,5.019-3.443,6.477v2.59c3-1.704,5.631-5.125,5.631-9.066   c0-5.635-4.531-10.219-10.166-10.219s-10.103,4.584-10.103,10.219C30.362,26.221,33,29.642,36,31.345z"/><path  d="M70.07,43.118h-2.762c-0.777,0-1.574,0.188-2.275,0.53c-0.362-2.075-2.176-3.658-4.353-3.658h-2.763   c-0.909,0-1.759,0.278-2.462,0.752c-0.608-1.715-2.246-2.944-4.165-2.944h-2.763c-0.805,0-1.559,0.216-2.21,0.593V22.278   c0-3.198-2.602-5.8-5.8-5.8c-3.196,0-5.8,2.602-5.8,5.8v30.591c-1.239,0.589-2.389,1.381-3.389,2.379l-2.264,2.265   c-4.739,4.739-4.739,12.447,0,17.186l6.31,6.311c0.31,0.31,0.635,0.596,0.97,0.867c2.103,3.621,6.032,6.064,10.525,6.064h15.467   c6.701,0,12.15-5.429,12.15-12.102V47.536C74.488,45.1,72.507,43.118,70.07,43.118z M72.279,75.839   c0,5.454-4.459,9.892-9.941,9.892H46.871c-1.821,0-3.525-0.497-4.995-1.353c-1.219-0.729-2.577-1.788-3.82-3.981   c-0.717-1.365-1.127-2.914-1.127-4.558c0-0.61-0.495-1.105-1.104-1.105c-0.611,0-1.105,0.495-1.105,1.105   c0,0.503,0.035,0.997,0.095,1.482l-4.186-4.186c-3.876-3.876-3.876-10.184,0-14.061l2.265-2.264   c0.557-0.557,1.173-1.029,1.826-1.434v7.567c0,0.611,0.494,1.105,1.105,1.105c0.609,0,1.104-0.494,1.104-1.105V22.278   c0-1.979,1.61-3.591,3.59-3.591c1.98,0,3.591,1.612,3.591,3.591v28.378c0,0.611,0.494,1.105,1.104,1.105   c0.609,0,1.104-0.494,1.104-1.105v-8.44c0-1.217,0.991-2.208,2.21-2.208h2.763c1.217,0,2.209,0.991,2.209,2.208v8.452   c0,0.61,0.493,1.104,1.104,1.104c0.609,0,1.105-0.493,1.105-1.104v-6.259c0-1.217,0.99-2.209,2.208-2.209h2.763   c1.218,0,2.209,0.992,2.209,2.209v6.247c0,0.611,0.494,1.105,1.105,1.105c0.608,0,1.104-0.494,1.104-1.105v-4.005   c0-0.644,1.137-1.324,2.21-1.324h2.762c1.218,0,2.209,0.991,2.209,2.209V75.839z"/><path  d="M62.912,68H49.009l1.428-1.348c0.432-0.432,0.432-1.09,0-1.521c-0.432-0.433-1.131-0.412-1.562,0.02   l-3.311,3.321c-0.103,0.102-0.185,0.229-0.241,0.364c-0.056,0.134-0.086,0.279-0.086,0.427s0.03,0.294,0.086,0.427   c0.052,0.124,0.129,0.233,0.22,0.329c0.008,0.008,0.011,0.021,0.019,0.028l3.313,3.313c0.215,0.216,0.498,0.323,0.782,0.323   c0.281,0,0.564-0.107,0.78-0.323c0.432-0.432,0.432-1.315,0-1.747L49.007,70h13.905c0.61,0,1.104-0.39,1.104-0.999   C64.017,68.39,63.522,68,62.912,68z"/></g></svg>
         </div>
       </div>
-    <div class="worm" id="worm">
+    <div class="worm" id="worm_`+countSelf.length+`">
     </div>
   </div>
     `;
@@ -422,10 +422,10 @@ var iframeContent = friendlyIframe;
   }
   var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','celebrities']; // an array of all the possible categories this widget accepts and is limited to. if you specify one not in here, it will fallback to finance
   var apiUrl = protocolToUse +input.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
-  var helper = document.getElementById('helper'); // the top title
-  var helper2 = document.getElementById('helper2'); // the swipe indicator
+  var helper = document.getElementById('helper_'+countSelf.length); // the top title
+  var helper2 = document.getElementById('helper2_'+countSelf.length); // the swipe indicator
   var wormBlocks = iframeContent.getElementsByClassName('worm_block'); // an array of all the blocks in our worm
-  var worm = document.getElementById('worm'); // the container for all the blocks that the user can scroll in
+  var worm = document.getElementById('worm_'+countSelf.length); // the container for all the blocks that the user can scroll in
   var currentBlock = 0; // what block are we snapped to right now?
   var isScrolling = false; // are we scrolling at all? (both autoscroll and user scroll)
   var scrollingTimout; // the user scroll setTimout reference name
@@ -715,7 +715,7 @@ loadData();
       </div>
       <div class="worm_block">
       <div class="ad_spacer"></div>
-        <div id="first_ad" class="ad_item" style="background-color: gray; width: 300px; height: 250px;">
+        <div id="first_ad_`+countSelf.length+`" class="ad_item" style="background-color: gray; width: 300px; height: 250px;">
 
         </div>
       </div>
@@ -724,7 +724,7 @@ loadData();
       if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]) {
         console.log("found igloo in situ");
         setTimeout(function(){
-          firstAd = document.getElementById('first_ad');
+          firstAd = document.getElementById('first_ad_'+countSelf.length);
           //grab the sibling igloo element and iject it inside centipede where we can control it
           firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
         }, 400);
@@ -733,7 +733,7 @@ loadData();
         console.log("not found igloo in situ");
         setTimeout(function(){ //wait for dom to render before executing igloo script
           //inject igloo into first_ad div
-          firstAd = document.getElementById('first_ad');
+          firstAd = document.getElementById('first_ad_'+countSelf.length);
           var s = document.createElement("script");
           s.type = "text/javascript";
           if (input.group != null && input.group != "" && input.p != null && input.p != "") {
@@ -748,7 +748,7 @@ loadData();
     }
     else {
       setTimeout(function(){
-        firstAd = document.getElementById('first_ad');
+        firstAd = document.getElementById('first_ad_'countSelf.length);
       }, 400);
     }
 
