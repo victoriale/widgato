@@ -722,6 +722,7 @@ loadData();
     `;
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
       if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]) {
+        console.log("found igloo in situ");
         setTimeout(function(){
           firstAd = document.getElementById('first_ad');
           //grab the sibling igloo element and iject it inside centipede where we can control it
@@ -729,6 +730,7 @@ loadData();
         }, 400);
       }
       else {
+        console.log("not found igloo in situ");
         setTimeout(function(){ //wait for dom to render before executing igloo script
           //inject igloo into first_ad div
           firstAd = document.getElementById('first_ad');
