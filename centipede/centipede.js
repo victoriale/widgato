@@ -748,7 +748,7 @@ loadData();
     }
     else {
       setTimeout(function(){
-        firstAd = document.getElementById('first_ad_'countSelf.length);
+        firstAd = document.getElementById('first_ad_'+countSelf.length);
       }, 400);
     }
 
