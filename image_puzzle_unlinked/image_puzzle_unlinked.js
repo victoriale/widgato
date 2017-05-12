@@ -216,7 +216,7 @@ function runAPI(apiUrl) { //Make it to where it is easy to be reused by anyone
                     try {
                         msg = JSON.parse(this.responseText).message
                     } catch (e) {
-                        console.log('No JSON message')
+                        console.log('No JSON message', e)
                     }
                 }
                 msg = 'HTTP Error (' + this.status + '): ' + msg;
@@ -320,8 +320,7 @@ function displayWidget() {
         $('dw').style.display = 'block';
         /***************************END OF DYNAMIC DATA*******************************/
     } catch (e) {
-        console.log('Error in displaying widget Data');
-        console.log(e);
+        console.log('Error in displaying widget Data', e);
     }
 }
 /**************************Display Widget Data END******************/
@@ -384,11 +383,9 @@ function updateIndex(difference) {
  * @param function image - tosses in image to be check to be replaced with proper stock photo for the specific category
  */
 function checkImage(image) {
-    var imageReturn;
     //prep return
     if (image != null && image.indexOf('no-image') == -1 && image.indexOf('no_image') == -1 && image.indexOf('no_player') == -1 && window.location.pathname.indexOf('_970') == -1) {
-        imageReturn = image + "?width=" + (300 * window.devicePixelRatio);
-        return imageReturn;
+        return image;
     } else {
         return null;
     }
@@ -402,7 +399,8 @@ function createPuzzle(mainImage, isSolved) {
             //set variables
             if (!isSolved) {
                 var i, index, tile, xPos, yPos;
-                this.puzzleImage = mainImage;
+                //if the image is a live image then the width needs to be 500 so that the aspect ratio will fit the puzzle completely
+                this.puzzleImage = !this.isLive(mainImage) ? mainImage + "?width=" + (300 * window.devicePixelRatio) : mainImage + "?width=" + (500 * window.devicePixelRatio);
                 this.initialTiles = [];
                 this.tiles = [];
                 //bind the function and array arguments to the called method
@@ -413,9 +411,10 @@ function createPuzzle(mainImage, isSolved) {
                 this.solved.bind(this.solved, this);
                 //assign each tile with dimensions, position, and image
                 for (i = index = 0; index <= 7; i = ++index) {
-                    xPos = Math.floor(i % 3) * 100;
+                    //if the image is live then add 100 so that it the tiles will be from the center of the image
+                    xPos = !this.isLive(mainImage) ? Math.floor(i % 3) * 100 : (Math.floor(i % 3) * 100) + 100;
                     yPos = Math.floor(i / 3) * 104;
-                    tile = new _square(i, 100, 104, xPos, yPos, this.puzzleImage);
+                    tile = new _square(i, 100, 104, xPos, yPos, this.puzzleImage, this.isLive(this.puzzleImage));
                     this.tiles.push(tile);
                 }
                 //set the 8th position to be empty
@@ -456,20 +455,15 @@ function createPuzzle(mainImage, isSolved) {
                 _this = this;
             empty = this.emptyTile();
             $('puzzle').innerHTML = '';
-            if (this.solved()) {
-                //create solved message
-                var solvedBackground = document.createElement('div');
-                solvedBackground.setAttribute('id', 'puzzle-div');
-                solvedBackground.setAttribute('style', 'background-image: url(' + this.puzzleImage + ')');
-                $('solve').style.display = 'none';
-                $('puzzle').appendChild(solvedBackground);
-                $('dw-container').style.display = 'block';
-                return $('puzzle-div').style.display = 'block';
-            } else {
+            if (!this.solved()) {
                 //render tiles
                 var background = document.createElement('div');
                 background.setAttribute('id', 'puzzle-background');
-                background.setAttribute('style', 'background-image: url(' + this.puzzleImage + ')');
+                if (!this.isLive(this.puzzleImage)) {
+                    background.setAttribute('style', 'background-image: url(' + this.puzzleImage + ')');
+                } else {
+                    background.setAttribute('style', 'background-image: url(' + this.puzzleImage + '); background-size: initial; background-position: top center');
+                }
                 var image = document.createElement('div');
                 image.setAttribute('id', 'img-background');
                 background.appendChild(image);
@@ -497,7 +491,11 @@ function createPuzzle(mainImage, isSolved) {
         _puzzle.prototype.solveMe = function (solvedImage) {
             var solvedBackground = document.createElement('div');
             solvedBackground.setAttribute('id', 'puzzle-div');
-            solvedBackground.setAttribute('style', 'background-image: url(' + solvedImage + ')');
+            if (!this.isLive(solvedImage)) {
+                solvedBackground.setAttribute('style', 'background-image: url(' + solvedImage + ')');
+            } else {
+                solvedBackground.setAttribute('style', 'background-image: url(' + solvedImage + '); background-size: initial; background-position: top center');
+            }
             $('solve').style.display = 'none';
             $('puzzle').appendChild(solvedBackground);
             $('dw-container').style.display = 'block';
@@ -522,16 +520,21 @@ function createPuzzle(mainImage, isSolved) {
             }
             return true;
         };
+        //check whether or not the url is for a live image
+        _puzzle.prototype.isLive = function (url) {
+            return url.indexOf("live") !== -1;
+        };
         return _puzzle;
     })();
     _square = (function () {
-        function _square(position, width, height, xPos, yPos, tileImage) {
+        function _square(position, width, height, xPos, yPos, tileImage, isLive) {
             this.height = height;
             this.puzzleImage = tileImage;
             this.position = position;
             this.width = width;
             this.x = xPos;
             this.y = yPos;
+            this.isLive = isLive;
             this["class"] = 'square';
         }
 
@@ -548,6 +551,9 @@ function createPuzzle(mainImage, isSolved) {
                 setAttributes(puzzle, {"id": this.position, "class": "innerTile image tile"});
             } else {
                 setAttributes(puzzle, {"id": this.position, "class": "innerTile image"});
+            }
+            if (this.isLive) {
+                puzzle.setAttribute('style', 'background-size: initial');
             }
             var hoverClick = document.createElement('div');
             if (this.position === 4 && !$('4')) {
