@@ -110,41 +110,50 @@ dwlinked = function() {
     //THEN START UPDATING THE LISTS
     updateList(0);
 
-    try {
-        var baseEvent = l.event;
-        baseEvent.event = "widget-interaction";
-        var postObject = {
-            snt_data: baseEvent,
-            action: 'snt_tracker'
-        };
-
-        //create event listeners
-        $("button_left").addEventListener("click", function() {
-            updateIndex(-1);
-            sendPostMessageToIgloo(postObject, 5);
-        });
-        $("button_right").addEventListener("click", function() {
-            updateIndex(1);
-            sendPostMessageToIgloo(postObject, 5);
-        });
-        $("button_atomic").addEventListener("click", function() {
-            updateList(1);
-            sendPostMessageToIgloo(postObject, 5);
-        });
-    } catch (e) {
-        console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
-
-        //just enable button click events
-        $("button_left").addEventListener("click", function() {
-            updateIndex(-1);
-        });
-        $("button_right").addEventListener("click", function() {
-            updateIndex(1);
-        });
-        $("button_atomic").addEventListener("click", function() {
-            updateList(1);
-        });
-    }
+    // try {
+    //     var baseEvent = l.event;
+    //     baseEvent.event = "widget-interaction";
+    //     var postObject = {
+    //         snt_data: baseEvent,
+    //         action: 'snt_tracker'
+    //     };
+    //
+    //     //create event listeners
+    //     $("button_left").addEventListener("click", function() {
+    //         updateIndex(-1);
+    //         sendPostMessageToIgloo(postObject, 5);
+    //     });
+    //     $("button_right").addEventListener("click", function() {
+    //         updateIndex(1);
+    //         sendPostMessageToIgloo(postObject, 5);
+    //     });
+    //     $("button_atomic").addEventListener("click", function() {
+    //         updateList(1);
+    //         sendPostMessageToIgloo(postObject, 5);
+    //     });
+    // } catch (e) {
+    //     console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
+    //just enable button click events
+    // $("button_left").addEventListener("click", function() {
+    //   updateIndex(-1);
+    // });
+    // $("button_right").addEventListener("click", function() {
+    //   updateIndex(1);
+    // });
+    // $("button_atomic").addEventListener("click", function() {
+    //   updateList(1);
+    // });
+    // }
+    //just enable button click events
+    $("button_left").addEventListener("click", function() {
+      updateIndex(-1);
+    });
+    $("button_right").addEventListener("click", function() {
+      updateIndex(1);
+    });
+    $("button_atomic").addEventListener("click", function() {
+      updateList(1);
+    });
 
 
     function getEnv(env) {
