@@ -29,10 +29,7 @@
     var pixelatedContainerWidth = pixelatedContainer_el.offsetWidth + 2;
     var youGuessPercentge_el = document.getElementById("percentage_of_guess");
     var url = window.location.href;
-    var facebookIcon_el = document.getElementById("facebook_icon");
-    var twitterIcon_el = document.getElementById("twitter_icon");
-    var googlePlusIcon_el = document.getElementById("google_plus_icon");
-    var linkIcon_el = document.getElementById("link_icon");
+
 
     // calculated variables
     var localDataStore;
@@ -514,6 +511,7 @@
     // function set to mimick API call
     var localStorageFn = {
         get: function () {
+          console.log("localGET");
             // window.localStorage.clear();
             if ( localStorage.getItem('triviaData2') === null ) {
                 localDataStore = localStorage.setItem('triviaData2', JSON.stringify(triviaData2));
@@ -522,6 +520,7 @@
             return localDataStore;
         },
         set: function (correctResult, incorrectResult, totalResults) {
+          console.log("localSET");
             localDataStore[activeDataSetKey][dataKey].results.correct = correctResult;
             localDataStore[activeDataSetKey][dataKey].results.incorrect = incorrectResult;
             localDataStore[activeDataSetKey][dataKey].results.total = totalResults;
@@ -532,10 +531,12 @@
 
 
     // set initial content and variables to start trivia
+    console.log('initialSetup');
     initialSetup();
     function initialSetup() {
         activeDataSetKey = activeDataSetKey ? activeDataSetKey : 'dataSet_1';
         activeDataSet = localStorageFn.get()[activeDataSetKey];
+        console.log(activeDataSet,'run localStorageFn GET',activeDataSetKey);
         questionIterator = 1;
         finalQuestion = false;
         userScore = 0;
@@ -559,6 +560,7 @@
         for ( var i=0; animationContainer_el.length > i; i++ ) { //subtract 1 because the last item is the shuffle button
             dataSetTitles.push('dataSet_'+(i+1));
         }
+        console.log('dataSetTitles',dataSetTitles);
         return dataSetTitles;
     } //getDataSetKeys
 
@@ -601,6 +603,8 @@
         nextQuestionButton_el.innerHTML = "<p>Next Question</p>";
         dataKey = 'data_'+questionIterator; //sets the data key based on question number
         activeDataSet = activeDataSet ? activeDataSet : localDataStore; //sets dataset
+        console.log('localDataStore',localDataStore);
+        console.log('activeDataSet',activeDataSet);
         var question = activeDataSet[dataKey].question,
             resultDisplay = activeDataSet[dataKey] ? activeDataSet[dataKey].correct_result : 'Whoops!',
             backgroundImage = activeDataSet[dataKey] ? "url("+imagePath_el+activeDataSet[dataKey].image+")" : '';
@@ -792,6 +796,7 @@
 
     // gets new data if user clicks on new quiz
     function getNewDataSet(dataSetKey) {
+      console.log('getNewDataSet');
         activeDataSetKey = dataSetKey;
         localStorageFn.get();
         restartFn();
