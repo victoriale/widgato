@@ -12,18 +12,35 @@ var currentScript = document.currentScript || (function() {
     }
   }
 })();
-//create friendly iframe to place ourselves inside
-var friendlyIframe = document.createElement('div');
-friendlyIframe.id = "friendlyIframe_" + countSelf;
-friendlyIframe.className = "centipedeIframe"
-friendlyIframe.width = '300';
-friendlyIframe.height = '250';
-friendlyIframe.src = 'about:blank';
-friendlyIframe.style.border = 'none';
-currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
-var iframeContent = friendlyIframe;
+if (window.frameElement) {
+  // in frame
+  var friendlyIframe = document.createElement('div');
+  friendlyIframe.id = "friendlyIframe_" + countSelf;
+  friendlyIframe.className = "centipedeIframe"
+  friendlyIframe.width = '300';
+  friendlyIframe.height = '250';
+  friendlyIframe.style.border = 'none';
+  currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
+  var iframeContent = friendlyIframe;
+  var doc = document;
+}
+else {
+  // not in frame
+  var friendlyIframe = document.createElement('iframe');
+  //create friendly iframe to place ourselves inside
+  friendlyIframe.id = "friendlyIframe_" + countSelf;
+  friendlyIframe.className = "centipedeIframe"
+  friendlyIframe.width = '300';
+  friendlyIframe.height = '250';
+  friendlyIframe.src = 'about:blank';
+  friendlyIframe.style.border = 'none';
+  currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
+  var iframeContent = friendlyIframe.contentWindow;
+  var doc = iframeContent.document;
+}
+
 //inject HTML and CSS structure
-  iframeContent.innerHTML = `
+  var html = `
     <style>
     /* google fonts */
     /* latin-ext */
@@ -400,6 +417,14 @@ var iframeContent = friendlyIframe;
     </div>
   </div>
     `;
+    if (window.frameElement) {
+      // in frame
+      iframeContent.innerHTML = html;
+    }
+    else {
+      // not in frame
+      doc.write(html);
+    }
 
   //begin centipede logic
   //initial variable declaration
@@ -423,10 +448,10 @@ var iframeContent = friendlyIframe;
   }
   var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','celebrities']; // an array of all the possible categories this widget accepts and is limited to. if you specify one not in here, it will fallback to finance
   var apiUrl = protocolToUse +input.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
-  var helper = document.getElementById('helper_'+countSelf); // the top title
-  var helper2 = document.getElementById('helper2_'+countSelf); // the swipe indicator
-  var wormBlocks = iframeContent.getElementsByClassName('worm_block'); // an array of all the blocks in our worm
-  var worm = document.getElementById('worm_'+countSelf); // the container for all the blocks that the user can scroll in
+  var helper = doc.getElementById('helper_'+countSelf); // the top title
+  var helper2 = doc.getElementById('helper2_'+countSelf); // the swipe indicator
+  var worm = doc.getElementById('worm_'+countSelf); // the container for all the blocks that the user can scroll in
+  var wormBlocks = worm.getElementsByClassName('worm_block'); // an array of all the blocks in our worm
   var currentBlock = 0; // what block are we snapped to right now?
   var isScrolling = false; // are we scrolling at all? (both autoscroll and user scroll)
   var scrollingTimout; // the user scroll setTimout reference name
@@ -687,7 +712,6 @@ loadData();
     else {
       backStyle = `style="background-color: black;"`;
     }
-    console.log(data);
     helper.innerHTML = data.l_alt_title != null && data.l_alt_title != '' ? data.l_alt_title : data.l_title;// used due to the fact centipede is not wide enought to have more than 50 characters for title
     worm.innerHTML = `
     <style>
@@ -724,7 +748,7 @@ loadData();
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
       if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]) {
         setTimeout(function(){
-          firstAd = document.getElementById('first_ad_'+countSelf);
+          firstAd = doc.getElementById('first_ad_'+countSelf);
           //grab the sibling igloo element and iject it inside centipede where we can control it
           firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
         }, 400);
@@ -732,8 +756,8 @@ loadData();
       else {
         setTimeout(function(){ //wait for dom to render before executing igloo script
           //inject igloo into first_ad div
-          firstAd = document.getElementById('first_ad_'+countSelf);
-          var s = document.createElement("script");
+          firstAd = doc.getElementById('first_ad_'+countSelf);
+          var s = doc.createElement("script");
           s.type = "text/javascript";
           if (input.group != null && input.group != "" && input.p != null && input.p != "") {
             s.src = "//content.synapsys.us/embeds/placement.js?p=" + input.p + "&type=centipede_" + input.group + "&style=inline&league=no_centipede";
@@ -747,7 +771,7 @@ loadData();
     }
     else {
       setTimeout(function(){
-        firstAd = document.getElementById('first_ad_'+countSelf);
+        firstAd = doc.getElementById('first_ad_'+countSelf);
       }, 400);
     }
 
@@ -828,8 +852,8 @@ loadData();
         `;
         worm.innerHTML += outputHTML; //write out the accumulated item's html
         setTimeout(function(){
-          document.getElementById("next_list").addEventListener("touchend", nextList);
-          document.getElementById("next_list").addEventListener("click", nextList);
+          doc.getElementById("next_list").addEventListener("touchend", nextList);
+          doc.getElementById("next_list").addEventListener("click", nextList);
         }, 100);
         friendlyIframe.classList.add("widget_loaded"); //set leaded flag on bounding iframe
       }
