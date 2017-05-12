@@ -1,6 +1,6 @@
 <!Doctype html>
 <html>
-<head>
+    <head>
     <title>Trivia Widget</title>
     <meta name="viewport" content="initial-scale=1.0">
     <link rel="shortcut icon" href="" />
@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#2d3e50 " />
     <meta http-equiv="Content-Language" content="en">
     <link href="./styles/styles.css" rel="stylesheet" lazyload>
-</head>
+    </head>
     <body>
         <section class="widget_container">
             <div class="widget_container top">
@@ -18,7 +18,9 @@
                         <span class="">Try Again</span>
                     </p>
                     <div class="results_container">
-                        <p class="comment heavy" id="score_comment"></p>
+                        <p class="comment heavy" id="score_comment">
+                            Great Job!
+                        </p>
                         <div class="score_container">
                             <div class="icon">
                                 <img class="check_mark" src="./images/icon-check-mark-blue.svg" alt="check mark icon" />
@@ -70,11 +72,6 @@
                 </div>
                 <div id="trivia_container">
                     <div class="top">
-                        <div id="progress_bar"></div>
-                        <div id="interval_score_container">
-                            <span id="interval_score_question"></span>
-                            <span id="interval_score"></span>
-                        </div>
                         <div id="submission_overlay">
                             <div class="submission_display_container">
                                 <div class="submission_result_text_container">
@@ -89,8 +86,7 @@
                         </div>
 
                         <div class="trivia_image_container">
-                            <!-- <div class="trivia_image"></div> -->
-                            <div class="trivia_image" id="pixelateContainer"></div>
+                            <div class="trivia_image"></div>
                         </div>
 
                         <div class="trivia_question">
@@ -170,7 +166,9 @@
 
                         <div class="trivia_container_footer">
                             <img class="logo" src="./images/snt_logo.svg" alt="SNT Media logo" />
-                            <p>Powered by SNT Media, Inc.</p>
+                            <p>
+                                Powered by SNT Media, Inc.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -182,4 +180,5 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,900" rel="stylesheet">
         <script src="./js/main.js"></script>
     </body>
+
 </html>
