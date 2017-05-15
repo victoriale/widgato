@@ -895,7 +895,7 @@ loadData();
       if (isScrolling != true && input.event) { //limit event sending to 1 per user interaction, not every scroll tick
         // console.log("fired interaction event to igloo");
         input.event.event = "widget-interaction";
-        sendPostMessageToIgloo(input.event, 10);
+        sendPostMessageToIgloo({action: 'snt_tracker', snt_data: input.event}, 10);
       }
       if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
         lazyLoaded = true;
@@ -996,7 +996,6 @@ loadData();
     // Build all of the windows to send the message to
     try {
       // Loop through all of the windows
-      console.log("current window ", currentWindow, "window.top ",window.top);
       while ( currentLoop++ < maxLoops && currentWindow !== window.top ) {
         // Move up a layer
         currentWindow = currentWindow.parent;
@@ -1006,10 +1005,8 @@ loadData();
 
       }
     } catch (e) {}
-    console.log("analyitics debug: ", postWindows);
     // Send the post messages
     for ( var i = 0; i < postWindows.length; i++ ) {
-      console.log("Sent Post message to igloo: ", postObject);
       postWindows[i].postMessage(postObject, '*');
     }
   }
