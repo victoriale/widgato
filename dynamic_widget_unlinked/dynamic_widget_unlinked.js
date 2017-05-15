@@ -43,7 +43,7 @@ dwlinked = function() {
         // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
         friendlyIframe.className = "dwunlinkIframe"
         friendlyIframe.width = '300';
-        friendlyIframe.height = 600 - 250;//250 is the add height
+        friendlyIframe.height = 600 - 250; //250 is the add height
         friendlyIframe.scrolling = 'no';
         friendlyIframe.style.overflow = 'hidden';
         friendlyIframe.src = 'about:blank';
@@ -60,7 +60,7 @@ dwlinked = function() {
         //create inline style for friendlyIframe
         var style = friendlyIframeWindow.document.createElement("style");
         if (query.wide != null && query.wide != '') {
-            friendlyIframe.width = friendlyIframe.parentNode.clientWidth - 300;//300 being the width
+            friendlyIframe.width = friendlyIframe.parentNode.clientWidth - 300; //300 being the width
             // friendlyIframe.style.maxWidth = '992px';
             friendlyIframe.height = '250';
 
@@ -111,13 +111,12 @@ dwlinked = function() {
     updateList(0);
 
     try {
-        var baseEvent = l.event;
+        var baseEvent = query.event;
         baseEvent.event = "widget-interaction";
         var postObject = {
             snt_data: baseEvent,
             action: 'snt_tracker'
         };
-
         //create event listeners
         $("button_left").addEventListener("click", function() {
             updateIndex(-1);
@@ -133,8 +132,7 @@ dwlinked = function() {
         });
     } catch (e) {
         console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
-
-        //just enable button click events
+        // just enable button click events
         $("button_left").addEventListener("click", function() {
             updateIndex(-1);
         });
@@ -145,6 +143,16 @@ dwlinked = function() {
             updateList(1);
         });
     }
+    // //just enable button click events
+    // $("button_left").addEventListener("click", function() {
+    //   updateIndex(-1);
+    // });
+    // $("button_right").addEventListener("click", function() {
+    //   updateIndex(1);
+    // });
+    // $("button_atomic").addEventListener("click", function() {
+    //   updateList(1);
+    // });
 
 
     function getEnv(env) {
@@ -696,18 +704,16 @@ dwlinked = function() {
      */
     function sendPostMessageToIgloo(postObject, maxLoops) {
         // Initialize variables
-        var postWindows = [];
+        var postWindows = [window];
         var currentWindow = window;
         var currentLoop = 0;
         maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
-
         // Build all of the windows to send the message to
         try {
             // Loop through all of the windows
             while (currentLoop++ < maxLoops && currentWindow !== window.top) {
                 // Add to the postMessage array
                 postWindows.push(currentWindow);
-
                 // Move up a layer
                 currentWindow = currentWindow.parent;
             }
