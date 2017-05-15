@@ -111,13 +111,12 @@ dwlinked = function() {
     updateList(0);
 
     try {
-        var baseEvent = l.event;
+        var baseEvent = query.event;
         baseEvent.event = "widget-interaction";
         var postObject = {
             snt_data: baseEvent,
             action: 'snt_tracker'
         };
-
         //create event listeners
         $("button_left").addEventListener("click", function() {
             updateIndex(-1);
@@ -705,18 +704,16 @@ dwlinked = function() {
      */
     function sendPostMessageToIgloo(postObject, maxLoops) {
         // Initialize variables
-        var postWindows = [];
+        var postWindows = [window];
         var currentWindow = window;
         var currentLoop = 0;
         maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
-
         // Build all of the windows to send the message to
         try {
             // Loop through all of the windows
             while (currentLoop++ < maxLoops && currentWindow !== window.top) {
                 // Add to the postMessage array
                 postWindows.push(currentWindow);
-
                 // Move up a layer
                 currentWindow = currentWindow.parent;
             }
