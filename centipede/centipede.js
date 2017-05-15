@@ -1004,7 +1004,7 @@ loadData();
         currentWindow = currentWindow.parent;
       }
     } catch (e) {}
-
+    console.log("analyitics debug: ", postWindows);
     // Send the post messages
     for ( var i = 0; i < postWindows.length; i++ ) {
       postWindows[i].postMessage(postObject, '*');
