@@ -892,7 +892,6 @@ loadData();
   worm.addEventListener("scroll", onSwipe);
   function onSwipe() {
     if (userScrolling) { // only execute this code if the user is dragging the worm, not if we are autoscrolling
-      console.log("event input: ", input.event);
       if (isScrolling != true && input.event) { //limit event sending to 1 per user interaction, not every scroll tick
         // console.log("fired interaction event to igloo");
         input.event.event = "widget-interaction";
@@ -1009,6 +1008,8 @@ loadData();
     // Send the post messages
     for ( var i = 0; i < postWindows.length; i++ ) {
       postWindows[i].postMessage(postObject, '*');
+      console.log("Sent Post message to igloo: ", postObject);
+
     }
   }
 
