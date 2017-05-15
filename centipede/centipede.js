@@ -133,7 +133,7 @@ else {
       overflow: hidden;
       text-overflow: ellipsis;
       padding: 5px 10px;
-      font-family: lato;
+      font-family: lato, helvetica;
       font-weight: 900;
       color: #666666;
       font-size: 12px;
@@ -152,7 +152,7 @@ else {
       top: 50%;
       transform: translateY(-50%);
       padding: 10px 5px 10px 10px;
-      font-family: lato;
+      font-family: lato, helvetica;
       /*font-weight: 300;*/
       font-size: 20px;
       color: white;
@@ -309,7 +309,7 @@ else {
       transform: translateY(-50%);
     }
     .num {
-      font-family: lato;
+      font-family: lato, helvetica;
       position: absolute;
       right: -5px;
       top: -20px;
@@ -337,7 +337,7 @@ else {
       width: 100%;
       position: absolute;
       top: 130px;
-      font-family: lato;
+      font-family: lato, helvetica;
       text-align: center;
     }
     .name {
@@ -390,7 +390,7 @@ else {
       padding: 0 5px;
     }
     .next_list {
-      font-family: lato;
+      font-family: lato, helvetica;
       font-size: 12px;
       position: relative;
       top: -96px;
@@ -751,6 +751,7 @@ loadData();
           firstAd = doc.getElementById('first_ad_'+countSelf);
           //grab the sibling igloo element and iject it inside centipede where we can control it
           firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
+          firstAd.getElementsByClassName("widget_zone")[0].style.opacity = 1;
         }, 400);
       }
       else {
@@ -865,6 +866,7 @@ loadData();
     lazyLoaded = false;
     //take igloo out before we wipe the worm
     if (firstAd.getElementsByClassName("widget_zone")[0]) {
+      firstAd.getElementsByClassName("widget_zone")[0].style.opacity = 0;
       friendlyIframe.parentElement.appendChild(firstAd.getElementsByClassName("widget_zone")[0]);
     }
     //wipe worm and reset everything
@@ -890,6 +892,11 @@ loadData();
   worm.addEventListener("scroll", onSwipe);
   function onSwipe() {
     if (userScrolling) { // only execute this code if the user is dragging the worm, not if we are autoscrolling
+      if (isScrolling != true && input.event) { //limit event sending to 1 per user interaction, not every scroll tick
+        // console.log("fired interaction event to igloo");
+        input.event.event = "widget-interaction";
+        sendPostMessageToIgloo(input.event, 10);
+      }
       if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
         lazyLoaded = true;
         clearInterval(lazyLoader);
@@ -908,8 +915,8 @@ loadData();
       // set visibility of helper and list title, based on scroll position
       if (this.scrollLeft > 20) { // scrolled past the first block
         if (pastBeginning == false) {
-          worm.classList.add("stopAnim");
           helper2.style.opacity = '0';
+          worm.classList.add("stopAnim");
           pastBeginning = true;
         }
       }
@@ -972,6 +979,36 @@ loadData();
   worm.addEventListener("mouseup", onMouseUp, passiveSupported ? { passive: true } : false);
   function onMouseUp(e) {
     worm.removeEventListener("mousemove", onMouseMove);
+  }
+
+  /**
+  * Send a post message to every window up to the top window
+  * @param  {Object}  postObject The object to send as a postMessage
+  * @param  {Integer} maxLoops   The maximum number of layers to traverse up
+  */
+  function sendPostMessageToIgloo(postObject, maxLoops) {
+    // Initialize variables
+    var postWindows = [];
+    var currentWindow = window;
+    var currentLoop = 0;
+    maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
+
+    // Build all of the windows to send the message to
+    try {
+      // Loop through all of the windows
+      while ( currentLoop++ < maxLoops && currentWindow !== window.top ) {
+        // Add to the postMessage array
+        postWindows.push(currentWindow);
+
+        // Move up a layer
+        currentWindow = currentWindow.parent;
+      }
+    } catch (e) {}
+
+    // Send the post messages
+    for ( var i = 0; i < postWindows.length; i++ ) {
+      postWindows[i].postMessage(postObject, '*');
+    }
   }
 
   //logic to snap scrolled block into view, when user scroll has ended
