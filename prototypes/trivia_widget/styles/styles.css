@@ -244,7 +244,7 @@ p.submission_display {
 #completed_overlay {
     visibility: visible;
     position: absolute;
-    overflow: auto;
+    overflow: hidden;
     z-index: 5;
     top: 0;
     width: 100%;
@@ -281,7 +281,6 @@ p.submission_display {
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     text-align: center;
     clear: both;
-    padding: 15px 0px 10px;
     -webkit-transform: scale(1);
             transform: scale(1);
     -webkit-transition: all .5s ease-in-out;
@@ -293,11 +292,17 @@ p.submission_display {
     -webkit-transform: scale(1.65);
             transform: scale(1.65);
 }
+.results_container{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 40px;
+}
 .results_container p.comment {
     color: white;
     font-size: 32px;
     text-transform: uppercase;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 .score_container {
     overflow: hidden;
@@ -377,11 +382,11 @@ li.sm_icon i {
     right: 0;
     left: 0;
     margin: 0 auto;
-    bottom: 25px;
+    top: 155px;
     text-align: center;
 }
 .other_content_container p {
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     font-size: 16px;
     color: white;
 }
@@ -444,6 +449,22 @@ li.sm_icon i {
 .other_content_option_container:nth-child(3) .animation_container {
     -webkit-transition: all .5s ease-in-out .75s;
     transition: all .5s ease-in-out .75s;
+}
+.animation_container-box{
+  position: absolute;
+  top: 62px;
+  left: 0;
+  right: 0;
+}
+.animation_container-box p{
+  font-size: 8px;
+  margin: 0 0 2px 0;
+}
+.animation_container-box p:first-child{
+  font-weight: 800;
+}
+.animation_container-box p:nth-child(2){
+  font-weight: 300;
 }
 /*--Shuffle button--*/
 .other_content_option_container.random_option {
