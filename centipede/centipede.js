@@ -988,7 +988,7 @@ loadData();
   */
   function sendPostMessageToIgloo(postObject, maxLoops) {
     // Initialize variables
-    var postWindows = [];
+    var postWindows = [window];
     var currentWindow = window;
     var currentLoop = 0;
     maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
@@ -997,20 +997,20 @@ loadData();
     try {
       // Loop through all of the windows
       console.log("current window ", currentWindow, "window.top ",window.top);
-      while ( currentLoop++ < maxLoops /*&& currentWindow !== window.top */) {
+      while ( currentLoop++ < maxLoops && currentWindow !== window.top ) {
+        // Move up a layer
+        currentWindow = currentWindow.parent;
+
         // Add to the postMessage array
         postWindows.push(currentWindow);
 
-        // Move up a layer
-        currentWindow = currentWindow.parent;
       }
     } catch (e) {}
     console.log("analyitics debug: ", postWindows);
     // Send the post messages
     for ( var i = 0; i < postWindows.length; i++ ) {
-      postWindows[i].postMessage(postObject, '*');
       console.log("Sent Post message to igloo: ", postObject);
-
+      postWindows[i].postMessage(postObject, '*');
     }
   }
 
