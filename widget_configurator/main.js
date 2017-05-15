@@ -1,15 +1,759 @@
-// NOTE: all JSON settings have been depricated in favor of moving into a DB. If you need a new widget added, contact Caleb
-var xmlHttp = new XMLHttpRequest();
-var responce;
-var options = {};
-xmlHttp.open( "GET", "./load_widgets.php", false);
-xmlHttp.send( null );
-try {
-  options = JSON.parse(xmlHttp.responseText);
-}
-catch(err) {
-  console.log("Error loading inital widgets config from DB",err);
-}
+var options = {
+  dynamic_widget:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    sub_domain:{
+      default: "mytouchdownzone.com/chicagotribune.com",
+      enabled: true,
+      explanation: "The subdomain (and sometimes the partner part of the url) that will form the base url for the linkbacks on the widget.",
+      name: "Sub Domain",
+      type: "text"
+    },
+    county:{
+      default: "",
+      enabled: true,
+      explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled, set to 'atl_metro' to use the combination of all the atl counties",
+      name: "County",
+      type: "text"
+    },
+    remn:{
+      default: "false",
+      enabled: true,
+      explanation: "If true, the widget will use internal logic as if it was embeded on one of our own house sites. If false, it will run as if its on a partner site",
+      name: "Remnant?",
+      type: "select",
+      options: ["false", "true"]
+    },
+    targ:{
+      default: "_blank",
+      enabled: true,
+      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
+      name: "Target",
+      type: "select",
+      options: ["_blank","_top"]
+    },
+    category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+    },
+    sub_category:{
+      default: "",
+      enabled: false,
+      explanation: "",
+      name: "Sub Category",
+      type: "text"
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    type: "dynamic_<category>",
+    output: '../dynamic_widget/dynamic_widget.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
+  },
+  dynamic_widget_wide:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    sub_domain:{
+      default: "mytouchdownzone.com/chicagotribune.com",
+      enabled: true,
+      explanation: "The subdomain (and sometimes the partner part of the url) that will form the base url for the linkbacks on the widget.",
+      name: "Sub Domain",
+      type: "text"
+    },
+    county:{
+      default: "",
+      enabled: true,
+      explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled, set to 'atl_metro' to use the combination of all the atl counties",
+      name: "County",
+      type: "text"
+    },
+    remn:{
+      default: "false",
+      enabled: true,
+      explanation: "If true, the widget will use internal logic as if it was embeded on one of our own house sites. If false, it will run as if its on a partner site",
+      name: "Remnant?",
+      type: "select",
+      options: ["false", "true"]
+    },
+    targ:{
+      default: "_blank",
+      enabled: true,
+      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
+      name: "Target",
+      type: "select",
+      options: ["_blank","_top"]
+    },
+    category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+    },
+    sub_category:{
+      default: "",
+      enabled: false,
+      explanation: "",
+      name: "Sub Category",
+      type: "text"
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    type: "dynamic_<category>_wide",
+    output: '../dynamic_widget/dynamic_widget_970.html?{"dom":"<domain>","remn":"<remn>","county":"<county>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>","env":"<env>"}'
+  },
+  dynamic_widget_unlinked:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics","celebrities"]
+    },
+    group:{
+      default: "sports",
+      enabled: true,
+      explanation: "The card of lists and style of widget to use.",
+      name: "Group",
+      type: "select",
+      options: ["","sports","weather","money","entertainment"]
+    },
+    sub_category:{
+      default: "",
+      enabled: false,
+      explanation: "",
+      name: "Sub Category",
+      type: "text"
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod","qa","dev"]
+    },
+    type: "dynamic_group_<group>",
+    output: '../dynamic_widget_unlinked/index.html?{"dom":"<domain>","category":"<category>","group":"<group>","rand":"<rand>"}'
+  },
+  dynamic_widget_unlinked_wide:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics","celebrities"]
+    },
+    group:{
+      default: "sports",
+      enabled: true,
+      explanation: "The card of lists and style of widget to use.",
+      name: "Group",
+      type: "select",
+      options: ["","sports","weather","money","entertainment"]
+    },
+    sub_category:{
+      default: "",
+      enabled: false,
+      explanation: "",
+      name: "Sub Category",
+      type: "text"
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod","qa","dev"]
+    },
+    type: "dynamic_group_<group>",
+    output: '../dynamic_widget_unlinked/index_wide.html?{"dom":"<domain>","category":"<category>","group":"<group>","rand":"<rand>"}'
+  },
+
+  dynamic_article_widget:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    sub_domain:{
+      default: "mytouchdownzone.com/chicagotribune.com",
+      enabled: true,
+      explanation: "The subdomain (and sometimes the partner part of the url) that will form the base url for the linkbacks on the widget.",
+      name: "Sub Domain",
+      type: "text"
+    },
+    county:{
+      default: "",
+      enabled: false,
+      explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled, set to 'atl_metro' to use the combination of all the atl counties",
+      name: "County",
+      type: "text"
+    },
+    remn:{
+      default: "false",
+      enabled: true,
+      explanation: "If true, the widget will use internal logic as if it was embeded on one of our own house sites. If false, it will run as if its on a partner site",
+      name: "Remnant?",
+      type: "select",
+      options: ["false", "true"]
+    },
+    targ:{
+      default: "_blank",
+      enabled: true,
+      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
+      name: "Target",
+      type: "select",
+      options: ["_blank","_top"]
+    },
+    category:{
+      default: "sports",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["trending","breaking","sports","weather","business","politics","entertainment","food","health","lifestyle","real-estate","travel","automotive","nfl", "ncaaf","mlb","nba","ncaam","television","movies","music"]
+    },
+    sub_category:{
+      default: "nfl",
+      enabled: false,
+      explanation: "",
+      name: "Sub Category",
+      type: "select",
+      options: []
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    output: '../dynamic_article_widget/dynamic_article_widget.html?{"dom":"<domain>","remn":"<remn>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>"}'
+  },
+  dynamic_article_widget_wide:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    sub_domain:{
+      default: "mytouchdownzone.com/chicagotribune.com",
+      enabled: true,
+      explanation: "The subdomain (and sometimes the partner part of the url) that will form the base url for the linkbacks on the widget.",
+      name: "Sub Domain",
+      type: "text"
+    },
+    county:{
+      default: "",
+      enabled: false,
+      explanation: "A one-off field for AJC.com for Atlanta's surrounding counties. If left blank, the one-off functionality will be disabled, set to 'atl_metro' to use the combination of all the atl counties",
+      name: "County",
+      type: "text"
+    },
+    remn:{
+      default: "false",
+      enabled: true,
+      explanation: "If true, the widget will use internal logic as if it was embeded on one of our own house sites. If false, it will run as if its on a partner site",
+      name: "Remnant?",
+      type: "select",
+      options: ["false", "true"]
+    },
+    targ:{
+      default: "_blank",
+      enabled: true,
+      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
+      name: "Target",
+      type: "select",
+      options: ["_blank","_top"]
+    },
+    category:{
+      default: "sports",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["trending","breaking","sports","weather","business","politics","entertainment","food","health","lifestyle","real-estate","travel","automotive","nfl", "ncaaf","mlb","nba","ncaam","television","movies","music"]
+    },
+    sub_category:{
+      default: "nfl",
+      enabled: false,
+      explanation: "",
+      name: "Sub Category",
+      type: "select",
+      options: []
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    output: '../dynamic_article_widget/dynamic_article_widget_970.html?{"dom":"<domain>","remn":"<remn>","targ":"<targ>","category":"<category>","subd":"<sub_domain>","rand":"<rand>"}'
+  },
+  nba_ai_article_widget:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    remn:{
+      default: "false",
+      enabled: true,
+      explanation: "If true, the widget will use internal logic as if it was embeded on one of our own house sites. If false, it will run as if its on a partner site",
+      name: "Remnant?",
+      type: "select",
+      options: ["false", "true"]
+    },
+    targ:{
+      default: "_blank",
+      enabled: true,
+      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
+      name: "Target",
+      type: "select",
+      options: ["_blank","_top"]
+    },
+    category:{
+      default: "nba",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["nba","ncaa"]
+    },
+    output:'../sports/ai_article.html?{"dom":"<domain>","remn":"<remn>","category":"<category>","targ":"<targ>"}'
+  },
+  nfl_ai_article_widget:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    remn:{
+      default: "false",
+      enabled: true,
+      explanation: "If true, the widget will use internal logic as if it was embeded on one of our own house sites. If false, it will run as if its on a partner site",
+      name: "Remnant?",
+      type: "select",
+      options: ["false", "true"]
+    },
+    targ:{
+      default: "_blank",
+      enabled: true,
+      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
+      name: "Target",
+      type: "select",
+      options: ["_blank","_top"]
+    },
+    league:{
+      default: "football_pro",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "League",
+      type: "select",
+      options: ["football_pro","ncaaf"]
+    },
+    output:'../sports/tdl_sidekick_vertical.html?{"dom":"<domain>","remn":"<remn>","league":"<league>","targ":"<targ>"}'
+  },
+  mlb_ai_article_widget:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    remn:{
+      default: "false",
+      enabled: true,
+      explanation: "If true, the widget will use internal logic as if it was embeded on one of our own house sites. If false, it will run as if its on a partner site",
+      name: "Remnant?",
+      type: "select",
+      options: ["false", "true"]
+    },
+    targ:{
+      default: "_blank",
+      enabled: true,
+      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
+      name: "Target",
+      type: "select",
+      options: ["_blank","_top"]
+    },
+    category:{
+      default: "mlb",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["mlb"]
+    },
+    output:'../sports/hrl_sidekick_vertical.html?{"dom":"<domain>","remn":"<remn>","category":"<category>","targ":"<targ>"}'
+  },
+  ai_article_wide: {
+    output:'../sports/ai_article_wide.html'
+  },
+  caw_widget:{
+    caw_url:{
+      default: "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html",
+      enabled: true,
+      explanation: "The input url (the page that has content we are trying to find relevance from) to send to the content aware widget.",
+      name: "Input Page URL",
+      type: "text"
+    },
+    output:'../dynamic_caw_widget/dynamic_caw_widget.html?{"dom":"chicagotribune.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"c_id":null,"remn":"false","caw_url":"<caw_url>","targ":"_blank","cat":"null","subd":"","rand":2}'
+  },
+  caw_widget_wide:{
+    caw_url:{
+      default: "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html",
+      enabled: true,
+      explanation: "The input url (the page that has content we are trying to find relevance from) to send to the content aware widget.",
+      name: "Input Page URL",
+      type: "text"
+    },
+    output:'../dynamic_caw_widget/dynamic_caw_widget_970.html?{"dom":"chicagotribune.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"c_id":null,"remn":"false","caw_url":"<caw_url>","targ":"_blank","cat":"null","subd":"","rand":2}'
+  },
+  excavator_widget:{
+    caw_url:{
+      default: "http://www.chicagotribune.com/entertainment/tv/ct-donald-trump-alec-baldwin-feud-20161219-story.html",
+      enabled: true,
+      explanation: "The input url (the page that has content we are trying to find relevance from) to send to the content aware widget.",
+      name: "Input Page URL",
+      type: "text"
+    },
+    output:'../dynamic_tronc_widget/dynamic_tronc_widget.html?{"dom":"chicagotribune.com","loc":{"loc":{"city":[],"DMA":[],"state":[],"zipcode":[]}},"category":"tcx","remn":"false","caw_url":"<caw_url>","targ":"_blank","cat":"null","subd":"","rand":2}'
+  },
+  kbb_widget:{
+    output:'../dynamic_kbb_widget/dynamic_kbb_widget.html?%7B"dom"%3A"basketball.chicagotribune.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A"100971247"%2C"remn"%3A"true"%2C"bord"%3A"false"%2C"category"%3A"kbb"%2C"targ"%3A"_top"%7D'
+  },
+  kbb_dashboard:{
+    output:'../dynamic_kbb_widget/dynamic_kbb_dashboard.html?%7B"dom"%3A"basketball.chicagotribune.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A"100971247"%2C"remn"%3A"true"%2C"bord"%3A"false"%2C"category"%3A"kbb"%2C"targ"%3A"_top"%7D'
+  },
+  kbb_articles:{
+    output:'../dynamic_kbb_widget/dynamic_kbb_articles.html?%7B"dom"%3A"basketball.chicagotribune.com"%2C"loc"%3A%7B"loc"%3A%7B"nfl"%3A%5B%5D%7D%7D%2C"c_id"%3A"100971247"%2C"remn"%3A"true"%2C"bord"%3A"false"%2C"category"%3A"kbb"%2C"targ"%3A"_top"%7D'
+  },
+  swp_wdgt_list:{
+    show_link:{
+      default: "true",
+      enabled: true,
+      explanation: "Setting showLink to false, will hide the 'see the list' button and disable any linkback functionality and hover states",
+      name: "Show Links",
+      type: "select",
+      options: ["true","false"]
+    },
+    output:'../swp-wdgt/swp-wdgt-list.html?{"showLink":"<show_link>"}'
+  },
+  swp_wdgt_article:{
+    show_link:{
+      default: "true",
+      enabled: true,
+      explanation: "Setting showLink to false, will hide the 'see the list' button and disable any linkback functionality and hover states",
+      name: "Show Links",
+      type: "select",
+      options: ["true","false"]
+    },
+    output:'../swp-wdgt/swp-wdgt-article.html?{"showLink":"<show_link>"}'
+  },
+  billboard:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    targ:{
+      default: "_blank",
+      enabled: true,
+      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
+      name: "Target",
+      type: "select",
+      options: ["_blank","_top"]
+    },
+    category:{
+      default: "sports",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["trending","breaking","sports","weather","business","politics","entertainment","food","health","lifestyle","keyword-real-estate","travel","automotive"]
+    },
+    sub_category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The sub-category of lists for the widget to use.",
+      name: "Sub Category",
+      type: "select",
+      options: ["","nfl", "ncaaf","mlb","nba","ncaam","television","movies","music"]
+    },
+    team:{
+      default: "1",
+      enabled: true,
+      explanation: "The team ID to display results for when the widget loads (if the list is sports related).",
+      name: "Team ID",
+      type: "text"
+    },
+    output:'../billboard/billboard.html?{"dom":"<domain>","category":"<category>","targ":"<targ>","league":"<sub_category>","team":"<team>"}'
+  },
+  chatterbox:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    targ:{
+      default: "_blank",
+      enabled: true,
+      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
+      name: "Target",
+      type: "select",
+      options: ["_blank","_top"]
+    },
+    category:{
+      default: "sports",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["trending","breaking","sports","weather","business","politics","entertainment","food","health","lifestyle","keyword-real-estate","travel","automotive"]
+    },
+    sub_category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The sub-category of lists for the widget to use.",
+      name: "Sub Category",
+      type: "select",
+      options: ["","nfl", "ncaaf","mlb","nba","ncaam","television","movies","music"]
+    },
+    output:'../tcx_chatterbox/tcx_chatterbox.html?{"dom":"<domain>","category":"<category>","targ":"<targ>","league":"<sub_category>"}'
+  },
+  salad_bar:{
+    output:"../deepdive/bar/test.html"
+  },
+  schedule_bar: {
+    output:"../deepdive/boxscores/nfl.html"
+  },
+  finance_graph_widget: {
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    targ:{
+      default: "_blank",
+      enabled: true,
+      explanation: "This tells the widget how the links should open when clicked on. '_blank' means open in a new tab",
+      name: "Target",
+      type: "select",
+      options: ["_blank","_top"]
+    },
+    remn:{
+      default: "false",
+      enabled: true,
+      explanation: "If true, the widget will use internal logic as if it was embeded on one of our own house sites. If false, it will run as if its on a partner site",
+      name: "Remnant?",
+      type: "select",
+      options: ["false", "true"]
+    },
+    location:{
+      default: "Tampa Bay, Florida",
+      enabled: true,
+      explanation: "The user's geolocation to send to the widget.",
+      name: "Location",
+      type: "text"
+    },
+    output:'../finance/national_widget.html?{"dom":"<domain>","loc":{"loc_name":"<location>"},"remn":"<remn>","bord":false,"targ":"<targ>"}'
+  },
+  realestate_lol_widget: {
+    output: '../realestate/standard.html'
+  },
+  centipede:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    category:{
+      default: "finance",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["","nfl", "ncaaf","mlb","nba","college_basketball","weather","demographics","crime","disaster","finance","politics"]
+    },
+    group:{
+      default: "sports",
+      enabled: true,
+      explanation: "The card of lists and style of widget to use.",
+      name: "Group",
+      type: "select",
+      options: ["","sports","weather","money"]
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    output: '../centipede/centipede.html?{"dom":"<domain>","category":"<category>","group":"<group>","rand":"<rand>","env":"<env>"}'
+  },
+  megaphone:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    output: 'http://10.40.0.37:8070/megaphone.html'
+  },
+  dodgydrone:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    type:"dodgy_drone",
+    output: '../dodgydrone/index.html'
+  },
+  imagepuzzle:{
+    domain:{
+      default: "chicagotribune.com",
+      enabled: true,
+      explanation: "The top level domain that the widget will be embeded on.",
+      name: "Domain",
+      type: "text"
+    },
+    category:{
+      default: "nfl",
+      enabled: true,
+      explanation: "The category of lists and style of widget to use.",
+      name: "Category",
+      type: "select",
+      options: ["nfl", "ncaaf","mlb","nba","college_basketball"]
+    },
+    rand:{
+      default: "1",
+      enabled: true,
+      explanation: "The starting list id to display when the widget loads (does not apply to football lists).",
+      name: "Random#",
+      type: "text"
+    },
+    env:{
+      default: "prod-",
+      enabled: true,
+      explanation: "The environment to use when calling the backend API.",
+      name: "API Environment",
+      type: "select",
+      options: ["prod-","dev-"]
+    },
+    type:"image_puzzle",
+    output: '../image_puzzle_unlinked/image_puzzle_unlinked.html?{"dom":"<domain>","category":"<category>","rand":"<rand>","env":"<env>"}'
+  },
+};
 
 var settingsInputs = document.getElementById('settingsInputs');
 var currentField;
@@ -18,10 +762,10 @@ function generateWidget() { //create the output widget based on the user-configu
   var widget = document.getElementById("wType").value;
   var url = options[widget].output;
   var preCookie = '{"type":"'+widget+'",';
-  for (var field in options[widget].settings) {
-    if (field != "embed" && field != "output" && options[widget].settings[field].enabled == "true") {
+  for (var field in options[widget]) {
+    if (field != "type" && field != "output" && options[widget][field].enabled == true) {
       domElem = document.getElementById(field);
-      url = url.replace("%" + field + "%",domElem.value);
+      url = url.replace("<" + field + ">",domElem.value);
       preCookie += '"'+field+'":"'+document.getElementById(field).value+'",';
     }
   }
@@ -30,25 +774,22 @@ function generateWidget() { //create the output widget based on the user-configu
   document.cookie = preCookie;
   document.getElementById("previewFrame").contentWindow.document.location.href = url;
   document.getElementById("outputTextarea").value = url.replace("..","http://w1.synapsys.us/widgets");
-  if (options[widget].embed != null && options[widget].embed != {} && options[widget].embed.type != "") {
+  if (options[widget].type != null) {
     var xmlHttp = new XMLHttpRequest();
     var responce;
-    if (options[widget].embed.type.indexOf("%category%") != -1 && document.getElementById("category").value != "") {
-      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].embed.type.replace("%category%",document.getElementById("category").value), false);
+    if (options[widget].type.indexOf("<category>") != -1) {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type.replace("<category>",document.getElementById("category").value), false);
     }
-    else if (options[widget].embed.type.indexOf("%group%") != -1 && document.getElementById("group").value != "") {
-      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].embed.type.replace("%group%",document.getElementById("group").value), false);
-    }
-    else if (options[widget].embed.type.indexOf("%group%") != -1 || options[widget].embed.type.indexOf("%category%") != -1) {
-      document.getElementById("outputEmbedTextarea").value = "N/A";
+    else if (options[widget].type.indexOf("<group>") != -1) {
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type.replace("<group>",document.getElementById("group").value), false);
     }
     else {
-      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].embed.type, false);
+      xmlHttp.open( "GET", "./embed_generator.php?dom="+document.getElementById("domain").value+"&type="+options[widget].type, false);
     }
+    xmlHttp.send( null );
     try {
-      xmlHttp.send( null );
       responce = xmlHttp.responseText;
-      document.getElementById("outputEmbedTextarea").value = responce + "&style=" + options[widget].embed.style;
+      document.getElementById("outputEmbedTextarea").value = responce;
     }
     catch(err) {
 
@@ -60,9 +801,9 @@ function generateWidget() { //create the output widget based on the user-configu
 }
 function changeWidget(newWidget) { // create the settings boxes and info for the newly selected widget type
   settingsInputs.innerHTML = "";
-  for (var field in options[newWidget].settings) {
-    currentField = options[newWidget].settings[field];
-    if (currentField.enabled == "true") {
+  for (var field in options[newWidget]) {
+    currentField = options[newWidget][field];
+    if (field != "output" && currentField.enabled == true) {
       var htmlField = document.createElement('tr');
       htmlField.className = "fieldDiv";
       if (currentField.type == "text") {
@@ -81,6 +822,7 @@ function changeWidget(newWidget) { // create the settings boxes and info for the
         htmlField.innerHTML ="<td>" + currentField.name + " </td><td><select type='text' class='selectInput' name='" + field + "' id='" + field + "'>" + selectOptions +  "</select>" + "</td>";
       }
       htmlField.innerHTML = htmlField.innerHTML + "<div class='explanation'>" + currentField.explanation + "</div>";
+      htmlField.innerHTML = htmlField.innerHTML;
       settingsInputs.appendChild(htmlField);
     }
   }
@@ -91,81 +833,6 @@ function setSize() {
   document.getElementById("previewFrame").style.width = ifWidth + "px";
   document.getElementById("previewFrame").style.height = ifHeight + "px";
 }
-function toggleDropdown(elementId) {
-  element = document.getElementById(elementId);
-  if (element.classList.contains("cd-active")) {
-    element.classList.remove("cd-active");
-    var listItems = element.getElementsByTagName("li");
-    for (var i = 0; i < listItems.length; i++) {
-      if (i < 4) {
-        listItems[i].style.top = -60 + (i * 3) + "px";
-        listItems[i].style.left = (i * 3) + "px";
-        listItems[i].style.width = "calc(100% - " + (i * 6) + "px)";
-      }
-      else {
-        listItems[i].style.top = -60 + (4 * 3) + "px";
-        listItems[i].style.left = (4 * 3) + "px";
-        listItems[i].style.width = "calc(100% - " + (4 * 6) + "px)";
-        listItems[i].style.opacity = 0;
-      }
-      listItems[i].style.zIndex = listItems.length + -i;
-    }
-  }
-  else {
-    element.classList.add("cd-active");
-    var listItems = element.getElementsByTagName("li");
-    for (var i = 0; i < listItems.length; i++) {
-      listItems[i].style.top = ((i * 60) + 3) + "px";
-      listItems[i].style.width = element.offsetWidth + "px";
-      listItems[i].style.left = "0px";
-      listItems[i].style.zIndex = 1;
-      listItems[i].style.opacity = 1;
-    }
-  }
-}
-function drawDropdown(elementId) {
-  element = document.getElementById(elementId);
-  var listItems = element.getElementsByTagName("li");
-  element.getElementsByClassName("dropdown_target")[0].style.zIndex = listItems.length + 1;
-  for (var i = 0; i < listItems.length; i++) {
-    if (i < 4) {
-      listItems[i].style.top = -60 + (i * 3) + "px";
-      listItems[i].style.left = (i * 3) + "px";
-      listItems[i].style.width = "calc(100% - " + (i * 6) + "px)";
-    }
-    else {
-      listItems[i].style.top = -60 + (4 * 3) + "px";
-      listItems[i].style.left = (4 * 3) + "px";
-      listItems[i].style.width = "calc(100% - " + (4 * 6) + "px)";
-      listItems[i].style.opacity = 0;
-    }
-    listItems[i].style.zIndex = listItems.length + -i;
-  }
-  element.getElementsByClassName("dropdown_target")[0].onclick = function(){
-    toggleDropdown(elementId);
-  };
-}
-function clickListItem(e) {
-  var itemWrapper = e.target.parentElement.parentElement.parentElement;
-  itemWrapper.getElementsByClassName("dropdown_target")[0].innerHTML=e.target.innerHTML;
-  itemWrapper.getElementsByClassName("dropdown_input")[0].value = e.target.parentElement.getAttribute("data_value");
-  changeWidget(e.target.parentElement.getAttribute("data_value"))
-  toggleDropdown(itemWrapper.id);
-}
-function populateWidgetSelect() {
-  outputHTML = "";
-  for (var widget in options) {
-    outputHTML += `
-      <li data_value="`+widget+`" onclick="clickListItem(event)">
-        <img class="dropdown-icon" src="`+options[widget].image+`">
-        <span>`+ options[widget].name +`</span>
-      </li>
-    `;
-  }
-  document.getElementById("wType_dropdown").getElementsByTagName("ul")[0].innerHTML = outputHTML;
-  drawDropdown("wType_dropdown");
-}
-populateWidgetSelect();
 if (document.cookie != null) { //onload check for a cookie from prev session
   try {
     var cookie = JSON.parse(document.cookie.split(";")[0]);

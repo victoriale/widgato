@@ -12,35 +12,18 @@ var currentScript = document.currentScript || (function() {
     }
   }
 })();
-if (window.frameElement) {
-  // in frame
-  var friendlyIframe = document.createElement('div');
-  friendlyIframe.id = "friendlyIframe_" + countSelf;
-  friendlyIframe.className = "centipedeIframe"
-  friendlyIframe.width = '300';
-  friendlyIframe.height = '250';
-  friendlyIframe.style.border = 'none';
-  currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
-  var iframeContent = friendlyIframe;
-  var doc = document;
-}
-else {
-  // not in frame
-  var friendlyIframe = document.createElement('iframe');
-  //create friendly iframe to place ourselves inside
-  friendlyIframe.id = "friendlyIframe_" + countSelf;
-  friendlyIframe.className = "centipedeIframe"
-  friendlyIframe.width = '300';
-  friendlyIframe.height = '250';
-  friendlyIframe.src = 'about:blank';
-  friendlyIframe.style.border = 'none';
-  currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
-  var iframeContent = friendlyIframe.contentWindow;
-  var doc = iframeContent.document;
-}
-
+//create friendly iframe to place ourselves inside
+var friendlyIframe = document.createElement('div');
+friendlyIframe.id = "friendlyIframe_" + countSelf;
+friendlyIframe.className = "centipedeIframe"
+friendlyIframe.width = '300';
+friendlyIframe.height = '250';
+friendlyIframe.src = 'about:blank';
+friendlyIframe.style.border = 'none';
+currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
+var iframeContent = friendlyIframe;
 //inject HTML and CSS structure
-  var html = `
+  iframeContent.innerHTML = `
     <style>
     /* google fonts */
     /* latin-ext */
@@ -133,7 +116,7 @@ else {
       overflow: hidden;
       text-overflow: ellipsis;
       padding: 5px 10px;
-      font-family: lato, helvetica;
+      font-family: lato;
       font-weight: 900;
       color: #666666;
       font-size: 12px;
@@ -152,7 +135,7 @@ else {
       top: 50%;
       transform: translateY(-50%);
       padding: 10px 5px 10px 10px;
-      font-family: lato, helvetica;
+      font-family: lato;
       /*font-weight: 300;*/
       font-size: 20px;
       color: white;
@@ -309,7 +292,7 @@ else {
       transform: translateY(-50%);
     }
     .num {
-      font-family: lato, helvetica;
+      font-family: lato;
       position: absolute;
       right: -5px;
       top: -20px;
@@ -337,7 +320,7 @@ else {
       width: 100%;
       position: absolute;
       top: 130px;
-      font-family: lato, helvetica;
+      font-family: lato;
       text-align: center;
     }
     .name {
@@ -390,7 +373,7 @@ else {
       padding: 0 5px;
     }
     .next_list {
-      font-family: lato, helvetica;
+      font-family: lato;
       font-size: 12px;
       position: relative;
       top: -96px;
@@ -417,14 +400,6 @@ else {
     </div>
   </div>
     `;
-    if (window.frameElement) {
-      // in frame
-      iframeContent.innerHTML = html;
-    }
-    else {
-      // not in frame
-      doc.write(html);
-    }
 
   //begin centipede logic
   //initial variable declaration
@@ -448,10 +423,10 @@ else {
   }
   var categories = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf','celebrities']; // an array of all the possible categories this widget accepts and is limited to. if you specify one not in here, it will fallback to finance
   var apiUrl = protocolToUse +input.env.replace("prod-","")+'dw.synapsys.us/list_api.php';
-  var helper = doc.getElementById('helper_'+countSelf); // the top title
-  var helper2 = doc.getElementById('helper2_'+countSelf); // the swipe indicator
-  var worm = doc.getElementById('worm_'+countSelf); // the container for all the blocks that the user can scroll in
-  var wormBlocks = worm.getElementsByClassName('worm_block'); // an array of all the blocks in our worm
+  var helper = document.getElementById('helper_'+countSelf); // the top title
+  var helper2 = document.getElementById('helper2_'+countSelf); // the swipe indicator
+  var wormBlocks = iframeContent.getElementsByClassName('worm_block'); // an array of all the blocks in our worm
+  var worm = document.getElementById('worm_'+countSelf); // the container for all the blocks that the user can scroll in
   var currentBlock = 0; // what block are we snapped to right now?
   var isScrolling = false; // are we scrolling at all? (both autoscroll and user scroll)
   var scrollingTimout; // the user scroll setTimout reference name
@@ -748,17 +723,16 @@ loadData();
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
       if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]) {
         setTimeout(function(){
-          firstAd = doc.getElementById('first_ad_'+countSelf);
+          firstAd = document.getElementById('first_ad_'+countSelf);
           //grab the sibling igloo element and iject it inside centipede where we can control it
           firstAd.appendChild(friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]);
-          firstAd.getElementsByClassName("widget_zone")[0].style.opacity = 1;
         }, 400);
       }
       else {
         setTimeout(function(){ //wait for dom to render before executing igloo script
           //inject igloo into first_ad div
-          firstAd = doc.getElementById('first_ad_'+countSelf);
-          var s = doc.createElement("script");
+          firstAd = document.getElementById('first_ad_'+countSelf);
+          var s = document.createElement("script");
           s.type = "text/javascript";
           if (input.group != null && input.group != "" && input.p != null && input.p != "") {
             s.src = "//content.synapsys.us/embeds/placement.js?p=" + input.p + "&type=centipede_" + input.group + "&style=inline&league=no_centipede";
@@ -772,7 +746,7 @@ loadData();
     }
     else {
       setTimeout(function(){
-        firstAd = doc.getElementById('first_ad_'+countSelf);
+        firstAd = document.getElementById('first_ad_'+countSelf);
       }, 400);
     }
 
@@ -853,8 +827,8 @@ loadData();
         `;
         worm.innerHTML += outputHTML; //write out the accumulated item's html
         setTimeout(function(){
-          doc.getElementById("next_list").addEventListener("touchend", nextList);
-          doc.getElementById("next_list").addEventListener("click", nextList);
+          document.getElementById("next_list").addEventListener("touchend", nextList);
+          document.getElementById("next_list").addEventListener("click", nextList);
         }, 100);
         friendlyIframe.classList.add("widget_loaded"); //set leaded flag on bounding iframe
       }
@@ -866,7 +840,6 @@ loadData();
     lazyLoaded = false;
     //take igloo out before we wipe the worm
     if (firstAd.getElementsByClassName("widget_zone")[0]) {
-      firstAd.getElementsByClassName("widget_zone")[0].style.opacity = 0;
       friendlyIframe.parentElement.appendChild(firstAd.getElementsByClassName("widget_zone")[0]);
     }
     //wipe worm and reset everything
@@ -892,11 +865,6 @@ loadData();
   worm.addEventListener("scroll", onSwipe);
   function onSwipe() {
     if (userScrolling) { // only execute this code if the user is dragging the worm, not if we are autoscrolling
-      if (isScrolling != true && input.event) { //limit event sending to 1 per user interaction, not every scroll tick
-        // console.log("fired interaction event to igloo");
-        input.event.event = "widget-interaction";
-        sendPostMessageToIgloo(input.event, 10);
-      }
       if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
         lazyLoaded = true;
         clearInterval(lazyLoader);
@@ -915,8 +883,8 @@ loadData();
       // set visibility of helper and list title, based on scroll position
       if (this.scrollLeft > 20) { // scrolled past the first block
         if (pastBeginning == false) {
-          helper2.style.opacity = '0';
           worm.classList.add("stopAnim");
+          helper2.style.opacity = '0';
           pastBeginning = true;
         }
       }
@@ -928,7 +896,7 @@ loadData();
       }
       var rect = firstAd.getBoundingClientRect();
       if (rect.left < -600 || rect.left > 600) { //logic to jump ad to next space when you scroll past it
-        var left = worm.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft+450) /900)].parentElement.offsetLeft + 150;
+        var left = iframeContent.getElementsByClassName("ad_spacer")[Math.floor((this.scrollLeft+450) /900)].parentElement.offsetLeft + 150;
         firstAd.style.left = (left - firstAd.offsetWidth) + "px";
       }
       clearTimeout(scrollingTimout);
@@ -979,36 +947,6 @@ loadData();
   worm.addEventListener("mouseup", onMouseUp, passiveSupported ? { passive: true } : false);
   function onMouseUp(e) {
     worm.removeEventListener("mousemove", onMouseMove);
-  }
-
-  /**
-  * Send a post message to every window up to the top window
-  * @param  {Object}  postObject The object to send as a postMessage
-  * @param  {Integer} maxLoops   The maximum number of layers to traverse up
-  */
-  function sendPostMessageToIgloo(postObject, maxLoops) {
-    // Initialize variables
-    var postWindows = [];
-    var currentWindow = window;
-    var currentLoop = 0;
-    maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
-
-    // Build all of the windows to send the message to
-    try {
-      // Loop through all of the windows
-      while ( currentLoop++ < maxLoops && currentWindow !== window.top ) {
-        // Add to the postMessage array
-        postWindows.push(currentWindow);
-
-        // Move up a layer
-        currentWindow = currentWindow.parent;
-      }
-    } catch (e) {}
-
-    // Send the post messages
-    for ( var i = 0; i < postWindows.length; i++ ) {
-      postWindows[i].postMessage(postObject, '*');
-    }
   }
 
   //logic to snap scrolled block into view, when user scroll has ended
