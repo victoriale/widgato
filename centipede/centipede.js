@@ -996,6 +996,7 @@ loadData();
     // Build all of the windows to send the message to
     try {
       // Loop through all of the windows
+      console.log("current window ", currentWindow, "window.top ",window.top);
       while ( currentLoop++ < maxLoops && currentWindow !== window.top ) {
         // Add to the postMessage array
         postWindows.push(currentWindow);
