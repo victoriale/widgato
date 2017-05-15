@@ -43,7 +43,7 @@ dwlinked = function() {
         // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
         friendlyIframe.className = "dwunlinkIframe"
         friendlyIframe.width = '300';
-        friendlyIframe.height = 600 - 250;//250 is the add height
+        friendlyIframe.height = 600 - 250; //250 is the add height
         friendlyIframe.scrolling = 'no';
         friendlyIframe.style.overflow = 'hidden';
         friendlyIframe.src = 'about:blank';
@@ -60,7 +60,7 @@ dwlinked = function() {
         //create inline style for friendlyIframe
         var style = friendlyIframeWindow.document.createElement("style");
         if (query.wide != null && query.wide != '') {
-            friendlyIframe.width = friendlyIframe.parentNode.clientWidth - 300;//300 being the width
+            friendlyIframe.width = friendlyIframe.parentNode.clientWidth - 300; //300 being the width
             // friendlyIframe.style.maxWidth = '992px';
             friendlyIframe.height = '250';
 
@@ -110,30 +110,41 @@ dwlinked = function() {
     //THEN START UPDATING THE LISTS
     updateList(0);
 
-    // try {
-    //     var baseEvent = l.event;
-    //     baseEvent.event = "widget-interaction";
-    //     var postObject = {
-    //         snt_data: baseEvent,
-    //         action: 'snt_tracker'
-    //     };
-    //
-    //     //create event listeners
-    //     $("button_left").addEventListener("click", function() {
-    //         updateIndex(-1);
-    //         sendPostMessageToIgloo(postObject, 5);
-    //     });
-    //     $("button_right").addEventListener("click", function() {
-    //         updateIndex(1);
-    //         sendPostMessageToIgloo(postObject, 5);
-    //     });
-    //     $("button_atomic").addEventListener("click", function() {
-    //         updateList(1);
-    //         sendPostMessageToIgloo(postObject, 5);
-    //     });
-    // } catch (e) {
-    //     console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
-    //just enable button click events
+    try {
+        var baseEvent = l.event;
+        baseEvent.event = "widget-interaction";
+        var postObject = {
+            snt_data: baseEvent,
+            action: 'snt_tracker'
+        };
+
+        //create event listeners
+        $("button_left").addEventListener("click", function() {
+            updateIndex(-1);
+            sendPostMessageToIgloo(postObject, 5);
+        });
+        $("button_right").addEventListener("click", function() {
+            updateIndex(1);
+            sendPostMessageToIgloo(postObject, 5);
+        });
+        $("button_atomic").addEventListener("click", function() {
+            updateList(1);
+            sendPostMessageToIgloo(postObject, 5);
+        });
+    } catch (e) {
+        console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
+        // just enable button click events
+        $("button_left").addEventListener("click", function() {
+            updateIndex(-1);
+        });
+        $("button_right").addEventListener("click", function() {
+            updateIndex(1);
+        });
+        $("button_atomic").addEventListener("click", function() {
+            updateList(1);
+        });
+    }
+    // //just enable button click events
     // $("button_left").addEventListener("click", function() {
     //   updateIndex(-1);
     // });
@@ -143,17 +154,6 @@ dwlinked = function() {
     // $("button_atomic").addEventListener("click", function() {
     //   updateList(1);
     // });
-    // }
-    //just enable button click events
-    $("button_left").addEventListener("click", function() {
-      updateIndex(-1);
-    });
-    $("button_right").addEventListener("click", function() {
-      updateIndex(1);
-    });
-    $("button_atomic").addEventListener("click", function() {
-      updateList(1);
-    });
 
 
     function getEnv(env) {
