@@ -635,7 +635,7 @@ loadData();
       data.l_title = data.listInfo.listName;
       var items = [];
       if (data.listData[0].rankType == "team") { // team
-        for (i = 0; i < data.listData.length; i++) {
+        for (var i = 0; i < data.listData.length; i++) {
           items.push(
             {
               li_img: protocolToUse + "images.synapsys.us" + data.listData[i].teamLogo,
@@ -649,7 +649,7 @@ loadData();
         }
       }
       else { //player
-        for (i = 0; i < data.listData.length; i++) {
+        for (var i = 0; i < data.listData.length; i++) {
           items.push(
             {
               li_img: protocolToUse + "images.synapsys.us" + data.listData[i].playerHeadshotUrl,
@@ -665,7 +665,7 @@ loadData();
     }
     else if (input.group == "entertainment" || data.category == "celebrities") { //if celeb data, transform it
       var items = [];
-        for (i = 0; i < data.l_data.length; i++) {
+        for (var i = 0; i < data.l_data.length; i++) {
           if (data.l_data[i].data_point_2 == null) {
             data.l_data[i].data_point_2 = "";
           }
@@ -1031,7 +1031,7 @@ loadData();
   function setScroll() {
     var counter = 0;
     var wormScroll = worm.scrollLeft;
-    for (i = 0; i < wormBlocks.length;  i++) {
+    for (var i = 0; i < wormBlocks.length;  i++) {
       var currentBlock = wormBlocks[i];
       if ((wormScroll + 150) >= currentBlock.offsetLeft && (wormScroll + 150) <= (currentBlock.offsetLeft + currentBlock.offsetWidth) && wormScroll > 20) {
         //if user has swiped past the halfway mark on the next block, advance blocks to the one user has scrolled to. Otherwise, reset blocks back to starting point of swipe
