@@ -747,7 +747,7 @@ loadData();
       </div>
     `;
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
-      if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]) {
+      if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]) { // if igloo v3 (igloo stack will load centipede as a sibling dom element)
         setTimeout(function(){
           firstAd = doc.getElementById('first_ad_'+countSelf);
           //grab the sibling igloo element and iject it inside centipede where we can control it
@@ -755,7 +755,7 @@ loadData();
           firstAd.getElementsByClassName("widget_zone")[0].style.opacity = 1;
         }, 400);
       }
-      else {
+      else { // if igloo v2 (placement.js calls centipede, which calls placement.js, which calls igloo)
         setTimeout(function(){ //wait for dom to render before executing igloo script
           //inject igloo into first_ad div
           firstAd = doc.getElementById('first_ad_'+countSelf);
