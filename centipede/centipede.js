@@ -852,11 +852,24 @@ loadData();
         </div>
         `;
         worm.innerHTML += outputHTML; //write out the accumulated item's html
-        setTimeout(function(){
-          doc.getElementById("next_list").addEventListener("touchend", nextList);
-          doc.getElementById("next_list").addEventListener("click", nextList);
-        }, 100);
-        friendlyIframe.classList.add("widget_loaded"); //set leaded flag on bounding iframe
+
+        clearInterval(loadedWait); // make sure we only have one instance of this timer running at a time
+        var loadedWait = setInterval(function(){
+          if (doc.getElementById("next_list")) { // if all the dom elements for centipede are existant
+            clearInterval(loadedWait); // stop ticking the timer - we have finished loading
+            if (input.event) { // if we are in igloo v3 or >
+              // send the list identifiers to yeti analytics
+              input.event.event = "widget-list";
+              input.event.l = data.l_param+","+data.l_sort+","+data.l_input;
+              sendPostMessageToIgloo({action: 'snt_tracker', snt_data: input.event}, 10);
+            }
+            doc.getElementById("next_list").addEventListener("touchend", nextList);
+            doc.getElementById("next_list").addEventListener("click", nextList);
+            friendlyIframe.classList.add("widget_loaded"); //set loaded flag on bounding iframe
+          }
+          //else, if not loaded, keep ticking the timer
+        }, 300);
+
       }
     }
   }
