@@ -166,8 +166,7 @@ button:focus {
 
 .e_info_box-cta button {
     border-radius: 40px;
-    color: inherit;
-    background-color: #ffffff;
+    background-color: transparent;
     display: inline-block;
     position: relative;
     overflow: hidden;
@@ -181,8 +180,6 @@ button:focus {
     border: 1px solid;
     font-size: 12px;
     fill: inherit;
-    color: inherit;
-    background-color: #ffffff;
 }
 
 .cta_button-list:hover {
@@ -199,7 +196,6 @@ button:focus {
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 40px;
     background-color: inherit;
     -webkit-transform: scaleX(0);
     transform: scaleX(0);
@@ -226,7 +222,6 @@ button:focus {
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 40px;
     background-color: inherit;
     -webkit-transform: scaleX(0);
     transform: scaleX(0);
@@ -421,9 +416,10 @@ button:focus {
     transition: visibility 0s linear 0s, opacity 2s;
     background-image: url(../css/public/icons/tile_click.png);
     position: relative;
-    width: 100px;
-    height: 100px;
-    border: none;
+    width: 105px;
+    height: 105px;
+    border: 10px solid rgba(255, 255, 255, 0);
+    right: 5px;
     box-shadow: 0 0 0 0 rgba(255, 255, 255, 1.5);
     border-radius: 50%;
     background-color: rgba(255, 255, 255, .9);
