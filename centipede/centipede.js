@@ -466,6 +466,7 @@ else {
   var currentPub; // the current color scheme and fallback imageset to use
   var lazyLoaded = false; // are the images after the first one loaded in yet?
   var pastBeginning = false; // are we on the first pixel of the first item or not
+  var currentListId = ""; // an ID to send to yeti for the current list
 
   if (typeof input.group == 'undefined' && (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1)) {
       input.category = 'finance'; //default category fallback
@@ -860,7 +861,8 @@ loadData();
             if (input.event) { // if we are in igloo v3 or >
               // send the list identifiers to yeti analytics
               input.event.event = "widget-list";
-              input.event.l = data.l_param+","+data.l_sort+","+data.l_input;
+              currentListId = data.l_param+","+data.l_sort+","+data.l_input;
+              input.event.l = currentListId;
               sendPostMessageToIgloo({action: 'snt_tracker', snt_data: input.event}, 10);
             }
             doc.getElementById("next_list").addEventListener("touchend", nextList);
@@ -908,6 +910,7 @@ loadData();
       if (isScrolling != true && input.event) { //limit event sending to 1 per user interaction, not every scroll tick
         // console.log("fired interaction event to igloo");
         input.event.event = "widget-interaction";
+        input.event.l = currentListId;
         sendPostMessageToIgloo({action: 'snt_tracker', snt_data: input.event}, 10);
       }
       if (lazyLoaded == false) { //if this is the first user interaction with widget, load the rest of the images
