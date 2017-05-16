@@ -1179,9 +1179,19 @@ if(document.readyState == "complete"){ // if page is already loaded, fire centip
   centipede();
 }
 else { // else fire centipede once page has finished loading, so as not to slowdown the page load at all
-  document.onreadystatechange = function () {
-    if(document.readyState == "complete"){
+  var initLoops = 0;
+  var initDelay = setInterval(function(){ // check page load status every half second
+    if(document.readyState == "complete" || initLoops > 10){ // if document is finished loading, or 5 seconds has elapsed
+      clearInterval(initDelay);
       centipede();
     }
-  }
+    else {
+      initLoops++;
+    }
+  }, 500);
+  // document.onreadystatechange = function () {
+  //   if(document.readyState == "complete"){
+  //     centipede();
+  //   }
+  // }
 }
