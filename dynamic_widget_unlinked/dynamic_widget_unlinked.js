@@ -8,7 +8,7 @@ dwlinked = function() {
 
     var embedURL = "dynamic_widget_unlinked";
     document.currentScript = 'test';
-    var currentScript = document.currentScript != null && document.currentScript != ''? (function(){
+    var currentScript = document.currentScript != null ? (function(){
       if(document.currentScript.indexOf(embedURL) != -1){
         return document.currentScript;
       }else{
