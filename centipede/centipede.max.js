@@ -1122,11 +1122,11 @@ loadData();
         currentBlock = i;
         if (wormBlocks[i].getElementsByClassName("ad_item").length >= 1) { //hide title if ad is current item in view
           helper.style.opacity = '0';
-          friendlyIframe.parentElement[input.pause_variable]=true; //unpause ad if its in view
+          parent[input.pause_variable]=true; //unpause ad if its in view
         }
         else {
           helper.style.opacity = '1';
-          friendlyIframe.parentElement[input.pause_variable]=false; //pause ad when its out of view
+          parent[input.pause_variable]=false; //pause ad when its out of view
         }
         return;
       }
