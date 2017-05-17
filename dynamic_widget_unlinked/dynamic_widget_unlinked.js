@@ -48,6 +48,7 @@ dwlinked = function() {
         friendlyIframe.style.overflow = 'hidden';
         friendlyIframe.src = 'about:blank';
         friendlyIframe.style.border = 'none';
+        friendlyIframe.sandbox = 'allow-same-origin';
         currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
 
         friendlyIframeWindow = friendlyIframe.contentWindow;
