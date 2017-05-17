@@ -7,25 +7,15 @@ dwlinked = function() {
     var cssWideFile = '@@import /min/dynamic_widget_unlinked_wide.min.css';
 
     var embedURL = "dynamic_widget_unlinked";
-    console.log(document.currentScript);
-    var currentScript = document.currentScript != null ? (function(){
-      console.log(this);
-      if(this.currentScript.indexOf(embedURL) != -1){
-        return this.currentScript;
-      }else{
-        return currentScript();
-      }
-    })() : currentScript() // resolution for IE since it does not have currentScript to find the currently running script on the page
-
-    function currentScript(){
-      var scripts = document.getElementsByTagName('script');
-      for (var i = scripts.length - 1; i >= 0; i--) {
-          if (scripts[i].src.indexOf(embedURL) != -1) {
-              return scripts[i];
-              i = -1;
-          }
-      }
-    }
+    var currentScript = document.currentScript != null && document.currentScript.indexOf(embedURL) != -1 ? document.currentScript : (function() { // resolution for IE since it does not have currentScript to find the currently running script on the page
+        var scripts = document.getElementsByTagName('script');
+        for (var i = scripts.length - 1; i >= 0; i--) {
+            if (scripts[i].src.indexOf(embedURL) != -1) {
+                return scripts[i];
+                i = -1;
+            }
+        }
+    })();
 
     var friendlyIframeWindow;
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
