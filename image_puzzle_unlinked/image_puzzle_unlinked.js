@@ -301,7 +301,11 @@ function displayWidget() {
             //current index of list
             var curData = dataArray[currentIndex];
             //checks if a proper live image is being sent from team_wide_img or player_wide_img otherwise default to li_img datapoint
-            if (curData.li_img != null && curData.li_img != "") {
+            if (curData.player_wide_img != null && curData.player_wide_img != "") {
+                image = checkImage(imageUrl + curData.player_wide_img);
+            } else if ((curData.player_wide_img == null || curData.player_wide_img == "") && (curData.team_wide_img != null && curData.team_wide_img != "")) {
+                image = checkImage(imageUrl + curData.team_wide_img);
+            } else if ((curData.player_wide_img == null || curData.player_wide_img == "") && (curData.team_wide_img == null || curData.team_wide_img == "") && (curData.li_img != null && curData.li_img != "")) {
                 image = checkImage(curData.li_img);
             } else {
                 image = null;
@@ -400,7 +404,7 @@ function createPuzzle(mainImage, isSolved) {
             if (!isSolved) {
                 var i, index, tile, xPos, yPos;
                 //if the image is a live image then the width needs to be 500 so that the aspect ratio will fit the puzzle completely
-                this.puzzleImage = !this.isLive(mainImage) ? mainImage + "?width=" + (300 * window.devicePixelRatio) : mainImage + "?width=" + (500 * window.devicePixelRatio);
+                this.puzzleImage = !this.isLive(mainImage) ? mainImage + '?width=' + (300 * window.devicePixelRatio) : mainImage + '?width=' + (500 * window.devicePixelRatio);
                 this.initialTiles = [];
                 this.tiles = [];
                 //bind the function and array arguments to the called method
@@ -462,13 +466,15 @@ function createPuzzle(mainImage, isSolved) {
                 if (!this.isLive(this.puzzleImage)) {
                     background.setAttribute('style', 'background-image: url(' + this.puzzleImage + ')');
                 } else {
-                    background.setAttribute('style', 'background-image: url(' + this.puzzleImage + '); background-size: initial; background-position: top center');
+                    background.setAttribute('style', 'background-image: url(' + this.puzzleImage + '); background-size: inherit; background-position: top center');
                 }
                 var image = document.createElement('div');
                 image.setAttribute('id', 'img-background');
                 background.appendChild(image);
                 var onClick = $('solve-me');
                 onClick.setAttribute('onclick', "createPuzzle('" + this.puzzleImage + "', true);");
+                $('button_atomic').onmouseover = function() {$('button_atomic').setAttribute('style', 'border:none !important')};
+                $('button_atomic').onmouseout = function() {$('button_atomic').setAttribute('style', 'border:1px solid')};
                 $('solve').style.display = 'block';
                 $('puzzle').appendChild(background);
                 $('dw-container').style.display = 'none';
@@ -477,16 +483,31 @@ function createPuzzle(mainImage, isSolved) {
                     tile = val[index];
                     tile.show(empty);
                 }
-                var tileClass = document.getElementsByClassName('tile');
+                var tileClass = [document.getElementsByClassName('tile')];
+                //check for the location of the empty tile and add the hover state to the appropriate tile
+                if (empty === 0 || empty === 2) {
+                    this.addAnimation($('1'));
+                } else if (empty === 4 || empty === 6 || empty === 8) {
+                    this.addAnimation($('7'));
+                } else if (empty === 1 || empty === 3 || empty === 5 || empty === 7) {
+                    this.addAnimation($('4'));
+                }
                 //add click event to tiles that are available to be swapped
-                Array.from(tileClass).forEach(function (element) {
-                    return element.addEventListener('click', function (event) {
-                        var toSwitch;
-                        toSwitch = parseInt(event.target.id);
-                        return _this.swapTile(toSwitch, _this.emptyTile());
-                    });
+                tileClass.forEach(function (element) {
+                    for (var i = 0; i < element.length; i++) {
+                        element[i].addEventListener('click', function (event) {
+                            var toSwitch;
+                            toSwitch = parseInt(event.target.id);
+                            _this.swapTile(toSwitch, _this.emptyTile());
+                        });
+                    }
                 });
             }
+        };
+        _puzzle.prototype.addAnimation = function (puzzle) {
+            var hoverClick = document.createElement('div');
+            hoverClick.setAttribute('class', 'animated pulse');
+            puzzle.appendChild(hoverClick);
         };
         _puzzle.prototype.solveMe = function (solvedImage) {
             var solvedBackground = document.createElement('div');
@@ -494,7 +515,7 @@ function createPuzzle(mainImage, isSolved) {
             if (!this.isLive(solvedImage)) {
                 solvedBackground.setAttribute('style', 'background-image: url(' + solvedImage + ')');
             } else {
-                solvedBackground.setAttribute('style', 'background-image: url(' + solvedImage + '); background-size: initial; background-position: top center');
+                solvedBackground.setAttribute('style', 'background-image: url(' + solvedImage + '); background-size: inherit; background-position: top center');
             }
             $('solve').style.display = 'none';
             $('puzzle').appendChild(solvedBackground);
@@ -553,16 +574,7 @@ function createPuzzle(mainImage, isSolved) {
                 setAttributes(puzzle, {"id": this.position, "class": "innerTile image"});
             }
             if (this.isLive) {
-                puzzle.setAttribute('style', 'background-size: initial');
-            }
-            var hoverClick = document.createElement('div');
-            if (this.position === 4 && !$('4')) {
-                hoverClick.setAttribute('class', 'animated pulse');
-                puzzle.appendChild(hoverClick);
-            }
-            else if (this.position === 7 && !$('4')) {
-                hoverClick.setAttribute('class', 'animated pulse');
-                puzzle.appendChild(hoverClick);
+                puzzle.setAttribute('style', 'background-size: inherit');
             }
             $('puzzle').appendChild(puzzle);
             $(this.position).style.backgroundPosition = '-' + this.x + 'px -' + this.y + 'px';
