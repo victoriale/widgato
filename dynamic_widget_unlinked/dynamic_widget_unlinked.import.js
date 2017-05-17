@@ -526,7 +526,6 @@ dwlinked = function() {
             // console.log(e);
         }
         window.dispatchEvent(new Event('resize'));
-        console.log('resize');
     }
     /**************************Display Widget Data END******************/
 
