@@ -7,11 +7,12 @@ dwlinked = function() {
     var cssWideFile = '@@import /min/dynamic_widget_unlinked_wide.min.css';
 
     var embedURL = "dynamic_widget_unlinked";
-    var currentScript = (function() { // resolution for IE since it does not have currentScript to find the currently running script on the page
+    var currentScript = (document.currentScript != null && document.currentScript.indexOf(embedURL) != -1) ? document.currentScript : (function() { // resolution for IE since it does not have currentScript to find the currently running script on the page
         var scripts = document.getElementsByTagName('script');
         for (var i = scripts.length - 1; i >= 0; i--) {
             if (scripts[i].src.indexOf(embedURL) != -1) {
                 return scripts[i];
+                i = -1;
             }
         }
     })();
@@ -524,6 +525,7 @@ dwlinked = function() {
             console.log('Error in displaying widget Data');
             // console.log(e);
         }
+        window.dispatchEvent(new Event('resize'));
     }
     /**************************Display Widget Data END******************/
 
