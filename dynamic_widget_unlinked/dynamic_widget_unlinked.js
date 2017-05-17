@@ -7,7 +7,6 @@ dwlinked = function() {
     var cssWideFile = '@@import /min/dynamic_widget_unlinked_wide.min.css';
 
     var embedURL = "dynamic_widget_unlinked";
-    document.currentScript = 'test';
     var currentScript = document.currentScript != null ? (function(){
       if(document.currentScript.indexOf(embedURL) != -1){
         return document.currentScript;
