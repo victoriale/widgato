@@ -685,9 +685,8 @@ dwlinked = function() {
 
         //when mainimg was an <img> tag
         // $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
-
         //USED to display background color of category if a fallback image is sent back
-        var imageBackground = document.getElementsByClassName('e_image-cover');
+        var imageBackground = friendlyIframeWindow.document.getElementsByClassName('e_image-cover');
         for (var j = 0; j < imageBackground.length; j++) {
             if (showCover) {
                 $("e_image-shader").style.display = "none";
