@@ -525,7 +525,9 @@ dwlinked = function() {
             console.log('Error in displaying widget Data');
             // console.log(e);
         }
-        fireResize();
+        if(wideWidget){
+          fireResize();
+        }
     }
     /**************************Display Widget Data END******************/
 
