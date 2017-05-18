@@ -748,6 +748,7 @@ loadData();
     `;
     if (location.host.indexOf("synapsys.us") == -1 && location.host.indexOf("localhost") == -1 && location.host.indexOf("127.0.0.1") == -1) { //dont run igloo if not on real site
       if (friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0]) { // if igloo v3 (igloo stack will load centipede as a sibling dom element)
+        console.log("centipede detected igloo v3");
         setTimeout(function(){
           firstAd = doc.getElementById('first_ad_'+countSelf);
           //grab the sibling igloo element and iject it inside centipede where we can control it
@@ -758,15 +759,16 @@ loadData();
       else { // if igloo v2 (placement.js calls centipede, which calls placement.js, which calls igloo)
         setTimeout(function(){ //wait for dom to render before executing igloo script
           //inject igloo into first_ad div
+          console.log("centipede detected igloo v2");
           firstAd = doc.getElementById('first_ad_'+countSelf);
           var s = doc.createElement("script");
           s.type = "text/javascript";
-          if (input.group != null && input.group != "" && input.p != null && input.p != "") {
-            s.src = "//content.synapsys.us/embeds/placement.js?p=" + input.p + "&type=centipede_" + input.group + "&style=inline&league=no_centipede";
-          }
-          else {
+          // if (input.group != null && input.group != "" && input.p != null && input.p != "") {
+          //   s.src = "//content.synapsys.us/embeds/placement.js?p=" + input.p + "&type=centipede_" + input.group + "&style=inline&league=no_centipede";
+          // }
+          // else {
             s.src = "//content.synapsys.us/embeds/inline_300x250/partner.js";
-          }
+          // }
           firstAd.appendChild(s);
         }, 400);
       }
