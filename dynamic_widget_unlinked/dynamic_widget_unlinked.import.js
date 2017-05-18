@@ -661,16 +661,6 @@ dwlinked = function() {
         }
         //prep return
         //use global flag for wideWidget (if wide widget is being used then all images are to be returned as fallback stock images)
-        console.log(image);
-        console.log(wideWidget);
-        console.log(image != null &&
-            image.indexOf('no-image') == -1 &&
-            image.indexOf('no_image') == -1 &&
-            image.indexOf('no_player') == -1 &&
-            image.indexOf('fallback') == -1 &&
-            window.location.pathname.indexOf('_970') == -1 &&
-            !wideWidget);
-
         if (image != null &&
             image.indexOf('no-image') == -1 &&
             image.indexOf('no_image') == -1 &&
@@ -695,13 +685,10 @@ dwlinked = function() {
 
         //when mainimg was an <img> tag
         // $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
-        console.log(showCover);
         //USED to display background color of category if a fallback image is sent back
-        console.log(friendlyIframeWindow);
         var imageBackground = friendlyIframeWindow.document.getElementsByClassName('e_image-cover');
         for (var j = 0; j < imageBackground.length; j++) {
             if (showCover) {
-              console.log('reached');
                 $("e_image-shader").style.display = "none";
                 imageBackground[j].style.display = 'block';
             } else {
