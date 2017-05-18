@@ -27,3 +27,5 @@ Install Gulp Remove Empty Lines
 ```npm install --save-dev gulp-remove-empty-lines```
 Install Gulp Trim 
 ```npm install --save-dev gulp-trimlines```
+Install Gulp Plumber
+```npm install --save-dev gulp-plumber```
