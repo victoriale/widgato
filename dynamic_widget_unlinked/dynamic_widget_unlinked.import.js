@@ -525,7 +525,7 @@ dwlinked = function() {
             console.log('Error in displaying widget Data');
             // console.log(e);
         }
-        window.dispatchEvent(new Event('resize'));
+        fireResize();
     }
     /**************************Display Widget Data END******************/
 
@@ -727,6 +727,22 @@ dwlinked = function() {
         }
     }
 }
+
+/**
+ * Manually fires off the window resize event
+ */
+function fireResize(){
+    if (document.createEvent) {
+        var ev = document.createEvent('Event');
+        ev.initEvent('resize', true, true);
+        window.dispatchEvent(ev);
+    }
+    else { // IE
+        element=document.documentElement;
+        var event=document.createEventObject();
+        element.fireEvent("onresize",event);
+    }
+};
 
 //Initial load Waits for the DOMContent to load
 if (document.readyState == "complete") { // if page is already loaded, fire centipede
