@@ -430,7 +430,21 @@ else {
   //initial variable declaration
   var input = {dom:"chicagotribune.com",category:"nba",rand:"1",env:"prod-"};
   if (decodeURIComponent(location.search.substr(1)) != null && decodeURIComponent(location.search.substr(1)) != "") {
-    input = JSON.parse(decodeURIComponent(location.search.substr(1)));
+    try {
+      input = JSON.parse(decodeURIComponent(location.search.substr(1)));
+    }
+    catch(e) {
+      console.log(e);
+      var queryString = currentScript.src.split(embedURL+"?")[1];
+      if (queryString != "" && queryString != null) {
+        try {
+          input = JSON.parse(decodeURI(queryString));
+        }
+        catch(e) {
+          console.log(e);
+        }
+      }
+    }
   }
   else {
     var queryString = currentScript.src.split(embedURL+"?")[1];
