@@ -434,13 +434,14 @@ else {
       input = JSON.parse(decodeURIComponent(location.search.substr(1)));
     }
     catch(e) {
-      console.log(e);
+      console.log("Page level query string JSON invalid. Falling back to embed query string");
       var queryString = currentScript.src.split(embedURL+"?")[1];
       if (queryString != "" && queryString != null) {
         try {
           input = JSON.parse(decodeURI(queryString));
         }
         catch(e) {
+          console.log("Embed level query string JSON invalid");
           console.log(e);
         }
       }
@@ -453,6 +454,7 @@ else {
         input = JSON.parse(decodeURI(queryString));
       }
       catch(e) {
+        console.log("Embed level query string JSON invalid");
         console.log(e);
       }
     }
