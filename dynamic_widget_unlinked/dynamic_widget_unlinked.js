@@ -7,7 +7,7 @@ dwlinked = function() {
     var cssWideFile = '@@import /min/dynamic_widget_unlinked_wide.min.css';
 
     var embedURL = "dynamic_widget_unlinked";
-    var currentScript = (document.currentScript != null && document.currentScript.indexOf(embedURL) != -1) ? document.currentScript : (function() { // resolution for IE since it does not have currentScript to find the currently running script on the page
+    var currentScript = document.currentScript != null && document.currentScript.src.indexOf(embedURL) != -1 ? document.currentScript : (function() { // resolution for IE since it does not have currentScript to find the currently running script on the page
         var scripts = document.getElementsByTagName('script');
         for (var i = scripts.length - 1; i >= 0; i--) {
             if (scripts[i].src.indexOf(embedURL) != -1) {
@@ -50,6 +50,7 @@ dwlinked = function() {
         friendlyIframe.src = 'about:blank';
         friendlyIframe.style.border = 'none';
         currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
+        currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
 
         friendlyIframeWindow = friendlyIframe.contentWindow;
 
@@ -480,7 +481,7 @@ dwlinked = function() {
                 }
 
                 //FINANCE ONE OFF where if finance we want to use only 100% of the height;
-                if (subCategory == 'finance') {
+                if (subCategory == 'finance' && !wideWidget) {
                     $("mainimg").style.backgroundSize = "auto 100%";
                 } else {
                     $("mainimg").style.backgroundSize = "cover";
@@ -525,7 +526,9 @@ dwlinked = function() {
             console.log('Error in displaying widget Data');
             // console.log(e);
         }
-        window.dispatchEvent(new Event('resize'));
+        if(wideWidget){
+          fireResize();
+        }
     }
     /**************************Display Widget Data END******************/
 
@@ -727,6 +730,22 @@ dwlinked = function() {
         }
     }
 }
+
+/**
+ * Manually fires off the window resize event
+ */
+function fireResize(){
+    if (document.createEvent) {
+        var ev = document.createEvent('Event');
+        ev.initEvent('resize', true, true);
+        window.dispatchEvent(ev);
+    }
+    else { // IE
+        element=document.documentElement;
+        var event=document.createEventObject();
+        element.fireEvent("onresize",event);
+    }
+};
 
 //Initial load Waits for the DOMContent to load
 if (document.readyState == "complete") { // if page is already loaded, fire centipede
