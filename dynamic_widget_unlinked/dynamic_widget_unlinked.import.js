@@ -12,7 +12,6 @@ dwlinked = function() {
         for (var i = scripts.length - 1; i >= 0; i--) {
             if (scripts[i].src.indexOf(embedURL) != -1) {
                 return scripts[i];
-                i = -1;
             }
         }
     })();
@@ -51,7 +50,6 @@ dwlinked = function() {
         friendlyIframe.style.border = 'none';
         currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
         currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
-
         friendlyIframeWindow = friendlyIframe.contentWindow;
 
         //create inline html for friendlyIframe
@@ -481,7 +479,7 @@ dwlinked = function() {
                 }
 
                 //FINANCE ONE OFF where if finance we want to use only 100% of the height;
-                if (subCategory == 'finance' && !wideWidget) {
+                if (subCategory == 'finance') {
                     $("mainimg").style.backgroundSize = "auto 100%";
                 } else {
                     $("mainimg").style.backgroundSize = "cover";
@@ -687,9 +685,8 @@ dwlinked = function() {
 
         //when mainimg was an <img> tag
         // $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
-
         //USED to display background color of category if a fallback image is sent back
-        var imageBackground = document.getElementsByClassName('e_image-cover');
+        var imageBackground = friendlyIframeWindow.document.getElementsByClassName('e_image-cover');
         for (var j = 0; j < imageBackground.length; j++) {
             if (showCover) {
                 $("e_image-shader").style.display = "none";
@@ -748,11 +745,11 @@ function fireResize(){
 };
 
 //Initial load Waits for the DOMContent to load
-if (document.readyState == "complete") { // if page is already loaded, fire centipede
+if (document.readyState == "complete" || document.readyState == "interactive") { // if page is already loaded
     dwlinked();
-} else { // else fire centipede once page has finished loading, so as not to slowdown the page load at all
+} else { // elseonce page has finished loading, so as not to slowdown the page load at all
     document.onreadystatechange = function() {
-        if (document.readyState == "complete") {
+        if (document.readyState == "complete" || document.readyState == "interactive") {
             dwlinked();
         }
     }
