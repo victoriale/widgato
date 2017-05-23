@@ -138,7 +138,7 @@ function getCategoryMetadata (category) {
 function getPublisher (pub, env) {
   var apiFallback = false;
   var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", "http://"+ env +"synapview.synapsys.us/?action=get_partner_branding&domain=" + pub, false );
+  xmlHttp.open( "GET", "//"+ env +"synapview.synapsys.us/?action=get_partner_branding&domain=" + pub, false );
   xmlHttp.send( null );
   try {
     var pubResponce = JSON.parse(xmlHttp.responseText);
