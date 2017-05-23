@@ -745,11 +745,11 @@ function fireResize(){
 };
 
 //Initial load Waits for the DOMContent to load
-if (document.readyState == "complete") { // if page is already loaded, fire centipede
+if (document.readyState == "complete" || document.readyState == "interactive") { // if page is already loaded
     dwlinked();
-} else { // else fire centipede once page has finished loading, so as not to slowdown the page load at all
+} else { // elseonce page has finished loading, so as not to slowdown the page load at all
     document.onreadystatechange = function() {
-        if (document.readyState == "complete") {
+        if (document.readyState == "complete" || document.readyState == "interactive") {
             dwlinked();
         }
     }
