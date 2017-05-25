@@ -459,7 +459,16 @@ function createPuzzle(mainImage, isSolved) {
                 _this = this;
             empty = this.emptyTile();
             $('puzzle').innerHTML = '';
-            if (!this.solved()) {
+            if (this.solved()) {
+                //create solved message
+                var solvedBackground = document.createElement('div');
+                solvedBackground.setAttribute('id', 'puzzle-div');
+                solvedBackground.setAttribute('style', 'background-image: url(' + this.puzzleImage + ')');
+                $('solve').style.display = 'none';
+                $('puzzle').appendChild(solvedBackground);
+                $('dw-container').style.display = 'block';
+                return $('puzzle-div').style.display = 'block';
+            } else {
                 //render tiles
                 var background = document.createElement('div');
                 background.setAttribute('id', 'puzzle-background');
