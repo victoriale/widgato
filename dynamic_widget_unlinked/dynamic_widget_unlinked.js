@@ -48,6 +48,8 @@ dwlinked = function() {
         friendlyIframe.style.overflow = 'hidden';
         friendlyIframe.src = 'about:blank';
         friendlyIframe.style.border = 'none';
+        console.log(currentScript);
+        debugger;
         currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
         currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
         friendlyIframeWindow = friendlyIframe.contentWindow;
@@ -88,7 +90,8 @@ dwlinked = function() {
     //determine if a query string is after the index.html location || if query is after a javascript location
     if (location.search != null && location.search != '') {
         query = JSON.parse(decodeURIComponent(location.search.substr(1)));
-        listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
+        // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
+        listRand = Math.floor((Math.random() * 100) + 1);
         //FIRST THING IS SETUP ENVIRONMENTS
     } else {
         var srcQuery = currentScript.src.split("js?")[1];
