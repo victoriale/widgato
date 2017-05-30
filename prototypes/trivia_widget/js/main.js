@@ -726,7 +726,9 @@ function addIntervalScoreFn() {
 // sets functionality for next question button
 function nextQuestionFn() {
     // if last question show results screen
-    if ( questionIterator >= totalQuestions ) {
+    //TODO undo this
+    // if ( questionIterator >= totalQuestions ) {
+    if ( questionIterator >= 1 ) {
         nextQuestionButton_el.onclick = function() { showCompleteFn() };
         nextQuestionButton_el.innerHTML = "<p>Show Results</p>";
     }
@@ -759,7 +761,7 @@ function skipQuestionFn() {
 function showCompleteFn() {
     var comment;
     if ( cumulativeScore < 10 ) {
-        comment = "Ouch!"
+        comment = "Great Job!"
     }
     else if ( cumulativeScore >= 10 && cumulativeScore <= 20 ) {
         comment = "Not Bad!"

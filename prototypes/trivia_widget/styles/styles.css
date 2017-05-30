@@ -230,9 +230,8 @@ p.submission_display {
     overflow: hidden;
     z-index: 5;
     top: 0;
-    width: 100%;
+    width: calc(100% - 300px);
     height: 100%;
-    padding: 10px;
     background: #9f031b; /* Old browsers */ /* FF3.6-15 */
     background: -webkit-linear-gradient(left, #3098ff 0%,#34d4ff 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to right, #3098ff 0%,#34d4ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
@@ -264,11 +263,12 @@ p.submission_display {
     -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
     text-align: center;
     clear: both;
-    padding: 15px 0px 10px;
     -webkit-transform: scale(1);
     transform: scale(1);
     -webkit-transition: all .5s ease-in-out;
     transition: all .5s ease-in-out;
+    border-right: 1px solid rgba(255, 255, 255, 0.32);
+    height: 134px;
 }
 #completed_overlay.hidden .results_container {
     opacity: 0;
@@ -277,6 +277,7 @@ p.submission_display {
     transform: scale(1.65);
 }
 .results_container{
+    width: calc(100% - 375px);
     position: absolute;
     left: 0;
     right: 0;
@@ -284,7 +285,8 @@ p.submission_display {
 }
 .results_container p.comment {
     color: white;
-    font-size: 32px;
+    font-size: 38px;
+    letter-spacing: 2.1px;
     text-transform: uppercase;
     margin-bottom: 10px;
 }
@@ -296,19 +298,21 @@ p.submission_display {
 .score_container .icon {
     position: relative;
     display: inline-block;
-    height: 40px;
-    width: 40px;
+    height: 50px;
+    width: 50px;
     border-radius: 50%;
     vertical-align: middle;
     background: white;
 }
 .score_container .icon .check_mark {
     position: absolute;
-    top: 12px;
+    top: 14px;
     right: 0;
     left: 0;
     margin: 0 auto;
     font-size: 20px;
+    height: 21.3px;
+    width: 27.5px;
 }
 .score_container .score {
     display: inline-block;
@@ -363,8 +367,8 @@ li.sm_icon i {
 }
 .other_content_container {
     position: absolute;
+    width: calc(100% - 259px);
     right: 0;
-    left: 0;
     margin: 0 auto;
     bottom: 25px;
     text-align: center;
