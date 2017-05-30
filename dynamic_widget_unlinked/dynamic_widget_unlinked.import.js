@@ -32,7 +32,7 @@ dwlinked = function() {
     var widgetData; // api returns is sent here
     var tries = 0; // flag for api to try atleast 10 times before failing completely
     var maxTries = 5;
-    var listRand = 0; // used to increment index of random list in database
+    var listRand = Math.floor((Math.random() * 100) + 1); // used to increment index of random list in database
     var subCategory; // with a vast amount groups and categories need we need the currently shown category for the rest of the code
     var query = {};
     var $;
