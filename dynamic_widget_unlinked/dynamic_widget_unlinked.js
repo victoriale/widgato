@@ -48,8 +48,6 @@ dwlinked = function() {
         friendlyIframe.style.overflow = 'hidden';
         friendlyIframe.src = 'about:blank';
         friendlyIframe.style.border = 'none';
-        console.log(currentScript);
-        debugger;
         currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
         currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
         friendlyIframeWindow = friendlyIframe.contentWindow;
