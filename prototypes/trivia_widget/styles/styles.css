@@ -94,6 +94,7 @@ ul li {
 #trivia_container.incorrect_submission #submission_overlay {
     visibility: visible;
     opacity: 1;
+    overflow: hidden;
 }
 #trivia_container.correct_submission #submission_overlay:before {
     position: absolute;
