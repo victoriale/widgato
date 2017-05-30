@@ -21,12 +21,15 @@ var imagePath_el = "./images/";
 var resultsChart_el = document.getElementsByClassName("results_chart");
 var resultsChartValue_el = document.getElementsByClassName("results_chart_value");
 var randomOption_el = document.getElementsByClassName("random_option")[0];
+var progressBar_el = document.getElementById("progress_bar");
+var intervalScore_el = document.getElementById("interval_score");
+var intervalScoreQuestion_el = document.getElementById("interval_score_question");
+var pixelatedContainer_el = document.getElementById("pixelateContainer");
+var pixelatedContainerHeight = pixelatedContainer_el.offsetHeight;
+var pixelatedContainerWidth = pixelatedContainer_el.offsetWidth + 2;
 var youGuessPercentge_el = document.getElementById("percentage_of_guess");
 var url = window.location.href;
-var facebookIcon_el = document.getElementById("facebook_icon");
-var twitterIcon_el = document.getElementById("twitter_icon");
-var googlePlusIcon_el = document.getElementById("google_plus_icon");
-var linkIcon_el = document.getElementById("link_icon");
+
 
 // calculated variables
 var localDataStore;
@@ -46,355 +49,48 @@ var correctResult;
 var correctPercentage;
 var incorrectResult;
 var incorrectPercentage;
-var totalPossibleScore = 5;
+
+// var ctx = pixelateContainer.getContext('2d');
+var pixelatedImage;
+var intervalTimer;
+var pixelationInterval;
 var initialInteraction = false;
+var intervalScore;
+var cumulativeScore = 0;
+var totalPossibleScore = 25;
+
+
 
 // fake data
-var triviaData = {
+var triviaData2 = {
     dataSet_1: {
         data_1: {
-            question: "In which year did Adele win the Album of the Year Grammy for her album \"25\"?",
+            question: "Which actor has won has won two Academy Awards?",
             options: {
                 "1": {
-                    value: "2014",
+                    value: "Daniel Day-Lewis",
                     correct: false
                 },
                 "2": {
-                    value: "2015",
-                    correct: false
-                },
-                "3": {
-                    value: "2016",
-                    correct: false
-                },
-                "4": {
-                    value: "2017",
-                    correct: true
-                }
-            },
-            correct_result: "2017",
-            image: "adele_1.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
-            results: {
-                total: 100,
-                correct: 50,
-                incorrect: 50,
-                male: 70,
-                female: 30
-            }
-        },
-        data_2: {
-            question: "What is Adele's husband's name?",
-            options: {
-                "1": {
-                    value: "Simon",
-                    correct: true
-                },
-                "2": {
-                    value: "Carl",
-                    correct: false
-                },
-                "3": {
-                    value: "Logan",
-                    correct: false
-                },
-                "4": {
-                    value: "Angelo",
-                    correct: false
-                }
-            },
-            correct_result: "Simon",
-            image: "simon.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
-            results: {
-                total: 100,
-                correct: 10,
-                incorrect: 90,
-                male: 80,
-                female: 20
-            }
-        },
-        data_3: {
-            question: "What is the name of Adele's first hit song?",
-            options: {
-                "1": {
-                    value: "Chasing Pavements",
-                    correct: true
-                },
-                "2": {
-                    value: "Hello",
-                    correct: false
-                },
-                "3": {
-                    value: "Lemonade",
-                    correct: false
-                },
-                "4": {
-                    value: "Love in the Dark",
-                    correct: false
-                }
-            },
-            correct_result: "Chasing Pavements",
-            image: "adele_3.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
-            results: {
-                total: 100,
-                correct: 100,
-                incorrect: 0,
-                male: 23,
-                female: 77
-            }
-        },
-        data_4: {
-            question: "In which country was Adele born?",
-            options: {
-                "1": {
-                    value: "England",
-                    correct: true
-                },
-                "2": {
-                    value: "Australia",
-                    correct: false
-                },
-                "3": {
-                    value: "United States",
-                    correct: false
-                },
-                "4": {
-                    value: "Westeros",
-                    correct: false
-                }
-            },
-            correct_result: "England",
-            image: "adele_4.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
-            results: {
-                total: 100,
-                correct: 15,
-                incorrect: 85,
-                male: 55,
-                female: 45
-            }
-        },
-        data_5: {
-            question: "What is the name of Adele's most recent album?",
-            options: {
-                "1": {
-                    value: "19",
-                    correct: false
-                },
-                "2": {
-                    value: "Hello",
-                    correct: false
-                },
-                "3": {
-                    value: "25",
-                    correct: true
-                },
-                "4": {
-                    value: "28",
-                    correct: false
-                }
-            },
-            correct_result: "25",
-            image: "adele_5.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
-            results: {
-                total: 100,
-                correct: 90,
-                incorrect: 10,
-                male: 20,
-                female: 80
-            }
-        }
-    },
-    dataSet_2: {
-        data_1: {
-            question: "Which of these films did not win the Academy Award for Best Picture?",
-            options: {
-                "1": {
-                    value: "Chicaog",
-                    correct: false
-                },
-                "2": {
-                    value: "Pulp Fiction",
+                    value: "Kevin Costner",
                     correct: true
                 },
                 "3": {
-                    value: "Moonlight",
+                    value: "Jack Nicholson",
                     correct: false
                 },
                 "4": {
-                    value: "Dances with Wolves",
+                    value: "Walter Brennan",
                     correct: false
                 }
             },
-            correct_result: "Pulp Fiction",
-            image: "academy_award.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
-            results: {
-                total: 100,
-                correct: 100,
-                incorrect: 0,
-                male: 12,
-                female: 88
-            }
-        },
-        data_2: {
-            question: "Which of these actresses has won the most Academy Awards for Best Actress",
-            options: {
-                "1": {
-                    value: "Meryl Streep",
-                    correct: false
-                },
-                "2": {
-                    value: "Emma Stone",
-                    correct: false
-                },
-                "3": {
-                    value: "Katharine Hepburn",
-                    correct: true
-                },
-                "4": {
-                    value: "Rita Hayworth",
-                    correct: false
-                }
-            },
-            correct_result: "Katharine Hepburn",
-            image: "academy_award_2.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
-            results: {
-                total: 100,
-                correct: 5,
-                incorrect: 95,
-                male: 50,
-                female: 50
-            }
-        },
-        data_3: {
-            question: "Which artist holds the record for most solo albums on the Billboard 200?",
-            options: {
-                "1": {
-                    value: "Michael Jackson",
-                    correct: false
-                },
-                "2": {
-                    value: "Jay-Z",
-                    correct: true
-                },
-                "3": {
-                    value: "Aertha Franklin",
-                    correct: false
-                },
-                "4": {
-                    value: "Beyoncé",
-                    correct: false
-                }
-            },
-            correct_result: "Jay-Z",
-            image: "billboard_200.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
-            results: {
-                total: 100,
-                correct: 25,
-                incorrect: 75,
-                male: 36,
-                female: 64
-            }
-        },
-        data_4: {
-            question: "In which year did rap artist Drake release his chart-topping album \"Views\"?",
-            options: {
-                "1": {
-                    value: "2017",
-                    correct: false
-                },
-                "2": {
-                    value: "2012",
-                    correct: false
-                },
-                "3": {
-                    value: "2015",
-                    correct: false
-                },
-                "4": {
-                    value: "2016",
-                    correct: true
-                }
-            },
-            correct_result: "2016",
-            image: "drake.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
-            results: {
-                total: 100,
-                correct: 58,
-                incorrect: 42,
-                male: 62,
-                female: 38
-            }
-        },
-        data_5: {
-            question: "Which of these Martin Scorsese films had the largest box office opening?",
-            options: {
-                "1": {
-                    value: "Goodfellas",
-                    correct: false
-                },
-                "2": {
-                    value: "Shutter Island",
-                    correct: true
-                },
-                "3": {
-                    value: "The Wolf of Wall Street",
-                    correct: false
-                },
-                "4": {
-                    value: "Cape Fear",
-                    correct: false
-                }
-            },
-            correct_result: "Shutter Island",
-            image: "martin_scorsese.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
-            results: {
-                total: 100,
-                correct: 0,
-                incorrect: 100,
-                male: 12,
-                female: 88
-            }
-        }
-    },
-    dataSet_3: {
-        data_1: {
-            question: "How many Academy Awards has actor Kevin Costner won?",
-            options: {
-                "1": {
-                    value: "One",
-                    correct: false
-                },
-                "2": {
-                    value: "Two",
-                    correct: true
-                },
-                "3": {
-                    value: "Three",
-                    correct: false
-                },
-                "4": {
-                    value: "Four",
-                    correct: false
-                }
-            },
-            correct_result: "Two",
+            correct_result: "Kevin Costner",
             image: "kevin_costner.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
             results: {
-                total: 100,
-                correct: 50,
-                incorrect: 50,
-                male: 40,
-                female: 60
+                total: 0,
+                correct: 0,
+                incorrect: 0
             }
         },
         data_2: {
@@ -418,80 +114,74 @@ var triviaData = {
                 }
             },
             correct_result: "Jim Parsons",
-            image: "big_bang_theory.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
+            image: "jim_parsons.jpg",
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
             results: {
-                total: 100,
-                correct: 80,
-                incorrect: 20,
-                male: 30,
-                female: 70
+                total: 0,
+                correct: 0,
+                incorrect: 0
             }
         },
         data_3: {
-            question: "In which year did the animated comedy \"The Simpsons\" air its first episode?",
+            question: "Which animated comedy aired its first episode in 1989?",
             options: {
                 "1": {
-                    value: "1987",
+                    value: "Family Guy",
                     correct: false
                 },
                 "2": {
-                    value: "1989",
+                    value: "The Simpsons",
                     correct: true
                 },
                 "3": {
-                    value: "1991",
+                    value: "Archer",
                     correct: false
                 },
                 "4": {
-                    value: "1992",
+                    value: "Rick and Morty",
                     correct: false
                 }
             },
-            correct_result: "1989",
+            correct_result: "The Simpsons",
             image: "the_simpsons.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
             results: {
-                total: 100,
-                correct: 90,
-                incorrect: 10,
-                male: 20,
-                female: 80
+                total: 0,
+                correct: 0,
+                incorrect: 0
             }
         },
         data_4: {
-            question: "The Beatles hold the Billboard record for most number-one singles. How many do they have?",
+            question: "Which band holds the Billboard record for the most number-one singles with 20?",
             options: {
                 "1": {
-                    value: "13",
+                    value: "Mariah Carey",
                     correct: false
                 },
                 "2": {
-                    value: "15",
+                    value: "The Rolling Stones",
                     correct: false
                 },
                 "3": {
-                    value: "20",
+                    value: "The Beatles",
                     correct: true
                 },
                 "4": {
-                    value: "25",
+                    value: "The Eagles",
                     correct: false
                 }
             },
-            correct_result: "20",
+            correct_result: "The Beatles",
             image: "the_beatles.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
             results: {
-                total: 100,
-                correct: 50,
-                incorrect: 50,
-                male: 20,
-                female: 80
+                total: 0,
+                correct: 0,
+                incorrect: 0
             }
         },
         data_5: {
-            question: "With adjustment for inflation, which of these films had the largest box office gross?",
+            question: "With adjustment for inflation, which film had the largest box office gross?",
             options: {
                 "1": {
                     value: "Avatar",
@@ -511,14 +201,306 @@ var triviaData = {
                 }
             },
             correct_result: "Gone With the Wind",
-            image: "box_office.jpg",
-            thumbnails: [ "adele_1.jpg", "academy_award.jpg", "kevin_costner.jpg"],
+            image: "gone_with_the_wind.jpg",
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
             results: {
-                total: 100,
-                correct: 70,
-                incorrect: 30,
-                male: 50,
-                female: 50
+                total: 0,
+                correct: 0,
+                incorrect: 0
+            }
+        }
+    },
+    dataSet_2: {
+        data_1: {
+            question: "Which of these films did not win the Academy Award for Best Picture?",
+            options: {
+                "1": {
+                    value: "Chicago",
+                    correct: false
+                },
+                "2": {
+                    value: "Pulp Fiction",
+                    correct: true
+                },
+                "3": {
+                    value: "Moonlight",
+                    correct: false
+                },
+                "4": {
+                    value: "Dances with Wolves",
+                    correct: false
+                }
+            },
+            correct_result: "Pulp Fiction",
+            image: "pulp_fiction.jpg",
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
+            results: {
+                total: 0,
+                correct: 0,
+                incorrect: 0
+            }
+        },
+        data_2: {
+            question: "Which actress has won the most Academy Awards for Best Actress?",
+            options: {
+                "1": {
+                    value: "Meryl Streep",
+                    correct: false
+                },
+                "2": {
+                    value: "Emma Stone",
+                    correct: false
+                },
+                "3": {
+                    value: "Katharine Hepburn",
+                    correct: true
+                },
+                "4": {
+                    value: "Rita Hayworth",
+                    correct: false
+                }
+            },
+            correct_result: "Katharine Hepburn",
+            image: "katherine_hepburn.jpg",
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
+            results: {
+                total: 0,
+                correct: 0,
+                incorrect: 0
+            }
+        },
+        data_3: {
+            question: "Which artist holds the record for most solo albums on the Billboard 200?",
+            options: {
+                "1": {
+                    value: "Michael Jackson",
+                    correct: false
+                },
+                "2": {
+                    value: "Jay-Z",
+                    correct: true
+                },
+                "3": {
+                    value: "Aertha Franklin",
+                    correct: false
+                },
+                "4": {
+                    value: "Beyoncé",
+                    correct: false
+                }
+            },
+            correct_result: "Jay-Z",
+            image: "jayz_4.jpg",
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
+            results: {
+                total: 0,
+                correct: 0,
+                incorrect: 0
+            }
+        },
+        data_4: {
+            question: "Which rap artists released his chart-topping album \"Views\" in 2016?",
+            options: {
+                "1": {
+                    value: "Lil Wayne",
+                    correct: false
+                },
+                "2": {
+                    value: "2-Chains",
+                    correct: false
+                },
+                "3": {
+                    value: "Kanye West",
+                    correct: false
+                },
+                "4": {
+                    value: "Drake",
+                    correct: true
+                }
+            },
+            correct_result: "Drake",
+            image: "drake.jpg",
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
+            results: {
+                total: 0,
+                correct: 0,
+                incorrect: 0
+            }
+        },
+        data_5: {
+            question: "Which Martin Scorsese film had the largest box office opening?",
+            options: {
+                "1": {
+                    value: "Goodfellas",
+                    correct: false
+                },
+                "2": {
+                    value: "Shutter Island",
+                    correct: true
+                },
+                "3": {
+                    value: "The Wolf of Wall Street",
+                    correct: false
+                },
+                "4": {
+                    value: "Cape Fear",
+                    correct: false
+                }
+            },
+            correct_result: "Shutter Island",
+            image: "shutter_island.jpg",
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
+            results: {
+                total: 0,
+                correct: 0,
+                incorrect: 0
+            }
+        }
+    },
+    dataSet_3: {
+        data_1: {
+            question: "In 2017 which album did Adele win the Album of the Year for?",
+            options: {
+                "1": {
+                    value: "Rolling in the Deep",
+                    correct: false
+                },
+                "2": {
+                    value: "28",
+                    correct: false
+                },
+                "3": {
+                    value: "19",
+                    correct: false
+                },
+                "4": {
+                    value: "25",
+                    correct: true
+                }
+            },
+            correct_result: "25",
+            image: "adele_25.jpg",
+            thumbnails: [ "adele_25.jpg", "pulp_fiction.jpg", "kevin_costner.jpg"],
+            results: {
+                total: 0,
+                correct: 0,
+                incorrect: 0
+            }
+        },
+        data_2: {
+            question: "Simon is the name of whos husband?",
+            options: {
+                "1": {
+                    value: "Adele",
+                    correct: true
+                },
+                "2": {
+                    value: "Taylor Swift",
+                    correct: false
+                },
+                "3": {
+                    value: "Carrie Underwood",
+                    correct: false
+                },
+                "4": {
+                    value: "Mariah Carey",
+                    correct: false
+                }
+            },
+            correct_result: "Simon",
+            image: "simon.jpg",
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
+            results: {
+                total: 0,
+                correct: 0,
+                incorrect: 0
+            }
+        },
+        data_3: {
+            question: "What is the name of Adele's first hit song?",
+            options: {
+                "1": {
+                    value: "Chasing Pavements",
+                    correct: true
+                },
+                "2": {
+                    value: "Hello",
+                    correct: false
+                },
+                "3": {
+                    value: "Lemonade",
+                    correct: false
+                },
+                "4": {
+                    value: "Love in the Dark",
+                    correct: false
+                }
+            },
+            correct_result: "Chasing Pavements",
+            image: "chasing_pavements.jpg",
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
+            results: {
+                total: 0,
+                correct: 0,
+                incorrect: 0
+            }
+        },
+        data_4: {
+            question: "In which country was Adele born?",
+            options: {
+                "1": {
+                    value: "England",
+                    correct: true
+                },
+                "2": {
+                    value: "Australia",
+                    correct: false
+                },
+                "3": {
+                    value: "United States",
+                    correct: false
+                },
+                "4": {
+                    value: "Westeros",
+                    correct: false
+                }
+            },
+            correct_result: "England",
+            image: "england_flag.jpg",
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
+            results: {
+                total: 0,
+                correct: 0,
+                incorrect: 0
+            }
+        },
+        data_5: {
+            question: "What is the name of Adele's most recent album?",
+            options: {
+                "1": {
+                    value: "19",
+                    correct: false
+                },
+                "2": {
+                    value: "Hello",
+                    correct: false
+                },
+                "3": {
+                    value: "25",
+                    correct: true
+                },
+                "4": {
+                    value: "28",
+                    correct: false
+                }
+            },
+            correct_result: "25",
+            image: "adele_25.jpg",
+            thumbnails: [ "the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
+            results: {
+                total: 0,
+                correct: 0,
+                incorrect: 0
             }
         }
     }
@@ -529,61 +511,42 @@ var triviaData = {
 // function set to mimick API call
 var localStorageFn = {
     get: function () {
+        console.log("localGET");
         // window.localStorage.clear();
-        if ( localStorage.getItem('triviaData') === null ) {
-            localDataStore = localStorage.setItem('triviaData', JSON.stringify(triviaData));
+        if ( localStorage.getItem('triviaData2') === null ) {
+            localDataStore = localStorage.setItem('triviaData2', JSON.stringify(triviaData2));
         }
-        localDataStore = JSON.parse(localStorage.getItem('triviaData'));
+        localDataStore = JSON.parse(localStorage.getItem('triviaData2'));
         return localDataStore;
     },
     set: function (correctResult, incorrectResult, totalResults) {
-        activeDataSet[dataKey].results.correct = correctResult;
-        activeDataSet[dataKey].results.incorrect = incorrectResult;
-        activeDataSet[dataKey].results.total = totalResults;
-        localStorage.setItem('triviaData', JSON.stringify(localDataStore));
+        console.log("localSET");
+        localDataStore[activeDataSetKey][dataKey].results.correct = correctResult;
+        localDataStore[activeDataSetKey][dataKey].results.incorrect = incorrectResult;
+        localDataStore[activeDataSetKey][dataKey].results.total = totalResults;
+        localStorage.setItem('triviaData2', JSON.stringify(localDataStore));
     }
 } //localStorageFn
 
 
 
-// returns a random data set key that is not the current active key
-function getRandomDataSetKey() {
-    var activeIndex = dataSetTitles.indexOf(activeDataSetKey);
-    var withOutActiveIndex = dataSetTitles.filter(function(e) { return e !== activeDataSetKey });
-    var randomDataSetKey = withOutActiveIndex[Math.floor(Math.random()*withOutActiveIndex.length)];
-    return randomDataSetKey;
-} //getRandomDataSetKey
-
-
-
-function newQuizTimer() {
-    console.log('---newQuizTimer---');
-    intervalTimer = setInterval(function() {
-        if ( !initialInteraction ) {
-            console.log('test');
-            var randomDataSetKey = getRandomDataSetKey();
-            getNewDataSet(randomDataSetKey);
-        }
-    }, 90000);
-}
-newQuizTimer();
-
-
-
-initialSetup();
 // set initial content and variables to start trivia
+console.log('initialSetup');
+initialSetup();
 function initialSetup() {
     activeDataSetKey = activeDataSetKey ? activeDataSetKey : 'dataSet_1';
     activeDataSet = localStorageFn.get()[activeDataSetKey];
+    console.log(activeDataSet,'run localStorageFn GET',activeDataSetKey);
     questionIterator = 1;
     finalQuestion = false;
     userScore = 0;
-    userScore_el.innerHTML = userScore;
+    cumulativeScore = 0;
+    userScore_el.innerHTML = cumulativeScore;
     activeQuestion_el.innerHTML = questionIterator;
-    totalQuestions_el.innerHTML = totalQuestions;
+    totalQuestions_el.innerHTML = totalPossibleScore;
+    // sets other options links on completed overlay views
     for ( var i=0; otherContentOptionContainer_el.length-1 > i; i++ ) {
         otherContentOptionContainer_el[i].id = 'dataSet_'+(i+1);
-        dataSetTitles.push('dataSet_'+(i+1));
     }
     getDataSetKeys();
     setData();
@@ -597,12 +560,13 @@ function getDataSetKeys() {
     for ( var i=0; animationContainer_el.length > i; i++ ) { //subtract 1 because the last item is the shuffle button
         dataSetTitles.push('dataSet_'+(i+1));
     }
+    console.log('dataSetTitles',dataSetTitles);
     return dataSetTitles;
 } //getDataSetKeys
 
 
 
-// sets the random quiz link on the completed overlay
+// sets the random quiz link on the completed quiz overlay
 function setRandomQuizLink() {
     randomOption_el.id = getRandomDataSetKey();
 } //setRandomQuizLink
@@ -634,11 +598,13 @@ function reduceTextSizeCheck(element) {
 
 // Inject data into HTML
 function setData() {
-    triviaOptionsContainer_el.innerHTML = '';
+    triviaOptionsContainer_el.innerHTML = ''; // empty other content options so that can be reset
     triviaContainer_el.className = '';
     nextQuestionButton_el.innerHTML = "<p>Next Question</p>";
-    dataKey = 'data_'+questionIterator;
-    activeDataSet = activeDataSet ? activeDataSet : localDataStore;
+    dataKey = 'data_'+questionIterator; //sets the data key based on question number
+    activeDataSet = activeDataSet ? activeDataSet : localDataStore; //sets dataset
+    console.log('localDataStore',localDataStore);
+    console.log('activeDataSet',activeDataSet);
     var question = activeDataSet[dataKey].question,
         resultDisplay = activeDataSet[dataKey] ? activeDataSet[dataKey].correct_result : 'Whoops!',
         backgroundImage = activeDataSet[dataKey] ? "url("+imagePath_el+activeDataSet[dataKey].image+")" : '';
@@ -690,6 +656,7 @@ function setData() {
         otherContentBgImages.push(thumbnailImage);
         animationContainer_el[i].style.backgroundImage = thumbnailImage;
     }
+    resetPixelationFn(); //reset image pixelation
 }; //setData
 
 
@@ -728,7 +695,9 @@ function setGraphInfo(selectedOption, isCorrectParam) {
 var answerSubmittedFn = {
     correct: function() {
         initialInteraction = true;
-        addScoreFn();
+        addIntervalScoreFn();
+        clearInterval(intervalTimer);
+        clearInterval(pixelationInterval);
         submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
         submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
         triviaContainer_el.className = "correct_submission";
@@ -736,7 +705,9 @@ var answerSubmittedFn = {
     },
     incorrect: function() {
         initialInteraction = true;
-        submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Inorrect";
+        clearInterval(intervalTimer);
+        clearInterval(pixelationInterval);
+        submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
         submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
         triviaContainer_el.className = "incorrect_submission";
         nextQuestionFn();
@@ -745,11 +716,10 @@ var answerSubmittedFn = {
 
 
 
-// function adds to the user score and injects into template
-function addScoreFn() {
-    userScore++;
-    userScore_el.innerHTML = userScore;
-} //addScoreFn
+function addIntervalScoreFn() {
+    cumulativeScore = cumulativeScore + intervalScore;
+    userScore_el.innerHTML = cumulativeScore;
+} //addIntervalScoreFn
 
 
 
@@ -757,7 +727,7 @@ function addScoreFn() {
 function nextQuestionFn() {
     // if last question show results screen
     if ( questionIterator >= totalQuestions ) {
-        nextQuestionButton_el.onclick = function() { showCompletedFn() };
+        nextQuestionButton_el.onclick = function() { showCompleteFn() };
         nextQuestionButton_el.innerHTML = "<p>Show Results</p>";
     }
     else {
@@ -774,7 +744,7 @@ function skipQuestionFn() {
     initialInteraction = true;
     // if last question show results screen
     if ( questionIterator >= totalQuestions ) {
-        showCompletedFn();
+        showCompleteFn();
         nextQuestionButton_el.innerHTML = "<p>Show Results</p>";
     }
     else {
@@ -786,21 +756,21 @@ function skipQuestionFn() {
 
 
 // run function when last question is submitted
-function showCompletedFn() {
+function showCompleteFn() {
     var comment;
-    switch(userScore) {
-        case 0: case 1: case 2:
+    if ( cumulativeScore < 10 ) {
         comment = "Ouch!"
-        break;
-        case 3:
-            comment = "Not Bad!"
-            break;
-        default:
-            comment = "Great Job!"
+    }
+    else if ( cumulativeScore >= 10 && cumulativeScore <= 20 ) {
+        comment = "Not Bad!"
+    }
+    else {
+        comment = "Great Job!"
     }
     scoreComment_el.innerHTML = comment;
     completedOverlay_el.className = "show";
-} //showCompletedFn
+    setRandomQuizLink();
+} //showCompleteFn
 
 
 
@@ -826,7 +796,83 @@ function restartFn() {
 
 // gets new data if user clicks on new quiz
 function getNewDataSet(dataSetKey) {
+    console.log('getNewDataSet');
     activeDataSetKey = dataSetKey;
     localStorageFn.get();
     restartFn();
 } //getNewDataSet
+
+
+
+//set pixelation values
+function resetPixelationFn() {
+    clearInterval(intervalTimer);
+    clearInterval(pixelationInterval);
+    pixelatedImage = new Image();
+    pixelateValue = 0;
+    pixelateValue = 0;
+    progressCounter = 1;
+    pixelationCounter = 0
+    intervalSeconds = 10;
+    intervalScore = 5;
+    blurWidth = pixelatedContainerWidth/intervalSeconds;
+    blurHeight = pixelatedContainerWidth/intervalSeconds;
+    // display start score
+    intervalScoreQuestion_el.innerHTML = "Q"+questionIterator+" - Points : "+intervalScore;
+
+    /// wait until image is actually available
+    pixelatedImage.onload = adjustPixelationFn;
+    pixelatedImage.src = activeDataSet[dataKey] ? imagePath_el+activeDataSet[dataKey].image : '';
+
+} //resetPixelationFn
+
+
+
+//adjust pixelation
+function adjustPixelationFn(v) {
+    pixelateValue ++;
+    var prevWidth = blurWidth,
+        prevHeight = blurHeight,
+        pixelationCounter = 0,
+        progressCounter = 1,
+        intervalCounter = 1000/10, //*--TODO- figure out a way to set this as variable and calcuate adjusting variables accordingly--*//
+        intervalWidth = 30,
+        intervalHeight = 17,
+        intervalSeconds = 10,
+        intervalMiliSeconds = 1000,
+        pixelationDivision = 5000;
+
+
+    // set counter for image animations
+    intervalTimer = setInterval(function() {
+        pixelationCounter++; //value that is adjusted for pixelation animation
+        if ( pixelationCounter >= 5 && pixelationCounter < 9 ) {
+            intervalScore--;
+        }
+        intervalScoreQuestion_el.innerHTML = "Q"+questionIterator+" - Points : "+intervalScore;
+        if ( pixelationCounter === 10 ) {
+            clearInterval(intervalTimer);
+            clearInterval(pixelationInterval);
+            if ( !initialInteraction ) {
+                var randomDataSetKey = getRandomDataSetKey();
+                getNewDataSet(randomDataSetKey);
+            }
+        }
+    }, intervalMiliSeconds);
+
+    // pixelation interval settings
+    pixelationInterval = setInterval(function() {
+        progressCounter++;
+        progressBar_el.style.width = progressCounter+'%';
+        if ( progressCounter <= 20 ) {
+            pixelationDivision = pixelationDivision-100;
+        }
+        else {
+            pixelationDivision = pixelationDivision/1.1;
+        }
+
+        intervalWidth = intervalWidth + (pixelatedContainerWidth/pixelationDivision);
+        intervalHeight = intervalHeight + (pixelatedContainerHeight/pixelationDivision);
+
+    }, intervalMiliSeconds/intervalSeconds);
+} //adjustPixelationFn
