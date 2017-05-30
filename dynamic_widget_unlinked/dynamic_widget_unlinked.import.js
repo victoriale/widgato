@@ -88,7 +88,7 @@ dwlinked = function() {
     //determine if a query string is after the index.html location || if query is after a javascript location
     if (location.search != null && location.search != '') {
         query = JSON.parse(decodeURIComponent(location.search.substr(1)));
-        listRand = query.rand ? query.rand : 1;
+        listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
         //FIRST THING IS SETUP ENVIRONMENTS
     } else {
         var srcQuery = currentScript.src.split("js?")[1];
