@@ -15,10 +15,6 @@
         <script src="//content.synapsys.us/embeds/inline_300x250/remnant.js"></script>
     </div>
     <div id="completed_overlay" class="hidden">
-        <p class="restart light" id="restart" onclick="restartFn()">
-            <i class="fa fa-repeat white" aria-hidden="true"></i>
-            <span class="">Try Again</span>
-        </p>
         <div class="results_container">
             <p class="comment heavy" id="score_comment"></p>
             <div class="score_container">
@@ -33,10 +29,14 @@
                         <span id="total_questions"></span>
                     </p>
                 </div>
+                <p class="restart light" id="restart" onclick="restartFn()">
+                    <i aria-hidden="true"></i>
+                    <span class="try_again">Try Again</span>
+                </p>
             </div>
         </div>
         <div class="other_content_container">
-            <p class="light">Other Celebrity Trivia You May Love:</p>
+            <span class="other_content_title light">Other Celebrity Trivia You May Love:</span>
             <ul class="other_content_options_container">
                 <li class="other_content_option_container" id="" onclick="getNewDataSet(this.id)">
                     <div class="animation_container">
@@ -63,11 +63,13 @@
                     </div>
                 </li>
                 <li class="other_content_option_container random_option hidden" id="" onclick="getNewDataSet(this.id)">
-                    <div class="animation_container-box">
-                        <p>RANDOM</p>
-                        <p>TRIVIA</p>
+                    <div class="animation_container">
+                        <i class="fa fa-random blue" aria-hidden="true"></i>
+                        <div class="animation_container-box">
+                            <p>RANDOM</p>
+                            <p>TRIVIA</p>
+                        </div>
                     </div>
-                    <i class="fa fa-random blue" aria-hidden="true"></i>
                 </li>
             </ul>
         </div>
