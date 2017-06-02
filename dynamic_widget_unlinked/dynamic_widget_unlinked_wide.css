@@ -502,7 +502,7 @@ button:hover {
         font-size: 16px;
     }
     .e_info_box {
-        width: auto;
+        width: calc(100% - 300px);
         min-width: 350px;
         height: 140px;
         position: absolute;

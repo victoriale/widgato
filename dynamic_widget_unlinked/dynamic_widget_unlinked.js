@@ -89,7 +89,7 @@ dwlinked = function() {
     if (location.search != null && location.search != '') {
         query = JSON.parse(decodeURIComponent(location.search.substr(1)));
         // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
-        listRand = Math.floor((Math.random() * 100) + 1);
+        // listRand = Math.floor((Math.random() * 100) + 1);
         //FIRST THING IS SETUP ENVIRONMENTS
     } else {
         var srcQuery = currentScript.src.split("js?")[1];
@@ -715,10 +715,10 @@ dwlinked = function() {
         try {
             // Loop through all of the windows
             while (currentLoop++ < maxLoops && currentWindow !== window.top) {
-                // Add to the postMessage array
-                postWindows.push(currentWindow);
                 // Move up a layer
                 currentWindow = currentWindow.parent;
+                // Add to the postMessage array
+                postWindows.push(currentWindow);
             }
         } catch (e) {}
 
