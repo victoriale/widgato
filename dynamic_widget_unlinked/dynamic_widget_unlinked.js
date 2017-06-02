@@ -715,10 +715,10 @@ dwlinked = function() {
         try {
             // Loop through all of the windows
             while (currentLoop++ < maxLoops && currentWindow !== window.top) {
-                // Add to the postMessage array
-                postWindows.push(currentWindow);
                 // Move up a layer
                 currentWindow = currentWindow.parent;
+                // Add to the postMessage array
+                postWindows.push(currentWindow);
             }
         } catch (e) {}
 
