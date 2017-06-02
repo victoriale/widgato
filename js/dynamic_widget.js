@@ -136,9 +136,10 @@ function getCategoryMetadata (category) {
 }
 
 function getPublisher (pub, env) {
+  var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
   var apiFallback = false;
   var xmlHttp = new XMLHttpRequest();
-  xmlHttp.open( "GET", "//"+ env +"synapview.synapsys.us/?action=get_partner_branding&domain=" + pub, false );
+  xmlHttp.open( "GET", protocolToUse + env +"synapview.synapsys.us/?action=get_partner_branding&domain=" + pub, false );
   xmlHttp.send( null );
   try {
     var pubResponce = JSON.parse(xmlHttp.responseText);
@@ -241,6 +242,10 @@ dynamic_widget = function() {
         l = JSON.parse(decodeURIComponent(location.search.substr(1))),
         n = 0,
         a = ['finance', 'nba', 'college_basketball', 'weather', 'crime', 'demographics', 'politics', 'disaster', 'mlb', 'nfl','ncaaf','nflncaaf'];
+        // hardcoding nba to point at ncaam
+        // if (l.category == "nba") {
+        //   l.category = "college_basketball";
+        // }
         if (l.env != "prod-" && l.env != "dev-") {
           l.env = "prod-";
         }
@@ -254,31 +259,33 @@ dynamic_widget = function() {
         try {
           //clickthrough analitics code
           var baseEvent = l.event;
-          document.getElementById("list-link").addEventListener("click", function(){
-            baseEvent.event = "widget-clicked";
-            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
-          });
-          document.getElementById("imgurl").addEventListener("click", function(){
-            baseEvent.event = "widget-clicked";
-            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
-          });
-          document.getElementById("title").addEventListener("click", function(){
-            baseEvent.event = "widget-clicked";
-            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
-          });
+          if(baseEvent){
+            document.getElementById("list-link").addEventListener("click", function(){
+              baseEvent.event = "widget-clicked";
+              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+            });
+            document.getElementById("imgurl").addEventListener("click", function(){
+              baseEvent.event = "widget-clicked";
+              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+            });
+            document.getElementById("title").addEventListener("click", function(){
+              baseEvent.event = "widget-clicked";
+              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+            });
 
-          document.getElementById("navLeft").addEventListener("click", function(){
-            baseEvent.event = "widget-interaction";
-            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
-          });
-          document.getElementById("navRight").addEventListener("click", function(){
-            baseEvent.event = "widget-interaction";
-            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
-          });
-          document.getElementById("next-list-link").addEventListener("click", function(){
-            baseEvent.event = "widget-interaction";
-            window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
-          });
+            document.getElementById("navLeft").addEventListener("click", function(){
+              baseEvent.event = "widget-interaction";
+              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+            });
+            document.getElementById("navRight").addEventListener("click", function(){
+              baseEvent.event = "widget-interaction";
+              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+            });
+            document.getElementById("next-list-link").addEventListener("click", function(){
+              baseEvent.event = "widget-interaction";
+              window.top.postMessage({snt_data: baseEvent, action: 'snt_tracker'}, '*');
+            });
+          }
         }
         catch(e) {
           console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
@@ -485,13 +492,13 @@ dynamic_widget = function() {
         switch (l.category) {
             case 'nba':
             case 'college_basketball':
-                var a = l.remn == 'true' ? 'http://' + l.subd + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + l.subd + '/' + currentConfig.subCategory + '/w-list';
+                var a = l.remn == 'true' || (SpecialDomain != "" && SpecialDomain != null) ? 'http://' + l.subd + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + l.subd + '/' + currentConfig.subCategory + '/w-list';
                 break;
             case "mlb":
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
                 $("carousel").className = "one";
                 var a = "";
-                a = l.remn == 'true' ? 'http://' + l.subd + '/list' : "http://" + l.subd +'/list';
+                a = 'http://' + l.subd + '/list';
                 var n = false
                 break;
             case "nfl":
@@ -504,7 +511,7 @@ dynamic_widget = function() {
                 var n = false
                 break;
             case 'finance':
-                var a = l.remn == 'true' ? 'http://' + l.subd + '/widget-list' : 'http://' + l.subd + '/w-list';
+                var a = l.remn == 'true' || (SpecialDomain != "" && SpecialDomain != null) ? 'http://' + l.subd + '/widget-list' : 'http://' + l.subd + '/w-list';
                 if (s) {
                     a = a.replace(currentConfig.partnerDomain, o)
                 }
@@ -681,18 +688,20 @@ function p() {
       }
       else {
         var e = r.l_data[i];
-        e.li_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
-        e.li_line_url = l.remn == 'true' ? e.li_primary_url : e.li_partner_url;
+        e.li_url = l.remn == 'true' || (SpecialDomain != "" && SpecialDomain != null) ? e.li_primary_url : e.li_partner_url;
+        e.li_line_url = l.remn == 'true' || (SpecialDomain != "" && SpecialDomain != null) ? e.li_primary_url : e.li_partner_url;
         if (currentConfig.category == "basketball" || currentConfig.category == "baseball") {
           e.li_url = e.li_url.replace("/t/", "/team/");
           e.li_url = e.li_url.replace("/p/", "/player/");
           e.li_line_url = e.li_line_url.replace("/t/", "/team/");
           e.li_line_url = e.li_line_url.replace("/p/", "/player/");
         }
+
         e.li_url = e.li_url.replace("/w-list", "/widget-list");
+
         if (SpecialDomain) {
-          e.li_url = "http://" + e.li_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/").replace('/{partner}', "");
-          e.li_line_url = "http://" + e.li_line_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/").replace('/{partner}', "");
+          e.li_url = "http://" + e.li_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/");
+          e.li_line_url = "http://" + e.li_line_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/");
         }
         else {
           e.li_url = "http:" + e.li_url.replace('{partner}', l.dom);
@@ -756,8 +765,9 @@ function p() {
               cssClass = "finance";
               fallbackImg += "finance_stock.jpg";
         }
-        fallbackImg += "?width=" + (300 * window.devicePixelRatio);
+        //fallbackImg += "?width=" + (300 * window.devicePixelRatio);
         // $('carouselOverlay').className = cssClass;
+        //player live image logic
         // if (l.category == "college_basketball" || l.category == "nba") {
         //   if (e.player_wide_img != "" && e.player_wide_img != null) {
         //     e.li_img = "//" + l.env + "images.synapsys.us" + e.player_wide_img;
