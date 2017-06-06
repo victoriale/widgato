@@ -36,6 +36,7 @@ dwlinked = function() {
     var listRand = Math.floor((Math.random() * 100) + 1); // used to increment index of random list in database
     var subCategory; // with a vast amount groups and categories need we need the currently shown category for the rest of the code
     var query = {};
+    var showCover;
     var $;
 
     function createFriendlyIframe() {
@@ -144,7 +145,11 @@ dwlinked = function() {
                 subCategory = widgetQuery.category;
                 apiCallUrl += synapsysENV(environment) + dwApi + "?cat=" + cat;
             }
-
+            if(widgetQuery.group == 'weather' || widgetQuery.category == 'weather'){
+              wheresWaldo();
+              showCover = true;
+              apiCallUrl += '&location='+getlocation[0].state.toLowerCase()+'&loc_type=state';
+            }
             if (dom != null && dom != "") {
                 apiCallUrl += "&partner=" + dom;
             }
@@ -318,13 +323,6 @@ dwlinked = function() {
      */
     function displayWidget() {
         try {
-            //sets the last updated date
-            // var date = new Date();
-            // var formatedDate = dateFormat(date.getDay(), date.getDate(), date.getMonth(), date.getFullYear());
-            // $('profile-updated').innerHTML = formatedDate.weekday + ", " + formatedDate.month + " " + formatedDate.day + ", " + formatedDate.year;
-
-            //Run dynamic color of widget
-
             /***************************FOOTBALL DATA APPLIANCE*******************************/
             if (query.group == null && (query.category == "football" || query.category == "nfl" || query.category == "ncaaf")) {
                 var dataArray = widgetData.data.listData;
@@ -549,7 +547,6 @@ dwlinked = function() {
      */
     function checkImage(image) {
         var imageReturn;
-        var showCover;
         var fallbackImg;
         var imageWidth = wideWidget ? 690 : 300; //determine which quality widget to use based on if the wide widget is in view
         // $("mainimg").setAttribute('src', '');
@@ -615,12 +612,17 @@ dwlinked = function() {
             imageReturn += "?width=" + (imageWidth * window.devicePixelRatio);
         }
 
+        //for weather they want to force shader
+        if(query.group == 'weather' || query.category == 'weather'){
+          showCover = true;
+        }
         //when mainimg was an <img> tag
         // $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
         //USED to display background color of category if a fallback image is sent back
         var imageBackground = friendlyIframeWindow.document.getElementsByClassName('e_image-cover');
         for (var j = 0; j < imageBackground.length; j++) {
             if (showCover) {
+                $("mainimg").className += " grayscale";
                 $("e_image-shader").style.display = "none";
                 imageBackground[j].style.display = 'block';
             } else {
@@ -718,7 +720,7 @@ dwlinked = function() {
             updateList(1);
         });
     }
-}
+}//end of dwlinked
 
 /**
  * Manually fires off the window resize event
@@ -736,16 +738,35 @@ function fireResize(){
     }
 };
 
-var firstRun = true;
-//Initial load Waits for the DOMContent to load
-if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) { // if page is already loaded'
-firstRun = false;
+function widgetSetup(){
+  //Initial load Waits for the DOMContent to load
+  if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) { // if page is already loaded'
+    firstRun = false;
     dwlinked();
-} else { // elseonce page has finished loading, so as not to slowdown the page load at all
+  } else { // elseonce page has finished loading, so as not to slowdown the page load at all
     document.onreadystatechange = function() {
-        if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) {
-            firstRun = false;
-            dwlinked();
-        }
+      if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) {
+        firstRun = false;
+        dwlinked();
+      }
     }
+  }
 }
+
+function wheresWaldo(){
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function() {
+
+      if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+          //On complete function
+          getlocation =  JSON.parse(xmlHttp.responseText);
+      }
+  }
+  xmlHttp.open("GET", waldo, false); // false for synchronous request
+  xmlHttp.send(null);
+}
+
+var waldo = "//waldo.synapsys.us/getlocation/2";
+var firstRun = true;
+var getlocation;
+widgetSetup()//start waldo call since its required and has no dependencies
