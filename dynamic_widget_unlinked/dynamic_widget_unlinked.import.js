@@ -622,7 +622,9 @@ dwlinked = function() {
         var imageBackground = friendlyIframeWindow.document.getElementsByClassName('e_image-cover');
         for (var j = 0; j < imageBackground.length; j++) {
             if (showCover) {
-                $("mainimg").className += " grayscale";
+                if(friendlyIframeWindow.document.getElementsByClassName('grayscale').length < 1){
+                  $("mainimg").className += " grayscale";
+                }
                 $("e_image-shader").style.display = "none";
                 imageBackground[j].style.display = 'block';
             } else {
