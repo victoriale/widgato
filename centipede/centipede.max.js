@@ -586,7 +586,22 @@ else {
   rand = e;
   if (input.category != null && input.category != "") { //category param
     currentPub = getPublisher(input.category);
-    if (input.category == "nfl" || input.category == "ncaaf" || input.category == "nflncaaf") { //fetch curated TDL API queries
+    if (input.category == "weather" || input.group == "weather") {
+      var waldo = "//waldo.synapsys.us/getlocation/2";
+      var getlocation;
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function() {
+          if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+              //On complete function
+              getlocation =  JSON.parse(xmlHttp.responseText);
+              i.open('GET', protocolToUse + "dev-dw.synapsys.us/list_api.php?group=weather&location="+getlocation[0].state+"&loc_type=state" + '&rand=' + e, true);
+              i.send()
+          }
+      }
+      xmlHttp.open("GET", waldo, false); // false for synchronous request
+      xmlHttp.send(null);
+    }
+    else if (input.category == "nfl" || input.category == "ncaaf" || input.category == "nflncaaf") { //fetch curated TDL API queries
       if (input.category == "nfl") {
         var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array.json';
       }
