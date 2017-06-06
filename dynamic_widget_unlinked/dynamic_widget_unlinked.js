@@ -49,7 +49,6 @@ dwlinked = function() {
       friendlyIframe.style.overflow = 'hidden';
       friendlyIframe.src = 'about:blank';
       friendlyIframe.style.border = 'none';
-      console.log(currentScript);
       currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
       currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
       friendlyIframeWindow = friendlyIframe.contentWindow;
@@ -270,8 +269,6 @@ dwlinked = function() {
                     // On success parse out the response
                     widgetData = JSON.parse(this.responseText);
                     var dataArray = widgetData.l_data != null ? widgetData.l_data : widgetData.data.listData;
-
-                    console.log(widgetData);
 
                     //set maximum index of returned dataLayer
                     if (dataArray.length >= 25) {

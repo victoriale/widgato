@@ -49,7 +49,6 @@ dwlinked = function() {
       friendlyIframe.style.overflow = 'hidden';
       friendlyIframe.src = 'about:blank';
       friendlyIframe.style.border = 'none';
-      console.log(currentScript);
       currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
       currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
       friendlyIframeWindow = friendlyIframe.contentWindow;
@@ -271,8 +270,6 @@ dwlinked = function() {
                     widgetData = JSON.parse(this.responseText);
                     var dataArray = widgetData.l_data != null ? widgetData.l_data : widgetData.data.listData;
 
-                    console.log(widgetData);
-
                     //set maximum index of returned dataLayer
                     if (dataArray.length >= 25) {
                         currentIndex = 24;
@@ -423,7 +420,6 @@ dwlinked = function() {
                 $("mainimg").style.backgroundImage
                     //CELEBRITIES ONE OFF to set proper structure
                 if (subCategory == 'celebrities' || subCategory == 'weather') { //TODO make a more efficient way to set values than whats being done below inside each if else statement
-                  console.log(subCategory);
                     $("profile-rank").innerHTML = curData.li_rank;
                     $("mainimg-rank").innerHTML = curData.li_rank;
                     $("profile-name").innerHTML = curData.li_title;
