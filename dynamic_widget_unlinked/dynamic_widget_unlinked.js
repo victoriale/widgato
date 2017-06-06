@@ -2,6 +2,7 @@
 //gulpfile.js can be found in root directory
 //single quotes and @@import are important for gulp task to work for these files
 dwlinked = function() {
+
     var htmlFile = '@@import /min/index.min.html';
     var cssFile = '@@import /min/dynamic_widget_unlinked.min.css';
     var cssWideFile = '@@import /min/dynamic_widget_unlinked_wide.min.css';
@@ -38,123 +39,53 @@ dwlinked = function() {
     var $;
 
     function createFriendlyIframe() {
-        //create friendly iframe to place ourselves inside
-        var friendlyIframe = document.createElement('iframe');
-        // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
-        friendlyIframe.className = "dwunlinkIframe"
-        friendlyIframe.width = '300';
-        friendlyIframe.height = 600 - 250; //250 is the add height
-        friendlyIframe.scrolling = 'no';
-        friendlyIframe.style.overflow = 'hidden';
-        friendlyIframe.src = 'about:blank';
-        friendlyIframe.style.border = 'none';
-        currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
-        currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
-        friendlyIframeWindow = friendlyIframe.contentWindow;
+      //create friendly iframe to place ourselves inside
+      var friendlyIframe = document.createElement('iframe');
+      // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
+      friendlyIframe.className = "dwunlinkIframe"
+      friendlyIframe.width = '300';
+      friendlyIframe.height = 600 - 250; //250 is the add height
+      friendlyIframe.scrolling = 'no';
+      friendlyIframe.style.overflow = 'hidden';
+      friendlyIframe.src = 'about:blank';
+      friendlyIframe.style.border = 'none';
+      console.log(currentScript);
+      currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
+      currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
+      friendlyIframeWindow = friendlyIframe.contentWindow;
 
-        //create inline html for friendlyIframe
-        friendlyIframeWindow.document.open();
-        friendlyIframeWindow.document.write(htmlFile + '<scr' + 'ipt type="text/javascript"> dwlinked = ' + dwlinked + ' </scr' + 'ipt>');
-        friendlyIframeWindow.document.close();
+      //create inline html for friendlyIframe
+      friendlyIframeWindow.document.open();
+      friendlyIframeWindow.document.write(htmlFile + '<scr' + 'ipt type="text/javascript"> dwlinked = ' + dwlinked + ' </scr' + 'ipt>');
+      friendlyIframeWindow.document.close();
 
-        //create inline style for friendlyIframe
-        var style = friendlyIframeWindow.document.createElement("style");
-        if (query.wide != null && query.wide != '') {
-            friendlyIframe.width = friendlyIframe.parentNode.clientWidth - 300; //300 being the width
-            // friendlyIframe.style.maxWidth = '992px';
-            friendlyIframe.height = '250';
+      //create inline style for friendlyIframe
+      var style = friendlyIframeWindow.document.createElement("style");
+      if (query.wide != null && query.wide != '') {
+        friendlyIframe.width = friendlyIframe.parentNode.clientWidth - 300; //300 being the width
+        // friendlyIframe.style.maxWidth = '992px';
+        friendlyIframe.height = '250';
 
-            //CREATE LISTENER FOR RESIZE
-            window.addEventListener('resize', function() {
-                //set iframe to width of parent node
-                friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
-            }, true);
+        //CREATE LISTENER FOR RESIZE
+        window.addEventListener('resize', function() {
+          //set iframe to width of parent node
+          friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
+        }, true);
 
-            style.appendChild(friendlyIframeWindow.document.createTextNode(cssWideFile));
-            wideWidget = true; //set wide flag
-        } else {
-            style.appendChild(friendlyIframeWindow.document.createTextNode(cssFile));
-        }
+        style.appendChild(friendlyIframeWindow.document.createTextNode(cssWideFile));
+        wideWidget = true; //set wide flag
+      } else {
+        style.appendChild(friendlyIframeWindow.document.createTextNode(cssFile));
+      }
 
-        //append the css file into iframe head
-        friendlyIframeWindow.document.head.appendChild(style);
+      //append the css file into iframe head
+      friendlyIframeWindow.document.head.appendChild(style);
 
-        //create variable to be used similar to jquery for id's
-        $ = function(e) { // create a simple version for grabbing id's of elements
-            return friendlyIframeWindow.document.getElementById(e)
-        };
+      //create variable to be used similar to jquery for id's
+      $ = function(e) { // create a simple version for grabbing id's of elements
+        return friendlyIframeWindow.document.getElementById(e)
+      };
     }
-
-    //determine if a query string is after the index.html location || if query is after a javascript location
-    if (location.search != null && location.search != '') {
-        query = JSON.parse(decodeURIComponent(location.search.substr(1)));
-        // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
-        // listRand = Math.floor((Math.random() * 100) + 1);
-        //FIRST THING IS SETUP ENVIRONMENTS
-    } else {
-        var srcQuery = currentScript.src.split("js?")[1];
-        if (srcQuery != "" && srcQuery != null) {
-            try {
-                query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
-            } catch (e) {
-                console.log(e);
-            }
-        }
-    }
-
-    //create friendly iframe
-    createFriendlyIframe();
-
-    //after you get the query you set the enironment
-    setupEnvironment(query);
-
-    //THEN START UPDATING THE LISTS
-    updateList(0);
-
-    try {
-        var baseEvent = query.event;
-        baseEvent.event = "widget-interaction";
-        var postObject = {
-            snt_data: baseEvent,
-            action: 'snt_tracker'
-        };
-        //create event listeners
-        $("button_left").addEventListener("click", function() {
-            updateIndex(-1);
-            sendPostMessageToIgloo(postObject, 5);
-        });
-        $("button_right").addEventListener("click", function() {
-            updateIndex(1);
-            sendPostMessageToIgloo(postObject, 5);
-        });
-        $("button_atomic").addEventListener("click", function() {
-            updateList(1);
-            sendPostMessageToIgloo(postObject, 5);
-        });
-    } catch (e) {
-        console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
-        // just enable button click events
-        $("button_left").addEventListener("click", function() {
-            updateIndex(-1);
-        });
-        $("button_right").addEventListener("click", function() {
-            updateIndex(1);
-        });
-        $("button_atomic").addEventListener("click", function() {
-            updateList(1);
-        });
-    }
-    // //just enable button click events
-    // $("button_left").addEventListener("click", function() {
-    //   updateIndex(-1);
-    // });
-    // $("button_right").addEventListener("click", function() {
-    //   updateIndex(1);
-    // });
-    // $("button_atomic").addEventListener("click", function() {
-    //   updateList(1);
-    // });
-
 
     function getEnv(env) {
         if (env.match(/localhost/g) != null || env.match(/dev/g) != null) {
@@ -328,7 +259,7 @@ dwlinked = function() {
      */
     function runAPI(apiUrl) { //Make it to where it is easy to be reused by anyone
         //variable that stores the response of an http request
-        if (window.XMLHttpRequest) {
+        if (friendlyIframeWindow.XMLHttpRequest) {
             var xhttp = new XMLHttpRequest();
         } else {
             var xhttp = new ActiveXObject('Microsoft.XMLHTTP')
@@ -339,6 +270,9 @@ dwlinked = function() {
                     // On success parse out the response
                     widgetData = JSON.parse(this.responseText);
                     var dataArray = widgetData.l_data != null ? widgetData.l_data : widgetData.data.listData;
+
+                    console.log(widgetData);
+
                     //set maximum index of returned dataLayer
                     if (dataArray.length >= 25) {
                         currentIndex = 24;
@@ -366,7 +300,7 @@ dwlinked = function() {
                         apiCallUrl = fallBackApi;
                     }
                     if (tries++ > maxTries) { // IF WIDGET FAILS THEN HIDE THE ENTIRE CONTAINER
-                        document.getElementsByClassName('e_container')[0].style.display = 'none';
+                        friendlyIframeWindow.document.getElementsByClassName('e_container')[0].style.display = 'none';
                         throw msg + " | hiding widget fallback failed container | => PLEASE CONTACT YOUR PROVIDER";
                     }
                     setTimeout(runAPI(apiUrl), 500)
@@ -488,7 +422,7 @@ dwlinked = function() {
 
                 $("mainimg").style.backgroundImage
                     //CELEBRITIES ONE OFF to set proper structure
-                if (subCategory == 'celebrities') { //TODO make a more efficient way to set values than whats being done below inside each if else statement
+                if (subCategory == 'celebrities' || subCategory == 'weather') { //TODO make a more efficient way to set values than whats being done below inside each if else statement
                     $("profile-rank").innerHTML = curData.li_rank;
                     $("mainimg-rank").innerHTML = curData.li_rank;
                     $("profile-name").innerHTML = curData.li_title;
@@ -727,6 +661,66 @@ dwlinked = function() {
             postWindows[i].postMessage(postObject, '*');
         }
     }
+
+    //determine if a query string is after the index.html location || if query is after a javascript location
+    if (location.search != null && location.search != '') {
+        query = JSON.parse(decodeURIComponent(location.search.substr(1)));
+        // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
+        // listRand = Math.floor((Math.random() * 100) + 1);
+        //FIRST THING IS SETUP ENVIRONMENTS
+    } else {
+        var srcQuery = currentScript.src.split("js?")[1];
+        if (srcQuery != "" && srcQuery != null) {
+            try {
+                query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
+
+    //create friendly iframe
+    createFriendlyIframe();
+
+    //after you get the query you set the enironment
+    setupEnvironment(query);
+
+    //THEN START UPDATING THE LISTS
+    updateList(0);
+
+    try {
+        var baseEvent = query.event;
+        baseEvent.event = "widget-interaction";
+        var postObject = {
+            snt_data: baseEvent,
+            action: 'snt_tracker'
+        };
+        //create event listeners
+        $("button_left").addEventListener("click", function() {
+            updateIndex(-1);
+            sendPostMessageToIgloo(postObject, 5);
+        });
+        $("button_right").addEventListener("click", function() {
+            updateIndex(1);
+            sendPostMessageToIgloo(postObject, 5);
+        });
+        $("button_atomic").addEventListener("click", function() {
+            updateList(1);
+            sendPostMessageToIgloo(postObject, 5);
+        });
+    } catch (e) {
+        console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
+        // just enable button click events
+        $("button_left").addEventListener("click", function() {
+            updateIndex(-1);
+        });
+        $("button_right").addEventListener("click", function() {
+            updateIndex(1);
+        });
+        $("button_atomic").addEventListener("click", function() {
+            updateList(1);
+        });
+    }
 }
 
 /**
@@ -745,12 +739,15 @@ function fireResize(){
     }
 };
 
+var firstRun = true;
 //Initial load Waits for the DOMContent to load
-if (document.readyState == "complete" || document.readyState == "interactive") { // if page is already loaded
+if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) { // if page is already loaded'
+firstRun = false;
     dwlinked();
 } else { // elseonce page has finished loading, so as not to slowdown the page load at all
     document.onreadystatechange = function() {
-        if (document.readyState == "complete" || document.readyState == "interactive") {
+        if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) {
+            firstRun = false;
             dwlinked();
         }
     }
