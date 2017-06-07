@@ -483,6 +483,8 @@ else {
   var lazyLoaded = false; // are the images after the first one loaded in yet?
   var pastBeginning = false; // are we on the first pixel of the first item or not
   var currentListId = ""; // an ID to send to yeti for the current list
+  var waldo = "//waldo.synapsys.us/getlocation/2";
+  var getlocation;
 
   if (typeof input.group == 'undefined' && (typeof input.category == 'undefined' || categories.indexOf(input.category) == -1)) {
       input.category = 'finance'; //default category fallback
@@ -546,6 +548,18 @@ else {
         return pubs[pub];
       }
   }
+  function wheresWaldo(){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() {
+
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            //On complete function
+            getlocation =  JSON.parse(xmlHttp.responseText);
+        }
+    }
+    xmlHttp.open("GET", waldo, false); // false for synchronous request
+    xmlHttp.send(null);
+  }
 
   function loadData() {
     //rand is a random value (1-50) that coresponds to a specific list for a given category (does not apply to football)
@@ -586,7 +600,12 @@ else {
   rand = e;
   if (input.category != null && input.category != "") { //category param
     currentPub = getPublisher(input.category);
-    if (input.category == "nfl" || input.category == "ncaaf" || input.category == "nflncaaf") { //fetch curated TDL API queries
+    if (input.category == "weather" || input.group == "weather") {
+      wheresWaldo();
+      i.open('GET', apiUrl + "?group=weather&location="+getlocation[0].state+"&loc_type=state" + '&rand=' + e, true);
+      i.send()
+    }
+    else if (input.category == "nfl" || input.category == "ncaaf" || input.category == "nflncaaf") { //fetch curated TDL API queries
       if (input.category == "nfl") {
         var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array.json';
       }
