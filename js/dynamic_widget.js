@@ -456,6 +456,7 @@ dynamic_widget = function() {
         wheresWaldo();
         i.open('GET', t + "?group=weather&location="+getlocation[0].state+"&loc_type=state" + '&rand=' + e, true);
         i.send()
+        l.showLink="false";
       }
       if (currentConfig.category == "football") {
         i.open('GET', protocol + "://"+l.env+"touchdownloyal-api.synapsys.us/list/" + query , true);
@@ -564,7 +565,7 @@ dynamic_widget = function() {
         }
         if (l.showLink == 'false') {
           $('list-link').style.display = "none";
-          $('next-list-link').getElementsByClassName("dw-btn")[0].style.marginLeft = "calc(50% - 85px)";
+          $('next-list-link').getElementsByClassName("dw-btn")[0].style.marginLeft = "calc(50% - 65px)";
           var linkHovers = document.getElementsByClassName("hover");
           for (i = 0; i < linkHovers.length; i++) {
             linkHovers[i].style.display = "none";
