@@ -576,6 +576,8 @@ dwlinked = function() {
             case "demographics":
             case "crime":
             case "weather":
+                fallbackImg = "weather_stock.jpg";
+                break;
             case "politics":
                 fallbackImg = "real_estate_stock.jpg";
                 break;
@@ -588,6 +590,7 @@ dwlinked = function() {
             default:
                 fallbackImg = "failback.jpg";
         }
+
         //prep return
         //use global flag for wideWidget (if wide widget is being used then all images are to be returned as fallback stock images)
         if (image != null &&
