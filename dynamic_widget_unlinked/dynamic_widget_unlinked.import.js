@@ -87,7 +87,7 @@ dwlinked = function() {
 
       //determine if a query string is after the index.html location || if query is after a javascript location
       if (friendlyIframeWindow.location.search != null && friendlyIframeWindow.location.search != '') {
-          query = JSON.parse(decodeURIComponent(location.search.substr(1)));
+          query = JSON.parse(decodeURIComponent(friendlyIframeWindow.location.search.substr(1)));
           // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
           // listRand = Math.floor((Math.random() * 100) + 1);
           //FIRST THING IS SETUP ENVIRONMENTS
