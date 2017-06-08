@@ -257,7 +257,6 @@ dynamic_widget = function() {
         }
         currentConfig = getCategoryMetadata(l.category);
         currentPub = getPublisher(l.dom, l.env.replace("prod-",""));
-
         try {
           //clickthrough analitics code
           var baseEvent = l.event;
@@ -296,7 +295,12 @@ dynamic_widget = function() {
         //new dyanmic pub color css code
         $('pub_logo').style.backgroundImage = "url('" + currentPub.logo + "')";
         $('pub_link').href = "http://" + currentPub.link;
-        var css = '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
+        var css;
+        if (l.category.toLowerCase() !== 'weather') {
+            css = '#carousel:hover .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
+        } else {
+            css = '#carousel .carouselShaderHover {background-color: ' + currentPub.hex + '; opacity: 0.4;} ';
+        }
         if (window.location.pathname.indexOf("_970") != -1) {
           css += '#list-link .dw-btn {background-color: ' + currentPub.hex + '; border: none;}';
           css += '#list-link .dw-btn:before {background-color: black;}';
@@ -383,6 +387,7 @@ dynamic_widget = function() {
     }
 
     function m(ignoreRandom) {
+      rounds = 0;
       i = 0;// resets index count to 0 when swapping lists
       if (currentConfig.category == "football") {
         httpGetInitData(l.category);
@@ -458,11 +463,10 @@ dynamic_widget = function() {
         i.send()
         l.showLink="false";
       }
-      if (currentConfig.category == "football") {
+      else if (currentConfig.category == "football") {
         i.open('GET', protocol + "://"+l.env+"touchdownloyal-api.synapsys.us/list/" + query , true);
         i.send()
-      }
-      else {
+      }  else {
         if (l.county != null && l.county != "") { // ajc one off api code
           if (l.county.indexOf('metro') != -1) {
             i.open('GET', "http://"+l.env.replace("prod-","")+"dw.synapsys.us/ajc_list_api.php" + '?location=' + l.county + '&category=' + l.category + '&rand=' + e + "&metro=true", true);
@@ -567,13 +571,12 @@ dynamic_widget = function() {
           $('list-link').style.display = "none";
           $('next-list-link').getElementsByClassName("dw-btn")[0].style.marginLeft = "calc(50% - 65px)";
           var linkHovers = document.getElementsByClassName("hover");
-          for (i = 0; i < linkHovers.length; i++) {
-            linkHovers[i].style.display = "none";
+          for (var j = 0; j < linkHovers.length; j++) {
+            linkHovers[j].style.display = "none";
           }
         } else {
 
         }
-
         p()
       }
 function p() {
@@ -587,7 +590,6 @@ function p() {
 "July", "August", "September", "October", "November", "December" ];
   var dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   $('meta').innerHTML = "Posted on " + dayNames[date.getDay()] + ", " + monthNames[date.getMonth()] + " " + date.getDate() + ", " + date.getFullYear();
-
       if (currentConfig.category == "football") {
         var e = r.data.listData[i];
         var v_link = '';
@@ -640,13 +642,13 @@ function p() {
             case "player_kicking_longest_field_goal_made":
             case "player_returning_longest_return":
             case "player_punting_longest_punt":
-                $('desc').innerHTML = statType + ": " + stat + " yards";
+                $('data-title1').innerHTML = statType + ": <b class='highlight'>" + stat + "</b>yards";
                 break;
             case "player_punting_inside_twenty":
-                $('desc').innerHTML = stat + " punts";
+                $('data-title1').innerHTML = "<b class='highlight'>" + stat + "</b> punts";
                 break;
             default:
-                $('desc').innerHTML = statType + ": " + stat;
+                $('data-title1').innerHTML = statType + ": <b class='highlight'>" + stat + "</b>";
         }
 
         var t = $('mainimg');
@@ -731,23 +733,41 @@ function p() {
             e.li_url = e.li_url.replace('www.myinvestkit.com', o);
             e.li_line_url = e.li_line_url.replace('www.myinvestkit.com', o)
         }
-
+          
+        $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
+        $('fallbackNum').innerHTML = '#' + e.li_rank;
         $('line1').innerHTML = e.li_title;
         $('line2').innerHTML = e.li_sub_txt;
-        if ($('line4') == null) {
-          if (e.li_str.indexOf(e.li_value) != -1) {
-            $('desc').innerHTML = e.li_str.replace(e.li_value, "<b class='highlight'>" + e.li_value + "</b>");
+          if (currentConfig.category === 'celebrities' || currentConfig.category === 'weather') {
+              if (e.data_value_1 != null) {
+                  $("profile-datavalue1").innerHTML = e.data_value_1;
+                  $("profile-datapoint1").innerHTML = e.data_point_1 != null ? e.data_point_1 : '';
+                  $("data-title1").setAttribute("title", e.data_value_1 == '' ? e.data_point_1 : e.data_value_1);
+              } else {
+                  $("profile-datavalue1").innerHTML = e.fallback_data_value_1 != null ? e.fallback_data_value_1 : '';
+                  $("profile-datapoint1").innerHTML = e.fallback_data_point_1 != null ? e.fallback_data_point_1 : '';
+                  $("data-title1").setAttribute("title", e.fallback_data_value_1);
+              }
+
+              $("profile-datapoint2").innerHTML = e.data_point_2 != null ? e.data_point_2 : '';
+              $("profile-datavalue2").innerHTML = e.data_value_2 != null ? " " + e.data_value_2 : '';
+              $("data-title2").setAttribute("title", e.data_value_2);
+          } else {
+              if ($('line4') == null) {
+                if (e.li_str.indexOf(e.li_value) != -1) {
+                  $('data-title1').innerHTML = e.li_str.replace(e.li_value, "<b class='highlight'>" + e.li_value + "</b>");
+                }
+                else {
+                  $('data-title1').innerHTML = e.li_str.replace(e.li_value.split(" ")[0], "<b class='highlight'>" + e.li_value.split(" ")[0] + "</b>");
+                }
+              } else {
+                  $('data-title1').innerHTML = e.li_value;
+                  $('line4').innerHTML = e.li_tag
+              }
+              if (l.showLink != 'false') {
+                $('line1').href = e.li_line_url;
+              }
           }
-          else {
-            $('desc').innerHTML = e.li_str.replace(e.li_value.split(" ")[0], "<b class='highlight'>" + e.li_value.split(" ")[0] + "</b>");
-          }
-        } else {
-            $('desc').innerHTML = e.li_value;
-            $('line4').innerHTML = e.li_tag
-        }
-        if (l.showLink != 'false') {
-          $('line1').href = e.li_line_url;
-        }
         var t = $('mainimg');
         var n = t.getAttribute('onerror');
         t.setAttribute('onerror', '');
@@ -809,8 +829,6 @@ function p() {
         setTimeout(function(e, t) {
             t.setAttribute('onerror', e)
         }.bind(undefined, n, t), 0);
-        $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
-        $('fallbackNum').innerHTML = '#' + e.li_rank;
         // if (e.li_subimg !== false) {
         //     var a = l.remn == 'true' ? e.li_primary_url : e.li_partner_url.replace('{partner}', l.dom);
         //     if (s) {
@@ -913,7 +931,7 @@ function p() {
           if (r.data.listData[i].rankType == "player") {
             for (n = 0; n < r.data.listData.length && goodNumber == 0; n++) {
               if (r.data.listData[n].playerHeadshotUrl != null && r.data.listData[n].playerHeadshotUrl.indexOf("no-image") == -1) {
-                goodNumber = n;
+                goodNumber = r.data.listData.length - 1;
                 break;
               }
             }
@@ -921,7 +939,7 @@ function p() {
           else {
             for (n = 0; n < r.data.listData.length && goodNumber == 0; n++) {
               if (r.data.listData[n].teamLogo != null && r.data.listData[n].teamLogo.indexOf("no-image") == -1) {
-                goodNumber = n;
+                goodNumber = r.data.listData.length - 1;
                 break;
               }
             }
@@ -932,11 +950,14 @@ function p() {
         case "college_basketball":
             for (n = 0; n < r.l_data.length && goodNumber == 0; n++) {
               if (r.l_data[i].li_img != null && r.l_data[i].li_img.indexOf("no-image") == -1) {
-                goodNumber = n;
+                goodNumber = r.l_data.length - 1;
                 break;
               }
             }
           break;
+            default:
+              goodNumber = r.l_data.length - 1;
+              break;
       }
         w(goodNumber, true);
     }
