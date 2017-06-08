@@ -76,7 +76,7 @@ dwlinked = function() {
       var srcQuery = currentScript.src.split("js?")[1];
       //determine if a query string is after the index.html location || if query is after a javascript location
       var hostname = new RegExp(document.location.hostname);
-      if (hostname.test('localhost') || hostname.test('w1.synapsys.us') || hostname.test('homestead.widgets') && (document.location.search != null && document.location.search != '')) {
+      if (hostname.test('localhost') || hostname.test('w1.synapsys.us') || hostname.test('dev-w1.synapsys.us') || hostname.test('homestead.widgets') && (document.location.search != null && document.location.search != '')) {
         query = JSON.parse(decodeURIComponent(document.location.search.substr(1)));
         // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
         // listRand = Math.floor((Math.random() * 100) + 1);
