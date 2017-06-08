@@ -61,10 +61,10 @@
             </div>
         </a>
       </div>
-      <svg class="dw-nav dw-c-l" id="navLeft" stroke=#FFFFFF onclick=dynamic_widget.carousel(-1)>
+      <svg class="dw-nav dw-c-l" id="navLeft" stroke=#FFFFFF onclick=dynamic_widget.carousel(1)>
         <path d="m 11,20 L 6,25 L 11,30" stroke-width=2 fill=none stroke-linecap=round></path>
       </svg>
-      <svg class="dw-nav dw-c-r" id="navRight" stroke=#FFFFFF onclick=dynamic_widget.carousel(1)>
+      <svg class="dw-nav dw-c-r" id="navRight" stroke=#FFFFFF onclick=dynamic_widget.carousel(-1)>
           <path d="m 9,20 L 14,25 L 9,30" stroke-width=2 fill=none stroke-linecap=round></path>
       </svg>
         <div id=carousel>
@@ -90,7 +90,14 @@
               <a target=_blank id=line1></a>
           </div>
           <div class=dw-i-title id=line2></div>
-          <div id=desc class="line-clamp"></div>
+          <div id="data-title1" class="line-clamp">
+              <span id="profile-datapoint1"></span>
+              <span id="profile-datavalue1"></span>
+          </div>
+          <div id="data-title2" class="line-clamp">
+              <span id="profile-datapoint2"></span>
+              <span id="profile-datavalue2"></span>
+          </div>
           <div id=meta >Posted on {Day of the week}, {Month} {DD}, {YYYY}</div>
         </div>
         <a target=_blank id=list-link href="">
