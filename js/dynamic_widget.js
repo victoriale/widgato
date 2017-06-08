@@ -225,6 +225,8 @@ var currentDomain = "";
 var verticalsUsingSubdom = ['mlb', 'nfl', 'ncaaf', 'nflncaaf'];
 var rounds = 0;
 var rand;
+var waldo = "//waldo.synapsys.us/getlocation/2";
+var getlocation;
 // if in iframe, get url from parent (referrer), else get it from this window location (works for localhost)
 var baseUrl = referrer.length ? getBaseUrl(referrer) : window.location.origin;
 
@@ -390,6 +392,18 @@ dynamic_widget = function() {
       }
 
     }
+    function wheresWaldo(){
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function() {
+
+          if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+              //On complete function
+              getlocation =  JSON.parse(xmlHttp.responseText);
+          }
+      }
+      xmlHttp.open("GET", waldo, false); // false for synchronous request
+      xmlHttp.send(null);
+    }
     function httpGetData(query, ignoreRandom) {
       if (l.dom == 'lasvegasnow.com') {
           s = true;
@@ -438,6 +452,12 @@ dynamic_widget = function() {
           }
       };
       rand = e;
+      if (currentConfig.category == "weather" || l.group == "weather") {
+        wheresWaldo();
+        i.open('GET', t + "?group=weather&location="+getlocation[0].state+"&loc_type=state" + '&rand=' + e, true);
+        i.send()
+        l.showLink="false";
+      }
       if (currentConfig.category == "football") {
         i.open('GET', protocol + "://"+l.env+"touchdownloyal-api.synapsys.us/list/" + query , true);
         i.send()
@@ -545,7 +565,7 @@ dynamic_widget = function() {
         }
         if (l.showLink == 'false') {
           $('list-link').style.display = "none";
-          $('next-list-link').getElementsByClassName("dw-btn")[0].style.marginLeft = "calc(50% - 85px)";
+          $('next-list-link').getElementsByClassName("dw-btn")[0].style.marginLeft = "calc(50% - 65px)";
           var linkHovers = document.getElementsByClassName("hover");
           for (i = 0; i < linkHovers.length; i++) {
             linkHovers[i].style.display = "none";
