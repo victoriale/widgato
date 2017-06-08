@@ -338,7 +338,7 @@ i {
     white-space: nowrap;
     text-overflow: ellipsis;
 }
-#desc {
+#data-title1, #data-title2 {
     width: 100%;
     font-size: 14px;
     text-align: left;
@@ -509,6 +509,21 @@ i {
     color: #999;
     left: 5px;
     top: 5px
+}
+
+#profile-datavalue1 {
+    font-size: 12px;
+    font-weight: bold;
+}
+#profile-datapoint1{
+    font-size: 12px;
+}
+#profile-datavalue2 {
+    font-size: 14px;
+    font-weight: bold;
+}
+#profile-datapoint2 {
+    font-size: 14px;
 }
 
 @media (max-width: 650px) {
