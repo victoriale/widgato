@@ -569,8 +569,12 @@ dynamic_widget = function() {
         }
         if (l.showLink == 'false') {
           $('list-link').style.display = "none";
-          $('next-list-link').getElementsByClassName("dw-btn")[0].style.left = "90px";
-          document.getElementsByClassName("dw-info")[0].style.bottom = "100px";
+          if (isDynamic) {
+              $('next-list-link').getElementsByClassName("dw-btn")[0].style.marginLeft = "calc(50% - 65px)";
+          } else {
+              $('next-list-link').getElementsByClassName("dw-btn")[0].style.left = "90px";
+              document.getElementsByClassName("dw-info")[0].style.bottom = "100px";
+          }
           var linkHovers = document.getElementsByClassName("hover");
           for (var j = 0; j < linkHovers.length; j++) {
             linkHovers[j].style.display = "none";
