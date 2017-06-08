@@ -252,7 +252,7 @@ dwlinked = function() {
               showCover = true;
               apiCallUrl += '&location='+getlocation[0].state.toLowerCase()+'&loc_type=state';
             }
-            if (dom != null && dom != "" && widgetQuery) {
+            if (dom != null && dom != "" && (widgetQuery.group != 'weather' && widgetQuery.category != 'weather')) {
                 apiCallUrl += "&partner=" + dom;
             }
         }
