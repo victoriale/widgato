@@ -2,27 +2,6 @@
 //gulpfile.js can be found in root directory
 //single quotes and @@import are important for gulp task to work for these files
 
-var firstRun = true;//makes sure the listeners run once
-
-function widgetSetup(){
-  //Initial load Waits for the DOMContent to load
-  if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) { // if page is already loaded'
-    firstRun = false;
-    dwlinked();
-  } else { // elseonce page has finished loading, so as not to slowdown the page load at all
-    document.onreadystatechange = function() {
-      if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) {
-        firstRun = false;
-        dwlinked();
-      }
-    }
-  }
-}
-
-//run the moment javascript file has been embeded
-widgetSetup()//start waldo call since its required and has no dependencies
-
-
 dwlinked = function() {
     /*****************************************************Declarations*****************************************/
     var htmlFile = '@@import /min/index.min.html';
@@ -802,3 +781,23 @@ dwlinked = function() {
     //create friendly iframe
     createFriendlyIframe();
 }//end of dwlinked
+
+var firstRun = true;//makes sure the listeners run once
+
+function widgetSetup(){
+  //Initial load Waits for the DOMContent to load
+  if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) { // if page is already loaded'
+    firstRun = false;
+    dwlinked();
+  } else { // elseonce page has finished loading, so as not to slowdown the page load at all
+    document.onreadystatechange = function() {
+      if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) {
+        firstRun = false;
+        dwlinked();
+      }
+    }
+  }
+}
+
+//run the moment javascript file has been embeded
+widgetSetup()//start waldo call since its required and has no dependencies
