@@ -1,8 +1,9 @@
 //it is required to use GULP process to fill in the @@imports and get inline coding with friendlyIframe to work properly;
 //gulpfile.js can be found in root directory
 //single quotes and @@import are important for gulp task to work for these files
+
 dwlinked = function() {
-    "use strict";
+    /*****************************************************Declarations*****************************************/
     var htmlFile = '@@import /min/index.min.html';
     var cssFile = '@@import /min/dynamic_widget_unlinked.min.css';
     var cssWideFile = '@@import /min/dynamic_widget_unlinked_wide.min.css';
@@ -26,6 +27,7 @@ dwlinked = function() {
     var imageUrl = "images.synapsys.us"; // this is global call that is used for images
     var dwApi = "dw.synapsys.us/list_api.php"; // dynamic widget api
     var tdlApi = "touchdownloyal-api.synapsys.us/list/"; // used for nfl and ncaaf category
+    var waldo = "//waldo.synapsys.us/getlocation/2";
     var fallBackApi; // used for nfl and ncaaf category
     var currentIndex = 0; // current index of an array which (default = 0)
     var maxIndex = 1; //declare max index of returned data (default = 1)
@@ -34,29 +36,67 @@ dwlinked = function() {
     var maxTries = 5;
     var listRand = Math.floor((Math.random() * 100) + 1); // used to increment index of random list in database
     var subCategory; // with a vast amount groups and categories need we need the currently shown category for the rest of the code
+    var friendlyIframe;
+    var getlocation;
     var query = {};
     var showCover;
     var $;
 
     function createFriendlyIframe() {
       //create friendly iframe to place ourselves inside
-      var friendlyIframe = document.createElement('iframe');
+      friendlyIframe = document.createElement('iframe');
+
       // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
       friendlyIframe.className = "dwunlinkIframe"
       friendlyIframe.width = '300';
       friendlyIframe.height = 600 - 250; //250 is the add height
       friendlyIframe.scrolling = 'no';
       friendlyIframe.style.overflow = 'hidden';
-      friendlyIframe.src = 'about:blank';
+      friendlyIframe.name = currentScript.src;
       friendlyIframe.style.border = 'none';
+
       currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
-      currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
+
+      //after getting querystring from js or iframe search query set currentScript to black
       friendlyIframeWindow = friendlyIframe.contentWindow;
+
+      //listen to when the iframe window content has returned and send in the srcQuery if there is one before it gets
+      if (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive") { // if page is already loaded'
+      setupIframe();
+      } else { // elseonce page has finished loading, so as not to slowdown the page load at all
+        friendlyIframeWindow.document.onreadystatechange = function() {
+          if (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive") {
+            setupIframe();
+          }
+        }
+      }
+    }
+
+    function setupIframe(){
+      var srcQuery = currentScript.src.split("js?")[1];
+      //determine if a query string is after the index.html location || if query is after a javascript location
+      var hostname = new RegExp(document.location.hostname);
+      if (hostname.test('localhost') || hostname.test('w1.synapsys.us') || hostname.test('homestead.widgets') && (document.location.search != null && document.location.search != '')) {
+        query = JSON.parse(decodeURIComponent(document.location.search.substr(1)));
+        // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
+        // listRand = Math.floor((Math.random() * 100) + 1);
+        //FIRST THING IS SETUP ENVIRONMENTS
+      } else {
+        if (srcQuery != "" && srcQuery != null) {
+          try {
+            query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      }
 
       //create inline html for friendlyIframe
       friendlyIframeWindow.document.open();
       friendlyIframeWindow.document.write(htmlFile + '<scr' + 'ipt type="text/javascript"> dwlinked = ' + dwlinked + ' </scr' + 'ipt>');
       friendlyIframeWindow.document.close();
+
+      // currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
 
       //create inline style for friendlyIframe
       var style = friendlyIframeWindow.document.createElement("style");
@@ -84,6 +124,48 @@ dwlinked = function() {
       $ = function(e) { // create a simple version for grabbing id's of elements
         return friendlyIframeWindow.document.getElementById(e)
       };
+
+      /*****************************************************Start Function calls*****************************************/
+
+      //after you get the query you set the enironment
+      setupEnvironment(query);
+
+      //THEN START UPDATING THE LISTS
+      updateList(0);
+
+      try {
+          var baseEvent = query.event;
+          baseEvent.event = "widget-interaction";
+          var postObject = {
+              snt_data: baseEvent,
+              action: 'snt_tracker'
+          };
+          //create event listeners
+          $("button_left").addEventListener("click", function() {
+              updateIndex(-1);
+              sendPostMessageToIgloo(postObject, 5);
+          });
+          $("button_right").addEventListener("click", function() {
+              updateIndex(1);
+              sendPostMessageToIgloo(postObject, 5);
+          });
+          $("button_atomic").addEventListener("click", function() {
+              updateList(1);
+              sendPostMessageToIgloo(postObject, 5);
+          });
+      } catch (e) {
+          console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
+          // just enable button click events
+          $("button_left").addEventListener("click", function() {
+              updateIndex(-1);
+          });
+          $("button_right").addEventListener("click", function() {
+              updateIndex(1);
+          });
+          $("button_atomic").addEventListener("click", function() {
+              updateList(1);
+          });
+      }
     }
 
     function getEnv(env) {
@@ -149,7 +231,7 @@ dwlinked = function() {
               showCover = true;
               apiCallUrl += '&location='+getlocation[0].state.toLowerCase()+'&loc_type=state';
             }
-            if (dom != null && dom != "") {
+            if (dom != null && dom != "" && (widgetQuery.group != 'weather' && widgetQuery.category != 'weather')) {
                 apiCallUrl += "&partner=" + dom;
             }
         }
@@ -408,7 +490,7 @@ dwlinked = function() {
                 }
 
                 //FINANCE ONE OFF where if finance we want to use only 100% of the height;
-                if (subCategory == 'finance') {
+                if (subCategory == 'finance' && !wideWidget) {
                     $("mainimg").style.backgroundSize = "auto 100%";
                 } else {
                     $("mainimg").style.backgroundSize = "cover";
@@ -629,6 +711,7 @@ dwlinked = function() {
                 $("e_image-shader").style.display = "none";
                 imageBackground[j].style.display = 'block';
             } else {
+                $("mainimg").className = "";
                 $("e_image-shader").style.display = "block";
                 imageBackground[j].style.display = 'none';
             }
@@ -664,82 +747,42 @@ dwlinked = function() {
         }
     }
 
-    //determine if a query string is after the index.html location || if query is after a javascript location
-    if (location.search != null && location.search != '') {
-        query = JSON.parse(decodeURIComponent(location.search.substr(1)));
-        // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
-        // listRand = Math.floor((Math.random() * 100) + 1);
-        //FIRST THING IS SETUP ENVIRONMENTS
-    } else {
-        var srcQuery = currentScript.src.split("js?")[1];
-        if (srcQuery != "" && srcQuery != null) {
-            try {
-                query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
-            } catch (e) {
-                console.log(e);
-            }
+
+    /**
+     * Manually fires off the window resize event
+     */
+    function fireResize(){
+        if (document.createEvent) {
+            var ev = document.createEvent('Event');
+            ev.initEvent('resize', true, true);
+            window.dispatchEvent(ev);
         }
+        else { // IE
+            element=document.documentElement;
+            var event=document.createEventObject();
+            element.fireEvent("onresize",event);
+        }
+    };
+
+    function wheresWaldo(){
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function() {
+
+          if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+              //On complete function
+              getlocation =  JSON.parse(xmlHttp.responseText);
+          }
+      }
+      xmlHttp.open("GET", waldo, false); // false for synchronous request
+      xmlHttp.send(null);
     }
 
+    /*****************************************************After Declarations RUN first main function*****************************************/
     //create friendly iframe
     createFriendlyIframe();
-
-    //after you get the query you set the enironment
-    setupEnvironment(query);
-
-    //THEN START UPDATING THE LISTS
-    updateList(0);
-
-    try {
-        var baseEvent = query.event;
-        baseEvent.event = "widget-interaction";
-        var postObject = {
-            snt_data: baseEvent,
-            action: 'snt_tracker'
-        };
-        //create event listeners
-        $("button_left").addEventListener("click", function() {
-            updateIndex(-1);
-            sendPostMessageToIgloo(postObject, 5);
-        });
-        $("button_right").addEventListener("click", function() {
-            updateIndex(1);
-            sendPostMessageToIgloo(postObject, 5);
-        });
-        $("button_atomic").addEventListener("click", function() {
-            updateList(1);
-            sendPostMessageToIgloo(postObject, 5);
-        });
-    } catch (e) {
-        console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
-        // just enable button click events
-        $("button_left").addEventListener("click", function() {
-            updateIndex(-1);
-        });
-        $("button_right").addEventListener("click", function() {
-            updateIndex(1);
-        });
-        $("button_atomic").addEventListener("click", function() {
-            updateList(1);
-        });
-    }
 }//end of dwlinked
 
-/**
- * Manually fires off the window resize event
- */
-function fireResize(){
-    if (document.createEvent) {
-        var ev = document.createEvent('Event');
-        ev.initEvent('resize', true, true);
-        window.dispatchEvent(ev);
-    }
-    else { // IE
-        element=document.documentElement;
-        var event=document.createEventObject();
-        element.fireEvent("onresize",event);
-    }
-};
+var firstRun = true;//makes sure the listeners run once
 
 function widgetSetup(){
   //Initial load Waits for the DOMContent to load
@@ -756,20 +799,5 @@ function widgetSetup(){
   }
 }
 
-function wheresWaldo(){
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.onreadystatechange = function() {
-
-      if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-          //On complete function
-          getlocation =  JSON.parse(xmlHttp.responseText);
-      }
-  }
-  xmlHttp.open("GET", waldo, false); // false for synchronous request
-  xmlHttp.send(null);
-}
-
-var waldo = "//waldo.synapsys.us/getlocation/2";
-var firstRun = true;
-var getlocation;
+//run the moment javascript file has been embeded
 widgetSetup()//start waldo call since its required and has no dependencies
