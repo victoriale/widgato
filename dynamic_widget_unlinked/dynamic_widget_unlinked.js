@@ -37,10 +37,11 @@ dwlinked = function() {
     var query = {};
     var showCover;
     var $;
+    var friendlyIframe;
 
     function createFriendlyIframe() {
       //create friendly iframe to place ourselves inside
-      var friendlyIframe = document.createElement('iframe');
+      friendlyIframe = document.createElement('iframe');
 
       // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
       friendlyIframe.className = "dwunlinkIframe"
