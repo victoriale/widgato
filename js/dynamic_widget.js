@@ -569,7 +569,8 @@ dynamic_widget = function() {
         }
         if (l.showLink == 'false') {
           $('list-link').style.display = "none";
-          $('next-list-link').getElementsByClassName("dw-btn")[0].style.marginLeft = "calc(50% - 65px)";
+          $('next-list-link').getElementsByClassName("dw-btn")[0].style.left = "90px";
+          document.getElementsByClassName("dw-info")[0].style.bottom = "100px";
           var linkHovers = document.getElementsByClassName("hover");
           for (var j = 0; j < linkHovers.length; j++) {
             linkHovers[j].style.display = "none";
@@ -733,7 +734,7 @@ function p() {
             e.li_url = e.li_url.replace('www.myinvestkit.com', o);
             e.li_line_url = e.li_line_url.replace('www.myinvestkit.com', o)
         }
-          
+
         $('num').innerHTML = '<hash>#</hash>' + e.li_rank;
         $('fallbackNum').innerHTML = '#' + e.li_rank;
         $('line1').innerHTML = e.li_title;

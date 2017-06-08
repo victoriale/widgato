@@ -84,6 +84,23 @@ dwlinked = function() {
       $ = function(e) { // create a simple version for grabbing id's of elements
         return friendlyIframeWindow.document.getElementById(e)
       };
+
+      //determine if a query string is after the index.html location || if query is after a javascript location
+      if (friendlyIframeWindow.location.search != null && friendlyIframeWindow.location.search != '') {
+          query = JSON.parse(decodeURIComponent(location.search.substr(1)));
+          // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
+          // listRand = Math.floor((Math.random() * 100) + 1);
+          //FIRST THING IS SETUP ENVIRONMENTS
+      } else {
+          var srcQuery = currentScript.src.split("js?")[1];
+          if (srcQuery != "" && srcQuery != null) {
+              try {
+                  query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
+              } catch (e) {
+                  console.log(e);
+              }
+          }
+      }
     }
 
     function getEnv(env) {
@@ -664,22 +681,7 @@ dwlinked = function() {
         }
     }
 
-    //determine if a query string is after the index.html location || if query is after a javascript location
-    if (location.search != null && location.search != '') {
-        query = JSON.parse(decodeURIComponent(location.search.substr(1)));
-        // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
-        // listRand = Math.floor((Math.random() * 100) + 1);
-        //FIRST THING IS SETUP ENVIRONMENTS
-    } else {
-        var srcQuery = currentScript.src.split("js?")[1];
-        if (srcQuery != "" && srcQuery != null) {
-            try {
-                query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
-            } catch (e) {
-                console.log(e);
-            }
-        }
-    }
+
 
     //create friendly iframe
     createFriendlyIframe();
