@@ -41,22 +41,57 @@ dwlinked = function() {
     function createFriendlyIframe() {
       //create friendly iframe to place ourselves inside
       var friendlyIframe = document.createElement('iframe');
+
       // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
       friendlyIframe.className = "dwunlinkIframe"
       friendlyIframe.width = '300';
       friendlyIframe.height = 600 - 250; //250 is the add height
       friendlyIframe.scrolling = 'no';
       friendlyIframe.style.overflow = 'hidden';
-      friendlyIframe.src = 'about:blank';
+      friendlyIframe.name = currentScript.src;
       friendlyIframe.style.border = 'none';
+
       currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
-      currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
+
+      //after getting querystring from js or iframe search query set currentScript to black
       friendlyIframeWindow = friendlyIframe.contentWindow;
+
+      //listen to when the iframe window content has returned and send in the srcQuery if there is one before it gets
+      if (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive") { // if page is already loaded'
+      setupIframe();
+      } else { // elseonce page has finished loading, so as not to slowdown the page load at all
+        friendlyIframeWindow.document.onreadystatechange = function() {
+          if (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive") {
+            setupIframe();
+          }
+        }
+      }
+    }
+
+    function setupIframe(){
+      var srcQuery = currentScript.src.split("js?")[1];
+      //determine if a query string is after the index.html location || if query is after a javascript location
+      if (friendlyIframeWindow.location.search != null && friendlyIframeWindow.location.search != '') {
+        query = JSON.parse(decodeURIComponent(friendlyIframeWindow.location.search.substr(1)));
+        // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
+        // listRand = Math.floor((Math.random() * 100) + 1);
+        //FIRST THING IS SETUP ENVIRONMENTS
+      } else {
+        if (srcQuery != "" && srcQuery != null) {
+          try {
+            query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
+          } catch (e) {
+            console.log(e);
+          }
+        }
+      }
 
       //create inline html for friendlyIframe
       friendlyIframeWindow.document.open();
       friendlyIframeWindow.document.write(htmlFile + '<scr' + 'ipt type="text/javascript"> dwlinked = ' + dwlinked + ' </scr' + 'ipt>');
       friendlyIframeWindow.document.close();
+
+      currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
 
       //create inline style for friendlyIframe
       var style = friendlyIframeWindow.document.createElement("style");
@@ -84,23 +119,6 @@ dwlinked = function() {
       $ = function(e) { // create a simple version for grabbing id's of elements
         return friendlyIframeWindow.document.getElementById(e)
       };
-
-      //determine if a query string is after the index.html location || if query is after a javascript location
-      if (friendlyIframeWindow.location.search != null && friendlyIframeWindow.location.search != '') {
-          query = JSON.parse(decodeURIComponent(friendlyIframeWindow.location.search.substr(1)));
-          // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
-          // listRand = Math.floor((Math.random() * 100) + 1);
-          //FIRST THING IS SETUP ENVIRONMENTS
-      } else {
-          var srcQuery = currentScript.src.split("js?")[1];
-          if (srcQuery != "" && srcQuery != null) {
-              try {
-                  query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
-              } catch (e) {
-                  console.log(e);
-              }
-          }
-      }
     }
 
     function getEnv(env) {
