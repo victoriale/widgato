@@ -490,7 +490,7 @@ dwlinked = function() {
                 }
 
                 //FINANCE ONE OFF where if finance we want to use only 100% of the height;
-                if (subCategory == 'finance') {
+                if (subCategory == 'finance' && !wideWidget) {
                     $("mainimg").style.backgroundSize = "auto 100%";
                 } else {
                     $("mainimg").style.backgroundSize = "cover";
