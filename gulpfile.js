@@ -127,3 +127,11 @@ gulp.task('puzzleuglify', function() {
     .pipe(rename('image_puzzle_unlinked.min.js'))
     .pipe(gulp.dest('image_puzzle_unlinked'))
 });
+
+//uglify function for centipede //TODO finish this later
+gulp.task('centipede', function() {
+  gulp.src('centipede/centipede.max.js')
+    .pipe(uglify())
+    .pipe(rename('centipede.js'))
+    .pipe(gulp.dest('centipede'))
+});

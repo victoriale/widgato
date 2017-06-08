@@ -2,7 +2,7 @@
 //gulpfile.js can be found in root directory
 //single quotes and @@import are important for gulp task to work for these files
 dwlinked = function() {
-
+    "use strict";
     var htmlFile = '@@import /min/index.min.html';
     var cssFile = '@@import /min/dynamic_widget_unlinked.min.css';
     var cssWideFile = '@@import /min/dynamic_widget_unlinked_wide.min.css';
@@ -27,7 +27,6 @@ dwlinked = function() {
     var dwApi = "dw.synapsys.us/list_api.php"; // dynamic widget api
     var tdlApi = "touchdownloyal-api.synapsys.us/list/"; // used for nfl and ncaaf category
     var fallBackApi; // used for nfl and ncaaf category
-    var href = window.top.location;
     var currentIndex = 0; // current index of an array which (default = 0)
     var maxIndex = 1; //declare max index of returned data (default = 1)
     var widgetData; // api returns is sent here
@@ -122,7 +121,7 @@ dwlinked = function() {
         var dom = widgetQuery.dom;
         var cat = widgetQuery.category;
         var group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
-        var environment = window.location.hostname.split('.')[0];
+        var environment = friendlyIframeWindow.location.hostname.split('.')[0];
         var env;
         if (widgetQuery.env != null) {
             env = widgetQuery.env ? widgetQuery.env : 'prod';
@@ -598,7 +597,6 @@ dwlinked = function() {
             image.indexOf('no_image') == -1 &&
             image.indexOf('no_player') == -1 &&
             image.indexOf('fallback') == -1 &&
-            window.location.pathname.indexOf('_970') == -1 &&
             !wideWidget
         ) {
             imageReturn = image + "?width=" + (imageWidth * window.devicePixelRatio);
