@@ -12,6 +12,9 @@ var currentScript = document.currentScript || (function() {
     }
   }
 })();
+var waldo = "//waldo.synapsys.us/getlocation/2";
+var getlocation;
+
 if (window.frameElement) {
   // in frame
   var friendlyIframe = document.createElement('div');
@@ -516,7 +519,7 @@ else {
       },
       weather: {
         hex: "#43B149",
-        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/real_estate_stock.jpg"
+        fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/weather_stock.jpg"
       },
       crime: {
         hex: "#43B149",
@@ -630,14 +633,28 @@ else {
       xmlHttp.open( "GET", url, true ); // false for synchronous request
       xmlHttp.send( null );
     }
-    else { //normal, non TDL api query
+    else if(input.category == 'weather' || input.group == 'weather'){
+      var inputType = input.group != null && input.group != '' ? 'group' : 'cat';
+      var inputCategory = input.group != null && input.group != '' ? input.group : input.category;
+      wheresWaldo();
+      i.open('GET', apiUrl + '?' + (typeof input.dom != 'undefined' ? input.dom : '') + '&'+inputType+'=' + inputCategory + '&rand=' + e + '&location='+getlocation[0].state.toLowerCase()+'&loc_type=state', true);
+      i.send()
+    }else { //normal, non TDL api query
       i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&cat=' + input.category + '&rand=' + e, true);
       i.send()
     }
   }
   else { //group param
-    i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&group=' + input.group + '&rand=' + e, true);
-    i.send()
+    if(input.category == 'weather' || input.group == 'weather'){
+      var inputType = input.group != null && input.group != '' ? 'group' : 'cat';
+      var inputCategory = input.group != null && input.group != '' ? input.group : input.category;
+      wheresWaldo();
+      i.open('GET', apiUrl + '?' + (typeof input.dom != 'undefined' ? input.dom : '') + '&'+inputType+'=' + inputCategory + '&rand=' + e + '&location='+getlocation[0].state.toLowerCase()+'&loc_type=state', true);
+      i.send()
+    }else{
+      i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&group=' + input.group + '&rand=' + e, true);
+      i.send()
+    }
   }
 }
 loadData();
@@ -679,7 +696,7 @@ loadData();
         }
       }
     }
-    else if (input.group == "entertainment" || data.category == "celebrities") { //if celeb data, transform it
+    else if (input.group == "entertainment" || data.category == "celebrities" || input.group == "weather" || data.category == "weather") { //if celeb data, transform it
       var items = [];
         for (var i = 0; i < data.l_data.length; i++) {
           if (data.l_data[i].data_point_2 == null) {
@@ -710,7 +727,12 @@ loadData();
       items[0].li_value = items[0].li_value.replace(items[0].li_tag,"");
     }
     var image = items[0].li_img.replace("'","");
-    if (image == null || image == "" || image.indexOf("no_") != -1 || image.indexOf("no-") != -1 || image.indexOf("actor.jpg") != -1) {
+    if (image == null ||
+        image == "" ||
+        image.indexOf("no_") != -1 ||
+        image.indexOf("no-") != -1 ||
+        image.indexOf("actor.jpg") != -1
+      ) {
       image = protocolToUse + currentPub.fallbackImage;
       var style="width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
       var image_class = "fallback";
@@ -718,6 +740,10 @@ loadData();
     else {
       var style="";
       var image_class = "";
+      if (input.group == "weather" || data.category == "weather") {
+        var image_class = "fallback";
+        style = "width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
+      }
     }
     if (input.group == "entertainment" || data.category == "celebrities") {
       style = "width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
@@ -812,6 +838,10 @@ loadData();
       else {
         var style="";
         var image_class = "";
+        if (input.group == "weather" || data.category == "weather") {
+          var image_class = "fallback";
+          style = "width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
+        }
       }
       if (input.group == "entertainment" || data.category == "celebrities") {
         style = "width: auto; height:100%; top: 0; left: 50%; transform: translateY(0); transform: translateX(-50%);";
@@ -1191,6 +1221,19 @@ loadData();
     //   slider.scrollLeft = sliderBlocks[currentBlock + 1].offsetLeft - 5;
     //   currentBlock = (currentBlock + 1);
     // }
+  }
+
+  function wheresWaldo(){
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.onreadystatechange = function() {
+
+        if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+            //On complete function
+            getlocation =  JSON.parse(xmlHttp.responseText);
+        }
+    }
+    xmlHttp.open("GET", waldo, false); // false for synchronous request
+    xmlHttp.send(null);
   }
 }
 if(document.readyState == "complete"){ // if page is already loaded, fire centipede
