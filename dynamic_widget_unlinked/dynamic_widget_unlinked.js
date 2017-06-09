@@ -62,7 +62,7 @@ dwlinked = function() {
 
       //create inline html for friendlyIframe
       friendlyIframeWindow.document.open();
-      friendlyIframeWindow.document.write(htmlFile + '<scr' + 'ipt type="text/javascript"> dwlinked = ' + dwlinked + ' </scr' + 'ipt>');
+      friendlyIframeWindow.document.write(htmlFile);
       friendlyIframeWindow.document.close();
 
       //listen to when the iframe window content has returned and send in the srcQuery if there is one before it gets
@@ -498,7 +498,7 @@ dwlinked = function() {
 
                 $("mainimg").style.backgroundImage
                     //CELEBRITIES ONE OFF to set proper structure
-                if (subCategory == 'celebrities') { //TODO make a more efficient way to set values than whats being done below inside each if else statement
+                if (subCategory == 'celebrities' || subCategory == 'weather') { //TODO make a more efficient way to set values than whats being done below inside each if else statement
                     $("profile-rank").innerHTML = curData.li_rank;
                     $("mainimg-rank").innerHTML = curData.li_rank;
                     $("profile-name").innerHTML = curData.li_title;
@@ -631,7 +631,6 @@ dwlinked = function() {
         var fallbackImg;
         var imageWidth = wideWidget ? 690 : 300; //determine which quality widget to use based on if the wide widget is in view
         // $("mainimg").setAttribute('src', '');
-
         //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
         switch (subCategory) {
             case "football":
@@ -694,7 +693,6 @@ dwlinked = function() {
             //sets flag for image api to send back image with set size based on devicePixelRatio
             imageReturn += "?width=" + (imageWidth * window.devicePixelRatio);
         }
-
         //for weather they want to force shader
         if(query.group == 'weather' || query.category == 'weather'){
           showCover = true;
