@@ -62,7 +62,7 @@ dwlinked = function() {
 
       //create inline html for friendlyIframe
       friendlyIframeWindow.document.open();
-      friendlyIframeWindow.document.write(htmlFile);
+      friendlyIframeWindow.document.write(htmlFile + '<scr' + 'ipt type="text/javascript"> dwlinked = ' + dwlinked + ' </scr' + 'ipt>');
       friendlyIframeWindow.document.close();
 
       //listen to when the iframe window content has returned and send in the srcQuery if there is one before it gets
@@ -478,13 +478,10 @@ dwlinked = function() {
                 //checks if a proper live image is being sent from team_wide_img or player_wide_img otherwise default to li_img datapoint
                 var image;
                 if (curData.player_wide_img != null && curData.player_wide_img != "") {
-                  console.log('player wide',curData.player_wide_img);
                     image = checkImage(imageUrl + curData.player_wide_img);
                 } else if ((curData.player_wide_img == null || curData.player_wide_img == "") && (curData.team_wide_img != null && curData.team_wide_img != "")) {
-                  console.log('team wide',curData.team_wide_img);
                     image = checkImage(imageUrl + curData.team_wide_img);
                 } else {
-                  console.log('image',curData.li_img);
                     image = checkImage(curData.li_img);
                 }
 
@@ -634,7 +631,6 @@ dwlinked = function() {
         var fallbackImg;
         var imageWidth = wideWidget ? 690 : 300; //determine which quality widget to use based on if the wide widget is in view
         // $("mainimg").setAttribute('src', '');
-        console.log('checkImage',image);
         //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
         switch (subCategory) {
             case "football":
@@ -718,7 +714,6 @@ dwlinked = function() {
                 imageBackground[j].style.display = 'none';
             }
         }
-        console.log('RETURN',imageReturn);
         return imageReturn;
     }
 
