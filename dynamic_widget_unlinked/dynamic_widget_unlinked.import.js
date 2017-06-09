@@ -62,7 +62,7 @@ dwlinked = function() {
 
       //create inline html for friendlyIframe
       friendlyIframeWindow.document.open();
-      friendlyIframeWindow.document.write(htmlFile + '<scr' + 'ipt type="text/javascript"> dwlinked = ' + dwlinked + ' </scr' + 'ipt>');
+      friendlyIframeWindow.document.write(htmlFile);
       friendlyIframeWindow.document.close();
 
       //listen to when the iframe window content has returned and send in the srcQuery if there is one before it gets
