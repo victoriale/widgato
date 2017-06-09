@@ -637,7 +637,7 @@ else {
       var inputType = input.group != null && input.group != '' ? 'group' : 'cat';
       var inputCategory = input.group != null && input.group != '' ? input.group : input.category;
       wheresWaldo();
-      i.open('GET', apiUrl + '?' + (typeof input.dom != 'undefined' ? input.dom : '') + '&'+inputType+'=' + inputCategory + '&rand=' + e + '&location='+getlocation[0].state.toLowerCase()+'&loc_type=state', true);
+      i.open('GET', apiUrl + '?' +inputType+'=' + inputCategory + '&rand=' + e + '&location='+getlocation[0].state.toLowerCase()+'&loc_type=state', true);
       i.send()
     }else { //normal, non TDL api query
       i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&cat=' + input.category + '&rand=' + e, true);
@@ -649,7 +649,7 @@ else {
       var inputType = input.group != null && input.group != '' ? 'group' : 'cat';
       var inputCategory = input.group != null && input.group != '' ? input.group : input.category;
       wheresWaldo();
-      i.open('GET', apiUrl + '?' + (typeof input.dom != 'undefined' ? input.dom : '') + '&'+inputType+'=' + inputCategory + '&rand=' + e + '&location='+getlocation[0].state.toLowerCase()+'&loc_type=state', true);
+      i.open('GET', apiUrl + '?' +inputType+'=' + inputCategory + '&rand=' + e + '&location='+getlocation[0].state.toLowerCase()+'&loc_type=state', true);
       i.send()
     }else{
       i.open('GET', apiUrl + '?partner=' + (typeof input.dom != 'undefined' ? input.dom : '') + '&group=' + input.group + '&rand=' + e, true);
