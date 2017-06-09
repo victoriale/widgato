@@ -498,7 +498,7 @@ dwlinked = function() {
 
                 $("mainimg").style.backgroundImage
                     //CELEBRITIES ONE OFF to set proper structure
-                if (subCategory == 'celebrities') { //TODO make a more efficient way to set values than whats being done below inside each if else statement
+                if (subCategory == 'celebrities' || subCategory == 'weather') { //TODO make a more efficient way to set values than whats being done below inside each if else statement
                     $("profile-rank").innerHTML = curData.li_rank;
                     $("mainimg-rank").innerHTML = curData.li_rank;
                     $("profile-name").innerHTML = curData.li_title;
