@@ -1,3 +1,4 @@
+
 function getCategoryMetadata (category) {
   var globalMeta = {
     finance: {
