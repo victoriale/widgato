@@ -797,5 +797,6 @@ function widgetSetup(){
   }
 }
 
+
 //run the moment javascript file has been embeded
 widgetSetup()//start waldo call since its required and has no dependencies
