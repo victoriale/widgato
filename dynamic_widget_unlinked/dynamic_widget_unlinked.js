@@ -60,6 +60,11 @@ dwlinked = function() {
       //after getting querystring from js or iframe search query set currentScript to black
       friendlyIframeWindow = friendlyIframe.contentWindow;
 
+      //create inline html for friendlyIframe
+      friendlyIframeWindow.document.open();
+      friendlyIframeWindow.document.write(htmlFile + '<scr' + 'ipt type="text/javascript"> dwlinked = ' + dwlinked + ' </scr' + 'ipt>');
+      friendlyIframeWindow.document.close();
+
       //listen to when the iframe window content has returned and send in the srcQuery if there is one before it gets
       if (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive") { // if page is already loaded'
       setupIframe();
@@ -90,11 +95,6 @@ dwlinked = function() {
           }
         }
       }
-
-      //create inline html for friendlyIframe
-      friendlyIframeWindow.document.open();
-      friendlyIframeWindow.document.write(htmlFile + '<scr' + 'ipt type="text/javascript"> dwlinked = ' + dwlinked + ' </scr' + 'ipt>');
-      friendlyIframeWindow.document.close();
 
       // currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
 
