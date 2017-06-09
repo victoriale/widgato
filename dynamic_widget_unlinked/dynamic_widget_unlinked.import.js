@@ -60,6 +60,11 @@ dwlinked = function() {
       //after getting querystring from js or iframe search query set currentScript to black
       friendlyIframeWindow = friendlyIframe.contentWindow;
 
+      //create inline html for friendlyIframe
+      friendlyIframeWindow.document.open();
+      friendlyIframeWindow.document.write(htmlFile);
+      friendlyIframeWindow.document.close();
+
       //listen to when the iframe window content has returned and send in the srcQuery if there is one before it gets
       if (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive") { // if page is already loaded'
       setupIframe();
@@ -90,11 +95,6 @@ dwlinked = function() {
           }
         }
       }
-
-      //create inline html for friendlyIframe
-      friendlyIframeWindow.document.open();
-      friendlyIframeWindow.document.write(htmlFile + '<scr' + 'ipt type="text/javascript"> dwlinked = ' + dwlinked + ' </scr' + 'ipt>');
-      friendlyIframeWindow.document.close();
 
       // currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
 
@@ -631,7 +631,6 @@ dwlinked = function() {
         var fallbackImg;
         var imageWidth = wideWidget ? 690 : 300; //determine which quality widget to use based on if the wide widget is in view
         // $("mainimg").setAttribute('src', '');
-
         //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
         switch (subCategory) {
             case "football":
@@ -694,7 +693,6 @@ dwlinked = function() {
             //sets flag for image api to send back image with set size based on devicePixelRatio
             imageReturn += "?width=" + (imageWidth * window.devicePixelRatio);
         }
-
         //for weather they want to force shader
         if(query.group == 'weather' || query.category == 'weather'){
           showCover = true;
