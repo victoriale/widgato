@@ -3797,6 +3797,10 @@ p.submission_info {
     width: 109px;
 }
 
+.submission_analytics_title_container {
+    z-index: 15;
+}
+
 .submission_analytics_title {
     position: absolute;
     left: 6px;
@@ -4944,6 +4948,107 @@ span.results_chart_value {
 
     .animation_container-box p {
         margin: 0;
+    }
+
+    .submission_result_text_container {
+        top: 11px;
+    }
+
+    .check_mark_container {
+        height: 35px;
+        width: 35px;
+        margin-right: 6px;
+    }
+
+    .check_mark_container .check_mark, .check_mark_container .x {
+        top: 11px;
+        width: 20px;
+        height: 15px;
+    }
+
+    p.submission_display {
+        font-size: 30px;
+    }
+
+    .submission_info_container {
+        width: 100%;
+        z-index: 4;
+    }
+
+    #next_question {
+        top: 57px;
+        bottom: auto;
+        width: 329px;
+        border-color: #fff;
+    }
+
+    p.submission_info {
+        color: #fff;
+        top: 100px;
+    }
+
+    .submission_analytics_container {
+        top: 151px;
+        width: 329px;
+        height: 70px;
+        border-color: #fff;
+        background-color: transparent;
+    }
+
+    .submission_analytics_title, .ltblue {
+        background: transparent;
+        color: #fff
+    }
+
+    .results_charts_container {
+        margin: 10px 0 5px 0;
+    }
+
+    .results_left {
+        position: relative;
+        left: -40px;
+    }
+
+    .c100 {
+        background-color: transparent;
+        box-shadow: inset 0 0 0 2px #ccc;
+    }
+
+    .c100.green .bar,
+    .c100.green .fill {
+        border-color: #fff !important;
+    }
+
+    .red, .green, .gray, .results_chart_label, span.results_chart_value, #next_question p {
+        color: #fff;
+    }
+
+    .c100.red .bar,
+    .c100.red .fill {
+        border-color: #fff !important;
+    }
+
+    .c100:after {
+        background-color: transparent;
+    }
+
+    .results_left {
+        position: absolute;
+        left: 10px;
+        width: 122px;
+        height: 55px;
+    }
+
+    .results_right {
+        position: absolute;
+        border-left: 1px solid #fff;
+        right: 0;
+        top: 0;
+        width: 195px;
+        height: 49px;
+        text-align: left;
+        padding-left: 9px;
+        color: #fff;
     }
 }
 
