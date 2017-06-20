@@ -78,7 +78,7 @@ tdl_billboard = (function () {
     var imageArr = [];
     var leftRgb;
     var rightRgb;
-    
+
     function getContent(eventId) {
         var locApiUrl = APIUrl;
         $.ajax({
@@ -346,20 +346,25 @@ tdl_billboard = (function () {
         displaySubArticles();
     } // --> scrollUp
     function processData() {
-        // Check for data
-        if (typeof AIData != "object") {
-            return displayError('Invalid YSEOP Response');
-        }
-        // Get all the pages
-        for (var i = 0; i < AIData.length; i++) {
-            if (pages.indexOf(AIData[i].id) > -1) {
-                availPages.push(AIData[i].id);
+        try {
+            // Check for data
+            if (typeof AIData != "object") {
+                return displayError('Invalid YSEOP Response');
             }
+            // Get all the pages
+            for (var i = 0; i < AIData.length; i++) {
+                if (pages.indexOf(AIData[i].id) > -1) {
+                    availPages.push(AIData[i].id);
+                }
+            }
+            pageInd = 0;
+            parseGames();
+            // Display first data
+            displayMainArticles();
+        } catch (e) {
+            $(".billboard").css("display", "none");
+            console.warn("Error getting billboard data " + e);
         }
-        pageInd = 0;
-        parseGames();
-        // Display first data
-        displayMainArticles();
     } // --> processData
     // Parse the games into an array
     function parseGames() {

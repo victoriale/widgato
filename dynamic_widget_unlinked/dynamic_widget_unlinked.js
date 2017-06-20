@@ -1,7 +1,9 @@
 //it is required to use GULP process to fill in the @@imports and get inline coding with friendlyIframe to work properly;
 //gulpfile.js can be found in root directory
 //single quotes and @@import are important for gulp task to work for these files
+
 dwlinked = function() {
+    /*****************************************************Declarations*****************************************/
     var htmlFile = '@@import /min/index.min.html';
     var cssFile = '@@import /min/dynamic_widget_unlinked.min.css';
     var cssWideFile = '@@import /min/dynamic_widget_unlinked_wide.min.css';
@@ -25,135 +27,146 @@ dwlinked = function() {
     var imageUrl = "images.synapsys.us"; // this is global call that is used for images
     var dwApi = "dw.synapsys.us/list_api.php"; // dynamic widget api
     var tdlApi = "touchdownloyal-api.synapsys.us/list/"; // used for nfl and ncaaf category
+    var waldo = "//waldo.synapsys.us/getlocation/2";
     var fallBackApi; // used for nfl and ncaaf category
-    var href = window.top.location;
     var currentIndex = 0; // current index of an array which (default = 0)
     var maxIndex = 1; //declare max index of returned data (default = 1)
     var widgetData; // api returns is sent here
     var tries = 0; // flag for api to try atleast 10 times before failing completely
     var maxTries = 5;
-    var listRand = 0; // used to increment index of random list in database
+    var listRand = Math.floor((Math.random() * 100) + 1); // used to increment index of random list in database
     var subCategory; // with a vast amount groups and categories need we need the currently shown category for the rest of the code
+    var friendlyIframe;
+    var getlocation;
     var query = {};
+    var showCover;
     var $;
 
     function createFriendlyIframe() {
-        //create friendly iframe to place ourselves inside
-        var friendlyIframe = document.createElement('iframe');
-        // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
-        friendlyIframe.className = "dwunlinkIframe"
-        friendlyIframe.width = '300';
-        friendlyIframe.height = 600 - 250; //250 is the add height
-        friendlyIframe.scrolling = 'no';
-        friendlyIframe.style.overflow = 'hidden';
-        friendlyIframe.src = 'about:blank';
-        friendlyIframe.style.border = 'none';
-        currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
-        currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
-        friendlyIframeWindow = friendlyIframe.contentWindow;
+      //create friendly iframe to place ourselves inside
+      friendlyIframe = document.createElement('iframe');
 
-        //create inline html for friendlyIframe
-        friendlyIframeWindow.document.open();
-        friendlyIframeWindow.document.write(htmlFile + '<scr' + 'ipt type="text/javascript"> dwlinked = ' + dwlinked + ' </scr' + 'ipt>');
-        friendlyIframeWindow.document.close();
+      // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
+      friendlyIframe.className = "dwunlinkIframe"
+      friendlyIframe.width = '300';
+      friendlyIframe.height = 600 - 250; //250 is the add height
+      friendlyIframe.scrolling = 'no';
+      friendlyIframe.style.overflow = 'hidden';
+      friendlyIframe.name = currentScript.src;
+      friendlyIframe.style.border = 'none';
 
-        //create inline style for friendlyIframe
-        var style = friendlyIframeWindow.document.createElement("style");
-        if (query.wide != null && query.wide != '') {
-            friendlyIframe.width = friendlyIframe.parentNode.clientWidth - 300; //300 being the width
-            // friendlyIframe.style.maxWidth = '992px';
-            friendlyIframe.height = '250';
+      currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
 
-            //CREATE LISTENER FOR RESIZE
-            window.addEventListener('resize', function() {
-                //set iframe to width of parent node
-                friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
-            }, true);
+      //after getting querystring from js or iframe search query set currentScript to black
+      friendlyIframeWindow = friendlyIframe.contentWindow;
 
-            style.appendChild(friendlyIframeWindow.document.createTextNode(cssWideFile));
-            wideWidget = true; //set wide flag
-        } else {
-            style.appendChild(friendlyIframeWindow.document.createTextNode(cssFile));
+      //create inline html for friendlyIframe
+      friendlyIframeWindow.document.open();
+      friendlyIframeWindow.document.write(htmlFile);
+      friendlyIframeWindow.document.close();
+
+      //listen to when the iframe window content has returned and send in the srcQuery if there is one before it gets
+      if (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive") { // if page is already loaded'
+      setupIframe();
+      } else { // elseonce page has finished loading, so as not to slowdown the page load at all
+        friendlyIframeWindow.document.onreadystatechange = function() {
+          if (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive") {
+            setupIframe();
+          }
         }
-
-        //append the css file into iframe head
-        friendlyIframeWindow.document.head.appendChild(style);
-
-        //create variable to be used similar to jquery for id's
-        $ = function(e) { // create a simple version for grabbing id's of elements
-            return friendlyIframeWindow.document.getElementById(e)
-        };
+      }
     }
 
-    //determine if a query string is after the index.html location || if query is after a javascript location
-    if (location.search != null && location.search != '') {
-        query = JSON.parse(decodeURIComponent(location.search.substr(1)));
-        listRand = query.rand ? query.rand : 1;
+    function setupIframe(){
+      var srcQuery = currentScript.src.split("js?")[1];
+      //determine if a query string is after the index.html location || if query is after a javascript location
+      var hostname = new RegExp(document.location.hostname);
+      if (hostname.test('localhost') || hostname.test('w1.synapsys.us') || hostname.test('dev-w1.synapsys.us') || hostname.test('homestead.widgets') && (document.location.search != null && document.location.search != '')) {
+        query = JSON.parse(decodeURIComponent(document.location.search.substr(1)));
+        // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
+        // listRand = Math.floor((Math.random() * 100) + 1);
         //FIRST THING IS SETUP ENVIRONMENTS
-    } else {
-        var srcQuery = currentScript.src.split("js?")[1];
+      } else {
         if (srcQuery != "" && srcQuery != null) {
-            try {
-                query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
-            } catch (e) {
-                console.log(e);
-            }
+          try {
+            query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
+          } catch (e) {
+            console.log(e);
+          }
         }
+      }
+
+      // currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
+
+      //create inline style for friendlyIframe
+      var style = friendlyIframeWindow.document.createElement("style");
+      if (query.wide != null && query.wide != '') {
+        friendlyIframe.width = friendlyIframe.parentNode.clientWidth - 300; //300 being the width
+        // friendlyIframe.style.maxWidth = '992px';
+        friendlyIframe.height = '250';
+
+        //CREATE LISTENER FOR RESIZE
+        window.addEventListener('resize', function() {
+          //set iframe to width of parent node
+          friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
+        }, true);
+
+        style.appendChild(friendlyIframeWindow.document.createTextNode(cssWideFile));
+        wideWidget = true; //set wide flag
+      } else {
+        style.appendChild(friendlyIframeWindow.document.createTextNode(cssFile));
+      }
+
+      //append the css file into iframe head
+      friendlyIframeWindow.document.head.appendChild(style);
+
+      //create variable to be used similar to jquery for id's
+      $ = function(e) { // create a simple version for grabbing id's of elements
+        return friendlyIframeWindow.document.getElementById(e)
+      };
+
+      /*****************************************************Start Function calls*****************************************/
+
+      //after you get the query you set the enironment
+      setupEnvironment(query);
+
+      //THEN START UPDATING THE LISTS
+      updateList(0);
+
+      try {
+          var baseEvent = query.event;
+          baseEvent.event = "widget-interaction";
+          var postObject = {
+              snt_data: baseEvent,
+              action: 'snt_tracker'
+          };
+          //create event listeners
+          $("button_left").addEventListener("click", function() {
+              updateIndex(-1);
+              sendPostMessageToIgloo(postObject, 5);
+          });
+          $("button_right").addEventListener("click", function() {
+              updateIndex(1);
+              sendPostMessageToIgloo(postObject, 5);
+          });
+          $("button_atomic").addEventListener("click", function() {
+              updateList(1);
+              sendPostMessageToIgloo(postObject, 5);
+          });
+      } catch (e) {
+          console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
+          // just enable button click events
+          $("button_left").addEventListener("click", function() {
+              updateIndex(-1);
+          });
+          $("button_right").addEventListener("click", function() {
+              updateIndex(1);
+          });
+          $("button_atomic").addEventListener("click", function() {
+              updateList(1);
+          });
+      }
     }
-
-    //create friendly iframe
-    createFriendlyIframe();
-
-    //after you get the query you set the enironment
-    setupEnvironment(query);
-
-    //THEN START UPDATING THE LISTS
-    updateList(0);
-
-    try {
-        var baseEvent = query.event;
-        baseEvent.event = "widget-interaction";
-        var postObject = {
-            snt_data: baseEvent,
-            action: 'snt_tracker'
-        };
-        //create event listeners
-        $("button_left").addEventListener("click", function() {
-            updateIndex(-1);
-            sendPostMessageToIgloo(postObject, 5);
-        });
-        $("button_right").addEventListener("click", function() {
-            updateIndex(1);
-            sendPostMessageToIgloo(postObject, 5);
-        });
-        $("button_atomic").addEventListener("click", function() {
-            updateList(1);
-            sendPostMessageToIgloo(postObject, 5);
-        });
-    } catch (e) {
-        console.log("Dynamic Widget: Not currently hosted inside igloo... disabling analytics");
-        // just enable button click events
-        $("button_left").addEventListener("click", function() {
-            updateIndex(-1);
-        });
-        $("button_right").addEventListener("click", function() {
-            updateIndex(1);
-        });
-        $("button_atomic").addEventListener("click", function() {
-            updateList(1);
-        });
-    }
-    // //just enable button click events
-    // $("button_left").addEventListener("click", function() {
-    //   updateIndex(-1);
-    // });
-    // $("button_right").addEventListener("click", function() {
-    //   updateIndex(1);
-    // });
-    // $("button_atomic").addEventListener("click", function() {
-    //   updateList(1);
-    // });
-
 
     function getEnv(env) {
         if (env.match(/localhost/g) != null || env.match(/dev/g) != null) {
@@ -190,7 +203,7 @@ dwlinked = function() {
         var dom = widgetQuery.dom;
         var cat = widgetQuery.category;
         var group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
-        var environment = window.location.hostname.split('.')[0];
+        var environment = friendlyIframeWindow.location.hostname.split('.')[0];
         var env;
         if (widgetQuery.env != null) {
             env = widgetQuery.env ? widgetQuery.env : 'prod';
@@ -213,8 +226,12 @@ dwlinked = function() {
                 subCategory = widgetQuery.category;
                 apiCallUrl += synapsysENV(environment) + dwApi + "?cat=" + cat;
             }
-
-            if (dom != null && dom != "") {
+            if(widgetQuery.group == 'weather' || widgetQuery.category == 'weather'){
+              wheresWaldo();
+              showCover = true;
+              apiCallUrl += '&location='+getlocation[0].state.toLowerCase()+'&loc_type=state';
+            }
+            if (dom != null && dom != "" && (widgetQuery.group != 'weather' && widgetQuery.category != 'weather')) {
                 apiCallUrl += "&partner=" + dom;
             }
         }
@@ -327,7 +344,7 @@ dwlinked = function() {
      */
     function runAPI(apiUrl) { //Make it to where it is easy to be reused by anyone
         //variable that stores the response of an http request
-        if (window.XMLHttpRequest) {
+        if (friendlyIframeWindow.XMLHttpRequest) {
             var xhttp = new XMLHttpRequest();
         } else {
             var xhttp = new ActiveXObject('Microsoft.XMLHTTP')
@@ -338,6 +355,7 @@ dwlinked = function() {
                     // On success parse out the response
                     widgetData = JSON.parse(this.responseText);
                     var dataArray = widgetData.l_data != null ? widgetData.l_data : widgetData.data.listData;
+
                     //set maximum index of returned dataLayer
                     if (dataArray.length >= 25) {
                         currentIndex = 24;
@@ -365,7 +383,7 @@ dwlinked = function() {
                         apiCallUrl = fallBackApi;
                     }
                     if (tries++ > maxTries) { // IF WIDGET FAILS THEN HIDE THE ENTIRE CONTAINER
-                        document.getElementsByClassName('e_container')[0].style.display = 'none';
+                        friendlyIframeWindow.document.getElementsByClassName('e_container')[0].style.display = 'none';
                         throw msg + " | hiding widget fallback failed container | => PLEASE CONTACT YOUR PROVIDER";
                     }
                     setTimeout(runAPI(apiUrl), 500)
@@ -386,13 +404,6 @@ dwlinked = function() {
      */
     function displayWidget() {
         try {
-            //sets the last updated date
-            // var date = new Date();
-            // var formatedDate = dateFormat(date.getDay(), date.getDate(), date.getMonth(), date.getFullYear());
-            // $('profile-updated').innerHTML = formatedDate.weekday + ", " + formatedDate.month + " " + formatedDate.day + ", " + formatedDate.year;
-
-            //Run dynamic color of widget
-
             /***************************FOOTBALL DATA APPLIANCE*******************************/
             if (query.group == null && (query.category == "football" || query.category == "nfl" || query.category == "ncaaf")) {
                 var dataArray = widgetData.data.listData;
@@ -479,7 +490,7 @@ dwlinked = function() {
                 }
 
                 //FINANCE ONE OFF where if finance we want to use only 100% of the height;
-                if (subCategory == 'finance') {
+                if (subCategory == 'finance' && !wideWidget) {
                     $("mainimg").style.backgroundSize = "auto 100%";
                 } else {
                     $("mainimg").style.backgroundSize = "cover";
@@ -487,7 +498,7 @@ dwlinked = function() {
 
                 $("mainimg").style.backgroundImage
                     //CELEBRITIES ONE OFF to set proper structure
-                if (subCategory == 'celebrities') { //TODO make a more efficient way to set values than whats being done below inside each if else statement
+                if (subCategory == 'celebrities' || subCategory == 'weather') { //TODO make a more efficient way to set values than whats being done below inside each if else statement
                     $("profile-rank").innerHTML = curData.li_rank;
                     $("mainimg-rank").innerHTML = curData.li_rank;
                     $("profile-name").innerHTML = curData.li_title;
@@ -617,11 +628,9 @@ dwlinked = function() {
      */
     function checkImage(image) {
         var imageReturn;
-        var showCover;
         var fallbackImg;
         var imageWidth = wideWidget ? 690 : 300; //determine which quality widget to use based on if the wide widget is in view
         // $("mainimg").setAttribute('src', '');
-
         //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
         switch (subCategory) {
             case "football":
@@ -647,6 +656,8 @@ dwlinked = function() {
             case "demographics":
             case "crime":
             case "weather":
+                fallbackImg = "weather_stock.jpg";
+                break;
             case "politics":
                 fallbackImg = "real_estate_stock.jpg";
                 break;
@@ -659,6 +670,7 @@ dwlinked = function() {
             default:
                 fallbackImg = "failback.jpg";
         }
+
         //prep return
         //use global flag for wideWidget (if wide widget is being used then all images are to be returned as fallback stock images)
         if (image != null &&
@@ -666,7 +678,6 @@ dwlinked = function() {
             image.indexOf('no_image') == -1 &&
             image.indexOf('no_player') == -1 &&
             image.indexOf('fallback') == -1 &&
-            window.location.pathname.indexOf('_970') == -1 &&
             !wideWidget
         ) {
             imageReturn = image + "?width=" + (imageWidth * window.devicePixelRatio);
@@ -682,16 +693,23 @@ dwlinked = function() {
             //sets flag for image api to send back image with set size based on devicePixelRatio
             imageReturn += "?width=" + (imageWidth * window.devicePixelRatio);
         }
-
+        //for weather they want to force shader
+        if(query.group == 'weather' || query.category == 'weather'){
+          showCover = true;
+        }
         //when mainimg was an <img> tag
         // $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
         //USED to display background color of category if a fallback image is sent back
         var imageBackground = friendlyIframeWindow.document.getElementsByClassName('e_image-cover');
         for (var j = 0; j < imageBackground.length; j++) {
             if (showCover) {
+                if(friendlyIframeWindow.document.getElementsByClassName('grayscale').length < 1){
+                  $("mainimg").className += " grayscale";
+                }
                 $("e_image-shader").style.display = "none";
                 imageBackground[j].style.display = 'block';
             } else {
+                $("mainimg").className = "";
                 $("e_image-shader").style.display = "block";
                 imageBackground[j].style.display = 'none';
             }
@@ -714,10 +732,10 @@ dwlinked = function() {
         try {
             // Loop through all of the windows
             while (currentLoop++ < maxLoops && currentWindow !== window.top) {
-                // Add to the postMessage array
-                postWindows.push(currentWindow);
                 // Move up a layer
                 currentWindow = currentWindow.parent;
+                // Add to the postMessage array
+                postWindows.push(currentWindow);
             }
         } catch (e) {}
 
@@ -726,31 +744,59 @@ dwlinked = function() {
             postWindows[i].postMessage(postObject, '*');
         }
     }
-}
 
-/**
- * Manually fires off the window resize event
- */
-function fireResize(){
-    if (document.createEvent) {
-        var ev = document.createEvent('Event');
-        ev.initEvent('resize', true, true);
-        window.dispatchEvent(ev);
-    }
-    else { // IE
-        element=document.documentElement;
-        var event=document.createEventObject();
-        element.fireEvent("onresize",event);
-    }
-};
 
-//Initial load Waits for the DOMContent to load
-if (document.readyState == "complete" || document.readyState == "interactive") { // if page is already loaded
-    dwlinked();
-} else { // elseonce page has finished loading, so as not to slowdown the page load at all
-    document.onreadystatechange = function() {
-        if (document.readyState == "complete" || document.readyState == "interactive") {
-            dwlinked();
+    /**
+     * Manually fires off the window resize event
+     */
+    function fireResize(){
+        if (document.createEvent) {
+            var ev = document.createEvent('Event');
+            ev.initEvent('resize', true, true);
+            window.dispatchEvent(ev);
         }
+        else { // IE
+            element=document.documentElement;
+            var event=document.createEventObject();
+            element.fireEvent("onresize",event);
+        }
+    };
+
+    function wheresWaldo(){
+      var xmlHttp = new XMLHttpRequest();
+      xmlHttp.onreadystatechange = function() {
+
+          if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
+              //On complete function
+              getlocation =  JSON.parse(xmlHttp.responseText);
+          }
+      }
+      xmlHttp.open("GET", waldo, false); // false for synchronous request
+      xmlHttp.send(null);
     }
+
+    /*****************************************************After Declarations RUN first main function*****************************************/
+    //create friendly iframe
+    createFriendlyIframe();
+}//end of dwlinked
+
+var firstRun = true;//makes sure the listeners run once
+
+function widgetSetup(){
+  //Initial load Waits for the DOMContent to load
+  if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) { // if page is already loaded'
+    firstRun = false;
+    dwlinked();
+  } else { // elseonce page has finished loading, so as not to slowdown the page load at all
+    document.onreadystatechange = function() {
+      if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) {
+        firstRun = false;
+        dwlinked();
+      }
+    }
+  }
 }
+
+
+//run the moment javascript file has been embeded
+widgetSetup()//start waldo call since its required and has no dependencies

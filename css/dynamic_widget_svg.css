@@ -1,3 +1,4 @@
+
 html,
 body {
     margin: 0!important;
@@ -355,7 +356,7 @@ i {
   cursor: pointer;
 }
 
-#desc {
+#data-title1, #data-title2 {
     width: 100%;
     font-size: 14px;
     text-align: left;
@@ -513,4 +514,18 @@ i {
 /*fix for global css bleeding in from parent page*/
 .widget_zone iframe {
   margin: 0;
+}
+#profile-datavalue1 {
+    font-size: 12px;
+    font-weight: bold;
+}
+#profile-datapoint1{
+    font-size: 12px;
+}
+#profile-datavalue2 {
+    font-size: 14px;
+    font-weight: bold;
+}
+#profile-datapoint2 {
+    font-size: 14px;
 }
