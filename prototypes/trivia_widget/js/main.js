@@ -130,6 +130,7 @@
     // HTML Element variables
     var triviaContainer_el = document.getElementById('trivia_container');
     var triviaImage_el = document.getElementsByClassName('trivia_image')[0];
+    var triviaImageOverlay_el = document.getElementsByClassName('trivia_image_overlay')[0];
     var triviaQuestion_el = document.getElementsByClassName('trivia_question')[0].getElementsByTagName('p')[0];
     var triviaOptionsContainer_el = document.getElementsByClassName('trivia_options')[0];
     var triviaOptions_el = document.getElementsByClassName('trivia_options')[0].getElementsByTagName('li');
@@ -793,6 +794,7 @@
         correctResult = activeDataSet[dataKey].results.correct;
         incorrectResult = activeDataSet[dataKey].results.incorrect;
         dataOptions = arrayShuffle(activeDataSet[dataKey].options);// randomizes the object shuffling
+        triviaImageOverlay_el.style.height = '97px';
         // loop thorugh options in data and insert values into view
         activeDataSet[dataKey].options = dataOptions;
         for (var key in dataOptions) {
@@ -880,6 +882,7 @@
             console.log('CORRECT clearInterval');
             adjustIntervalScoreFn('clear');
             submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
+            triviaImageOverlay_el.style.height = '230px';
             submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
             triviaContainer_el.className = "correct_submission";
             nextQuestionFn();
@@ -889,6 +892,7 @@
             console.log('INCORRECT clearInterval');
             adjustIntervalScoreFn('clear');
             submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
+            triviaImageOverlay_el.style.height = '230px';
             submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
             triviaContainer_el.className = "incorrect_submission";
             nextQuestionFn();
