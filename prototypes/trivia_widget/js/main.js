@@ -158,6 +158,7 @@
     var intervalScoreQuestion_el = document.getElementById("interval_score_question");
     var pixelatedContainer_el = document.getElementById("pixelateContainer");
     var youGuessPercentge_el = document.getElementById("percentage_of_guess");
+    var intervalScoreContainer_el = document.getElementById("interval_score_container");
 
     var pixelatedContainerHeight = pixelatedContainer_el.offsetHeight;
     var pixelatedContainerWidth = pixelatedContainer_el.offsetWidth + 2;
@@ -795,6 +796,8 @@
         incorrectResult = activeDataSet[dataKey].results.incorrect;
         dataOptions = arrayShuffle(activeDataSet[dataKey].options);// randomizes the object shuffling
         triviaImageOverlay_el.style.height = '97px';
+        intervalScoreContainer_el.style.display = 'block';
+        progressBar_el.style.display = 'block';
         submissionOverlay_el.classList.remove('no_transition');
         // loop thorugh options in data and insert values into view
         activeDataSet[dataKey].options = dataOptions;
@@ -884,6 +887,8 @@
             adjustIntervalScoreFn('clear');
             submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
             triviaImageOverlay_el.style.height = '230px';
+            intervalScoreContainer_el.style.display = 'none';
+            progressBar_el.style.display = 'none';
             submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
             triviaContainer_el.className = "correct_submission";
             nextQuestionFn();
@@ -894,6 +899,8 @@
             adjustIntervalScoreFn('clear');
             submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
             triviaImageOverlay_el.style.height = '230px';
+            intervalScoreContainer_el.style.display = 'none';
+            progressBar_el.style.display = 'none';
             submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
             triviaContainer_el.className = "incorrect_submission";
             nextQuestionFn();

@@ -3823,7 +3823,7 @@ p.submission_info {
 
 .results_charts_container:nth-of-type(2) {
     text-align: left;
-    padding-left: 3px;
+    padding-left: 10px;
 }
 
 .results_charts_container:first-of-type {
@@ -5032,6 +5032,10 @@ span.results_chart_value {
         background-color: transparent;
     }
 
+    .results_charts_container:nth-of-type(2) {
+        padding-left: 3px;
+    }
+
     .results_left {
         position: absolute;
         left: 10px;
@@ -5227,6 +5231,10 @@ span.results_chart_value {
     p.submission_info {
         top: 20px;
         font-size: 14px;
+    }
+
+    .results_charts_container:nth-of-type(2) {
+        padding-left: 3px;
     }
 
     .results_charts_container {
