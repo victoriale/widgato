@@ -170,27 +170,25 @@ dwlinked = function() {
     }
 
     function getEnv(env) {
-        if (env.match(/^localhost/) != null || env.match(/^dev/) != null) {
+        if (env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
             env = "dev";
-        } else if (env.match(/^qa/) != null) {
+        } else if (env.match(/^qa\./) != null) {
             env = "qa";
         } else {
             env = "prod";
         }
-
         return env;
     }
 
     //DEPRECATED WILL BE REPLACED WITH getENV
     function synapsysENV(env) {
-        if (env.match(/^localhost/) != null || env.match(/^dev/) != null) {
+        if (env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
             env = 'dev-';
-        } else if (env.match(/^qa/) == 'qa') {
+        } else if (env.match(/^qa\./) == 'qa.') {
             env = 'qa-';
         } else {
             env = '';
         }
-
         return env;
     }
 
@@ -206,7 +204,7 @@ dwlinked = function() {
         var dom = widgetQuery.dom;
         var cat = widgetQuery.category;
         var group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
-        var environment = friendlyIframeWindow.location.hostname.split('.')[0];
+        var environment = friendlyIframeWindow.location.hostname.split('.')[0] + '.';
         var env;
         if (widgetQuery.env != null) {
             env = widgetQuery.env ? widgetQuery.env : 'prod';
