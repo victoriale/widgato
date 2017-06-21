@@ -5176,4 +5176,78 @@ span.results_chart_value {
         margin: 0;
         font-size: 8px;
     }
+    #submission_overlay {
+        width: 300px;
+        height: 169px;
+    }
+    p.submission_display {
+        font-size: 30px;
+    }
+    .check_mark_container {
+        width: 75px;
+        height: 75px;
+        margin-right: 12px;
+    }
+
+    .check_mark_container .check_mark, .check_mark_container .x {
+        width: 44px;
+        height: 32px;
+        top: 21px;
+    }
+
+    .submission_result_text_container {
+        top: 25px;
+    }
+
+    .submission_info_container {
+        width: 300px;
+        bottom: 20px;
+        height: 141px;
+        top: inherit;
+    }
+
+    #next_question {
+        width: 278px;
+        top: -46px;
+        bottom: initial;
+        z-index: 3;
+        border-color: #fff;
+    }
+
+    #next_question p {
+        color: #fff;
+    }
+
+    .submission_analytics_container {
+        top: 66px;
+        width: 278px;
+        height: 70px;
+    }
+
+    p.submission_info {
+        top: 20px;
+        font-size: 14px;
+    }
+
+    .results_charts_container {
+        margin: 10px 0 5px 0;
+    }
+
+    .results_left {
+        position: absolute;
+        left: 10px;
+        width: 122px;
+        height: 55px;
+    }
+
+    .results_right {
+        position: absolute;
+        border-left: 1px solid #ccc;
+        right: 0;
+        top: 0;
+        width: 145px;
+        height: 49px;
+        text-align: left;
+        padding-left: 9px;
+    }
 }

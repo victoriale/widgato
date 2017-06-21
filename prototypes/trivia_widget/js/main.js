@@ -795,6 +795,7 @@
         incorrectResult = activeDataSet[dataKey].results.incorrect;
         dataOptions = arrayShuffle(activeDataSet[dataKey].options);// randomizes the object shuffling
         triviaImageOverlay_el.style.height = '97px';
+        submissionOverlay_el.classList.remove('no_transition');
         // loop thorugh options in data and insert values into view
         activeDataSet[dataKey].options = dataOptions;
         for (var key in dataOptions) {
@@ -924,6 +925,7 @@
                 iterateQuestion();
             };
         }
+        submissionOverlay_el.classList.add('no_transition');
     } //nextQuestionFn
 
 
