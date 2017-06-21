@@ -169,9 +169,9 @@ dwlinked = function() {
     }
 
     function getEnv(env) {
-        if (env.match(/localhost/g) != null || env.match(/dev/g) != null) {
+        if (env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
             env = "dev";
-        } else if (env.match(/qa/g) != null) {
+        } else if (env.match(/^qa\./) != null) {
             env = "qa";
         } else {
             env = "prod";
@@ -181,9 +181,9 @@ dwlinked = function() {
 
     //DEPRECATED WILL BE REPLACED WITH getENV
     function synapsysENV(env) {
-        if (env.match(/localhost/g) != null || env.match(/dev/g) != null) {
+        if (env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
             env = 'dev-';
-        } else if (env.match(/qa/g) == 'qa') {
+        } else if (env.match(/^qa\./) == 'qa.') {
             env = 'qa-';
         } else {
             env = '';
@@ -203,7 +203,7 @@ dwlinked = function() {
         var dom = widgetQuery.dom;
         var cat = widgetQuery.category;
         var group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
-        var environment = friendlyIframeWindow.location.hostname.split('.')[0];
+        var environment = friendlyIframeWindow.location.hostname.split('.')[0] + '.';
         var env;
         if (widgetQuery.env != null) {
             env = widgetQuery.env ? widgetQuery.env : 'prod';
