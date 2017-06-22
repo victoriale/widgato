@@ -1,39 +1,95 @@
-window.onbeforeunload = function (e) {
-    createPostRequestIframe(); // if user exits the screen before
+window.top.onbeforeunload = function (e) {
+    updatePayload(true); // if user exits the screen before
+    console.log('window onbeforeunload post sent');
 };
 
-//TEST AJAX POST REQUEST
-var postUrl = "http://dev-trivia-ingest.ppipwhzncn.us-east-1.elasticbeanstalk.com/";
-var rand_id = Math.floor(Math.random() * 1000);
-var currentDataSet;
+/*****************ANALYTICS VARIABLES **************************/
+//global variables used for payload
+var userAgentObj, //checks browser, browser version, bot, and mobile variables to all be returned
+    embedSize,
+    category,
+    view,
+    embedTime,
+    clicks = 0,
+    engageDwell,
+    viewDwell;
 
-var dataQuestionTitles;
+var sessionId,
+    partnerId,
+    placementId;
+
+//STYLES used in console
+var analyticsStyles = [
+    'background: linear-gradient(#2a9a13, #000000)', 'border: 1px solid #3E0E02', 'color: white', 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)', 'text-align: center', 'font-weight: bold'
+].join(';');
+var payloadStyles = [
+    'background: linear-gradient(#4e028a, #000000)', 'border: 1px solid #3E0E02', 'color: white', 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)', 'text-align: center', 'font-weight: bold'
+].join(';');
+var defaultStyle = [
+    'background: linear-gradient(#000000, #6e6e6e)', 'border: 1px solid #3E0E02', 'color: #1fc134', 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)', 'text-align: center', 'font-weight: bold'
+].join(';');
+
+//style log to use for coloring develop tool console
+function log(msg, style) {
+    if (!style) {
+        style = defaultStyle;
+    }
+    console.log('%c' + msg + '                                                                                         ', style);
+}
+
+/**
+ * This function checks if a given element is 60% or more in the viewport
+ * @param  {DOMElement}  element     The element to check for visibility
+ * @param  {DOMElement}  debug_div   The debugging div to put the % visible in
+ * @param  {Boolean}     igloo_debug The debugging state of igloo
+ * @param  {Number}      min_percent The minimum percent for an element to be
+ *                                   considered in view (default 0.6)
+ * @return {Boolean}                 Whether the element is in view
+ */
+function iglooAnalytics(type) {
+    try {
+        switch (type) {
+        case 'view':
+            log('view     =   ' + view);
+            document.getElementById('scrolling-test').innerHTML = 'WidgetInView:' + view;
+            return window.igloo.utils.elementIsVisible(sntTriviaContent, null, true, 0.5);
+            break;
+        case 'useragent':
+            log('BROWSER    =   ' + window.igloo.browser.name);
+            log('MOBILE     =   ' + window.igloo.browser.mobile);
+            return window.igloo.browser;
+            break;
+        default:
+            console.warn('igloo Utility not found', e);
+            break;
+        }
+    } catch (e) {
+        console.warn('igloo not found', e);
+    }
+}
+
+/** https://github.com/passit/adstack/blob/adstack/prod/src/js/IglooModule.js#L37
+ * This object describes the current browser including name, version, mobile,
+ * and bot
+ * @type {Object}
+ * @key  {String}  name    The name of the broswer (Chrome, IE, etc)
+ * @key  {String}  version The version of the browser
+ * @key  {Boolean} bot     Whether the browser is a bot or not
+ * @key  {Boolean} mobile  Whether the browser is mobile or not
+ */
+function getUserAgent() {
+    try {
+        log('BROWSER    =   ' + window.igloo.browser.name);
+        log('MOBILE     =   ' + window.igloo.browser.mobile);
+        return window.igloo.browser;
+    } catch (e) {
+        console.warn('igloo Utilities not found', e);
+    }
+}
 
 //create an iframe for post request that will be removed once the request has been sent
 function createPostRequestIframe(jsonObject) {
-    jsonObject = {
-        "payload": {
-            "partner_id": "vhfiuv",
-            "placement_id": "fvuyhf908r9",
-            "trivia_id": "yu987fyusr",
-            "trivia_data": {
-                "question_data": {
-                    "9087uiucnse": {
-                        "answered_correctly": "0",
-                        "answered_wrong_1": "0",
-                        "answered_wrong_2": "1",
-                        "answered_wrong_3": "0"
-                    },
-                    "89fvhsudfsa": {
-                        "answered_correctly": "1",
-                        "answered_wrong_1": "0",
-                        "answered_wrong_2": "0",
-                        "answered_wrong_3": "0"
-                    },
-                },
-            },
-        },
-    };
+    log('Create Initial Payload', payloadStyles);
     // console.log(jsonObject);
     //create friendly iframe to place ourselves inside
     var friendlyIframe = document.createElement('iframe');
@@ -52,7 +108,7 @@ function createPostRequestIframe(jsonObject) {
 
     //create inline html for friendlyIframe
     friendlyIframeWindow.document.open();
-    friendlyIframeWindow.document.write('<scr' + 'ipt type="text/javascript">' + sendPostMsg(postUrl, jsonObject) + ' </scr' + 'ipt>');
+    friendlyIframeWindow.document.write('<scr' + 'ipt type="text/javascript">' + sendPayload(postUrl, jsonObject) + ' </scr' + 'ipt>');
     friendlyIframeWindow.document.close();
 
     // once postMsg sent the remove the iframe
@@ -63,17 +119,18 @@ function createPostRequestIframe(jsonObject) {
     }
 }
 
-function sendPostMsg(url, jsonObject) {
+function sendPayload(url, jsonObject) {
     try {
         if (typeof jsonObject == 'object') {
             var postXML = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
             postXML.open("POST", url, true);
             postXML.send(JSON.stringify(jsonObject))
-            // postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
-            // console.log('json object sent and abort reponse', jsonObject);
+                // postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
+                // console.log('json object sent and abort reponse', jsonObject);
+            log('SENT PAYLOAD', payloadStyles);
         }
     } catch (e) {
-        console.log("Product Analytics Error in Post Request", e)
+        console.warn("Product Analytics Error in Post Request", e)
     }
 }
 
@@ -104,34 +161,63 @@ function renderTime() {
     return h + ":" + m + ":" + s + ":" + ms;
 }
 
-function arrayShuffle(data) {
-    var shuffleArray = [];
-    if (Array.isArray(data)) {
-        shuffleArray = data;
-    } else {
-        for (var o in data) {
-            shuffleArray.push(data[o]);
+function updatePayload(send) {
+    try {
+        jsonObject = {
+            "3tdt63r": { //session id
+                "pa": "vhfiuv", //partner id
+                "pl": "fvuyhf908r9", //placement id
+                "qz": "yu987fyusr", //quiz id
+                "9087uiucnse": { //questionID
+                    "ac": "0", //correct
+                    "w1": "0", //wrong 1
+                    "w2": "1", //wrong 2
+                    "w3": "0", //wrong 3
+                    "sp": "0" //skip
+                },
+                "ed": 123, //engaged dwell
+                "vd": view, //view dwellafter engagement
+                "cl": clicks, //total clicks
+                "mo": userAgentObj.mobile, //mobile
+                "eb": 2 //total embeds on the page
+            },
+        };
+        if (send) {
+            createPayloadFrame(jsonObject);
+        } else {
+            console.log('CURRENT PAYLOAD UPDATE:', jsonObject);
         }
-    }
-    for (var i = shuffleArray.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = shuffleArray[i];
-        shuffleArray[i] = shuffleArray[j];
-        shuffleArray[j] = temp;
-    }
-    if (Array.isArray(data)) {
-        return shuffleArray;
-    } else {
-        var returnObj = {};
-        for (var i = 0; i < shuffleArray.length; i++) {
-            returnObj[i + 1] = shuffleArray[i];
-        }
-        return returnObj;
+    } catch (e) {
+        console.log('%cerror updating payload                                                     ', 'background: linear-gradient(#7a0000, #000000); border: 1px solid #3E0E02; color: white');
+        console.warn(e);
     }
 }
-/**************************************************************************ABOVE NEW STUFF************************************************************************/
 
-    // HTML Element variables
+/*****************ANALYTICS VARIABLES END***********************/
+
+//TEST AJAX POST REQUEST
+var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
+var postUrl = "http://dev-trivia-ingest.ppipwhzncn.us-east-1.elasticbeanstalk.com/";
+var apiCallUrl;
+var imageUrl;
+var query;
+var embedURL = "trivia";
+var currentScript = document.currentScript != null && document.currentScript.src.indexOf(embedURL) != -1 ? document.currentScript : (function () { // resolution for IE since it does not have currentScript to find the currently running script on the page
+    var scripts = document.getElementsByTagName('script');
+    for (var i = scripts.length - 1; i >= 0; i--) {
+        if (scripts[i].src.indexOf(embedURL) != -1) {
+            return scripts[i];
+        }
+    }
+})();
+
+var rand_id = Math.floor(Math.random() * 1000);
+var currentDataSet;
+var dataQuestionTitles;
+
+// HTML Element variables
+var sntTriviaContent = document.getElementById('snt_trivia_game');
+
 var triviaContainer_el = document.getElementById('trivia_container');
 var triviaImage_el = document.getElementsByClassName('trivia_image')[0];
 var triviaImageOverlay_el = document.getElementsByClassName('trivia_image_overlay')[0];
@@ -193,7 +279,7 @@ var incorrectPercentage;
 var pixelatedImage;
 var intervalTimer;
 var pixelationInterval;
-var initialInteraction = false;
+var widgetEngaged = false; // when user has hovered and interacted with widget
 var intervalScore = 10;
 var cumulativeScore = 0;
 var totalPossibleScore = 50;
@@ -647,29 +733,80 @@ var triviaData2 = {
 
 // function set to mimick API call
 var localStorageFn = {
-    get: function () {
-        console.log("2 ####### local storage found localGET");
-        // window.localStorage.clear();
-        if (localStorage.getItem('triviaData2') === null) {
-            localDataStore = localStorage.setItem('triviaData2', JSON.stringify(triviaData2));
+        get: function () {
+            console.log("2 ####### local storage found localGET");
+            // window.localStorage.clear();
+            if (localStorage.getItem('triviaData2') === null) {
+                localDataStore = localStorage.setItem('triviaData2', JSON.stringify(triviaData2));
+            }
+            localDataStore = JSON.parse(localStorage.getItem('triviaData2'));
+            return localDataStore;
+        },
+        set: function (correctResult, incorrectResult, totalResults) {
+            console.log("2 ####### no local storage found localSET");
+            localDataStore[activeDataSetKey][dataKey].results.correct = correctResult;
+            localDataStore[activeDataSetKey][dataKey].results.incorrect = incorrectResult;
+            localDataStore[activeDataSetKey][dataKey].results.total = totalResults;
+            localStorage.setItem('triviaData2', JSON.stringify(localDataStore));
         }
-        localDataStore = JSON.parse(localStorage.getItem('triviaData2'));
-        return localDataStore;
-    },
-    set: function (correctResult, incorrectResult, totalResults) {
-        console.log("2 ####### no local storage found localSET");
-        localDataStore[activeDataSetKey][dataKey].results.correct = correctResult;
-        localDataStore[activeDataSetKey][dataKey].results.incorrect = incorrectResult;
-        localDataStore[activeDataSetKey][dataKey].results.total = totalResults;
-        localStorage.setItem('triviaData2', JSON.stringify(localDataStore));
+    } //localStorageFn
+
+
+function getEnv(env) {
+    if (env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
+        env = "dev";
+    } else if (env.match(/^qa\./) != null) {
+        env = "qa";
+    } else {
+        env = "prod";
     }
-} //localStorageFn
+    return env;
+}
+
+//DEPRECATED WILL BE REPLACED WITH getENV
+function synapsysENV(env) {
+    if (env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
+        env = 'dev-';
+    } else if (env.match(/^qa\./) == 'qa.') {
+        env = 'qa-';
+    } else {
+        env = '';
+    }
+    return env;
+}
+
+/***************************** SETUP ENVIRONMENTS ******************************
+ * @function setupEnvironment
+ * setup Environment function
+ *
+ * @param function widgetQuery - the query string sent back as and Object from the location.search substrings
+ * to be parsed through and set for global use
+ */
+function setupEnvironment(widgetQuery) {
+    console.log(widgetQuery);
+    apiCallUrl = protocolToUse;
+    var cat = widgetQuery.category;
+    var group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
+    var environment = window.location.hostname.split('.')[0];
+    var env;
+    if (widgetQuery.env != null) {
+        env = widgetQuery.env ? widgetQuery.env : 'prod';
+    } else {
+        env = getEnv(environment);
+    }
+    //setup Image Environment api
+    imageUrl = protocolToUse + synapsysENV(environment) + imageUrl; // this is global call that is used for images
+    log('category:    ' + cat, analyticsStyles);
+    log('group:       ' + group, analyticsStyles);
+    log('environment: ' + environment, analyticsStyles);
+    log('env:         ' + env, analyticsStyles);
+}
 
 
 // set initial content and variables to start trivia
 console.log('1 ####### initialSetup');
+
 initialSetup();
-createPostRequestIframe();
 
 // function productAnalytics(jsonObject) {
 //     console.log('test');
@@ -677,25 +814,79 @@ createPostRequestIframe();
 
 function initialSetup() {
     //start detecting analytics once user mouse over content
-    var triviaContent = document.getElementById('snt_trivia_game');
-    // triviaContent.addEventListener("mouseover", productAnalytics);
-    renderTime();
-    triviaContent.onmouseover = function () {
-        if (!initialInteraction) {
-            //content hovered has been mouse overed
-            initialInteraction = true;
-            console.log('initialInteraction', initialInteraction);
+    var srcQuery = currentScript.src.split("js?")[1];
+    //determine if a query string is after the index.html location || if query is after a javascript location
+    var hostname = new RegExp(document.location.hostname);
+    if (hostname.test('localhost') || hostname.test('w1.synapsys.us') || hostname.test('dev-w1.synapsys.us') || hostname.test('homestead.widgets') && (document.location.search != null && document.location.search != '')) {
+        query = JSON.parse(decodeURIComponent(document.location.search.substr(1)));
+        // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
+        // listRand = Math.floor((Math.random() * 100) + 1);
+        //FIRST THING IS SETUP ENVIRONMENTS
+    } else {
+        if (srcQuery != "" && srcQuery != null) {
+            try {
+                query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
+            } catch (e) {
+                console.log(e);
+            }
         }
     }
+    setupEnvironment(query);
+
+    renderTime();
+
     currentDataSet = localStorageFn.get();
     console.log('API RETURNED', currentDataSet);
+
+    /*******************START ANALYTICS******************/
+    log('Data Found -- STARTING initial Analytics', analyticsStyles);
+
+    log('IGLOO check browser && user agent --vvvvvvvvvvv--', payloadStyles);
+    userAgentObj = iglooAnalytics('useragent');
+
+    /**** TODO
+    userAgentObj, //checks browser, browser version, bot, and mobile variables to all be returned <-- DONE
+    embedSize, // TODO more checks needed
+    category, // TODO coming from api or query
+    view,
+    embedTime,
+    clicks,
+    engageDwell,
+    viewDwell;
+    ****/
+    log('IGLOO Initial View check ---vvv---', payloadStyles);
+    view = iglooAnalytics('view');
+    log(view ? view : 'false');
+    log('IGLOO View Listening... ---vvv---', payloadStyles);
+    window.onscroll = function () {
+        view = iglooAnalytics('view');
+    }
+    sntTriviaContent.onclick = function () {
+        clicks++;
+        log('clicks      =   ' + clicks, );
+    }
+
+    log('Create MouseOver Interaction - Listening...', payloadStyles);
+    sntTriviaContent.onmouseover = function () {
+        if (!widgetEngaged) {
+            log('UpdateAnalytics', analyticsStyles);
+            //content hovered has been mouse overed
+            widgetEngaged = true;
+            log('widgetEngaged  =   ' + widgetEngaged);
+            updatePayload(true);
+            log('END UpdateAnalytics', analyticsStyles);
+        }
+    }
+    updatePayload();
+    log('END initial Analytics', analyticsStyles);
+    /******************** ANALYTICS* ******************/
     // getDataSetKeys();
     if (activeDataSetKey) {
         console.log("CHOSEN KEY ", activeDataSetKey);
     } else {
         console.log("GET RANDOM KEY ", activeDataSetKey);
     }
-    activeDataSetKey = activeDataSetKey ? activeDataSetKey : arrayShuffle(getDataSetKeys())[0];//get random dataset key. <== needs to be looked at again TODO
+    activeDataSetKey = activeDataSetKey ? activeDataSetKey : arrayShuffle(getDataSetKeys())[0]; //get random dataset key. <== needs to be looked at again TODO
     activeDataSet = currentDataSet[activeDataSetKey];
     console.log("3 ####### ", activeDataSetKey, activeDataSet);
     dataQuestionTitles = getQuizSetKeys(activeDataSet);
@@ -714,6 +905,31 @@ function initialSetup() {
     setData();
 } //initialSetup
 
+function arrayShuffle(data) {
+    var shuffleArray = [];
+    if (Array.isArray(data)) {
+        shuffleArray = data;
+    } else {
+        for (var o in data) {
+            shuffleArray.push(data[o]);
+        }
+    }
+    for (var i = shuffleArray.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = shuffleArray[i];
+        shuffleArray[i] = shuffleArray[j];
+        shuffleArray[j] = temp;
+    }
+    if (Array.isArray(data)) {
+        return shuffleArray;
+    } else {
+        var returnObj = {};
+        for (var i = 0; i < shuffleArray.length; i++) {
+            returnObj[i + 1] = shuffleArray[i];
+        }
+        return returnObj;
+    }
+}
 
 // gets all possible dataSets
 function getDataSetKeys() {
@@ -775,10 +991,10 @@ function setData() {
     activeDataSet = activeDataSet ? activeDataSet : localDataStore; //sets dataset
 
     //TODO get below to work with dataKey and activeDataSet
-    dataKey = dataKey ? dataKey : arrayShuffle(dataQuestionTitles)[0];//get random dataset key.
+    dataKey = dataKey ? dataKey : arrayShuffle(dataQuestionTitles)[0]; //get random dataset key.
 
 
-    console.log('4 ####### CHOOSING ', dataKey, activeDataSet[dataKey]);
+    console.log('4 ####### CHOOSING Question', dataKey, activeDataSet[dataKey]);
     var question = activeDataSet[dataKey].question,
         resultDisplay = activeDataSet[dataKey] ? activeDataSet[dataKey].correct_result : 'Whoops!',
         backgroundImage = activeDataSet[dataKey] ? "url(" + imagePath_el + activeDataSet[dataKey].image + ")" : '';
@@ -791,7 +1007,7 @@ function setData() {
     totalResults = activeDataSet[dataKey].results.total;
     correctResult = activeDataSet[dataKey].results.correct;
     incorrectResult = activeDataSet[dataKey].results.incorrect;
-    dataOptions = arrayShuffle(activeDataSet[dataKey].options);// randomizes the object shuffling
+    dataOptions = arrayShuffle(activeDataSet[dataKey].options); // randomizes the object shuffling
     triviaImageOverlay_el.style.height = '97px';
     intervalScoreContainer_el.style.display = 'block';
     progressBar_el.style.display = 'block';
@@ -858,14 +1074,14 @@ function setGraphInfo(selectedOption, isCorrectParam) {
     incorrectPercentage = getPercentages(correctResult, incorrectResult, totalResults).value2;
     for (var i = 0; resultsChart_el.length > i; i++) {
         switch (i) {
-            case 0:
-                resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
-                resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                break;
-            default:
-                resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
-                resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                break;
+        case 0:
+            resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
+            resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+            break;
+        default:
+            resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
+            resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+            break;
         }
     }
     var randomPercent = document.getElementsByClassName("correct_submission").length > 0 ? correctPercentage : Math.floor(Math.random() * (100 + 1)) //TODO - need to calculate wrong submissions instead of random
@@ -875,31 +1091,31 @@ function setGraphInfo(selectedOption, isCorrectParam) {
 
 function answerSubmittedFn(answer) {
     switch (answer) {
-        case 'correct':
-            initialInteraction = true;
-            addIntervalScoreFn();
-            console.log('CORRECT clearInterval');
-            adjustIntervalScoreFn('clear');
-            submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
-            triviaImageOverlay_el.style.height = '230px';
-            intervalScoreContainer_el.style.display = 'none';
-            progressBar_el.style.display = 'none';
-            submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
-            triviaContainer_el.className = "correct_submission";
-            nextQuestionFn();
-            break;
-        case 'incorrect':
-            initialInteraction = true;
-            console.log('INCORRECT clearInterval');
-            adjustIntervalScoreFn('clear');
-            submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
-            triviaImageOverlay_el.style.height = '230px';
-            intervalScoreContainer_el.style.display = 'none';
-            progressBar_el.style.display = 'none';
-            submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
-            triviaContainer_el.className = "incorrect_submission";
-            nextQuestionFn();
-            break;
+    case 'correct':
+        widgetEngaged = true;
+        addIntervalScoreFn();
+        console.log('CORRECT clearInterval');
+        adjustIntervalScoreFn('clear');
+        submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
+        triviaImageOverlay_el.style.height = '230px';
+        intervalScoreContainer_el.style.display = 'none';
+        progressBar_el.style.display = 'none';
+        submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
+        triviaContainer_el.className = "correct_submission";
+        nextQuestionFn();
+        break;
+    case 'incorrect':
+        widgetEngaged = true;
+        console.log('INCORRECT clearInterval');
+        adjustIntervalScoreFn('clear');
+        submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
+        triviaImageOverlay_el.style.height = '230px';
+        intervalScoreContainer_el.style.display = 'none';
+        progressBar_el.style.display = 'none';
+        submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
+        triviaContainer_el.className = "incorrect_submission";
+        nextQuestionFn();
+        break;
     }
 }
 
@@ -932,7 +1148,7 @@ function nextQuestionFn() {
 
 function skipQuestionFn() {
     adjustIntervalScoreFn('clear');
-    initialInteraction = true;
+    widgetEngaged = true;
     // if last question show results screen
     if (questionIterator >= totalQuestions) {
         showCompleteFn();
@@ -1041,7 +1257,7 @@ function adjustIntervalScoreFn(clear) {
                 clearInterval(intervalTimer);
 
                 // clearInterval(pixelationInterval);
-                if (!initialInteraction) {
+                if (!widgetEngaged) {
                     var randomDataSetKey = getRandomDataSetKey();
                     getNewDataSet(randomDataSetKey);
                 }
