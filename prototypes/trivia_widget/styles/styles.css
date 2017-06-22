@@ -3096,6 +3096,7 @@ ul li {
     position: absolute;
     z-index: 3;
     width: calc(100% - 259px);
+    min-width: 314px;
     height: 100%;
     transition: all .5s ease-in-out;
     -webkit-transition: all .5s ease-in-out;
@@ -3132,8 +3133,10 @@ ul li {
 .check_mark_container {
     position: relative;
     display: inline-block;
-    height: 95px;
-    width: 95px;
+    height: 8.8vw;
+    width: 8.8vw;
+    max-height: 95px;
+    max-width: 95px;
     margin-right: 15px;
     border-radius: 50%;
     background: white;
@@ -3144,18 +3147,21 @@ ul li {
 .check_mark_container .x {
     display: none;
     position: absolute;
-    top: 28px;
+    top: 34%;
     right: 0;
     left: 0;
     margin: 0 auto;
     font-size: 30px;
     color: #4a4a4a;
-    width: 55px;
-    height: 40px;
+    width: 36%;
+    height: 36%;
 }
 
 #trivia_container.correct_submission .check_mark {
     display: block;
+    width: 53%;
+    top: 31%;
+    height: 40%;
 }
 
 #trivia_container.incorrect_submission .x {
@@ -3165,7 +3171,7 @@ ul li {
 p.submission_display {
     position: relative;
     display: inline-block;
-    font-size: 38px;
+    font-size: calc(1em + 2vw);
     text-align: center;
     text-transform: uppercase;
     color: white;
@@ -3263,10 +3269,10 @@ p.submission_display {
     clear: both;
     -webkit-transform: scale(1);
     transform: scale(1);
-    -webkit-transition: all .5s ease-in-out;
+    -webkit-transition: all .2s ease-in-out;
     transition: all .5s ease-in-out;
     border-right: 1px solid rgba(255, 255, 255, 0.32);
-    height: 134px;
+    height: 150px;
 }
 
 #completed_overlay.hidden .results_container {
@@ -3452,23 +3458,23 @@ li.sm_icon i {
 }
 
 .other_content_option_container:nth-child(1) .animation_container {
-    -webkit-transition: all .5s ease-in-out .25s;
-    transition: all .5s ease-in-out .25s;
+    -webkit-transition: all .25s ease-in-out .25s;
+    transition: all .25s ease-in-out .25s;
 }
 
 .other_content_option_container:nth-child(2) .animation_container {
-    -webkit-transition: all .5s ease-in-out .5s;
-    transition: all .5s ease-in-out .5s;
+    -webkit-transition: all .25s ease-in-out .25s;
+    transition: all .25s ease-in-out .25s;
 }
 
 .other_content_option_container:nth-child(3) .animation_container {
-    -webkit-transition: all .5s ease-in-out .75s;
-    transition: all .5s ease-in-out .75s;
+    -webkit-transition: all .25s ease-in-out .25s;
+    transition: all .25s ease-in-out .25s;
 }
 
 .other_content_option_container:nth-child(4).random_option .animation_container {
-    -webkit-transition: all .5s ease-in-out .75s;
-    transition: all .5s ease-in-out .75s;
+    -webkit-transition: all .25s ease-in-out .25s;
+    transition: all .25s ease-in-out .25s;
 }
 
 .other_content_title {
@@ -3499,12 +3505,12 @@ li.sm_icon i {
 
 /*--Shuffle button--*/
 .other_content_option_container.random_option {
-    -webkit-transition: opacity .5s ease-in-out 1s,
-    transform .5s ease-in-out 1s,
+    -webkit-transition: opacity .5s ease-in-out .25s,
+    transform .25s ease-in-out .25s,
     background .25s ease-in-out,
     color .25s ease-in-out;
-    transition: opacity .5s ease-in-out 1s,
-    transform .5s ease-in-out 1s,
+    transition: opacity .5s ease-in-out .25s,
+    transform .25s ease-in-out .25s,
     background .25s ease-in-out,
     color .25s ease-in-out;
 }
@@ -4757,6 +4763,12 @@ span.results_chart_value {
     right: 0;
 }
 
+@media (min-width: 970px) {
+    p.submission_display {
+        font-size: 38px;
+    }
+}
+
 @media (max-width: 965px) {
     .results_container p.comment {
         font-size: 3.8vw;
@@ -4993,11 +5005,13 @@ span.results_chart_value {
         height: 70px;
         border-color: #fff;
         background-color: transparent;
+        border-top: none;
     }
 
     .submission_analytics_title, .ltblue {
         background: transparent;
-        color: #fff
+        color: #fff;
+        left: 0;
     }
 
     .results_charts_container {
@@ -5054,6 +5068,32 @@ span.results_chart_value {
         padding-left: 9px;
         color: #fff;
     }
+
+    .border {
+        display: table;
+        white-space: nowrap;
+    }
+
+    .border:before {
+        border-top: 1px solid #fff;
+        content: '';
+        display: table-cell;
+        position: relative;
+        top: 8px;
+        width: 10px;
+        right: 5px;
+    }
+
+    .border:after {
+        border-top: 1px solid #fff;
+        content: '';
+        display: table-cell;
+        position: relative;
+        top: 8px;
+        width: 240px;
+        left: 5px;
+    }
+
 }
 
 @media (max-width: 649px) {
@@ -5213,7 +5253,7 @@ span.results_chart_value {
     #next_question {
         width: 278px;
         top: -46px;
-        bottom: initial;
+        bottom: auto;
         z-index: 3;
         border-color: #fff;
     }
