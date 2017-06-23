@@ -3,6 +3,10 @@ window.top.onbeforeunload = function (e) {
     console.log('window onbeforeunload post sent');
 };
 
+window.onload = function () {
+    widgetContainer_el.style.display = 'block';
+};
+
 /**
  * This object describes the current browser including name, version, mobile,
  * and bot
@@ -87,80 +91,6 @@ link.type = 'text/css';
 link.href = !browser.mobile ? cssFile : cssMobileFile;
 document.head.appendChild(link);
 
-/*****************ANALYTICS VARIABLES **************************/
-//global variables used for payload
-var userAgentObj, //checks browser, browser version, bot, and mobile variables to all be returned
-    embedSize,
-    category,
-    view,
-    embedTime,
-    clicks = 0,
-    engageDwell,
-    viewDwell;
-
-var sessionId,
-    partnerId,
-    placementId;
-
-//STYLES used in console
-var analyticsStyles = [
-    'background: linear-gradient(#2a9a13, #000000)', 'border: 1px solid #3E0E02', 'color: white', 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)', 'text-align: center', 'font-weight: bold'
-].join(';');
-var payloadStyles = [
-    'background: linear-gradient(#4e028a, #000000)', 'border: 1px solid #3E0E02', 'color: white', 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)', 'text-align: center', 'font-weight: bold'
-].join(';');
-var defaultStyle = [
-    'background: linear-gradient(#000000, #6e6e6e)', 'border: 1px solid #3E0E02', 'color: #1fc134', 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)', 'text-align: center', 'font-weight: bold'
-].join(';');
-
-//style log to use for coloring develop tool console
-function log(msg, style) {
-    if (!style) {
-        style = defaultStyle;
-    }
-    console.log('%c' + msg + '                                                                                         ', style);
-}
-
-/**
- * This function checks if a given element is 60% or more in the viewport
- * @param  {DOMElement}  element     The element to check for visibility
- * @param  {DOMElement}  debug_div   The debugging div to put the % visible in
- * @param  {Boolean}     igloo_debug The debugging state of igloo
- * @param  {Number}      min_percent The minimum percent for an element to be
- *                                   considered in view (default 0.6)
- * @return {Boolean}                 Whether the element is in view
- */
-function iglooAnalytics(type) {
-    try {
-        switch (type) {
-        case 'view':
-            log('view     =   ' + view);
-            document.getElementById('scrolling-test').innerHTML = 'WidgetInView:' + view;
-            return window.igloo.utils.elementIsVisible(sntTriviaContent, null, true, 0.5);
-            break;
-        case 'useragent':
-            log('BROWSER    =   ' + window.igloo.browser.name);
-            log('MOBILE     =   ' + window.igloo.browser.mobile);
-            return window.igloo.browser;
-            break;
-        default:
-            console.warn('igloo Utility not found', e);
-            break;
-        }
-    } catch (e) {
-        console.warn('igloo not found', e);
-    }
-}
-
-/** https://github.com/passit/adstack/blob/adstack/prod/src/js/IglooModule.js#L37
- * This object describes the current browser including name, version, mobile,
- * and bot
- * @type {Object}
- * @key  {String}  name    The name of the broswer (Chrome, IE, etc)
- * @key  {String}  version The version of the browser
- * @key  {Boolean} bot     Whether the browser is a bot or not
- * @key  {Boolean} mobile  Whether the browser is mobile or not
- */
 function getUserAgent() {
     try {
         log('BROWSER    =   ' + window.igloo.browser.name);
@@ -171,118 +101,12 @@ function getUserAgent() {
     }
 }
 
-//create an iframe for post request that will be removed once the request has been sent
-function createPostRequestIframe(jsonObject) {
-    log('Create Initial Payload', payloadStyles);
-    // console.log(jsonObject);
-    //create friendly iframe to place ourselves inside
-    var friendlyIframe = document.createElement('iframe');
-    // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
-    var uniqueIframeId = "snt_product_id_" + rand_id;
-    friendlyIframe.setAttribute("id", uniqueIframeId);
-    friendlyIframe.className = "report"
-    friendlyIframe.width = 1;
-    friendlyIframe.height = 1; //250 is the add height
-    friendlyIframe.scrolling = 'no';
-    friendlyIframe.style.overflow = 'hidden';
-    friendlyIframe.src = 'about:blank';
-    friendlyIframe.style.border = 'none';
-    document.body.appendChild(friendlyIframe);
-    friendlyIframeWindow = friendlyIframe.contentWindow;
+/*ABOVE CODE NEEDS TO MERGE WITH CURRENT*/
 
-    //create inline html for friendlyIframe
-    friendlyIframeWindow.document.open();
-    friendlyIframeWindow.document.write('<scr' + 'ipt type="text/javascript">' + sendPayload(postUrl, jsonObject) + ' </scr' + 'ipt>');
-    friendlyIframeWindow.document.close();
-
-    // once postMsg sent the remove the iframe
-    if (typeof document.getElementById(uniqueIframeId).remove === 'function') {
-        document.getElementById(uniqueIframeId).remove();
-    } else {
-        document.getElementById(uniqueIframeId).outerHTML = '';
-    }
-}
-
-function sendPayload(url, jsonObject) {
-    try {
-        if (typeof jsonObject == 'object') {
-            var postXML = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-            postXML.open("POST", url, true);
-            postXML.send(JSON.stringify(jsonObject))
-                // postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
-                // console.log('json object sent and abort reponse', jsonObject);
-            log('SENT PAYLOAD', payloadStyles);
-        }
-    } catch (e) {
-        console.warn("Product Analytics Error in Post Request", e)
-    }
-}
-
-
-function renderTime() {
-    var currentTime = new Date();
-    var h = currentTime.getUTCHours();
-    var m = currentTime.getUTCMinutes();
-    var s = currentTime.getUTCSeconds();
-    var ms = currentTime.getUTCMilliseconds();
-    setTimeout('renderTime()', 1);
-    if (h == 0) {
-        h = 12;
-    }
-    if (h < 10) {
-        h = "0" + h;
-    }
-    if (m < 10) {
-        m = "0" + m;
-    }
-    if (s < 10) {
-        s = "0" + s;
-    }
-    if (ms < 1000) {
-        ms = ms;
-    }
-    document.getElementById("timer").innerHTML = h + ":" + m + ":" + s + ":" + ms;
-    return h + ":" + m + ":" + s + ":" + ms;
-}
-
-function updatePayload(send) {
-    try {
-        jsonObject = {
-            "3tdt63r": { //session id
-                "pa": "vhfiuv", //partner id
-                "pl": "fvuyhf908r9", //placement id
-                "qz": "yu987fyusr", //quiz id
-                "9087uiucnse": { //questionID
-                    "ac": "0", //correct
-                    "w1": "0", //wrong 1
-                    "w2": "1", //wrong 2
-                    "w3": "0", //wrong 3
-                    "sp": "0" //skip
-                },
-                "ed": 123, //engaged dwell
-                "vd": view, //view dwellafter engagement
-                "cl": clicks, //total clicks
-                "mo": userAgentObj.mobile, //mobile
-                "eb": 2 //total embeds on the page
-            },
-        };
-        if (send) {
-            createPayloadFrame(jsonObject);
-        } else {
-            console.log('CURRENT PAYLOAD UPDATE:', jsonObject);
-        }
-    } catch (e) {
-        console.log('%cerror updating payload                                                     ', 'background: linear-gradient(#7a0000, #000000); border: 1px solid #3E0E02; color: white');
-        console.warn(e);
-    }
-}
-
-/*****************ANALYTICS VARIABLES END***********************/
-
-//TEST AJAX POST REQUEST
+// set initial content and variables to start trivia
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-var postUrl = "http://dev-trivia-ingest.ppipwhzncn.us-east-1.elasticbeanstalk.com/";
-var apiCallUrl;
+var postUrl = "https://dev-pa.synapsys.us/";
+var apiCallUrl = "http://dev-tw-api.synapsys.us/index.php";
 var imageUrl;
 var query;
 var embedURL = "trivia";
@@ -340,6 +164,8 @@ var pixelatedContainerWidth = pixelatedContainer_el.offsetWidth + 2;
 var imagePath_el = "./images/";
 var url = window.location.href;
 
+var widgetAd;
+
 // calculated variables
 var localDataStore;
 var finalQuestion = false;
@@ -367,8 +193,6 @@ var widgetEngaged = false; // when user has hovered and interacted with widget
 var intervalScore = 10;
 var cumulativeScore = 0;
 var totalPossibleScore = 50;
-
-var widgetAd;
 
 
 // fake data
@@ -820,16 +644,48 @@ var triviaData2 = {
 // function set to mimick API call
 var localStorageFn = {
         get: function () {
-            console.log("2 ####### local storage found localGET");
-            // window.localStorage.clear();
-            if (localStorage.getItem('triviaData2') === null) {
-                localDataStore = localStorage.setItem('triviaData2', JSON.stringify(triviaData2));
-            }
-            localDataStore = JSON.parse(localStorage.getItem('triviaData2'));
-            return localDataStore;
+
+          // console.log("2 ####### local storage found localGET");
+          // window.localStorage.clear();
+          if (localStorage.getItem('triviaData2') === null) {
+              localDataStore = localStorage.setItem('triviaData2', JSON.stringify(triviaData2));
+          }
+          localDataStore = JSON.parse(localStorage.getItem('triviaData2'));
+          return localDataStore;
+
+
+          //variable that stores the response of an http request
+          // if (window.XMLHttpRequest) {
+          //     var xhttp = new XMLHttpRequest();
+          // } else {
+          //     var xhttp = new ActiveXObject('Microsoft.XMLHTTP')
+          // }
+          // xhttp.onreadystatechange = function() {
+          //     if (this.readyState == XMLHttpRequest.DONE) {
+          //         if (this.status == 200) {
+          //             // On success parse out the response
+          //             widgetData = JSON.parse(this.responseText);
+          //         } else {
+          //             // Error handling
+          //             // Get the message
+          //             var msg = this.statusText;
+          //             if (this.status == 500) {
+          //                 try {
+          //                     msg = JSON.parse(this.responseText).message
+          //                 } catch (e) {
+          //                     console.log('No JSON message')
+          //                 }
+          //             }
+          //             msg = 'HTTP Error (' + this.status + '): ' + msg;
+          //             // setTimeout(runAPI(apiCallUrl), 500)
+          //         }
+          //     }
+          // };
+          // xhttp.open("GET", apiCallUrl, false);
+          // xhttp.send();
         },
         set: function (correctResult, incorrectResult, totalResults) {
-            console.log("2 ####### no local storage found localSET");
+            // console.log("2 ####### no local storage found localSET");
             localDataStore[activeDataSetKey][dataKey].results.correct = correctResult;
             localDataStore[activeDataSetKey][dataKey].results.incorrect = incorrectResult;
             localDataStore[activeDataSetKey][dataKey].results.total = totalResults;
@@ -869,7 +725,8 @@ function synapsysENV(env) {
  * to be parsed through and set for global use
  */
 function setupEnvironment(widgetQuery) {
-    console.log(widgetQuery);
+    // console.log(widgetQuery);
+    query = widgetQuery;
     apiCallUrl = protocolToUse;
     var cat = widgetQuery.category;
     var group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
@@ -889,92 +746,25 @@ function setupEnvironment(widgetQuery) {
 }
 
 
-// set initial content and variables to start trivia
-console.log('1 ####### initialSetup');
-
-initialSetup();
-
-// function productAnalytics(jsonObject) {
-//     console.log('test');
-// }
-
 function initialSetup() {
-    //start detecting analytics once user mouse over content
-    var srcQuery = currentScript.src.split("js?")[1];
-    //determine if a query string is after the index.html location || if query is after a javascript location
-    var hostname = new RegExp(document.location.hostname);
-    if (hostname.test('localhost') || hostname.test('w1.synapsys.us') || hostname.test('dev-w1.synapsys.us') || hostname.test('homestead.widgets') && (document.location.search != null && document.location.search != '')) {
-        query = JSON.parse(decodeURIComponent(document.location.search.substr(1)));
-        // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
-        // listRand = Math.floor((Math.random() * 100) + 1);
-        //FIRST THING IS SETUP ENVIRONMENTS
-    } else {
-        if (srcQuery != "" && srcQuery != null) {
-            try {
-                query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
-            } catch (e) {
-                console.log(e);
-            }
-        }
-    }
-    setupEnvironment(query);
-
-    renderTime();
-
     currentDataSet = localStorageFn.get();
-    console.log('API RETURNED', currentDataSet);
+    // console.log('API RETURNED', currentDataSet);
+
 
     /*******************START ANALYTICS******************/
-    log('Data Found -- STARTING initial Analytics', analyticsStyles);
-
-    log('IGLOO check browser && user agent --vvvvvvvvvvv--', payloadStyles);
-    userAgentObj = iglooAnalytics('useragent');
-
-    /**** TODO
-    userAgentObj, //checks browser, browser version, bot, and mobile variables to all be returned <-- DONE
-    embedSize, // TODO more checks needed
-    category, // TODO coming from api or query
-    view,
-    embedTime,
-    clicks,
-    engageDwell,
-    viewDwell;
-    ****/
-    log('IGLOO Initial View check ---vvv---', payloadStyles);
-    view = iglooAnalytics('view');
-    log(view ? view : 'false');
-    log('IGLOO View Listening... ---vvv---', payloadStyles);
-    window.onscroll = function () {
-        view = iglooAnalytics('view');
-    };
-    sntTriviaContent.onclick = function () {
-        clicks++;
-        log('clicks      =   ' + clicks);
-    };
-
-    log('Create MouseOver Interaction - Listening...', payloadStyles);
-    sntTriviaContent.onmouseover = function () {
-        if (!widgetEngaged) {
-            log('UpdateAnalytics', analyticsStyles);
-            //content hovered has been mouse overed
-            widgetEngaged = true;
-            log('widgetEngaged  =   ' + widgetEngaged);
-            updatePayload(true);
-            log('END UpdateAnalytics', analyticsStyles);
-        }
-    };
-    updatePayload();
-    log('END initial Analytics', analyticsStyles);
+    startTriviaAnalytics();
     /******************** ANALYTICS* ******************/
+
+
     // getDataSetKeys();
     if (activeDataSetKey) {
-        console.log("CHOSEN KEY ", activeDataSetKey);
+        // console.log("CHOSEN KEY ", activeDataSetKey);
     } else {
-        console.log("GET RANDOM KEY ", activeDataSetKey);
+        // console.log("GET RANDOM KEY ", activeDataSetKey);
     }
     activeDataSetKey = activeDataSetKey ? activeDataSetKey : arrayShuffle(getDataSetKeys())[0]; //get random dataset key. <== needs to be looked at again TODO
     activeDataSet = currentDataSet[activeDataSetKey];
-    console.log("3 ####### ", activeDataSetKey, activeDataSet);
+    // console.log("3 ####### ", activeDataSetKey, activeDataSet);
     dataQuestionTitles = getQuizSetKeys(activeDataSet);
 
     questionIterator = 1;
@@ -1033,9 +823,9 @@ function getQuizSetKeys(data) {
     for (var question in quiz) {
         dataQuestionTitles.push(question);
     }
-    console.log('dataQuestionTitles.length', dataQuestionTitles.length);
+    // console.log('dataQuestionTitles.length', dataQuestionTitles.length);
     totalPossibleScore = dataQuestionTitles.length * 10;
-    console.log('totalPossibleScore', totalPossibleScore);
+    // console.log('totalPossibleScore', totalPossibleScore);
     return dataQuestionTitles;
 } //getDataSetKeys
 
@@ -1080,12 +870,12 @@ function setData() {
     dataKey = dataKey ? dataKey : arrayShuffle(dataQuestionTitles)[0]; //get random dataset key.
 
 
-    console.log('4 ####### CHOOSING Question', dataKey, activeDataSet[dataKey]);
+    // console.log('4 ####### CHOOSING Question', dataKey, activeDataSet[dataKey]);
     var question = activeDataSet[dataKey].question,
         resultDisplay = activeDataSet[dataKey] ? activeDataSet[dataKey].correct_result : 'Whoops!',
         backgroundImage = activeDataSet[dataKey] ? "url(" + imagePath_el + activeDataSet[dataKey].image + ")" : '';
 
-    console.log(activeDataSet[dataKey].question);
+    // console.log(activeDataSet[dataKey].question);
     triviaQuestion_el.innerHTML = question; //inserts active question into view
     correctResultDisplay_el.innerHTML = resultDisplay; //inserts result into the submission view
     triviaImage_el.style.backgroundImage = backgroundImage; //inserts backgroundImage into view
@@ -1180,7 +970,7 @@ function answerSubmittedFn(answer) {
     case 'correct':
         widgetEngaged = true;
         addIntervalScoreFn();
-        console.log('CORRECT clearInterval');
+        // console.log('CORRECT clearInterval');
         adjustIntervalScoreFn('clear');
         submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
         triviaImageOverlay_el.style.height = '230px';
@@ -1192,7 +982,7 @@ function answerSubmittedFn(answer) {
         break;
     case 'incorrect':
         widgetEngaged = true;
-        console.log('INCORRECT clearInterval');
+        // console.log('INCORRECT clearInterval');
         adjustIntervalScoreFn('clear');
         submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
         triviaImageOverlay_el.style.height = '230px';
@@ -1207,10 +997,10 @@ function answerSubmittedFn(answer) {
 
 
 function addIntervalScoreFn() {
-    console.log('5 ####### Current + IntervalScore', cumulativeScore, intervalScore);
+    // console.log('5 ####### Current + IntervalScore', cumulativeScore, intervalScore);
     cumulativeScore = cumulativeScore + intervalScore;
     userScore_el.innerHTML = cumulativeScore;
-    console.log('NEW SCORE ', cumulativeScore);
+    // console.log('NEW SCORE ', cumulativeScore);
 } //addIntervalScoreFn
 
 
@@ -1262,33 +1052,33 @@ function showCompleteFn() {
 } //showCompleteFn
 
 function removeQuestionIndex(key) {
-    console.log('removeQuestionIndex() from dataQuestionTitles', dataQuestionTitles);
-    console.log('removing dataKey', dataKey);
+    // console.log('removeQuestionIndex() from dataQuestionTitles', dataQuestionTitles);
+    // console.log('removing dataKey', dataKey);
     var questionIndex = dataQuestionTitles.indexOf(key);
     if (questionIndex > -1) {
         dataQuestionTitles.splice(questionIndex, 1);
         ''
-        console.log('removed ' + dataKey, dataQuestionTitles);
+        // console.log('removed ' + dataKey, dataQuestionTitles);
     }
     if (dataQuestionTitles.length > 0) {
         dataKey = dataQuestionTitles[0] ? dataQuestionTitles[0] : null;
-        console.log('New Key', dataKey);
+        // console.log('New Key', dataKey);
     }
 }
 
 // gets data for next question
 function iterateQuestion() {
 
-    console.log('6 ####### iterateQuestion() REMOVING ', dataKey);
+    // console.log('6 ####### iterateQuestion() REMOVING ', dataKey);
     removeQuestionIndex(dataKey);
-    console.log("Questions Left", dataQuestionTitles);
+    // console.log("Questions Left", dataQuestionTitles);
 
-    console.log('7 ####### iterate questionIterator for tooltip text');
+    // console.log('7 ####### iterate questionIterator for tooltip text');
     questionIterator++;
     activeQuestion_el.innerHTML = questionIterator; // inject active question into view
     triviaContainer_el.className = (''); // resets view
     if (questionIterator <= totalQuestions) {
-        console.log('END NEW DATA SET');
+        // console.log('END NEW DATA SET');
         setData();
     }
 } //iterateQuestion
@@ -1296,7 +1086,7 @@ function iterateQuestion() {
 
 // restart current quiz
 function restartFn() {
-    console.log('restartFn');
+    // console.log('restartFn');
     initialSetup();
     completedOverlay_el.className = "hidden";
 } //restartFn
@@ -1307,7 +1097,7 @@ function resetIntervalScore() {
 
 // gets new data if user clicks on new quiz
 function getNewDataSet(dataSetKey) {
-    console.log('getNewDataSet');
+    // console.log('getNewDataSet');
     resetIntervalScore();
     activeDataSetKey = dataSetKey;
     localStorageFn.get();
@@ -1352,6 +1142,376 @@ function adjustIntervalScoreFn(clear) {
     }
 } //adjustPixelationFn
 
-window.onload = function () {
-    widgetContainer_el.style.display = 'block';
+
+window.top.onbeforeunload = function (e) {
+    updatePayload('send'); // if user exits the screen before
+    console.log('window onbeforeunload post sent');
 };
+
+/*****************ANALYTICS VARIABLES **************************/
+//global variables used for payload
+var sessionId,
+    partnerId,
+    placementId;
+
+var viewTimer,
+    dwellTimer;
+
+var igloo,
+    userAgentObj,
+    category,
+    embedTime, //time the moment client embeded widget
+    total_questions_views, //When CU is engaged* (It is assumed to be in view)
+    total_quiz_views, //Each time a quiz is 50%+ in view for 1+ seconds. This is recorded only once per quiz load.
+    total_embed_views, //Each time an embed is 50%+ in view for 1+ seconds. This is recorded only once per embed load.
+    total_clicks = 0,
+    total_embeds,
+    view_dwell, //Each time a quiz is 50%+ in view for any length of time. (collected every 100ms)
+    engage_dwell, //When CU is engaged*, each time a question is 50%+ in view for any length of time. (collected every 100ms)
+    total_bounce, //When CU is engaged*, whatever question is the last item in view (including the question results screen). This is determined in dynamoDB lambda function. Bounce rate will be calculated by dividing total_bounce by total_question_views.
+    // mobile_total, // being returned by userAgentObj
+    // desktop_total, // being returned by userAgentObj
+    skipped, // skippped question sends 0 || 1
+    answered_correctly, // correct question sends 0 || 1
+    answered_wrong_1, // wrong question sends 0 || 1
+    answered_wrong_2, // wrong question sends 0 || 1
+    answered_wrong_3; // wrong question sends 0 || 1
+
+
+//STYLES used in console
+var analyticsStyles = [
+    'background: linear-gradient(#2a9a13, #000000)', 'border: 1px solid #3E0E02', 'color: white', 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)', 'text-align: center', 'font-weight: bold'
+].join(';');
+var payloadStyles = [
+    'background: linear-gradient(#4e028a, #000000)', 'border: 1px solid #3E0E02', 'color: white', 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)', 'text-align: center', 'font-weight: bold'
+].join(';');
+var defaultStyle = [
+    'background: linear-gradient(#000000, #6e6e6e)', 'border: 1px solid #3E0E02', 'color: #1fc134', 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)', 'text-align: center', 'font-weight: bold'
+].join(';');
+
+//style log to use for coloring develop tool console
+function log(msg, style) {
+    if (!style) {
+        style = defaultStyle;
+    }
+    console.log('%c' + msg + '                                                                                         ', style);
+}
+
+/** igloo.utils.elementIsVisible(element, debug_div, igloo_debug, min_percent)
+ * This function checks if a given element is 60% or more in the viewport
+ * @param  {DOMElement}  element     The element to check for visibility
+ * @param  {DOMElement}  debug_div   The debugging div to put the % visible in
+ * @param  {Boolean}     igloo_debug The debugging state of igloo
+ * @param  {Number}      min_percent The minimum percent for an element to be
+ *                                   considered in view (default 0.6)
+ * @return {Boolean}                 Whether the element is in view
+ */
+/** https://github.com/passit/adstack/blob/adstack/prod/src/js/IglooModule.js#L37
+ * igloo.browser
+ * This object describes the current browser including name, version, mobile,
+ * and bot
+ * @type {Object}
+ * @key  {String}  name    The name of the broswer (Chrome, IE, etc)
+ * @key  {String}  version The version of the browser
+ * @key  {Boolean} bot     Whether the browser is a bot or not
+ * @key  {Boolean} mobile  Whether the browser is mobile or not
+ */
+function iglooAnalytics(type) {
+    try {
+        switch (type) {
+        case 'view':
+            return igloo.utils.elementIsVisible(sntTriviaContent, null, false, 0.5);
+            break;
+        case 'useragent':
+            log('BROWSER    =   ' + igloo.browser.name);
+            log('MOBILE     =   ' + igloo.browser.mobile);
+            return igloo.browser;
+            break;
+        default:
+            console.warn('igloo Utility not found', e);
+            break;
+        }
+    } catch (e) {
+        console.warn('igloo not found', e);
+    }
+}
+
+
+
+//create an iframe for post request that will be removed once the request has been sent
+function createPayloadFrame(jsonObject) {
+    log('Create Payload', payloadStyles);
+    // console.log(jsonObject);
+    //create friendly iframe to place ourselves inside
+    var friendlyIframe = document.createElement('iframe');
+    // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
+    var uniqueIframeId = "snt_product_id_" + rand_id;
+    friendlyIframe.setAttribute("id", uniqueIframeId);
+    friendlyIframe.className = "report"
+    friendlyIframe.width = 1;
+    friendlyIframe.height = 1; //250 is the add height
+    friendlyIframe.scrolling = 'no';
+    friendlyIframe.style.overflow = 'hidden';
+    friendlyIframe.src = 'about:blank';
+    friendlyIframe.style.border = 'none';
+    document.body.appendChild(friendlyIframe);
+    friendlyIframeWindow = friendlyIframe.contentWindow;
+
+    //create inline html for friendlyIframe
+    friendlyIframeWindow.document.open();
+    friendlyIframeWindow.document.write('<scr' + 'ipt type="text/javascript">' + sendPayload(postUrl, jsonObject) + ' </scr' + 'ipt>');
+    friendlyIframeWindow.document.close();
+
+    // once postMsg sent the remove the iframe
+    if (typeof document.getElementById(uniqueIframeId).remove === 'function') {
+        document.getElementById(uniqueIframeId).remove();
+    } else {
+        document.getElementById(uniqueIframeId).outerHTML = '';
+    }
+}
+
+function sendPayload(url, jsonObject) {
+    try {
+        if (typeof jsonObject == 'object') {
+            var postXML = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+            // postXML.open("POST", url, true);
+            // postXML.send(JSON.stringify(jsonObject))
+            // postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
+            // console.log('json object sent and abort reponse', jsonObject);
+            for (var obj in jsonObject) {
+                log(obj + '   :     ' + jsonObject[obj]);
+            }
+            log('SENT PAYLOAD', payloadStyles);
+        }
+    } catch (e) {
+        console.warn("Product Analytics Error in Post Request", e)
+    }
+}
+
+function updatePayload(send) {
+    try {
+        // console.log(query);
+        jsonObject = {
+            "si": "3tdt63r", // i need to generate this myself
+            "pa": query.event.p, //partner id
+            "pl": query.event.z, //placement id
+            "qz": "yu987fyusr", //quiz id
+            "qi": "9087uiucnse",
+            "ac": "0", //correct
+            "w1": "0", //wrong 1
+            "w2": "1", //wrong 2
+            "w3": "0", //wrong 3
+            "sp": "0", //skip
+            "ed": 123, //engaged dwell
+            "vd": 53, //view dwellafter engagements
+            "cl": total_clicks ? total_clicks : 0, //total clicks
+            "mo": userAgentObj.mobile, //mobile
+            "eb": 2 //total embeds on the page
+        };
+
+        if (send == 'send') {
+            createPayloadFrame(jsonObject);
+            jsonObject = {};
+        } else {
+            log("UPDATING PAYLOAD vvvvvvvvvv", payloadStyles);
+            for (var obj in jsonObject) {
+                log(obj + '   :     ' + jsonObject[obj]);
+            };
+            log("UPDATING PAYLOAD ^^^^^^^^^^", payloadStyles);
+        }
+    } catch (e) {
+        console.log('%cerror updating payload                                                     ', 'background: linear-gradient(#7a0000, #000000); border: 1px solid #3E0E02; color: white');
+        console.warn(e);
+    }
+}
+
+
+/**timer(name, tick, stopAt, debug_element)
+ * Function to create a timer with variable features to start, stop, get, or even auto stop
+ * @type {Object}
+ * @key  {String}  name    give the timer a name to track
+ * @key  {Number}  tick    tick is how many times the interval Timer should update the time(ms)
+ * @key  {Number} stopAt  if you want the time to auto stop at a certain time(ms)
+ * @key  {Object} debug_div  the element (div/span/etc..) you want to debug off of
+ */
+function timer(name, tick, stopAt, debug_element) {
+    this.name = name;
+    this.time = 0;
+    this.stopAt = stopAt;
+    this.intervalTimer = function () {},
+        this.start = function () {
+            var cTimer = this;
+            this.intervalTimer = setInterval(function () {
+                cTimer.time += tick;
+                if (cTimer.stopAt && cTimer.time >= cTimer.stopAt) {
+                    cTimer.stop();
+                }
+                if (debug_element) {
+                    debug_element.innerHTML = cTimer.time;
+                }
+            }, tick);
+        },
+        this.stop = function () {
+            clearInterval(this.intervalTimer);
+        },
+        this.getTime = function () {
+            return this.time;
+        }
+
+};
+
+function startTriviaAnalytics() {
+    resetAnalytics();
+
+    log('Data Found -- STARTING initial Analytics', analyticsStyles);
+    log('IGLOO check browser && user agent --vvvvvvvvvvv--', payloadStyles);
+    userAgentObj = iglooAnalytics('useragent');
+
+
+    log('IGLOO Initial View check ---vvv---', payloadStyles);
+    // if igloo utilities then iglooAnalytics() function will return boolean true if igloo is 50% or more in view of use window
+    view = iglooAnalytics('view'); // check initial load if widget is available
+    log('view       =   ' + view);
+
+
+    log('IGLOO View Listening... ---vvv---', payloadStyles);
+    window.onscroll = function () { // create listener on scroll for widget in view
+        view = iglooAnalytics('view');
+    }
+
+
+    log('START TIMERS widget loaded in view', payloadStyles)
+    var testWindow = window.top.document;
+    if(testWindow.getElementById('viewTest')){
+      viewTest = testWindow.getElementById('viewTest');
+    }else{
+      viewTest = testWindow.createElement('div');
+      viewTest.id = 'viewTest';
+      viewTest.style.position = 'fixed';
+      viewTest.style.top = '0';
+      viewTest.style.right = '0';
+      testWindow.body.insertBefore(viewTest, testWindow.body.firstElementChild);
+    }
+
+    if(testWindow.getElementById('dwewllTest')){
+      dwellTest = testWindow.getElementById('dwewllTest');
+    }else{
+      dwellTest = testWindow.createElement('div');
+      dwellTest.id = 'dwewllTest';
+      dwellTest.style.position = 'fixed';
+      dwellTest.style.top = '0';
+      dwellTest.style.left = '0';
+      testWindow.body.insertBefore(dwellTest, testWindow.body.firstElementChild);
+    }
+
+    viewTimer = new timer('view', 100, null, viewTest);
+    dwellTimer = new timer('dwell', 1000, null , dwellTest);
+    viewTimer.start();
+    dwellTimer.start();
+
+    // viewTest;
+    // dwellTest;
+    sntTriviaContent.onclick = function () { // tract every click event within the widget
+        total_clicks++;
+        log('total_clicks      =   ' + total_clicks);
+    }
+
+    log('Create MouseOver Interaction - Listening...', payloadStyles);
+    sntTriviaContent.onmouseover = function () { // create listener if widget becomes engaged
+        if (!widgetEngaged) {
+            log('UpdateAnalytics', analyticsStyles);
+            //content hovered has been mouse overed
+            //once engaged reset score and timer for first time engagement
+            adjustIntervalScoreFn('clear');
+            adjustIntervalScoreFn();
+            widgetEngaged = true;
+            log('widgetEngaged  =   ' + widgetEngaged);
+            updatePayload();
+            log('END UpdateAnalytics', analyticsStyles);
+        }
+    }
+    updatePayload('send');
+    log('END initial Analytics', analyticsStyles);
+};
+
+function resetAnalytics(){
+  if(viewTimer){
+    viewTimer.stop();
+    viewTimer = null;
+  }
+  if(dwellTimer){
+    dwellTimer.stop();
+    dwellTimer = null;
+  }
+}
+/*****************ANALYTICS VARIABLES END***********************/
+
+
+
+// function getCurrentWindow(maxLoops) {
+//     // Initialize variables
+//     var postWindows = [window];
+//     var currentWindow = window;
+//     var currentLoop = 0;
+//     maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
+//     // Build all of the windows to send the message to
+//     try {
+//         // Loop through all of the windows
+//         while (currentLoop++ < maxLoops && currentWindow !== window.top) {
+//             // Move up a layer
+//             currentWindow = currentWindow.parent;
+//             // Add to the postMessage array
+//             postWindows.push(currentWindow);
+//         }
+//     } catch (e) {}
+// }
+
+
+var firstRun = true; //makes sure the listeners run once
+var iglooUtilities;
+
+var viewTest;
+var dwellTest;
+
+function getIgloo() {
+    if (window.top.igloo) {
+      //start detecting analytics once user mouse over content
+      var srcQuery = currentScript.src.split("js?")[1];
+      //determine if a query string is after the index.html location || if query is after a javascript location
+      var hostname = new RegExp(document.location.hostname);
+      if (hostname.test('localhost') || hostname.test('w1.synapsys.us') || hostname.test('dev-w1.synapsys.us') || hostname.test('homestead.widgets') && (document.location.search != null && document.location.search != '')) {
+          query = JSON.parse(decodeURIComponent(document.location.search.substr(1)));
+          // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
+          // listRand = Math.floor((Math.random() * 100) + 1);
+          //FIRST THING IS SETUP ENVIRONMENTS
+      } else {
+          if (srcQuery != "" && srcQuery != null) {
+              try {
+                  query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
+              } catch (e) {
+                  console.log(e);
+              }
+          }
+      }
+      setupEnvironment(query);
+
+        igloo = window.top.igloo;
+        initialSetup();
+        clearInterval(iglooUtilities);
+    } else {
+        console.log('igloo not found', window.top.igloo);
+    }
+}
+
+//Initial load Waits for the DOMContent to load
+if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) { // if page is already loaded'
+    firstRun = false;
+    iglooUtilities = setInterval(getIgloo, 100);;
+} else { // elseonce page has finished loading, so as not to slowdown the page load at all
+    document.onreadystatechange = function () {
+        if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) {
+            firstRun = false;
+            iglooUtilities = setInterval(getIgloo, 100);;
+        }
+    }
+}
