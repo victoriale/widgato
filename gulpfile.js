@@ -135,3 +135,59 @@ gulp.task('centipede', function() {
     .pipe(rename('centipede.js'))
     .pipe(gulp.dest('centipede'))
 });
+
+
+/*******************************TRIVIA WIDGET UNLINKED TASK**************************/
+gulp.task('trivia-clean', function() {
+    return gulp
+        .src('prototypes/trivia_widget/min/*', {read: false})
+        .pipe(clean({force: true}))
+});
+
+gulp.task('trivia-html', ['trivia-clean'], function() {
+    return gulp
+        .src(['prototypes/trivia_widget/index.html'])
+        .pipe(htmlmin({
+            collapseWhitespace: true,
+            quoteCharacter:"'"
+        }))
+        .pipe(concat('index.min.html'))
+        .pipe(gulp.dest('prototypes/trivia_widget/min'));
+});
+
+gulp.task('trivia-css', ['trivia-clean'], function() {
+    //DEFAULT VERSION
+    return gulp
+        .src(['prototypes/trivia_widget/styles.css'])
+        .pipe(concatCss('styles.min.css'))
+        .pipe(cleanCSS())
+        .pipe(gulp.dest('prototypes/trivia_widget/min'));
+});
+gulp.task('trivia-css-wide', ['trivia-clean'], function() {
+    //WIDE VERSION
+    return gulp
+        .src(['prototypes/trivia_widget/mobile_styles.css'])
+        .pipe(concatCss('mobile_styles.min.css'))
+        .pipe(cleanCSS())
+        .pipe(gulp.dest('prototypes/trivia_widget/min'));
+});
+
+gulp.task('trivia-scripts', ['trivia-clean','trivia-html', 'trivia-css', 'trivia-css-wide'],function() {
+    return gulp.src('prototypes/trivia_widget/js/main.js')
+        .pipe(inject({
+            basepath: 'prototypes/trivia_widget',
+        }))
+        .pipe(concat('main.import.js'))
+        .pipe(gulp.dest('prototypes/trivia_widget'));
+});
+
+gulp.task('trivia-uglify', ['trivia-clean','trivia-scripts'],function() {
+    gulp.src('prototypes/trivia_widget/main.import.js')
+        .pipe(uglify())
+        .pipe(concat('main.min.js'))
+        .pipe(gulp.dest('prototypes/trivia_widget/min'))
+});
+
+gulp.task('trivia', ['trivia-clean','trivia-uglify'], function() {
+    // place code for your default task here
+});
