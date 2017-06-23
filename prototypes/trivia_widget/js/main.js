@@ -3,6 +3,90 @@ window.top.onbeforeunload = function (e) {
     console.log('window onbeforeunload post sent');
 };
 
+/**
+ * This object describes the current browser including name, version, mobile,
+ * and bot
+ * @type {Object}
+ * @key  {String}  name    The name of the broswer (Chrome, IE, etc)
+ * @key  {String}  version The version of the browser
+ * @key  {Boolean} bot     Whether the browser is a bot or not
+ * @key  {Boolean} mobile  Whether the browser is mobile or not
+ */
+var browser = (function() {
+    // Set the default values
+    var is_mobile = false;
+    var is_bot = false;
+
+    try {
+        // Get the useragent and perform the first match
+        var user_agent = navigator.userAgent;
+        var version_match;
+        var browser_match = user_agent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+
+        // Determine mobile/bot
+        is_mobile = /Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile/i.test(user_agent);
+        is_bot = /bot|googlebot|crawler|spider|robot|crawling|phantomjs/i.test(user_agent);
+
+        // Check for trident (IE)
+        if ( /trident/i.test(browser_match[1]) ) {
+            version_match = /\brv[ :]+(\d+)/g.exec(user_agent) || [];
+            return {
+                name: 'IE',
+                version: version_match[1] || '',
+                bot: is_bot,
+                mobile: is_mobile,
+            };
+        }
+
+        // Check for Chrome to filter out Opera and Edge
+        if ( browser_match[1] === 'Chrome' ) {
+            version_match = user_agent.match(/\b(OPR|EDGE)\/(\d+)/i);
+
+            // Check for version_match
+            if ( version_match !== null ) {
+                return {
+                    name: version_match[1].replace('OPR', 'Opera'),
+                    version: version_match[2],
+                    bot: is_bot,
+                    mobile: is_mobile,
+                };
+            }
+        }
+
+        // Everyone else
+        browser_match = browser_match[2] ? browser_match.slice(1, 3) : [navigator.appName, navigator.appVersion, '-?'];
+
+        // Get the version
+        version_match = user_agent.match(/version\/(\d+)/i);
+        if ( version_match !== null ) {
+            browser_match.splice(1, 1, version_match[1]);
+        }
+
+        return {
+            name: browser_match[0].replace('MSIE', 'IE'),
+            version: browser_match[1],
+            bot: is_bot,
+            mobile: is_mobile,
+        };
+    } catch (e) {
+        return {
+            error: e,
+            name: 'Unknown',
+            version: 'Unknown',
+            bot: is_bot,
+            mobile: is_mobile,
+        };
+    }
+})();
+var cssFile = './styles/styles.css';
+var cssMobileFile = './styles/mobile_styles.css';
+
+var link = document.createElement('link');
+link.setAttribute('rel', 'stylesheet');
+link.type = 'text/css';
+link.href = !browser.mobile ? cssFile : cssMobileFile;
+document.head.appendChild(link);
+
 /*****************ANALYTICS VARIABLES **************************/
 //global variables used for payload
 var userAgentObj, //checks browser, browser version, bot, and mobile variables to all be returned
@@ -81,7 +165,7 @@ function getUserAgent() {
     try {
         log('BROWSER    =   ' + window.igloo.browser.name);
         log('MOBILE     =   ' + window.igloo.browser.mobile);
-        return window.igloo.browser;
+        return browser;
     } catch (e) {
         console.warn('igloo Utilities not found', e);
     }
@@ -217,6 +301,7 @@ var dataQuestionTitles;
 
 // HTML Element variables
 var sntTriviaContent = document.getElementById('snt_trivia_game');
+var widgetContainer_el = document.getElementsByClassName('widget_container')[0];
 
 var triviaContainer_el = document.getElementById('trivia_container');
 var triviaImage_el = document.getElementsByClassName('trivia_image')[0];
@@ -255,7 +340,6 @@ var pixelatedContainerWidth = pixelatedContainer_el.offsetWidth + 2;
 var imagePath_el = "./images/";
 var url = window.location.href;
 
-
 // calculated variables
 var localDataStore;
 var finalQuestion = false;
@@ -283,6 +367,8 @@ var widgetEngaged = false; // when user has hovered and interacted with widget
 var intervalScore = 10;
 var cumulativeScore = 0;
 var totalPossibleScore = 50;
+
+var widgetAd;
 
 
 // fake data
@@ -860,11 +946,11 @@ function initialSetup() {
     log('IGLOO View Listening... ---vvv---', payloadStyles);
     window.onscroll = function () {
         view = iglooAnalytics('view');
-    }
+    };
     sntTriviaContent.onclick = function () {
         clicks++;
-        log('clicks      =   ' + clicks, );
-    }
+        log('clicks      =   ' + clicks);
+    };
 
     log('Create MouseOver Interaction - Listening...', payloadStyles);
     sntTriviaContent.onmouseover = function () {
@@ -876,7 +962,7 @@ function initialSetup() {
             updatePayload(true);
             log('END UpdateAnalytics', analyticsStyles);
         }
-    }
+    };
     updatePayload();
     log('END initial Analytics', analyticsStyles);
     /******************** ANALYTICS* ******************/
@@ -1265,3 +1351,7 @@ function adjustIntervalScoreFn(clear) {
         }, intervalMiliSeconds / intervalSeconds);
     }
 } //adjustPixelationFn
+
+window.onload = function () {
+    widgetContainer_el.style.display = 'block';
+};
