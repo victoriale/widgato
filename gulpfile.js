@@ -158,16 +158,16 @@ gulp.task('trivia-html', ['trivia-clean'], function() {
 gulp.task('trivia-css', ['trivia-clean'], function() {
     //DEFAULT VERSION
     return gulp
-        .src(['prototypes/trivia_widget/styles.css'])
-        .pipe(concatCss('styles.min.css'))
+        .src(['prototypes/trivia_widget/standard_styles.css'])
+        .pipe(concatCss('standard_styles.min.css'))
         .pipe(cleanCSS())
         .pipe(gulp.dest('prototypes/trivia_widget/min'));
 });
 gulp.task('trivia-css-wide', ['trivia-clean'], function() {
     //WIDE VERSION
     return gulp
-        .src(['prototypes/trivia_widget/mobile_styles.css'])
-        .pipe(concatCss('mobile_styles.min.css'))
+        .src(['prototypes/trivia_widget/wide_styles.css'])
+        .pipe(concatCss('wide_styles.min.css'))
         .pipe(cleanCSS())
         .pipe(gulp.dest('prototypes/trivia_widget/min'));
 });

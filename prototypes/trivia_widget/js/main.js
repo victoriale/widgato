@@ -4,8 +4,8 @@ window.top.onbeforeunload = function (e) {
 };
 
 var htmlFile = '@@import /min/index.min.html';
-var cssFile = '@@import /min/styles.min.css';
-var cssWideFile = '@@import /min/mobile_styles.min.css';
+var cssFile = '@@import /min/standard_styles.min.css';
+var cssWideFile = '@@import /min/wide_styles.min.css';
 var friendlyIframe;
 var friendlyIframeWindow;
 /**
@@ -92,7 +92,6 @@ function createFriendlyIframe() {
     friendlyIframe.className = "twiframe";
     friendlyIframe.width = '100%';
     friendlyIframe.style.maxWidth = '970px';
-    friendlyIframe.height = 600 - 250; //250 is the add height
     friendlyIframe.scrolling = 'no';
     friendlyIframe.style.overflow = 'hidden';
     friendlyIframe.name = currentScript.src;
@@ -162,10 +161,11 @@ function setupIframe() {
             //set iframe to width of parent node
             friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
         }, true);
-        style.href = './min/styles.min.css';
+        style.href = './min/wide_styles.min.css';
     } else {
-        friendlyIframe.width = 300;
-        style.href = './min/mobile_styles.min.css';
+        friendlyIframe.width = '300';
+        friendlyIframe.height = '600';
+        style.href = './min/standard_styles.min.css';
     }
 
     console.log(friendlyIframeWindow.document);
