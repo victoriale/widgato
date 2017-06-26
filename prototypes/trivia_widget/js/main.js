@@ -5,7 +5,7 @@ window.top.onbeforeunload = function (e) {
 
 var htmlFile = '@@import /min/index.min.html';
 var cssFile = '@@import /min/styles.min.css';
-var cssMobileFile = '@@import /min/mobile_styles.min.css';
+var cssWideFile = '@@import /min/mobile_styles.min.css';
 var friendlyIframe;
 var friendlyIframeWindow;
 /**
@@ -17,72 +17,72 @@ var friendlyIframeWindow;
  * @key  {Boolean} bot     Whether the browser is a bot or not
  * @key  {Boolean} mobile  Whether the browser is mobile or not
  */
-var browser = (function () {
-    // Set the default values
-    var is_mobile = false;
-    var is_bot = false;
-
-    try {
-        // Get the useragent and perform the first match
-        var user_agent = navigator.userAgent;
-        var version_match;
-        var browser_match = user_agent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
-
-        // Determine mobile/bot
-        is_mobile = /Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile/i.test(user_agent);
-        is_bot = /bot|googlebot|crawler|spider|robot|crawling|phantomjs/i.test(user_agent);
-
-        // Check for trident (IE)
-        if (/trident/i.test(browser_match[1])) {
-            version_match = /\brv[ :]+(\d+)/g.exec(user_agent) || [];
-            return {
-                name: 'IE',
-                version: version_match[1] || '',
-                bot: is_bot,
-                mobile: is_mobile,
-            };
-        }
-
-        // Check for Chrome to filter out Opera and Edge
-        if (browser_match[1] === 'Chrome') {
-            version_match = user_agent.match(/\b(OPR|EDGE)\/(\d+)/i);
-
-            // Check for version_match
-            if (version_match !== null) {
-                return {
-                    name: version_match[1].replace('OPR', 'Opera'),
-                    version: version_match[2],
-                    bot: is_bot,
-                    mobile: is_mobile,
-                };
-            }
-        }
-
-        // Everyone else
-        browser_match = browser_match[2] ? browser_match.slice(1, 3) : [navigator.appName, navigator.appVersion, '-?'];
-
-        // Get the version
-        version_match = user_agent.match(/version\/(\d+)/i);
-        if (version_match !== null) {
-            browser_match.splice(1, 1, version_match[1]);
-        }
-
-        return {
-            name: browser_match[0].replace('MSIE', 'IE'),
-            version: browser_match[1],
-            bot: is_bot,
-            mobile: is_mobile,
-        };
-    } catch (e) {
-        return {
-            error: e,
-            name: 'Unknown',
-            version: 'Unknown',
-            bot: is_bot,
-            mobile: is_mobile,
-        };
-    }
-})();
+// var browser = (function () {
+//     // Set the default values
+//     var is_mobile = false;
+//     var is_bot = false;
+//
+//     try {
+//         // Get the useragent and perform the first match
+//         var user_agent = navigator.userAgent;
+//         var version_match;
+//         var browser_match = user_agent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+//
+//         // Determine mobile/bot
+//         is_mobile = /Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile/i.test(user_agent);
+//         is_bot = /bot|googlebot|crawler|spider|robot|crawling|phantomjs/i.test(user_agent);
+//
+//         // Check for trident (IE)
+//         if (/trident/i.test(browser_match[1])) {
+//             version_match = /\brv[ :]+(\d+)/g.exec(user_agent) || [];
+//             return {
+//                 name: 'IE',
+//                 version: version_match[1] || '',
+//                 bot: is_bot,
+//                 mobile: is_mobile,
+//             };
+//         }
+//
+//         // Check for Chrome to filter out Opera and Edge
+//         if (browser_match[1] === 'Chrome') {
+//             version_match = user_agent.match(/\b(OPR|EDGE)\/(\d+)/i);
+//
+//             // Check for version_match
+//             if (version_match !== null) {
+//                 return {
+//                     name: version_match[1].replace('OPR', 'Opera'),
+//                     version: version_match[2],
+//                     bot: is_bot,
+//                     mobile: is_mobile,
+//                 };
+//             }
+//         }
+//
+//         // Everyone else
+//         browser_match = browser_match[2] ? browser_match.slice(1, 3) : [navigator.appName, navigator.appVersion, '-?'];
+//
+//         // Get the version
+//         version_match = user_agent.match(/version\/(\d+)/i);
+//         if (version_match !== null) {
+//             browser_match.splice(1, 1, version_match[1]);
+//         }
+//
+//         return {
+//             name: browser_match[0].replace('MSIE', 'IE'),
+//             version: browser_match[1],
+//             bot: is_bot,
+//             mobile: is_mobile,
+//         };
+//     } catch (e) {
+//         return {
+//             error: e,
+//             name: 'Unknown',
+//             version: 'Unknown',
+//             bot: is_bot,
+//             mobile: is_mobile,
+//         };
+//     }
+// })();
 
 function createFriendlyIframe() {
     //create friendly iframe to place ourselves inside
@@ -90,7 +90,8 @@ function createFriendlyIframe() {
 
     // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
     friendlyIframe.className = "twiframe";
-    friendlyIframe.width = '300';
+    friendlyIframe.width = '100%';
+    friendlyIframe.style.maxWidth = '970px';
     friendlyIframe.height = 600 - 250; //250 is the add height
     friendlyIframe.scrolling = 'no';
     friendlyIframe.style.overflow = 'hidden';
@@ -125,28 +126,35 @@ function setupIframe() {
     //determine if a query string is after the index.html location || if query is after a javascript location
     var hostname = new RegExp(document.location.hostname);
     //todo Make a better way to test locally.
-    console.log('dfhgshsgjhdgshdfgdsazfsadasfsdegs', document.location.search);
-    if ((hostname.test('localhost') || hostname.test('w1.synapsys.us') || hostname.test('dev-w1.synapsys.us') || hostname.test('homestead.widgets')) && (document.location.search != null && document.location.search != '')) {
-        query = JSON.parse(decodeURIComponent(document.location.search.substr(1)));
-        // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
-        // listRand = Math.floor((Math.random() * 100) + 1);
-        //FIRST THING IS SETUP ENVIRONMENTS
-    } else {
-        if (srcQuery != "" && srcQuery != null) {
-            try {
-                query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
-            } catch (e) {
-                console.log(e);
-            }
+
+
+    if (srcQuery != "" && srcQuery != null) {
+        try {
+            query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
+        } catch (e) {
+            console.log(e);
+        }
+    }else{
+        if ((hostname.test('localhost') || hostname.test('w1.synapsys.us') || hostname.test('dev-w1.synapsys.us') || hostname.test('homestead.widgets')) && (document.location.search != null && document.location.search != '')) {
+            query = JSON.parse(decodeURIComponent(document.location.search.substr(1)));
+            // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
+            // listRand = Math.floor((Math.random() * 100) + 1);
+            //FIRST THING IS SETUP ENVIRONMENTS
+        } else {
+
         }
     }
+    var styleQuery = JSON.parse(decodeURIComponent(document.location.search.substr(1)));
     // currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
 
     //create inline style for friendlyIframe
-    var style = friendlyIframeWindow.document.createElement("style");
-    if (query.wide != null && query.wide != '') {
-        friendlyIframe.width = friendlyIframe.parentNode.clientWidth - 300; //300 being the width
-        // friendlyIframe.style.maxWidth = '992px';
+    var style = friendlyIframeWindow.document.createElement("link");
+    style.type = 'text/css';
+    style.rel = 'stylesheet';
+    console.log('sdfadsfasDfdsagsaddfasfsdagf', query);
+    if (styleQuery.wide != null && styleQuery.wide != '') {
+        //friendlyIframe.width = friendlyIframe.parentNode.clientWidth - 300; //300 being the width
+        friendlyIframe.style.maxWidth = '970px';
         friendlyIframe.height = '250';
 
         //CREATE LISTENER FOR RESIZE
@@ -154,14 +162,13 @@ function setupIframe() {
             //set iframe to width of parent node
             friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
         }, true);
-
-        style.appendChild(friendlyIframeWindow.document.createTextNode(cssMobileFile));
+        style.href = './min/styles.min.css';
     } else {
-        console.log('sdakjuhgasfduiasghfuiash', cssFile);
-        style.appendChild(friendlyIframeWindow.document.createTextNode(cssFile));
+        friendlyIframe.width = 300;
+        style.href = './min/mobile_styles.min.css';
     }
-    console.log(friendlyIframeWindow.document);
 
+    console.log(friendlyIframeWindow.document);
 
     //append the css file into iframe head
     friendlyIframeWindow.document.head.appendChild(style);
@@ -173,7 +180,7 @@ function setupIframe() {
 
     /*****************************************************Start Function calls*****************************************/
 
-    //after you get the query you set the enironment
+    //after you get the query you set the environment
     setupEnvironment(query);
     triviaWidget();
 }
@@ -1322,7 +1329,6 @@ var triviaWidget = function () {
         // console.log(jsonObject);
         //create friendly iframe to place ourselves inside
         var payloadIframe = document.createElement('iframe');
-        var payloadIframeWindow;
         // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
         var uniqueIframeId = "snt_product_id_" + rand_id;
         payloadIframe.setAttribute("id", uniqueIframeId);
@@ -1333,21 +1339,19 @@ var triviaWidget = function () {
         payloadIframe.style.overflow = 'hidden';
         payloadIframe.src = 'about:blank';
         payloadIframe.style.border = 'none';
-        payloadIframeWindow = payloadIframe.contentWindow;
-        console.log(222222, payloadIframe.contentWindow);
-        payloadIframeWindow.document.body.appendChild(payloadIframe);
+        document.body.appendChild(payloadIframe);
+        friendlyIframeWindow = payloadIframe.contentWindow;
 
         //create inline html for payloadIframe
-        payloadIframeWindow.document.open();
-        payloadIframeWindow.document.write('<scr' + 'ipt type="text/javascript">' + sendPayload(postUrl, jsonObject) + ' </scr' + 'ipt>');
-        payloadIframeWindow.document.close();
+        friendlyIframeWindow.document.open();
+        friendlyIframeWindow.document.write('<scr' + 'ipt type="text/javascript">' + sendPayload(postUrl, jsonObject) + ' </scr' + 'ipt>');
+        friendlyIframeWindow.document.close();
 
         // once postMsg sent the remove the iframe
-        console.log(11111, payloadIframeWindow.document.getElementById(uniqueIframeId));
-        if (typeof payloadIframeWindow.document.getElementById(uniqueIframeId).remove === 'function') {
-            payloadIframeWindow.document.getElementById(uniqueIframeId).remove();
+        if (typeof document.getElementById(uniqueIframeId).remove === 'function') {
+            document.getElementById(uniqueIframeId).remove();
         } else {
-            payloadIframeWindow.document.getElementById(uniqueIframeId).outerHTML = '';
+            document.getElementById(uniqueIframeId).outerHTML = '';
         }
     }
 
@@ -1371,7 +1375,6 @@ var triviaWidget = function () {
 
     function updatePayload(send) {
         try {
-             console.log('sfghasgdsghadsgfdfhdsfsadhgfssadgd', query);
             jsonObject = {
                 "si": "3tdt63r", // i need to generate this myself
                 "pa": query.event.p, //partner id
