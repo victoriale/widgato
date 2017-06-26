@@ -4,85 +4,11 @@ window.top.onbeforeunload = function (e) {
 };
 
 var htmlFile = '@@import /min/index.min.html';
-var cssFile = '@@import /min/standard_styles.min.css';
-var cssWideFile = '@@import /min/wide_styles.min.css';
+// var cssFile = '@@import /min/standard_styles.min.css';
+// var cssWideFile = '@@import /min/wide_styles.min.css';
 var friendlyIframe;
 var friendlyIframeWindow;
-/**
- * This object describes the current browser including name, version, mobile,
- * and bot
- * @type {Object}
- * @key  {String}  name    The name of the broswer (Chrome, IE, etc)
- * @key  {String}  version The version of the browser
- * @key  {Boolean} bot     Whether the browser is a bot or not
- * @key  {Boolean} mobile  Whether the browser is mobile or not
- */
-// var browser = (function () {
-//     // Set the default values
-//     var is_mobile = false;
-//     var is_bot = false;
-//
-//     try {
-//         // Get the useragent and perform the first match
-//         var user_agent = navigator.userAgent;
-//         var version_match;
-//         var browser_match = user_agent.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
-//
-//         // Determine mobile/bot
-//         is_mobile = /Android|BlackBerry|iPhone|iPod|Opera Mini|IEMobile/i.test(user_agent);
-//         is_bot = /bot|googlebot|crawler|spider|robot|crawling|phantomjs/i.test(user_agent);
-//
-//         // Check for trident (IE)
-//         if (/trident/i.test(browser_match[1])) {
-//             version_match = /\brv[ :]+(\d+)/g.exec(user_agent) || [];
-//             return {
-//                 name: 'IE',
-//                 version: version_match[1] || '',
-//                 bot: is_bot,
-//                 mobile: is_mobile,
-//             };
-//         }
-//
-//         // Check for Chrome to filter out Opera and Edge
-//         if (browser_match[1] === 'Chrome') {
-//             version_match = user_agent.match(/\b(OPR|EDGE)\/(\d+)/i);
-//
-//             // Check for version_match
-//             if (version_match !== null) {
-//                 return {
-//                     name: version_match[1].replace('OPR', 'Opera'),
-//                     version: version_match[2],
-//                     bot: is_bot,
-//                     mobile: is_mobile,
-//                 };
-//             }
-//         }
-//
-//         // Everyone else
-//         browser_match = browser_match[2] ? browser_match.slice(1, 3) : [navigator.appName, navigator.appVersion, '-?'];
-//
-//         // Get the version
-//         version_match = user_agent.match(/version\/(\d+)/i);
-//         if (version_match !== null) {
-//             browser_match.splice(1, 1, version_match[1]);
-//         }
-//
-//         return {
-//             name: browser_match[0].replace('MSIE', 'IE'),
-//             version: browser_match[1],
-//             bot: is_bot,
-//             mobile: is_mobile,
-//         };
-//     } catch (e) {
-//         return {
-//             error: e,
-//             name: 'Unknown',
-//             version: 'Unknown',
-//             bot: is_bot,
-//             mobile: is_mobile,
-//         };
-//     }
-// })();
+var $;
 
 function createFriendlyIframe() {
     //create friendly iframe to place ourselves inside
@@ -90,8 +16,8 @@ function createFriendlyIframe() {
 
     // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
     friendlyIframe.className = "twiframe";
-    friendlyIframe.width = '100%';
-    friendlyIframe.style.maxWidth = '970px';
+    friendlyIframe.width = '300';
+    friendlyIframe.height = 600 - 250; //250 is the add height
     friendlyIframe.scrolling = 'no';
     friendlyIframe.style.overflow = 'hidden';
     friendlyIframe.name = currentScript.src;
@@ -107,7 +33,6 @@ function createFriendlyIframe() {
     friendlyIframeWindow.document.write(htmlFile);
     // friendlyIframeWindow.document.write(htmlFile + "<scr"+"ipt type='text/javascript'>triviaWidget = "+ triviaWidget() +"</scr"+"ipt>");
     friendlyIframeWindow.document.close();
-    console.log(friendlyIframeWindow.document);
     //listen to when the iframe window content has returned and send in the srcQuery if there is one before it gets
     if (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive") { // if page is already loaded'
         setupIframe();
@@ -125,62 +50,55 @@ function setupIframe() {
     //determine if a query string is after the index.html location || if query is after a javascript location
     var hostname = new RegExp(document.location.hostname);
     //todo Make a better way to test locally.
-
-
     if (srcQuery != "" && srcQuery != null) {
         try {
             query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
         } catch (e) {
             console.log(e);
         }
-    }else{
+    } else {
         if ((hostname.test('localhost') || hostname.test('w1.synapsys.us') || hostname.test('dev-w1.synapsys.us') || hostname.test('homestead.widgets')) && (document.location.search != null && document.location.search != '')) {
             query = JSON.parse(decodeURIComponent(document.location.search.substr(1)));
             // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
             // listRand = Math.floor((Math.random() * 100) + 1);
             //FIRST THING IS SETUP ENVIRONMENTS
-        } else {
-
         }
     }
-    var styleQuery = JSON.parse(decodeURIComponent(document.location.search.substr(1)));
-    // currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
+
+    currentScript.src = 'about:blank'; // remove src of the script to about:blank to allow more than one widget to counter IE
 
     //create inline style for friendlyIframe
     var style = friendlyIframeWindow.document.createElement("link");
     style.type = 'text/css';
     style.rel = 'stylesheet';
-    console.log('sdfadsfasDfdsagsaddfasfsdagf', query);
-    if (styleQuery.wide != null && styleQuery.wide != '') {
-        //friendlyIframe.width = friendlyIframe.parentNode.clientWidth - 300; //300 being the width
-        friendlyIframe.style.maxWidth = '970px';
+    if (query.wide != null && query.wide != '') {
+        friendlyIframe.width = friendlyIframe.parentNode.clientWidth - 300; //300 being the width
+        // friendlyIframe.style.maxWidth = '992px';
         friendlyIframe.height = '250';
 
         //CREATE LISTENER FOR RESIZE
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
             //set iframe to width of parent node
             friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
         }, true);
         style.href = './min/wide_styles.min.css';
     } else {
-        friendlyIframe.width = '300';
-        friendlyIframe.height = '600';
+        friendlyIframe.width = 300;
         style.href = './min/standard_styles.min.css';
     }
 
-    console.log(friendlyIframeWindow.document);
 
     //append the css file into iframe head
     friendlyIframeWindow.document.head.appendChild(style);
 
-    //create variable to be used similar to jquery for id's
-    // $ = function (e) { // create a simple version for grabbing id's of elements
-    //     return friendlyIframeWindow.document.getElementById(e)
-    // };
+    // create variable to be used similar to jquery for id's
+    $ = function (e) { // create a simple version for grabbing id's of elements
+        return friendlyIframeWindow.document.getElementById(e)
+    };
 
     /*****************************************************Start Function calls*****************************************/
 
-    //after you get the query you set the environment
+    //after you get the query you set the enironment
     setupEnvironment(query);
     triviaWidget();
 }
@@ -190,7 +108,7 @@ function setupIframe() {
 // set initial content and variables to start trivia
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
 var postUrl = "https://dev-pa.synapsys.us/";
-var apiCallUrl = "http://dev-tw-api.synapsys.us/index.php";
+var apiCallUrl = "dev-tw-api.synapsys.us/index.php";
 var imageUrl;
 var query;
 var embedURL = "trivia";
@@ -236,7 +154,7 @@ function synapsysENV(env) {
 function setupEnvironment(widgetQuery) {
     // console.log(widgetQuery);
     query = widgetQuery;
-    apiCallUrl = protocolToUse;
+    apiCallUrl = protocolToUse + apiCallUrl;
     var cat = widgetQuery.category;
     var group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
     var environment = window.location.hostname.split('.')[0];
@@ -252,6 +170,13 @@ function setupEnvironment(widgetQuery) {
     log('group:       ' + group, analyticsStyles);
     log('environment: ' + environment, analyticsStyles);
     log('env:         ' + env, analyticsStyles);
+
+    if (cat && cat != '') {
+        apiCallUrl += '?category=' + cat;
+    } else {
+        apiCallUrl += '?category=' + group;
+    }
+    log('API:         ' + apiCallUrl, analyticsStyles);
 }
 
 //STYLES used in console
@@ -270,7 +195,7 @@ function log(msg, style) {
     if (!style) {
         style = defaultStyle;
     }
-    console.log('%c' + msg + '                                                                                         ', style);
+    // console.log('%c' + msg + '                                                                                         ', style);
 }
 
 
@@ -282,58 +207,57 @@ var triviaWidget = function () {
     var currentDataSet;
     var dataQuestionTitles;
 
-// HTML Element variables
-    var sntTriviaContent = friendlyIframeWindow.document.getElementById('snt_trivia_game');
+    // HTML Element variables
+    var sntTriviaContent = $('snt_trivia_game');
     var widgetContainer_el = friendlyIframeWindow.document.getElementsByClassName('widget_container')[0];
 
-    var triviaContainer_el = friendlyIframeWindow.document.getElementById('trivia_container');
+    var triviaContainer_el = $('trivia_container');
     var triviaImage_el = friendlyIframeWindow.document.getElementsByClassName('trivia_image')[0];
     var triviaImageOverlay_el = friendlyIframeWindow.document.getElementsByClassName('trivia_image_overlay')[0];
-    console.log(friendlyIframeWindow.document);
     var triviaQuestion_el = friendlyIframeWindow.document.getElementsByClassName('trivia_question')[0].getElementsByTagName('p')[0];
     var triviaOptionsContainer_el = friendlyIframeWindow.document.getElementsByClassName('trivia_options')[0];
     var triviaOptions_el = friendlyIframeWindow.document.getElementsByClassName('trivia_options')[0].getElementsByTagName('li');
 
-    var submissionOverlay_el = friendlyIframeWindow.document.getElementById("submission_overlay");
+    var submissionOverlay_el = $("submission_overlay");
     var submissionInfoContainer_el = friendlyIframeWindow.document.getElementsByClassName("submission_display_container")[0];
 
-    var nextQuestionButton_el = friendlyIframeWindow.document.getElementById("next_question");
-    var activeQuestion_el = friendlyIframeWindow.document.getElementById("active_question");
-    var userScore_el = friendlyIframeWindow.document.getElementById("user_score");
-    var totalQuestions_el = friendlyIframeWindow.document.getElementById("total_questions");
-    var scoreComment_el = friendlyIframeWindow.document.getElementById("score_comment");
-    var skipQuestion_el = friendlyIframeWindow.document.getElementById("skip_question");
+    var nextQuestionButton_el = $("next_question");
+    var activeQuestion_el = $("active_question");
+    var userScore_el = $("user_score");
+    var totalQuestions_el = $("total_questions");
+    var scoreComment_el = $("score_comment");
+    var skipQuestion_el = $("skip_question");
 
     var otherContentOptionContainer_el = friendlyIframeWindow.document.getElementsByClassName("other_content_option_container");
     var animationContainer_el = friendlyIframeWindow.document.getElementsByClassName("animation_container");
-    var completedOverlay_el = friendlyIframeWindow.document.getElementById("completed_overlay");
-    var correctResultDisplay_el = friendlyIframeWindow.document.getElementById("correct_result_display");
+    var completedOverlay_el = $("completed_overlay");
+    var correctResultDisplay_el = $("correct_result_display");
 
     var resultsChart_el = friendlyIframeWindow.document.getElementsByClassName("results_chart");
     var resultsChartValue_el = friendlyIframeWindow.document.getElementsByClassName("results_chart_value");
     var randomOption_el = friendlyIframeWindow.document.getElementsByClassName("random_option")[0];
-    var progressBar_el = friendlyIframeWindow.document.getElementById("progress_bar");
-    var intervalScore_el = friendlyIframeWindow.document.getElementById("interval_score");
-    var intervalScoreQuestion_el = friendlyIframeWindow.document.getElementById("interval_score_question");
-    var pixelatedContainer_el = friendlyIframeWindow.document.getElementById("pixelateContainer");
-    var youGuessPercentge_el = friendlyIframeWindow.document.getElementById("percentage_of_guess");
-    var intervalScoreContainer_el = friendlyIframeWindow.document.getElementById("interval_score_container");
+    var progressBar_el = $("progress_bar");
+    var intervalScore_el = $("interval_score");
+    var intervalScoreQuestion_el = $("interval_score_question");
+    var pixelatedContainer_el = $("pixelateContainer");
+    var youGuessPercentge_el = $("percentage_of_guess");
+    var intervalScoreContainer_el = $("interval_score_container");
 
     var pixelatedContainerHeight = pixelatedContainer_el.offsetHeight;
     var pixelatedContainerWidth = pixelatedContainer_el.offsetWidth + 2;
     var imagePath_el = "./images/";
     var url = window.location.href;
 
-// calculated variables
+    // calculated variables
     var localDataStore;
     var finalQuestion = false;
     var totalQuestions = 5;
     var questionIterator = 1;
     var userScore = 0;
-    var activeDataSet;
-    var activeDataSetKey;
+    var activeQuiz;
+    var activeQuizKey;
     var dataVarSet;
-    var dataKey;
+    var questionKey;
     var otherContentBgImages = [];
     var dataSetTitles = [];
     var dataOptions;
@@ -343,7 +267,7 @@ var triviaWidget = function () {
     var incorrectResult;
     var incorrectPercentage;
 
-// var ctx = pixelateContainer.getContext('2d');
+    // var ctx = pixelateContainer.getContext('2d');
     var pixelatedImage;
     var intervalTimer;
     var pixelationInterval;
@@ -353,539 +277,99 @@ var triviaWidget = function () {
     var totalPossibleScore = 50;
 
 
-// fake data
-    var triviaData2 = {
-        dataSet_1: {
-            data_1: {
-                question: "Which actor has won has won two Academy Awards?",
-                options: {
-                    "1": {
-                        value: "Daniel Day-Lewis",
-                        correct: false
-                    },
-                    "2": {
-                        value: "Kevin Costner",
-                        correct: true
-                    },
-                    "3": {
-                        value: "Jack Nicholson",
-                        correct: false
-                    },
-                    "4": {
-                        value: "Walter Brennan",
-                        correct: false
-                    }
-                },
-                correct_result: "Kevin Costner",
-                image: "kevin_costner.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            },
-            data_2: {
-                question: "On the CBS sitcom \"The Big Bang Theory,\" which actor plays Dr. Sheldon Cooper?",
-                options: {
-                    "1": {
-                        value: "Jim Parsons",
-                        correct: true
-                    },
-                    "2": {
-                        value: "Jon Cryer",
-                        correct: false
-                    },
-                    "3": {
-                        value: "Kevin James",
-                        correct: false
-                    },
-                    "4": {
-                        value: "Ed O'Neill",
-                        correct: false
-                    }
-                },
-                correct_result: "Jim Parsons",
-                image: "jim_parsons.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            },
-            data_3: {
-                question: "Which animated comedy aired its first episode in 1989?",
-                options: {
-                    "1": {
-                        value: "Family Guy",
-                        correct: false
-                    },
-                    "2": {
-                        value: "The Simpsons",
-                        correct: true
-                    },
-                    "3": {
-                        value: "Archer",
-                        correct: false
-                    },
-                    "4": {
-                        value: "Rick and Morty",
-                        correct: false
-                    }
-                },
-                correct_result: "The Simpsons",
-                image: "the_simpsons.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            },
-            data_4: {
-                question: "Which band holds the Billboard record for the most number-one singles with 20?",
-                options: {
-                    "1": {
-                        value: "Mariah Carey",
-                        correct: false
-                    },
-                    "2": {
-                        value: "The Rolling Stones",
-                        correct: false
-                    },
-                    "3": {
-                        value: "The Beatles",
-                        correct: true
-                    },
-                    "4": {
-                        value: "The Eagles",
-                        correct: false
-                    }
-                },
-                correct_result: "The Beatles",
-                image: "the_beatles.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            },
-            data_5: {
-                question: "With adjustment for inflation, which film had the largest box office gross?",
-                options: {
-                    "1": {
-                        value: "Avatar",
-                        correct: false
-                    },
-                    "2": {
-                        value: "The Sound of Music",
-                        correct: false
-                    },
-                    "3": {
-                        value: "Gone With the Wind",
-                        correct: true
-                    },
-                    "4": {
-                        value: "Titanic",
-                        correct: false
-                    }
-                },
-                correct_result: "Gone With the Wind",
-                image: "gone_with_the_wind.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            }
-        },
-        dataSet_2: {
-            data_1: {
-                question: "Which of these films did not win the Academy Award for Best Picture?",
-                options: {
-                    "1": {
-                        value: "Chicago",
-                        correct: false
-                    },
-                    "2": {
-                        value: "Pulp Fiction",
-                        correct: true
-                    },
-                    "3": {
-                        value: "Moonlight",
-                        correct: false
-                    },
-                    "4": {
-                        value: "Dances with Wolves",
-                        correct: false
-                    }
-                },
-                correct_result: "Pulp Fiction",
-                image: "pulp_fiction.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            },
-            data_2: {
-                question: "Which actress has won the most Academy Awards for Best Actress?",
-                options: {
-                    "1": {
-                        value: "Meryl Streep",
-                        correct: false
-                    },
-                    "2": {
-                        value: "Emma Stone",
-                        correct: false
-                    },
-                    "3": {
-                        value: "Katharine Hepburn",
-                        correct: true
-                    },
-                    "4": {
-                        value: "Rita Hayworth",
-                        correct: false
-                    }
-                },
-                correct_result: "Katharine Hepburn",
-                image: "katherine_hepburn.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            },
-            data_3: {
-                question: "Which artist holds the record for most solo albums on the Billboard 200?",
-                options: {
-                    "1": {
-                        value: "Michael Jackson",
-                        correct: false
-                    },
-                    "2": {
-                        value: "Jay-Z",
-                        correct: true
-                    },
-                    "3": {
-                        value: "Aertha Franklin",
-                        correct: false
-                    },
-                    "4": {
-                        value: "Beyoncé",
-                        correct: false
-                    }
-                },
-                correct_result: "Jay-Z",
-                image: "jayz_4.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            },
-            data_4: {
-                question: "Which rap artists released his chart-topping album \"Views\" in 2016?",
-                options: {
-                    "1": {
-                        value: "Lil Wayne",
-                        correct: false
-                    },
-                    "2": {
-                        value: "2-Chains",
-                        correct: false
-                    },
-                    "3": {
-                        value: "Kanye West",
-                        correct: false
-                    },
-                    "4": {
-                        value: "Drake",
-                        correct: true
-                    }
-                },
-                correct_result: "Drake",
-                image: "drake.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            },
-            data_5: {
-                question: "Which Martin Scorsese film had the largest box office opening?",
-                options: {
-                    "1": {
-                        value: "Goodfellas",
-                        correct: false
-                    },
-                    "2": {
-                        value: "Shutter Island",
-                        correct: true
-                    },
-                    "3": {
-                        value: "The Wolf of Wall Street",
-                        correct: false
-                    },
-                    "4": {
-                        value: "Cape Fear",
-                        correct: false
-                    }
-                },
-                correct_result: "Shutter Island",
-                image: "shutter_island.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            }
-        },
-        dataSet_3: {
-            data_1: {
-                question: "In 2017 which album did Adele win the Album of the Year for?",
-                options: {
-                    "1": {
-                        value: "Rolling in the Deep",
-                        correct: false
-                    },
-                    "2": {
-                        value: "28",
-                        correct: false
-                    },
-                    "3": {
-                        value: "19",
-                        correct: false
-                    },
-                    "4": {
-                        value: "25",
-                        correct: true
-                    }
-                },
-                correct_result: "25",
-                image: "adele_25.jpg",
-                thumbnails: ["adele_25.jpg", "pulp_fiction.jpg", "kevin_costner.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            },
-            data_2: {
-                question: "Simon is the name of whos husband?",
-                options: {
-                    "1": {
-                        value: "Adele",
-                        correct: true
-                    },
-                    "2": {
-                        value: "Taylor Swift",
-                        correct: false
-                    },
-                    "3": {
-                        value: "Carrie Underwood",
-                        correct: false
-                    },
-                    "4": {
-                        value: "Mariah Carey",
-                        correct: false
-                    }
-                },
-                correct_result: "Adele",
-                image: "simon.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            },
-            data_3: {
-                question: "What is the name of Adele's first hit song?",
-                options: {
-                    "1": {
-                        value: "Chasing Pavements",
-                        correct: true
-                    },
-                    "2": {
-                        value: "Hello",
-                        correct: false
-                    },
-                    "3": {
-                        value: "Lemonade",
-                        correct: false
-                    },
-                    "4": {
-                        value: "Love in the Dark",
-                        correct: false
-                    }
-                },
-                correct_result: "Chasing Pavements",
-                image: "chasing_pavements.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            },
-            data_4: {
-                question: "In which country was Adele born?",
-                options: {
-                    "1": {
-                        value: "England",
-                        correct: true
-                    },
-                    "2": {
-                        value: "Australia",
-                        correct: false
-                    },
-                    "3": {
-                        value: "United States",
-                        correct: false
-                    },
-                    "4": {
-                        value: "Westeros",
-                        correct: false
-                    }
-                },
-                correct_result: "England",
-                image: "england_flag.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            },
-            data_5: {
-                question: "What is the name of Adele's most recent album?",
-                options: {
-                    "1": {
-                        value: "19",
-                        correct: false
-                    },
-                    "2": {
-                        value: "Hello",
-                        correct: false
-                    },
-                    "3": {
-                        value: "25",
-                        correct: true
-                    },
-                    "4": {
-                        value: "28",
-                        correct: false
-                    }
-                },
-                correct_result: "25",
-                image: "adele_25.jpg",
-                thumbnails: ["the_beatles.jpg", "drake.jpg", "chasing_pavements.jpg"],
-                results: {
-                    total: 0,
-                    correct: 0,
-                    incorrect: 0
-                }
-            }
+    // function set to mimick API call
+    function localStorageFn() {
+        // variable that stores the response of an http request
+        if (window.XMLHttpRequest) {
+            var xhttp = new XMLHttpRequest();
+        } else {
+            var xhttp = new ActiveXObject('Microsoft.XMLHTTP')
         }
-    }
-
-
-// function set to mimick API call
-    var localStorageFn = {
-        get: function () {
-
-            // console.log("2 ####### local storage found localGET");
-            // window.localStorage.clear();
-            if (localStorage.getItem('triviaData2') === null) {
-                localDataStore = localStorage.setItem('triviaData2', JSON.stringify(triviaData2));
+        console.log('1 ####### MAKE API CALL', apiCallUrl)
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == XMLHttpRequest.DONE) {
+                if (this.status == 200) {
+                    // On success parse out the response
+                    localDataStore = JSON.parse(this.responseText);
+                    currentDataSet = localDataStore['quizzes'];
+                } else {
+                    // Error handling
+                    // Get the message
+                    var msg = this.statusText;
+                    if (this.status == 500) {
+                        try {
+                            msg = JSON.parse(this.responseText).message
+                        } catch (e) {
+                            console.log('No JSON message')
+                        }
+                    }
+                    msg = 'HTTP Error (' + this.status + '): ' + msg;
+                    console.log('RETURNING DUMMY DATA');
+                    // setTimeout(runAPI(apiCallUrl), 500)
+                }
             }
-            localDataStore = JSON.parse(localStorage.getItem('triviaData2'));
-            return localDataStore;
-
-
-            //variable that stores the response of an http request
-            // if (window.XMLHttpRequest) {
-            //     var xhttp = new XMLHttpRequest();
-            // } else {
-            //     var xhttp = new ActiveXObject('Microsoft.XMLHTTP')
-            // }
-            // xhttp.onreadystatechange = function() {
-            //     if (this.readyState == XMLHttpRequest.DONE) {
-            //         if (this.status == 200) {
-            //             // On success parse out the response
-            //             widgetData = JSON.parse(this.responseText);
-            //         } else {
-            //             // Error handling
-            //             // Get the message
-            //             var msg = this.statusText;
-            //             if (this.status == 500) {
-            //                 try {
-            //                     msg = JSON.parse(this.responseText).message
-            //                 } catch (e) {
-            //                     console.log('No JSON message')
-            //                 }
-            //             }
-            //             msg = 'HTTP Error (' + this.status + '): ' + msg;
-            //             // setTimeout(runAPI(apiCallUrl), 500)
-            //         }
-            //     }
-            // };
-            // xhttp.open("GET", apiCallUrl, false);
-            // xhttp.send();
-        },
-        set: function (correctResult, incorrectResult, totalResults) {
-            // console.log("2 ####### no local storage found localSET");
-            localDataStore[activeDataSetKey][dataKey].results.correct = correctResult;
-            localDataStore[activeDataSetKey][dataKey].results.incorrect = incorrectResult;
-            localDataStore[activeDataSetKey][dataKey].results.total = totalResults;
-            localStorage.setItem('triviaData2', JSON.stringify(localDataStore));
-        }
+        };
+        xhttp.open("GET", apiCallUrl, false);
+        xhttp.send();
     } //localStorageFn
 
 
     function initialSetup() {
-        currentDataSet = localStorageFn.get();
-        // console.log('API RETURNED', currentDataSet);
+        try {
+            localStorageFn();
+            console.log('API RETURNED', currentDataSet);
 
 
-        /*******************START ANALYTICS******************/
-        startTriviaAnalytics();
-        /******************** ANALYTICS* ******************/
+            /*******************START ANALYTICS******************/
+            startTriviaAnalytics();
+            /******************** ANALYTICS* ******************/
 
 
-        // getDataSetKeys();
-        if (activeDataSetKey) {
-            // console.log("CHOSEN KEY ", activeDataSetKey);
-        } else {
-            // console.log("GET RANDOM KEY ", activeDataSetKey);
+            // getQuizKeys();
+            if (activeQuizKey) {
+                console.log("CHOSEN KEY ", activeQuizKey);
+            } else {
+                console.log("GET RANDOM KEY ", activeQuizKey);
+            }
+            activeQuizKey = activeQuizKey ? activeQuizKey : arrayShuffle(getQuizKeys())[0]; //get random quiz key.
+            console.log("2 ###### SET dataSetTitles", dataSetTitles);
+
+            activeQuiz = currentDataSet.filter(function(quiz){
+              if(quiz.sub_category_id === activeQuizKey){
+                return quiz;
+              }
+            })[0];
+            console.log("3 ####### ACTIVE QUIZ", activeQuizKey, activeQuiz);
+            dataQuestionTitles = getQuizSetKeys(activeQuiz);
+
+            questionIterator = 1;
+            finalQuestion = false;
+            userScore = 0;
+            cumulativeScore = 0;
+            userScore_el.innerHTML = cumulativeScore;
+            activeQuestion_el.innerHTML = questionIterator;
+            totalQuestions_el.innerHTML = totalPossibleScore;
+            // sets other options links on completed overlay views
+            for (var i = 0; otherContentOptionContainer_el.length - 1 > i; i++) {
+                otherContentOptionContainer_el[i].id = 'quiz_' + (i + 1);
+            }
+            setData();
+        } catch (e) {
+            console.warn("Data Error for Trivia", e);
         }
-        activeDataSetKey = activeDataSetKey ? activeDataSetKey : arrayShuffle(getDataSetKeys())[0]; //get random dataset key. <== needs to be looked at again TODO
-        activeDataSet = currentDataSet[activeDataSetKey];
-        // console.log("3 ####### ", activeDataSetKey, activeDataSet);
-        dataQuestionTitles = getQuizSetKeys(activeDataSet);
-
-        questionIterator = 1;
-        finalQuestion = false;
-        userScore = 0;
-        cumulativeScore = 0;
-        userScore_el.innerHTML = cumulativeScore;
-        activeQuestion_el.innerHTML = questionIterator;
-        totalQuestions_el.innerHTML = totalPossibleScore;
-        // sets other options links on completed overlay views
-        for (var i = 0; otherContentOptionContainer_el.length - 1 > i; i++) {
-            otherContentOptionContainer_el[i].id = 'dataSet_' + (i + 1);
-        }
-        setData();
     } //initialSetup
+
+
+    // gets all possible Quizzes
+    function getQuizKeys() {
+        var quizzes = currentDataSet;
+        dataSetTitles = [];
+        quizzes.forEach(function (quiz) {
+            dataSetTitles.push(quiz.sub_category_id);
+        })
+        return dataSetTitles;
+    } //getQuizKeys
+
 
     function arrayShuffle(data) {
         var shuffleArray = [];
@@ -913,46 +397,38 @@ var triviaWidget = function () {
         }
     }
 
-// gets all possible dataSets
-    function getDataSetKeys() {
-        var quizes = currentDataSet;
-        dataSetTitles = [];
-        for (var quiz in quizes) {
-            dataSetTitles.push(quiz);
-        }
-        return dataSetTitles;
-    } //getDataSetKeys
-
+    // creates an array of question titles
     function getQuizSetKeys(data) {
-        var quiz = data;
+        var quizQuestions = data.questions;
         dataQuestionTitles = [];
-        for (var question in quiz) {
-            dataQuestionTitles.push(question);
-        }
+        quizQuestions.forEach(function (question,i) {
+            //grabs question id from meta data
+            dataQuestionTitles.push(question.metadata.question_id);
+        })
         // console.log('dataQuestionTitles.length', dataQuestionTitles.length);
         totalPossibleScore = dataQuestionTitles.length * 10;
         // console.log('totalPossibleScore', totalPossibleScore);
         return dataQuestionTitles;
-    } //getDataSetKeys
+    } //getQuizKeys
 
-// sets the random quiz link on the completed quiz overlay
+    // sets the random quiz link on the completed quiz overlay
     function setRandomQuizLink() {
         randomOption_el.id = getRandomDataSetKey();
     } //setRandomQuizLink
 
 
-// returns a random data set key that is not the current active key
+    // returns a random data set key that is not the current active key
     function getRandomDataSetKey() {
-        var activeIndex = dataSetTitles.indexOf(activeDataSetKey);
+        var activeIndex = dataSetTitles.indexOf(activeQuizKey);
         var withOutActiveIndex = dataSetTitles.filter(function (e) {
-            return e !== activeDataSetKey
+            return e !== activeQuizKey
         });
         var randomDataSetKey = withOutActiveIndex[Math.floor(Math.random() * withOutActiveIndex.length)];
         return randomDataSetKey;
     } //getRandomDataSetKey
 
 
-// function used to reduce size of text in options if it is too tall for container
+    // function used to reduce size of text in options if it is too tall for container
     function reduceTextSizeCheck(element) {
         var standardHeight = 34,
             elementHeight = element.offsetHeight;
@@ -964,82 +440,114 @@ var triviaWidget = function () {
     } //checkOneLineOption
 
 
-// Inject data into HTML
+    // Inject data into HTML
     function setData() {
+      try{
         triviaOptionsContainer_el.innerHTML = ''; // empty other content options so that can be reset
         triviaContainer_el.className = '';
         nextQuestionButton_el.innerHTML = "<p>Next Question</p>";
-        // dataKey = 'data_' + questionIterator; //sets the data key based on question number
-        activeDataSet = activeDataSet ? activeDataSet : localDataStore; //sets dataset
+        // questionKey = 'data_' + questionIterator; //sets the data key based on question number
 
-        //TODO get below to work with dataKey and activeDataSet
-        dataKey = dataKey ? dataKey : arrayShuffle(dataQuestionTitles)[0]; //get random dataset key.
+        questionKey = questionKey ? questionKey : arrayShuffle(dataQuestionTitles)[0]; //get random dataset key.
+
+        var activeQuestion = activeQuiz.questions.filter(function(question){
+          if(question.metadata.question_id === questionKey){
+            return question;
+          }
+        })[0];
+        console.log('4 ####### CHOOSING Question', questionKey, activeQuestion);
 
 
-        // console.log('4 ####### CHOOSING Question', dataKey, activeDataSet[dataKey]);
-        var question = activeDataSet[dataKey].question,
-            resultDisplay = activeDataSet[dataKey] ? activeDataSet[dataKey].correct_result : 'Whoops!',
-            backgroundImage = activeDataSet[dataKey] ? "url(" + imagePath_el + activeDataSet[dataKey].image + ")" : '';
+        var metaData = activeQuestion.metadata,
+            answerData = activeQuestion.answers,
+            analyticsData = activeQuestion.analytics;
+        var resultDisplay = activeQuestion ? metaData.correct_answer_result : 'Whoops!',
+            backgroundImage = activeQuestion ? "url(" + imagePath_el + metaData.image + ")" : '';
 
-        // console.log(activeDataSet[dataKey].question);
-        triviaQuestion_el.innerHTML = question; //inserts active question into view
+        // console.log(activeQuestion.question);
+        triviaQuestion_el.innerHTML = metaData.question; //inserts active question into view
         correctResultDisplay_el.innerHTML = resultDisplay; //inserts result into the submission view
         triviaImage_el.style.backgroundImage = backgroundImage; //inserts backgroundImage into view
-        // graph results variables
-        totalResults = activeDataSet[dataKey].results.total;
-        correctResult = activeDataSet[dataKey].results.correct;
-        incorrectResult = activeDataSet[dataKey].results.incorrect;
-        dataOptions = arrayShuffle(activeDataSet[dataKey].options); // randomizes the object shuffling
+
+        dataOptions = arrayShuffle(answerData); // randomizes the object shuffling
         triviaImageOverlay_el.style.height = '97px';
         intervalScoreContainer_el.style.display = 'block';
         progressBar_el.style.display = 'block';
         submissionOverlay_el.classList.remove('no_transition');
         // loop thorugh options in data and insert values into view
-        activeDataSet[dataKey].options = dataOptions;
-        for (var key in dataOptions) {
-            if (dataOptions.hasOwnProperty(key)) {
-                var index = Number(Object.keys(dataOptions).indexOf(key)) + 1,
-                    child = friendlyIframeWindow.document.createElement("li"),
-                    value = activeDataSet[dataKey].options[key].value,
-                    isCorrect = activeDataSet[dataKey].options[key].correct,
-                    selectedOption;
-                child.setAttribute('class', 'button');
-                child.innerHTML = '<p>' + value + '</p>';
-                triviaOptionsContainer_el.appendChild(child);
-                reduceTextSizeCheck(child.getElementsByTagName('p')[0]); // run options through this function to check if text size needs adjusted
-                if (isCorrect) {
-                    child.onclick = function () {
-                        selectedOption = this.getElementsByTagName('p')[0].innerHTML;
-                        totalResults++; //add to results
-                        correctResult++;
-                        answerSubmittedFn('correct');
-                        localStorageFn.set(correctResult, incorrectResult, totalResults);
-                        setGraphInfo(selectedOption, isCorrect);
-                    }
-                } else {
-                    child.onclick = function () {
-                        selectedOption = this.getElementsByTagName('p')[0].innerHTML;
-                        totalResults++; //add to results
-                        incorrectResult++;
-                        answerSubmittedFn('incorrect');
-                        localStorageFn.set(correctResult, incorrectResult, totalResults);
-                        setGraphInfo(selectedOption, isCorrect);
-                    }
-                }
+        answerData = dataOptions;
+        for (var key in answerData) {
+          if (answerData.hasOwnProperty(key)) {
+            var index = Number(Object.keys(answerData).indexOf(key)) + 1,
+            child = friendlyIframeWindow.document.createElement("li"),
+            value = answerData[key],
+            isCorrect = answerData[key] == metaData.correct_answer,
+            selectedOption;
+            child.setAttribute('class', 'button');
+            child.innerHTML = '<p>' + value + '</p>';
+            triviaOptionsContainer_el.appendChild(child);
+            reduceTextSizeCheck(child.getElementsByTagName('p')[0]); // run options through this function to check if text size needs adjusted
+            console.log(value, isCorrect);
+            if (isCorrect) {
+              child.onclick = function () {
+                selectedOption = this.getElementsByTagName('p')[0].innerHTML;
+                answerSubmittedFn('correct');
+                // localStorageFn.set(correctResult, incorrectResult, totalResults); //TODO replace with send post request
+                setGraphInfo(activeQuestion, selectedOption, isCorrect);
+              }
+            } else {
+              child.onclick = function () {
+                selectedOption = this.getElementsByTagName('p')[0].innerHTML;
+                answerSubmittedFn('incorrect');
+                // localStorageFn.set(correctResult, incorrectResult, totalResults);
+                setGraphInfo(activeQuestion, selectedOption, isCorrect);
+              }
             }
+          }
         }
         // loop through other quiz options from data and insert link and image into view
         for (var i = 0; animationContainer_el.length > i; i++) { //subtract 1 because the last item is the shuffle button
-            var thumbnailImage = activeDataSet[dataKey] ? "url(" + imagePath_el + activeDataSet[dataKey].thumbnails[i] + ")" : '';
-            otherContentBgImages.push(thumbnailImage);
-            animationContainer_el[i].style.backgroundImage = thumbnailImage;
+          var thumbnailImage = currentDataSet ? "url(" + imagePath_el + currentDataSet[i].thumbnail + ")" : '';
+          otherContentBgImages.push(thumbnailImage);
+          animationContainer_el[i].style.backgroundImage = thumbnailImage;
         }
 
         adjustIntervalScoreFn(); //reset image pixelation
+      }catch(e){
+        console.warn('Error in setting trivia data', e);
+      }
     }; //setData
 
 
-// get percentages of graph data values
+    // Set Graph values
+    function setGraphInfo(activeQuestion, selectedOption, isCorrectParam) {
+        log('setGraphInfo',analyticsStyles);
+        log(isCorrectParam + ' : ' + selectedOption,payloadStyles);
+
+        correctPercentage = getPercentages(correctResult, incorrectResult, totalResults).value1;
+        incorrectPercentage = getPercentages(correctResult, incorrectResult, totalResults).value2;
+
+        console.log(activeQuestion);
+        for (var i = 0; resultsChart_el.length > i; i++) {
+            console.log(resultsChart_el[i]);
+            switch (i) {
+            case 0:
+                resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
+                resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+                break;
+            default:
+                resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
+                resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+                break;
+            }
+        }
+        var randomPercent = friendlyIframeWindow.document.getElementsByClassName("correct_submission").length > 0 ? correctPercentage : Math.floor(Math.random() * (100 + 1)) //TODO - need to calculate wrong submissions instead of random
+
+        youGuessPercentge_el.innerHTML = "<b>" + randomPercent + "%</b> of people also answered:<br> <b>" + selectedOption + ".</b>";
+    } //setGraphInfo
+
+
+    // get percentages of graph data values
     function getPercentages(result1, result2, resultsTotal) {
         var value1 = Math.round(result1 / resultsTotal * 100) > 100 ? 100 : Math.round(result1 / resultsTotal * 100),
             value2 = 100 - value1; //values set this way to esnure demographic data adds up to 100%
@@ -1050,54 +558,33 @@ var triviaWidget = function () {
     } //getPercentages
 
 
-// Set Graph values
-    function setGraphInfo(selectedOption, isCorrectParam) {
-        correctPercentage = getPercentages(correctResult, incorrectResult, totalResults).value1;
-        incorrectPercentage = getPercentages(correctResult, incorrectResult, totalResults).value2;
-        for (var i = 0; resultsChart_el.length > i; i++) {
-            switch (i) {
-                case 0:
-                    resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
-                    resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                    break;
-                default:
-                    resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
-                    resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                    break;
-            }
-        }
-        var randomPercent = friendlyIframeWindow.document.getElementsByClassName("correct_submission").length > 0 ? correctPercentage : Math.floor(Math.random() * (100 + 1)) //TODO - need to calculate wrong submissions instead of random
-        youGuessPercentge_el.innerHTML = "<b>" + randomPercent + "%</b> of people also answered:<br> <b>" + selectedOption + ".</b>";
-    } //setGraphInfo
-
-
     function answerSubmittedFn(answer) {
         switch (answer) {
-            case 'correct':
-                widgetEngaged = true;
-                addIntervalScoreFn();
-                // console.log('CORRECT clearInterval');
-                adjustIntervalScoreFn('clear');
-                submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
-                triviaImageOverlay_el.style.height = '230px';
-                intervalScoreContainer_el.style.display = 'none';
-                progressBar_el.style.display = 'none';
-                submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
-                triviaContainer_el.className = "correct_submission";
-                nextQuestionFn();
-                break;
-            case 'incorrect':
-                widgetEngaged = true;
-                // console.log('INCORRECT clearInterval');
-                adjustIntervalScoreFn('clear');
-                submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
-                triviaImageOverlay_el.style.height = '230px';
-                intervalScoreContainer_el.style.display = 'none';
-                progressBar_el.style.display = 'none';
-                submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
-                triviaContainer_el.className = "incorrect_submission";
-                nextQuestionFn();
-                break;
+        case 'correct':
+            widgetEngaged = true;
+            addIntervalScoreFn();
+            // console.log('CORRECT clearInterval');
+            adjustIntervalScoreFn('clear');
+            submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
+            triviaImageOverlay_el.style.height = '230px';
+            intervalScoreContainer_el.style.display = 'none';
+            progressBar_el.style.display = 'none';
+            submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
+            triviaContainer_el.className = "correct_submission";
+            nextQuestionFn();
+            break;
+        case 'incorrect':
+            widgetEngaged = true;
+            // console.log('INCORRECT clearInterval');
+            adjustIntervalScoreFn('clear');
+            submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
+            triviaImageOverlay_el.style.height = '230px';
+            intervalScoreContainer_el.style.display = 'none';
+            progressBar_el.style.display = 'none';
+            submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
+            triviaContainer_el.className = "incorrect_submission";
+            nextQuestionFn();
+            break;
         }
     }
 
@@ -1110,7 +597,7 @@ var triviaWidget = function () {
     } //addIntervalScoreFn
 
 
-// sets functionality for next question button
+    // sets functionality for next question button
     function nextQuestionFn() {
         // if last question show results screen
         if (questionIterator >= totalQuestions) {
@@ -1142,7 +629,7 @@ var triviaWidget = function () {
     } //skipQuestionFn
 
 
-// run function when last question is submitted
+    // run function when last question is submitted
     function showCompleteFn() {
         var comment;
         if (cumulativeScore < 10) {
@@ -1159,24 +646,24 @@ var triviaWidget = function () {
 
     function removeQuestionIndex(key) {
         // console.log('removeQuestionIndex() from dataQuestionTitles', dataQuestionTitles);
-        // console.log('removing dataKey', dataKey);
+        // console.log('removing questionKey', questionKey);
         var questionIndex = dataQuestionTitles.indexOf(key);
         if (questionIndex > -1) {
             dataQuestionTitles.splice(questionIndex, 1);
             ''
-            // console.log('removed ' + dataKey, dataQuestionTitles);
+            // console.log('removed ' + questionKey, dataQuestionTitles);
         }
         if (dataQuestionTitles.length > 0) {
-            dataKey = dataQuestionTitles[0] ? dataQuestionTitles[0] : null;
-            // console.log('New Key', dataKey);
+            questionKey = dataQuestionTitles[0] ? dataQuestionTitles[0] : null;
+            // console.log('New Key', questionKey);
         }
     }
 
-// gets data for next question
+    // gets data for next question
     function iterateQuestion() {
 
-        // console.log('6 ####### iterateQuestion() REMOVING ', dataKey);
-        removeQuestionIndex(dataKey);
+        // console.log('6 ####### iterateQuestion() REMOVING ', questionKey);
+        removeQuestionIndex(questionKey);
         // console.log("Questions Left", dataQuestionTitles);
 
         // console.log('7 ####### iterate questionIterator for tooltip text');
@@ -1190,7 +677,7 @@ var triviaWidget = function () {
     } //iterateQuestion
 
 
-// restart current quiz
+    // restart current quiz
     function restartFn() {
         // console.log('restartFn');
         initialSetup();
@@ -1201,17 +688,17 @@ var triviaWidget = function () {
         intervalScore = 10;
     }
 
-// gets new data if user clicks on new quiz
+    // gets new data if user clicks on new quiz
     function getNewDataSet(dataSetKey) {
         // console.log('getNewDataSet');
         resetIntervalScore();
-        activeDataSetKey = dataSetKey;
-        localStorageFn.get();
+        activeQuizKey = dataSetKey;
+        // localStorageFn.get();
         restartFn();
     } //getNewDataSet
 
 
-//adjust pixelation
+    //adjust pixelation
     function adjustIntervalScoreFn(clear) {
         if (clear == 'clear') {
             clearInterval(intervalTimer);
@@ -1255,7 +742,7 @@ var triviaWidget = function () {
     };
 
     /*****************ANALYTICS VARIABLES **************************/
-//global variables used for payload
+    //global variables used for payload
     var sessionId,
         partnerId,
         placementId;
@@ -1305,17 +792,17 @@ var triviaWidget = function () {
     function iglooAnalytics(type) {
         try {
             switch (type) {
-                case 'view':
-                    return igloo.utils.elementIsVisible(sntTriviaContent, null, false, 0.5);
-                    break;
-                case 'useragent':
-                    log('BROWSER    =   ' + igloo.browser.name);
-                    log('MOBILE     =   ' + igloo.browser.mobile);
-                    return igloo.browser;
-                    break;
-                default:
-                    console.warn('igloo Utility not found', e);
-                    break;
+            case 'view':
+                return igloo.utils.elementIsVisible(sntTriviaContent, null, false, 0.5);
+                break;
+            case 'useragent':
+                log('BROWSER    =   ' + igloo.browser.name);
+                log('MOBILE     =   ' + igloo.browser.mobile);
+                return igloo.browser;
+                break;
+            default:
+                console.warn('igloo Utility not found', e);
+                break;
             }
         } catch (e) {
             console.warn('igloo not found', e);
@@ -1323,15 +810,16 @@ var triviaWidget = function () {
     }
 
 
-//create an iframe for post request that will be removed once the request has been sent
+    //create an iframe for post request that will be removed once the request has been sent
     function createPayloadFrame(jsonObject) {
         log('Create Payload', payloadStyles);
         // console.log(jsonObject);
         //create friendly iframe to place ourselves inside
         var payloadIframe = document.createElement('iframe');
+        var payloadIframeWindow;
         // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
-        var uniqueIframeId = "snt_product_id_" + rand_id;
-        payloadIframe.setAttribute("id", uniqueIframeId);
+        var payloadId = "snt_payload_id_" + rand_id;
+        payloadIframe.setAttribute("id", payloadId);
         payloadIframe.className = "report";
         payloadIframe.width = 1;
         payloadIframe.height = 1; //250 is the add height
@@ -1339,19 +827,22 @@ var triviaWidget = function () {
         payloadIframe.style.overflow = 'hidden';
         payloadIframe.src = 'about:blank';
         payloadIframe.style.border = 'none';
-        document.body.appendChild(payloadIframe);
-        friendlyIframeWindow = payloadIframe.contentWindow;
+
+        friendlyIframe.parentNode.insertBefore(payloadIframe, friendlyIframe);
+
+        payloadIframeWindow = payloadIframe.contentWindow;
 
         //create inline html for payloadIframe
-        friendlyIframeWindow.document.open();
-        friendlyIframeWindow.document.write('<scr' + 'ipt type="text/javascript">' + sendPayload(postUrl, jsonObject) + ' </scr' + 'ipt>');
-        friendlyIframeWindow.document.close();
+        payloadIframeWindow.document.open();
+        payloadIframeWindow.document.write('<scr' + 'ipt type="text/javascript">' + sendPayload(postUrl, jsonObject) + ' </scr' + 'ipt>');
+        payloadIframeWindow.document.close();
 
         // once postMsg sent the remove the iframe
-        if (typeof document.getElementById(uniqueIframeId).remove === 'function') {
-            document.getElementById(uniqueIframeId).remove();
+        var reporting = document.getElementById(payloadId);
+        if (typeof reporting.remove === 'function') {
+            reporting.remove();
         } else {
-            document.getElementById(uniqueIframeId).outerHTML = '';
+            reporting.outerHTML = '';
         }
     }
 
@@ -1383,7 +874,7 @@ var triviaWidget = function () {
                 "qi": "9087uiucnse",
                 "ac": "0", //correct
                 "w1": "0", //wrong 1
-                "w2": "1", //wrong 2
+                "w2": "0", //wrong 2
                 "w3": "0", //wrong 3
                 "sp": "0", //skip
                 "ed": 123, //engaged dwell
@@ -1400,8 +891,7 @@ var triviaWidget = function () {
                 log("UPDATING PAYLOAD vvvvvvvvvv", payloadStyles);
                 for (var obj in jsonObject) {
                     log(obj + '   :     ' + jsonObject[obj]);
-                }
-                ;
+                };
                 log("UPDATING PAYLOAD ^^^^^^^^^^", payloadStyles);
             }
         } catch (e) {
@@ -1423,8 +913,7 @@ var triviaWidget = function () {
         this.name = name;
         this.time = 0;
         this.stopAt = stopAt;
-        this.intervalTimer = function () {
-        },
+        this.intervalTimer = function () {},
             this.start = function () {
                 var cTimer = this;
                 this.intervalTimer = setInterval(function () {
@@ -1535,23 +1024,23 @@ var triviaWidget = function () {
 
 
 
-// function getCurrentWindow(maxLoops) {
-//     // Initialize variables
-//     var postWindows = [window];
-//     var currentWindow = window;
-//     var currentLoop = 0;
-//     maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
-//     // Build all of the windows to send the message to
-//     try {
-//         // Loop through all of the windows
-//         while (currentLoop++ < maxLoops && currentWindow !== window.top) {
-//             // Move up a layer
-//             currentWindow = currentWindow.parent;
-//             // Add to the postMessage array
-//             postWindows.push(currentWindow);
-//         }
-//     } catch (e) {}
-// }
+    // function getCurrentWindow(maxLoops) {
+    //     // Initialize variables
+    //     var postWindows = [window];
+    //     var currentWindow = window;
+    //     var currentLoop = 0;
+    //     maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
+    //     // Build all of the windows to send the message to
+    //     try {
+    //         // Loop through all of the windows
+    //         while (currentLoop++ < maxLoops && currentWindow !== window.top) {
+    //             // Move up a layer
+    //             currentWindow = currentWindow.parent;
+    //             // Add to the postMessage array
+    //             postWindows.push(currentWindow);
+    //         }
+    //     } catch (e) {}
+    // }
 
 
     var firstRun = true; //makes sure the listeners run once
@@ -1559,6 +1048,8 @@ var triviaWidget = function () {
 
     var viewTest;
     var dwellTest;
+
+
 
     function getIgloo() {
         if (window.top.igloo) {
@@ -1570,34 +1061,31 @@ var triviaWidget = function () {
         }
     }
 
-//Initial load Waits for the DOMContent to load
+    //Initial load Waits for the DOMContent to load
     if (firstRun == true && (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive")) { // if page is already loaded'
         firstRun = false;
-        iglooUtilities = setInterval(getIgloo, 100);
-        ;
+        iglooUtilities = setInterval(getIgloo, 100);;
     } else { // elseonce page has finished loading, so as not to slowdown the page load at all
         friendlyIframeWindow.document.onreadystatechange = function () {
             if (firstRun == true && (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive")) {
                 firstRun = false;
-                iglooUtilities = setInterval(getIgloo, 100);
-                ;
+                iglooUtilities = setInterval(getIgloo, 100);;
             }
         }
     }
 };
 
 
-var firstRun = true;//makes sure the listeners run once
-
+var firstWidgetRun = true; //makes sure the listeners run once
 function widgetSetup() {
     //Initial load Waits for the DOMContent to load
-    if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) { // if page is already loaded'
-        firstRun = false;
+    if (firstWidgetRun == true && (document.readyState == "complete" || document.readyState == "interactive")) { // if page is already loaded'
+        firstWidgetRun = false;
         createFriendlyIframe();
     } else { // elseonce page has finished loading, so as not to slowdown the page load at all
         document.onreadystatechange = function () {
-            if (firstRun == true && (document.readyState == "complete" || document.readyState == "interactive")) {
-                firstRun = false;
+            if (firstWidgetRun == true && (document.readyState == "complete" || document.readyState == "interactive")) {
+                firstWidgetRun = false;
                 createFriendlyIframe();
             }
         }
@@ -1605,4 +1093,4 @@ function widgetSetup() {
 }
 
 //run the moment javascript file has been embeded
-widgetSetup()//start waldo call since its required and has no dependencies
+widgetSetup() //start waldo call since its required and has no dependencies
