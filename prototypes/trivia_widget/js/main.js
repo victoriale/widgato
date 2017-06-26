@@ -9,6 +9,7 @@ var htmlFile = '@@import /min/index.min.html';
 var friendlyIframe;
 var friendlyIframeWindow;
 var $;
+var wideWidget = false; // flag that changes certain functions to run differently (default = false)
 
 function createFriendlyIframe() {
     //create friendly iframe to place ourselves inside
@@ -82,6 +83,7 @@ function setupIframe() {
             friendlyIframe.width = friendlyIframe.parentNode.clientWidth;
         }, true);
         style.href = './min/wide_styles.min.css';
+        wideWidget = true; //set wide flag
     } else {
         friendlyIframe.width = 300;
         style.href = './min/standard_styles.min.css';
@@ -200,9 +202,6 @@ function log(msg, style) {
 
 
 var triviaWidget = function () {
-    window.onload = function () {
-        widgetContainer_el.style.display = 'block';
-    };
     var rand_id = Math.floor(Math.random() * 1000);
     var currentDataSet;
     var dataQuestionTitles;
@@ -461,7 +460,9 @@ var triviaWidget = function () {
         triviaImage_el.style.backgroundImage = backgroundImage; //inserts backgroundImage into view
 
         dataOptions = arrayShuffle(answerData); // randomizes the object shuffling
-        // triviaImageOverlay_el.style.height = '97px';
+        if (wideWidget) {
+            triviaImageOverlay_el.style.height = '97px';
+        }
         intervalScoreContainer_el.style.display = 'block';
         progressBar_el.style.display = 'block';
         submissionOverlay_el.classList.remove('no_transition');
@@ -503,6 +504,9 @@ var triviaWidget = function () {
         }
 
         adjustIntervalScoreFn(); //reset image pixelation
+        if (wideWidget) {
+            fireResize();
+        }
       }catch(e){
         console.warn('Error in setting trivia data', e);
       }
@@ -556,7 +560,9 @@ var triviaWidget = function () {
             // console.log('CORRECT clearInterval');
             adjustIntervalScoreFn('clear');
             submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
-            // triviaImageOverlay_el.style.height = '230px';
+            if (wideWidget) {
+                triviaImageOverlay_el.style.height = '230px';
+            }
             intervalScoreContainer_el.style.display = 'none';
             progressBar_el.style.display = 'none';
             submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
@@ -568,7 +574,9 @@ var triviaWidget = function () {
             // console.log('INCORRECT clearInterval');
             adjustIntervalScoreFn('clear');
             submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
-            // triviaImageOverlay_el.style.height = '230px';
+            if (wideWidget) {
+                triviaImageOverlay_el.style.height = '230px';
+            }
             intervalScoreContainer_el.style.display = 'none';
             progressBar_el.style.display = 'none';
             submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
@@ -944,6 +952,22 @@ var triviaWidget = function () {
                 return this.time;
             }
 
+    };
+
+    /**
+     * Manually fires off the window resize event
+     */
+    function fireResize(){
+        if (document.createEvent) {
+            var ev = document.createEvent('Event');
+            ev.initEvent('resize', true, true);
+            window.dispatchEvent(ev);
+        }
+        else { // IE
+            element=document.documentElement;
+            var event=document.createEventObject();
+            element.fireEvent("onresize",event);
+        }
     };
 
     function startTriviaAnalytics() {
