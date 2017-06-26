@@ -470,7 +470,7 @@ var triviaWidget = function () {
         triviaImage_el.style.backgroundImage = backgroundImage; //inserts backgroundImage into view
 
         dataOptions = arrayShuffle(answerData); // randomizes the object shuffling
-        triviaImageOverlay_el.style.height = '97px';
+        //triviaImageOverlay_el.style.height = '97px';
         intervalScoreContainer_el.style.display = 'block';
         progressBar_el.style.display = 'block';
         submissionOverlay_el.classList.remove('no_transition');
@@ -566,7 +566,7 @@ var triviaWidget = function () {
             // console.log('CORRECT clearInterval');
             adjustIntervalScoreFn('clear');
             submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
-            triviaImageOverlay_el.style.height = '230px';
+            //triviaImageOverlay_el.style.height = '230px';
             intervalScoreContainer_el.style.display = 'none';
             progressBar_el.style.display = 'none';
             submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
@@ -578,7 +578,7 @@ var triviaWidget = function () {
             // console.log('INCORRECT clearInterval');
             adjustIntervalScoreFn('clear');
             submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
-            triviaImageOverlay_el.style.height = '230px';
+            //triviaImageOverlay_el.style.height = '230px';
             intervalScoreContainer_el.style.display = 'none';
             progressBar_el.style.display = 'none';
             submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
