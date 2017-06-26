@@ -259,7 +259,7 @@ var triviaWidget = function () {
     var dataVarSet;
     var questionKey;
     var otherContentBgImages = [];
-    var dataSetTitles = [];
+    var quizTitles = [];
     var dataOptions;
     var totalResults;
     var correctResult;
@@ -332,14 +332,19 @@ var triviaWidget = function () {
                 console.log("GET RANDOM KEY ", activeQuizKey);
             }
             activeQuizKey = activeQuizKey ? activeQuizKey : arrayShuffle(getQuizKeys())[0]; //get random quiz key.
-            console.log("2 ###### SET dataSetTitles", dataSetTitles);
+            console.log("2 ###### SET quizTitles", quizTitles);
 
+            //filter throught quizzes and find the current active quiz by using the activeQuizKey
             activeQuiz = currentDataSet.filter(function(quiz){
               if(quiz.sub_category_id === activeQuizKey){
                 return quiz;
               }
             })[0];
+
+            quizId = activeQuizKey; // set analytics quizId to be sent into PAYLOAD
+            log('quizId:    ' + quizId, analyticsStyles);
             console.log("3 ####### ACTIVE QUIZ", activeQuizKey, activeQuiz);
+
             dataQuestionTitles = getQuizSetKeys(activeQuiz);
 
             questionIterator = 1;
@@ -363,11 +368,11 @@ var triviaWidget = function () {
     // gets all possible Quizzes
     function getQuizKeys() {
         var quizzes = currentDataSet;
-        dataSetTitles = [];
+        quizTitles = [];
         quizzes.forEach(function (quiz) {
-            dataSetTitles.push(quiz.sub_category_id);
+            quizTitles.push(quiz.sub_category_id);
         })
-        return dataSetTitles;
+        return quizTitles;
     } //getQuizKeys
 
 
@@ -411,22 +416,6 @@ var triviaWidget = function () {
         return dataQuestionTitles;
     } //getQuizKeys
 
-    // sets the random quiz link on the completed quiz overlay
-    function setRandomQuizLink() {
-        randomOption_el.id = getRandomDataSetKey();
-    } //setRandomQuizLink
-
-
-    // returns a random data set key that is not the current active key
-    function getRandomDataSetKey() {
-        var activeIndex = dataSetTitles.indexOf(activeQuizKey);
-        var withOutActiveIndex = dataSetTitles.filter(function (e) {
-            return e !== activeQuizKey
-        });
-        var randomDataSetKey = withOutActiveIndex[Math.floor(Math.random() * withOutActiveIndex.length)];
-        return randomDataSetKey;
-    } //getRandomDataSetKey
-
 
     // function used to reduce size of text in options if it is too tall for container
     function reduceTextSizeCheck(element) {
@@ -448,15 +437,18 @@ var triviaWidget = function () {
         nextQuestionButton_el.innerHTML = "<p>Next Question</p>";
         // questionKey = 'data_' + questionIterator; //sets the data key based on question number
 
-        questionKey = questionKey ? questionKey : arrayShuffle(dataQuestionTitles)[0]; //get random dataset key.
+        console.log('questionKey', questionKey);
+        questionKey = questionKey ? questionKey : arrayShuffle(dataQuestionTitles)[0]; //get random question key.
 
         var activeQuestion = activeQuiz.questions.filter(function(question){
           if(question.metadata.question_id === questionKey){
             return question;
           }
         })[0];
-        console.log('4 ####### CHOOSING Question', questionKey, activeQuestion);
 
+        questionId = questionKey; // set analytics questionId to be sent into PAYLOAD
+        log('questionId:    ' + questionId, analyticsStyles);
+        console.log('4 ####### CHOOSING Question', questionKey, activeQuestion);
 
         var metaData = activeQuestion.metadata,
             answerData = activeQuestion.answers,
@@ -464,13 +456,12 @@ var triviaWidget = function () {
         var resultDisplay = activeQuestion ? metaData.correct_answer_result : 'Whoops!',
             backgroundImage = activeQuestion ? "url(" + imagePath_el + metaData.image + ")" : '';
 
-        // console.log(activeQuestion.question);
         triviaQuestion_el.innerHTML = metaData.question; //inserts active question into view
         correctResultDisplay_el.innerHTML = resultDisplay; //inserts result into the submission view
         triviaImage_el.style.backgroundImage = backgroundImage; //inserts backgroundImage into view
 
         dataOptions = arrayShuffle(answerData); // randomizes the object shuffling
-        //triviaImageOverlay_el.style.height = '97px';
+        // triviaImageOverlay_el.style.height = '97px';
         intervalScoreContainer_el.style.display = 'block';
         progressBar_el.style.display = 'block';
         submissionOverlay_el.classList.remove('no_transition');
@@ -487,7 +478,6 @@ var triviaWidget = function () {
             child.innerHTML = '<p>' + value + '</p>';
             triviaOptionsContainer_el.appendChild(child);
             reduceTextSizeCheck(child.getElementsByTagName('p')[0]); // run options through this function to check if text size needs adjusted
-            console.log(value, isCorrect);
             if (isCorrect) {
               child.onclick = function () {
                 selectedOption = this.getElementsByTagName('p')[0].innerHTML;
@@ -521,13 +511,17 @@ var triviaWidget = function () {
 
     // Set Graph values
     function setGraphInfo(activeQuestion, selectedOption, isCorrectParam) {
-        log('setGraphInfo',analyticsStyles);
-        log(isCorrectParam + ' : ' + selectedOption,payloadStyles);
+        console.log('%csetGraphInfo',analyticsStyles);
+        console.log('%c'+isCorrectParam + ' : ' + selectedOption,payloadStyles);
 
-        correctPercentage = getPercentages(correctResult, incorrectResult, totalResults).value1;
-        incorrectPercentage = getPercentages(correctResult, incorrectResult, totalResults).value2;
+        var metaData = activeQuestion.metadata,
+            answerData = activeQuestion.answers,
+            analyticsData = activeQuestion.analytics;
 
-        console.log(activeQuestion);
+        correctPercentage = analyticsData.correct_percentage;
+        incorrectPercentage = analyticsData.wrong_percentage;
+
+        console.log('activeQuestion',activeQuestion);
         for (var i = 0; resultsChart_el.length > i; i++) {
             console.log(resultsChart_el[i]);
             switch (i) {
@@ -541,21 +535,17 @@ var triviaWidget = function () {
                 break;
             }
         }
-        var randomPercent = friendlyIframeWindow.document.getElementsByClassName("correct_submission").length > 0 ? correctPercentage : Math.floor(Math.random() * (100 + 1)) //TODO - need to calculate wrong submissions instead of random
 
-        youGuessPercentge_el.innerHTML = "<b>" + randomPercent + "%</b> of people also answered:<br> <b>" + selectedOption + ".</b>";
+        //go through selected answer based on user click and pull out the analytics data from data
+        for(var selection in answerData){
+            if(selectedOption == answerData[selection]){
+              var selectedPercent = analyticsData[selection+'_percentage'];//TODO a better way to do this too hard coded
+              youGuessPercentge_el.innerHTML = "<b>" + selectedPercent + "%</b> of people also answered:<br> <b>" + selectedOption + ".</b>";
+            }
+
+        }
     } //setGraphInfo
 
-
-    // get percentages of graph data values
-    function getPercentages(result1, result2, resultsTotal) {
-        var value1 = Math.round(result1 / resultsTotal * 100) > 100 ? 100 : Math.round(result1 / resultsTotal * 100),
-            value2 = 100 - value1; //values set this way to esnure demographic data adds up to 100%
-        return {
-            value1: value1,
-            value2: value2
-        };
-    } //getPercentages
 
 
     function answerSubmittedFn(answer) {
@@ -566,7 +556,7 @@ var triviaWidget = function () {
             // console.log('CORRECT clearInterval');
             adjustIntervalScoreFn('clear');
             submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
-            //triviaImageOverlay_el.style.height = '230px';
+            // triviaImageOverlay_el.style.height = '230px';
             intervalScoreContainer_el.style.display = 'none';
             progressBar_el.style.display = 'none';
             submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
@@ -578,7 +568,7 @@ var triviaWidget = function () {
             // console.log('INCORRECT clearInterval');
             adjustIntervalScoreFn('clear');
             submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
-            //triviaImageOverlay_el.style.height = '230px';
+            // triviaImageOverlay_el.style.height = '230px';
             intervalScoreContainer_el.style.display = 'none';
             progressBar_el.style.display = 'none';
             submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
@@ -590,10 +580,10 @@ var triviaWidget = function () {
 
 
     function addIntervalScoreFn() {
-        // console.log('5 ####### Current + IntervalScore', cumulativeScore, intervalScore);
+        console.log('5 ####### Current + IntervalScore', cumulativeScore, intervalScore);
         cumulativeScore = cumulativeScore + intervalScore;
         userScore_el.innerHTML = cumulativeScore;
-        // console.log('NEW SCORE ', cumulativeScore);
+        console.log('NEW SCORE ', cumulativeScore);
     } //addIntervalScoreFn
 
 
@@ -645,33 +635,33 @@ var triviaWidget = function () {
     } //showCompleteFn
 
     function removeQuestionIndex(key) {
-        // console.log('removeQuestionIndex() from dataQuestionTitles', dataQuestionTitles);
-        // console.log('removing questionKey', questionKey);
+        console.log('removeQuestionIndex() from dataQuestionTitles', dataQuestionTitles);
+        console.log('removing questionKey', questionKey);
         var questionIndex = dataQuestionTitles.indexOf(key);
         if (questionIndex > -1) {
             dataQuestionTitles.splice(questionIndex, 1);
             ''
-            // console.log('removed ' + questionKey, dataQuestionTitles);
+            console.log('removed ' + questionKey, dataQuestionTitles);
         }
         if (dataQuestionTitles.length > 0) {
             questionKey = dataQuestionTitles[0] ? dataQuestionTitles[0] : null;
-            // console.log('New Key', questionKey);
+            console.log('New Key', questionKey);
         }
     }
 
     // gets data for next question
     function iterateQuestion() {
 
-        // console.log('6 ####### iterateQuestion() REMOVING ', questionKey);
+        console.log('6 ####### iterateQuestion() REMOVING ', questionKey);
         removeQuestionIndex(questionKey);
-        // console.log("Questions Left", dataQuestionTitles);
+        console.log("Questions Left", dataQuestionTitles);
 
-        // console.log('7 ####### iterate questionIterator for tooltip text');
+        console.log('7 ####### iterate questionIterator for tooltip text');
         questionIterator++;
         activeQuestion_el.innerHTML = questionIterator; // inject active question into view
         triviaContainer_el.className = (''); // resets view
         if (questionIterator <= totalQuestions) {
-            // console.log('END NEW DATA SET');
+            console.log('END NEW DATA SET');
             setData();
         }
     } //iterateQuestion
@@ -687,15 +677,6 @@ var triviaWidget = function () {
     function resetIntervalScore() {
         intervalScore = 10;
     }
-
-    // gets new data if user clicks on new quiz
-    function getNewDataSet(dataSetKey) {
-        // console.log('getNewDataSet');
-        resetIntervalScore();
-        activeQuizKey = dataSetKey;
-        // localStorageFn.get();
-        restartFn();
-    } //getNewDataSet
 
 
     //adjust pixelation
@@ -727,13 +708,41 @@ var triviaWidget = function () {
 
                     // clearInterval(pixelationInterval);
                     if (!widgetEngaged) {
-                        var randomDataSetKey = getRandomDataSetKey();
-                        getNewDataSet(randomDataSetKey);
+                        var randomQuizKey = getRandomQuizKey();
+                        getNewQuiz(randomQuizKey);
                     }
                 }
             }, intervalMiliSeconds / intervalSeconds);
         }
     } //adjustPixelationFn
+
+
+    // sets the random quiz link on the completed quiz overlay
+    function setRandomQuizLink() {
+        randomOption_el.id = getRandomQuizKey();
+    } //setRandomQuizLink
+
+
+    // returns a random quiz key that is not the current active key
+    function getRandomQuizKey() {
+        var activeIndex = quizTitles.indexOf(activeQuizKey);
+        var withOutActiveIndex = quizTitles.filter(function (e) {
+            return e !== activeQuizKey
+        });
+        var randomQuizKey = withOutActiveIndex[Math.floor(Math.random() * withOutActiveIndex.length)];
+        questionKey = null;// since its a new random quiz then reset the current question key so that it can random a new key from a new quiz
+        return randomQuizKey;
+    } //getRandomQuizKey
+
+
+    // gets new data if user clicks on new quiz
+    function getNewQuiz(dataSetKey) {
+        // console.log('getNewQuiz');
+        resetIntervalScore();
+        activeQuizKey = dataSetKey;
+        // localStorageFn.get();
+        restartFn();
+    } //getNewQuiz
 
 
     window.top.onbeforeunload = function (e) {
@@ -753,6 +762,8 @@ var triviaWidget = function () {
     var igloo,
         userAgentObj,
         category,
+        quizId,
+        questionId,
         embedTime, //time the moment client embeded widget
         total_questions_views, //When CU is engaged* (It is assumed to be in view)
         total_quiz_views, //Each time a quiz is 50%+ in view for 1+ seconds. This is recorded only once per quiz load.
