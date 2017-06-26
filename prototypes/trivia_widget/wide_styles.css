@@ -5108,13 +5108,21 @@ span.results_chart_value {
 
     .trivia_image_container {
         width: 100%;
-        height: 169px;
+        height: 97px;
+    }
+
+    .trivia_image_overlay {
+        overflow: hidden;
+        width: 100%;
+        height: 97px;
+        position: absolute;
     }
 
     .trivia_options_container {
         position: relative;
         width: 100%;
         height: 136px;
+        top: 12px;
     }
 
     .trivia_question {
@@ -5220,10 +5228,18 @@ span.results_chart_value {
     #submission_overlay {
         width: 100%;
         height: 100%;
+        min-width: 300px;
+        z-index: 0;
     }
 
     p.submission_display {
         font-size: 30px;
+    }
+
+    .submission_analytics_title, .ltblue {
+        background: transparent;
+        color: #fff;
+        left: 0;
     }
 
     .check_mark_container {
@@ -5251,8 +5267,9 @@ span.results_chart_value {
     #next_question {
         top: 57px;
         bottom: auto;
-        width: 288px;
+        width: 280px;
         border: 1px solid #fff;
+        z-index: 3;
     }
 
     #next_question p {
@@ -5263,11 +5280,13 @@ span.results_chart_value {
         top: 151px;
         width: 280px;
         height: 70px;
+        border-top: none;
     }
 
     p.submission_info {
         top: 100px;
         font-size: 12px;
+        color: #fff;
     }
 
     .results_charts_container:nth-of-type(2) {
@@ -5294,6 +5313,7 @@ span.results_chart_value {
         height: 49px;
         text-align: left;
         padding-left: 9px;
+        color: #fff;
     }
 
     .border {
@@ -5319,5 +5339,28 @@ span.results_chart_value {
         top: 8px;
         width: 240px;
         left: 5px;
+    }
+
+    .c100 {
+        background-color: transparent;
+        box-shadow: inset 0 0 0 2px #ccc;
+    }
+
+    .c100.green .bar,
+    .c100.green .fill {
+        border-color: #fff !important;
+    }
+
+    .red, .green, .gray, .results_chart_label, span.results_chart_value, #next_question p {
+        color: #fff;
+    }
+
+    .c100.red .bar,
+    .c100.red .fill {
+        border-color: #fff !important;
+    }
+
+    .c100:after {
+        background-color: transparent;
     }
 }
