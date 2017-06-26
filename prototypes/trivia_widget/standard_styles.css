@@ -2929,9 +2929,8 @@ canvas {
 }
 
 html, body {
-    margin: 0 auto !important;
+    margin: 0 !important;
     font-family: Lato, sans-serif;
-    max-width: 300px;
     height: auto;
     background-color: white;
 }
@@ -3014,8 +3013,7 @@ ul li {
     position: relative;
     overflow: hidden;
     width: 300px;
-    height: 600px;
-    margin: 0 auto;
+    height: 330px;
 }
 
 .trivia_container_footer {
