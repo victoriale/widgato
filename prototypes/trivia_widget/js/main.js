@@ -5,6 +5,8 @@ var friendlyIframe;
 var friendlyIframeWindow;
 var $;
 var wideWidget = false; // flag that changes certain functions to run differently (default = false)
+var mobileAd; // the div for the actual igloo stack to live in, that gets moved around as you scroll
+var isMobile = false; //determine if the screen size is less than 650px
 
 function createFriendlyIframe() {
     //create friendly iframe to place ourselves inside
@@ -149,7 +151,6 @@ function synapsysENV(env) {
  * to be parsed through and set for global use
  */
 function setupEnvironment(widgetQuery) {
-    // console.log(widgetQuery);
     query = widgetQuery;
     apiCallUrl = protocolToUse + apiCallUrl;
     var cat = widgetQuery.category;
@@ -192,7 +193,7 @@ function log(msg, style) {
     if (!style) {
         style = defaultStyle;
     }
-    console.log('%c' + msg + '                                                                                         ', style);
+    //console.log('%c' + msg + '                                                                                         ', style);
 };
 
 
@@ -226,6 +227,7 @@ var triviaWidget = function () {
     var totalQuestions_el = $("total_questions");
     var scoreComment_el = $("score_comment");
     var skipQuestion_el = $("skip_question");
+    var restart_el = $("restart");
 
     var otherContentOptionContainer_el = friendlyIframeWindow.document.getElementsByClassName("other_content_option_container");
     var animationContainer_el = friendlyIframeWindow.document.getElementsByClassName("animation_container");
@@ -313,22 +315,21 @@ var triviaWidget = function () {
     } //localStorageFn
 
 
-    function initialSetup() {
+    function initialSetup(quizId) {
         try {
             //if currentDataSet is available then skip otherwise run function to make api call
             if (!currentDataSet) {
                 localStorageFn();
             }
-            // console.log('API RETURNED', currentDataSet);
-
-            // getQuizKeys();
+            //console.log('API RETURNED', currentDataSet);
             // if (activeQuizKey) {
             //     console.log("CHOSEN KEY ", activeQuizKey);
             // } else {
             //     console.log("GET RANDOM KEY ", activeQuizKey);
             // }
-            activeQuizKey = activeQuizKey ? activeQuizKey : arrayShuffle(getQuizKeys())[0]; //get random quiz key.
-            // console.log("2 ###### SET quizTitles", quizTitles);
+            quizTitles = getQuizKeys();
+            activeQuizKey = quizId ? quizId : arrayShuffle(quizTitles)[0]; //get random quiz key.
+            //console.log("2 ###### SET quizTitles", quizTitles);
 
             //filter throught quizzes and find the current active quiz by using the activeQuizKey
             activeQuiz = currentDataSet.filter(function (quiz) {
@@ -339,7 +340,7 @@ var triviaWidget = function () {
 
             quizId = activeQuizKey; // set analytics quizId to be sent into PAYLOAD
             log('quizId:    ' + quizId);
-            // console.log("3 ####### ACTIVE QUIZ", activeQuizKey, activeQuiz);
+            //console.log("3 ####### ACTIVE QUIZ", activeQuizKey, activeQuiz);
 
             dataQuestionTitles = getQuizSetKeys(activeQuiz);
 
@@ -351,15 +352,37 @@ var triviaWidget = function () {
             activeQuestion_el.innerHTML = questionIterator;
             totalQuestions_el.innerHTML = totalPossibleScore;
             // TODO sets other options links on completed overlay views
-            for (var i = 0; otherContentOptionContainer_el.length - 1 > i; i++) {
-                otherContentOptionContainer_el[i].id = 'quiz_' + (i + 1);
-            }
+            var tempTitles = quizTitles;
+            tempTitles.splice(tempTitles.indexOf(activeQuizKey), 1);
+            setQuizKeys(tempTitles);
             setData();
         } catch (e) {
             console.warn("Data Error for Trivia", e);
         }
     } //initialSetup
 
+
+    function setQuizKeys(titles) {
+        for (var i = 0; otherContentOptionContainer_el.length - 1 > i; i++) {
+            var subCatId = titles[0];
+            otherContentOptionContainer_el[i].id = subCatId;
+            titles.splice(titles.indexOf(subCatId), 1);
+            $(otherContentOptionContainer_el[i].id).onclick = function () {
+                if (isMobile && wideWidget) {
+                    mobileAd.style.display = 'block';
+                    hideAd();
+                }
+                restartFn(subCatId);
+            };
+        }
+        randomOption_el.onclick = function () {
+            if (isMobile && wideWidget) {
+                mobileAd.style.display = 'block';
+                hideAd();
+            }
+            restartFn(setRandomQuizLink());
+        }
+    } //setQuizKeys
 
     // gets all possible Quizzes
     function getQuizKeys() {
@@ -492,6 +515,20 @@ var triviaWidget = function () {
                     }
                 }
             }
+            skipQuestion_el.onclick = function () {
+                if (isMobile && wideWidget) {
+                    mobileAd.style.display = 'block';
+                    hideAd();
+                }
+                skipQuestionFn();
+            };
+            restart_el.onclick = function () {
+                if (isMobile && wideWidget) {
+                    mobileAd.style.display = 'block';
+                    hideAd();
+                }
+                restartFn();
+            };
             // loop through other quiz options from data and insert link and image into view
             for (var i = 0; animationContainer_el.length > i; i++) { //subtract 1 because the last item is the shuffle button
                 var thumbnailImage = currentDataSet ? "url(" + imagePath_el + currentDataSet[i].thumbnail + ")" : '';
@@ -521,14 +558,14 @@ var triviaWidget = function () {
 
         for (var i = 0; resultsChart_el.length > i; i++) {
             switch (i) {
-            case 0:
-                resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
-                resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                break;
-            default:
-                resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
-                resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                break;
+                case 0:
+                    resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
+                    resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+                    break;
+                default:
+                    resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
+                    resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+                    break;
             }
         }
 
@@ -543,38 +580,37 @@ var triviaWidget = function () {
     } //setGraphInfo
 
 
-
     function answerSubmittedFn(answer) {
         switch (answer) {
-        case 'correct':
-            widgetEngaged = true;
-            addIntervalScoreFn();
-            // console.log('CORRECT clearInterval');
-            adjustIntervalScoreFn('clear');
-            submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
-            if (wideWidget) {
-                triviaImageOverlay_el.style.height = '230px';
-            }
-            intervalScoreContainer_el.style.display = 'none';
-            progressBar_el.style.display = 'none';
-            submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
-            triviaContainer_el.className = "correct_submission";
-            nextQuestionFn();
-            break;
-        case 'incorrect':
-            widgetEngaged = true;
-            // console.log('INCORRECT clearInterval');
-            adjustIntervalScoreFn('clear');
-            submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
-            if (wideWidget) {
-                triviaImageOverlay_el.style.height = '230px';
-            }
-            intervalScoreContainer_el.style.display = 'none';
-            progressBar_el.style.display = 'none';
-            submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
-            triviaContainer_el.className = "incorrect_submission";
-            nextQuestionFn();
-            break;
+            case 'correct':
+                widgetEngaged = true;
+                addIntervalScoreFn();
+                // console.log('CORRECT clearInterval');
+                adjustIntervalScoreFn('clear');
+                submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
+                if (wideWidget) {
+                    triviaImageOverlay_el.style.height = '230px';
+                }
+                intervalScoreContainer_el.style.display = 'none';
+                progressBar_el.style.display = 'none';
+                submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
+                triviaContainer_el.className = "correct_submission";
+                nextQuestionFn();
+                break;
+            case 'incorrect':
+                widgetEngaged = true;
+                // console.log('INCORRECT clearInterval');
+                adjustIntervalScoreFn('clear');
+                submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
+                if (wideWidget) {
+                    triviaImageOverlay_el.style.height = '230px';
+                }
+                intervalScoreContainer_el.style.display = 'none';
+                progressBar_el.style.display = 'none';
+                submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
+                triviaContainer_el.className = "incorrect_submission";
+                nextQuestionFn();
+                break;
         }
     }
 
@@ -598,6 +634,10 @@ var triviaWidget = function () {
         } else {
             nextQuestionButton_el.onclick = function () {
                 submissionInfoContainer_el.classList.add('hidden'); //adds hidden class to prevent css transition when removed
+                if (isMobile && wideWidget) {
+                    mobileAd.style.display = 'block';
+                    hideAd();
+                }
                 iterateQuestion();
             };
         }
@@ -614,6 +654,10 @@ var triviaWidget = function () {
             nextQuestionButton_el.innerHTML = "<p>Show Results</p>";
         } else {
             submissionInfoContainer_el.classList.add('hidden'); //adds hidden class to prevent css transition when removed
+            if (isMobile && wideWidget) {
+                mobileAd.style.display = 'block';
+                hideAd();
+            }
             iterateQuestion();
         }
     } //skipQuestionFn
@@ -669,9 +713,8 @@ var triviaWidget = function () {
 
 
     // restart current quiz
-    function restartFn() {
-        // console.log('restartFn');
-        initialSetup();
+    function restartFn(categoryId) {
+        initialSetup(categoryId);
         completedOverlay_el.className = "hidden";
     } //restartFn
 
@@ -701,7 +744,10 @@ var triviaWidget = function () {
                 if (Math.floor(bufferCount / intervalSeconds) >= 3) {
                     progressCounter++;
                     tempCount = Math.floor(progressCounter / intervalSeconds);
-                    progressBar_el.style.width = progressCounter + '%';
+                    if (wideWidget && mobileAd.style.display == 'block') {
+                        progressBar_el.style.width = progressCounter + '%';
+                    }
+
                     if (tempCount >= 0 && tempCount < 10 && temp != tempCount) {
                         temp = tempCount;
                         intervalScore--;
@@ -763,21 +809,47 @@ var triviaWidget = function () {
             var ev = document.createEvent('Event');
             ev.initEvent('resize', true, true);
             window.dispatchEvent(ev);
-        } else { // IE
+            isMobile = ev.currentTarget.innerWidth < 650;
+        }
+        else { // IE
             element = document.documentElement;
             var event = document.createEventObject();
             element.fireEvent("onresize", event);
         }
+        if (isMobile) {
+            mobileAd = friendlyIframe.parentElement.getElementsByClassName("widget_zone")[0];
+            mobileAd.style.left = '0';
+        }
     };
 
+    if (wideWidget) {
+        var isAdVisible = false;
+        window.setInterval(function () {
+            if (isMobile && total_clicks === 0) {
+                if (!isAdVisible) {
+                    intervalScoreContainer_el.style.display = 'block';
+                    progressBar_el.style.display = 'block';
+                    mobileAd.style.display = 'none';
+                    isAdVisible = true;
+                } else {
+                    intervalScoreContainer_el.style.display = 'none';
+                    progressBar_el.style.display = 'none';
+                    mobileAd.style.display = 'block';
+                    isAdVisible = false;
+                }
+            }
+        }, 3000);
+    }
 
-
-
-
+    function hideAd() {
+        setTimeout(function () {
+            mobileAd.style.display = 'none';
+        }, 3000)
+    }
 
 
     /*****************ANALYTICS VARIABLES **************************/
-    //global variables used for payload
+        //global variables used for payload
     var sessionId,
         partnerId,
         placementId;
@@ -834,17 +906,17 @@ var triviaWidget = function () {
     function iglooAnalytics(type) {
         try {
             switch (type) {
-            case 'view':
-                return igloo.utils.elementIsVisible(sntTriviaContent, null, false, 0.5);
-                break;
-            case 'useragent':
-                log('BROWSER    =   ' + igloo.browser.name);
-                log('MOBILE     =   ' + igloo.browser.mobile);
-                return igloo.browser;
-                break;
-            default:
-                console.warn('igloo Utility not found', e);
-                break;
+                case 'view':
+                    return igloo.utils.elementIsVisible(sntTriviaContent, null, false, 0.5);
+                    break;
+                case 'useragent':
+                    log('BROWSER    =   ' + igloo.browser.name);
+                    log('MOBILE     =   ' + igloo.browser.mobile);
+                    return igloo.browser;
+                    break;
+                default:
+                    console.warn('igloo Utility not found', e);
+                    break;
             }
         } catch (e) {
             console.warn('igloo not found', e);
@@ -933,7 +1005,8 @@ var triviaWidget = function () {
                 log("UPDATING PAYLOAD vvvvvvvvvv", payloadStyles);
                 for (var obj in jsonObject) {
                     log(obj + '   :     ' + jsonObject[obj]);
-                };
+                }
+                ;
                 log("UPDATING PAYLOAD ^^^^^^^^^^", payloadStyles);
             }
         } catch (e) {
@@ -956,7 +1029,8 @@ var triviaWidget = function () {
         this.time = 0;
         this.stopAt = stopAt;
         this.timerOn = false;
-        this.intervalTimer = function () {},
+        this.intervalTimer = function () {
+        },
             this.startTime = function () {
                 if (!this.timerOn) {
                     this.timerOn = true;
@@ -1013,7 +1087,7 @@ var triviaWidget = function () {
     }
 
 
-    function analyticsWindowFocus(){
+    function analyticsWindowFocus() {
         log('WINDOW FOCUS - INITIATED...', payloadStyles);
         // windowActiveTimer = new timer('session', 100, null, null, function(event){
         //     if(!windowActive){
@@ -1024,20 +1098,20 @@ var triviaWidget = function () {
         // });
         // windowActiveTimer.startTime();
         window.top.onfocus = function () {
-          windowActive = true;
-          // windowActiveTimer.startTime();
-          console.log('WINDOW REGAIN FOCUS');
+            windowActive = true;
+            // windowActiveTimer.startTime();
+            console.log('WINDOW REGAIN FOCUS');
         };
 
         window.top.onblur = function () {
-          windowActive = false;
-          console.log('WINDOW LOST FOCUS');
-          // windowActiveTimer.pauseTime();
+            windowActive = false;
+            console.log('WINDOW LOST FOCUS');
+            // windowActiveTimer.pauseTime();
         };
 
         window.top.onbeforeunload = function (e) {
-          updatePayload('send'); // if user exits the screen before
-          console.log('window onbeforeunload post sent');
+            updatePayload('send'); // if user exits the screen before
+            console.log('window onbeforeunload post sent');
         };
     }
 
@@ -1189,7 +1263,6 @@ var triviaWidget = function () {
     }
 
 
-
     function startTriviaAnalytics() {
         resetAnalytics();
 
@@ -1226,7 +1299,6 @@ var triviaWidget = function () {
         // }
 
 
-
         // viewTest;
         // dwellTest;
         sntTriviaContent.onclick = function () { // tract every click event within the widget
@@ -1253,6 +1325,25 @@ var triviaWidget = function () {
     /*****************ANALYTICS VARIABLES END***********************/
 
 
+    window.addEventListener('resize', setSize);
+
+    function setSize() {
+        var getWidth;
+        if (typeof (window.innerWidth) == 'number') {
+            getWidth = window.innerWidth;
+        } else {
+            if (document.documentElement && document.documentElement.clientWidth) {
+                getWidth = document.documentElement.clientWidth;
+            } else {
+                if (document.body && document.body.clientWidth) {
+                    getWidth = document.body.clientWidth;
+                }
+            }
+        }
+        if (wideWidget) {
+            isMobile = getWidth < 650;
+        }
+    }
 
     // function getCurrentWindow(maxLoops) {
     //     // Initialize variables
@@ -1280,7 +1371,6 @@ var triviaWidget = function () {
     var dwellTest;
 
 
-
     function getIgloo() {
         if (window.top.igloo) {
             igloo = window.top.igloo;
@@ -1301,12 +1391,14 @@ var triviaWidget = function () {
     //Initial load Waits for the DOMContent to load
     if (firstRun == true && (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive")) { // if page is already loaded'
         firstRun = false;
-        iglooUtilities = setInterval(getIgloo, 100);;
+        iglooUtilities = setInterval(getIgloo, 100);
+        ;
     } else { // elseonce page has finished loading, so as not to slowdown the page load at all
         friendlyIframeWindow.document.onreadystatechange = function () {
             if (firstRun == true && (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive")) {
                 firstRun = false;
-                iglooUtilities = setInterval(getIgloo, 100);;
+                iglooUtilities = setInterval(getIgloo, 100);
+                ;
             }
         }
     }
