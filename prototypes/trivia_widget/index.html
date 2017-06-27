@@ -25,14 +25,14 @@
                         <span id="total_questions"></span>
                     </p>
                 </div>
-                <p class="restart light" id="restart" onclick="restartFn()">
+                <p class="restart light" id="restart" onclick="restartFn(this.id)">
                     <i aria-hidden="true"></i>
                     <span class="try_again">Try Again</span>
                 </p>
             </div>
         </div>
         <div class="other_content_container">
-            <span class="other_content_title light">Other Celebrity Trivia You May Love:</span>
+            <span class="other_content_title light" id="show_others">Other Celebrity Trivia You May Love:</span>
             <ul class="other_content_options_container">
                 <li class="other_content_option_container" id="" onclick="getNewDataSet(this.id)">
                     <div class="animation_container">
@@ -178,7 +178,7 @@
     </div>
 </section>
 
-<link href="https://fonts.googleapis.com/css?family=Lato:300,400,900" rel="stylesheet">
+<!-- <link href="//fonts.googleapis.com/css?family=Lato:300,400,900" rel="stylesheet"> -->
 <!--<script src="./js/main.js"></script>-->
 <!-- <script src="../analytics/payload_analytics.js" async></script> -->
 
