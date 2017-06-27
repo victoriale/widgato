@@ -3578,12 +3578,6 @@ li.sm_icon i {
     transition: filter .25s ease-in-out;
     -webkit-transition: filter .25s ease-in-out;
     float: left;
-    -webkit-filter: blur(15px);
-    -moz-filter: blur(15px);
-    -o-filter: blur(15px);
-    -ms-filter: blur(15px);
-    filter: blur(15px);
-    transform: scale(1.3);
 }
 
 .trivia_image_overlay {
