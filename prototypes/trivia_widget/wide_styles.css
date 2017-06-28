@@ -3600,15 +3600,6 @@ li.sm_icon i {
     background: #3098ff;
 }
 
-#ad_progress_bar {
-    position: absolute;
-    bottom: 0;
-    z-index: 2;
-    height: 3px;
-    background: #3098ff;
-    display: none;
-}
-
 #interval_score_container {
     position: absolute;
     z-index: 2;
@@ -5401,5 +5392,13 @@ span.results_chart_value {
 
     .c100:after {
         background-color: transparent;
+    }
+
+    #ad_progress_bar {
+        position: absolute;
+        bottom: 0;
+        z-index: 100;
+        height: 3px;
+        background: #3098ff;
     }
 }
