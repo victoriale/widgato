@@ -833,8 +833,7 @@ var triviaWidget = function () {
         resetIntervalScore();
         activeQuizKey = dataSetKey;
         // localStorageFn.get();
-
-        Fn();
+        restartFn();
     } //getNewQuiz
 
 
