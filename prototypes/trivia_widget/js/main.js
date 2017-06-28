@@ -54,7 +54,7 @@ function setupIframe() {
     var srcQuery = currentScript.src.split("js?")[1];
     //determine if a query string is after the index.html location || if query is after a javascript location
     var hostname = new RegExp(document.location.hostname);
-    //todo Make a better way to test locally.
+    //TODO Make a better way to test locally.
     if (srcQuery != "" && srcQuery != null) {
         try {
             query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
@@ -168,6 +168,7 @@ function synapsysENV(env) {
  * to be parsed through and set for global use
  */
 function setupEnvironment(widgetQuery) {
+    // console.log(widgetQuery);
     query = widgetQuery;
     apiCallUrl = protocolToUse + apiCallUrl;
     var cat = widgetQuery.category;
@@ -306,7 +307,7 @@ var triviaWidget = function () {
         } else {
             var xhttp = new ActiveXObject('Microsoft.XMLHTTP')
         }
-        // console.log('1 ####### MAKE API CALL', apiCallUrl)
+        console.log('1 ####### MAKE API CALL', apiCallUrl);
         xhttp.onreadystatechange = function () {
             if (this.readyState == XMLHttpRequest.DONE) {
                 if (this.status == 200) {
@@ -337,10 +338,11 @@ var triviaWidget = function () {
     function initialSetup(qId) {
         try {
             //if currentDataSet is available then skip otherwise run function to make api call
+            adjustIntervalScoreFn("clear")
             if (!currentDataSet) {
                 localStorageFn();
             }
-            //console.log('API RETURNED', currentDataSet);
+            // console.log('API RETURNED', currentDataSet);
             // if (activeQuizKey) {
             //     console.log("CHOSEN KEY ", activeQuizKey);
             // } else {
@@ -348,7 +350,7 @@ var triviaWidget = function () {
             // }
             quizTitles = getQuizKeys();
             activeQuizKey = qId ? qId : arrayShuffle(quizTitles)[0]; //get random quiz key.
-            //console.log("2 ###### SET quizTitles", quizTitles);
+            // console.log("2 ###### SET quizTitles", quizTitles);
 
             //filter throught quizzes and find the current active quiz by using the activeQuizKey
             activeQuiz = currentDataSet.filter(function (quiz) {
@@ -358,8 +360,7 @@ var triviaWidget = function () {
             })[0];
 
             quizId = activeQuizKey; // set analytics quizId to be sent into PAYLOAD
-            log('quizId:    ' + quizId);
-            //console.log("3 ####### ACTIVE QUIZ", activeQuizKey, activeQuiz);
+            // console.log("3 ####### ACTIVE QUIZ", activeQuizKey, activeQuiz);
 
             dataQuestionTitles = getQuizSetKeys(activeQuiz);
 
@@ -382,10 +383,27 @@ var triviaWidget = function () {
 
 
     function setQuizKeys(titles) {
+        questionKey = null; // Reset question key since a new quiz is being made
+        intervalTimer = null;
         for (var i = 0; otherContentOptionContainer_el.length - 1 > i; i++) {
             var subCatId = titles[0];
             otherContentOptionContainer_el[i].id = subCatId;
+
+            var quizData = currentDataSet.filter(function (quiz) {
+                if (quiz.sub_category_id === subCatId) {
+                    return quiz;
+                }
+            })[0]
+
+            var firstRandomQuestion = quizData.questions[0];
+            // loop through other quiz options from data and insert link and image into view
+            var thumbnailImage = firstRandomQuestion ? "url(" + imageUrl + firstRandomQuestion.metadata.image + "4_3.jpg)" : '';
+            otherContentBgImages.push(thumbnailImage);
+            animationContainer_el[i].style.backgroundImage = thumbnailImage;
+
             titles.splice(titles.indexOf(subCatId), 1);
+
+            //Click event for other quiz buttons
             $(otherContentOptionContainer_el[i].id).onclick = function () {
                 if (isSmall && wideWidget) {
                     adControl(false);
@@ -395,6 +413,8 @@ var triviaWidget = function () {
                 restartFn(subCatId);
             };
         }
+
+        //Click event for random shuffle quiz button
         randomOption_el.onclick = function () {
             if (isSmall && wideWidget) {
                 adControl(false);
@@ -474,9 +494,7 @@ var triviaWidget = function () {
             triviaOptionsContainer_el.innerHTML = ''; // empty other content options so that can be reset
             triviaContainer_el.className = '';
             nextQuestionButton_el.innerHTML = "<p>Next Question</p>";
-            // questionKey = 'data_' + questionIterator; //sets the data key based on question number
 
-            // console.log('questionKey', questionKey);
             questionKey = questionKey ? questionKey : arrayShuffle(dataQuestionTitles)[0]; //get random question key.
 
             var activeQuestion = activeQuiz.questions.filter(function (question) {
@@ -486,11 +504,7 @@ var triviaWidget = function () {
             })[0];
 
             questionId = questionKey; // set analytics questionId to be sent into PAYLOAD
-            // log('questionId: ' + questionId);
             // console.log('4 ####### CHOOSING Question', questionKey, activeQuestion);
-
-            log('SET DATA INITIAL PAYLOAD SENT', analyticsStyles);
-            // updatePayload();// send initial payload
 
             var metaData = activeQuestion.metadata,
                 answerData = activeQuestion.answers,
@@ -498,7 +512,6 @@ var triviaWidget = function () {
             var resultDisplay = activeQuestion ? metaData.correct_answer_result : 'Whoops!',
                 backgroundImage = activeQuestion ? "url(" + imageUrl + metaData.image + "4_3.jpg)" : '';
 
-            console.log("%cANSWER: " + metaData.correct_answer, payloadStyles);
             triviaQuestion_el.innerHTML = metaData.question; //inserts active question into view
             correctResultDisplay_el.innerHTML = resultDisplay; //inserts result into the submission view
             triviaImage_el.style.backgroundImage = backgroundImage; //inserts backgroundImage into view
@@ -507,8 +520,8 @@ var triviaWidget = function () {
             if (wideWidget) {
                 triviaImageOverlay_el.style.height = '97px';
             }
-            intervalScoreContainer_el.style.visibility = 'visible';
-            progressBar_el.style.visibility = 'visible';
+            intervalScoreContainer_el.style.display = 'block';
+            progressBar_el.style.display = 'block';
             submissionOverlay_el.classList.remove('no_transition');
             // loop thorugh options in data and insert values into view
             answerData = dataOptions;
@@ -527,14 +540,12 @@ var triviaWidget = function () {
                         child.onclick = function () {
                             selectedOption = this.getElementsByTagName('p')[0].innerHTML;
                             answerSubmittedFn('correct');
-                            // localStorageFn.set(correctResult, incorrectResult, totalResults); //TODO replace with send post request
                             setGraphInfo(activeQuestion, selectedOption);
                         }
                     } else {
                         child.onclick = function () {
                             selectedOption = this.getElementsByTagName('p')[0].innerHTML;
                             answerSubmittedFn('incorrect');
-                            // localStorageFn.set(correctResult, incorrectResult, totalResults);
                             setGraphInfo(activeQuestion, selectedOption);
                         }
                     }
@@ -548,19 +559,15 @@ var triviaWidget = function () {
                     adControl(false);
                     hideAd();
                 }
-                restartFn();
+                restartFn(activeQuizKey);
             };
-            // loop through other quiz options from data and insert link and image into view
-            for (var i = 0; animationContainer_el.length > i; i++) { //subtract 1 because the last item is the shuffle button
-                var thumbnailImage = currentDataSet ? "url(" + imageUrl + currentDataSet[i].thumbnail + ")" : '';
-                otherContentBgImages.push(thumbnailImage);
-                animationContainer_el[i].style.backgroundImage = thumbnailImage;
-            }
 
-            adjustIntervalScoreFn(); //reset image pixelation
             if (wideWidget) {
                 fireResize();
             }
+
+            adjustIntervalScoreFn(); // start new interval
+
         } catch (e) {
             console.warn('Error in setting trivia data', e);
         }
@@ -579,14 +586,14 @@ var triviaWidget = function () {
 
         for (var i = 0; resultsChart_el.length > i; i++) {
             switch (i) {
-                case 0:
-                    resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
-                    resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                    break;
-                default:
-                    resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
-                    resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                    break;
+            case 0:
+                resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
+                resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+                break;
+            default:
+                resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
+                resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+                break;
             }
         }
 
@@ -654,7 +661,7 @@ var triviaWidget = function () {
         // if last question show results screen
         if (questionIterator >= totalQuestions) {
             nextQuestionButton_el.onclick = function () {
-                removeAd = true;
+            	removeAd = true;
                 showCompleteFn()
             };
             nextQuestionButton_el.innerHTML = "<p>Show Results</p>";
@@ -677,7 +684,7 @@ var triviaWidget = function () {
 
 
     function skipQuestionFn() {
-        removeAd = true;
+    	removeAd = true;
         skipped = 1;
         adjustIntervalScoreFn('clear');
         widgetEngaged = true;
@@ -755,6 +762,13 @@ var triviaWidget = function () {
     }
 
 
+
+
+
+
+
+
+
     //adjust pixelation
     function adjustIntervalScoreFn(clear) { //TODO USE GLOBAL TIMER FUNCTION
         if (clear == 'clear') {
@@ -767,16 +781,20 @@ var triviaWidget = function () {
                 tempCount = 0,
                 progressCounter = 1,
                 intervalSeconds = 10,
-                intervalMiliSeconds = 1000,
-                intervalCounter = intervalMiliSeconds / intervalSeconds;
-            setSize();
+                intervalMiliSeconds = 1000;
 
+            setSize();
             if (isSmall && wideWidget && total_clicks == 0 && !widgetEngaged) {
                 progressBar_el.style.visibility = 'hidden';
                 intervalScoreContainer_el.style.visibility = 'hidden';
             } else {
                 progressBar_el.style.visibility = 'visible';
                 intervalScoreContainer_el.style.visibility = 'visible';
+
+                if (intervalTimer) {
+                    clearInterval(intervalTimer)
+                }
+
                 intervalTimer = setInterval(function () {
                     bufferCount++; //3 second delay before loosing actual points
                     if (Math.floor(bufferCount / intervalSeconds) >= 3) {
@@ -789,10 +807,8 @@ var triviaWidget = function () {
                             intervalScore--;
                         }
                         intervalScoreQuestion_el.innerHTML = "Q" + questionIterator + " - Points : " + intervalScore;
-                        if (tempCount === 10 || progressCounter === 100) { // make sure tempCount and progress Counter finish entirely
+                        if (tempCount >= 10 || progressCounter >= 100) { // make sure tempCount and progress Counter finish entirely
                             clearInterval(intervalTimer);
-
-                            // clearInterval(pixelationInterval);
                             if (!widgetEngaged) {
                                 var randomQuizKey = getRandomQuizKey();
                                 getNewQuiz(randomQuizKey);
@@ -829,10 +845,7 @@ var triviaWidget = function () {
 
     // gets new data if user clicks on new quiz
     function getNewQuiz(dataSetKey) {
-        // console.log('getNewQuiz');
-        resetIntervalScore();
         activeQuizKey = dataSetKey;
-        // localStorageFn.get();
         restartFn();
     } //getNewQuiz
 
@@ -855,14 +868,14 @@ var triviaWidget = function () {
 
     function setSize() {
         var getWidth;
-        if (typeof (document.body.clientWidth) == 'number') {
-            getWidth = document.body.clientWidth;
+        if (typeof (window.innerWidth) == 'number') {
+            getWidth = window.innerWidth;
         } else {
             if (document.documentElement && document.documentElement.clientWidth) {
                 getWidth = document.documentElement.clientWidth;
             } else {
-                if (typeof (window.innerWidth) == 'number') {
-                    getWidth = window.innerWidth;
+                if (document.body && document.body.clientWidth) {
+                    getWidth = document.body.clientWidth;
                 }
             }
         }
@@ -907,7 +920,6 @@ var triviaWidget = function () {
     }
 
     function adControl(isPaused) {
-        console.log('adControl =>', isPaused);
         if (isPaused) {
             adjustIntervalScoreFn();
             triviaAdZone_el.style.display = 'none';
@@ -915,7 +927,7 @@ var triviaWidget = function () {
         } else {
             triviaAdZone_el.style.display = 'block';
             parent[query.pause_variable] = true; //unpause ad if its in view
-            if (isSmall) {
+			if (isSmall) {
                 adjustIntervalScoreFn('clear');
                 var adProgressCounter = 1,
                     adIntervalSeconds = 10,
@@ -939,47 +951,23 @@ var triviaWidget = function () {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /*****************ANALYTICS VARIABLES **************************/
-        //global variables used for payload
+    //global variables used for payload
     var sessionId,
         partnerId,
         placementId,
         viewEngaged = false;
 
-    var viewTimer, // view_dwell, Each time a quiz is 50%+ in view for any length of time. (collected every 100ms)
+    var viewDwell, // view_dwell, Each time a quiz is 50%+ in view for any length of time. (collected every 100ms)
         embedTime, // engage_dwell, When CU is engaged*, each time a question is 50%+ in view for any length of time. (collected every 100ms)
         sessionTimer, // create Session Timer to know when the session has ended and create a new payload;
         payloadTimer, // create Payload Timer to know when to auto send payloads if variables are met;
-        dwellTimer, // time from the moment the widget is in view and engaged
+        engageDwell, // time from the moment the widget is in view and engaged
         dwellLimitTimer,
         windowActiveTimer; // time limiter for dwell so dwell timer can be stopped after a certain time limit
+
+    var sessionBefore = 0;
+    var sessionAfter = 0;
 
     var igloo,
         windowActive = true,
@@ -1014,12 +1002,12 @@ var triviaWidget = function () {
         // log('view       =   ' + view);
         // log('START TIMERS widget loaded in view', payloadStyles)
 
+        //TODO COMBINE TIMERS TO GET A MORE ACCURATE TIME INTERVAL REPORTING
         analyticsWindowFocus();
-        analyticsPayloadCheck();
-        analyticsSession();
-        analyticsViewScroll();
         analyticsDwellEngagement();
+        analyticsViewScroll();
         analyticsClick();
+        analyticsSession();
 
         log('END initial Analytics', analyticsStyles);
     };
@@ -1046,15 +1034,15 @@ var triviaWidget = function () {
     function iglooAnalytics(type) {
         try {
             switch (type) {
-                case 'view':
-                    return igloo.utils.elementIsVisible(sntTriviaContent, null, false, 0.5);
-                    break;
-                case 'useragent':
-                    return igloo.browser;
-                    break;
-                default:
-                    console.warn('igloo Utility not found', e);
-                    break;
+            case 'view':
+                return igloo.utils.elementIsVisible(sntTriviaContent, null, false, 0.5);
+                break;
+            case 'useragent':
+                return igloo.browser;
+                break;
+            default:
+                console.warn('igloo Utility not found', e);
+                break;
             }
         } catch (e) {
             console.warn('igloo not found', e);
@@ -1065,6 +1053,7 @@ var triviaWidget = function () {
     //create an iframe for post request that will be removed once the request has been sent
     function createPayloadFrame(jsonObject) {
         log('Create Payload', payloadStyles);
+        // console.log(jsonObject);
         //create friendly iframe to place ourselves inside
         var payloadIframe = document.createElement('iframe');
         var payloadIframeWindow;
@@ -1108,7 +1097,6 @@ var triviaWidget = function () {
                 for (var obj in jsonObject) {
                     log(obj + ':' + jsonObject[obj] + "\t\t|| " + jsonInfo[obj]);
                 }
-                log('SENT PAYLOAD', payloadStyles);
             }
         } catch (e) {
             console.warn("Product Analytics Error in Post Request", e)
@@ -1142,13 +1130,13 @@ var triviaWidget = function () {
         try {
 
             /*
-             viewTimer, // time the widget is in view;
-             embedTime, // time the moment client embeded widget
-             sessionTimer, // create Session Timer to know when the session has ended and create a new payload;
-             payloadTimer, // create Payload Timer to know when to auto send payloads if variables are met;
-             dwellTimer, // time from the moment the widget is in view and engaged
-             dwellLimitTimer
-             */
+                viewDwell, // time the widget is in view;
+                embedTime, // time the moment client embeded widget
+                sessionTimer, // create Session Timer to know when the session has ended and create a new payload;
+                payloadTimer, // create Payload Timer to know when to auto send payloads if variables are met;
+                engageDwell, // time from the moment the widget is in view and engaged
+                dwellLimitTimer
+            */
             checkEmbeds();
 
             jsonObject = {
@@ -1156,17 +1144,17 @@ var triviaWidget = function () {
                 "bo": bounce, // bounce
                 "cl": total_clicks ? total_clicks : 0, //total clicks
                 "eb": total_embeds ? total_embeds : 0, //total embeds on the page
-                "ed": dwellTimer ? dwellTimer.getTime() : 0, //engaged dwell
+                "ed": engageDwell ? engageDwell.getTime() : 0, //engaged dwell
                 "ev": embed_view, // embed views
                 "mo": userAgentObj.mobile ? 1 : 0, //mobile
                 "pa": query.event.p, //partner id
-                "pl": query.event.z, //placement id
+                "pl": query.event.z ? query.event.z : randomString(12), //placement id
                 "qi": questionId,
                 "qv": question_view ? question_view : 0, // question views
                 "qz": quizId, //quiz id
                 "si": sessionId, // i need to generate this myself
                 "sp": skipped ? skipped : 0, //skip
-                "vd": viewTimer ? viewTimer.getTime() : 0, //view dwell after engagements
+                "vd": viewDwell ? viewDwell.getTime() : 0, //view dwell
                 "w1": answered_wrong_1 ? answered_wrong_1 : 0, //wrong 1
                 "w2": answered_wrong_2 ? answered_wrong_2 : 0, //wrong 2
                 "w3": answered_wrong_3 ? answered_wrong_3 : 0, //wrong 3
@@ -1183,8 +1171,7 @@ var triviaWidget = function () {
                 log("UPDATING PAYLOAD vvvvvvvvvv", payloadStyles);
                 for (var obj in jsonObject) {
                     log(obj + ':' + jsonObject[obj] + jsonInfo[obj]);
-                }
-                ;
+                };
                 log("UPDATING PAYLOAD ^^^^^^^^^^", payloadStyles);
             }
         } catch (e) {
@@ -1194,27 +1181,29 @@ var triviaWidget = function () {
     }
 
 
+    //TODO MUST USE TIMESTAMPS ON CERTAIN TIMERS TO GET A MORE PROPER TIME ANALYTICS;
     /**timer(name, tick, stopAt, debug_element)
      * Function to create a timer with variable features to startTime, pauseTime, get, or even auto pauseTime
      * @type {Object}
-     * @key  {String}  name    give the timer a name to track
-     * @key  {Number}  tick    tick is how many times the interval Timer should update the time(ms)
+     * @key  {String} name    give the timer a name to track
+     * @key  {Number} tick    tick is how many times the interval Timer should update the time(ms)
      * @key  {Number} stopAt  if you want the time to auto pauseTime at a certain time(ms)
      * @key  {Object} debug_div  the element (div/span/etc..) you want to debug off of
+     * @key  {Object} createFunction runs the function user creates every interval
      */
     function timer(name, tick, stopAt, debug_element, createFunction) {
         this.name = name;
         this.time = 0;
         this.stopAt = stopAt;
         this.timerOn = false;
-        this.intervalTimer = function () {
-        },
+        this.tick = tick;
+        this.intervalTimer = function () {},
             this.startTime = function () {
                 if (!this.timerOn) {
                     this.timerOn = true;
                     var cTimer = this;
                     this.intervalTimer = setInterval(function () {
-                        cTimer.time += tick;
+                        cTimer.time += cTimer.tick;
                         if (cTimer.stopAt && cTimer.time >= cTimer.stopAt) {
                             cTimer.pauseTime();
                         }
@@ -1224,7 +1213,7 @@ var triviaWidget = function () {
                         if (createFunction) {
                             createFunction(cTimer);
                         }
-                    }, tick);
+                    }, this.tick);
                 }
             },
             this.pauseTime = function () {
@@ -1265,80 +1254,142 @@ var triviaWidget = function () {
     }
 
 
-    function analyticsSetAnswer(selection) { //TODO make a better analytics
+    function analyticsSetAnswer(selection) { //TODO make a better analytics too hardcoded
         // skipped, // skippped question sends 0 || 1
         // answered_correctly, // correct question sends 0 || 1
         // answered_wrong_1, // wrong question sends 0 || 1
         // answered_wrong_2, // wrong question sends 0 || 1
         // answered_wrong_3; // wrong question sends 0 || 1
-        console.log(selection);
         switch (selection) {
-            case 'correct':
-                answered_correctly = 1;
-                break;
-            case 'wrong_1':
-                answered_wrong_1 = 1;
-                break;
-            case 'wrong_2':
-                answered_wrong_2 = 1;
-                break;
-            case 'wrong_3':
-                answered_wrong_3 = 1;
-                break;
-            default:
-                break
+        case 'correct':
+            answered_correctly = 1;
+            break;
+        case 'wrong_1':
+            answered_wrong_1 = 1;
+            break;
+        case 'wrong_2':
+            answered_wrong_2 = 1;
+            break;
+        case 'wrong_3':
+            answered_wrong_3 = 1;
+            break;
+        default:
+            break
         }
     }
 
 
     function analyticsWindowFocus() {
-        log('WINDOW FOCUS - INITIATED...', payloadStyles);
-        // windowActiveTimer = new timer('session', 100, null, null, function(event){
-        //     if(!windowActive){
-        //       alert('22222222222WINDOW LOST FOCUS');
-        //     }else{
-        //
-        //     }
-        // });
-        // windowActiveTimer.startTime();
-        window.onfocus = function () {
-            windowActive = true;
-            // windowActiveTimer.startTime();
-            console.log('WINDOW REGAIN FOCUS');
-        };
+        var focused = true;
 
-        window.onblur = function () {
-            windowActive = false;
-            console.log('WINDOW LOST FOCUS');
-            // windowActiveTimer.pauseTime();
-        };
+        var hidden = "hidden";
 
-        window.onbeforeunload = function (e) {
-            log('UNLOAD', analyticsStyles);
-            updatePayload('send'); // if user exits the screen before
-            console.log('window onbeforeunload post sent');
-        };
-    }
+        // Standards:
+        if (hidden in document)
+            document.addEventListener("visibilitychange", onchange);
+        else if ((hidden = "mozHidden") in document)
+            document.addEventListener("mozvisibilitychange", onchange);
+        else if ((hidden = "webkitHidden") in document)
+            document.addEventListener("webkitvisibilitychange", onchange);
+        else if ((hidden = "msHidden") in document)
+            document.addEventListener("msvisibilitychange", onchange);
+        // IE 9 and lower:
+        else if ("onfocusin" in document)
+            document.onfocusin = document.onfocusout = onchange;
+        // All others:
+        else
+            window.onpageshow = window.onpagehide = window.onfocus = window.onblur = onchange;
+
+        function onchange(evt) {
+            var v = "visible",
+                h = "hidden",
+                evtMap = {
+                    focus: v,
+                    focusin: v,
+                    pageshow: v,
+                    blur: h,
+                    focusout: h,
+                    pagehide: h
+                };
+
+            evt = evt || window.event;
+
+            // if (evt.type in evtMap)
+            //     document.body.className = evtMap[evt.type];
+            // else
+            //     document.body.className = this[hidden] ? "hidden" : "visible";
 
 
-    function analyticsPayloadCheck() {
-        log('PAYLOAD  - TIMER CREATED...', payloadStyles);
-        var payloadTest;
+            if (this[hidden])
+                localStorage['BEFORE_TIME'] = Date.now();
+            else
+                localStorage['AFTER_TIME'] = Date.now();
 
-        if (!window.document.getElementById('payloadTest')) {
-            payloadTest = window.document.createElement('div');
-            payloadTest.id = 'payloadTest';
-            payloadTest.style = "position:fixed;bottom:0;right:100px;left:100px;background:orange;color:black;font-size:28px;text-align:center;z-index:100";
-            window.document.body.insertBefore(payloadTest, window.document.body.firstElementChild);
         }
-        var debugPayload = window.document.getElementById('payloadTest');
 
-        payloadTimer = new timer('payload', 100, null, debugPayload, function (event) {
-            //TODO
-        });
-        payloadTimer.startTime();
+        // set the initial state (but only if browser supports the Page Visibility API)
+        if (document[hidden] !== undefined)
+            onchange({
+                type: document[hidden] ? "blur" : "focus"
+            });
+
     }
 
+    function set_idle_listeners() { //setup the event listeners if user becomes active trigger start timer
+        window.document.addEventListener("mousemove", start_timer, false);
+        window.document.addEventListener("mousedown", start_timer, false);
+        window.document.addEventListener("keypress", start_timer, false);
+        window.document.addEventListener("DOMMouseScroll", start_timer, false);
+        window.document.addEventListener("mousewheel", start_timer, false);
+        window.document.addEventListener("touchstart", start_timer, false);
+        window.document.addEventListener("touchmove", start_timer, false);
+        window.document.addEventListener("MSPointerMove", start_timer, false);
+
+        var debugSession = window.document.getElementById('sessionTest');
+        if (!widgetEngaged || !view) {
+            if (sessionTimer) {
+                if (!sessionTimer.timerOn) {
+                    sessionTimer.startTime();
+                }
+            } else {
+                sessionTimer = new timer('session', 100, 20000, debugSession, function (event) {
+                    if (event.time >= event.stopAt) {
+                        event.pauseTime();
+                        event.resetTime();
+                        getIgloo(); // RESET ENTIRE TEST
+                    }
+                }); //600000 in (ms) is 10 minutes
+                sessionTimer.startTime();
+            }
+        } else {
+            sessionTimer.pauseTime();
+            sessionTimer.resetTime();
+        }
+    }
+
+    function start_timer() { //if user becomes active, remove event listeners so we dont polute the event space
+        window.document.removeEventListener("mousemove", start_timer, false);
+        window.document.removeEventListener("mousedown", start_timer, false);
+        window.document.removeEventListener("keypress", start_timer, false);
+        window.document.removeEventListener("DOMMouseScroll", start_timer, false);
+        window.document.removeEventListener("mousewheel", start_timer, false);
+        window.document.removeEventListener("touchstart", start_timer, false);
+        window.document.removeEventListener("touchmove", start_timer, false);
+        window.document.removeEventListener("MSPointerMove", start_timer, false);
+        sessionTimer.pauseTime();
+        sessionTimer.resetTime();
+
+        if (!view) {
+            set_idle_listeners();
+        }
+
+
+        //start timer for the idle time-out time
+        // idle_count_down = window.setTimeout(stop_timer, idle_timeout);
+        // clearInterval(idle_timer); //stop the interval that tracked how long they were idle
+        //
+        // tether(); //call the tether once again or to start for the first time.
+    }
 
     function analyticsSession() {
         // log('SESSION - Creation...', payloadStyles);
@@ -1347,7 +1398,6 @@ var triviaWidget = function () {
 
         sessionId = randomString(16); //Gener
         // log("sessionId: " + sessionId);
-
         if (!window.document.getElementById('s_id')) {
             s_id = window.document.createElement('div');
             s_id.id = 's_id';
@@ -1363,19 +1413,20 @@ var triviaWidget = function () {
             sessionTest.style = "position:fixed;top:20px;right:100px;left:100px;background:yellow;color:black;font-size:28px;text-align:center;z-index:100";
             window.document.body.insertBefore(sessionTest, window.document.body.firstElementChild);
         }
-
-        var debugSession = window.document.getElementById('sessionTest');
-
-        sessionTimer = new timer('session', 100, null, debugSession); //600000 in (ms) is 10 minutes
-        sessionTimer.startTime();
+        set_idle_listeners();
     }
 
 
     function analyticsViewScroll() {
         try {
-            log('View - Listening...', payloadStyles);
+            // log('View - Listening...', payloadStyles);
             var viewTest,
                 createTimer;
+
+            var payloadTimer = 500, // (ms) Initial payload timer 0.5 seconds
+                payloadLimit = 10000,
+                payloadTempTimer = 0; // (ms) Initial payload limit 10 seconds
+
 
             if (!window.document.getElementById('viewTest')) {
                 viewTest = window.document.createElement('div');
@@ -1385,23 +1436,46 @@ var triviaWidget = function () {
             }
             var debugView = window.document.getElementById('viewTest');
 
-            if (!window.document.getElementById('viewTimer')) {
+            if (!window.document.getElementById('viewDwell')) {
                 createTimer = window.top.document.createElement('div');
-                createTimer.id = 'viewTimer';
+                createTimer.id = 'viewDwell';
                 createTimer.style = "position:fixed;top:32px;right:0;background:red;color:white;font-size:20px;z-index:100";
                 window.document.body.insertBefore(createTimer, window.document.body.firstElementChild);
             }
-            var debugTimer = window.document.getElementById('viewTimer');
-            viewTimer = new timer('view', 100, null, debugTimer, function (event) {
+            var debugTimer = window.document.getElementById('viewDwell');
+
+            viewDwell = viewDwell ? viewDwell : new timer('view', 100, null, debugTimer, function (event) {
                 if (event.time >= 1000 && viewEngaged && question_view < 1) {
                     question_view = 1;
                 }
+
+                if (!widgetEngaged) {
+                    set_idle_listeners(); // create Session Timer to listen for any event and determin if the use is idle
+
+                    var payT = (event.time % payloadTimer);
+                    if (payT == 0) {
+                        payloadTempTimer += payloadTimer;
+                        updatePayload('send');
+                        if (payloadTempTimer == payloadLimit) {
+                            if (payloadLimit <= 10000) { //if payloadLimit is less than 10s || 10000ms
+                                payloadTimer = 1000;
+                                payloadLimit = 30000;
+                                payloadTempTimer = 0; // reset temp timer
+                            } else if (payloadLimit > 10000 && payloadLimit <= 30000) {
+                                payloadTimer = 5000;
+                                payloadLimit = 'forever';
+                                payloadTempTimer = 0;
+                            } else {
+                                //Should Never Get HERE
+                            }
+                        }
+                    } // payT
+                } // widgetEngaged
             });
 
             window.onscroll = function () { // create listener on scroll for widget in view
-
-                if (!viewTimer) {
-                    viewTimer = new timer('view', 100, null, debugTimer);
+                if (!viewDwell) {
+                    viewDwell = new timer('view', 100, null, debugTimer);
                 }
                 view = iglooAnalytics('view');
                 embed_view = view ? 1 : embed_view; // if view is true then set it to 1 otherwise keep its current state;
@@ -1409,18 +1483,18 @@ var triviaWidget = function () {
                     debugView.innerHTML = 'view: ' + view;
                 }
 
-                if (view && widgetEngaged) { //if in view and engaged set and flag that will always run the viewTimer whenever in view
+                if (view && widgetEngaged) { //if in view and engaged set and flag that will always run the viewDwell whenever in view
                     viewEngaged = true;
                 } else {
                     viewEngaged = !view && !viewEngaged ? false : viewEngaged;
                 }
 
-                if (view && !viewTimer.timerOn && viewEngaged) { // if trivia is in view & timer isnt on & trivia is engaged => start timer
-                    viewTimer.startTime();
+                if (view) { // if trivia is in view & timer isnt on & trivia is engaged => start timer
+                    viewDwell.startTime();
                 } else {
-                    if (!view && viewTimer.timerOn && !dwellLimitTimer.timerOn) { // pause timer only if client window is no longer in view and timer is still on then pause timer
-                        viewTimer.pauseTime();
-                    }
+                    viewDwell.pauseTime();
+                    set_idle_listeners(); // create Session Timer to listen for any event and determin if the use is idle
+
                 }
             }
 
@@ -1435,7 +1509,7 @@ var triviaWidget = function () {
 
     function analyticsDwellEngagement() {
         try {
-            log('DWELL - Listening...', payloadStyles);
+            // log('DWELL - Listening...', payloadStyles);
             var dwellTest,
                 createTimer,
                 dwellLimit;
@@ -1450,13 +1524,13 @@ var triviaWidget = function () {
             }
             var debugDwell = window.document.getElementById('dwellTest');
 
-            if (!window.document.getElementById('dwellTimer')) {
+            if (!window.document.getElementById('engageDwell')) {
                 createTimer = window.document.createElement('div');
-                createTimer.id = 'dwellTimer';
+                createTimer.id = 'engageDwell';
                 createTimer.style = "position:fixed;top:32px;left:0;background:red;color:white;font-size:20px;z-index:100";
                 window.document.body.insertBefore(createTimer, window.document.body.firstElementChild);
             }
-            var dwellTime = window.document.getElementById('dwellTimer');
+            var dwellTime = window.document.getElementById('engageDwell');
 
             if (!window.document.getElementById('dwellLimit')) {
                 dwellLimit = window.document.createElement('div');
@@ -1466,14 +1540,14 @@ var triviaWidget = function () {
             }
             var debugLimit = window.document.getElementById('dwellLimit');
 
-            dwellTimer = new timer('dwell', 100, null, dwellTime);
-            dwellLimitTimer = new timer('dwellLimit', 100, 13000, debugLimit, function (event) {
-                if ((event.time >= event.stopAt) && dwellTimer) {
-                    // viewTimer.pauseTime();
-                    dwellTimer.pauseTime();
-                    // dwellTimer.resetTime();
+            engageDwell = new timer('dwell', 100, null, dwellTime);
+            dwellLimitTimer = new timer('dwellLimit', 100, 10000, debugLimit, function (event) {
+                if ((event.time >= event.stopAt) && engageDwell) {
+                    // viewDwell.pauseTime();
+                    engageDwell.pauseTime();
+                    // engageDwell.resetTime();
                     if (!view) {
-                        viewTimer.pauseTime();
+                        viewDwell.pauseTime();
                     }
                     widgetEngaged = false;
                     if (debugDwell) {
@@ -1490,20 +1564,19 @@ var triviaWidget = function () {
                     widgetEngaged = true;
                     viewEngaged = true;
                     debugDwell.innerHTML = 'dwell: ' + widgetEngaged;
-                    dwellTimer.startTime();
+                    engageDwell.startTime();
                     dwellLimitTimer.startTime();
 
-                    if (!viewTimer.timerOn) {
-                        viewTimer.startTime();
+                    if (!viewDwell.timerOn) {
+                        viewDwell.startTime();
                     }
 
-                    //content hovered has been mouse overed
-                    //once engaged reset score and timer for first time engagement
-                    adjustIntervalScoreFn('clear');
-                    adjustIntervalScoreFn();
-                    // log('UpdateAnalytics', analyticsStyles);
-                    // updatePayload();
-                    // log('END UpdateAnalytics', analyticsStyles);
+                    if (viewEngaged) {
+                        //once engaged reset score and timer for first time engagement
+                        adjustIntervalScoreFn('clear');
+                        adjustIntervalScoreFn();
+                    }
+
                 } else {
                     dwellLimitTimer.resetTime();
                 }
@@ -1534,17 +1607,20 @@ var triviaWidget = function () {
     }
 
     function resetAnalytics() {
-        if (viewTimer) {
-            viewTimer.pauseTime();
-            viewTimer = null;
+        if (viewDwell) {
+            viewDwell.pauseTime();
+            viewDwell.resetTime();
+            viewDwell.startTime();
         }
-        if (dwellTimer) {
-            dwellTimer.pauseTime();
-            dwellTimer = null;
+        if (engageDwell) {
+            // engageDwell.pauseTime();
+            engageDwell.resetTime();
+            // engageDwell.startTime();
         }
         if (dwellLimitTimer) {
-            dwellLimitTimer.pauseTime();
-            dwellLimitTimer = null;
+            // dwellLimitTimer.pauseTime();
+            // dwellLimitTimer.resetTime();
+            // dwellLimitTimer.startTime();
         }
         total_clicks = 0;
         bounce = 1;
@@ -1553,30 +1629,28 @@ var triviaWidget = function () {
         answered_wrong_1 = 0;
         answered_wrong_2 = 0;
         answered_wrong_3 = 0;
-        analyticsViewScroll();
-        analyticsDwellEngagement();
     }
 
     /*****************ANALYTICS VARIABLES END***********************/
 
 
-        // function getCurrentWindow(maxLoops) {
-        //     // Initialize variables
-        //     var postWindows = [window];
-        //     var currentWindow = window;
-        //     var currentLoop = 0;
-        //     maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
-        //     // Build all of the windows to send the message to
-        //     try {
-        //         // Loop through all of the windows
-        //         while (currentLoop++ < maxLoops && currentWindow !== window.top) {
-        //             // Move up a layer
-        //             currentWindow = currentWindow.parent;
-        //             // Add to the postMessage array
-        //             postWindows.push(currentWindow);
-        //         }
-        //     } catch (e) {}
-        // }
+    // function getCurrentWindow(maxLoops) {
+    //     // Initialize variables
+    //     var postWindows = [window];
+    //     var currentWindow = window;
+    //     var currentLoop = 0;
+    //     maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
+    //     // Build all of the windows to send the message to
+    //     try {
+    //         // Loop through all of the windows
+    //         while (currentLoop++ < maxLoops && currentWindow !== window.top) {
+    //             // Move up a layer
+    //             currentWindow = currentWindow.parent;
+    //             // Add to the postMessage array
+    //             postWindows.push(currentWindow);
+    //         }
+    //     } catch (e) {}
+    // }
 
 
     var firstRun = true; //makes sure the listeners run once
@@ -1584,6 +1658,7 @@ var triviaWidget = function () {
 
     var viewTest;
     var dwellTest;
+
 
 
     function getIgloo() {
