@@ -523,7 +523,7 @@ var triviaWidget = function () {
                 answerData = activeQuestion.answers,
                 analyticsData = activeQuestion.analytics;
             var resultDisplay = activeQuestion ? metaData.correct_answer_result : 'Whoops!',
-                backgroundImage = activeQuestion ? "url(" + imageUrl + metaData.image + "4_3.jpg)" : '';
+                backgroundImage = activeQuestion ? "url(" + imageUrl + metaData.image + "16_9.jpg)" : '';
 
             triviaQuestion_el.innerHTML = metaData.question; //inserts active question into view
             correctResultDisplay_el.innerHTML = resultDisplay; //inserts result into the submission view
@@ -535,6 +535,8 @@ var triviaWidget = function () {
                 friendlyIframeWindow.document.querySelector('style').textContent =
                     '@media (max-width: 649px) {.trivia_image {background-image: url("' + imageUrl + metaData.image + '4_3.jpg")}}' +
                     '@media (min-width: 650px) {.trivia_image {background-image: url("' + imageUrl + metaData.image + '16_9.jpg")}}';
+            } else if (swapImage && !wideWidget) {
+                triviaImage_el.style.backgroundImage = backgroundImage; //inserts backgroundImage into the 300x600 view
             }
             dataOptions = arrayShuffle(answerData); // randomizes the object shuffling
             if (wideWidget) {
