@@ -12,6 +12,11 @@ var isActive = false;
 var timeToLive = 600000;
 var triviaStarted = false; //flag to signify that the user has began the quiz and to stop the quiz from restarting
 var swapImage = true; //flag to change the image once the user goes to a new question or the question rotates whilst the widget is inactive
+var debug = false;
+
+function toggleDebug(){
+  debug = debug ? true: false;
+}
 
 function createFriendlyIframe() {
     //create friendly iframe to place ourselves inside
@@ -117,7 +122,12 @@ function setupIframe() {
 
 
     /*****************************************************Start Function calls*****************************************/
-
+    baseEvent = query.event;
+    baseEvent.event = "widget-interaction";
+    postObject = {
+        snt_data: baseEvent,
+        action: 'snt_tracker'
+    };
     //after you get the query you set the enironment
     setupEnvironment(query);
     triviaWidget();
@@ -127,11 +137,13 @@ function setupIframe() {
 
 // set initial content and variables to start trivia
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-var postUrl = "https://dev-pa.synapsys.us/";
+var postUrl = "//dev-pa.synapsys.us/";
 var apiCallUrl = "dev-tw-api.synapsys.us/index.php";
 var imageUrl = "images.synapsys.us";
 var query;
-var embedURL = "trivia_widget/min"; //if debugging locally then change this to trivia_widget/main
+var baseEvent;
+var postObject;
+var embedURL = "trivia_widget/main"; //if debugging locally then change this to trivia_widget/main
 var currentScript = document.currentScript != null && document.currentScript.src.indexOf(embedURL) != -1 ? document.currentScript : (function () { // resolution for IE since it does not have currentScript to find the currently running script on the page
     var scripts = document.getElementsByTagName('script');
     for (var i = scripts.length - 1; i >= 0; i--) {
@@ -211,10 +223,12 @@ var defaultStyle = [
 
 //style log to use for coloring develop tool console
 function log(msg, style) {
+  if(debug){
     if (!style) {
-        style = defaultStyle;
+      style = defaultStyle;
     }
     console.log('%c' + msg + '', style);
+  }
 };
 
 
@@ -414,6 +428,7 @@ var triviaWidget = function () {
                     adjustIntervalScoreFn('clear');
                     hideAd();
                 }
+                sendPostMessageToIgloo(postObject, 5);
                 updatePayload('send');
                 restartFn(subCatId);
             };
@@ -430,6 +445,7 @@ var triviaWidget = function () {
                 adjustIntervalScoreFn('clear');
                 hideAd();
             }
+            sendPostMessageToIgloo(postObject, 5);
             updatePayload('send');
             restartFn(setRandomQuizLink());
         }
@@ -560,6 +576,7 @@ var triviaWidget = function () {
                     reduceTextSizeCheck(child.getElementsByTagName('p')[0]); // run options through this function to check if text size needs adjusted
                     if (isCorrect) {
                         child.onclick = function () {
+                            sendPostMessageToIgloo(postObject, 5);
                             selectedOption = this.getElementsByTagName('p')[0].innerHTML;
                             answerSubmittedFn('correct');
                             setGraphInfo(activeQuestion, selectedOption);
@@ -567,6 +584,7 @@ var triviaWidget = function () {
                         }
                     } else {
                         child.onclick = function () {
+                            sendPostMessageToIgloo(postObject, 5);
                             selectedOption = this.getElementsByTagName('p')[0].innerHTML;
                             answerSubmittedFn('incorrect');
                             setGraphInfo(activeQuestion, selectedOption);
@@ -576,9 +594,11 @@ var triviaWidget = function () {
                 }
             }
             skipQuestion_el.onclick = function () {
+                sendPostMessageToIgloo(postObject, 5);
                 skipQuestionFn();
             };
             restart_el.onclick = function () {
+                sendPostMessageToIgloo(postObject, 5);
                 if (isSmall && wideWidget) {
                     removeAd = true;
                     adControl(false);
@@ -684,11 +704,13 @@ var triviaWidget = function () {
         // if last question show results screen
         if (questionIterator >= totalQuestions) {
             nextQuestionButton_el.onclick = function () {
+                sendPostMessageToIgloo(postObject, 5);
                 showCompleteFn()
             };
             nextQuestionButton_el.innerHTML = "<p>Show Results</p>";
         } else {
             nextQuestionButton_el.onclick = function () { // create click event for when user clicks on the Next Question
+                sendPostMessageToIgloo(postObject, 5);
                 submissionInfoContainer_el.classList.add('hidden'); //adds hidden class to prevent css transition when removed
                 if (isSmall && wideWidget) {
                     removeAd = true;
@@ -1098,7 +1120,9 @@ var triviaWidget = function () {
                 var postXML = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
                 postXML.open("POST", url, true);
                 postXML.send(JSON.stringify(jsonObject))
-                postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
+                setTimeout(function(){
+                  postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
+                },100);
                 // console.log('json object sent and abort reponse', jsonObject);
                 // console.log("%cPAYLOAD SENT", payloadStyles);
                 // for (var obj in jsonObject) {
@@ -1155,9 +1179,9 @@ var triviaWidget = function () {
                 "mo": userAgentObj.mobile ? 1 : 0, //mobile
                 "pa": query.event.p, //partner id
                 "pl": query.event.z ? query.event.z : randomString(12), //placement id
-                "qi": questionId,
+                "qi": questionId.toString(),
                 "qv": question_view ? question_view : 0, // question views
-                "qz": quizId, //quiz id
+                "qz": quizId , //quiz id
                 "si": sessionId, // i need to generate this myself
                 "sp": skipped ? skipped : 0, //skip
                 "vd": viewDwell ? viewDwell.getTime() : 0, //view dwell
@@ -1211,7 +1235,7 @@ var triviaWidget = function () {
                         if (cTimer.stopAt && cTimer.time >= cTimer.stopAt) {
                             cTimer.pauseTime();
                         }
-                        if (debug_element) {
+                        if (debug_element && debug) {
                             debug_element.innerHTML = cTimer.time;
                         }
                         if (createFunction) {
@@ -1259,11 +1283,6 @@ var triviaWidget = function () {
 
 
     function analyticsSetAnswer(selection) { //TODO make a better analytics too hardcoded
-        // skipped, // skippped question sends 0 || 1
-        // answered_correctly, // correct question sends 0 || 1
-        // answered_wrong_1, // wrong question sends 0 || 1
-        // answered_wrong_2, // wrong question sends 0 || 1
-        // answered_wrong_3; // wrong question sends 0 || 1
         switch (selection) {
         case 'correct':
             answered_correctly = 1;
@@ -1421,23 +1440,22 @@ var triviaWidget = function () {
         sstorage.session_id = sessionId;
         sessionStorage.setItem('snt_trivia_analytics', JSON.stringify(sstorage));
 
-
-        if (!window.document.getElementById('s_id')) {
-            s_id = window.document.createElement('div');
-            s_id.id = 's_id';
-            s_id.style = "position:fixed;top:0;right:100px;left:100px;background:aqua;color:black;font-size:16px;text-align:center;z-index:100";
-            window.document.body.insertBefore(s_id, window.document.body.firstElementChild);
-        }
-
-        window.document.getElementById('s_id').innerHTML = sessionId;
-
-
-        if (!window.top.document.getElementById('sessionTest')) {
-            sessionTest = window.top.document.createElement('div');
-            sessionTest.id = 'sessionTest';
-            sessionTest.style = "position:fixed;top:20px;right:100px;left:100px;background:yellow;color:black;font-size:28px;text-align:center;z-index:100";
-            window.document.body.insertBefore(sessionTest, window.document.body.firstElementChild);
-        }
+        // if (!window.document.getElementById('s_id')) {
+        //     s_id = window.document.createElement('div');
+        //     s_id.id = 's_id';
+        //     s_id.style = "position:fixed;top:0;right:100px;left:100px;background:aqua;color:black;font-size:16px;text-align:center;z-index:100";
+        //     window.document.body.insertBefore(s_id, window.document.body.firstElementChild);
+        // }
+        //
+        // window.document.getElementById('s_id').innerHTML = sessionId;
+        //
+        //
+        // if (!window.top.document.getElementById('sessionTest')) {
+        //     sessionTest = window.top.document.createElement('div');
+        //     sessionTest.id = 'sessionTest';
+        //     sessionTest.style = "position:fixed;top:20px;right:100px;left:100px;background:yellow;color:black;font-size:28px;text-align:center;z-index:100";
+        //     window.document.body.insertBefore(sessionTest, window.document.body.firstElementChild);
+        // }
         set_idle_listeners();
     }
 
@@ -1452,20 +1470,20 @@ var triviaWidget = function () {
                 payloadTempTimer = 0; // (ms) Initial payload limit 10 seconds
 
 
-            if (!window.document.getElementById('viewTest')) {
-                viewTest = window.document.createElement('div');
-                viewTest.id = 'viewTest';
-                viewTest.style = "position:fixed;top:0;right:0;background:black;color:white;font-size:20px;z-index:100";
-                window.document.body.insertBefore(viewTest, window.document.body.firstElementChild);
-            }
+            // if (!window.document.getElementById('viewTest')) {
+            //     viewTest = window.document.createElement('div');
+            //     viewTest.id = 'viewTest';
+            //     viewTest.style = "position:fixed;top:0;right:0;background:black;color:white;font-size:20px;z-index:100";
+            //     window.document.body.insertBefore(viewTest, window.document.body.firstElementChild);
+            // }
             var debugView = window.document.getElementById('viewTest');
 
-            if (!window.document.getElementById('viewDwell')) {
-                createTimer = window.top.document.createElement('div');
-                createTimer.id = 'viewDwell';
-                createTimer.style = "position:fixed;top:32px;right:0;background:red;color:white;font-size:20px;z-index:100";
-                window.document.body.insertBefore(createTimer, window.document.body.firstElementChild);
-            }
+            // if (!window.document.getElementById('viewDwell')) {
+            //     createTimer = window.top.document.createElement('div');
+            //     createTimer.id = 'viewDwell';
+            //     createTimer.style = "position:fixed;top:32px;right:0;background:red;color:white;font-size:20px;z-index:100";
+            //     window.document.body.insertBefore(createTimer, window.document.body.firstElementChild);
+            // }
             var debugTimer = window.document.getElementById('viewDwell');
 
             viewDwell = viewDwell ? viewDwell : new timer('view', 100, null, debugTimer, function (event) {
@@ -1545,28 +1563,28 @@ var triviaWidget = function () {
 
             widgetEngaged = false; // by running this make sure to set all values to its default
 
-            if (!window.document.getElementById('dwellTest')) {
-                dwellTest = window.document.createElement('div');
-                dwellTest.id = 'dwellTest';
-                dwellTest.style = "position:fixed;top:0;left:0;background:black;color:white;font-size:20px;z-index:100";
-                window.document.body.insertBefore(dwellTest, window.document.body.firstElementChild);
-            }
+            // if (!window.document.getElementById('dwellTest')) {
+            //     dwellTest = window.document.createElement('div');
+            //     dwellTest.id = 'dwellTest';
+            //     dwellTest.style = "position:fixed;top:0;left:0;background:black;color:white;font-size:20px;z-index:100";
+            //     window.document.body.insertBefore(dwellTest, window.document.body.firstElementChild);
+            // }
             var debugDwell = window.document.getElementById('dwellTest');
 
-            if (!window.document.getElementById('engageDwell')) {
-                createTimer = window.document.createElement('div');
-                createTimer.id = 'engageDwell';
-                createTimer.style = "position:fixed;top:32px;left:0;background:red;color:white;font-size:20px;z-index:100";
-                window.document.body.insertBefore(createTimer, window.document.body.firstElementChild);
-            }
+            // if (!window.document.getElementById('engageDwell')) {
+            //     createTimer = window.document.createElement('div');
+            //     createTimer.id = 'engageDwell';
+            //     createTimer.style = "position:fixed;top:32px;left:0;background:red;color:white;font-size:20px;z-index:100";
+            //     window.document.body.insertBefore(createTimer, window.document.body.firstElementChild);
+            // }
             var dwellTime = window.document.getElementById('engageDwell');
 
-            if (!window.document.getElementById('dwellLimit')) {
-                dwellLimit = window.document.createElement('div');
-                dwellLimit.id = 'dwellLimit';
-                dwellLimit.style = "position:fixed;top:64px;left:0;background:blue;color:white;font-size:20px;z-index:100";
-                window.document.body.insertBefore(dwellLimit, window.document.body.firstElementChild);
-            }
+            // if (!window.document.getElementById('dwellLimit')) {
+            //     dwellLimit = window.document.createElement('div');
+            //     dwellLimit.id = 'dwellLimit';
+            //     dwellLimit.style = "position:fixed;top:64px;left:0;background:blue;color:white;font-size:20px;z-index:100";
+            //     window.document.body.insertBefore(dwellLimit, window.document.body.firstElementChild);
+            // }
             var debugLimit = window.document.getElementById('dwellLimit');
 
             engageDwell = new timer('dwell', 100, null, dwellTime);
@@ -1587,7 +1605,7 @@ var triviaWidget = function () {
                 }
             }); //create new timer with limit of 10 seconds
 
-            debugDwell.innerHTML = 'dwell: ' + widgetEngaged; //initlal debug
+            // debugDwell.innerHTML = 'dwell: ' + widgetEngaged; //initlal debug
 
             sntTriviaContent.onmouseover = function () { // create listener if widget becomes engaged
                 dwellLimitTimer.resetTime();
@@ -1608,7 +1626,7 @@ var triviaWidget = function () {
                         adjustIntervalScoreFn();
                     }
                     triviaStarted = true;
-                    
+
                 } else {
                     dwellLimitTimer.resetTime();
                 }
@@ -1628,6 +1646,7 @@ var triviaWidget = function () {
 
     function analyticsClick() {
         sntTriviaContent.onclick = function () { // tract every click event within the widget
+            sendPostMessageToIgloo(postObject, 5);
             total_clicks++;
             log('total_clicks      =   ' + total_clicks);
         }
@@ -1672,23 +1691,33 @@ var triviaWidget = function () {
     /*****************ANALYTICS VARIABLES END***********************/
 
 
-    // function getCurrentWindow(maxLoops) {
-    //     // Initialize variables
-    //     var postWindows = [window];
-    //     var currentWindow = window;
-    //     var currentLoop = 0;
-    //     maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
-    //     // Build all of the windows to send the message to
-    //     try {
-    //         // Loop through all of the windows
-    //         while (currentLoop++ < maxLoops && currentWindow !== window.top) {
-    //             // Move up a layer
-    //             currentWindow = currentWindow.parent;
-    //             // Add to the postMessage array
-    //             postWindows.push(currentWindow);
-    //         }
-    //     } catch (e) {}
-    // }
+    /**
+     * Send a post message to every window up to the top window
+     * @param  {Object}  postObject The object to send as a postMessage
+     * @param  {Integer} maxLoops   The maximum number of layers to traverse up
+     */
+    function sendPostMessageToIgloo(postObject, maxLoops) {
+        // Initialize variables
+        var postWindows = [window];
+        var currentWindow = window;
+        var currentLoop = 0;
+        maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
+        // Build all of the windows to send the message to
+        try {
+            // Loop through all of the windows
+            while (currentLoop++ < maxLoops && currentWindow !== window.top) {
+                // Move up a layer
+                currentWindow = currentWindow.parent;
+                // Add to the postMessage array
+                postWindows.push(currentWindow);
+            }
+        } catch (e) {}
+
+        // Send the post messages
+        for (var i = 0; i < postWindows.length; i++) {
+            postWindows[i].postMessage(postObject, '*');
+        }
+    }
 
 
     var firstRun = true; //makes sure the listeners run once
