@@ -2933,7 +2933,7 @@ html, body {
     margin: 0 !important;
     font-family: Lato, sans-serif;
     height: auto;
-    background-color: white;
+    background: transparent;
 }
 
 * {
@@ -3241,7 +3241,7 @@ p.submission_display {
     margin-left: -17px;
     width: 13px;
     height: 12px;
-    background-image: url("images/icon-try-again.png");
+    background-image: url("../images/icon-try-again.png");
     margin-right: 2px; /* IE 9 */
     -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
     transform: rotate(0deg);

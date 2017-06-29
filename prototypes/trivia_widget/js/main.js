@@ -11,6 +11,7 @@ var removeAd = false; //flag to keep the ad hidden if the user is on the correct
 var isActive = false;
 var timeToLive = 600000;
 var triviaStarted = false; //flag to signify that the user has began the quiz and to stop the quiz from restarting
+var swapImage = true; //flag to change the image once the user goes to a new question or the question rotates whilst the widget is inactive
 
 function createFriendlyIframe() {
     //create friendly iframe to place ourselves inside
@@ -218,7 +219,12 @@ function log(msg, style) {
 
 
 function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
+    var category = ['nfl', 'ncaaf', 'mlb', 'nba', 'ncaam'];
+    if (category.indexOf(string) === 0) {
+        return string.toUpperCase();
+    } else {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
 }
 
 
@@ -521,8 +527,15 @@ var triviaWidget = function () {
 
             triviaQuestion_el.innerHTML = metaData.question; //inserts active question into view
             correctResultDisplay_el.innerHTML = resultDisplay; //inserts result into the submission view
-            triviaImage_el.style.backgroundImage = backgroundImage; //inserts backgroundImage into view
-
+            if (swapImage && wideWidget) {
+                //creates stylesheet and appends media query that injects the proper image size into the background
+                var imageStyle = document.createElement('style');
+                imageStyle.type = 'text/css';
+                friendlyIframeWindow.document.getElementsByTagName('section')[0].appendChild(imageStyle);
+                friendlyIframeWindow.document.querySelector('style').textContent =
+                    '@media (max-width: 649px) {.trivia_image {background-image: url("' + imageUrl + metaData.image + '4_3.jpg")}}' +
+                    '@media (min-width: 650px) {.trivia_image {background-image: url("' + imageUrl + metaData.image + '16_9.jpg")}}';
+            }
             dataOptions = arrayShuffle(answerData); // randomizes the object shuffling
             if (wideWidget) {
                 triviaImageOverlay_el.style.height = '97px';
@@ -691,6 +704,7 @@ var triviaWidget = function () {
 
 
     function skipQuestionFn() {
+        swapImage = true;
         skipped = 1;
         adjustIntervalScoreFn('clear');
         widgetEngaged = true;
@@ -708,6 +722,7 @@ var triviaWidget = function () {
 
     // run function when last question is submitted
     function showCompleteFn() {
+        swapImage = true;
         var comment;
         if (cumulativeScore < 10) {
             comment = "Ouch!"
@@ -739,7 +754,7 @@ var triviaWidget = function () {
 
     // gets data for next question
     function iterateQuestion() {
-
+        swapImage = true;
         // console.log('6 ####### iterateQuestion() REMOVING ', questionKey);
         removeQuestionIndex(questionKey);
         // console.log("Questions Left", dataQuestionTitles);
@@ -843,6 +858,7 @@ var triviaWidget = function () {
 
     // gets new data if user clicks on new quiz
     function getNewQuiz(dataSetKey) {
+        swapImage = true;
         activeQuizKey = dataSetKey;
         restartFn();
     } //getNewQuiz
