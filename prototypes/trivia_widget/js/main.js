@@ -131,7 +131,7 @@ var postUrl = "https://dev-pa.synapsys.us/";
 var apiCallUrl = "dev-tw-api.synapsys.us/index.php";
 var imageUrl = "images.synapsys.us";
 var query;
-var embedURL = "trivia_widget/main"; //TODO not an accurate or correct embed to look for
+var embedURL = "trivia_widget/min"; //if debugging locally then change this to trivia_widget/main
 var currentScript = document.currentScript != null && document.currentScript.src.indexOf(embedURL) != -1 ? document.currentScript : (function () { // resolution for IE since it does not have currentScript to find the currently running script on the page
     var scripts = document.getElementsByTagName('script');
     for (var i = scripts.length - 1; i >= 0; i--) {
