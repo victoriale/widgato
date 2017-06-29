@@ -401,8 +401,7 @@ var triviaWidget = function () {
             animationContainer_el[i].style.backgroundImage = thumbnailImage;
             animationContainer_el[i].getElementsByTagName('p')[0].innerHTML = quizData.sub_category.toUpperCase();
             //Click event for other quiz buttons
-            // console.log(otherContentOptionContainer_el[i]);
-            $(otherContentOptionContainer_el[i].id).onclick = function () {
+            otherContentOptionContainer_el[i].onclick = function () {
                 if (isSmall && wideWidget) {
                     removeAd = true;
                     adControl(false);
@@ -510,7 +509,9 @@ var triviaWidget = function () {
 
             questionId = questionKey; // set analytics questionId to be sent into PAYLOAD
             // console.log('4 ####### CHOOSING Question', questionKey, activeQuestion);
-            updatePayload("send");
+            if(!triviaStarted){
+              updatePayload("send");
+            }
 
             var metaData = activeQuestion.metadata,
                 answerData = activeQuestion.answers,
@@ -992,11 +993,11 @@ var triviaWidget = function () {
         view = iglooAnalytics('view'); // check initial load if widget is available
 
         //TODO COMBINE TIMERS TO GET A MORE ACCURATE TIME INTERVAL REPORTING
+        analyticsSession();// get session ID first
         analyticsWindowFocus();
         analyticsDwellEngagement();
         analyticsViewScroll();
         analyticsClick();
-        analyticsSession();
 
     };
 
@@ -1077,9 +1078,9 @@ var triviaWidget = function () {
         try {
             if (typeof jsonObject == 'object') {
                 var postXML = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
-                // postXML.open("POST", url, true);
-                // postXML.send(JSON.stringify(jsonObject))
-                // postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
+                postXML.open("POST", url, true);
+                postXML.send(JSON.stringify(jsonObject))
+                postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
                 // console.log('json object sent and abort reponse', jsonObject);
                 // console.log("%cPAYLOAD SENT", payloadStyles);
                 // for (var obj in jsonObject) {
@@ -1299,19 +1300,28 @@ var triviaWidget = function () {
 
             evt = evt || window.event;
 
-            localStorage['snt_trivia_game'] = localStorage['snt_trivia_game'] ? localStorage['snt_trivia_game'] : {};
 
+            var storeSession;
+            if ( sessionStorage.getItem('snt_trivia_analytics') === null) {
+                storeSession = sessionStorage.setItem('snt_trivia_analytics', JSON.stringify({before_time:null,after_time:null, session_id:null}));
+            }
+            storeSession = JSON.parse(sessionStorage.getItem('snt_trivia_analytics'));
             if (this[hidden]) {
                 isActive = false;
-                localStorage['snt_trivia_game']['before_time'] = Date.now();
-                localStorage['snt_trivia_game']['after_time'] = Date.now();
-            } else {
-                isActive = true;
-                localStorage['snt_trivia_game']['after_time'] = Date.now();
-            }
+                storeSession['before_time'] = Date.now();
+                storeSession['after_time'] = Date.now();
+                storeSession['session_id'] = storeSession.session_id ? storeSession.session_id :sessionId;
 
-            if ((localStorage['snt_trivia_game']['after_time'] - localStorage['snt_trivia_game']['before_time']) > timeToLive) {
-                localStorage['snt_trivia_game'].clear();
+                sessionStorage.setItem('snt_trivia_analytics', JSON.stringify(storeSession));
+            }
+            else {
+                isActive = true;
+                storeSession['before_time'] = storeSession['before_time'] ? storeSession['before_time'] : Date.now();
+                storeSession['after_time'] = Date.now();
+                storeSession['session_id'] = storeSession.session_id ? storeSession.session_id :sessionId;
+                sessionStorage.setItem('snt_trivia_analytics', JSON.stringify(storeSession));
+            }
+            if ((storeSession['after_time'] - storeSession['before_time']) >= timeToLive) {
                 getIgloo(); // RESET ENTIRE TEST
             }
         }
@@ -1345,7 +1355,7 @@ var triviaWidget = function () {
                     if (event.time >= event.stopAt) {
                         event.pauseTime();
                         event.resetTime();
-                        localStorage['snt_trivia_game'] = {};
+                        sessionStorage.removeItem('snt_trivia_analytics');
                         getIgloo(); // RESET ENTIRE TEST
                     }
                 }); //timeToLive in (ms) is 10 minutes
@@ -1383,7 +1393,17 @@ var triviaWidget = function () {
         var sessionTest,
             s_id;
 
-        sessionId = randomString(16); //Gener
+        var sstorage;
+
+        if ( sessionStorage.getItem('snt_trivia_analytics') === null) {
+            sstorage = sessionStorage.setItem('snt_trivia_analytics', JSON.stringify({before_time:null,after_time:null, session_id:null}));
+        }
+        sstorage = JSON.parse(sessionStorage.getItem('snt_trivia_analytics'));
+        sessionId = sstorage && sstorage.session_id ? sstorage.session_id :randomString(16); //Generate a session ID
+        sstorage.session_id = sessionId;
+        sessionStorage.setItem('snt_trivia_analytics', JSON.stringify(sstorage));
+
+
         if (!window.document.getElementById('s_id')) {
             s_id = window.document.createElement('div');
             s_id.id = 's_id';
@@ -1392,9 +1412,7 @@ var triviaWidget = function () {
         }
 
         window.document.getElementById('s_id').innerHTML = sessionId;
-        localStorage['snt_trivia_game'] = localStorage['snt_trivia_game'] ? localStorage['snt_trivia_game'] : {};
 
-        localStorage['snt_trivia_game']['current_session_id'] = localStorage['snt_trivia_game']['current_session_id'] ? localStorage['snt_trivia_game']['current_session_id'] : sessionId;
 
         if (!window.top.document.getElementById('sessionTest')) {
             sessionTest = window.top.document.createElement('div');
@@ -1571,7 +1589,8 @@ var triviaWidget = function () {
                         adjustIntervalScoreFn('clear');
                         adjustIntervalScoreFn();
                     }
-
+                    triviaStarted = true;
+                    
                 } else {
                     dwellLimitTimer.resetTime();
                 }
@@ -1664,7 +1683,6 @@ var triviaWidget = function () {
     function getIgloo() {
         if (window.top.igloo) {
             igloo = window.top.igloo;
-
 
             /*******************START ANALYTICS******************/
             startTriviaAnalytics();
