@@ -169,7 +169,6 @@ function synapsysENV(env) {
  * to be parsed through and set for global use
  */
 function setupEnvironment(widgetQuery) {
-    // console.log(widgetQuery);
     query = widgetQuery;
     apiCallUrl = protocolToUse + apiCallUrl;
     var cat = widgetQuery.category;
@@ -212,7 +211,7 @@ function log(msg, style) {
     if (!style) {
         style = defaultStyle;
     }
-    // console.log('%c' + msg + '', style);
+    console.log('%c' + msg + '', style);
 };
 
 
@@ -223,7 +222,7 @@ function capitalizeFirstLetter(string) {
 
 var triviaWidget = function () {
     var rand_id = Math.floor(Math.random() * 1000);
-    var currentDataSet;
+    var currentQuizData;
     var dataQuestionTitles;
 
     // HTML Element variables
@@ -280,7 +279,6 @@ var triviaWidget = function () {
     var activeQuizKey;
     var dataVarSet;
     var questionKey;
-    var otherContentBgImages = [];
     var quizTitles = [];
     var dataOptions;
     var totalResults;
@@ -300,20 +298,20 @@ var triviaWidget = function () {
 
 
     // function set to mimick API call
-    function localStorageFn() {
+    function callTriviaApi() {
         // variable that stores the response of an http request
         if (window.XMLHttpRequest) {
             var xhttp = new XMLHttpRequest();
         } else {
             var xhttp = new ActiveXObject('Microsoft.XMLHTTP')
         }
-        console.log('1 ####### MAKE API CALL', apiCallUrl);
+        // console.log('1 ####### MAKE API CALL', apiCallUrl);
         xhttp.onreadystatechange = function () {
             if (this.readyState == XMLHttpRequest.DONE) {
                 if (this.status == 200) {
                     // On success parse out the response
                     localDataStore = JSON.parse(this.responseText);
-                    currentDataSet = localDataStore['quizzes'];
+                    currentQuizData = localDataStore['quizzes'];
                 } else {
                     // Error handling
                     // Get the message
@@ -332,17 +330,17 @@ var triviaWidget = function () {
         };
         xhttp.open("GET", apiCallUrl, false);
         xhttp.send();
-    } //localStorageFn
+    } //callTriviaApi
 
 
     function initialSetup(qId) {
         try {
-            //if currentDataSet is available then skip otherwise run function to make api call
+            //if currentQuizData is available then skip otherwise run function to make api call
             adjustIntervalScoreFn("clear")
-            if (!currentDataSet) {
-                localStorageFn();
+            if (!currentQuizData) {
+                callTriviaApi();
             }
-            // console.log('API RETURNED', currentDataSet);
+            // console.log('API RETURNED', currentQuizData);
             // if (activeQuizKey) {
             //     console.log("CHOSEN KEY ", activeQuizKey);
             // } else {
@@ -353,7 +351,7 @@ var triviaWidget = function () {
             // console.log("2 ###### SET quizTitles", quizTitles);
 
             //filter throught quizzes and find the current active quiz by using the activeQuizKey
-            activeQuiz = currentDataSet.filter(function (quiz) {
+            activeQuiz = currentQuizData.filter(function (quiz) {
                 if (quiz.sub_category_id === activeQuizKey) {
                     return quiz;
                 }
@@ -389,20 +387,17 @@ var triviaWidget = function () {
             var subCatId = titles[0];
             otherContentOptionContainer_el[i].id = subCatId;
 
-            var quizData = currentDataSet.filter(function (quiz) {
+            var quizData = currentQuizData.filter(function (quiz) {
                 if (quiz.sub_category_id === subCatId) {
                     return quiz;
                 }
             })[0]
 
-            var firstRandomQuestion = quizData.questions[0];
             // loop through other quiz options from data and insert link and image into view
+            var firstRandomQuestion = quizData.questions[0];
             var thumbnailImage = firstRandomQuestion ? "url(" + imageUrl + firstRandomQuestion.metadata.image + "4_3.jpg)" : '';
-            otherContentBgImages.push(thumbnailImage);
             animationContainer_el[i].style.backgroundImage = thumbnailImage;
-
-            titles.splice(titles.indexOf(subCatId), 1);
-
+            animationContainer_el[i].getElementsByTagName('p')[0].innerHTML = quizData.sub_category.toUpperCase();
             //Click event for other quiz buttons
             $(otherContentOptionContainer_el[i].id).onclick = function () {
                 if (isSmall && wideWidget) {
@@ -414,6 +409,9 @@ var triviaWidget = function () {
                 updatePayload('send');
                 restartFn(subCatId);
             };
+
+            titles.splice(titles.indexOf(subCatId), 1);
+
         }
 
         //Click event for random shuffle quiz button
@@ -432,7 +430,7 @@ var triviaWidget = function () {
 
     // gets all possible Quizzes
     function getQuizKeys() {
-        var quizzes = currentDataSet;
+        var quizzes = currentQuizData;
         quizTitles = [];
         quizzes.forEach(function (quiz) {
             quizTitles.push(quiz.sub_category_id);
@@ -621,7 +619,6 @@ var triviaWidget = function () {
                 removeAd = true;
                 widgetEngaged = true;
                 addIntervalScoreFn();
-                // console.log('CORRECT clearInterval');
                 adjustIntervalScoreFn('clear');
                 submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
                 if (wideWidget) {
@@ -637,7 +634,6 @@ var triviaWidget = function () {
             case 'incorrect':
                 removeAd = true;
                 widgetEngaged = true;
-                // console.log('INCORRECT clearInterval');
                 adjustIntervalScoreFn('clear');
                 submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
                 if (wideWidget) {
@@ -679,7 +675,6 @@ var triviaWidget = function () {
                     adjustIntervalScoreFn('clear');
                     hideAd();
                 }
-                log('NEXT QUESTION', analyticsStyles);
                 bounce = 0;
                 updatePayload('send');
                 iterateQuestion();
@@ -699,7 +694,6 @@ var triviaWidget = function () {
             nextQuestionButton_el.innerHTML = "<p>Show Results</p>";
         } else {
             submissionInfoContainer_el.classList.add('hidden'); //adds hidden class to prevent css transition when removed
-            log('SKIP QUESTION', analyticsStyles);
             updatePayload('send');
             iterateQuestion();
         }
@@ -749,7 +743,6 @@ var triviaWidget = function () {
         activeQuestion_el.innerHTML = questionIterator; // inject active question into view
         triviaContainer_el.className = (''); // resets view
         if (questionIterator <= totalQuestions) {
-            // console.log('END NEW DATA SET');
             setData();
         }
     } //iterateQuestion
@@ -988,15 +981,10 @@ var triviaWidget = function () {
     function startTriviaAnalytics() {
         resetAnalytics();
 
-        log('Data Found -- STARTING initial Analytics', analyticsStyles);
-        // log('IGLOO check browser && user agent --vvvvvvvvvvv--', payloadStyles);
         userAgentObj = iglooAnalytics('useragent');
 
-        // log('IGLOO Initial View check ---vvv---', payloadStyles);
         // if igloo utilities then iglooAnalytics() function will return boolean true if igloo is 50% or more in view of use window
         view = iglooAnalytics('view'); // check initial load if widget is available
-        // log('view       =   ' + view);
-        // log('START TIMERS widget loaded in view', payloadStyles)
 
         //TODO COMBINE TIMERS TO GET A MORE ACCURATE TIME INTERVAL REPORTING
         analyticsWindowFocus();
@@ -1005,7 +993,6 @@ var triviaWidget = function () {
         analyticsClick();
         analyticsSession();
 
-        log('END initial Analytics', analyticsStyles);
     };
 
     /** igloo.utils.elementIsVisible(element, debug_div, igloo_debug, min_percent)
@@ -1048,7 +1035,6 @@ var triviaWidget = function () {
 
     //create an iframe for post request that will be removed once the request has been sent
     function createPayloadFrame(jsonObject) {
-        log('Create Payload', payloadStyles);
         // console.log(jsonObject);
         //create friendly iframe to place ourselves inside
         var payloadIframe = document.createElement('iframe');
@@ -1090,6 +1076,7 @@ var triviaWidget = function () {
                 // postXML.send(JSON.stringify(jsonObject))
                 // postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
                 // console.log('json object sent and abort reponse', jsonObject);
+                console.log("%cPAYLOAD SENT", payloadStyles);
                 for (var obj in jsonObject) {
                     log(obj + ':' + jsonObject[obj] + "\t\t|| " + jsonInfo[obj]);
                 }
@@ -1164,12 +1151,10 @@ var triviaWidget = function () {
                 jsonObject = {};
                 resetAnalytics();
             } else {
-                log("UPDATING PAYLOAD vvvvvvvvvv", payloadStyles);
                 for (var obj in jsonObject) {
                     log(obj + ':' + jsonObject[obj] + jsonInfo[obj]);
                 }
                 ;
-                log("UPDATING PAYLOAD ^^^^^^^^^^", payloadStyles);
             }
         } catch (e) {
             console.log('%cerror updating payload                                                     ', 'background: linear-gradient(#7a0000, #000000); border: 1px solid #3E0E02; color: white');
@@ -1312,17 +1297,16 @@ var triviaWidget = function () {
 
             evt = evt || window.event;
 
-            // if (evt.type in evtMap)
-            //     document.body.className = evtMap[evt.type];
-            // else
-            //     document.body.className = this[hidden] ? "hidden" : "visible";
-
-
             if (this[hidden])
                 localStorage['BEFORE_TIME'] = Date.now();
             else
                 localStorage['AFTER_TIME'] = Date.now();
 
+                console.log(localStorage['AFTER_TIME'] - localStorage['BEFORE_TIME']);
+            if((localStorage['AFTER_TIME'] - localStorage['BEFORE_TIME']) > 600000){
+                localStorage.clear();
+                getIgloo(); // RESET ENTIRE TEST
+            }
         }
 
         // set the initial state (but only if browser supports the Page Visibility API)
@@ -1350,7 +1334,7 @@ var triviaWidget = function () {
                     sessionTimer.startTime();
                 }
             } else {
-                sessionTimer = new timer('session', 100, 20000, debugSession, function (event) {
+                sessionTimer = new timer('session', 100, 600000, debugSession, function (event) {
                     if (event.time >= event.stopAt) {
                         event.pauseTime();
                         event.resetTime();
@@ -1380,22 +1364,13 @@ var triviaWidget = function () {
         if (!view) {
             set_idle_listeners();
         }
-
-
-        //start timer for the idle time-out time
-        // idle_count_down = window.setTimeout(stop_timer, idle_timeout);
-        // clearInterval(idle_timer); //stop the interval that tracked how long they were idle
-        //
-        // tether(); //call the tether once again or to start for the first time.
     }
 
     function analyticsSession() {
-        // log('SESSION - Creation...', payloadStyles);
         var sessionTest,
             s_id;
 
         sessionId = randomString(16); //Gener
-        // log("sessionId: " + sessionId);
         if (!window.document.getElementById('s_id')) {
             s_id = window.document.createElement('div');
             s_id.id = 's_id';
@@ -1417,7 +1392,6 @@ var triviaWidget = function () {
 
     function analyticsViewScroll() {
         try {
-            // log('View - Listening...', payloadStyles);
             var viewTest,
                 createTimer;
 
@@ -1453,7 +1427,7 @@ var triviaWidget = function () {
                     var payT = (event.time % payloadTimer);
                     if (payT == 0) {
                         payloadTempTimer += payloadTimer;
-                        updatePayload('send');
+                        // updatePayload('send');
                         if (payloadTempTimer == payloadLimit) {
                             if (payloadLimit <= 10000) { //if payloadLimit is less than 10s || 10000ms
                                 payloadTimer = 1000;
@@ -1492,7 +1466,6 @@ var triviaWidget = function () {
                 } else {
                     viewDwell.pauseTime();
                     set_idle_listeners(); // create Session Timer to listen for any event and determin if the use is idle
-
                 }
             }
 
@@ -1507,7 +1480,6 @@ var triviaWidget = function () {
 
     function analyticsDwellEngagement() {
         try {
-            // log('DWELL - Listening...', payloadStyles);
             var dwellTest,
                 createTimer,
                 dwellLimit;
@@ -1586,7 +1558,6 @@ var triviaWidget = function () {
 
 
     function analyticsClick() {
-        log('Click - Listening...', payloadStyles);
         sntTriviaContent.onclick = function () { // tract every click event within the widget
             total_clicks++;
             log('total_clicks      =   ' + total_clicks);
@@ -1597,7 +1568,6 @@ var triviaWidget = function () {
         var widgetContainers = window.document.getElementsByClassName('twiframe');
         if (widgetContainers) {
             total_embeds = widgetContainers.length;
-            // log('total_embeds:' + total_embeds);
         } else {
             console.warn('No widget containers found');
         }
