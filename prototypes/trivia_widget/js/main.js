@@ -806,7 +806,7 @@ var triviaWidget = function () {
                         intervalScoreQuestion_el.innerHTML = "Q" + questionIterator + " - Points : " + intervalScore;
                         if (tempCount >= 10 || progressCounter >= 100) { // make sure tempCount and progress Counter finish entirely
                             clearInterval(intervalTimer);
-                            if (!widgetEngaged && triviaStarted) {
+                            if (!widgetEngaged && !triviaStarted) {
                                 var randomQuizKey = getRandomQuizKey();
                                 getNewQuiz(randomQuizKey);
                             }
