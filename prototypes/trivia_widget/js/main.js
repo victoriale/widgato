@@ -8,6 +8,7 @@ var wideWidget = false; // flag that changes certain functions to run differentl
 var isSmall = false; //determine if the screen size is less than 650px
 var isMobile = false; //checks whether or not user agent is mobile
 var removeAd = false; //flag to keep the ad hidden if the user is on the correct, incorrect, or submission sections and the screen size changes
+var triviaStarted = false; //flag to signify that the user has began the quiz and to stop the quiz from restarting
 
 function createFriendlyIframe() {
     //create friendly iframe to place ourselves inside
@@ -544,12 +545,14 @@ var triviaWidget = function () {
                             selectedOption = this.getElementsByTagName('p')[0].innerHTML;
                             answerSubmittedFn('correct');
                             setGraphInfo(activeQuestion, selectedOption);
+                            triviaStarted = true;
                         }
                     } else {
                         child.onclick = function () {
                             selectedOption = this.getElementsByTagName('p')[0].innerHTML;
                             answerSubmittedFn('incorrect');
                             setGraphInfo(activeQuestion, selectedOption);
+                            triviaStarted = true;
                         }
                     }
                 }
@@ -802,7 +805,7 @@ var triviaWidget = function () {
                         intervalScoreQuestion_el.innerHTML = "Q" + questionIterator + " - Points : " + intervalScore;
                         if (tempCount >= 10 || progressCounter >= 100) { // make sure tempCount and progress Counter finish entirely
                             clearInterval(intervalTimer);
-                            if (!widgetEngaged) {
+                            if (!widgetEngaged && !triviaStarted) {
                                 var randomQuizKey = getRandomQuizKey();
                                 getNewQuiz(randomQuizKey);
                             }
@@ -1541,13 +1544,11 @@ var triviaWidget = function () {
                     if (!viewDwell.timerOn) {
                         viewDwell.startTime();
                     }
-
-                    if (viewEngaged) {
+                    if (viewEngaged && !triviaStarted) {
                         //once engaged reset score and timer for first time engagement
                         adjustIntervalScoreFn('clear');
                         adjustIntervalScoreFn();
                     }
-
                 } else {
                     dwellLimitTimer.resetTime();
                 }
