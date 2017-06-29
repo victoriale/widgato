@@ -9,7 +9,6 @@ var isSmall = false; //determine if the screen size is less than 650px
 var isMobile = false; //checks whether or not user agent is mobile
 var removeAd = false; //flag to keep the ad hidden if the user is on the correct, incorrect, or submission sections and the screen size changes
 
-
 function createFriendlyIframe() {
     //create friendly iframe to place ourselves inside
     friendlyIframe = document.createElement('iframe');
@@ -52,6 +51,7 @@ function createFriendlyIframe() {
 }
 
 function setupIframe() {
+
     var srcQuery = currentScript.src.split("js?")[1];
     //determine if a query string is after the index.html location || if query is after a javascript location
     var hostname = new RegExp(document.location.hostname);
@@ -128,15 +128,15 @@ var postUrl = "https://dev-pa.synapsys.us/";
 var apiCallUrl = "dev-tw-api.synapsys.us/index.php";
 var imageUrl = "images.synapsys.us";
 var query;
-var embedURL = "trivia";
+var embedURL = "main.import.js";
 var currentScript = document.currentScript != null && document.currentScript.src.indexOf(embedURL) != -1 ? document.currentScript : (function () { // resolution for IE since it does not have currentScript to find the currently running script on the page
-    var scripts = document.getElementsByTagName('script');
-    for (var i = scripts.length - 1; i >= 0; i--) {
-        if (scripts[i].src.indexOf(embedURL) != -1) {
-            return scripts[i];
+        var scripts = parent.document.getElementsByTagName('script');
+        for (var i = scripts.length - 1; i >= 0; i--) {
+            if (scripts[i].src.indexOf(embedURL) != -1) {
+                return scripts[i];
+            }
         }
-    }
-})();
+    })();
 
 function getEnv(env) {
     if (env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
@@ -169,6 +169,7 @@ function synapsysENV(env) {
  * to be parsed through and set for global use
  */
 function setupEnvironment(widgetQuery) {
+    // console.log(widgetQuery);
     query = widgetQuery;
     apiCallUrl = protocolToUse + apiCallUrl;
     var cat = widgetQuery.category;
@@ -1302,8 +1303,8 @@ var triviaWidget = function () {
             else
                 localStorage['AFTER_TIME'] = Date.now();
 
-                console.log(localStorage['AFTER_TIME'] - localStorage['BEFORE_TIME']);
-            if((localStorage['AFTER_TIME'] - localStorage['BEFORE_TIME']) > 600000){
+            console.log(localStorage['AFTER_TIME'] - localStorage['BEFORE_TIME']);
+            if ((localStorage['AFTER_TIME'] - localStorage['BEFORE_TIME']) > 600000) {
                 localStorage.clear();
                 getIgloo(); // RESET ENTIRE TEST
             }

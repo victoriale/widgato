@@ -5108,6 +5108,7 @@ span.results_chart_value {
 @media (max-width: 649px) {
     .widget_container {
         width: 300px;
+        margin: 0 auto;
     }
 
     #trivia_container {
