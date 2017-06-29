@@ -9,6 +9,7 @@ var isSmall = false; //determine if the screen size is less than 650px
 var isMobile = false; //checks whether or not user agent is mobile
 var removeAd = false; //flag to keep the ad hidden if the user is on the correct, incorrect, or submission sections and the screen size changes
 
+
 function createFriendlyIframe() {
     //create friendly iframe to place ourselves inside
     friendlyIframe = document.createElement('iframe');
@@ -291,7 +292,6 @@ var triviaWidget = function () {
     // var ctx = pixelateContainer.getContext('2d');
     var pixelatedImage;
     var intervalTimer;
-    var adIntervalTimer;
     var pixelationInterval;
     var widgetEngaged = false; // when user has hovered and interacted with widget
     var intervalScore = 10;
@@ -406,7 +406,9 @@ var triviaWidget = function () {
             //Click event for other quiz buttons
             $(otherContentOptionContainer_el[i].id).onclick = function () {
                 if (isSmall && wideWidget) {
+                    removeAd = true;
                     adControl(false);
+                    adjustIntervalScoreFn('clear');
                     hideAd();
                 }
                 updatePayload('send');
@@ -417,7 +419,9 @@ var triviaWidget = function () {
         //Click event for random shuffle quiz button
         randomOption_el.onclick = function () {
             if (isSmall && wideWidget) {
+                removeAd = true;
                 adControl(false);
+                adjustIntervalScoreFn('clear');
                 hideAd();
             }
             updatePayload('send');
@@ -556,7 +560,9 @@ var triviaWidget = function () {
             };
             restart_el.onclick = function () {
                 if (isSmall && wideWidget) {
+                    removeAd = true;
                     adControl(false);
+                    adjustIntervalScoreFn('clear');
                     hideAd();
                 }
                 restartFn(activeQuizKey);
@@ -586,14 +592,14 @@ var triviaWidget = function () {
 
         for (var i = 0; resultsChart_el.length > i; i++) {
             switch (i) {
-            case 0:
-                resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
-                resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                break;
-            default:
-                resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
-                resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                break;
+                case 0:
+                    resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
+                    resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+                    break;
+                default:
+                    resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
+                    resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+                    break;
             }
         }
 
@@ -661,7 +667,6 @@ var triviaWidget = function () {
         // if last question show results screen
         if (questionIterator >= totalQuestions) {
             nextQuestionButton_el.onclick = function () {
-            	removeAd = true;
                 showCompleteFn()
             };
             nextQuestionButton_el.innerHTML = "<p>Show Results</p>";
@@ -669,6 +674,7 @@ var triviaWidget = function () {
             nextQuestionButton_el.onclick = function () { // create click event for when user clicks on the Next Question
                 submissionInfoContainer_el.classList.add('hidden'); //adds hidden class to prevent css transition when removed
                 if (isSmall && wideWidget) {
+                    removeAd = true;
                     adControl(false);
                     adjustIntervalScoreFn('clear');
                     hideAd();
@@ -684,7 +690,6 @@ var triviaWidget = function () {
 
 
     function skipQuestionFn() {
-    	removeAd = true;
         skipped = 1;
         adjustIntervalScoreFn('clear');
         widgetEngaged = true;
@@ -762,13 +767,6 @@ var triviaWidget = function () {
     }
 
 
-
-
-
-
-
-
-
     //adjust pixelation
     function adjustIntervalScoreFn(clear) { //TODO USE GLOBAL TIMER FUNCTION
         if (clear == 'clear') {
@@ -782,8 +780,9 @@ var triviaWidget = function () {
                 progressCounter = 1,
                 intervalSeconds = 10,
                 intervalMiliSeconds = 1000;
-
-            setSize();
+            if (!removeAd) {
+                setSize();
+            }
             if (isSmall && wideWidget && total_clicks == 0 && !widgetEngaged) {
                 progressBar_el.style.visibility = 'hidden';
                 intervalScoreContainer_el.style.visibility = 'hidden';
@@ -884,10 +883,12 @@ var triviaWidget = function () {
             //bring the ad back in case it is hidden while the width is altered
             if (!isSmall && !removeAd) {
                 adControl(false);
-            } else if (isSmall && removeAd) {
+            } else if (isSmall && !removeAd) {
                 triviaAdZone_el.style.display = 'none';
                 parent[query.pause_variable] = false; //pause ad when its out of view
-                removeAd = false;
+            } else if (isSmall && removeAd) {
+                triviaAdZone_el.style.display = 'block';
+                parent[query.pause_variable] = true; //pause ad when its out of view
             }
         }
     }
@@ -916,6 +917,7 @@ var triviaWidget = function () {
     function hideAd() {
         setTimeout(function () {
             adControl(true);
+            removeAd = false;
         }, 3000)
     }
 
@@ -927,15 +929,16 @@ var triviaWidget = function () {
         } else {
             triviaAdZone_el.style.display = 'block';
             parent[query.pause_variable] = true; //unpause ad if its in view
-			if (isSmall) {
-                adjustIntervalScoreFn('clear');
+            if (isSmall) {
                 var adProgressCounter = 1,
                     adIntervalSeconds = 10,
                     adIntervalMilliSeconds = 1000;
-                adIntervalTimer = setInterval(function () {
+                var adIntervalTimer = setInterval(function () {
                     adProgressCounter++;
                     adProgressBar_el.style.width = (adProgressCounter * 3.334) + '%';
-                    if (adProgressCounter === 30) {
+                    if (adProgressCounter >= 31) {
+                        adProgressCounter = 1;
+                        adProgressBar_el.style.width = 0;
                         clearInterval(adIntervalTimer);
                     }
                 }, adIntervalMilliSeconds / adIntervalSeconds);
@@ -944,15 +947,8 @@ var triviaWidget = function () {
     }
 
 
-
-
-
-
-
-
-
     /*****************ANALYTICS VARIABLES **************************/
-    //global variables used for payload
+        //global variables used for payload
     var sessionId,
         partnerId,
         placementId,
@@ -1034,15 +1030,15 @@ var triviaWidget = function () {
     function iglooAnalytics(type) {
         try {
             switch (type) {
-            case 'view':
-                return igloo.utils.elementIsVisible(sntTriviaContent, null, false, 0.5);
-                break;
-            case 'useragent':
-                return igloo.browser;
-                break;
-            default:
-                console.warn('igloo Utility not found', e);
-                break;
+                case 'view':
+                    return igloo.utils.elementIsVisible(sntTriviaContent, null, false, 0.5);
+                    break;
+                case 'useragent':
+                    return igloo.browser;
+                    break;
+                default:
+                    console.warn('igloo Utility not found', e);
+                    break;
             }
         } catch (e) {
             console.warn('igloo not found', e);
@@ -1130,13 +1126,13 @@ var triviaWidget = function () {
         try {
 
             /*
-                viewDwell, // time the widget is in view;
-                embedTime, // time the moment client embeded widget
-                sessionTimer, // create Session Timer to know when the session has ended and create a new payload;
-                payloadTimer, // create Payload Timer to know when to auto send payloads if variables are met;
-                engageDwell, // time from the moment the widget is in view and engaged
-                dwellLimitTimer
-            */
+             viewDwell, // time the widget is in view;
+             embedTime, // time the moment client embeded widget
+             sessionTimer, // create Session Timer to know when the session has ended and create a new payload;
+             payloadTimer, // create Payload Timer to know when to auto send payloads if variables are met;
+             engageDwell, // time from the moment the widget is in view and engaged
+             dwellLimitTimer
+             */
             checkEmbeds();
 
             jsonObject = {
@@ -1171,7 +1167,8 @@ var triviaWidget = function () {
                 log("UPDATING PAYLOAD vvvvvvvvvv", payloadStyles);
                 for (var obj in jsonObject) {
                     log(obj + ':' + jsonObject[obj] + jsonInfo[obj]);
-                };
+                }
+                ;
                 log("UPDATING PAYLOAD ^^^^^^^^^^", payloadStyles);
             }
         } catch (e) {
@@ -1197,7 +1194,8 @@ var triviaWidget = function () {
         this.stopAt = stopAt;
         this.timerOn = false;
         this.tick = tick;
-        this.intervalTimer = function () {},
+        this.intervalTimer = function () {
+        },
             this.startTime = function () {
                 if (!this.timerOn) {
                     this.timerOn = true;
@@ -1261,20 +1259,20 @@ var triviaWidget = function () {
         // answered_wrong_2, // wrong question sends 0 || 1
         // answered_wrong_3; // wrong question sends 0 || 1
         switch (selection) {
-        case 'correct':
-            answered_correctly = 1;
-            break;
-        case 'wrong_1':
-            answered_wrong_1 = 1;
-            break;
-        case 'wrong_2':
-            answered_wrong_2 = 1;
-            break;
-        case 'wrong_3':
-            answered_wrong_3 = 1;
-            break;
-        default:
-            break
+            case 'correct':
+                answered_correctly = 1;
+                break;
+            case 'wrong_1':
+                answered_wrong_1 = 1;
+                break;
+            case 'wrong_2':
+                answered_wrong_2 = 1;
+                break;
+            case 'wrong_3':
+                answered_wrong_3 = 1;
+                break;
+            default:
+                break
         }
     }
 
@@ -1634,23 +1632,23 @@ var triviaWidget = function () {
     /*****************ANALYTICS VARIABLES END***********************/
 
 
-    // function getCurrentWindow(maxLoops) {
-    //     // Initialize variables
-    //     var postWindows = [window];
-    //     var currentWindow = window;
-    //     var currentLoop = 0;
-    //     maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
-    //     // Build all of the windows to send the message to
-    //     try {
-    //         // Loop through all of the windows
-    //         while (currentLoop++ < maxLoops && currentWindow !== window.top) {
-    //             // Move up a layer
-    //             currentWindow = currentWindow.parent;
-    //             // Add to the postMessage array
-    //             postWindows.push(currentWindow);
-    //         }
-    //     } catch (e) {}
-    // }
+        // function getCurrentWindow(maxLoops) {
+        //     // Initialize variables
+        //     var postWindows = [window];
+        //     var currentWindow = window;
+        //     var currentLoop = 0;
+        //     maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
+        //     // Build all of the windows to send the message to
+        //     try {
+        //         // Loop through all of the windows
+        //         while (currentLoop++ < maxLoops && currentWindow !== window.top) {
+        //             // Move up a layer
+        //             currentWindow = currentWindow.parent;
+        //             // Add to the postMessage array
+        //             postWindows.push(currentWindow);
+        //         }
+        //     } catch (e) {}
+        // }
 
 
     var firstRun = true; //makes sure the listeners run once
@@ -1658,7 +1656,6 @@ var triviaWidget = function () {
 
     var viewTest;
     var dwellTest;
-
 
 
     function getIgloo() {
