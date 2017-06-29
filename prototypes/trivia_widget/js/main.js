@@ -1122,7 +1122,7 @@ var triviaWidget = function () {
                 postXML.send(JSON.stringify(jsonObject))
                 setTimeout(function(){
                   postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
-                },100);
+                },200);
                 // console.log('json object sent and abort reponse', jsonObject);
                 // console.log("%cPAYLOAD SENT", payloadStyles);
                 // for (var obj in jsonObject) {
