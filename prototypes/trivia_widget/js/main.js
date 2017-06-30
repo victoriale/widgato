@@ -13,6 +13,7 @@ var timeToLive = 600000;
 var triviaStarted = false; //flag to signify that the user has began the quiz and to stop the quiz from restarting
 var swapImage = true; //flag to change the image once the user goes to a new question or the question rotates whilst the widget is inactive
 var debug = true;
+var iframeBaseDomain;
 
 function toggleDebug() {
     debug = debug ? false : true;
@@ -28,8 +29,11 @@ function createFriendlyIframe() {
     friendlyIframe.height = 600 - 250; //250 is the add height
     friendlyIframe.scrolling = 'no';
     friendlyIframe.style.overflow = 'hidden';
-    friendlyIframe.name = currentScript.src;
+    friendlyIframe.src = currentScript.src;
     friendlyIframe.style.border = 'none';
+
+    //set base bath for iframe
+    iframeBaseDomain = protocolToUse + getDomain(currentScript.src) + '/';
 
     currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
 
@@ -75,6 +79,10 @@ function setupIframe() {
             //FIRST THING IS SETUP ENVIRONMENTS
         }
     }
+
+    var newBase = friendlyIframeWindow.document.createElement("base");
+    newBase.setAttribute("href", iframeBaseDomain);
+    friendlyIframeWindow.document.getElementsByTagName("head")[0].appendChild(newBase);
 
     currentScript.src = 'about:blank'; // remove src of the script to about:blank to allow more than one widget to counter IE
 
@@ -128,6 +136,30 @@ function setupIframe() {
     //after you get the query you set the enironment
     setupEnvironment(query);
     triviaWidget();
+}
+
+function getDomain(url) {
+    var hostName = getHostName(url);
+    var domain = hostName;
+    if (hostName != null) {
+        var parts = hostName.split('.').reverse();
+        if (parts != null && parts.length > 1) {
+            domain = parts[1] + '.' + parts[0];
+            if (hostName.toLowerCase().indexOf('.co.uk') != -1 && parts.length > 2) {
+                domain = parts[2] + '.' + domain;
+            }
+        }
+    }
+    return domain;
+}
+
+function getHostName(url) {
+    var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+    if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+        return match[2];
+    } else {
+        return null;
+    }
 }
 
 /*ABOVE CODE NEEDS TO MERGE WITH CURRENT*/
@@ -353,7 +385,7 @@ var triviaWidget = function () {
     function initialSetup(qId) {
         try {
             //if currentQuizData is available then skip otherwise run function to make api call
-            adjustIntervalScoreFn("clear");
+            adjustIntervalScoreFn("clear")
             if (!currentQuizData) {
                 callTriviaApi();
             }
@@ -422,9 +454,7 @@ var triviaWidget = function () {
             };
 
             titles.splice(titles.indexOf(subCatId), 1);
-
         }
-
         //Click event for random shuffle quiz button
         randomOption_el.onclick = function () {
             if (isSmall && wideWidget) {
