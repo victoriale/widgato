@@ -183,7 +183,11 @@ gulp.task('trivia-scripts', ['trivia-clean','trivia-html', 'trivia-css', 'trivia
 
 gulp.task('trivia-uglify', ['trivia-clean','trivia-scripts'],function() {
     gulp.src('prototypes/trivia_widget/main.import.js')
-        .pipe(uglify())
+        .pipe(uglify({
+          output: {
+            max_line_len: 200000
+          }
+        }))
         .pipe(concat('main.min.js'))
         .pipe(gulp.dest('prototypes/trivia_widget/min'))
 });

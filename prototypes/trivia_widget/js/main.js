@@ -1,6 +1,6 @@
 var htmlFile = '@@import /min/index.min.html';
-// var cssFile = '@@import /min/standard_styles.min.css';
-// var cssWideFile = '@@import /min/wide_styles.min.css';
+var cssFile = '@@import /min/standard_styles.min.css';
+var cssWideFile = '@@import /min/wide_styles.min.css';
 var friendlyIframe;
 var friendlyIframeWindow;
 var $;
@@ -79,9 +79,9 @@ function setupIframe() {
     currentScript.src = 'about:blank'; // remove src of the script to about:blank to allow more than one widget to counter IE
 
     //create inline style for friendlyIframe
-    var style = friendlyIframeWindow.document.createElement("link");
-    style.type = 'text/css';
-    style.rel = 'stylesheet';
+    var style = friendlyIframeWindow.document.createElement("style");
+    // style.type = 'text/css';
+    // style.rel = 'stylesheet';
     if (query.wide != null && query.wide != '') {
         friendlyIframe.width = '100%';
         friendlyIframe.height = '250';
@@ -91,12 +91,12 @@ function setupIframe() {
             //set iframe to width of parent node
             friendlyIframe.width = '100%';
         }, true);
-        style.href = './min/wide_styles.min.css';
+
+        // style.href = './min/wide_styles.min.css';
+        style.appendChild(friendlyIframeWindow.document.createTextNode(cssWideFile));
         wideWidget = true; //set wide flag
+
         //grab the sibling igloo element and inject it inside the trivia CU where we can control it
-
-
-        // console.log('pause AD');
         var triviaAdZone = $('trivia_ad_zone');
         triviaAdZone.style.display = 'none';
         parent[query.pause_variable] = false; //pause ad if its in view
@@ -109,7 +109,8 @@ function setupIframe() {
 
     } else {
         friendlyIframe.width = 300;
-        style.href = './min/standard_styles.min.css';
+        style.appendChild(friendlyIframeWindow.document.createTextNode(cssFile));
+        // style.href = './min/standard_styles.min.css';
     }
 
 
@@ -139,7 +140,7 @@ var imageUrl = "images.synapsys.us";
 var query;
 var baseEvent;
 var postObject;
-var embedURL = "trivia_widget/main"; //if debugging locally then change this to trivia_widget/main
+var embedURL = "trivia_widget/min"; //if debugging locally then change this to trivia_widget/main
 var currentScript = document.currentScript != null && document.currentScript.src.indexOf(embedURL) != -1 ? document.currentScript : (function () { // resolution for IE since it does not have currentScript to find the currently running script on the page
     var scripts = document.getElementsByTagName('script');
     for (var i = scripts.length - 1; i >= 0; i--) {
@@ -193,17 +194,12 @@ function setupEnvironment(widgetQuery) {
     }
     //setup Image Environment api
     imageUrl = protocolToUse + synapsysENV(environment) + imageUrl; // this is global call that is used for images
-    log('category:    ' + cat, analyticsStyles);
-    log('group:       ' + group, analyticsStyles);
-    log('environment: ' + environment, analyticsStyles);
-    log('env:         ' + env, analyticsStyles);
 
     if (cat && cat != '') {
         apiCallUrl += '?category=' + cat;
     } else {
         apiCallUrl += '?category=' + group;
     }
-    log('API:         ' + apiCallUrl, analyticsStyles);
 }
 
 //STYLES used in console
@@ -323,7 +319,6 @@ var triviaWidget = function () {
         } else {
             var xhttp = new ActiveXObject('Microsoft.XMLHTTP')
         }
-        // console.log('1 ####### MAKE API CALL', apiCallUrl);
         xhttp.onreadystatechange = function () {
             if (this.readyState == XMLHttpRequest.DONE) {
                 if (this.status == 200) {
@@ -1060,11 +1055,9 @@ var triviaWidget = function () {
 
     //create an iframe for post request that will be removed once the request has been sent
     function createPayloadFrame(jsonObject) {
-        // console.log(jsonObject);
         //create friendly iframe to place ourselves inside
         var payloadIframe = document.createElement('iframe');
         var payloadIframeWindow;
-        // friendlyIframe.id = "friendlyIframe_" + countSelf.length;
         var payloadId = "snt_payload_id_" + rand_id;
         payloadIframe.setAttribute("id", payloadId);
         payloadIframe.className = "report";
@@ -1624,7 +1617,6 @@ var triviaWidget = function () {
         sntTriviaContent.onclick = function () { // tract every click event within the widget
             sendPostMessageToIgloo(postObject, 5);
             total_clicks++;
-            log('total_clicks      =   ' + total_clicks);
         }
     }
 
