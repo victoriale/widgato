@@ -127,3 +127,71 @@ gulp.task('puzzleuglify', function() {
     .pipe(rename('image_puzzle_unlinked.min.js'))
     .pipe(gulp.dest('image_puzzle_unlinked'))
 });
+
+//uglify function for centipede //TODO finish this later
+gulp.task('centipede', function() {
+  gulp.src('centipede/centipede.max.js')
+    .pipe(uglify())
+    .pipe(rename('centipede.js'))
+    .pipe(gulp.dest('centipede'))
+});
+
+
+/*******************************TRIVIA WIDGET UNLINKED TASK**************************/
+gulp.task('trivia-clean', function() {
+    return gulp
+        .src('trivia_widget/min/*', {read: false})
+        .pipe(clean({force: true}))
+});
+
+gulp.task('trivia-html', ['trivia-clean'], function() {
+    return gulp
+        .src(['trivia_widget/index.html'])
+        .pipe(htmlmin({
+            collapseWhitespace: true,
+            quoteCharacter:"'"
+        }))
+        .pipe(concat('index.min.html'))
+        .pipe(gulp.dest('trivia_widget/min'));
+});
+
+gulp.task('trivia-css', ['trivia-clean'], function() {
+    //DEFAULT VERSION
+    return gulp
+        .src(['trivia_widget/standard_styles.css'])
+        .pipe(concatCss('standard_styles.min.css'))
+        .pipe(cleanCSS())
+        .pipe(gulp.dest('trivia_widget/min'));
+});
+gulp.task('trivia-css-wide', ['trivia-clean'], function() {
+    //WIDE VERSION
+    return gulp
+        .src(['trivia_widget/wide_styles.css'])
+        .pipe(concatCss('wide_styles.min.css'))
+        .pipe(cleanCSS())
+        .pipe(gulp.dest('trivia_widget/min'));
+});
+
+gulp.task('trivia-scripts', ['trivia-clean','trivia-html', 'trivia-css', 'trivia-css-wide'],function() {
+    return gulp.src('trivia_widget/js/main.js')
+        .pipe(inject({
+            basepath: 'trivia_widget',
+        }))
+        .pipe(concat('main.import.js'))
+        .pipe(gulp.dest('trivia_widget'));
+});
+
+gulp.task('trivia-uglify', ['trivia-clean','trivia-scripts'],function() {
+    gulp.src('trivia_widget/main.import.js')
+        .pipe(uglify({
+          output: {
+            max_line_len: 200000
+          }
+        }))
+        .pipe(concat('main.min.js'))
+        .pipe(gulp.dest('trivia_widget/min'))
+});
+
+gulp.task('trivia', ['trivia-clean','trivia-uglify'], function() {
+    // place code for your default task here
+});
