@@ -936,8 +936,8 @@ var triviaWidget = function () {
 
     if (wideWidget) {
         var isAdVisible = false;
-        window.setInterval(function () {
-            if (isSmall && total_clicks === 0 && !widgetEngaged) {
+        window.setInterval(function () {// create interval to swap the ad every 3 secs if the widget is not been engaged
+            if (isSmall && total_clicks === 0 && !widgetEngaged && !triviaStarted) {
                 if (!isAdVisible) {
                     intervalScoreContainer_el.style.visibility = 'visible';
                     progressBar_el.style.visibility = 'visible';
@@ -1011,11 +1011,11 @@ var triviaWidget = function () {
         quizId,
         questionId,
         question_view = 0, //When CU is engaged* (It is assumed to be in view)
-        total_quiz_views, //Each time a quiz is 50%+ in view for 1+ seconds. This is recorded only once per quiz load.
+        quiz_views = 0, //Each time a quiz is 50%+ in view for 1+ seconds. This is recorded only once per quiz load.
         embed_view = 0, //Each time an embed is 50%+ in view for 1+ seconds. This is recorded only once per embed load.
         total_clicks = 0,
         total_embeds, // Record total amount of embeds on a page no matter if in view or not
-        bounce, //should only ever be 1, never more than due to submission on a payload level.  || always return 1 until questions is answered then return 0 which zero means it is no longer in bounce since it has been answered
+        bounce = 1, //should only ever be 1, never more than due to submission on a payload level.  || always return 1 until questions is answered then return 0 which zero means it is no longer in bounce since it has been answered
 
         skipped, // skippped question sends 0 || 1
         answered_correctly, // correct question sends 0 || 1
@@ -1120,14 +1120,14 @@ var triviaWidget = function () {
                 var postXML = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
                 postXML.open("POST", url, true);
                 postXML.send(JSON.stringify(jsonObject))
-                setTimeout(function(){
-                  postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
-                },200);
+                // setTimeout(function(){
+                //   postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
+                // },200);
                 // console.log('json object sent and abort reponse', jsonObject);
                 // console.log("%cPAYLOAD SENT", payloadStyles);
-                // for (var obj in jsonObject) {
-                //     log(obj + ':' + jsonObject[obj] + "\t\t|| " + jsonInfo[obj]);
-                // }
+                for (var obj in jsonObject) {
+                    log(obj + ':' + jsonObject[obj] + "\t\t|| " + jsonInfo[obj]);
+                }
             }
         } catch (e) {
             console.warn("Product Analytics Error in Post Request", e)
@@ -1188,7 +1188,7 @@ var triviaWidget = function () {
                 "w1": answered_wrong_1 ? answered_wrong_1 : 0, //wrong 1
                 "w2": answered_wrong_2 ? answered_wrong_2 : 0, //wrong 2
                 "w3": answered_wrong_3 ? answered_wrong_3 : 0, //wrong 3
-                "zv": 0 // quiz views
+                "zv": quiz_views // quiz views
             };
 
             isMobile = jsonObject['mo'];
@@ -1599,9 +1599,9 @@ var triviaWidget = function () {
                         viewDwell.pauseTime();
                     }
                     widgetEngaged = false;
-                    if (debugDwell) {
-                        debugDwell.innerHTML = 'dwell: ' + widgetEngaged;
-                    }
+                    // if (debugDwell && debug) {
+                    //     debugDwell.innerHTML = 'dwell: ' + widgetEngaged;
+                    // }
                 }
             }); //create new timer with limit of 10 seconds
 
@@ -1612,7 +1612,9 @@ var triviaWidget = function () {
                 if (!widgetEngaged) {
                     widgetEngaged = true;
                     viewEngaged = true;
-                    debugDwell.innerHTML = 'dwell: ' + widgetEngaged;
+                    // if(debug){
+                    //   debugDwell.innerHTML = 'dwell: ' + widgetEngaged;
+                    // }
                     engageDwell.startTime();
                     dwellLimitTimer.startTime();
 
@@ -1686,6 +1688,7 @@ var triviaWidget = function () {
         answered_wrong_1 = 0;
         answered_wrong_2 = 0;
         answered_wrong_3 = 0;
+        quiz_views = 0;
     }
 
     /*****************ANALYTICS VARIABLES END***********************/
