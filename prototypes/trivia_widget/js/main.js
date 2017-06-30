@@ -29,7 +29,7 @@ function createFriendlyIframe() {
     friendlyIframe.height = 600 - 250; //250 is the add height
     friendlyIframe.scrolling = 'no';
     friendlyIframe.style.overflow = 'hidden';
-    friendlyIframe.src = currentScript.src;
+    friendlyIframe.name = currentScript.src;
     friendlyIframe.style.border = 'none';
 
     //set base bath for iframe
