@@ -768,9 +768,9 @@ var triviaWidget = function () {
     function showCompleteFn() {
         swapImage = true;
         var comment;
-        if (cumulativeScore < 10) {
+        if (cumulativeScore < 20) {
             comment = "Ouch!"
-        } else if (cumulativeScore >= 10 && cumulativeScore <= 20) {
+        } else if (cumulativeScore >= 20 && cumulativeScore <= 40) {
             comment = "Not Bad!"
         } else {
             comment = "Great Job!"
