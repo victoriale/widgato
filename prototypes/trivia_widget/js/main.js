@@ -529,11 +529,16 @@ var triviaWidget = function () {
             if (swapImage && wideWidget) {
                 //creates stylesheet and appends media query that injects the proper image size into the background
                 var imageStyle = document.createElement('style');
-                imageStyle.type = 'text/css';
-                friendlyIframeWindow.document.getElementsByTagName('section')[0].appendChild(imageStyle);
-                friendlyIframeWindow.document.querySelector('style').textContent =
-                    '@media (max-width: 649px) {.trivia_image {background-image: url("' + imageUrl + metaData.image + '4_3.jpg")}}' +
-                    '@media (min-width: 650px) {.trivia_image {background-image: url("' + imageUrl + metaData.image + '16_9.jpg")}}';
+                if(!friendlyIframeWindow.document.getElementById('trivia_image_style')){
+                  imageStyle.type = 'text/css';
+                  imageStyle.innerHTML = '@media (max-width: 649px) {.trivia_image {background-image: url("' + imageUrl + metaData.image + '4_3.jpg")}}' +
+                  '@media (min-width: 650px) {.trivia_image {background-image: url("' + imageUrl + metaData.image + '16_9.jpg")}}';
+                  imageStyle.id = 'trivia_image_style';
+                  friendlyIframeWindow.document.getElementsByTagName('section')[0].appendChild(imageStyle);
+                }else{
+                  friendlyIframeWindow.document.getElementById('trivia_image_style').innerHTML = '@media (max-width: 649px) {.trivia_image {background-image: url("' + imageUrl + metaData.image + '4_3.jpg")}}' +
+                  '@media (min-width: 650px) {.trivia_image {background-image: url("' + imageUrl + metaData.image + '16_9.jpg")}}';
+                }
             } else if (swapImage && !wideWidget) {
                 triviaImage_el.style.backgroundImage = backgroundImage; //inserts backgroundImage into the 300x600 view
             }
