@@ -8,7 +8,7 @@ var wideWidget = false; // flag that changes certain functions to run differentl
 var isSmall = false; //determine if the screen size is less than 650px
 var isMobile = false; //checks whether or not user agent is mobile
 var removeAd = false; //flag to keep the ad hidden if the user is on the correct, incorrect, or submission sections and the screen size changes
-var isActive = false;
+var isActive = true;
 var timeToLive = 600000;
 var triviaStarted = false; //flag to signify that the user has began the quiz and to stop the quiz from restarting
 var swapImage = true; //flag to change the image once the user goes to a new question or the question rotates whilst the widget is inactive
@@ -517,7 +517,7 @@ var triviaWidget = function () {
             })[0];
 
             questionId = questionKey; // set analytics questionId to be sent into PAYLOAD
-            if (!triviaStarted) {
+            if (isActive) {
                 updatePayload("send");
             }
 
@@ -1153,7 +1153,7 @@ var triviaWidget = function () {
                 "ev": embed_view, // embed views
                 "mo": userAgentObj.mobile ? 1 : 0, //mobile
                 "pa": query.event.p, //partner id
-                "pl": query.event.z ? query.event.z : randomString(12), //placement id
+                "pl": query.event.z ? query.event.z : 0, //placement id
                 "qi": questionId.toString(),
                 "qv": question_view ? question_view : 0, // question views
                 "qz": quizId, //quiz id
@@ -1690,8 +1690,7 @@ var triviaWidget = function () {
                 // Add to the postMessage array
                 postWindows.push(currentWindow);
             }
-        } catch (e) {
-        }
+        } catch (e) {}
 
         // Send the post messages
         for (var i = 0; i < postWindows.length; i++) {
@@ -1705,36 +1704,57 @@ var triviaWidget = function () {
 
     var viewTest;
     var dwellTest;
+    var totalTries = 10;
+    var iglooTries = 0;
+    function getIgloo(windowFrame) {
+        try{
+          windowFrame = windowFrame ? windowFrame : window;
+          if(iglooTries < totalTries){
+            iglooTries++;
+            if (windowFrame.igloo) {
+                igloo = windowFrame.igloo;
 
-
-    function getIgloo() {
-        if (window.top.igloo) {
-            igloo = window.top.igloo;
-
-            if (!sessionTimer) {
                 /*******************START ANALYTICS******************/
                 startTriviaAnalytics();
                 /******************** ANALYTICS* ******************/
+
+                checkEmbeds();
+
+                initialSetup();
+                clearInterval(iglooUtilities);
+            } else {
+              console.log('igloo not found');
+               getIgloo(windowFrame.parent);
             }
+          }
+        }catch(e){
+			console.log('igloo not found after 10 tries');
+        }
+        if (windowFrame.igloo) {
+            igloo = window.top.igloo;
+
+            /*******************START ANALYTICS******************/
+            startTriviaAnalytics();
+            /******************** ANALYTICS* ******************/
 
             checkEmbeds();
 
             initialSetup();
             clearInterval(iglooUtilities);
         } else {
-            console.log('igloo not found', window.top.igloo);
+           getIgloo(windowFrame.parent);
         }
     }
 
     //Initial load Waits for the DOMContent to load
-    if (firstRun == true && (friendlyIfWindow.document.readyState == "complete" || friendlyIfWindow.document.readyState == "interactive")) { // if page is already loaded'
+    if (firstRun == true && (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive")) { // if page is already loaded'
         firstRun = false;
-        iglooUtilities = setInterval(getIgloo, 100);
+        getIgloo(window);
     } else { // elseonce page has finished loading, so as not to slowdown the page load at all
-        friendlyIfWindow.document.onreadystatechange = function () {
-            if (firstRun == true && (friendlyIfWindow.document.readyState == "complete" || friendlyIfWindow.document.readyState == "interactive")) {
+        friendlyIframeWindow.document.onreadystatechange = function () {
+            if (firstRun == true && (friendlyIframeWindow.document.readyState == "complete" || friendlyIframeWindow.document.readyState == "interactive")) {
                 firstRun = false;
-                iglooUtilities = setInterval(getIgloo, 100);
+                getIgloo(window);
             }
         }
     }
