@@ -622,14 +622,14 @@ var triviaWidget = function () {
 
         for (var i = 0; resultsChart_el.length > i; i++) {
             switch (i) {
-                case 0:
-                    resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
-                    resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                    break;
-                default:
-                    resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
-                    resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                    break;
+            case 0:
+                resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
+                resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+                break;
+            default:
+                resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
+                resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+                break;
             }
         }
 
@@ -647,37 +647,37 @@ var triviaWidget = function () {
 
     function answerSubmittedFn(answer) {
         switch (answer) {
-            case 'correct':
-                removeAd = true;
-                widgetEngaged = true;
-                addIntervalScoreFn();
-                adjustIntervalScoreFn('clear');
-                submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
-                if (wideWidget) {
-                    triviaImageOverlay_el.style.height = '230px';
-                }
-                intervalScoreContainer_el.style.visibility = 'hidden';
-                progressBar_el.style.visibility = 'hidden';
-                adjustIntervalScoreFn('clear');
-                submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
-                triviaContainer_el.className = "correct_submission";
-                nextQuestionFn();
-                break;
-            case 'incorrect':
-                removeAd = true;
-                widgetEngaged = true;
-                adjustIntervalScoreFn('clear');
-                submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
-                if (wideWidget) {
-                    triviaImageOverlay_el.style.height = '230px';
-                }
-                intervalScoreContainer_el.style.visibility = 'hidden';
-                progressBar_el.style.visibility = 'hidden';
-                adjustIntervalScoreFn('clear');
-                submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
-                triviaContainer_el.className = "incorrect_submission";
-                nextQuestionFn();
-                break;
+        case 'correct':
+            removeAd = true;
+            widgetEngaged = true;
+            addIntervalScoreFn();
+            adjustIntervalScoreFn('clear');
+            submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
+            if (wideWidget) {
+                triviaImageOverlay_el.style.height = '230px';
+            }
+            intervalScoreContainer_el.style.visibility = 'hidden';
+            progressBar_el.style.visibility = 'hidden';
+            adjustIntervalScoreFn('clear');
+            submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
+            triviaContainer_el.className = "correct_submission";
+            nextQuestionFn();
+            break;
+        case 'incorrect':
+            removeAd = true;
+            widgetEngaged = true;
+            adjustIntervalScoreFn('clear');
+            submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
+            if (wideWidget) {
+                triviaImageOverlay_el.style.height = '230px';
+            }
+            intervalScoreContainer_el.style.visibility = 'hidden';
+            progressBar_el.style.visibility = 'hidden';
+            adjustIntervalScoreFn('clear');
+            submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
+            triviaContainer_el.className = "incorrect_submission";
+            nextQuestionFn();
+            break;
         }
     }
 
@@ -918,7 +918,7 @@ var triviaWidget = function () {
 
     if (wideWidget) {
         var isAdVisible = false;
-        window.setInterval(function () {// create interval to swap the ad every 3 secs if the widget is not been engaged
+        window.setInterval(function () { // create interval to swap the ad every 3 secs if the widget is not been engaged
             if (isSmall && total_clicks === 0 && !widgetEngaged && !triviaStarted) {
                 if (!isAdVisible) {
                     intervalScoreContainer_el.style.visibility = 'visible';
@@ -969,7 +969,7 @@ var triviaWidget = function () {
 
 
     /*****************ANALYTICS VARIABLES **************************/
-        //global variables used for payload
+    //global variables used for payload
     var sessionId,
         partnerId,
         placementId,
@@ -1015,7 +1015,7 @@ var triviaWidget = function () {
         view = iglooAnalytics('view'); // check initial load if widget is available
 
         //TODO COMBINE TIMERS TO GET A MORE ACCURATE TIME INTERVAL REPORTING
-        analyticsSession();// get session ID first
+        analyticsSession(); // get session ID first
         analyticsWindowFocus();
         analyticsDwellEngagement();
         analyticsViewScroll();
@@ -1045,15 +1045,15 @@ var triviaWidget = function () {
     function iglooAnalytics(type) {
         try {
             switch (type) {
-                case 'view':
-                    return igloo.utils.elementIsVisible(sntTriviaContent, null, false, 0.5);
-                    break;
-                case 'useragent':
-                    return igloo.browser;
-                    break;
-                default:
-                    console.warn('igloo Utility not found', e);
-                    break;
+            case 'view':
+                return igloo.utils.elementIsVisible(sntTriviaContent, null, false, 0.5);
+                break;
+            case 'useragent':
+                return igloo.browser;
+                break;
+            default:
+                console.warn('igloo Utility not found', e);
+                break;
             }
         } catch (e) {
             console.warn('igloo not found', e);
@@ -1100,9 +1100,9 @@ var triviaWidget = function () {
                 var postXML = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
                 postXML.open("POST", url, true);
                 postXML.send(JSON.stringify(jsonObject))
-                // setTimeout(function(){
-                //   postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
-                // },200);
+                    // setTimeout(function(){
+                    //   postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
+                    // },200);
             }
         } catch (e) {
             console.warn("Product Analytics Error in Post Request", e)
@@ -1201,8 +1201,7 @@ var triviaWidget = function () {
         this.stopAt = stopAt;
         this.timerOn = false;
         this.tick = tick;
-        this.intervalTimer = function () {
-        },
+        this.intervalTimer = function () {},
             this.startTime = function () {
                 if (!this.timerOn) {
                     this.timerOn = true;
@@ -1257,20 +1256,20 @@ var triviaWidget = function () {
 
     function analyticsSetAnswer(selection) { //TODO make a better analytics too hardcoded
         switch (selection) {
-            case 'correct':
-                answered_correctly = 1;
-                break;
-            case 'wrong_1':
-                answered_wrong_1 = 1;
-                break;
-            case 'wrong_2':
-                answered_wrong_2 = 1;
-                break;
-            case 'wrong_3':
-                answered_wrong_3 = 1;
-                break;
-            default:
-                break
+        case 'correct':
+            answered_correctly = 1;
+            break;
+        case 'wrong_1':
+            answered_wrong_1 = 1;
+            break;
+        case 'wrong_2':
+            answered_wrong_2 = 1;
+            break;
+        case 'wrong_3':
+            answered_wrong_3 = 1;
+            break;
+        default:
+            break
         }
     }
 
@@ -1327,8 +1326,7 @@ var triviaWidget = function () {
                 storeSession['session_id'] = storeSession.session_id ? storeSession.session_id : sessionId;
 
                 sessionStorage.setItem('snt_trivia_analytics', JSON.stringify(storeSession));
-            }
-            else {
+            } else {
                 isActive = true;
                 storeSession['before_time'] = storeSession['before_time'] ? storeSession['before_time'] : Date.now();
                 storeSession['after_time'] = Date.now();
@@ -1706,43 +1704,29 @@ var triviaWidget = function () {
     var dwellTest;
     var totalTries = 10;
     var iglooTries = 0;
+
     function getIgloo(windowFrame) {
-        try{
-          windowFrame = windowFrame ? windowFrame : window;
-          if(iglooTries < totalTries){
-            iglooTries++;
-            if (windowFrame.igloo) {
-                igloo = windowFrame.igloo;
+        try {
+            windowFrame = windowFrame ? windowFrame : window;
+            if (iglooTries < totalTries) {
+                iglooTries++;
+                if (windowFrame.igloo) {
+                    igloo = windowFrame.igloo;
 
-                /*******************START ANALYTICS******************/
-                startTriviaAnalytics();
-                /******************** ANALYTICS* ******************/
+                    /*******************START ANALYTICS******************/
+                    startTriviaAnalytics();
+                    /******************** ANALYTICS* ******************/
 
-                checkEmbeds();
+                    checkEmbeds();
 
-                initialSetup();
-                clearInterval(iglooUtilities);
-            } else {
-              console.log('igloo not found');
-               getIgloo(windowFrame.parent);
+                    initialSetup();
+                    clearInterval(iglooUtilities);
+                } else {
+                    getIgloo(windowFrame.parent);
+                }
             }
-          }
-        }catch(e){
-			console.log('igloo not found after 10 tries');
-        }
-        if (windowFrame.igloo) {
-            igloo = window.top.igloo;
-
-            /*******************START ANALYTICS******************/
-            startTriviaAnalytics();
-            /******************** ANALYTICS* ******************/
-
-            checkEmbeds();
-
-            initialSetup();
-            clearInterval(iglooUtilities);
-        } else {
-           getIgloo(windowFrame.parent);
+        } catch (e) {
+            console.log('igloo not found after 10 tries');
         }
     }
 
