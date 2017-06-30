@@ -235,6 +235,7 @@ function capitalizeFirstLetter(string) {
 
 
 var triviaWidget = function () {
+    var triviaFail = 0;
     var friendlyIf = friendlyIframe;
     var friendlyIfWindow = friendlyIframeWindow;
 
@@ -352,7 +353,7 @@ var triviaWidget = function () {
     function initialSetup(qId) {
         try {
             //if currentQuizData is available then skip otherwise run function to make api call
-            adjustIntervalScoreFn("clear")
+            adjustIntervalScoreFn("clear");
             if (!currentQuizData) {
                 callTriviaApi();
             }
@@ -392,10 +393,9 @@ var triviaWidget = function () {
     function setQuizKeys(titles) {
         questionKey = null; // Reset question key since a new quiz is being made
         intervalTimer = null;
+        titles.splice(titles.indexOf(activeQuizKey), 1);
         for (var i = 0; otherContentOptionContainer_el.length - 1 > i; i++) {
             var subCatId = titles[0];
-            otherContentOptionContainer_el[i].id = subCatId;
-
             var quizData = currentQuizData.filter(function (quiz) {
                 if (quiz.sub_category_id === subCatId) {
                     return quiz;
@@ -407,8 +407,9 @@ var triviaWidget = function () {
             var thumbnailImage = firstRandomQuestion ? "url(" + imageUrl + firstRandomQuestion.metadata.image + "4_3.jpg)" : '';
             animationContainer_el[i].style.backgroundImage = thumbnailImage;
             animationContainer_el[i].getElementsByTagName('p')[0].innerHTML = quizData.sub_category.toUpperCase();
+            otherContentOptionContainer_el[i].id = subCatId;
             //Click event for other quiz buttons
-            otherContentOptionContainer_el[i].onclick = function () {
+            otherContentOptionContainer_el[i].onclick = function (event) {
                 if (isSmall && wideWidget) {
                     removeAd = true;
                     adControl(false);
@@ -417,7 +418,7 @@ var triviaWidget = function () {
                 }
                 sendPostMessageToIgloo(postObject, 5);
                 updatePayload('send');
-                restartFn(subCatId);
+                restartFn(parseInt(event.target.parentNode.id));
             };
 
             titles.splice(titles.indexOf(subCatId), 1);
@@ -1133,54 +1134,57 @@ var triviaWidget = function () {
     };
 
     function updatePayload(send) {
-        try {
+        if (triviaFail <= 10) {
+            try {
 
-            /*
-             viewDwell, // time the widget is in view;
-             embedTime, // time the moment client embeded widget
-             sessionTimer, // create Session Timer to know when the session has ended and create a new payload;
-             payloadTimer, // create Payload Timer to know when to auto send payloads if variables are met;
-             engageDwell, // time from the moment the widget is in view and engaged
-             dwellLimitTimer
-             */
+                /*
+                 viewDwell, // time the widget is in view;
+                 embedTime, // time the moment client embeded widget
+                 sessionTimer, // create Session Timer to know when the session has ended and create a new payload;
+                 payloadTimer, // create Payload Timer to know when to auto send payloads if variables are met;
+                 engageDwell, // time from the moment the widget is in view and engaged
+                 dwellLimitTimer
+                 */
 
-            jsonObject = {
-                "ac": answered_correctly ? answered_correctly : 0, //correct
-                "bo": bounce, // bounce
-                "cl": total_clicks ? total_clicks : 0, //total clicks
-                "eb": total_embeds ? total_embeds : 0, //total embeds on the page
-                "ed": engageDwell ? engageDwell.time : 0, //engaged dwell
-                "ev": embed_view, // embed views
-                "mo": userAgentObj.mobile ? 1 : 0, //mobile
-                "pa": query.event.p, //partner id
-                "pl": query.event.z && query.event.z != '' ? query.event.z : 0, //placement id
-                "qi": questionId.toString(),
-                "qv": question_view ? question_view : 0, // question views
-                "qz": quizId, //quiz id
-                "si": sessionId, // i need to generate this myself
-                "sp": skipped ? skipped : 0, //skip
-                "vd": viewDwell ? viewDwell.time : 0, //view dwell
-                "w1": answered_wrong_1 ? answered_wrong_1 : 0, //wrong 1
-                "w2": answered_wrong_2 ? answered_wrong_2 : 0, //wrong 2
-                "w3": answered_wrong_3 ? answered_wrong_3 : 0, //wrong 3
-                "zv": quiz_views // quiz views
-            };
+                jsonObject = {
+                    "ac": answered_correctly ? answered_correctly : 0, //correct
+                    "bo": bounce, // bounce
+                    "cl": total_clicks ? total_clicks : 0, //total clicks
+                    "eb": total_embeds ? total_embeds : 0, //total embeds on the page
+                    "ed": engageDwell ? engageDwell.time : 0, //engaged dwell
+                    "ev": embed_view, // embed views
+                    "mo": userAgentObj.mobile ? 1 : 0, //mobile
+                    "pa": query.event.p, //partner id
+                    "pl": query.event.z && query.event.z != '' ? query.event.z : 0, //placement id
+                    "qi": questionId.toString(),
+                    "qv": question_view ? question_view : 0, // question views
+                    "qz": quizId, //quiz id
+                    "si": sessionId, // i need to generate this myself
+                    "sp": skipped ? skipped : 0, //skip
+                    "vd": viewDwell ? viewDwell.time : 0, //view dwell
+                    "w1": answered_wrong_1 ? answered_wrong_1 : 0, //wrong 1
+                    "w2": answered_wrong_2 ? answered_wrong_2 : 0, //wrong 2
+                    "w3": answered_wrong_3 ? answered_wrong_3 : 0, //wrong 3
+                    "zv": quiz_views // quiz views
+                };
 
 
-            isMobile = jsonObject['mo'];
+                isMobile = jsonObject['mo'];
 
-            if (send == 'send') {
-                createPayloadFrame(jsonObject);
-                jsonObject = {};
-                resetAnalytics();
-            } else {
-                // for (var obj in jsonObject) {
-                //     log(obj + ':' + jsonObject[obj] + jsonInfo[obj]);
-                // };
+                if (send == 'send') {
+                    createPayloadFrame(jsonObject);
+                    jsonObject = {};
+                    resetAnalytics();
+                } else {
+                    // for (var obj in jsonObject) {
+                    //     log(obj + ':' + jsonObject[obj] + jsonInfo[obj]);
+                    // };
+                }
+            } catch (e) {
+                triviaFail++;
+                console.log('%cerror updating payload                                                     ', 'background: linear-gradient(#7a0000, #000000); border: 1px solid #3E0E02; color: white');
+                console.warn(e);
             }
-        } catch (e) {
-            console.log('%cerror updating payload                                                     ', 'background: linear-gradient(#7a0000, #000000); border: 1px solid #3E0E02; color: white');
-            console.warn(e);
         }
     }
 
