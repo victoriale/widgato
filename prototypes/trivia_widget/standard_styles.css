@@ -927,7 +927,7 @@ p#skip_question i {
 
 .submission_info_container {
     visibility: hidden;
-    display: block;
+    display: table;
     position: absolute;
     padding: 10px 10px 5px 10px;
     text-align: center;
@@ -944,8 +944,12 @@ p#skip_question i {
 p.submission_info {
     color: #444;
     position: relative;
-    top: 0;
+    top: -39px;
     font-size: 14px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    width: 278px;
 }
 
 .submission_analytics_container {
