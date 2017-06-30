@@ -12,7 +12,7 @@ var isActive = false;
 var timeToLive = 600000;
 var triviaStarted = false; //flag to signify that the user has began the quiz and to stop the quiz from restarting
 var swapImage = true; //flag to change the image once the user goes to a new question or the question rotates whilst the widget is inactive
-var debug = false;
+var debug = true;
 
 function toggleDebug(){
   debug = debug ? true: false;
@@ -1124,10 +1124,11 @@ var triviaWidget = function () {
                 //   postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
                 // },200);
                 // console.log('json object sent and abort reponse', jsonObject);
-                // console.log("%cPAYLOAD SENT", payloadStyles);
-                for (var obj in jsonObject) {
-                    log(obj + ':' + jsonObject[obj] + "\t\t|| " + jsonInfo[obj]);
-                }
+                console.log("%cPAYLOAD SENT", payloadStyles);
+                console.log(jsonObject);
+                // for (var obj in jsonObject) {
+                //     log(obj + ':' + jsonObject[obj] + "\t\t|| " + jsonInfo[obj]);
+                // }
             }
         } catch (e) {
             console.warn("Product Analytics Error in Post Request", e)
@@ -1734,9 +1735,11 @@ var triviaWidget = function () {
         if (window.top.igloo) {
             igloo = window.top.igloo;
 
-            /*******************START ANALYTICS******************/
-            startTriviaAnalytics();
-            /******************** ANALYTICS* ******************/
+            if(!sessionTimer){
+              /*******************START ANALYTICS******************/
+              startTriviaAnalytics();
+              /******************** ANALYTICS* ******************/
+            }
 
             checkEmbeds();
 
