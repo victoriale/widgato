@@ -1,5 +1,5 @@
 /*--Font Awesome--*/
-@import url("../../css/font/lato/lato.css");
+@import url("../css/font/lato/lato.css");
 
 /*@font-face {
     font-family: 'FontAwesome';
@@ -2468,7 +2468,7 @@ span.results_chart_value {
         font-size: 12px;
         color: #fff;
         z-index: 3;
-        vertical-align: middle;		
+        vertical-align: middle;
         display: table-cell;
     }
 
