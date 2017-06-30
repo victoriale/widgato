@@ -166,8 +166,8 @@ function getHostName(url) {
 
 // set initial content and variables to start trivia
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-var postUrl = "//dev-pa.synapsys.us/";
-var apiCallUrl = "dev-tw-api.synapsys.us/index.php";
+var postUrl = "//prod-pa.synapsys.us/";
+var apiCallUrl = "prod-tw-api.synapsys.us/index.php";
 var imageUrl = "images.synapsys.us";
 var query;
 var baseEvent;
