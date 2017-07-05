@@ -14,7 +14,7 @@
   var triviaStarted = false; //flag to signify that the user has began the quiz and to stop the quiz from restarting
   var swapImage = true; //flag to change the image once the user goes to a new question or the question rotates whilst the widget is inactive
   var debug = true;
-  var iframeBaseDomain;
+  var iframeHostName;
 
   function toggleDebug() {
     debug = debug ? false : true;
@@ -34,7 +34,7 @@
     friendlyIframe.style.border = 'none';
 
     //set base bath for iframe
-    iframeBaseDomain = protocolToUse + getDomain(currentScript.src) + '/';
+    iframeHostName = getHostName(currentScript.src);
 
     currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
 
@@ -81,9 +81,6 @@ function setupIframe() {
     }
   }
 
-  var newBase = friendlyIframeWindow.document.createElement("base");
-  newBase.setAttribute("href", iframeBaseDomain);
-  friendlyIframeWindow.document.getElementsByTagName("head")[0].appendChild(newBase);
 
   currentScript.src = 'about:blank'; // remove src of the script to about:blank to allow more than one widget to counter IE
 
@@ -205,8 +202,7 @@ function setupEnvironment(widgetQuery) {//runs once per embed
   query = widgetQuery;
   var cat = widgetQuery.category;
   var group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
-  console.log(iframeBaseDomain);
-  var environment = getHostName(iframeBaseDomain).split('.')[0];
+  var environment = iframeHostName.split('.')[0];
   var env;
 
   //setup Image Environment api
@@ -1034,7 +1030,7 @@ var triviaWidget = function () {
   embed_view = 0, //Each time an embed is 50%+ in view for 1+ seconds. This is recorded only once per embed load.
   total_clicks = 0,
   total_embeds, // Record total amount of embeds on a page no matter if in view or not
-  bounce = 1, //should only ever be 1, never more than due to submission on a payload level.  || always return 1 until questions is answered then return 0 which zero means it is no longer in bounce since it has been answered
+  bounce = 0, //should only ever be 1, never more than due to submission on a payload level.  || always return 1 until questions is answered then return 0 which zero means it is no longer in bounce since it has been answered
 
   skipped, // skippped question sends 0 || 1
   answered_correctly, // correct question sends 0 || 1
@@ -1604,7 +1600,7 @@ var triviaWidget = function () {
           if (engageDwell.timerOn) {
             engageDwell.time = engageDwell.time - event.stopAt;
           }
-
+          bounce = 1; // trivia engaged the question is now always able to be a bounced question until user clicks next question then metrics will change;
           engageDwell.pauseTime();
           sessionTimer.resetTime();
           updatePayload('send');
