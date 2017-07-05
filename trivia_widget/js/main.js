@@ -1373,16 +1373,16 @@ var triviaWidget = function () {
   }
 
   function set_idle_listeners() { //setup the event listeners if user becomes active trigger start timer
-    window.document.addEventListener("mousemove", start_timer, false);
-    window.document.addEventListener("mousedown", start_timer, false);
-    window.document.addEventListener("keypress", start_timer, false);
-    window.document.addEventListener("DOMMouseScroll", start_timer, false);
-    window.document.addEventListener("mousewheel", start_timer, false);
-    window.document.addEventListener("touchstart", start_timer, false);
-    window.document.addEventListener("touchmove", start_timer, false);
-    window.document.addEventListener("MSPointerMove", start_timer, false);
+    window.top.document.addEventListener("mousemove", start_timer, false);
+    window.top.document.addEventListener("mousedown", start_timer, false);
+    window.top.document.addEventListener("keypress", start_timer, false);
+    window.top.document.addEventListener("DOMMouseScroll", start_timer, false);
+    window.top.document.addEventListener("mousewheel", start_timer, false);
+    window.top.document.addEventListener("touchstart", start_timer, false);
+    window.top.document.addEventListener("touchmove", start_timer, false);
+    window.top.document.addEventListener("MSPointerMove", start_timer, false);
 
-    var debugSession = window.document.getElementById('sessionTest');
+    var debugSession = window.top.document.getElementById('sessionTest');
     if (!widgetEngaged || !view) {
       if (sessionTimer) {
         if (!sessionTimer.timerOn) {
@@ -1406,14 +1406,14 @@ var triviaWidget = function () {
   }
 
   function start_timer() { //if user becomes active, remove event listeners so we dont polute the event space
-    window.document.removeEventListener("mousemove", start_timer, false);
-    window.document.removeEventListener("mousedown", start_timer, false);
-    window.document.removeEventListener("keypress", start_timer, false);
-    window.document.removeEventListener("DOMMouseScroll", start_timer, false);
-    window.document.removeEventListener("mousewheel", start_timer, false);
-    window.document.removeEventListener("touchstart", start_timer, false);
-    window.document.removeEventListener("touchmove", start_timer, false);
-    window.document.removeEventListener("MSPointerMove", start_timer, false);
+    window.top.document.removeEventListener("mousemove", start_timer, false);
+    window.top.document.removeEventListener("mousedown", start_timer, false);
+    window.top.document.removeEventListener("keypress", start_timer, false);
+    window.top.document.removeEventListener("DOMMouseScroll", start_timer, false);
+    window.top.document.removeEventListener("mousewheel", start_timer, false);
+    window.top.document.removeEventListener("touchstart", start_timer, false);
+    window.top.document.removeEventListener("touchmove", start_timer, false);
+    window.top.document.removeEventListener("MSPointerMove", start_timer, false);
 
     isActive = true;
     sessionTimer.pauseTime();
