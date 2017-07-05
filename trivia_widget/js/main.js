@@ -166,8 +166,8 @@ function getHostName(url) {
 
 // set initial content and variables to start trivia
 var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
-var postUrl = "//prod-pa.synapsys.us/";
-var apiCallUrl = "prod-tw-api.synapsys.us/index.php";
+var postUrl = "-pa.synapsys.us/";
+var apiCallUrl = "-tw-api.synapsys.us/index.php";
 var imageUrl = "images.synapsys.us";
 var query;
 var baseEvent;
@@ -183,7 +183,7 @@ var currentScript = document.currentScript != null && document.currentScript.src
 })();
 
 function getEnv(env) {
-    if (env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
+    if (env.match(/^homestead/) != null || env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
         env = "dev";
     } else if (env.match(/^qa\./) != null) {
         env = "qa";
@@ -195,7 +195,7 @@ function getEnv(env) {
 
 //DEPRECATED WILL BE REPLACED WITH getENV
 function synapsysENV(env) {
-    if (env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
+    if (env.match(/^homestead/) != null || env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
         env = 'dev-';
     } else if (env.match(/^qa\./) == 'qa.') {
         env = 'qa-';
@@ -212,20 +212,17 @@ function synapsysENV(env) {
  * @param function widgetQuery - the query string sent back as and Object from the location.search substrings
  * to be parsed through and set for global use
  */
-function setupEnvironment(widgetQuery) {
+function setupEnvironment(widgetQuery) {//runs once per embed
     query = widgetQuery;
-    apiCallUrl = protocolToUse + apiCallUrl;
     var cat = widgetQuery.category;
     var group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
     var environment = window.location.hostname.split('.')[0];
     var env;
-    if (widgetQuery.env != null) {
-        env = widgetQuery.env ? widgetQuery.env : 'prod';
-    } else {
-        env = getEnv(environment);
-    }
+
     //setup Image Environment api
     imageUrl = protocolToUse + synapsysENV(environment) + imageUrl; // this is global call that is used for images
+    postUrl = protocolToUse + getEnv(environment) + postUrl;
+    apiCallUrl = protocolToUse + getEnv(environment) + apiCallUrl;
 
     if (cat && cat != '') {
         apiCallUrl += '?category=' + cat;
