@@ -184,7 +184,7 @@ var currentScript = document.currentScript != null && document.currentScript.src
 })();
 
 function getEnv(env) {
-  if (env.match(/^homestead/) != null || env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
+  if (env.match(/^homestead/) != null || env.match(/^localhost/) != null || env.match(/^dev/) != null) {
     env = "dev";
   } else if (env.match(/^qa\./) != null) {
     env = "qa";

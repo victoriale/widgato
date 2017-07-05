@@ -184,24 +184,12 @@ var currentScript = document.currentScript != null && document.currentScript.src
 })();
 
 function getEnv(env) {
-  if (env.match(/^homestead/) != null || env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
+  if (env.match(/^homestead/) != null || env.match(/^localhost/) != null || env.match(/^dev/) != null) {
     env = "dev";
   } else if (env.match(/^qa\./) != null) {
     env = "qa";
   } else {
     env = "prod";
-  }
-  return env;
-}
-
-//DEPRECATED WILL BE REPLACED WITH getENV
-function synapsysENV(env) {
-  if (env.match(/^homestead/) != null || env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
-    env = 'dev-';
-  } else if (env.match(/^qa\./) == 'qa.') {
-    env = 'qa-';
-  } else {
-    env = '';
   }
   return env;
 }
@@ -221,7 +209,7 @@ function setupEnvironment(widgetQuery) {//runs once per embed
   var env;
 
   //setup Image Environment api
-  imageUrl = protocolToUse + synapsysENV(environment) + imageUrl; // this is global call that is used for images
+  imageUrl = getEnv(environment) == 'prod' ? imageUrl : protocolToUse + getEnv(environment) + '-' + imageUrl; // this is global call that is used for images
   postUrl = protocolToUse + getEnv(environment) + postUrl;
   apiCallUrl = protocolToUse + getEnv(environment) + apiCallUrl;
 
