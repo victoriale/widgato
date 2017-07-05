@@ -205,6 +205,7 @@ function setupEnvironment(widgetQuery) {//runs once per embed
   query = widgetQuery;
   var cat = widgetQuery.category;
   var group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
+  console.log(iframeBaseDomain);
   var environment = getHostName(iframeBaseDomain).split('.')[0];
   var env;
 
