@@ -1343,15 +1343,8 @@ var triviaWidget = function () {
 
       evt = evt || window.event;
 
+      storeSession = storeSessionFn.get();
 
-      if (sessionStorage.getItem('snt_trivia_analytics') === null) {
-        storeSession = sessionStorage.setItem('snt_trivia_analytics', JSON.stringify({
-          before_time: null,
-          after_time: null,
-          session_id: null
-        }));
-      }
-      storeSession = JSON.parse(sessionStorage.getItem('snt_trivia_analytics'));
       if (this[hidden]) {
         isActive = false;
         storeSession['before_time'] = Date.now();
@@ -1497,7 +1490,6 @@ var triviaWidget = function () {
         if (!widgetEngaged && !dwellLimitTimer.timerOn) {
           isActive = false;
         }
-
         if (!widgetEngaged) {
           set_idle_listeners(); // create Session Timer to listen for any event and determin if the use is idle
           engageDwell.pauseTime();
@@ -1526,7 +1518,7 @@ var triviaWidget = function () {
         } // widgetEngaged
       });
 
-      window.onscroll = function () { // create listener on scroll for widget in view
+      window.top.onscroll = function () { // create listener on scroll for widget in view
         if (!viewDwell) {
           viewDwell = new timer('view', 100, null, debugTimer);
         }
@@ -1541,7 +1533,6 @@ var triviaWidget = function () {
         } else {
           viewEngaged = !view && !viewEngaged ? false : viewEngaged;
         }
-
         if (view) { // if trivia is in view & timer isnt on & trivia is engaged => start timer
           viewDwell.startTime();
         } else {
@@ -1552,8 +1543,8 @@ var triviaWidget = function () {
       }
 
       // to be able to initially run the scroll event listener;
-      window.scrollTo(window.scrollX, window.scrollY - 1);
-      window.scrollTo(window.scrollX, window.scrollY + 1);
+      window.top.scrollTo(window.top.scrollX, window.top.scrollY - 1);
+      window.top.scrollTo(window.top.scrollX, window.top.scrollY + 1);
     } catch (e) {
       console.warn('ViewScroll Error', e);
     }
