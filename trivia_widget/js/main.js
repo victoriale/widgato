@@ -343,6 +343,23 @@ var triviaWidget = function () {
     var cumulativeScore = 0;
     var totalPossibleScore = 100;
 
+    var storeSessionFn = {
+        get: function () {
+          if (sessionStorage.getItem('snt_trivia_analytics') === null) {
+              storeSession = sessionStorage.setItem('snt_trivia_analytics', JSON.stringify({
+                  before_time: null,
+                  after_time: null,
+                  session_id: null
+              }));
+          }
+          storeSession = JSON.parse(sessionStorage.getItem('snt_trivia_analytics'));
+          return storeSession;
+
+        },
+        set: function (jsonData) {
+          sessionStorage.setItem('snt_trivia_analytics', JSON.stringify(jsonData));
+        }
+    } //storeSessionFn
 
     // function set to mimick API call
     function callTriviaApi() {
@@ -398,6 +415,8 @@ var triviaWidget = function () {
             })[0];
 
             quizId = activeQuizKey; // set analytics quizId to be sent into PAYLOAD
+
+            storeSession = storeSessionFn.get();
 
             dataQuestionTitles = getQuizSetKeys(activeQuiz);
 
@@ -1011,6 +1030,7 @@ var triviaWidget = function () {
         dwellLimitTimer,
         windowActiveTimer; // time limiter for dwell so dwell timer can be stopped after a certain time limit
 
+    var storeSession; //TODO MAKE INTO CLOBAL
     var sessionBefore = 0;
     var sessionAfter = 0;
 
@@ -1163,15 +1183,13 @@ var triviaWidget = function () {
     function updatePayload(send) {
         if (triviaFail <= 10) {
             try {
-
-                /*
-                 viewDwell, // time the widget is in view;
-                 embedTime, // time the moment client embeded widget
-                 sessionTimer, // create Session Timer to know when the session has ended and create a new payload;
-                 payloadTimer, // create Payload Timer to know when to auto send payloads if variables are met;
-                 engageDwell, // time from the moment the widget is in view and engaged
-                 dwellLimitTimer
-                 */
+                storeSession = storeSessionFn.get();
+                if(view && (storeSession['quizId'] != quizId)){
+                  quiz_views = 1;
+                  storeSession['quizId'] = quizId;
+                  storeSessionFn.set(storeSession);
+                }
+                storeSession['quizId'];
 
                 jsonObject = {
                     "ac": answered_correctly ? answered_correctly : 0, //correct
@@ -1341,7 +1359,6 @@ var triviaWidget = function () {
             evt = evt || window.event;
 
 
-            var storeSession;
             if (sessionStorage.getItem('snt_trivia_analytics') === null) {
                 storeSession = sessionStorage.setItem('snt_trivia_analytics', JSON.stringify({
                     before_time: null,
@@ -1436,19 +1453,10 @@ var triviaWidget = function () {
         var sessionTest,
             s_id;
 
-        var sstorage;
-
-        if (sessionStorage.getItem('snt_trivia_analytics') === null) {
-            sstorage = sessionStorage.setItem('snt_trivia_analytics', JSON.stringify({
-                before_time: null,
-                after_time: null,
-                session_id: null
-            }));
-        }
-        sstorage = JSON.parse(sessionStorage.getItem('snt_trivia_analytics'));
+        var sstorage = storeSessionFn.get();
         sessionId = sstorage && sstorage.session_id ? sstorage.session_id : randomString(16); //Generate a session ID
         sstorage.session_id = sessionId;
-        sessionStorage.setItem('snt_trivia_analytics', JSON.stringify(sstorage));
+        storeSessionFn.set(sstorage);
 
         // if (!window.document.getElementById('s_id')) {
         //     s_id = window.document.createElement('div');
