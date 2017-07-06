@@ -1069,6 +1069,7 @@
             answered_wrong_2, // wrong question sends 0 || 1
             answered_wrong_3; // wrong question sends 0 || 1
 
+        var view = false;
 
         function startTriviaAnalytics() {
             resetAnalytics();
@@ -1077,7 +1078,6 @@
 
             // if igloo utilities then iglooAnalytics() function will return boolean true if igloo is 50% or more in view of use window
             view = iglooAnalytics('view'); // check initial load if widget is available
-
             //TODO COMBINE TIMERS TO GET A MORE ACCURATE TIME INTERVAL REPORTING
             analyticsSession(); // get session ID first
             analyticsWindowFocus();
@@ -1274,7 +1274,6 @@
                         "w3": answered_wrong_3 ? answered_wrong_3 : 0, //wrong 3
                         "zv": quiz_views // quiz views
                     };
-
 
                     isMobile = jsonObject['mo'];
 
