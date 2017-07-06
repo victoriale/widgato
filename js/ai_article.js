@@ -23,8 +23,6 @@ ai_widget = (function() {
   }
 
   var aiWidgetHost = location.hostname;
-  // CONSOLE TO CHECK ON DEV , will remove it once I fix this issue
-  console.log(aiWidgetHost);
   var apiHost = getEnv(aiWidgetHost);
   function createAPIUrl(hostParameter) {
       return "http://"+ hostParameter +"-sports-ai.synapsys.us/sidekick?scope=" + scope;
