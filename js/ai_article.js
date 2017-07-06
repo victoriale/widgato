@@ -15,9 +15,9 @@ ai_widget = (function() {
     scope = 'nba';
   }
   function getEnv(env) {
-      if (env.match(/^localhost/) != null || env.match(/^dev\./) != null) {
+      if (env.match(/^localhost/) != null || env.match(/^dev/) != null) {
           env = "dev";
-      } else if (env.match(/^qa\./) != null) {
+      } else if (env.match(/^qa/) != null) {
           env = "qa";
       } else {
           env = "prod";
