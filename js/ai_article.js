@@ -21,8 +21,20 @@ ai_widget = (function() {
       }
       return env;
   }
+  
+  function getHostName(url) {
+      var locationElement = document.createElement("a");
+      locationElement.href = url;
 
-  var aiWidgetHost = location.hostname;
+      if (locationElement.host == "") {
+          locationElement.href = locationElement.href;
+      }
+      return locationElement;
+  }
+
+  var aiWidgetUrl = location != parent.location? document.referrer : document.location.href;
+  var aiWidgetHost = getHostName(aiWidgetUrl).hostname;
+  console.log(aiWidgetUrl, aiWidgetHost, "temporary check.")
   var apiHost = getEnv(aiWidgetHost);
   function createAPIUrl(hostParameter) {
       return "http://"+ hostParameter +"-sports-ai.synapsys.us/sidekick?scope=" + scope;
