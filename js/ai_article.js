@@ -4,7 +4,7 @@ ai_widget = (function() {
   var query = {};
   var scope;
   var target;
-  if (temp != null) {
+  if (temp != null && temp != "") {
     query = JSON.parse(decodeURIComponent(temp.substr(1)));
     scope = query.category;
     if (scope == "ncaad1") {
@@ -14,7 +14,23 @@ ai_widget = (function() {
   } else {
     scope = 'nba';
   }
-  var APIUrl = 'http://prod-sports-ai.synapsys.us/sidekick?scope=' + scope,
+  function getEnv(env) {
+      if (env.match(/^localhost/) != null || env.match(/^dev\./) != null) {
+          env = "dev";
+      } else if (env.match(/^qa\./) != null) {
+          env = "qa";
+      } else {
+          env = "prod";
+      }
+      return env;
+  }
+
+  var aiWidgetHost = location.hostname;
+  var apiHost = getEnv(aiWidgetHost);
+  function createAPIUrl(hostParameter) {
+      return "http://"+ hostParameter +"-sports-ai.synapsys.us/sidekick?scope=" + scope;
+  }
+  var APIUrl = createAPIUrl(apiHost);
     AIData = {},
     gameID = -1,
     pageInd = -1,
