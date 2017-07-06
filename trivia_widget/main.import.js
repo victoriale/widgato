@@ -262,7 +262,7 @@
         var env;
 
         //setup Image Environment api
-        imageUrl = getEnv(environment) == 'prod' ? imageUrl : protocolToUse + getEnv(environment) + '-' + imageUrl; // this is global call that is used for images
+        imageUrl = getEnv(environment) == 'prod' ? protocolToUse + imageUrl : protocolToUse + getEnv(environment) + '-' + imageUrl; // this is global call that is used for images
         postUrl = protocolToUse + getEnv(environment) + postUrl;
         apiCallUrl = protocolToUse + getEnv(environment) + apiCallUrl;
 
