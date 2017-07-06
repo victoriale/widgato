@@ -15,17 +15,31 @@ ai_widget = (function() {
     scope = 'nba';
   }
   function getEnv(env) {
-      if (env.match(/^localhost/) != null || env.match(/^dev/) != null) {
+      if (env.includes("localhost") != null || env.includes("dev") != null) {
           env = "dev";
-      } else if (env.match(/^qa/) != null) {
+      } else if (env.includes("qa") != null) {
           env = "qa";
       } else {
           env = "prod";
       }
       return env;
   }
+  
+  function getHostName(url) {
+      var locationElement = document.createElement("a");
+      locationElement.href = url;
+      // IE doesn't populate all link properties when setting .href with a relative URL,
+      // however .href will return an absolute URL which then can be used on itself
+      // to populate these additional fields.
+      if (locationElement.host == "") {
+          locationElement.href = locationElement.href;
+      }
+      return locationElement;
+  }
 
-  var aiWidgetHost = location.hostname;
+  var aiWidgetUrl = location != parent.location? document.referrer : document.location.href;
+  var aiWidgetHost = getHostName(aiWidgetUrl).hostname;
+  console.log(aiWidgetUrl, aiWidgetHost, "temporary check.")
   var apiHost = getEnv(aiWidgetHost);
   function createAPIUrl(hostParameter) {
       return "http://"+ hostParameter +"-sports-ai.synapsys.us/sidekick?scope=" + scope;
