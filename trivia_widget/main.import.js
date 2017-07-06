@@ -1110,7 +1110,8 @@
             try {
                 switch (type) {
                 case 'view':
-                    return igloo.utils.elementIsVisible(sntTriviaContent, null, false, 0.5);
+                    var triviaDocument = sntTriviaContent.contentWindow.document;
+                    return igloo.utils.elementIsVisible(triviaDocument.getElementById('snt_trivia_game'), null, false, 0.5);
                     break;
                 case 'useragent':
                     return igloo.browser;
