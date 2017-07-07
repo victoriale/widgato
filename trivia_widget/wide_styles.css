@@ -971,6 +971,15 @@ li.sm_icon i {
     float: right;
 }
 
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    /* This media query targets IE 10 and 11 only. ms-high-contrast is microsoft specific. Edge will not be affected */
+    p#skip_question {
+        cursor: pointer !important;
+        color: #34d4ff !important;
+        background: none !important;
+    }
+}
+
 p#skip_question {
     cursor: pointer;
     background: -webkit-linear-gradient(left, #3098ff 0%, #3098ff 0%, #34d4ff 100%); /* Chrome10-25,Safari5.1-6 */
