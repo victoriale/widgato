@@ -25,6 +25,32 @@
   var boxscoresLoaded = false; //Boolean if boxscores has loaded
   var parentNode; //Parent node of script tag
 
+  function getEnv(env) {
+      if (env.match(/^localhost/) != null || env.match(/^dev/) != null) {
+          env = "dev";
+      } else if (env.match(/^qa/) != null) {
+          env = "qa";
+      } else {
+          env = "prod";
+      }
+      return env;
+  }
+  function getHostName(url) {
+      var locationElement = document.createElement("a");
+      locationElement.href = url;
+      /* Some times IE fail to populate properties of all the links while setting .href with relative URL, In this case .href will return an absolute URL which can be used on itself to populate the additional fields.*/
+      if (locationElement.host == "") {
+          locationElement.href = locationElement.href;
+      }
+      return locationElement;
+  }
+  var boxscoresUrl = location != parent.location? document.referrer : document.location.href;
+  var boxscoresParentHost = getHostName(boxscoresUrl).hostname;
+  var apiHost = getEnv(boxscoresParentHost);
+  function createAPIUrl(hostParameter) {
+      return "://" + hostParameter + "-homerunloyal-api.synapsys.us/league/boxScores/";
+  }
+
   //Get current timezone offset and timezone abbreviation (in eastern)
   var getEasternTime = function(){
     //Grab current year
@@ -411,7 +437,8 @@
 
       }
     };
-    xhttp.open('GET', protocol + '://prod-homerunloyal-api.synapsys.us/league/boxScores/' + dateInput , true);
+    var boxscoresAPIUrl = createAPIUrl(apiHost);
+    xhttp.open('GET', protocol + boxscoresAPIUrl + dateInput , true);
     xhttp.send();
 
     boxscoresLoaded = true;
