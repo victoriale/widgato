@@ -28,7 +28,7 @@ ai_widget = (function() {
   function getHostName(url) {
       var locationElement = document.createElement("a");
       locationElement.href = url;
-
+      /* Some times IE fail to populate properties of all the links while setting .href with relative URL, In this case .href will return an absolute URL which can be used on itself to populate the additional fields.*/
       if (locationElement.host == "") {
           locationElement.href = locationElement.href;
       }
