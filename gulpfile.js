@@ -20,6 +20,20 @@ gulp.task('clean', function() {
         .pipe(clean({force: true}))
 });
 
+gulp.task('boxScores-uglify', function () {
+    // to minify boxscores.unminified.js file. can add more files in future in order to have one minified function for all js files
+    gulp.src('deepdive/boxscores/boxscores.js', {read: false})
+        .pipe(clean());
+
+    return gulp.src(['deepdive/boxscores/boxscores.unminified.js'])
+        .pipe(babel({
+            presets: ['es2015']
+        }))
+        .pipe(uglify())
+        .pipe(rename('boxscores.js'))
+        .pipe(gulp.dest('deepdive/boxscores/'))
+})
+
 gulp.task('sportsbar-css', function() {
   return gulp
   .src(['deepdive/bar/bar.css', 'deepdive/fonts/deepdive_bar/styles.css','deepdive/bar/lato.css'])
