@@ -34,7 +34,6 @@ ai_widget = (function() {
 
   var aiWidgetUrl = location != parent.location? document.referrer : document.location.href;
   var aiWidgetHost = getHostName(aiWidgetUrl).hostname;
-  console.log(aiWidgetUrl, aiWidgetHost, "temporary check.")
   var apiHost = getEnv(aiWidgetHost);
   function createAPIUrl(hostParameter) {
       return "http://"+ hostParameter +"-sports-ai.synapsys.us/sidekick?scope=" + scope;
