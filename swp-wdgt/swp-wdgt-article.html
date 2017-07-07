@@ -935,6 +935,7 @@
     </div>
 </div>
 <script type="text/javascript">
+
 var query = {};
 swp_wdgt = function () {
     A = function (id) {
@@ -957,6 +958,29 @@ swp_wdgt = function () {
     RenderArticleSide(protocolToUse);
 
 }();
+function getEnv(env) {
+    if (env.match(/^localhost/) != null || env.match(/^dev/) != null) {
+        env = "dev";
+    } else if (env.match(/^qa/) != null) {
+        env = "qa";
+    } else {
+        env = "prod";
+    }
+    return env;
+}
+
+function getHostName(url) {
+    var locationElement = document.createElement("a");
+    locationElement.href = url;
+    /* Some times IE fail to populate properties of all the links while setting .href with relative URL, In this case .href will return an absolute URL which can be used on itself to populate the additional fields.*/
+    if (locationElement.host == "") {
+        locationElement.href = locationElement.href;
+    }
+    return locationElement;
+}
+var swp_wdgt_url = location != parent.location? document.referrer : document.location.href;
+var swp_wdgt_host = getHostName(swp_wdgt_url).hostname;
+var swp_wdgt_apiHost = getEnv(swp_wdgt_host);
 
 function RenderArticleSide(protocolToUse) {
     var gameID;
@@ -999,28 +1023,28 @@ function RenderArticleSide(protocolToUse) {
     catOptions[0]=scope;
 
     if (catOptions[0] == 'mlb') {
-        APIUrl = protocolToUse + 'prod-homerunloyal-ai.synapsys.us/sidekick?scope=mlb';
+        APIUrl = protocolToUse + swp_wdgt_apiHost + '-homerunloyal-ai.synapsys.us/sidekick?scope=mlb';
         keyword = "MLB";
         isMlb = true;
     } else if (catOptions[0] == 'nfl') {
-        APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick?scope=nfl';
+        APIUrl = protocolToUse + swp_wdgt_apiHost + '-touchdownloyal-ai.synapsys.us/sidekick?scope=nfl';
         keyword = "NFL";
         isMlb = false;
     } else if (catOptions[0] == 'ncaa') {
-        APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick?scope=ncaa';
+        APIUrl = protocolToUse + swp_wdgt_apiHost + '-touchdownloyal-ai.synapsys.us/sidekick?scope=ncaa';
         keyword = "NCAAF";
         isMlb = false;
     } else if (catOptions[0] == 'nba') {
-        APIUrl = protocolToUse + 'prod-sports-ai.synapsys.us/sidekick?scope=nba';
+        APIUrl = protocolToUse + swp_wdgt_apiHost + '-sports-ai.synapsys.us/sidekick?scope=nba';
         keyword = "NBA";
         isMlb = false;
     }
     else if (catOptions[0] == 'ncaam') {
-        APIUrl = protocolToUse + 'prod-sports-ai.synapsys.us/sidekick?scope=ncaam';
+        APIUrl = protocolToUse + swp_wdgt_apiHost + '-sports-ai.synapsys.us/sidekick?scope=ncaam';
         keyword = "NCAAM";
         isMlb = false;
     } else {
-        APIUrl = protocolToUse + 'prod-touchdownloyal-ai.synapsys.us/sidekick';
+        APIUrl = protocolToUse + swp_wdgt_apiHost + '-touchdownloyal-ai.synapsys.us/sidekick';
         keyword = "MLB";
         isMlb = false;
     }
