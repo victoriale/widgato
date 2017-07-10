@@ -316,6 +316,7 @@
         var resultsChartValue_el = friendlyIfWindow.document.getElementsByClassName("results_chart_value");
         var randomOption_el = friendlyIfWindow.document.getElementsByClassName("random_option")[0];
         var progressBar_el = $("progress_bar");
+		var progressFill_el = $("progress_fill");
         var adProgressBar_el = $("ad_progress_bar");
         var intervalScore_el = $("interval_score");
         var intervalScoreQuestion_el = $("interval_score_question");
@@ -609,7 +610,10 @@
                 }
                 intervalScoreContainer_el.style.display = 'block';
                 progressBar_el.style.display = 'block';
-                submissionOverlay_el.classList.remove('no_transition');
+                progressFill_el.style.display = 'block';
+      			if (wideWidget) {
+          			submissionOverlay_el.classList.remove('no_transition');
+      			}
                 // loop thorugh options in data and insert values into view
                 answerData = dataOptions;
                 for (var key in answerData) {
@@ -619,8 +623,8 @@
                             value = answerData[key],
                             isCorrect = answerData[key] == metaData.correct_answer,
                             selectedOption;
-                        child.setAttribute('class', 'button');
-                        child.innerHTML = '<p>' + value + '</p>';
+                        	child.setAttribute('class', 'button_container');
+          					child.innerHTML = '<div class="button"><p>' + value + '</p></div>';
                         triviaOptionsContainer_el.appendChild(child);
                         reduceTextSizeCheck(child.getElementsByTagName('p')[0]); // run options through this function to check if text size needs adjusted
                         if (isCorrect) {
@@ -716,6 +720,7 @@
                 }
                 intervalScoreContainer_el.style.visibility = 'hidden';
                 progressBar_el.style.visibility = 'hidden';
+      			progressFill_el.style.visibility = 'hidden';
                 adjustIntervalScoreFn('clear');
                 submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
                 triviaContainer_el.className = "correct_submission";
@@ -731,6 +736,7 @@
                 }
                 intervalScoreContainer_el.style.visibility = 'hidden';
                 progressBar_el.style.visibility = 'hidden';
+      			progressFill_el.style.visibility = 'hidden';
                 adjustIntervalScoreFn('clear');
                 submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
                 triviaContainer_el.className = "incorrect_submission";
@@ -770,7 +776,9 @@
                     iterateQuestion();
                 };
             }
-            submissionOverlay_el.classList.add('no_transition');
+            if (wideWidget) {
+        		submissionOverlay_el.classList.add('no_transition');
+    		}
         } //nextQuestionFn
 
 
@@ -863,9 +871,11 @@
                 }
                 if (isSmall && wideWidget && total_clicks == 0 && !widgetEngaged) {
                     progressBar_el.style.visibility = 'hidden';
+        			progressFill_el.style.visibility = 'hidden';
                     intervalScoreContainer_el.style.visibility = 'hidden';
                 } else {
                     progressBar_el.style.visibility = 'visible';
+        			progressFill_el.style.visibility = 'visible';
                     intervalScoreContainer_el.style.visibility = 'visible';
 
                     if (intervalTimer) {
@@ -883,7 +893,7 @@
                                 temp = tempCount;
                                 intervalScore--;
                             }
-                            intervalScoreQuestion_el.innerHTML = "Q" + questionIterator + " - Points : " + intervalScore;
+                            intervalScore_el.innerHTML = intervalScore + "<span> Points</span>";
                             if (tempCount >= maxScore || progressCounter >= 100) { // make sure tempCount and progress Counter finish entirely
                                 clearInterval(intervalTimer);
                                 if (!widgetEngaged && !triviaStarted) {
@@ -894,11 +904,12 @@
                         } //end of BUFFER counter
                         else {
                             progressBar_el.style.width = progressCounter + '%';
-                            intervalScoreQuestion_el.innerHTML = "Q" + questionIterator + " - Points : " + intervalScore;
+                            intervalScore_el.innerHTML = intervalScore + "<span> Points</span>";
                         }
                     }, intervalMiliSeconds / intervalSeconds);
                 }
             }
+    	removeAd = false;
         } //adjustPixelationFn
 
 
@@ -981,11 +992,13 @@
                     if (!isAdVisible) {
                         intervalScoreContainer_el.style.visibility = 'visible';
                         progressBar_el.style.visibility = 'visible';
+          				progressFill_el.style.visibility = 'visible';
                         adControl(true);
                         isAdVisible = true;
                     } else {
                         intervalScoreContainer_el.style.visibility = 'hidden';
                         progressBar_el.style.visibility = 'hidden';
+          				progressFill_el.style.visibility = 'hidden';
                         adControl(false);
                         isAdVisible = false;
                     }
