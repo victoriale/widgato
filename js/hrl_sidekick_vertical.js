@@ -69,7 +69,7 @@ ai_widget = (function() {
     pageInd = -1,
     availPages = [],
     gameArr = [];
-    console.log(APIUrl, "HRL Sidekick api call"); // for testing purposes. will remove it in he next commit
+    //console.log(APIUrl, "HRL Sidekick api call"); // for testing purposes. will remove it in he next commit
   function getContent(event_id) {
     // Clear old data
     if (gameID != -1) {
@@ -140,7 +140,7 @@ ai_widget = (function() {
       img: imageArr[imgIndex]
     };
     var ImageUrl = createImageUrl(sidekickApiHost);
-    console.log(ImageUrl, "HRL Sidekick image call"); // for testing purposes. will remove it in he next commit
+    //console.log(ImageUrl, "HRL Sidekick image call"); // for testing purposes. will remove it in he next commit
     // Set the data
     $('.aiw-title')[0].innerHTML = arr.title;
     //$('.aiw-num')[0].innerHTML = (pageInd + 1);
