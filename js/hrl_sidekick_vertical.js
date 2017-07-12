@@ -33,13 +33,43 @@ ai_widget = (function() {
     }
 
   }
-  var APIUrl = protocolToUse + 'dev-homerunloyal-ai.synapsys.us/sidekick?scope=mlb',
+  function getEnv(env) {
+      if (env.match(/^localhost/) != null || env.match(/^dev/) != null) {
+          env = "dev";
+      } else if (env.match(/^qa/) != null) {
+          env = "qa";
+      } else {
+          env = "prod";
+      }
+      return env;
+  }
+  function getHostName(url) {
+      var locationElement = document.createElement("a");
+      locationElement.href = url;
+      /* Some times IE fail to populate properties of all the links while setting .href with relative URL, In this case .href will return an absolute URL which can be used on itself to populate the additional fields.*/
+      if (locationElement.host == "") {
+          locationElement.href = locationElement.href;
+      }
+      return locationElement;
+  }
+  function createAPIUrl(hostParameter) {
+      return protocolToUse + hostParameter + "-homerunloyal-ai.synapsys.us/sidekick?scope=mlb";
+  }
+  function createImageUrl(hostParameter) {
+      return protocolToUse + hostParameter + "-images.synapsys.us";
+  }
+
+  var hrlSidekickUrl = location != parent.location? document.referrer : document.location.href; //parent window url
+  var hrlSidekickHost = getHostName(hrlSidekickUrl).hostname; //get hostname for the parent window url
+  var sidekickApiHost = getEnv(hrlSidekickHost); //dev || qa || prod??
+
+  var APIUrl = createAPIUrl(sidekickApiHost),
     AIData = {},
     gameID = -1,
     pageInd = -1,
     availPages = [],
     gameArr = [];
-
+    console.log(APIUrl, "HRL Sidekick api call"); // for testing purposes. will remove it in he next commit
   function getContent(event_id) {
     // Clear old data
     if (gameID != -1) {
@@ -109,6 +139,8 @@ ai_widget = (function() {
       content: dataArr[0].content + '<br>&nbsp; ',
       img: imageArr[imgIndex]
     };
+    var ImageUrl = createImageUrl(sidekickApiHost);
+    console.log(ImageUrl, "HRL Sidekick image call"); // for testing purposes. will remove it in he next commit
     // Set the data
     $('.aiw-title')[0].innerHTML = arr.title;
     //$('.aiw-num')[0].innerHTML = (pageInd + 1);
@@ -116,7 +148,7 @@ ai_widget = (function() {
     $('#ai-link').attr('href', arr.url);
     $('#ai-link').attr('target', target);
     $('.aiw-txt')[0].innerHTML = arr.content;
-    $('.aiw-img').css('background-image', 'url(http://dev-images.synapsys.us' + arr.img + ')');
+    $('.aiw-img').css('background-image', 'url(' + ImageUrl + arr.img + ')');
     fitText();
   } // --> displayPage
   function fitText() {
