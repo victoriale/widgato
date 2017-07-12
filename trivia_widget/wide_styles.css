@@ -2267,6 +2267,11 @@ span.results_chart_value {
         transition: left .25s ease-in-out;
     }
 
+    #trivia_container.correct_submission .submission_info_container,
+    #trivia_container.incorrect_submission .submission_info_container {
+        right: auto;
+    }
+
     #next_question {
         top: 57px;
         bottom: auto;
@@ -2356,7 +2361,7 @@ span.results_chart_value {
         border-left: 1px solid #ededed;
         right: 0;
         top: 0;
-        left: initial;
+        left: auto;
         width: 195px;
         height: 49px;
         text-align: left;
@@ -2604,6 +2609,11 @@ span.results_chart_value {
         transition: left .25s ease-in-out;
     }
 
+    #trivia_container.correct_submission .submission_info_container,
+    #trivia_container.incorrect_submission .submission_info_container {
+        right: auto;
+    }
+
     #next_question {
         top: 57px;
         bottom: auto;
@@ -2669,7 +2679,7 @@ span.results_chart_value {
         text-align: left;
         padding-left: 9px;
         color: #fff;
-        left: initial;
+        left: auto;
         line-height: 49px;
     }
 

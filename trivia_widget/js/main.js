@@ -20,6 +20,7 @@
     var isMobile = false; //checks whether or not user agent is mobile
     var removeAd = false; //flag to keep the ad hidden if the user is on the correct, incorrect, or submission sections and the screen size changes
     var isActive = true;
+    var showResults = false; //boolean that will fire if a results screen is visible and will prevent ads from showing
     var timeToLive = 600000;
     var triviaStarted = false; //flag to signify that the user has began the quiz and to stop the quiz from restarting
     var swapImage = true; //flag to change the image once the user goes to a new question or the question rotates whilst the widget is inactive
@@ -470,30 +471,30 @@
                 otherContentOptionContainer_el[i].id = subCatId;
                 //Click event for other quiz buttons
                 otherContentOptionContainer_el[i].onclick = function (event) {
+                    sendPostMessageToIgloo(postObject, 5);
+                    updatePayload('send');
+                    restartFn(parseInt(event.target.parentNode.id));
                     if (isSmall && wideWidget) {
                         removeAd = true;
                         adControl(false);
                         adjustIntervalScoreFn('clear');
                         hideAd();
                     }
-                    sendPostMessageToIgloo(postObject, 5);
-                    updatePayload('send');
-                    restartFn(parseInt(event.target.parentNode.id));
                 };
 
                 titles.splice(titles.indexOf(subCatId), 1);
             }
             //Click event for random shuffle quiz button
             randomOption_el.onclick = function () {
+                sendPostMessageToIgloo(postObject, 5);
+                updatePayload('send');
+                restartFn(setRandomQuizLink());
                 if (isSmall && wideWidget) {
                     removeAd = true;
                     adControl(false);
                     adjustIntervalScoreFn('clear');
                     hideAd();
                 }
-                sendPostMessageToIgloo(postObject, 5);
-                updatePayload('send');
-                restartFn(setRandomQuizLink());
             }
         } //setQuizKeys
 
@@ -629,6 +630,7 @@
                         reduceTextSizeCheck(child.getElementsByTagName('p')[0]); // run options through this function to check if text size needs adjusted
                         if (isCorrect) {
                             child.onclick = function () {
+                                showResults = true;
                                 sendPostMessageToIgloo(postObject, 5);
                                 selectedOption = this.getElementsByTagName('p')[0].innerHTML;
                                 answerSubmittedFn('correct');
@@ -637,6 +639,7 @@
                             }
                         } else {
                             child.onclick = function () {
+                                showResults = true;
                                 sendPostMessageToIgloo(postObject, 5);
                                 selectedOption = this.getElementsByTagName('p')[0].innerHTML;
                                 answerSubmittedFn('incorrect');
@@ -652,13 +655,13 @@
                 };
                 restart_el.onclick = function () {
                     sendPostMessageToIgloo(postObject, 5);
+                    restartFn(activeQuizKey);
                     if (isSmall && wideWidget) {
                         removeAd = true;
-                        adControl(false);
                         adjustIntervalScoreFn('clear');
+                        adControl(false);
                         hideAd();
                     }
-                    restartFn(activeQuizKey);
                 };
 
                 if (wideWidget) {
@@ -755,6 +758,7 @@
         // sets functionality for next question button
         function nextQuestionFn() {
             // if last question show results screen
+            showResults = false;
             if (questionIterator >= totalQuestions) {
                 nextQuestionButton_el.onclick = function () {
                     sendPostMessageToIgloo(postObject, 5);
@@ -765,15 +769,15 @@
                 nextQuestionButton_el.onclick = function () { // create click event for when user clicks on the Next Question
                     sendPostMessageToIgloo(postObject, 5);
                     submissionInfoContainer_el.classList.add('hidden'); //adds hidden class to prevent css transition when removed
-                    if (isSmall && wideWidget) {
-                        removeAd = true;
-                        adControl(false);
-                        adjustIntervalScoreFn('clear');
-                        hideAd();
-                    }
                     bounce = 0;
                     updatePayload('send');
                     iterateQuestion();
+                    if (isSmall && wideWidget) {
+                        adjustIntervalScoreFn('clear');
+                        removeAd = true;
+                        adControl(false);
+                        hideAd();
+                    }
                 };
             }
             if (wideWidget) {
@@ -820,7 +824,6 @@
             var questionIndex = dataQuestionTitles.indexOf(key);
             if (questionIndex > -1) {
                 dataQuestionTitles.splice(questionIndex, 1);
-                ''
             }
             if (dataQuestionTitles.length > 0) {
                 questionKey = dataQuestionTitles[0] ? dataQuestionTitles[0] : null;
@@ -909,7 +912,11 @@
                     }, intervalMiliSeconds / intervalSeconds);
                 }
             }
-    	removeAd = false;
+            if (isSmall && widgetEngaged) {
+                removeAd = true;
+            } else {
+                removeAd = false;
+            }
         } //adjustPixelationFn
 
 
@@ -971,14 +978,15 @@
             if (wideWidget) {
                 isSmall = getWidth < 650;
                 //bring the ad back in case it is hidden while the width is altered
-                if (!isSmall && !removeAd) {
+                if (!isSmall) {
                     adControl(false);
-                } else if (isSmall && !removeAd) {
+                }
+                if (isSmall) {
                     triviaAdZone_el.style.display = 'none';
-                    parent[query.pause_variable] = false; //pause ad when its out of view
-                } else if (isSmall && removeAd) {
+                    parent[query.pause_variable] = false; //run ad when its out of view
+                } else if (isSmall && removeAd && !showResults) {
                     triviaAdZone_el.style.display = 'block';
-                    parent[query.pause_variable] = true; //pause ad when its out of view
+                    parent[query.pause_variable] = true; //run ad
                 }
             }
         }
