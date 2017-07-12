@@ -583,7 +583,7 @@ dwlinked = function() {
             case "celebrities":
             case "actor":
             case "musician":
-            case "musicians":
+            case "music":
             case "director":
                 category = 'entertainment';
                 break;
@@ -665,7 +665,7 @@ dwlinked = function() {
             case "celebrities":
             case "actor":
             case "musician":
-            case "musicians":
+            case "music":
             case "director":
                 fallbackImg = "actor.jpg";
                 break;
@@ -684,14 +684,14 @@ dwlinked = function() {
             imageReturn = image + "?width=" + (imageWidth * window.devicePixelRatio);
             showCover = false;
         } else {
-            //actual fallback images are being returned by the musicians api
-            if (subCategory == "musicians" && image.indexOf('fallback') > 0 && image != null) {
+            //actual fallback images are being returned by the music api
+            if (subCategory == "music" && image.indexOf('fallback') > 0 && image != null) {
                 imageReturn = image + "?width=" + (imageWidth * window.devicePixelRatio);
                 showCover = false;
             } else {
                 showCover = true;
                 //make sure there is a fallback image
-                if (subCategory == "celebrities" || subCategory == "musicians") {
+                if (subCategory == "celebrities" || subCategory == "music") {
                     imageReturn = imageUrl + "/01/fallback/stock/2017/04/" + fallbackImg;
                 } else {
                     imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
