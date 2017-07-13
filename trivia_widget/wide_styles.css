@@ -8,7 +8,6 @@
     font-weight: normal;
     font-style: normal
 }
-
 .fa {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
@@ -17,23 +16,18 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale
 }
-
 .fa-random:before {
     content: "\\f074"
 }
-
 .fa-arrow-right:before {
     content: "\\f061"
 }
-
 .fa-bar-chart-o:before, .fa-bar-chart:before {
     content: "\\f080"
 }
-
 .fa-check:before {
     content: "\\f00c"
 }
-
 .fa-remove:before, .fa-close:before, .fa-times:before {
     content: "\\f00d"
 }*/
@@ -107,7 +101,7 @@ ul li {
 }
 
 .heavy {
-    font-weight: 800;
+    font-weight: 700;
 }
 
 .upperCase {
@@ -119,7 +113,7 @@ ul li {
 }
 
 .red {
-    color: #ed364c;
+    color: #f34f5e;
 }
 
 .ltblue {
@@ -131,7 +125,7 @@ ul li {
 }
 
 .green {
-    color: #6ece1a;
+    color: #7ed321;
 }
 
 .pink {
@@ -140,13 +134,6 @@ ul li {
 
 .gray {
     color: #878787;
-}
-
-.button {
-    padding: 10px;
-    text-align: center;
-    border-radius: 25px;
-    cursor: pointer;
 }
 
 .widget_container {
@@ -168,24 +155,24 @@ ul li {
     position: absolute;
     z-index: 6;
     width: 100%;
-    padding: 0px 4px 1px 4px;
+    padding: 0 4px 1px 4px;
     bottom: 0;
+    height: 17px;
     text-align: right;
     background: #f2f2f2;
 }
 
 .trivia_container_footer img {
     display: inline-block;
-    vertical-align: middle;
     margin-right: 2px;
 }
 
 .trivia_container_footer p {
     display: inline-block;
     vertical-align: middle;
-    width: auto;
     font-size: 10px;
     color: #666666;
+    padding-bottom: 9px;
 }
 
 #trivia_container {
@@ -234,7 +221,7 @@ ul li {
 #trivia_container.correct_submission #submission_overlay .submission_display_container,
 #trivia_container.incorrect_submission #submission_overlay .submission_display_container {
     visibility: visible;
-    left: 0%;
+    left: 0;
 }
 
 #submission_overlay {
@@ -334,8 +321,8 @@ p.submission_display {
     width: calc(100% - 20px);
     font-size: 12px;
     border: 1px solid #444;
-    -webkit-transition: all .125s ease-in-out;
-    transition: all .125s ease-in-out;
+    -webkit-transition: all .25s ease-in-out;
+    transition: all .25s ease-in-out;
 }
 
 #next_question p {
@@ -345,11 +332,13 @@ p.submission_display {
 }
 
 #next_question:hover {
-    background: white;
+    background: #444;
+    border-color: #444;
 }
 
 #next_question:hover p {
-    color: #444444;
+    color: white;
+    font-weight: 700;
 }
 
 #completed_overlay.hidden {
@@ -440,7 +429,7 @@ p.submission_display {
 .results_container p.comment {
     color: white;
     font-size: 38px;
-    letter-spacing: 2.1px;
+    letter-spacing: 2px;
     text-transform: uppercase;
     margin-bottom: 10px;
 }
@@ -508,7 +497,7 @@ li.sm_icon {
     display: inline-block;
     height: 35px;
     width: 35px;
-    margin: 0px 2px;
+    margin: 0 2px;
     border-radius: 50%;
     border: 1px solid white;
     cursor: pointer;
@@ -566,11 +555,7 @@ li.sm_icon i {
     transform-style: preserve-3d;
 }
 
-.other_content_option_container .animation_container {
-    position: relative;
-}
-
-.other_content_option_container .animation_container {
+.animation_container {
     position: absolute;
     width: 70px;
     height: 70px;
@@ -583,6 +568,48 @@ li.sm_icon i {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     transform-style: preserve-3d;
+}
+
+.animation_hover:hover {
+    -webkit-transition: opacity .5s ease-in-out .25s,
+    transform .25s ease-in-out .25s,
+    background .25s ease-in-out,
+    color .25s ease-in-out;
+    transition: opacity .5s ease-in-out .25s,
+    transform .25s ease-in-out .25s,
+    background .25s ease-in-out,
+    color .25s ease-in-out;
+}
+
+.animation_hover:hover:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    background-image: linear-gradient(44deg, #3097ff, #3098ff, #34d4ff), linear-gradient(#000000, #000000) !important;
+    opacity: .8;
+}
+
+.animation_hover:hover:after {
+    content: 'PLAY';
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    position: absolute;
+    top: calc(100% - 65%);
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    opacity: 1;
+}
+
+.trivia_options .button:hover:before {
+    opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
 }
 
 /*--Front/Back Specific styles--*/
@@ -643,7 +670,7 @@ li.sm_icon i {
 }
 
 .animation_container-box p:first-child {
-    font-weight: 800;
+    font-weight: 500;
 }
 
 .animation_container-box p:nth-child(2) {
@@ -668,7 +695,7 @@ li.sm_icon i {
 
 .other_content_option_container.random_option i {
     position: absolute;
-    top: 16px;
+    top: 17px;
     left: 17px;
     margin: 0 auto;
     font-size: 36px;
@@ -693,7 +720,7 @@ li.sm_icon i {
 .trivia_image_container {
     position: relative;
     width: calc(100% - 259px);
-    height: 231px;
+    height: 233px;
     background-size: cover;
     background-position: top;
 }
@@ -731,28 +758,49 @@ li.sm_icon i {
     display: none;
 }
 
+#progress_fill {
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: 2;
+    height: 5px;
+    background: #000;
+    opacity: .1;
+}
+
 #progress_bar {
     position: absolute;
+    top: 0;
     z-index: 2;
-    height: 3px;
+    height: 5px;
     background: #3098ff;
+    background: -webkit-linear-gradient(left, #3098ff 0%, #3098ff 0%, #34d4ff 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #3098ff 0%, #3098ff 0%, #34d4ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 }
 
 #interval_score_container {
     position: absolute;
+    height: 15px;
     z-index: 2;
-    top: 5px;
+    top: 10px;
     left: 2px;
-    background: #000;
-    padding: 1px;
-    color: white;
-    font-size: 8px;
-    text-transform: uppercase;
+    background-color: rgba(0, 0, 0, 0.35);
+    padding: 0 7px 0 5px;
+    border-radius: 30px;
 }
 
-#interval_score_container span {
+#interval_score {
     position: relative;
-    font-size: 8px;
+    font-style: italic;
+    text-align: center;
+    color: #fff;
+    font-size: 10px;
+    top: 1px;
+    font-weight: 700;
+}
+
+#interval_score span {
+    font-weight: 300;
 }
 
 .trivia_question {
@@ -766,7 +814,7 @@ li.sm_icon i {
     left: 0;
     bottom: 20px;
     background: white;
-    box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2);
     border: solid 1px #e1e1e1;
 }
 
@@ -776,6 +824,7 @@ li.sm_icon i {
     text-align: center;
     color: #444444;
     background: white;
+    letter-spacing: .5px;
 }
 
 .trivia_options_container {
@@ -800,17 +849,34 @@ li.sm_icon i {
     list-style-type: none;
 }
 
+.button_container {
+    background: -webkit-linear-gradient(left, #3098ff 0%, #3098ff 0%, #34d4ff 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #3098ff 0%, #3098ff 0%, #34d4ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    height: 34px;
+    width: calc(100% - 10px);
+    border-radius: 25px;
+    margin-bottom: 8px;
+    margin-left: 4px;
+}
+
+.button {
+    padding: 10px;
+    text-align: center;
+    border-radius: 25px;
+    cursor: pointer;
+    background: #fff;
+}
+
 .trivia_options .button {
     opacity: 1;
     visibility: visible;
     position: relative;
     float: left;
-    width: calc(100% - 10px);
-    height: 34px;
+    width: 99%;
+    height: 32px;
     margin: 5px;
-    border: 1px solid #3098ff;
-    -webkit-transition: all .125s ease-in-out;
-    transition: all .125s ease-in-out;
+    top: -4px;
+    left: -4px;
 }
 
 .trivia_options .button.hidden {
@@ -831,20 +897,19 @@ li.sm_icon i {
     background: -webkit-linear-gradient(left, #3098ff 0%, #3098ff 0%, #34d4ff 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to right, #3098ff 0%, #3098ff 0%, #34d4ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#3098ff', endColorstr='#34d4ff', GradientType=1); /* IE6-9 */
-    -webkit-transition: all .125s ease-in-out;
-    transition: all .125s ease-in-out;
+    -webkit-transition: all .25s ease-in-out;
+    transition: all .25s ease-in-out;
 }
 
 .trivia_options .button.incorrect:before {
     background: -webkit-linear-gradient(left, #ed364c 0%, #ed364c 0%, #ed364c 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to right, #ed364c 0%, #ed364c 0%, #ed364c 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ed364c', endColorstr='#ed364c', GradientType=1); /* IE6-9 */
-    -webkit-transition: all .125s ease-in-out;
-    transition: all .125s ease-in-out;
+    -webkit-transition: all .25s ease-in-out;
+    transition: all .25s ease-in-out;
 }
 
 .trivia_options .button:hover {
-    border: 1px solid white;
     cursor: pointer;
 }
 
@@ -856,6 +921,7 @@ li.sm_icon i {
 .trivia_options .button:hover p {
     z-index: 1;
     color: white;
+    font-weight: 700;
 }
 
 .trivia_options .button p {
@@ -884,6 +950,11 @@ li.sm_icon i {
 .trivia_options_container_info .left {
     float: left;
     color: #999999;
+    font-size: 12px;
+}
+
+.trivia_options_container_info .left .light span {
+    font-size: 12px;
 }
 
 .trivia_options_container_info .left i {
@@ -894,8 +965,22 @@ li.sm_icon i {
     float: right;
 }
 
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    /* This media query targets IE 10 and 11 only. ms-high-contrast is microsoft specific. Edge will not be affected */
+    p#skip_question {
+        cursor: pointer !important;
+        color: #34d4ff !important;
+        background: none !important;
+    }
+}
+
 p#skip_question {
     cursor: pointer;
+    background: -webkit-linear-gradient(left, #3098ff 0%, #3098ff 0%, #34d4ff 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, #3098ff 0%, #3098ff 0%, #34d4ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
 }
 
 p#skip_question:hover i {
@@ -903,10 +988,14 @@ p#skip_question:hover i {
 }
 
 p#skip_question i {
+    color: #34d4ff;
     position: relative;
-    right: 0px;
+    right: 0;
     -webkit-transition: right .125s ease-in-out;
-    -webkit-transition: right .125s ease-in-out;
+}
+
+p#skip_question span {
+    font-size: 12px;
 }
 
 .submission_info_container {
@@ -944,10 +1033,24 @@ p.submission_info {
 
 .results_left {
     width: 122px;
+    position: relative;
+    top: 1px;
 }
 
 .results_right {
     width: 109px;
+    border-left: 1px solid #ededed;
+    padding-left: 5px;
+    position: relative;
+    left: -1px;
+    height: 70px;
+    line-height: 70px;
+}
+
+.results_align_middle {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 10px;
 }
 
 .submission_analytics_title_container {
@@ -961,6 +1064,7 @@ p.submission_info {
     padding: 4px;
     text-transform: uppercase;
     background: white;
+    color: #666;
 }
 
 .submission_analytics_title i {
@@ -969,8 +1073,8 @@ p.submission_info {
 
 .results_charts_container {
     display: inline-block;
-    margin: 20px 0 5px 0;
-    text-align: center;
+    margin: 9px 0 5px 0;
+    text-align: left;
     vertical-align: middle;
 }
 
@@ -986,10 +1090,12 @@ p.submission_info {
 .results_charts_container_intro {
     font-size: 10px;
     margin-bottom: 5px;
+    text-align: left;
 }
 
 #percentage_of_guess {
-    font-size: 9px;
+    font-size: 10px;
+    text-align: left;
 }
 
 .chart_container {
@@ -1016,40 +1122,40 @@ p.submission_info {
 }
 
 .results_chart .slice {
-    -webkit-transform: rotate(180deg);
-    transform: rotate(180deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
 }
 
 .results_chart.green .slice {
-    -webkit-transition: transform .125s ease-in-out .25s;
-    -webkit-transition: -webkit-transform .125s ease-in-out .25s;
-    transition: -webkit-transform .125s ease-in-out .25s;
-    transition: transform .125s ease-in-out .25s;
-    transition: transform .125s ease-in-out .25s, -webkit-transform .125s ease-in-out .25s;
+    -webkit-transition: transform .25s ease-in-out .25s;
+    -webkit-transition: -webkit-transform .25s ease-in-out .25s;
+    transition: -webkit-transform .25s ease-in-out .25s;
+    transition: transform .25s ease-in-out .25s;
+    transition: transform .25s ease-in-out .25s, -webkit-transform .25s ease-in-out .25s;
 }
 
 .results_chart.red .slice {
-    -webkit-transition: transform .125s ease-in-out .35s;
-    -webkit-transition: -webkit-transform .125s ease-in-out .35s;
-    transition: -webkit-transform .125s ease-in-out .35s;
-    transition: transform .125s ease-in-out .35s;
-    transition: transform .125s ease-in-out .35s, -webkit-transform .125s ease-in-out .35s;
+    -webkit-transition: transform .25s ease-in-out .25s;
+    -webkit-transition: -webkit-transform .25s ease-in-out .25s;
+    transition: -webkit-transform .25s ease-in-out .25s;
+    transition: transform .25s ease-in-out .25s;
+    transition: transform .25s ease-in-out .25s, -webkit-transform .25s ease-in-out .25s;
 }
 
 .results_chart.blue .slice {
-    -webkit-transition: transform .125s ease-in-out .45s;
-    -webkit-transition: -webkit-transform .125s ease-in-out .45s;
-    transition: -webkit-transform .125s ease-in-out .45s;
-    transition: transform .125s ease-in-out .45s;
-    transition: transform .125s ease-in-out .45s, -webkit-transform .125s ease-in-out .45s;
+    -webkit-transition: transform .25s ease-in-out .25s;
+    -webkit-transition: -webkit-transform .25s ease-in-out .25s;
+    transition: -webkit-transform .25s ease-in-out .25s;
+    transition: transform .25s ease-in-out .25s;
+    transition: transform .25s ease-in-out .25s, -webkit-transform .25s ease-in-out .25s;
 }
 
 .results_chart.pink .slice {
-    -webkit-transition: transform .125s ease-in-out .55s;
-    -webkit-transition: -webkit-transform .125s ease-in-out .55s;
-    transition: -webkit-transform .125s ease-in-out .55s;
-    transition: transform .125s ease-in-out .55s;
-    transition: transform .125s ease-in-out .55s, -webkit-transform .125s ease-in-out .55s;
+    -webkit-transition: transform .25s ease-in-out .25s;
+    -webkit-transition: -webkit-transform .25s ease-in-out .25s;
+    transition: -webkit-transform .25s ease-in-out .25s;
+    transition: transform .25s ease-in-out .25s;
+    transition: transform .25s ease-in-out .25s, -webkit-transform .25s ease-in-out .25s;
 }
 
 #trivia_container.correct_submission .slice,
@@ -1883,7 +1989,7 @@ span.results_chart_value {
 
 .c100.red .bar,
 .c100.red .fill {
-    border-color: #ed364c !important;
+    border-color: #f34f5e !important;
 }
 
 .c100.pink .bar,
@@ -1898,7 +2004,7 @@ span.results_chart_value {
 
 .c100.green .bar,
 .c100.green .fill {
-    border-color: #4db53c !important;
+    border-color: #7ed321 !important;
 }
 
 .ad_location {
@@ -1946,7 +2052,6 @@ span.results_chart_value {
     .other_content_option_container.random_option i {
         font-size: 3.4vw;
         top: 0;
-        left: 2vw;
         line-height: 7vw;
     }
 
@@ -1995,9 +2100,16 @@ span.results_chart_value {
         padding: 28px 5px 0 5px;
     }
 
+    .button_container {
+        width: calc(100% - 53%);
+        display: inline-block;
+        margin: 1px 4px;
+    }
+
     .trivia_options .button {
-        width: calc(100% - 52%);
-        margin: 3px 1%;
+        left: 0;
+        top: 0;
+        margin: 1px 1px;
     }
 
     .trivia_options_container_info {
@@ -2041,7 +2153,7 @@ span.results_chart_value {
 
     .results_container p.comment {
         font-size: 32px;
-        margin-bottom: 8px;
+        margin-bottom: 0;
     }
 
     .score_container .icon {
@@ -2071,7 +2183,7 @@ span.results_chart_value {
 
     .other_content_container {
         position: relative;
-        top: 24px;
+        top: 20px;
         width: 100%;
     }
 
@@ -2087,6 +2199,7 @@ span.results_chart_value {
     .other_content_option_container {
         width: 60px;
         height: 60px;
+        margin: 20px 10px;
     }
 
     .other_content_option_container .animation_container {
@@ -2105,10 +2218,16 @@ span.results_chart_value {
         top: 60px;
         overflow: hidden;
         height: 25px;
+        width: 80px;
+        left: -10px;
     }
 
     .animation_container-box p {
         margin: 0;
+    }
+
+    .animation_hover:hover:after {
+        top: calc(100% - 69%);
     }
 
     .animation_container-box p:nth-child(2) {
@@ -2138,6 +2257,13 @@ span.results_chart_value {
     .submission_info_container {
         width: 100%;
         z-index: 4;
+        -webkit-transition: left .25s ease-in-out;
+        transition: left .25s ease-in-out;
+    }
+
+    #trivia_container.correct_submission .submission_info_container,
+    #trivia_container.incorrect_submission .submission_info_container {
+        right: auto;
     }
 
     #next_question {
@@ -2145,6 +2271,20 @@ span.results_chart_value {
         bottom: auto;
         width: 329px;
         border-color: #fff;
+        background-color: transparent;
+    }
+
+    #next_question p {
+        color: #fff;
+    }
+
+    #next_question:hover {
+        background-color: #fff;
+        border-color: #fff;
+    }
+
+    #next_question:hover p {
+        color: #444;
     }
 
     p.submission_info {
@@ -2156,14 +2296,14 @@ span.results_chart_value {
         top: 151px;
         width: 329px;
         height: 70px;
-        border-color: #fff;
+        border-color: rgba(255, 255, 255, .5);
         background-color: transparent;
         border-top: none;
     }
 
     .submission_analytics_title, .ltblue {
         background: transparent;
-        color: #fff;
+        color: #f2f2f2;
         left: 0;
     }
 
@@ -2186,8 +2326,8 @@ span.results_chart_value {
         border-color: #fff !important;
     }
 
-    .red, .green, .gray, .results_chart_label, span.results_chart_value, #next_question p {
-        color: #fff;
+    .red, .green, .gray, .results_chart_label, span.results_chart_value {
+        color: #f2f2f2;
     }
 
     .c100.red .bar,
@@ -2212,14 +2352,20 @@ span.results_chart_value {
 
     .results_right {
         position: absolute;
-        border-left: 1px solid #fff;
+        border-left: 1px solid #ededed;
         right: 0;
         top: 0;
+        left: auto;
         width: 195px;
         height: 49px;
         text-align: left;
         padding-left: 9px;
         color: #fff;
+        line-height: 49px;
+    }
+
+    .results_charts_container_intro {
+        color: #fff !important;
     }
 
     .border {
@@ -2228,7 +2374,7 @@ span.results_chart_value {
     }
 
     .border:before {
-        border-top: 1px solid #fff;
+        border-top: 1px solid rgba(255, 255, 255, .5);
         content: '';
         display: table-cell;
         position: relative;
@@ -2238,7 +2384,7 @@ span.results_chart_value {
     }
 
     .border:after {
-        border-top: 1px solid #fff;
+        border-top: 1px solid rgba(255, 255, 255, .5);
         content: '';
         display: table-cell;
         position: relative;
@@ -2303,9 +2449,17 @@ span.results_chart_value {
         bottom: -20px;
     }
 
+    .button_container {
+        width: 135px;
+        display: inline-block;
+        margin: 1px 4px;
+    }
+
     .trivia_options .button {
-        width: calc(100% - 52%);
-        margin: 3px 1%;
+        width: 133px;
+        left: 0;
+        top: 0;
+        margin: 1px;
     }
 
     .trivia_options_container_info {
@@ -2323,13 +2477,14 @@ span.results_chart_value {
     }
 
     .results_container {
+        border: none;
         width: 100%;
         top: 20px;
     }
 
     .results_container p.comment {
         font-size: 32px;
-        margin-bottom: 3px;
+        margin-bottom: 0;
     }
 
     .score_container .icon {
@@ -2359,7 +2514,7 @@ span.results_chart_value {
 
     .other_content_container {
         position: relative;
-        top: 24px;
+        top: 20px;
         width: 100%;
     }
 
@@ -2375,6 +2530,7 @@ span.results_chart_value {
     .other_content_option_container {
         width: 60px;
         height: 60px;
+        margin: 20px 6.5px;
     }
 
     .other_content_option_container .animation_container {
@@ -2393,6 +2549,8 @@ span.results_chart_value {
         top: 60px;
         overflow: hidden;
         height: 25px;
+        width: 70px;
+        left: -5px;
     }
 
     .animation_container-box p {
@@ -2417,7 +2575,7 @@ span.results_chart_value {
 
     .submission_analytics_title, .ltblue {
         background: transparent;
-        color: #fff;
+        color: #f2f2f2;
         left: 0;
     }
 
@@ -2441,14 +2599,31 @@ span.results_chart_value {
         top: 0;
         height: 231px;
         width: 100%;
+        -webkit-transition: left .25s ease-in-out;
+        transition: left .25s ease-in-out;
+    }
+
+    #trivia_container.correct_submission .submission_info_container,
+    #trivia_container.incorrect_submission .submission_info_container {
+        right: auto;
     }
 
     #next_question {
         top: 57px;
         bottom: auto;
         width: 280px;
-        border: 1px solid #fff;
+        border: 1px solid rgba(255, 255, 255, 0.5);
         z-index: 3;
+        background-color: transparent;
+    }
+
+    #next_question:hover {
+        background-color: #fff;
+        border-color: #fff;
+    }
+
+    #next_question:hover p {
+        color: #444;
     }
 
     #next_question p {
@@ -2461,6 +2636,7 @@ span.results_chart_value {
         height: 70px;
         border-top: none;
         z-index: 3;
+        border-color: rgba(255, 255, 255, 0.5);
     }
 
     p.submission_info {
@@ -2489,14 +2665,20 @@ span.results_chart_value {
 
     .results_right {
         position: absolute;
-        border-left: 1px solid #fff;
-        right: 0;
+        border-left: 1px solid #ededed;
+        right: 7px;
         top: 0;
         width: 140px;
         height: 49px;
         text-align: left;
         padding-left: 9px;
         color: #fff;
+        left: auto;
+        line-height: 49px;
+    }
+
+    .results_charts_container_intro {
+        color: #fff !important;
     }
 
     .border {
@@ -2505,7 +2687,7 @@ span.results_chart_value {
     }
 
     .border:before {
-        border-top: 1px solid #fff;
+        border-top: 1px solid rgba(255, 255, 255, 0.5);
         content: '';
         display: table-cell;
         position: relative;
@@ -2515,7 +2697,7 @@ span.results_chart_value {
     }
 
     .border:after {
-        border-top: 1px solid #fff;
+        border-top: 1px solid rgba(255, 255, 255, 0.5);
         content: '';
         display: table-cell;
         position: relative;
@@ -2534,8 +2716,8 @@ span.results_chart_value {
         border-color: #fff !important;
     }
 
-    .red, .green, .gray, .results_chart_label, span.results_chart_value, #next_question p {
-        color: #fff;
+    .red, .green, .gray, .results_chart_label, span.results_chart_value {
+        color: #f2f2f2;
     }
 
     .c100.red .bar,
@@ -2547,11 +2729,27 @@ span.results_chart_value {
         background-color: transparent;
     }
 
+    .chart_container:last-of-type {
+        right: -12px;
+    }
+
+    #ad_progress_fill {
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        z-index: 100;
+        height: 3px;
+        background: #000;
+        opacity: .1;
+    }
+
     #ad_progress_bar {
         position: absolute;
         bottom: 0;
         z-index: 100;
         height: 3px;
         background: #3098ff;
+        background: -webkit-linear-gradient(left, #3098ff 0%, #3098ff 0%, #34d4ff 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to right, #3098ff 0%, #3098ff 0%, #34d4ff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     }
 }
