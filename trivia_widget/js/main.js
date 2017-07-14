@@ -20,6 +20,7 @@
     var isMobile = false; //checks whether or not user agent is mobile
     var removeAd = false; //flag to keep the ad hidden if the user is on the correct, incorrect, or submission sections and the screen size changes
     var isActive = true;
+    var showResults = false; //boolean that will fire if a results screen is visible and will prevent ads from showing
     var timeToLive = 600000;
     var triviaStarted = false; //flag to signify that the user has began the quiz and to stop the quiz from restarting
     var swapImage = true; //flag to change the image once the user goes to a new question or the question rotates whilst the widget is inactive
@@ -316,6 +317,7 @@
         var resultsChartValue_el = friendlyIfWindow.document.getElementsByClassName("results_chart_value");
         var randomOption_el = friendlyIfWindow.document.getElementsByClassName("random_option")[0];
         var progressBar_el = $("progress_bar");
+		var progressFill_el = $("progress_fill");
         var adProgressBar_el = $("ad_progress_bar");
         var intervalScore_el = $("interval_score");
         var intervalScoreQuestion_el = $("interval_score_question");
@@ -469,30 +471,30 @@
                 otherContentOptionContainer_el[i].id = subCatId;
                 //Click event for other quiz buttons
                 otherContentOptionContainer_el[i].onclick = function (event) {
+                    sendPostMessageToIgloo(postObject, 5);
+                    updatePayload('send');
+                    restartFn(parseInt(event.target.parentNode.id));
                     if (isSmall && wideWidget) {
                         removeAd = true;
                         adControl(false);
                         adjustIntervalScoreFn('clear');
                         hideAd();
                     }
-                    sendPostMessageToIgloo(postObject, 5);
-                    updatePayload('send');
-                    restartFn(parseInt(event.target.parentNode.id));
                 };
 
                 titles.splice(titles.indexOf(subCatId), 1);
             }
             //Click event for random shuffle quiz button
             randomOption_el.onclick = function () {
+                sendPostMessageToIgloo(postObject, 5);
+                updatePayload('send');
+                restartFn(setRandomQuizLink());
                 if (isSmall && wideWidget) {
                     removeAd = true;
                     adControl(false);
                     adjustIntervalScoreFn('clear');
                     hideAd();
                 }
-                sendPostMessageToIgloo(postObject, 5);
-                updatePayload('send');
-                restartFn(setRandomQuizLink());
             }
         } //setQuizKeys
 
@@ -609,7 +611,10 @@
                 }
                 intervalScoreContainer_el.style.display = 'block';
                 progressBar_el.style.display = 'block';
-                submissionOverlay_el.classList.remove('no_transition');
+                progressFill_el.style.display = 'block';
+      			if (wideWidget) {
+          			submissionOverlay_el.classList.remove('no_transition');
+      			}
                 // loop thorugh options in data and insert values into view
                 answerData = dataOptions;
                 for (var key in answerData) {
@@ -619,12 +624,13 @@
                             value = answerData[key],
                             isCorrect = answerData[key] == metaData.correct_answer,
                             selectedOption;
-                        child.setAttribute('class', 'button');
-                        child.innerHTML = '<p>' + value + '</p>';
+                        	child.setAttribute('class', 'button_container');
+          					child.innerHTML = '<div class="button"><p>' + value + '</p></div>';
                         triviaOptionsContainer_el.appendChild(child);
                         reduceTextSizeCheck(child.getElementsByTagName('p')[0]); // run options through this function to check if text size needs adjusted
                         if (isCorrect) {
                             child.onclick = function () {
+                                showResults = true;
                                 sendPostMessageToIgloo(postObject, 5);
                                 selectedOption = this.getElementsByTagName('p')[0].innerHTML;
                                 answerSubmittedFn('correct');
@@ -633,6 +639,7 @@
                             }
                         } else {
                             child.onclick = function () {
+                                showResults = true;
                                 sendPostMessageToIgloo(postObject, 5);
                                 selectedOption = this.getElementsByTagName('p')[0].innerHTML;
                                 answerSubmittedFn('incorrect');
@@ -648,13 +655,13 @@
                 };
                 restart_el.onclick = function () {
                     sendPostMessageToIgloo(postObject, 5);
+                    restartFn(activeQuizKey);
                     if (isSmall && wideWidget) {
                         removeAd = true;
-                        adControl(false);
                         adjustIntervalScoreFn('clear');
+                        adControl(false);
                         hideAd();
                     }
-                    restartFn(activeQuizKey);
                 };
 
                 if (wideWidget) {
@@ -716,6 +723,7 @@
                 }
                 intervalScoreContainer_el.style.visibility = 'hidden';
                 progressBar_el.style.visibility = 'hidden';
+      			progressFill_el.style.visibility = 'hidden';
                 adjustIntervalScoreFn('clear');
                 submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
                 triviaContainer_el.className = "correct_submission";
@@ -731,6 +739,7 @@
                 }
                 intervalScoreContainer_el.style.visibility = 'hidden';
                 progressBar_el.style.visibility = 'hidden';
+      			progressFill_el.style.visibility = 'hidden';
                 adjustIntervalScoreFn('clear');
                 submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
                 triviaContainer_el.className = "incorrect_submission";
@@ -749,6 +758,7 @@
         // sets functionality for next question button
         function nextQuestionFn() {
             // if last question show results screen
+            showResults = false;
             if (questionIterator >= totalQuestions) {
                 nextQuestionButton_el.onclick = function () {
                     sendPostMessageToIgloo(postObject, 5);
@@ -759,18 +769,20 @@
                 nextQuestionButton_el.onclick = function () { // create click event for when user clicks on the Next Question
                     sendPostMessageToIgloo(postObject, 5);
                     submissionInfoContainer_el.classList.add('hidden'); //adds hidden class to prevent css transition when removed
-                    if (isSmall && wideWidget) {
-                        removeAd = true;
-                        adControl(false);
-                        adjustIntervalScoreFn('clear');
-                        hideAd();
-                    }
                     bounce = 0;
                     updatePayload('send');
                     iterateQuestion();
+                    if (isSmall && wideWidget) {
+                        adjustIntervalScoreFn('clear');
+                        removeAd = true;
+                        adControl(false);
+                        hideAd();
+                    }
                 };
             }
-            submissionOverlay_el.classList.add('no_transition');
+            if (wideWidget) {
+        		submissionOverlay_el.classList.add('no_transition');
+    		}
         } //nextQuestionFn
 
 
@@ -812,7 +824,6 @@
             var questionIndex = dataQuestionTitles.indexOf(key);
             if (questionIndex > -1) {
                 dataQuestionTitles.splice(questionIndex, 1);
-                ''
             }
             if (dataQuestionTitles.length > 0) {
                 questionKey = dataQuestionTitles[0] ? dataQuestionTitles[0] : null;
@@ -863,9 +874,11 @@
                 }
                 if (isSmall && wideWidget && total_clicks == 0 && !widgetEngaged) {
                     progressBar_el.style.visibility = 'hidden';
+        			progressFill_el.style.visibility = 'hidden';
                     intervalScoreContainer_el.style.visibility = 'hidden';
                 } else {
                     progressBar_el.style.visibility = 'visible';
+        			progressFill_el.style.visibility = 'visible';
                     intervalScoreContainer_el.style.visibility = 'visible';
 
                     if (intervalTimer) {
@@ -883,7 +896,7 @@
                                 temp = tempCount;
                                 intervalScore--;
                             }
-                            intervalScoreQuestion_el.innerHTML = "Q" + questionIterator + " - Points : " + intervalScore;
+                            intervalScore_el.innerHTML = intervalScore + "<span> Points</span>";
                             if (tempCount >= maxScore || progressCounter >= 100) { // make sure tempCount and progress Counter finish entirely
                                 clearInterval(intervalTimer);
                                 if (!widgetEngaged && !triviaStarted) {
@@ -894,10 +907,15 @@
                         } //end of BUFFER counter
                         else {
                             progressBar_el.style.width = progressCounter + '%';
-                            intervalScoreQuestion_el.innerHTML = "Q" + questionIterator + " - Points : " + intervalScore;
+                            intervalScore_el.innerHTML = intervalScore + "<span> Points</span>";
                         }
                     }, intervalMiliSeconds / intervalSeconds);
                 }
+            }
+            if (isSmall && widgetEngaged) {
+                removeAd = true;
+            } else {
+                removeAd = false;
             }
         } //adjustPixelationFn
 
@@ -960,14 +978,15 @@
             if (wideWidget) {
                 isSmall = getWidth < 650;
                 //bring the ad back in case it is hidden while the width is altered
-                if (!isSmall && !removeAd) {
+                if (!isSmall) {
                     adControl(false);
-                } else if (isSmall && !removeAd) {
+                }
+                if (isSmall) {
                     triviaAdZone_el.style.display = 'none';
-                    parent[query.pause_variable] = false; //pause ad when its out of view
-                } else if (isSmall && removeAd) {
+                    parent[query.pause_variable] = false; //run ad when its out of view
+                } else if (isSmall && removeAd && !showResults) {
                     triviaAdZone_el.style.display = 'block';
-                    parent[query.pause_variable] = true; //pause ad when its out of view
+                    parent[query.pause_variable] = true; //run ad
                 }
             }
         }
@@ -981,11 +1000,13 @@
                     if (!isAdVisible) {
                         intervalScoreContainer_el.style.visibility = 'visible';
                         progressBar_el.style.visibility = 'visible';
+          				progressFill_el.style.visibility = 'visible';
                         adControl(true);
                         isAdVisible = true;
                     } else {
                         intervalScoreContainer_el.style.visibility = 'hidden';
                         progressBar_el.style.visibility = 'hidden';
+          				progressFill_el.style.visibility = 'hidden';
                         adControl(false);
                         isAdVisible = false;
                     }

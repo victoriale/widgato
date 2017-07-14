@@ -583,6 +583,7 @@ dwlinked = function() {
             case "celebrities":
             case "actor":
             case "musician":
+            case "music":
             case "director":
                 category = 'entertainment';
                 break;
@@ -664,13 +665,13 @@ dwlinked = function() {
             case "celebrities":
             case "actor":
             case "musician":
+            case "music":
             case "director":
                 fallbackImg = "actor.jpg";
                 break;
             default:
                 fallbackImg = "failback.jpg";
         }
-
         //prep return
         //use global flag for wideWidget (if wide widget is being used then all images are to be returned as fallback stock images)
         if (image != null &&
@@ -683,15 +684,21 @@ dwlinked = function() {
             imageReturn = image + "?width=" + (imageWidth * window.devicePixelRatio);
             showCover = false;
         } else {
-            showCover = true;
-            //make sure there is a fallback image
-            if (subCategory == "celebrities") {
-                imageReturn = imageUrl + "/01/fallback/stock/2017/04/" + fallbackImg;
+            //actual fallback images are being returned by the music api
+            if (subCategory == "music" && image.indexOf('fallback') > 0 && image != null) {
+                imageReturn = image + "?width=" + (imageWidth * window.devicePixelRatio);
+                showCover = false;
             } else {
-                imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
+                showCover = true;
+                //make sure there is a fallback image
+                if (subCategory == "celebrities" || subCategory == "music") {
+                    imageReturn = imageUrl + "/01/fallback/stock/2017/04/" + fallbackImg;
+                } else {
+                    imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
+                }
+                //sets flag for image api to send back image with set size based on devicePixelRatio
+                imageReturn += "?width=" + (imageWidth * window.devicePixelRatio);
             }
-            //sets flag for image api to send back image with set size based on devicePixelRatio
-            imageReturn += "?width=" + (imageWidth * window.devicePixelRatio);
         }
         //for weather they want to force shader
         if(query.group == 'weather' || query.category == 'weather'){
