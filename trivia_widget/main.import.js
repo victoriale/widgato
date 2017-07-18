@@ -1666,7 +1666,6 @@
             if (engageDwell) {
                 engageDwell.resetTime();
             }
-            console.log('reset123');
             total_clicks = 0;
             bounce = 0;
             skipped = 0;
