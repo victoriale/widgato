@@ -1490,6 +1490,7 @@
                 viewDwell = viewDwell ? viewDwell : new timer('view', 100, null, debugTimer, function (event) {
                     if (viewEngaged) {
                         question_view = 1;
+                        bounce = 1; // trivia engaged the question is now always able to be a bounced question until user clicks next question then metrics will change;
                     }
 
                     if (!widgetEngaged && !dwellLimitTimer.timerOn) {
