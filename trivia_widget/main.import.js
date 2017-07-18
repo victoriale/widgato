@@ -1284,7 +1284,7 @@
                         "ev": embed_view, // embed views
                         "mo": userAgentObj.mobile ? 1 : 0, //mobile
                         "pa": query.event.p, //partner id
-                        "pl": query.event.z && query.event.z != '' ? query.event.z : 0, //placement id
+                        "pl": query.event.z && query.event.z != '' ? query.event.z : '0', //placement id
                         "qi": questionId.toString(),
                         "qv": question_view ? question_view : 0, // question views
                         "qz": quizId, //quiz id
