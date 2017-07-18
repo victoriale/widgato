@@ -833,6 +833,7 @@
 
         // gets data for next question
         function iterateQuestion() {
+            question_view = 0;
             swapImage = true;
             removeQuestionIndex(questionKey);
 
