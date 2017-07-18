@@ -1588,7 +1588,7 @@
                         isActive = false;
 
                         if (engageDwell.timerOn) {
-                            engageDwell.time = engageDwell.time - event.stopAt;
+                            engageDwell.time = (engageDwell.time - event.stopAt) < 0 ? 0 : engageDwell.time - event.stopAt;
                         }
                         engageDwell.pauseTime();
                         sessionTimer.resetTime();
