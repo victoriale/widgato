@@ -170,7 +170,7 @@ dwlinked = function() {
     }
 
     function getEnv(env) {
-        if (env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
+        if (env.match(/^homestead\./) != null || env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
             env = "dev";
         } else if (env.match(/^qa\./) != null) {
             env = "qa";
@@ -182,7 +182,7 @@ dwlinked = function() {
 
     //DEPRECATED WILL BE REPLACED WITH getENV
     function synapsysENV(env) {
-        if (env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
+        if (env.match(/^homestead\./) != null || env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
             env = 'dev-';
         } else if (env.match(/^qa\./) == 'qa.') {
             env = 'qa-';
@@ -498,7 +498,7 @@ dwlinked = function() {
 
                 $("mainimg").style.backgroundImage
                 //CELEBRITIES ONE OFF to set proper structure
-                if (subCategory == 'celebrities' || subCategory == 'weather') { //TODO make a more efficient way to set values than whats being done below inside each if else statement
+                if (subCategory == 'celebrities' || subCategory == 'weather' || subCategory == 'music') { //TODO make a more efficient way to set values than whats being done below inside each if else statement
                     $("profile-rank").innerHTML = curData.li_rank;
                     $("mainimg-rank").innerHTML = curData.li_rank;
                     $("profile-name").innerHTML = curData.li_title;
