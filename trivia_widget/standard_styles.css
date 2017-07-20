@@ -16,18 +16,23 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale
 }
+
 .fa-random:before {
     content: "\\f074"
 }
+
 .fa-arrow-right:before {
     content: "\\f061"
 }
+
 .fa-bar-chart-o:before, .fa-bar-chart:before {
     content: "\\f080"
 }
+
 .fa-check:before {
     content: "\\f00c"
 }
+
 .fa-remove:before, .fa-close:before, .fa-times:before {
     content: "\\f00d"
 }*/

@@ -37,10 +37,10 @@
     })();
 
     /************************************************** GLOBALS ***************************************************/
-        //STYLES used in console
+    //STYLES used in console
     var analyticsStyles = [
-            'background: linear-gradient(#2a9a13, #000000)', 'border: 1px solid #3E0E02', 'color: white', 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)', 'text-align: center', 'font-weight: bold'
-        ].join(';');
+        'background: linear-gradient(#2a9a13, #000000)', 'border: 1px solid #3E0E02', 'color: white', 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)', 'text-align: center', 'font-weight: bold'
+    ].join(';');
     var payloadStyles = [
         'background: linear-gradient(#4e028a, #000000)', 'border: 1px solid #3E0E02', 'color: white', 'text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3)', 'text-align: center', 'font-weight: bold'
     ].join(';');
@@ -125,7 +125,6 @@
         }
         return env;
     }
-
     /************************************************** GLOBALS ***************************************************/
 
     function toggleDebug() {
@@ -318,7 +317,7 @@
         var resultsChartValue_el = friendlyIfWindow.document.getElementsByClassName("results_chart_value");
         var randomOption_el = friendlyIfWindow.document.getElementsByClassName("random_option")[0];
         var progressBar_el = $("progress_bar");
-        var progressFill_el = $("progress_fill");
+		var progressFill_el = $("progress_fill");
         var adProgressBar_el = $("ad_progress_bar");
         var intervalScore_el = $("interval_score");
         var intervalScoreQuestion_el = $("interval_score_question");
@@ -579,6 +578,7 @@
 
                 questionId = questionKey; // set analytics questionId to be sent into PAYLOAD
                 if (isActive) {
+                    viewDwell.resetTime();// data isnt even finished yet but timer could have ran already so making sure initial payload when data is set is when the timer truly starts
                     updatePayload("send");
                 }
 
@@ -613,9 +613,9 @@
                 intervalScoreContainer_el.style.display = 'block';
                 progressBar_el.style.display = 'block';
                 progressFill_el.style.display = 'block';
-                if (wideWidget) {
-                    submissionOverlay_el.classList.remove('no_transition');
-                }
+      			if (wideWidget) {
+          			submissionOverlay_el.classList.remove('no_transition');
+      			}
                 // loop thorugh options in data and insert values into view
                 answerData = dataOptions;
                 for (var key in answerData) {
@@ -625,8 +625,8 @@
                             value = answerData[key],
                             isCorrect = answerData[key] == metaData.correct_answer,
                             selectedOption;
-                        child.setAttribute('class', 'button_container');
-                        child.innerHTML = '<div class="button"><p>' + value + '</p></div>';
+                        	child.setAttribute('class', 'button_container');
+          					child.innerHTML = '<div class="button"><p>' + value + '</p></div>';
                         triviaOptionsContainer_el.appendChild(child);
                         reduceTextSizeCheck(child.getElementsByTagName('p')[0]); // run options through this function to check if text size needs adjusted
                         if (isCorrect) {
@@ -688,14 +688,14 @@
 
             for (var i = 0; resultsChart_el.length > i; i++) {
                 switch (i) {
-                    case 0:
-                        resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
-                        resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                        break;
-                    default:
-                        resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
-                        resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
-                        break;
+                case 0:
+                    resultsChartValue_el[i].innerHTML = correctPercentage + "%"; //sets chart label
+                    resultsChart_el[i].children[0].className = "p" + correctPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+                    break;
+                default:
+                    resultsChartValue_el[i].innerHTML = incorrectPercentage + "%"; //sets chart label
+                    resultsChart_el[i].children[0].className = "p" + incorrectPercentage; //give chart appropriate class to fill radial graph (i.e. p_50 = 50%)
+                    break;
                 }
             }
 
@@ -713,39 +713,39 @@
 
         function answerSubmittedFn(answer) {
             switch (answer) {
-                case 'correct':
-                    removeAd = true;
-                    widgetEngaged = true;
-                    addIntervalScoreFn();
-                    adjustIntervalScoreFn('clear');
-                    submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
-                    if (wideWidget) {
-                        triviaImageOverlay_el.style.height = '230px';
-                    }
-                    intervalScoreContainer_el.style.visibility = 'hidden';
-                    progressBar_el.style.visibility = 'hidden';
-                    progressFill_el.style.visibility = 'hidden';
-                    adjustIntervalScoreFn('clear');
-                    submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
-                    triviaContainer_el.className = "correct_submission";
-                    nextQuestionFn();
-                    break;
-                case 'incorrect':
-                    removeAd = true;
-                    widgetEngaged = true;
-                    adjustIntervalScoreFn('clear');
-                    submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
-                    if (wideWidget) {
-                        triviaImageOverlay_el.style.height = '230px';
-                    }
-                    intervalScoreContainer_el.style.visibility = 'hidden';
-                    progressBar_el.style.visibility = 'hidden';
-                    progressFill_el.style.visibility = 'hidden';
-                    adjustIntervalScoreFn('clear');
-                    submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
-                    triviaContainer_el.className = "incorrect_submission";
-                    nextQuestionFn();
-                    break;
+            case 'correct':
+                removeAd = true;
+                widgetEngaged = true;
+                addIntervalScoreFn();
+                adjustIntervalScoreFn('clear');
+                submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Correct";
+                if (wideWidget) {
+                    triviaImageOverlay_el.style.height = '230px';
+                }
+                intervalScoreContainer_el.style.visibility = 'hidden';
+                progressBar_el.style.visibility = 'hidden';
+      			progressFill_el.style.visibility = 'hidden';
+                adjustIntervalScoreFn('clear');
+                submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
+                triviaContainer_el.className = "correct_submission";
+                nextQuestionFn();
+                break;
+            case 'incorrect':
+                removeAd = true;
+                widgetEngaged = true;
+                adjustIntervalScoreFn('clear');
+                submissionOverlay_el.getElementsByTagName('p')[0].innerHTML = "Incorrect";
+                if (wideWidget) {
+                    triviaImageOverlay_el.style.height = '230px';
+                }
+                intervalScoreContainer_el.style.visibility = 'hidden';
+                progressBar_el.style.visibility = 'hidden';
+      			progressFill_el.style.visibility = 'hidden';
+                adjustIntervalScoreFn('clear');
+                submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
+                triviaContainer_el.className = "incorrect_submission";
+                nextQuestionFn();
+                break;
             }
         }
 
@@ -782,8 +782,8 @@
                 };
             }
             if (wideWidget) {
-                submissionOverlay_el.classList.add('no_transition');
-            }
+        		submissionOverlay_el.classList.add('no_transition');
+    		}
         } //nextQuestionFn
 
 
@@ -833,6 +833,7 @@
 
         // gets data for next question
         function iterateQuestion() {
+            question_view = 0;
             swapImage = true;
             removeQuestionIndex(questionKey);
 
@@ -875,11 +876,11 @@
                 }
                 if (isSmall && wideWidget && total_clicks == 0 && !widgetEngaged) {
                     progressBar_el.style.visibility = 'hidden';
-                    progressFill_el.style.visibility = 'hidden';
+        			progressFill_el.style.visibility = 'hidden';
                     intervalScoreContainer_el.style.visibility = 'hidden';
                 } else {
                     progressBar_el.style.visibility = 'visible';
-                    progressFill_el.style.visibility = 'visible';
+        			progressFill_el.style.visibility = 'visible';
                     intervalScoreContainer_el.style.visibility = 'visible';
 
                     if (intervalTimer) {
@@ -1001,13 +1002,13 @@
                     if (!isAdVisible) {
                         intervalScoreContainer_el.style.visibility = 'visible';
                         progressBar_el.style.visibility = 'visible';
-                        progressFill_el.style.visibility = 'visible';
+          				progressFill_el.style.visibility = 'visible';
                         adControl(true);
                         isAdVisible = true;
                     } else {
                         intervalScoreContainer_el.style.visibility = 'hidden';
                         progressBar_el.style.visibility = 'hidden';
-                        progressFill_el.style.visibility = 'hidden';
+          				progressFill_el.style.visibility = 'hidden';
                         adControl(false);
                         isAdVisible = false;
                     }
@@ -1082,8 +1083,8 @@
             quiz_views = 0, //Each time a quiz is 50%+ in view for 1+ seconds. This is recorded only once per quiz load.
             embed_view = 0, //Each time an embed is 50%+ in view for 1+ seconds. This is recorded only once per embed load.
             total_clicks = 0,
+            bounce = 0, //should only ever be 1, never more than due to submission on a payload level.  || always return 1 until questions is answered then return 0 which zero means it is no longer in z since it has been answered
             total_embeds, // Record total amount of embeds on a page no matter if in view or not
-            bounce = 0, //should only ever be 1, never more than due to submission on a payload level.  || always return 1 until questions is answered then return 0 which zero means it is no longer in bounce since it has been answered
 
             skipped, // skippped question sends 0 || 1
             answered_correctly, // correct question sends 0 || 1
@@ -1131,16 +1132,16 @@
         function iglooAnalytics(type) {
             try {
                 switch (type) {
-                    case 'view':
-                        var triviaDocument = sntTriviaContent.contentWindow.document;
-                        return igloo.utils.elementIsVisible(triviaDocument.getElementById('snt_trivia_game'), null, false, 0.5);
-                        break;
-                    case 'useragent':
-                        return igloo.browser;
-                        break;
-                    default:
-                        console.warn('igloo Utility not found', e);
-                        break;
+                case 'view':
+                    var triviaDocument = sntTriviaContent.contentWindow.document;
+                    return igloo.utils.elementIsVisible(triviaDocument.getElementById('snt_trivia_game'), null, false, 0.5);
+                    break;
+                case 'useragent':
+                    return igloo.browser;
+                    break;
+                default:
+                    console.warn('igloo Utility not found', e);
+                    break;
                 }
             } catch (e) {
                 console.warn('igloo not found', e);
@@ -1164,8 +1165,7 @@
             this.stopAt = stopAt;
             this.timerOn = false;
             this.tick = tick;
-            this.intervalTimer = function () {
-            },
+            this.intervalTimer = function () {},
                 this.startTime = function () {
                     if (!this.timerOn) {
                         this.timerOn = true;
@@ -1233,9 +1233,9 @@
                     var postXML = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
                     postXML.open("POST", url, true);
                     postXML.send(JSON.stringify(jsonObject))
-                    // setTimeout(function(){
-                    //   postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
-                    // },200);
+                        // setTimeout(function(){
+                        //   postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
+                        // },200);
                 }
             } catch (e) {
                 console.warn("Product Analytics Error in Post Request", e)
@@ -1275,7 +1275,6 @@
                         storeSessionFn.set(storeSession);
                     }
                     storeSession['quizId'];
-
                     jsonObject = {
                         "ac": answered_correctly ? answered_correctly : 0, //correct
                         "bo": bounce, // bounce
@@ -1285,7 +1284,7 @@
                         "ev": embed_view, // embed views
                         "mo": userAgentObj.mobile ? 1 : 0, //mobile
                         "pa": query.event.p, //partner id
-                        "pl": query.event.z && query.event.z != '' ? query.event.z : 0, //placement id
+                        "pl": query.event.z && query.event.z != '' ? query.event.z : '0', //placement id
                         "qi": questionId.toString(),
                         "qv": question_view ? question_view : 0, // question views
                         "qz": quizId, //quiz id
@@ -1299,7 +1298,6 @@
                     };
 
                     isMobile = jsonObject['mo'];
-
                     if (send == 'send') {
                         createPayloadFrame(jsonObject);
                         jsonObject = {};
@@ -1320,20 +1318,20 @@
 
         function analyticsSetAnswer(selection) { //TODO make a better analytics too hardcoded
             switch (selection) {
-                case 'correct':
-                    answered_correctly = 1;
-                    break;
-                case 'wrong_1':
-                    answered_wrong_1 = 1;
-                    break;
-                case 'wrong_2':
-                    answered_wrong_2 = 1;
-                    break;
-                case 'wrong_3':
-                    answered_wrong_3 = 1;
-                    break;
-                default:
-                    break
+            case 'correct':
+                answered_correctly = 1;
+                break;
+            case 'wrong_1':
+                answered_wrong_1 = 1;
+                break;
+            case 'wrong_2':
+                answered_wrong_2 = 1;
+                break;
+            case 'wrong_3':
+                answered_wrong_3 = 1;
+                break;
+            default:
+                break
             }
         }
 
@@ -1490,8 +1488,9 @@
                 var debugTimer = window.document.getElementById('viewDwell');
 
                 viewDwell = viewDwell ? viewDwell : new timer('view', 100, null, debugTimer, function (event) {
-                    if (event.time >= 1000 && viewEngaged && question_view < 1) {
+                    if (viewEngaged) {
                         question_view = 1;
+                        bounce = 1; // trivia engaged the question is now always able to be a bounced question until user clicks next question then metrics will change;
                     }
 
                     if (!widgetEngaged && !dwellLimitTimer.timerOn) {
@@ -1506,8 +1505,8 @@
                             var payT = (event.time % payloadTimer);
                             if (payT == 0) {
                                 payloadTempTimer += payloadTimer;
-                                if (!view) {// makes sure if widget is not in view to send 0 in for viewdwell.
-                                    event.time = 0;
+                                if(!view){// makes sure if widget is not in view to send 0 in for viewdwell.
+                                  event.time = 0;
                                 }
                                 updatePayload('send');
                                 if (payloadTempTimer == payloadLimit) {
@@ -1589,11 +1588,14 @@
                         isActive = false;
 
                         if (engageDwell.timerOn) {
-                            engageDwell.time = engageDwell.time - event.stopAt;
+                            engageDwell.time = (engageDwell.time - event.stopAt) < 0 ? 0 : engageDwell.time - event.stopAt;
                         }
-                        bounce = 1; // trivia engaged the question is now always able to be a bounced question until user clicks next question then metrics will change;
                         engageDwell.pauseTime();
                         sessionTimer.resetTime();
+                        if(!widgetEngaged){// if the widget engage is false then make sure to reset the viewDwell timer since javascript could cause delay in sending payload
+                            viewDwell.resetTime();
+                        }
+
                         updatePayload('send');
                         if (!view) {
                             viewDwell.pauseTime();
@@ -1606,6 +1608,8 @@
                 // debugDwell.innerHTML = 'dwell: ' + widgetEngaged; //initlal debug
 
                 sntTriviaContent.onmouseover = function () { // create listener if widget becomes engaged
+                    question_view = 1; // set current question view to 1;
+                    bounce = 1; // trivia engaged the question is now always able to be a bounced question until user clicks next question then metrics will change;
                     dwellLimitTimer.resetTime();
                     if (!widgetEngaged) {
                         widgetEngaged = true;
@@ -1664,9 +1668,8 @@
             if (engageDwell) {
                 engageDwell.resetTime();
             }
-
             total_clicks = 0;
-            bounce = 1;
+            bounce = 0;
             skipped = 0;
             answered_correctly = 0;
             answered_wrong_1 = 0;
@@ -1676,15 +1679,17 @@
         }
 
         /*
-         ****************************************************************************************************************************************
-         ****************ANALYTICS VARIABLES END*************************************************************************************************
-         ****************************************************************************************************************************************
-         /
-         /**
-         * Send a post message to every window up to the top window
-         * @param  {Object}  postObject The object to send as a postMessage
-         * @param  {Integer} maxLoops   The maximum number of layers to traverse up
-         */
+        ****************************************************************************************************************************************
+        ****************ANALYTICS VARIABLES END*************************************************************************************************
+        ****************************************************************************************************************************************
+        /
+
+
+        /**
+        * Send a post message to every window up to the top window
+        * @param  {Object}  postObject The object to send as a postMessage
+        * @param  {Integer} maxLoops   The maximum number of layers to traverse up
+        */
         function sendPostMessageToIgloo(postObject, maxLoops) {
             // Initialize variables
             var postWindows = [window];
@@ -1700,8 +1705,7 @@
                     // Add to the postMessage array
                     postWindows.push(currentWindow);
                 }
-            } catch (e) {
-            }
+            } catch (e) {}
 
             // Send the post messages
             for (var i = 0; i < postWindows.length; i++) {
