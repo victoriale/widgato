@@ -83,4 +83,4 @@ friendlyIframe.style.border = 'none';
 currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
 var iframeContent = friendlyIframe.contentWindow;
 var doc = iframeContent.document;
-doc.write('<body><scr'+'ipt type="text/javascript" src="http://stg.truvidplayer.com/index.php?sub_user_id=188&widget_id=1706&playlist_id=1297&cb='+(Math.random()*10000000000000000)+'"></scr'+'ipt></body>');
+doc.write('<body style="margin:0;"><scr'+'ipt type="text/javascript" src="http://stg.truvidplayer.com/index.php?sub_user_id=188&widget_id=1706&playlist_id=1297&cb='+(Math.random()*10000000000000000)+'"></scr'+'ipt></body>');
