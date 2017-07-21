@@ -73,5 +73,14 @@ function receiveMessage(event) {
     }
   }
 }
-
-document.write('<scr'+'ipt type="text/javascript" src="http://stg.truvidplayer.com/index.php?sub_user_id=188&widget_id=1706&playlist_id=1297&cb='+(Math.random()*10000000000000000)+'"></scr'+'ipt>');
+var friendlyIframe = document.createElement('iframe');
+//create friendly iframe to place ourselves inside
+friendlyIframe.className = "SNTVideoIframe"
+friendlyIframe.width = '300';
+friendlyIframe.height = '250';
+friendlyIframe.src = 'about:blank';
+friendlyIframe.style.border = 'none';
+currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
+var iframeContent = friendlyIframe.contentWindow;
+var doc = iframeContent.document;
+doc.write('<scr'+'ipt type="text/javascript" src="http://stg.truvidplayer.com/index.php?sub_user_id=188&widget_id=1706&playlist_id=1297&cb='+(Math.random()*10000000000000000)+'"></scr'+'ipt>');
