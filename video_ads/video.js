@@ -1,3 +1,4 @@
+var input;
 var embedURL = "truvid.js";
 var currentScript = document.currentScript || (function() {
   var scripts = document.getElementsByTagName('script');
@@ -7,7 +8,6 @@ var currentScript = document.currentScript || (function() {
     }
   }
 })();
-var input;
 if (decodeURIComponent(location.search.substr(1)) != null && decodeURIComponent(location.search.substr(1)) != "") {
   try {
     input = JSON.parse(decodeURIComponent(location.search.substr(1)));
@@ -66,7 +66,7 @@ window.addEventListener("message", receiveMessage, false);
 function receiveMessage(event) {
   console.log(event);
   if (typeof event.data === "string" && event.data.indexOf("truvid") != -1 && event.data.indexOf("playerLoaded") != -1) {
-    if (input.event) { // if we are in igloo v3 or >
+    if (input && input.event) { // if we are in igloo v3 or >
       // send the event identifiers to yeti analytics
       input.event.event = "videoplayer-loaded";
       sendPostMessageToIgloo({action: 'snt_tracker', snt_data: input.event}, 10);
