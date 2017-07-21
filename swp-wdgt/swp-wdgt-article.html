@@ -978,9 +978,8 @@ function getHostName(url) {
     }
     return locationElement;
 }
-var swp_wdgt_url = location != parent.location? document.referrer : document.location.href;
-var swp_wdgt_host = getHostName(swp_wdgt_url).hostname;
-var swp_wdgt_apiHost = getEnv(swp_wdgt_host);
+
+
 
 function RenderArticleSide(protocolToUse) {
     var gameID;
@@ -991,6 +990,9 @@ function RenderArticleSide(protocolToUse) {
     var hasChanged = false;
     var dropdownCount = 0;
     var catOptions = ['mlb', 'nfl', 'ncaa', 'nba','ncaam'];
+    var swp_wdgt_url = location != parent.location? document.referrer : document.location.href;
+    var swp_wdgt_host = getHostName(swp_wdgt_url).hostname;
+    var swp_wdgt_apiHost = getEnv(swp_wdgt_host);
     function getRandomArbitrary(min, max) {
        return Math.floor(Math.random() * (max - min) + min);
     }
@@ -1089,7 +1091,6 @@ function RenderArticleSide(protocolToUse) {
         xmlHttp.open("GET", url, true); // false for synchronous request
         xmlHttp.send(null);
     }
-
     httpGetData(APIUrl);
 
     /* Handling of Article Index */
