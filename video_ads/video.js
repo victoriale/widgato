@@ -1,5 +1,5 @@
 var input;
-var embedURL = "truvid.js";
+var embedURL = "video.js";
 var currentScript = document.currentScript || (function() {
   var scripts = document.getElementsByTagName('script');
   for ( var i = scripts.length - 1; i >= 0; i-- ) {
