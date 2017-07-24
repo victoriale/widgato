@@ -991,7 +991,7 @@ function RenderArticleSide(protocolToUse) {
     var hasChanged = false;
     var dropdownCount = 0;
     var catOptions = ['mlb', 'nfl', 'ncaa', 'nba','ncaam'];
-    var swp_wdgt_url = location != parent.location? window.top.location.href : document.location.href;
+    var swp_wdgt_url = location != parent.location? document.referrer : document.location.href;
     console.log(swp_wdgt_url); // to test the parent window element url. will remove the console after testing
     var swp_wdgt_host = getHostName(swp_wdgt_url).hostname;
     var swp_wdgt_apiHost = getEnv(swp_wdgt_host);
