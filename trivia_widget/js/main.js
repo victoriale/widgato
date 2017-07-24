@@ -578,6 +578,7 @@
 
                 questionId = questionKey; // set analytics questionId to be sent into PAYLOAD
                 if (isActive) {
+                    viewDwell.resetTime();// data isnt even finished yet but timer could have ran already so making sure initial payload when data is set is when the timer truly starts
                     updatePayload("send");
                 }
 
@@ -832,6 +833,7 @@
 
         // gets data for next question
         function iterateQuestion() {
+            question_view = 0;
             swapImage = true;
             removeQuestionIndex(questionKey);
 
@@ -1081,8 +1083,8 @@
             quiz_views = 0, //Each time a quiz is 50%+ in view for 1+ seconds. This is recorded only once per quiz load.
             embed_view = 0, //Each time an embed is 50%+ in view for 1+ seconds. This is recorded only once per embed load.
             total_clicks = 0,
+            bounce = 0, //should only ever be 1, never more than due to submission on a payload level.  || always return 1 until questions is answered then return 0 which zero means it is no longer in z since it has been answered
             total_embeds, // Record total amount of embeds on a page no matter if in view or not
-            bounce = 0, //should only ever be 1, never more than due to submission on a payload level.  || always return 1 until questions is answered then return 0 which zero means it is no longer in bounce since it has been answered
 
             skipped, // skippped question sends 0 || 1
             answered_correctly, // correct question sends 0 || 1
@@ -1273,7 +1275,6 @@
                         storeSessionFn.set(storeSession);
                     }
                     storeSession['quizId'];
-
                     jsonObject = {
                         "ac": answered_correctly ? answered_correctly : 0, //correct
                         "bo": bounce, // bounce
@@ -1283,7 +1284,7 @@
                         "ev": embed_view, // embed views
                         "mo": userAgentObj.mobile ? 1 : 0, //mobile
                         "pa": query.event.p, //partner id
-                        "pl": query.event.z && query.event.z != '' ? query.event.z : 0, //placement id
+                        "pl": query.event.z && query.event.z != '' ? query.event.z : '0', //placement id
                         "qi": questionId.toString(),
                         "qv": question_view ? question_view : 0, // question views
                         "qz": quizId, //quiz id
@@ -1297,7 +1298,6 @@
                     };
 
                     isMobile = jsonObject['mo'];
-
                     if (send == 'send') {
                         createPayloadFrame(jsonObject);
                         jsonObject = {};
@@ -1488,8 +1488,9 @@
                 var debugTimer = window.document.getElementById('viewDwell');
 
                 viewDwell = viewDwell ? viewDwell : new timer('view', 100, null, debugTimer, function (event) {
-                    if (event.time >= 1000 && viewEngaged && question_view < 1) {
+                    if (viewEngaged) {
                         question_view = 1;
+                        bounce = 1; // trivia engaged the question is now always able to be a bounced question until user clicks next question then metrics will change;
                     }
 
                     if (!widgetEngaged && !dwellLimitTimer.timerOn) {
@@ -1587,11 +1588,14 @@
                         isActive = false;
 
                         if (engageDwell.timerOn) {
-                            engageDwell.time = engageDwell.time - event.stopAt;
+                            engageDwell.time = (engageDwell.time - event.stopAt) < 0 ? 0 : engageDwell.time - event.stopAt;
                         }
-                        bounce = 1; // trivia engaged the question is now always able to be a bounced question until user clicks next question then metrics will change;
                         engageDwell.pauseTime();
                         sessionTimer.resetTime();
+                        if(!widgetEngaged){// if the widget engage is false then make sure to reset the viewDwell timer since javascript could cause delay in sending payload
+                            viewDwell.resetTime();
+                        }
+
                         updatePayload('send');
                         if (!view) {
                             viewDwell.pauseTime();
@@ -1604,6 +1608,8 @@
                 // debugDwell.innerHTML = 'dwell: ' + widgetEngaged; //initlal debug
 
                 sntTriviaContent.onmouseover = function () { // create listener if widget becomes engaged
+                    question_view = 1; // set current question view to 1;
+                    bounce = 1; // trivia engaged the question is now always able to be a bounced question until user clicks next question then metrics will change;
                     dwellLimitTimer.resetTime();
                     if (!widgetEngaged) {
                         widgetEngaged = true;
@@ -1662,9 +1668,8 @@
             if (engageDwell) {
                 engageDwell.resetTime();
             }
-
             total_clicks = 0;
-            bounce = 1;
+            bounce = 0;
             skipped = 0;
             answered_correctly = 0;
             answered_wrong_1 = 0;
