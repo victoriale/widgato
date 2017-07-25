@@ -499,11 +499,11 @@ var centipede = function () {
             },
             nfl: {
                 hex: "#004e87",
-                fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg"
+                fallbackImage: "images.synapsys.us/01/fallback/stock/2017/07/football_stock_01_970x250.jpg"
             },
             ncaaf: {
                 hex: "#004e87",
-                fallbackImage: "images.synapsys.us/01/fallback/stock/2017/03/football_stock.jpg"
+                fallbackImage: "images.synapsys.us/01/fallback/stock/2017/07/football_stock_01_970x250.jpg"
             },
             nba: {
                 hex: "#f26f26",
@@ -543,7 +543,7 @@ var centipede = function () {
             },
             music: {
                 hex: "#6459d3",
-                fallbackImage: "images.synapsys.us/01/fallback/stock/2017/04/actor.jpg"
+                fallbackImage: "images.synapsys.us/01/fallback/stock/2017/04/musician.jpg"
             }
         };
         if (pub == null || pub == "" || !pubs[pub]) {
@@ -593,53 +593,10 @@ var centipede = function () {
             }
         };
         rand = e;
+        // checks if a single category is request instead of group
         if (input.category != null && input.category != "") { //category param
             currentPub = getPublisher(input.category);
-            if (input.category == "nfl" || input.category == "ncaaf" || input.category == "nflncaaf") { //fetch curated TDL API queries
-                if (input.category == "nfl") {
-                    var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array.json';
-                }
-                else if (input.category == "ncaaf") {
-                    var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array_ncaaf.json';
-                }
-                else if (input.category == "nflncaaf") {
-                    rand = Math.floor((Math.random() * 2) + 1);
-                    if (rand == 1) {
-                        var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array_ncaaf.json';
-                        input.category = "ncaaf";
-                    }
-                    else {
-                        var url = protocolToUse + 'w1.synapsys.us/widgets/js/tdl_list_array.json';
-                        input.category = "nfl";
-                    }
-                }
-                var xmlHttp = new XMLHttpRequest();
-                xmlHttp.onreadystatechange = function () {
-                    if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-                        //On complete function
-                        initData = JSON.parse(xmlHttp.responseText);
-                        rand = Math.floor((Math.random() * (initData.length - 1)) + 1);
-                        var date = new Date;
-                        var compareDate = new Date('09/15/' + date.getFullYear());
-                        //TDL API queries
-                        if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
-                            i.open('GET', protocolToUse + input.env + "touchdownloyal-api.synapsys.us/list/" + initData[rand] + "&season=" + date.getFullYear(), true);
-                            i.send()
-                        }
-                        else if (date.getMonth() > compareDate.getMonth()) {
-                            i.open('GET', protocolToUse + input.env + "touchdownloyal-api.synapsys.us/list/" + initData[rand] + "&season=" + date.getFullYear(), true);
-                            i.send()
-                        }
-                        else {
-                            i.open('GET', protocolToUse + input.env + "touchdownloyal-api.synapsys.us/list/" + initData[rand] + "&season=" + (date.getFullYear() - 1), true);
-                            i.send()
-                        }
-                    }
-                }
-                xmlHttp.open("GET", url, true); // false for synchronous request
-                xmlHttp.send(null);
-            }
-            else if (input.category == 'weather' || input.group == 'weather') {
+            if (input.category == 'weather' || input.group == 'weather') {
                 var inputType = input.group != null && input.group != '' ? 'group' : 'cat';
                 var inputCategory = input.group != null && input.group != '' ? input.group : input.category;
                 wheresWaldo();
@@ -670,40 +627,8 @@ var centipede = function () {
         if ((input.category == null || input.category == "") && input.group != null && input.group != "") {
             currentPub = getPublisher(data.category);
         }
-        if (input.category == "nfl" || input.category == "ncaaf") { //if TDL data, transform it
-            data = data.data;
-            data.l_title = data.listInfo.listName;
-            var items = [];
-            if (data.listData[0].rankType == "team") { // team
-                for (var i = 0; i < data.listData.length; i++) {
-                    items.push(
-                        {
-                            li_img: protocolToUse + "images.synapsys.us" + data.listData[i].teamLogo,
-                            li_value: data.listData[i].stat,
-                            li_tag: data.listData[i].statDescription,
-                            li_title: data.listData[i].teamName,
-                            li_sub_txt: data.listData[i].divisionName,
-                            li_rank: data.listData[i].rank
-                        }
-                    );
-                }
-            }
-            else { //player
-                for (var i = 0; i < data.listData.length; i++) {
-                    items.push(
-                        {
-                            li_img: protocolToUse + "images.synapsys.us" + data.listData[i].playerHeadshotUrl,
-                            li_value: data.listData[i].stat,
-                            li_tag: data.listData[i].statDescription,
-                            li_title: data.listData[i].playerFirstName + " " + data.listData[i].playerLastName,
-                            li_sub_txt: data.listData[i].teamName,
-                            li_rank: data.listData[i].rank
-                        }
-                    );
-                }
-            }
-        }
-        else if (input.group == "entertainment" || data.category == "celebrities" || input.group == "weather" || data.category == "weather" || data.category == "music") { //if celeb data, transform it
+        // if using new api on certain categories then use new format
+        if (input.group == "entertainment" || data.category == "celebrities" || input.group == "weather" || data.category == "weather" || data.category == "music" || data.category == "nfl" || data.category == "ncaaf" || data.category == "football") {
             var items = [];
             for (var i = 0; i < data.l_data.length; i++) {
                 if (data.l_data[i].data_point_2 == null) {
