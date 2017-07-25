@@ -215,28 +215,22 @@ dwlinked = function() {
         //setup Image Environment api
         imageUrl = protocolToUse + synapsysENV(environment) + imageUrl; // this is global call that is used for images
 
-        //if group doesnt exist and category is football
-        if (widgetQuery.group == null && (widgetQuery.category == 'nfl' || widgetQuery.category == 'ncaaf' || widgetQuery.category == 'football' || widgetQuery.category == 'nflncaaf')) {
-            subCategory = widgetQuery.category;
-            apiCallUrl += env + "-" + tdlApi;
-        } else {
-            //if group does exist here then add group query parameter otherwise add categeory parameter for api
-            if (widgetQuery.group != null && widgetQuery.group != "") {
-                apiCallUrl += synapsysENV(environment) + dwApi + "?group=" + group;
-            } else {
-                subCategory = widgetQuery.category;
-                apiCallUrl += synapsysENV(environment) + dwApi + "?cat=" + cat;
-            }
-            if(widgetQuery.group == 'weather' || widgetQuery.category == 'weather'){
-                wheresWaldo();
-                showCover = true;
-                apiCallUrl += '&location='+getlocation[0].state.toLowerCase()+'&loc_type=state';
-            }
-            if (dom != null && dom != "" && (widgetQuery.group != 'weather' && widgetQuery.category != 'weather')) {
-                apiCallUrl += "&partner=" + dom;
-            }
-        }
 
+        //if group does exist here then add group query parameter otherwise add categeory parameter for api
+        if (widgetQuery.group != null && widgetQuery.group != "") {
+          apiCallUrl += synapsysENV(environment) + dwApi + "?group=" + group;
+        } else {
+          subCategory = widgetQuery.category;
+          apiCallUrl += synapsysENV(environment) + dwApi + "?cat=" + cat;
+        }
+        if(widgetQuery.group == 'weather' || widgetQuery.category == 'weather'){
+          wheresWaldo();
+          showCover = true;
+          apiCallUrl += '&location='+getlocation[0].state.toLowerCase()+'&loc_type=state';
+        }
+        if (dom != null && dom != "" && (widgetQuery.group != 'weather' && widgetQuery.category != 'weather')) {
+          apiCallUrl += "&partner=" + dom;
+        }
         //FALL BACK API SET HERE INCASE Dynamic widget api fails to make a call
         fallBackApi = protocolToUse + synapsysENV(environment) + dwApi + "?group=sports";
     }
@@ -250,14 +244,9 @@ dwlinked = function() {
      */
     function updateList(listNum) {
         widgetData = null;
-        // currentIndex = 0;
-        if (query.group == null && (query.category == 'nfl' || query.category == 'ncaaf' || query.category == 'football')) {
-            getFootballList(query.category);
-        } else {
-            listRand = Number(listRand) + Number(listNum);
-            var currentApi = apiCallUrl + "&rand=" + listRand;
-            runAPI(currentApi);
-        }
+        listRand = Number(listRand) + Number(listNum);
+        var currentApi = apiCallUrl + "&rand=" + listRand;
+        runAPI(currentApi);
     }
 
     /************************ Update Index *************************
@@ -278,62 +267,6 @@ dwlinked = function() {
             //call display widget
             displayWidget();
         }
-    }
-
-    /********************** GET FOOTBALL JSON LIST ***************
-     * @function getFootballList
-     *gets a PRE generated list from a json file that is asynchronously being called; returns and Array of all lists
-     *
-     * @param function league - league can either be nfl, ncaaf
-     */
-    function getFootballList(league) {
-        if (league == "nfl") {
-            var url = '../js/tdl_list_array.json';
-        } else if (league == "ncaaf") {
-            var url = '../js/tdl_list_array_ncaaf.json';
-        } else if (league == "nflncaaf") {
-            rand = Math.floor((Math.random() * 2) + 1);
-            if (rand == 1) {
-                var url = '../js/tdl_list_array_ncaaf.json';
-                l.category = "ncaaf";
-            } else {
-                var url = '../js/tdl_list_array.json';
-                l.category = "nfl";
-            }
-        }
-        var xmlHttp = new XMLHttpRequest();
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState === 4 && xmlHttp.status === 200) {
-                //On complete function
-                jsonArray = JSON.parse(xmlHttp.responseText);
-                getRandFootballList(jsonArray);
-            }
-        }
-        xmlHttp.open("GET", url, true); // false for synchronous request
-        xmlHttp.send(null);
-    }
-
-
-    /******************** GET RANDOM FOOTBALL LIST ****************
-     * @function getRandFootballList
-     * chooses a random index in the array and uses that list to displace
-     *
-     * @param function jsonArray - the init
-     */
-    function getRandFootballList(jsonArray) {
-        rand = Math.floor((Math.random() * (jsonArray.length - 1)) + 1);
-        var date = new Date;
-        var compareDate = new Date('09/15/' + date.getFullYear());
-        var season;
-        if (date.getMonth() == compareDate.getMonth() && date.getDate() >= compareDate.getDate()) {
-            season = jsonArray[rand] + "&season=" + date.getFullYear();
-        } else if (date.getMonth() > compareDate.getMonth()) {
-            season = jsonArray[rand] + "&season=" + date.getFullYear();
-        } else {
-            season = jsonArray[rand] + "&season=" + (date.getFullYear() - 1);
-        }
-        apiCallUrl += season;
-        runAPI(apiCallUrl);
     }
 
     /***************************** runAPI ***************************
@@ -404,131 +337,79 @@ dwlinked = function() {
      */
     function displayWidget() {
         try {
-            /***************************FOOTBALL DATA APPLIANCE*******************************/
-            if (query.group == null && (query.category == "football" || query.category == "nfl" || query.category == "ncaaf")) {
-                var dataArray = widgetData.data.listData;
-                setCategoryColors(subCategory);
-                //set maximum index of returned dataLayer
-                // maxIndex = dataArray.length;
-
-                var curData = dataArray[currentIndex];
-
-                //list title
-                $("profile-title").innerHTML = widgetData.data.listInfo.listName;
-
-                $("profile-rank").innerHTML = curData.rank;
-                $("mainimg-rank").innerHTML = curData.rank;
-
-                //current index of a player or team to display
-                if (curData.rankType == "player") {
-                    var image = checkImage(imageUrl + curData.playerHeadshotUrl);
-                    if (image != null) {
-                        $("mainimg").style.backgroundImage = "url('" + image + "')";
-                    }
-
-                    $("profile-name").innerHTML = curData.playerFirstName + " " + curData.playerLastName;
-
-                    $("profile-datapoint1").innerHTML = "Team: ";
-                    $("profile-datavalue1").innerHTML = curData.teamName;
-
-                    $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
-                    $("profile-datapoint2").innerHTML = " " + curData.statDescription;
-
-                    $("name-title").setAttribute("title", curData.playerFirstName + " " + curData.playerLastName);
-                    $("data-title1").setAttribute("title", "Team: " + curData.teamName);
-                    $("data-title2").setAttribute("title", Number(curData.stat).toFixed(2) + " " + curData.statDescription);
-                } else {
-                    var image = checkImage(imageUrl + curData.teamLogo);
-                    if (image != null) {
-                        $("mainimg").style.backgroundImage = "url('" + image + "')";
-                    }
-
-                    $("profile-name").innerHTML = curData.teamName;
-                    $("profile-datapoint1").innerHTML = "Division: ";
-                    $("profile-datavalue1").innerHTML = curData.divisionName;
-
-                    $("profile-datavalue2").innerHTML = Number(curData.stat).toFixed(2);
-                    $("profile-datapoint2").innerHTML = ": " + curData.statDescription;
-
-                    $("name-title").setAttribute("title", curData.teamName);
-                    $("data-title1").setAttribute("title", "Division: " + curData.divisionName);
-                    $("data-title2").setAttribute("title", Number(curData.stat).toFixed(2) + ": " + curData.statDescription);
-                }
-                /***************************END OF FOOTBALL DATA*******************************/
-            } else { /***************************DYNAMIC DATA APPLIANCE*******************************/
+            /***************************DYNAMIC DATA APPLIANCE*******************************/
             var dataArray = widgetData.l_data;
 
-                //checks if a category from group lists is being sent back then setting it as the subCategoryto be checked for proper color and fallback images
-                if (query.group != null && widgetData.category != null) {
-                    subCategory = widgetData.category;
-                } else if (query.group != null && widgetData.category == null) {
-                    subCategory = null;
-                }
+            //checks if a category from group lists is being sent back then setting it as the subCategoryto be checked for proper color and fallback images
+            if (query.group != null && widgetData.category != null) {
+              subCategory = widgetData.category;
+            } else if (query.group != null && widgetData.category == null) {
+              subCategory = null;
+            }
 
-                setCategoryColors(subCategory);
-                //set maximum index of returned dataLayer
-                // maxIndex = dataArray.length;
+            setCategoryColors(subCategory);
+            //set maximum index of returned dataLayer
+            // maxIndex = dataArray.length;
 
-                //current index of list
-                var curData = dataArray[currentIndex];
+            //current index of list
+            var curData = dataArray[currentIndex];
 
-                //list title
-                $("profile-title").innerHTML = widgetData.l_title;
+            //list title
+            $("profile-title").innerHTML = widgetData.l_title;
 
-                //checks if a proper live image is being sent from team_wide_img or player_wide_img otherwise default to li_img datapoint
-                var image;
-                if (curData.player_wide_img != null && curData.player_wide_img != "") {
-                    image = checkImage(imageUrl + curData.player_wide_img);
-                } else if ((curData.player_wide_img == null || curData.player_wide_img == "") && (curData.team_wide_img != null && curData.team_wide_img != "")) {
-                    image = checkImage(imageUrl + curData.team_wide_img);
-                } else {
-                    image = checkImage(curData.li_img);
-                }
+            //checks if a proper live image is being sent from team_wide_img or player_wide_img otherwise default to li_img datapoint
+            var image;
+            if (curData.player_wide_img != null && curData.player_wide_img != "") {
+              image = checkImage(imageUrl + curData.player_wide_img);
+            } else if ((curData.player_wide_img == null || curData.player_wide_img == "") && (curData.team_wide_img != null && curData.team_wide_img != "")) {
+              image = checkImage(imageUrl + curData.team_wide_img);
+            } else {
+              image = checkImage(curData.li_img);
+            }
 
-                if (image != null) {
-                    $("mainimg").style.backgroundImage = "url('" + image + "')";
-                }
+            if (image != null) {
+              $("mainimg").style.backgroundImage = "url('" + image + "')";
+            }
 
-                //FINANCE ONE OFF where if finance we want to use only 100% of the height;
-                if (subCategory == 'finance' && !wideWidget) {
-                    $("mainimg").style.backgroundSize = "auto 100%";
-                } else {
-                    $("mainimg").style.backgroundSize = "cover";
-                }
+            //FINANCE ONE OFF where if finance we want to use only 100% of the height;
+            if (subCategory == 'finance' && !wideWidget) {
+              $("mainimg").style.backgroundSize = "auto 100%";
+            } else {
+              $("mainimg").style.backgroundSize = "cover";
+            }
 
-                $("mainimg").style.backgroundImage
-                //CELEBRITIES ONE OFF to set proper structure
-                if (subCategory == 'celebrities' || subCategory == 'weather' || subCategory == 'music') { //TODO make a more efficient way to set values than whats being done below inside each if else statement
-                    $("profile-rank").innerHTML = curData.li_rank;
-                    $("mainimg-rank").innerHTML = curData.li_rank;
-                    $("profile-name").innerHTML = curData.li_title;
-                    $("name-title").setAttribute("title", curData.li_title);
-                    if (curData.data_value_1 != null) {
-                        $("profile-datavalue1").innerHTML = curData.data_value_1;
-                        $("profile-datapoint1").innerHTML = curData.data_point_1 != null ? curData.data_point_1 : '';
-                        $("data-title1").setAttribute("title", curData.data_value_1 == '' ? curData.data_point_1 : curData.data_value_1);
-                    } else {
-                        $("profile-datavalue1").innerHTML = curData.fallback_data_value_1 != null ? curData.fallback_data_value_1 : '';
-                        $("profile-datapoint1").innerHTML = curData.fallback_data_point_1 != null ? curData.fallback_data_point_1 : '';
-                        $("data-title1").setAttribute("title", curData.fallback_data_value_1);
-                    }
+            $("mainimg").style.backgroundImage
+            //CELEBRITIES ONE OFF to set proper structure
+            if (subCategory == 'celebrities' || subCategory == 'weather' || subCategory == 'music' || subCategory == 'nfl' || subCategory == 'ncaaf') { //TODO make a more efficient way to set values than whats being done below inside each if else statement
+              $("profile-rank").innerHTML = curData.li_rank;
+              $("mainimg-rank").innerHTML = curData.li_rank;
+              $("profile-name").innerHTML = curData.li_title;
+              $("name-title").setAttribute("title", curData.li_title);
+              if (curData.data_value_1 != null) {
+                $("profile-datavalue1").innerHTML = curData.data_value_1;
+                $("profile-datapoint1").innerHTML = curData.data_point_1 != null ? curData.data_point_1 : '';
+                $("data-title1").setAttribute("title", curData.data_value_1 == '' ? curData.data_point_1 : curData.data_value_1);
+              } else {
+                $("profile-datavalue1").innerHTML = curData.fallback_data_value_1 != null ? curData.fallback_data_value_1 : '';
+                $("profile-datapoint1").innerHTML = curData.fallback_data_point_1 != null ? curData.fallback_data_point_1 : '';
+                $("data-title1").setAttribute("title", curData.fallback_data_value_1);
+              }
 
-                    $("profile-datapoint2").innerHTML = curData.data_point_2 != null ? curData.data_point_2 : '';
-                    $("profile-datavalue2").innerHTML = curData.data_value_2 != null ? " " + curData.data_value_2 : '';
-                    $("data-title2").setAttribute("title", curData.data_value_2);
-                } else {
-                    $("profile-rank").innerHTML = curData.li_rank;
-                    $("mainimg-rank").innerHTML = curData.li_rank;
-                    $("profile-name").innerHTML = curData.li_title;
-                    // $("profile-datapoint1").innerHTML = curData.li_value;
-                    $("profile-datavalue1").innerHTML = curData.li_sub_txt;
-                    $("profile-datapoint2").innerHTML = curData.li_tag;
-                    $("profile-datavalue2").innerHTML = " " + curData.li_value;
+              $("profile-datapoint2").innerHTML = curData.data_point_2 != null ? curData.data_point_2 : '';
+              $("profile-datavalue2").innerHTML = curData.data_value_2 != null ? " " + curData.data_value_2 : '';
+              $("data-title2").setAttribute("title", curData.data_value_2);
+            } else {
+              $("profile-rank").innerHTML = curData.li_rank;
+              $("mainimg-rank").innerHTML = curData.li_rank;
+              $("profile-name").innerHTML = curData.li_title;
+              // $("profile-datapoint1").innerHTML = curData.li_value;
+              $("profile-datavalue1").innerHTML = curData.li_sub_txt;
+              $("profile-datapoint2").innerHTML = curData.li_tag;
+              $("profile-datavalue2").innerHTML = " " + curData.li_value;
 
-                    $("name-title").setAttribute("title", curData.li_title);
-                    $("data-title1").setAttribute("title", curData.li_sub_txt);
-                    $("data-title2").setAttribute("title", curData.li_value + " " + curData.li_tag);
-                }
+              $("name-title").setAttribute("title", curData.li_title);
+              $("data-title1").setAttribute("title", curData.li_sub_txt);
+              $("data-title2").setAttribute("title", curData.li_value + " " + curData.li_tag);
             }
             /***************************END OF DYNAMIC DATA*******************************/
         } catch (e) {
@@ -631,14 +512,11 @@ dwlinked = function() {
         var imageReturn;
         var fallbackImg;
         var imageWidth = wideWidget ? 690 : 300; //determine which quality widget to use based on if the wide widget is in view
-        // $("mainimg").setAttribute('src', '');
-        //Swtich statement to return fallback images for each vertical default = images.synapsys.us/01/fallback/stock/2017/03/finance_stock.jpg
         switch (subCategory) {
             case "football":
             case "nfl":
             case "ncaaf":
-            case "nflncaaf":
-                fallbackImg = "football_stock.jpg";
+                fallbackImg = "football_stock_01_970x250.jpg";
                 break;
             case 'basketball':
             case "nba":
@@ -664,10 +542,14 @@ dwlinked = function() {
                 break;
             case "celebrities":
             case "actor":
+                fallbackImg = "actor.jpg";
+                break;
             case "musician":
             case "music":
+                fallbackImg = "musician.jpg";
+                break;
             case "director":
-                fallbackImg = "actor.jpg";
+                fallbackImg = "director.jpg";
                 break;
             default:
                 fallbackImg = "failback.jpg";
@@ -691,9 +573,11 @@ dwlinked = function() {
             } else {
                 showCover = true;
                 //make sure there is a fallback image
-                if (subCategory == "celebrities" || subCategory == "music") {
+                if (subCategory == "football" || subCategory == "nfl" || subCategory == "ncaaf"){
+                    imageReturn = imageUrl + "/01/fallback/stock/2017/07/" + fallbackImg;
+                }else if (subCategory == "celebrities" || subCategory == "music") {
                     imageReturn = imageUrl + "/01/fallback/stock/2017/04/" + fallbackImg;
-                } else {
+                }else {
                     imageReturn = imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg;
                 }
                 //sets flag for image api to send back image with set size based on devicePixelRatio
@@ -705,7 +589,6 @@ dwlinked = function() {
             showCover = true;
         }
         //when mainimg was an <img> tag
-        // $("mainimg").setAttribute('onerror', "this.src='"+imageUrl + "/01/fallback/stock/2017/03/" + fallbackImg + "?width=" + (300 * window.devicePixelRatio)+"'" ); //SETS ON ERROR IMAGE
         //USED to display background color of category if a fallback image is sent back
         var imageBackground = friendlyIframeWindow.document.getElementsByClassName('e_image-cover');
         for (var j = 0; j < imageBackground.length; j++) {
