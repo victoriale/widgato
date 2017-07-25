@@ -79,7 +79,9 @@ friendlyIframe.className = "SNTVideoIframe"
 friendlyIframe.width = '300';
 friendlyIframe.height = '250';
 friendlyIframe.src = 'about:blank';
+friendlyIframe.scrolling = 'no';
 friendlyIframe.style.border = 'none';
+friendlyIframe.style.backgroundImage = 'url("//content.synapsys.us/images/snt-house-ads/investkit02.jpg")';
 currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
 var iframeContent = friendlyIframe.contentWindow;
 var doc = iframeContent.document;
