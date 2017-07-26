@@ -79,7 +79,9 @@ friendlyIframe.className = "SNTVideoIframe"
 friendlyIframe.width = '300';
 friendlyIframe.height = '250';
 friendlyIframe.src = 'about:blank';
+friendlyIframe.scrolling = 'no';
 friendlyIframe.style.border = 'none';
+friendlyIframe.style.backgroundImage = 'url("//w1.synapsys.us/widgets/video_ads/snt_bg.jpg")';
 currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
 var iframeContent = friendlyIframe.contentWindow;
 var doc = iframeContent.document;
