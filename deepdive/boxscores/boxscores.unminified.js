@@ -19,7 +19,7 @@
   var boxscoresUrl = location != parent.location? document.referrer : document.location.href;
   var boxscoresParentHost = getHostName(boxscoresUrl).hostname;
   var apiHost = getEnv(boxscoresParentHost);
-  var embedURL = 'http://"+ apiHost +"-w1.synapsys.us/widgets/deepdive/boxscores/boxscores.js'; //Source of embed
+  var embedURL = 'http://'+ apiHost +'-w1.synapsys.us/widgets/deepdive/boxscores/boxscores.js'; //Source of embed
   var parentNodeWidth; //width of container
   var displayNumber; //number of games to display
   var initialIndex = [], dataLength, processedData; //Variables for game data
