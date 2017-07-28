@@ -170,24 +170,12 @@ dwlinked = function() {
     }
 
     function getEnv(env) {
-        if (env.match(/^homestead\./) != null || env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
-            env = "dev";
-        } else if (env.match(/^qa\./) != null) {
-            env = "qa";
+        if (env.match(/^homestead/) != null || env.match(/^localhost/) != null || env.match(/^dev/) != null) {
+            env = "dev-";
+        } else if (env.match(/^qa/) != null) {
+            env = "qa-";
         } else {
-            env = "prod";
-        }
-        return env;
-    }
-
-    //DEPRECATED WILL BE REPLACED WITH getENV
-    function synapsysENV(env) {
-        if (env.match(/^homestead\./) != null || env.match(/^localhost\./) != null || env.match(/^dev\./) != null) {
-            env = 'dev-';
-        } else if (env.match(/^qa\./) == 'qa.') {
-            env = 'qa-';
-        } else {
-            env = '';
+            env = "";
         }
         return env;
     }
@@ -207,21 +195,22 @@ dwlinked = function() {
         var environment = friendlyIframeWindow.location.hostname.split('.')[0] + '.';
         var env;
         if (widgetQuery.env != null) {
-            env = widgetQuery.env ? widgetQuery.env : 'prod';
+            env = widgetQuery.env && widgetQuery != 'prod' ? widgetQuery.env : '';
         } else {
             env = getEnv(environment);
         }
 
         //setup Image Environment api
-        imageUrl = protocolToUse + synapsysENV(environment) + imageUrl; // this is global call that is used for images
+        console.log('environment',env);
+        imageUrl = protocolToUse + env + imageUrl; // this is global call that is used for images
 
 
         //if group does exist here then add group query parameter otherwise add categeory parameter for api
         if (widgetQuery.group != null && widgetQuery.group != "") {
-          apiCallUrl += synapsysENV(environment) + dwApi + "?group=" + group;
+          apiCallUrl += env + dwApi + "?group=" + group;
         } else {
           subCategory = widgetQuery.category;
-          apiCallUrl += synapsysENV(environment) + dwApi + "?cat=" + cat;
+          apiCallUrl += env + dwApi + "?cat=" + cat;
         }
         if(widgetQuery.group == 'weather' || widgetQuery.category == 'weather'){
           wheresWaldo();
@@ -232,7 +221,7 @@ dwlinked = function() {
           apiCallUrl += "&partner=" + dom;
         }
         //FALL BACK API SET HERE INCASE Dynamic widget api fails to make a call
-        fallBackApi = protocolToUse + synapsysENV(environment) + dwApi + "?group=sports";
+        fallBackApi = protocolToUse + env + dwApi + "?group=sports";
     }
 
     /************************ UPDATE LIST ***********************
