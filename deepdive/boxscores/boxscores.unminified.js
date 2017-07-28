@@ -16,8 +16,10 @@
     var partnerDomain = partnerDomainArr[1];
     domain += '/' + partnerDomain;
   }
-
-  var embedURL = 'http://w1.synapsys.us/widgets/deepdive/boxscores/boxscores.js'; //Source of embed
+  var boxscoresUrl = location != parent.location? document.referrer : document.location.href;
+  var boxscoresParentHost = getHostName(boxscoresUrl).hostname;
+  var apiHost = getEnv(boxscoresParentHost);
+  var embedURL = 'http://"+ apiHost +"-w1.synapsys.us/widgets/deepdive/boxscores/boxscores.js'; //Source of embed
   var parentNodeWidth; //width of container
   var displayNumber; //number of games to display
   var initialIndex = [], dataLength, processedData; //Variables for game data
@@ -44,9 +46,7 @@
       }
       return locationElement;
   }
-  var boxscoresUrl = location != parent.location? document.referrer : document.location.href;
-  var boxscoresParentHost = getHostName(boxscoresUrl).hostname;
-  var apiHost = getEnv(boxscoresParentHost);
+
   function createAPIUrl(hostParameter) {
       return "://" + hostParameter + "-homerunloyal-api.synapsys.us/league/boxScores/";
   }
