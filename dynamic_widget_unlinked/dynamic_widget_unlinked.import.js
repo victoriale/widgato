@@ -201,7 +201,6 @@ dwlinked = function() {
         }
 
         //setup Image Environment api
-        console.log('environment',env);
         imageUrl = protocolToUse + env + imageUrl; // this is global call that is used for images
 
 
