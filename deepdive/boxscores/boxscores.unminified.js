@@ -337,7 +337,7 @@
         var currentScript = document.currentScript || (function() {
             var scripts = document.getElementsByTagName("script");
             for (var i = scripts.length - 1; i >= 0; i--) {
-              var embedURLMatch = scripts[i].src.match(regexpURL);
+              var embedURLMatch = scripts[i].src.match(regexpUrl);
               if(embedURLMatch != null){
                 embedURL = embedURLMatch[0];
                 if (scripts[i].src.indexOf(embedURL) != -1) {
