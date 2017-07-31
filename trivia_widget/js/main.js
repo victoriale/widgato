@@ -1093,6 +1093,8 @@
             answered_wrong_3; // wrong question sends 0 || 1
 
         var view = false;
+        var oneSecMRC = 0; //MRC standard that content must be atleast 1 sec in view before be considered to be actually viewed
+        var oneSecMRCcheck = false;
 
         function startTriviaAnalytics() {
             resetAnalytics();
@@ -1270,11 +1272,13 @@
                 try {
                     storeSession = storeSessionFn.get();
                     if (view && (storeSession['quizId'] != quizId)) {
-                        quiz_views = 1;
                         storeSession['quizId'] = quizId;
                         storeSessionFn.set(storeSession);
                     }
-                    storeSession['quizId'];
+                    if(oneSecMRCcheck){
+                      quiz_views = 1;
+                      embed_view = 1; // if view is true then set it to 1 otherwise keep its current state;
+                    }
                     jsonObject = {
                         "ac": answered_correctly ? answered_correctly : 0, //correct
                         "bo": bounce, // bounce
@@ -1296,7 +1300,6 @@
                         "w3": answered_wrong_3 ? answered_wrong_3 : 0, //wrong 3
                         "zv": quiz_views // quiz views
                     };
-
                     isMobile = jsonObject['mo'];
                     if (send == 'send') {
                         createPayloadFrame(jsonObject);
@@ -1493,6 +1496,15 @@
                         bounce = 1; // trivia engaged the question is now always able to be a bounced question until user clicks next question then metrics will change;
                     }
 
+                    if(view){
+                      oneSecMRC += event.tick;
+                      if(oneSecMRC > 1000){
+                        oneSecMRCcheck = true;
+                      }
+                    }else{
+                      oneSecMRC = 0;
+                    }
+
                     if (!widgetEngaged && !dwellLimitTimer.timerOn) {
                         isActive = false;
                     }
@@ -1534,7 +1546,7 @@
                     }
                     view = iglooAnalytics('view');
 
-                    embed_view = view ? 1 : embed_view; // if view is true then set it to 1 otherwise keep its current state;
+
                     if (debugView) {
                         debugView.innerHTML = 'view: ' + view;
                     }
