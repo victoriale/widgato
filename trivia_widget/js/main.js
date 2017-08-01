@@ -1300,6 +1300,7 @@
                         "w3": answered_wrong_3 ? answered_wrong_3 : 0, //wrong 3
                         "zv": quiz_views // quiz views
                     };
+
                     isMobile = jsonObject['mo'];
                     if (send == 'send') {
                         createPayloadFrame(jsonObject);
@@ -1498,13 +1499,12 @@
 
                     if(view){
                       oneSecMRC += event.tick;
-                      if(oneSecMRC > 1000){
+                      if(oneSecMRC >= 1000){ // if oneSecMRC variable every reaches 1 second or more it will set the check to true
                         oneSecMRCcheck = true;
                       }
-                    }else{
+                    }else{// should go straight into dwellLimitTimer if CU no longer in view but if it reaches this then it should reset oneSecMRC variable
                       oneSecMRC = 0;
                     }
-
                     if (!widgetEngaged && !dwellLimitTimer.timerOn) {
                         isActive = false;
                     }
@@ -1545,7 +1545,6 @@
                         viewDwell = new timer('view', 100, null, debugTimer);
                     }
                     view = iglooAnalytics('view');
-
 
                     if (debugView) {
                         debugView.innerHTML = 'view: ' + view;
@@ -1610,10 +1609,14 @@
 
                         updatePayload('send');
                         if (!view) {
+                            oneSecMRC = 0;
                             viewDwell.pauseTime();
                         }
                         widgetEngaged = false;
 
+                    }
+                    if (!view) {// viewDwell Timer stops and dwellLimitTimer starts when CU no longer in view so to make sure we reset the variable here
+                        oneSecMRC = 0;
                     }
                 }); //create new timer with limit of 10 seconds
 
