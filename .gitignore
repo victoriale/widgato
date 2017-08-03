@@ -4,3 +4,5 @@ node_modules
 *.swp
 package-lock.json
 SNT-Widgets.iml
+
+widgets.iml
