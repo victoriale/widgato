@@ -1093,6 +1093,8 @@
             answered_wrong_3; // wrong question sends 0 || 1
 
         var view = false;
+        var oneSecMRC = 0; //MRC standard that content must be atleast 1 sec in view before be considered to be actually viewed
+        var oneSecMRCcheck = false;
 
         function startTriviaAnalytics() {
             resetAnalytics();
@@ -1270,11 +1272,13 @@
                 try {
                     storeSession = storeSessionFn.get();
                     if (view && (storeSession['quizId'] != quizId)) {
-                        quiz_views = 1;
                         storeSession['quizId'] = quizId;
                         storeSessionFn.set(storeSession);
                     }
-                    storeSession['quizId'];
+                    if(oneSecMRCcheck){
+                      quiz_views = 1;
+                      embed_view = 1; // if view is true then set it to 1 otherwise keep its current state;
+                    }
                     jsonObject = {
                         "ac": answered_correctly ? answered_correctly : 0, //correct
                         "bo": bounce, // bounce
@@ -1493,6 +1497,14 @@
                         bounce = 1; // trivia engaged the question is now always able to be a bounced question until user clicks next question then metrics will change;
                     }
 
+                    if(view){
+                      oneSecMRC += event.tick;
+                      if(oneSecMRC >= 1000){ // if oneSecMRC variable every reaches 1 second or more it will set the check to true
+                        oneSecMRCcheck = true;
+                      }
+                    }else{// should go straight into dwellLimitTimer if CU no longer in view but if it reaches this then it should reset oneSecMRC variable
+                      oneSecMRC = 0;
+                    }
                     if (!widgetEngaged && !dwellLimitTimer.timerOn) {
                         isActive = false;
                     }
@@ -1534,7 +1546,6 @@
                     }
                     view = iglooAnalytics('view');
 
-                    embed_view = view ? 1 : embed_view; // if view is true then set it to 1 otherwise keep its current state;
                     if (debugView) {
                         debugView.innerHTML = 'view: ' + view;
                     }
@@ -1598,10 +1609,14 @@
 
                         updatePayload('send');
                         if (!view) {
+                            oneSecMRC = 0;
                             viewDwell.pauseTime();
                         }
                         widgetEngaged = false;
 
+                    }
+                    if (!view) {// viewDwell Timer stops and dwellLimitTimer starts when CU no longer in view so to make sure we reset the variable here
+                        oneSecMRC = 0;
                     }
                 }); //create new timer with limit of 10 seconds
 
