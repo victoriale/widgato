@@ -451,6 +451,7 @@
   }
 
   //Build base tag
+  var baseSrc = apiHost !== undefined ? apiHost + 'w1.synapsys.us/widgets/deepdive/fonts/styles.css' : 'w1.synapsys.us/widgets/deepdive/fonts/styles.css';
   var baseEl = document.createElement('base');
   baseEl.target = '_parent';
   document.head.appendChild(baseEl);
@@ -466,7 +467,7 @@
   iconEl.rel = 'stylesheet';
   iconEl.type = 'text/css';
   iconEl.dataset.resource_from = 'boxscores-embed';
-  iconEl.href = protocol + '://w1.synapsys.us/widgets/deepdive/fonts/styles.css';
+  iconEl.href = protocol + '://' + baseSrc;
   document.head.appendChild(iconEl);
   //Build and load stylesheet
   var styleEl = document.createElement('style');
