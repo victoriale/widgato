@@ -41,6 +41,7 @@ dwlinked = function() {
     var query = {};
     var showCover;
     var $;
+    var hostname;//host name is obtained by the given url of the script source
 
     function createFriendlyIframe() {
         //create friendly iframe to place ourselves inside
@@ -78,26 +79,21 @@ dwlinked = function() {
     }
 
     function setupIframe(){
+      try{
         var srcQuery = currentScript.src.split("js?")[1];
         //determine if a query string is after the index.html location || if query is after a javascript location
-        var hostname = new RegExp(document.location.hostname);
-        //todo Make a better way to test locally.
-        if (hostname.test('localhost') || hostname.test('w1.synapsys.us') || hostname.test('qa-w1.synapsys.us') || hostname.test('dev-w1.synapsys.us') || hostname.test('homestead.widgets') && (document.location.search != null && document.location.search != '')) {
-            query = JSON.parse(decodeURIComponent(document.location.search.substr(1)));
-            // listRand = query.rand ? query.rand : Math.floor((Math.random() * 100) + 1);
-            // listRand = Math.floor((Math.random() * 100) + 1);
-            //FIRST THING IS SETUP ENVIRONMENTS
-        } else {
-            if (srcQuery != "" && srcQuery != null) {
-                try {
-                    query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
-                } catch (e) {
-                    console.log(e);
-                }
-            }
+        if (srcQuery != "" && srcQuery != null) {
+          try {
+            query = JSON.parse(decodeURIComponent(srcQuery).replace(/'/g, '"'));
+          } catch (e) {
+            console.log(e);
+          }
+        }else{
+          query = JSON.parse(decodeURIComponent(document.location.search.substr(1)));
         }
-
-        // currentScript.src = 'about:blank';// remove src of the script to about:blank to allow more than one widget to counter IE
+      }catch(e){
+          query = {};
+      };
 
         //create inline style for friendlyIframe
         var style = friendlyIframeWindow.document.createElement("style");
@@ -169,6 +165,30 @@ dwlinked = function() {
         }
     }
 
+    function getDomain(url) {
+        var hostName = getHostName(url);
+        var domain = hostName;
+        if (hostName != null) {
+            var parts = hostName.split('.').reverse();
+            if (parts != null && parts.length > 1) {
+                domain = parts[1] + '.' + parts[0];
+                if (hostName.toLowerCase().indexOf('.co.uk') != -1 && parts.length > 2) {
+                    domain = parts[2] + '.' + domain;
+                }
+            }
+        }
+        return domain;
+    }
+
+    function getHostName(url) {
+        var match = url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/i);
+        if (match != null && match.length > 2 && typeof match[2] === 'string' && match[2].length > 0) {
+            return match[2];
+        } else {
+            return null;
+        }
+    }
+
     function getEnv(env) {
         if (env.match(/^homestead/) != null || env.match(/^localhost/) != null || env.match(/^dev-/) != null) {
             env = "dev-";
@@ -192,7 +212,7 @@ dwlinked = function() {
         var dom = widgetQuery.dom;
         var cat = widgetQuery.category;
         var group = widgetQuery.group == '' ? widgetQuery.group = null : widgetQuery.group;
-        var environment = friendlyIframeWindow.location.hostname.split('.')[0] + '.';
+        var environment = getHostName(friendlyIframe.name);
         var env;
         if (widgetQuery.env != null) {
             env = widgetQuery.env && widgetQuery != 'prod' ? widgetQuery.env : '';
@@ -202,7 +222,6 @@ dwlinked = function() {
 
         //setup Image Environment api
         imageUrl = protocolToUse + env + imageUrl; // this is global call that is used for images
-
 
         //if group does exist here then add group query parameter otherwise add categeory parameter for api
         if (widgetQuery.group != null && widgetQuery.group != "") {
