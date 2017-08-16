@@ -80,7 +80,7 @@ dwlinked = function() {
 
     function setupIframe(){
       try{
-        var srcQuery = currentScript.src.split("js?")[1];
+        var srcQuery =  friendlyIframe.name.split("js?")[1];
         //determine if a query string is after the index.html location || if query is after a javascript location
         if (srcQuery != "" && srcQuery != null) {
           try {
@@ -291,7 +291,8 @@ dwlinked = function() {
             var xhttp = new ActiveXObject('Microsoft.XMLHTTP')
         }
         xhttp.onreadystatechange = function() {
-            if (this.readyState == XMLHttpRequest.DONE) {
+            // Check if the loading status of the current document is done
+            if (this.readyState == 4) {
                 if (this.status == 200) {
                     // On success parse out the response
                     widgetData = JSON.parse(this.responseText);
