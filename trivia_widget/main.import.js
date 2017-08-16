@@ -6,6 +6,7 @@
     var protocolToUse = (location.protocol == "https:") ? "https://" : "http://";
     var postUrl = "-pa.synapsys.us/";
     var apiCallUrl = "-tw-api.synapsys.us/index.php";
+    var fallBackApi = "-tw-api.synapsys.us/index.php?group=entertainment";
     var imageUrl = "images.synapsys.us";
     var friendlyIframe;
     var friendlyIframeWindow;
@@ -146,7 +147,7 @@
         friendlyIframe.style.border = 'none';
 
         //set base bath for iframe
-        iframeHostName = getHostName(currentScript.src);
+        iframeHostName = getHostName(friendlyIframe.name);
 
         currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
 
@@ -177,7 +178,7 @@
 
 
     function setupIframe() {
-        var srcQuery = currentScript.src.split("js?")[1];
+        var srcQuery = friendlyIframe.name.split("js?")[1];
         //TODO Make a better way to test locally.
         //determine if a query string is after the index.html locally || if query is after a javascript script
         var hostname = new RegExp(document.location.hostname);
@@ -235,14 +236,20 @@
         friendlyIframeWindow.document.head.appendChild(style);
 
         //set igloo skeleton event for widget-interaction to be sent back to igloo to allow ads to rotate
-        baseEvent = query.event;
-        baseEvent.event = "widget-interaction";
-        postObject = {
-            snt_data: baseEvent,
-            action: 'snt_tracker'
-        };
-
-        //after you get the query you set the enironment
+        if (query.event) {
+            baseEvent = query.event;
+            baseEvent.event = "widget-interaction";
+            postObject = {
+                snt_data: baseEvent,
+                action: 'snt_tracker'
+            };
+        } else {
+            baseEvent = {};
+            postObject = {
+                snt_data: baseEvent,
+                action: 'snt_tracker'
+            };
+        } //after you get the query you set the enironment
         setupEnvironment(query);
         triviaWidget();
     }
@@ -270,8 +277,9 @@
         if (cat && cat != '') {
             apiCallUrl += '?category=' + cat;
         } else {
-            apiCallUrl += '?category=' + group;
+            apiCallUrl += '?group=' + group;
         }
+        fallBackApi = protocolToUse + getEnv(environment) + fallBackApi;
     }
 
 
@@ -317,7 +325,7 @@
         var resultsChartValue_el = friendlyIfWindow.document.getElementsByClassName("results_chart_value");
         var randomOption_el = friendlyIfWindow.document.getElementsByClassName("random_option")[0];
         var progressBar_el = $("progress_bar");
-		var progressFill_el = $("progress_fill");
+        var progressFill_el = $("progress_fill");
         var adProgressBar_el = $("ad_progress_bar");
         var intervalScore_el = $("interval_score");
         var intervalScoreQuestion_el = $("interval_score_question");
@@ -347,6 +355,8 @@
 
         var totalQuestions = 10;
         var maxScore = 10;
+        var tries = 0;
+        var maxTries = 5;
 
         var pixelatedImage;
         var intervalTimer;
@@ -380,7 +390,7 @@
                 //if currentQuizData is available then skip otherwise run function to make api call
                 adjustIntervalScoreFn("clear")
                 if (!currentQuizData) {
-                    callTriviaApi();
+                    callTriviaApi(apiCallUrl);
                 }
 
                 quizTitles = getQuizKeys();
@@ -417,7 +427,7 @@
         } //initialSetup
 
         // function set to mimick API call
-        function callTriviaApi() {
+        function callTriviaApi(apiUrl) {
             // variable that stores the response of an http request
             if (window.XMLHttpRequest) {
                 var xhttp = new XMLHttpRequest();
@@ -425,8 +435,8 @@
                 var xhttp = new ActiveXObject('Microsoft.XMLHTTP')
             }
             xhttp.onreadystatechange = function () {
-                if (this.readyState == XMLHttpRequest.DONE) {
-                    if (this.status == 200) {
+                if (this.readyState == 4) {
+                    if (this.status == 200 && this.responseText != '[]' && this.responseText != null) {
                         // On success parse out the response
                         localDataStore = JSON.parse(this.responseText);
                         currentQuizData = localDataStore['quizzes'];
@@ -441,12 +451,21 @@
                                 console.log('No JSON message')
                             }
                         }
-                        msg = 'HTTP Error (' + this.status + '): ' + msg;
+                        msg = 'HTTP Error (' + this.status + '): ' + msg + ' || data returned invalid';
                         // setTimeout(runAPI(apiCallUrl), 500)
+                        if (tries > (maxTries - 2)) {
+                            console.warn(msg + " => SWAPPING TO FALLBACK");
+                            apiCallUrl = fallBackApi;
+                        }
+                        if (tries++ > maxTries) { // IF WIDGET FAILS THEN HIDE THE ENTIRE CONTAINER
+                            friendlyIframeWindow.document.getElementById('snt_trivia_game').style.display = 'none';
+                            throw msg + " | hiding widget fallback failed container | => PLEASE CONTACT YOUR PROVIDER";
+                        }
+                        setTimeout(callTriviaApi(apiCallUrl), 500)
                     }
                 }
             };
-            xhttp.open("GET", apiCallUrl, false);
+            xhttp.open("GET", apiUrl, false);
             xhttp.send();
         } //callTriviaApi
 
@@ -578,7 +597,7 @@
 
                 questionId = questionKey; // set analytics questionId to be sent into PAYLOAD
                 if (isActive) {
-                    viewDwell.resetTime();// data isnt even finished yet but timer could have ran already so making sure initial payload when data is set is when the timer truly starts
+                    viewDwell.resetTime(); // data isnt even finished yet but timer could have ran already so making sure initial payload when data is set is when the timer truly starts
                     updatePayload("send");
                 }
 
@@ -613,9 +632,9 @@
                 intervalScoreContainer_el.style.display = 'block';
                 progressBar_el.style.display = 'block';
                 progressFill_el.style.display = 'block';
-      			if (wideWidget) {
-          			submissionOverlay_el.classList.remove('no_transition');
-      			}
+                if (wideWidget) {
+                    submissionOverlay_el.classList.remove('no_transition');
+                }
                 // loop thorugh options in data and insert values into view
                 answerData = dataOptions;
                 for (var key in answerData) {
@@ -625,8 +644,8 @@
                             value = answerData[key],
                             isCorrect = answerData[key] == metaData.correct_answer,
                             selectedOption;
-                        	child.setAttribute('class', 'button_container');
-          					child.innerHTML = '<div class="button"><p>' + value + '</p></div>';
+                        child.setAttribute('class', 'button_container');
+                        child.innerHTML = '<div class="button"><p>' + value + '</p></div>';
                         triviaOptionsContainer_el.appendChild(child);
                         reduceTextSizeCheck(child.getElementsByTagName('p')[0]); // run options through this function to check if text size needs adjusted
                         if (isCorrect) {
@@ -724,7 +743,7 @@
                 }
                 intervalScoreContainer_el.style.visibility = 'hidden';
                 progressBar_el.style.visibility = 'hidden';
-      			progressFill_el.style.visibility = 'hidden';
+                progressFill_el.style.visibility = 'hidden';
                 adjustIntervalScoreFn('clear');
                 submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
                 triviaContainer_el.className = "correct_submission";
@@ -740,7 +759,7 @@
                 }
                 intervalScoreContainer_el.style.visibility = 'hidden';
                 progressBar_el.style.visibility = 'hidden';
-      			progressFill_el.style.visibility = 'hidden';
+                progressFill_el.style.visibility = 'hidden';
                 adjustIntervalScoreFn('clear');
                 submissionInfoContainer_el.classList.remove('hidden'); // reveals submission info
                 triviaContainer_el.className = "incorrect_submission";
@@ -782,8 +801,8 @@
                 };
             }
             if (wideWidget) {
-        		submissionOverlay_el.classList.add('no_transition');
-    		}
+                submissionOverlay_el.classList.add('no_transition');
+            }
         } //nextQuestionFn
 
 
@@ -858,8 +877,8 @@
         }
 
 
-        //adjust pixelation
-        function adjustIntervalScoreFn(clear) { //TODO USE GLOBAL TIMER FUNCTION
+        //TODO USE GLOBAL TIMER FUNCTION
+        function adjustIntervalScoreFn(clear) {
             if (clear == 'clear') {
                 clearInterval(intervalTimer);
                 resetIntervalScore();
@@ -876,11 +895,11 @@
                 }
                 if (isSmall && wideWidget && total_clicks == 0 && !widgetEngaged) {
                     progressBar_el.style.visibility = 'hidden';
-        			progressFill_el.style.visibility = 'hidden';
+                    progressFill_el.style.visibility = 'hidden';
                     intervalScoreContainer_el.style.visibility = 'hidden';
                 } else {
                     progressBar_el.style.visibility = 'visible';
-        			progressFill_el.style.visibility = 'visible';
+                    progressFill_el.style.visibility = 'visible';
                     intervalScoreContainer_el.style.visibility = 'visible';
 
                     if (intervalTimer) {
@@ -919,7 +938,7 @@
             } else {
                 removeAd = false;
             }
-        } //adjustPixelationFn
+        }; //adjustPixelationFn
 
 
         // sets the random quiz link on the completed quiz overlay
@@ -995,6 +1014,7 @@
 
         window.addEventListener('resize', setSize);
 
+        //WIDE WIDGET CODE
         if (wideWidget) {
             var isAdVisible = false;
             window.setInterval(function () { // create interval to swap the ad every 3 secs if the widget is not been engaged
@@ -1002,13 +1022,13 @@
                     if (!isAdVisible) {
                         intervalScoreContainer_el.style.visibility = 'visible';
                         progressBar_el.style.visibility = 'visible';
-          				progressFill_el.style.visibility = 'visible';
+                        progressFill_el.style.visibility = 'visible';
                         adControl(true);
                         isAdVisible = true;
                     } else {
                         intervalScoreContainer_el.style.visibility = 'hidden';
                         progressBar_el.style.visibility = 'hidden';
-          				progressFill_el.style.visibility = 'hidden';
+                        progressFill_el.style.visibility = 'hidden';
                         adControl(false);
                         isAdVisible = false;
                     }
@@ -1132,21 +1152,23 @@
          * @key  {Boolean} mobile  Whether the browser is mobile or not
          */
         function iglooAnalytics(type) {
-            try {
-                switch (type) {
-                case 'view':
-                    var triviaDocument = sntTriviaContent.contentWindow.document;
-                    return igloo.utils.elementIsVisible(triviaDocument.getElementById('snt_trivia_game'), null, false, 0.5);
-                    break;
-                case 'useragent':
-                    return igloo.browser;
-                    break;
-                default:
-                    console.warn('igloo Utility not found', e);
-                    break;
+            if (igloo) {
+                try {
+                    switch (type) {
+                    case 'view':
+                        var triviaDocument = sntTriviaContent.contentWindow.document;
+                        return igloo.utils.elementIsVisible(triviaDocument.getElementById('snt_trivia_game'), null, false, 0.5);
+                        break;
+                    case 'useragent':
+                        return igloo.browser;
+                        break;
+                    default:
+                        console.warn('igloo Utility not found', e);
+                        break;
+                    }
+                } catch (e) {
+                    console.warn('igloo not found', e);
                 }
-            } catch (e) {
-                console.warn('igloo not found', e);
             }
         }
 
@@ -1235,9 +1257,9 @@
                     var postXML = window.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
                     postXML.open("POST", url, true);
                     postXML.send(JSON.stringify(jsonObject))
-                        // setTimeout(function(){
-                        //   postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
-                        // },200);
+                    // setTimeout(function(){
+                    //   postXML.abort(); // aborts the xhttp and sets readyState to 0 as (UNSENT)
+                    // },200);
                 }
             } catch (e) {
                 console.warn("Product Analytics Error in Post Request", e)
@@ -1268,59 +1290,61 @@
         };
 
         function updatePayload(send) {
-            if (triviaFail <= 10) {
-                try {
-                    storeSession = storeSessionFn.get();
-                    if (view && (storeSession['quizId'] != quizId)) {
-                        storeSession['quizId'] = quizId;
-                        storeSessionFn.set(storeSession);
-                    }
-                    if(oneSecMRCcheck){
-                      quiz_views = 1;
-                      embed_view = 1; // if view is true then set it to 1 otherwise keep its current state;
-                    }
-                    jsonObject = {
-                        "ac": answered_correctly ? answered_correctly : 0, //correct
-                        "bo": bounce, // bounce
-                        "cl": total_clicks ? total_clicks : 0, //total clicks
-                        "eb": total_embeds ? total_embeds : 0, //total embeds on the page
-                        "ed": engageDwell ? engageDwell.time : 0, //engaged dwell
-                        "ev": embed_view, // embed views
-                        "mo": userAgentObj.mobile ? 1 : 0, //mobile
-                        "pa": query.event.p, //partner id
-                        "pl": query.event.z && query.event.z != '' ? query.event.z : '0', //placement id
-                        "qi": questionId.toString(),
-                        "qv": question_view ? question_view : 0, // question views
-                        "qz": quizId, //quiz id
-                        "si": sessionId, // i need to generate this myself
-                        "sp": skipped ? skipped : 0, //skip
-                        "vd": viewDwell ? viewDwell.time : 0, //view dwell
-                        "w1": answered_wrong_1 ? answered_wrong_1 : 0, //wrong 1
-                        "w2": answered_wrong_2 ? answered_wrong_2 : 0, //wrong 2
-                        "w3": answered_wrong_3 ? answered_wrong_3 : 0, //wrong 3
-                        "zv": quiz_views // quiz views
-                    };
+            if (igloo) {
+                if (triviaFail <= 10) {
+                    try {
+                        storeSession = storeSessionFn.get();
+                        if (view && (storeSession['quizId'] != quizId)) {
+                            storeSession['quizId'] = quizId;
+                            storeSessionFn.set(storeSession);
+                        }
+                        if (oneSecMRCcheck) {
+                            quiz_views = 1;
+                            embed_view = 1; // if view is true then set it to 1 otherwise keep its current state;
+                        }
+                        jsonObject = {
+                            "ac": answered_correctly ? answered_correctly : 0, //correct
+                            "bo": bounce, // bounce
+                            "cl": total_clicks ? total_clicks : 0, //total clicks
+                            "eb": total_embeds ? total_embeds : 0, //total embeds on the page
+                            "ed": engageDwell ? engageDwell.time : 0, //engaged dwell
+                            "ev": embed_view, // embed views
+                            "mo": userAgentObj.mobile ? 1 : 0, //mobile
+                            "pa": query.event.p, //partner id
+                            "pl": query.event.z && query.event.z != '' ? query.event.z : '0', //placement id
+                            "qi": questionId.toString(),
+                            "qv": question_view ? question_view : 0, // question views
+                            "qz": quizId, //quiz id
+                            "si": sessionId, // i need to generate this myself
+                            "sp": skipped ? skipped : 0, //skip
+                            "vd": viewDwell ? viewDwell.time : 0, //view dwell
+                            "w1": answered_wrong_1 ? answered_wrong_1 : 0, //wrong 1
+                            "w2": answered_wrong_2 ? answered_wrong_2 : 0, //wrong 2
+                            "w3": answered_wrong_3 ? answered_wrong_3 : 0, //wrong 3
+                            "zv": quiz_views // quiz views
+                        };
 
-                    isMobile = jsonObject['mo'];
-                    if (send == 'send') {
-                        createPayloadFrame(jsonObject);
-                        jsonObject = {};
-                        resetAnalytics();
-                    } else {
-                        // for (var obj in jsonObject) {
-                        //     log(obj + ':' + jsonObject[obj] + jsonInfo[obj]);
-                        // };
+                        isMobile = jsonObject['mo'];
+                        if (send == 'send') {
+                            createPayloadFrame(jsonObject);
+                            jsonObject = {};
+                            resetAnalytics();
+                        } else {
+                            // for (var obj in jsonObject) {
+                            //     log(obj + ':' + jsonObject[obj] + jsonInfo[obj]);
+                            // };
+                        }
+                    } catch (e) {
+                        triviaFail++;
+                        console.log('%cerror updating payload                                                     ', 'background: linear-gradient(#7a0000, #000000); border: 1px solid #3E0E02; color: white');
+                        console.warn(e);
                     }
-                } catch (e) {
-                    triviaFail++;
-                    console.log('%cerror updating payload                                                     ', 'background: linear-gradient(#7a0000, #000000); border: 1px solid #3E0E02; color: white');
-                    console.warn(e);
                 }
             }
         }
 
-
-        function analyticsSetAnswer(selection) { //TODO make a better analytics too hardcoded
+        //TODO make a better analytics too hardcoded
+        function analyticsSetAnswer(selection) {
             switch (selection) {
             case 'correct':
                 answered_correctly = 1;
@@ -1392,6 +1416,7 @@
                     sessionStorage.setItem('snt_trivia_analytics', JSON.stringify(storeSession));
                 }
                 if ((storeSession['after_time'] - storeSession['before_time']) >= timeToLive) {
+                    iglooTries = 0;
                     getIgloo(); // RESET ENTIRE TEST
                 }
             }
@@ -1403,7 +1428,8 @@
                 });
         }
 
-        function set_idle_listeners() { //setup the event listeners if user becomes active trigger start timer
+        //setup the event listeners if user becomes active trigger start timer
+        function set_idle_listeners() {
             window.top.document.addEventListener("mousemove", start_timer, false);
             window.top.document.addEventListener("mousedown", start_timer, false);
             window.top.document.addEventListener("keypress", start_timer, false);
@@ -1425,6 +1451,7 @@
                             event.pauseTime();
                             event.resetTime();
                             sessionStorage.removeItem('snt_trivia_analytics');
+                            iglooTries = 0;
                             getIgloo(); // RESET ENTIRE TEST
                         }
                     }); //timeToLive in (ms) is 10 minutes
@@ -1436,7 +1463,8 @@
             }
         }
 
-        function start_timer() { //if user becomes active, remove event listeners so we dont polute the event space
+        //if user becomes active, remove event listeners so we dont polute the event space
+        function start_timer() {
             window.top.document.removeEventListener("mousemove", start_timer, false);
             window.top.document.removeEventListener("mousedown", start_timer, false);
             window.top.document.removeEventListener("keypress", start_timer, false);
@@ -1497,13 +1525,13 @@
                         bounce = 1; // trivia engaged the question is now always able to be a bounced question until user clicks next question then metrics will change;
                     }
 
-                    if(view){
-                      oneSecMRC += event.tick;
-                      if(oneSecMRC >= 1000){ // if oneSecMRC variable every reaches 1 second or more it will set the check to true
-                        oneSecMRCcheck = true;
-                      }
-                    }else{// should go straight into dwellLimitTimer if CU no longer in view but if it reaches this then it should reset oneSecMRC variable
-                      oneSecMRC = 0;
+                    if (view) {
+                        oneSecMRC += event.tick;
+                        if (oneSecMRC >= 1000) { // if oneSecMRC variable every reaches 1 second or more it will set the check to true
+                            oneSecMRCcheck = true;
+                        }
+                    } else { // should go straight into dwellLimitTimer if CU no longer in view but if it reaches this then it should reset oneSecMRC variable
+                        oneSecMRC = 0;
                     }
                     if (!widgetEngaged && !dwellLimitTimer.timerOn) {
                         isActive = false;
@@ -1517,8 +1545,8 @@
                             var payT = (event.time % payloadTimer);
                             if (payT == 0) {
                                 payloadTempTimer += payloadTimer;
-                                if(!view){// makes sure if widget is not in view to send 0 in for viewdwell.
-                                  event.time = 0;
+                                if (!view) { // makes sure if widget is not in view to send 0 in for viewdwell.
+                                    event.time = 0;
                                 }
                                 updatePayload('send');
                                 if (payloadTempTimer == payloadLimit) {
@@ -1603,7 +1631,7 @@
                         }
                         engageDwell.pauseTime();
                         sessionTimer.resetTime();
-                        if(!widgetEngaged){// if the widget engage is false then make sure to reset the viewDwell timer since javascript could cause delay in sending payload
+                        if (!widgetEngaged) { // if the widget engage is false then make sure to reset the viewDwell timer since javascript could cause delay in sending payload
                             viewDwell.resetTime();
                         }
 
@@ -1615,7 +1643,7 @@
                         widgetEngaged = false;
 
                     }
-                    if (!view) {// viewDwell Timer stops and dwellLimitTimer starts when CU no longer in view so to make sure we reset the variable here
+                    if (!view) { // viewDwell Timer stops and dwellLimitTimer starts when CU no longer in view so to make sure we reset the variable here
                         oneSecMRC = 0;
                     }
                 }); //create new timer with limit of 10 seconds
@@ -1749,16 +1777,21 @@
                         /*******************START ANALYTICS******************/
                         startTriviaAnalytics();
                         /******************** ANALYTICS* ******************/
-
-
                         initialSetup();
                         clearInterval(iglooUtilities);
                     } else {
                         getIgloo(windowFrame.parent);
                     }
+                } else {
+                    console.warn('igloo not found after 10 tries');
+                    checkEmbeds();
+                    /*******************START ANALYTICS******************/
+                    startTriviaAnalytics();
+                    /******************** ANALYTICS* ******************/
+                    initialSetup();
                 }
             } catch (e) {
-                console.log('igloo not found after 10 tries');
+                console.warn('igloo not found error =>', e);
             }
         }
 
@@ -1793,7 +1826,6 @@
             }
         }
     }
-
     //run the moment javascript file has been embeded
     widgetSetup();
 })();

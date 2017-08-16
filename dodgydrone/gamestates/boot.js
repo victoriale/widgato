@@ -8,7 +8,7 @@ boot.prototype = {
         this.game.load.image('logo', 'assets/sntlogo.png');
     },
     create: function(){
-
+	game.input.mspointer.capture = false;
         game.physics.startSystem(Phaser.Physics.ARCADE);
         game.physics.setBoundsToWorld();
 
