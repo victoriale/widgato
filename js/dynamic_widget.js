@@ -6,6 +6,7 @@ function getCategoryMetadata (category) {
       domain: "www.investkit.com",
       partnerDomain: "www.myinvestkit.com",
       usesPartnerSubdomain: false,
+      partnerSubdomain: "finance",
       hasAiArticles: true,
       category: "finance",
       subCategory: "",
@@ -323,7 +324,7 @@ dynamic_widget = function() {
         //end dynamic pub color css code
 
         if (typeof(l.subd) == 'undefined' || !l.subd || l.subd == '' || l.subd == null) {
-          l.subd = (l.remn == 'false') ? currentConfig.partnerDomain + '/' + l.dom : currentConfig.domain;
+          l.subd = (l.remn == 'false' || l.remn == false) ? currentConfig.partnerDomain + '/' + l.dom : currentConfig.domain;
         }
     var s = false;
     var o = '';
@@ -517,7 +518,7 @@ dynamic_widget = function() {
         switch (l.category) {
             case 'nba':
             case 'college_basketball':
-                var a = l.remn == 'true' || (SpecialDomain != "" && SpecialDomain != null) ? 'http://' + l.subd + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + l.subd + '/' + currentConfig.subCategory + '/w-list';
+                var a = l.remn == 'true' || (SpecialDomain != "" && SpecialDomain != null) ? 'http://' + l.subd + '/' + currentConfig.subCategory + '/widget-list' : 'http://' + l.subd + '/' + currentConfig.subCategory + '/widget-list';
                 break;
             case "mlb":
                 $("suburl").style.cssText += "pointer-events:none; cursor:default";
@@ -536,7 +537,7 @@ dynamic_widget = function() {
                 var n = false
                 break;
             case 'finance':
-                var a = l.remn == 'true' || (SpecialDomain != "" && SpecialDomain != null) ? 'http://' + l.subd + '/widget-list' : 'http://' + l.subd + '/w-list';
+                var a = l.remn == 'true' || (SpecialDomain != "" && SpecialDomain != null) ? 'http://' + l.subd + '/widget-list' : 'http://' + l.subd + '/widget-list';
                 if (s) {
                     a = a.replace(currentConfig.partnerDomain, o)
                 }
@@ -725,7 +726,7 @@ function p() {
           e.li_line_url = e.li_line_url.replace("/p/", "/player/");
         }
 
-        e.li_url = e.li_url.replace("/w-list", "/widget-list");
+        // e.li_url = e.li_url.replace("/widget-list", "/widget-list");
 
         if (SpecialDomain) {
           e.li_url = "http://" + e.li_url.replace(/[\/]+([a-z]+[.])?[a-z0-9\_\-]+[.]+[a-z]+[\/]/gi, SpecialDomain + "/");
