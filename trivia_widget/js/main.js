@@ -490,6 +490,7 @@
                 otherContentOptionContainer_el[i].id = subCatId;
                 //Click event for other quiz buttons
                 otherContentOptionContainer_el[i].onclick = function (event) {
+                    total_clicks++;
                     sendPostMessageToIgloo(postObject, 5);
                     updatePayload('send');
                     restartFn(parseInt(event.target.parentNode.id));
@@ -505,6 +506,7 @@
             }
             //Click event for random shuffle quiz button
             randomOption_el.onclick = function () {
+                total_clicks++;
                 sendPostMessageToIgloo(postObject, 5);
                 updatePayload('send');
                 restartFn(setRandomQuizLink());
@@ -651,6 +653,7 @@
                         if (isCorrect) {
                             child.onclick = function () {
                                 showResults = true;
+                                total_clicks++;
                                 sendPostMessageToIgloo(postObject, 5);
                                 selectedOption = this.getElementsByTagName('p')[0].innerHTML;
                                 answerSubmittedFn('correct');
@@ -660,6 +663,7 @@
                         } else {
                             child.onclick = function () {
                                 showResults = true;
+                                total_clicks++;
                                 sendPostMessageToIgloo(postObject, 5);
                                 selectedOption = this.getElementsByTagName('p')[0].innerHTML;
                                 answerSubmittedFn('incorrect');
@@ -670,10 +674,12 @@
                     }
                 }
                 skipQuestion_el.onclick = function () {
+                    total_clicks++;
                     sendPostMessageToIgloo(postObject, 5);
                     skipQuestionFn();
                 };
                 restart_el.onclick = function () {
+                    total_clicks++;
                     sendPostMessageToIgloo(postObject, 5);
                     restartFn(activeQuizKey);
                     if (isSmall && wideWidget) {
@@ -780,6 +786,7 @@
             // if last question show results screen
             showResults = false;
             if (questionIterator >= totalQuestions) {
+                total_clicks++;
                 nextQuestionButton_el.onclick = function () {
                     sendPostMessageToIgloo(postObject, 5);
                     showCompleteFn()
@@ -787,6 +794,7 @@
                 nextQuestionButton_el.innerHTML = "<p>Show Results</p>";
             } else {
                 nextQuestionButton_el.onclick = function () { // create click event for when user clicks on the Next Question
+                    total_clicks++;
                     sendPostMessageToIgloo(postObject, 5);
                     submissionInfoContainer_el.classList.add('hidden'); //adds hidden class to prevent css transition when removed
                     bounce = 0;
@@ -1128,8 +1136,6 @@
             analyticsWindowFocus();
             analyticsDwellEngagement();
             analyticsViewScroll();
-            analyticsClick();
-
         };
 
         /** igloo.utils.elementIsVisible(element, debug_div, igloo_debug, min_percent)
@@ -1323,7 +1329,6 @@
                             "w3": answered_wrong_3 ? answered_wrong_3 : 0, //wrong 3
                             "zv": quiz_views // quiz views
                         };
-
                         isMobile = jsonObject['mo'];
                         if (send == 'send') {
                             createPayloadFrame(jsonObject);
@@ -1682,14 +1687,6 @@
             }
         }
 
-
-        function analyticsClick() {
-            sntTriviaContent.onclick = function () { // tract every click event within the widget
-                sendPostMessageToIgloo(postObject, 5);
-                total_clicks++;
-            }
-        }
-
         function checkEmbeds() {
             var widgetContainers = window.document.getElementsByClassName('twiframe');
             if (widgetContainers) {
@@ -1772,7 +1769,6 @@
                     iglooTries++;
                     if (windowFrame.igloo) {
                         igloo = windowFrame.igloo;
-
                         checkEmbeds();
                         /*******************START ANALYTICS******************/
                         startTriviaAnalytics();
