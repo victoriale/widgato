@@ -20,8 +20,8 @@ var centipede = function () {
         var friendlyIframe = document.createElement('div');
         friendlyIframe.id = "friendlyIframe_" + countSelf;
         friendlyIframe.className = "centipedeIframe"
-        friendlyIframe.width = '300';
-        friendlyIframe.height = '250';
+        friendlyIframe.style.width = '300';
+        friendlyIframe.style.height = '250';
         friendlyIframe.style.border = 'none';
         currentScript.parentNode.insertBefore(friendlyIframe, currentScript);
         var iframeContent = friendlyIframe;
