@@ -119,7 +119,7 @@
     function getEnv(env) {
         if (env.match(/^homestead/) != null || env.match(/^localhost/) != null || env.match(/^dev/) != null) {
             env = "dev";
-        } else if (env.match(/^qa\./) != null) {
+        } else if (env.match(/^qa/) != null) {
             env = "qa";
         } else {
             env = "prod";
@@ -352,6 +352,7 @@
         var correctPercentage;
         var incorrectResult;
         var incorrectPercentage;
+        var firstEmbedLoad = true;
 
         var totalQuestions = 10;
         var maxScore = 10;
@@ -599,10 +600,13 @@
 
                 questionId = questionKey; // set analytics questionId to be sent into PAYLOAD
                 if (isActive) {
-                    viewDwell.resetTime(); // data isnt even finished yet but timer could have ran already so making sure initial payload when data is set is when the timer truly starts
-                    updatePayload("send");
+                    viewDwell.resetTime(); // data isn't even finished yet but timer could have ran already so making sure initial payload when data is set is when the timer truly starts
                 }
-
+                //This should only happen on initial load on embed.
+                if (firstEmbedLoad) {
+                    updatePayload('send');
+                    firstEmbedLoad = false;
+                }
                 var metaData = activeQuestion.metadata,
                     answerData = activeQuestion.answers,
                     analyticsData = activeQuestion.analytics;
@@ -1095,6 +1099,7 @@
             payloadTimer, // create Payload Timer to know when to auto send payloads if variables are met;
             engageDwell, // time from the moment the widget is in view and engaged
             dwellLimitTimer,
+            isActiveTimer = 0,
             windowActiveTimer; // time limiter for dwell so dwell timer can be stopped after a certain time limit
 
         var storeSession;
@@ -1509,8 +1514,8 @@
                 var viewTest,
                     createTimer;
 
-                var payloadTimer = 500, // (ms) Initial payload timer 0.5 seconds
-                    payloadLimit = 10000,
+                var payloadTimer = 3000, // (ms) Initial payload timer 0.5 seconds
+                    payloadLimit = 5000,
                     payloadTempTimer = 0; // (ms) Initial payload limit 10 seconds
 
                 // if (!window.document.getElementById('viewTest')) {
@@ -1524,7 +1529,7 @@
 
                 var debugTimer = window.document.getElementById('viewDwell');
 
-                viewDwell = viewDwell ? viewDwell : new timer('view', 100, null, debugTimer, function (event) {
+                viewDwell = viewDwell ? viewDwell : new timer('view', 500, null, debugTimer, function (event) {
                     if (viewEngaged) {
                         question_view = 1;
                         bounce = 1; // trivia engaged the question is now always able to be a bounced question until user clicks next question then metrics will change;
@@ -1542,32 +1547,27 @@
                         isActive = false;
                     }
                     if (!widgetEngaged) {
-                        set_idle_listeners(); // create Session Timer to listen for any event and determin if the use is idle
+                        set_idle_listeners(); // create Session Timer to listen for any event and determine if the use is idle
                         engageDwell.pauseTime();
                         if (isActive) {
                             sessionTimer.resetTime();
                             sessionTimer.pauseTime();
-                            var payT = (event.time % payloadTimer);
+                            var payT = (isActiveTimer % payloadTimer);
                             if (payT == 0) {
-                                payloadTempTimer += payloadTimer;
                                 if (!view) { // makes sure if widget is not in view to send 0 in for viewdwell.
                                     event.time = 0;
                                 }
-                                updatePayload('send');
-                                if (payloadTempTimer == payloadLimit) {
-                                    if (payloadLimit <= 10000) { //if payloadLimit is less than 10s || 10000ms
-                                        payloadTimer = 1000;
-                                        payloadLimit = 30000;
-                                        payloadTempTimer = 0; // reset temp timer
-                                    } else if (payloadLimit > 10000 && payloadLimit <= 30000) {
-                                        payloadTimer = 5000;
-                                        payloadLimit = 'forever';
-                                        payloadTempTimer = 0;
-                                    } else {
-                                        //Should Never Get HERE
-                                    }
+                                if ((payloadTempTimer % payloadTimer) == 0 && payloadTempTimer != 0) {
+                                    updatePayload('send');
+                                }
+                                if (payloadTempTimer == 3000 && payloadTimer == 3000) {
+                                    payloadTimer = 10000;
+                                    payloadTempTimer = 0;
+                                    isActiveTimer = 0;
                                 }
                             } // payT
+                            payloadTempTimer += event.tick;
+                            isActiveTimer += event.tick;
                         }
                     } // widgetEngaged
                 });
@@ -1627,7 +1627,7 @@
                 var debugLimit = window.document.getElementById('dwellLimit');
 
                 engageDwell = new timer('dwell', 100, null, dwellTime);
-                dwellLimitTimer = new timer('dwellLimit', 100, 10000, debugLimit, function (event) {
+                dwellLimitTimer = new timer('dwellLimit', 1000, 10000, debugLimit, function (event) {
                     if ((event.time >= event.stopAt) && engageDwell) {
                         isActive = false;
 
@@ -1653,8 +1653,7 @@
                     }
                 }); //create new timer with limit of 10 seconds
 
-                // debugDwell.innerHTML = 'dwell: ' + widgetEngaged; //initlal debug
-
+                // debugDwell.innerHTML = 'dwell: ' + widgetEngaged; //initial debug
                 sntTriviaContent.onmouseover = function () { // create listener if widget becomes engaged
                     question_view = 1; // set current question view to 1;
                     bounce = 1; // trivia engaged the question is now always able to be a bounced question until user clicks next question then metrics will change;
@@ -1674,6 +1673,9 @@
                             //once engaged reset score and timer for first time engagement
                             adjustIntervalScoreFn('clear');
                             adjustIntervalScoreFn();
+                        }
+                        if (!triviaStarted) {
+                            updatePayload('send');
                         }
                         triviaStarted = true;
 
