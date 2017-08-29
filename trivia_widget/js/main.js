@@ -1514,9 +1514,8 @@
                 var viewTest,
                     createTimer;
 
-                var payloadTimer = 3000, // (ms) Initial payload timer 0.5 seconds
-                    payloadLimit = 5000,
-                    payloadTempTimer = 0; // (ms) Initial payload limit 10 seconds
+                var payloadTimer = 3000, // (ms) Initial payload timer 3 seconds
+                    payloadTempTimer = 0;
 
                 // if (!window.document.getElementById('viewTest')) {
                 //     viewTest = window.document.createElement('div');
