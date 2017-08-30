@@ -221,7 +221,6 @@ gameloop.prototype = {
     },
 
     resetGameState: function () {
-
         // Clear all of our groups.
         topPlatforms.forEachAlive(function (platform) {
             platform.kill();
@@ -396,7 +395,47 @@ gameloop.prototype = {
 
     },
 
+    iglooEvent: function(query){
+      try {
+          var baseEvent = query.event;
+          baseEvent.event = "widget-interaction";
+          var postObject = {
+              snt_data: baseEvent,
+              action: 'snt_tracker'
+          };
+          //create event listeners
+          this.sendPostMessageToIgloo(postObject, 5);
+      } catch (e) {
+          console.log("Not currently hosted inside igloo... disabling analytics");
+      }
+    },
+
+    sendPostMessageToIgloo: function(postObject, maxLoops) {
+        // Initialize variables
+        var postWindows = [window];
+        var currentWindow = window;
+        var currentLoop = 0;
+        maxLoops = typeof maxLoops === 'undefined' ? 10 : maxLoops;
+        // Build all of the windows to send the message to igloo
+        try {
+            // Loop through all of the windows
+            while (currentLoop++ < maxLoops && currentWindow !== window.top) {
+                // Move up a layer
+                currentWindow = currentWindow.parent;
+                // Add to the postMessage array
+                postWindows.push(currentWindow);
+            }
+        } catch (e) {}
+
+        // Send the post messages
+        for (var i = 0; i < postWindows.length; i++) {
+            postWindows[i].postMessage(postObject, '*');
+        }
+    },
+
     revivePlayer: function () {
+        //send igloo event to swap ads here
+        this.iglooEvent(query);
         playerHasClickedYet = false;
         player.reset(20, 215);
     },
@@ -408,14 +447,12 @@ gameloop.prototype = {
     },
 
     createInitialObstacles: function () {
-
         var ledge = botPlatforms.create(game.world.width, 0, 'obstacle-bottom-1');
         ledge.width = 70;
         ledge.height = 195;
         ledge.body.immovable = true;
         ledge.ltype = 'bottom';
         ledge.kill();
-
         ledge = botPlatforms.create(game.world.width, 0, 'obstacle-bottom-2');
         // Adjust for the smokestack, let's push the colision body down
         ledge.body.setSize(130, 300, 0, 55);
