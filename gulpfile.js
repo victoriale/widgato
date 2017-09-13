@@ -198,14 +198,65 @@ gulp.task('trivia-scripts', ['trivia-clean','trivia-html', 'trivia-css', 'trivia
 gulp.task('trivia-uglify', ['trivia-clean','trivia-scripts'],function() {
     gulp.src('trivia_widget/main.import.js')
         .pipe(uglify({
-          output: {
-            max_line_len: 200000
-          }
+            output: {
+                max_line_len: 200000
+            }
         }))
         .pipe(concat('main.min.js'))
         .pipe(gulp.dest('trivia_widget/min'))
 });
 
 gulp.task('trivia', ['trivia-clean','trivia-uglify'], function() {
+    // place code for your default task here
+});
+
+
+/*******************************SLIDER TASK**************************/
+gulp.task('slider-clean', function() {
+    return gulp
+        .src('slider/min/*', {read: false})
+        .pipe(clean({force: true}))
+});
+
+gulp.task('slider-html', ['slider-clean'], function() {
+    return gulp
+        .src(['slider/index.html'])
+        .pipe(htmlmin({
+            collapseWhitespace: true,
+            quoteCharacter:"'"
+        }))
+        .pipe(concat('index.min.html'))
+        .pipe(gulp.dest('slider/min'));
+});
+
+gulp.task('slider-css', ['slider-clean'], function() {
+    return gulp
+        .src(['slider/slider.css'])
+        .pipe(concatCss('slider.min.css'))
+        .pipe(cleanCSS())
+        .pipe(gulp.dest('slider/min'));
+});
+
+gulp.task('slider-scripts', ['slider-clean','slider-html', 'slider-css'],function() {
+    return gulp.src('slider/js/main.js')
+        .pipe(inject({
+            basepath: 'slider',
+        }))
+        .pipe(concat('main.import.js'))
+        .pipe(gulp.dest('slider'));
+});
+
+gulp.task('slider-uglify', ['slider-clean','slider-scripts'],function() {
+    gulp.src('slider/main.import.js')
+        .pipe(uglify({
+            output: {
+                max_line_len: 200000
+            }
+        }))
+        .pipe(concat('main.min.js'))
+        .pipe(gulp.dest('slider/min'))
+});
+
+gulp.task('slider', ['slider-clean','slider-uglify'], function() {
     // place code for your default task here
 });
