@@ -1,0 +1,178 @@
+
+.dw-widget {
+  width: 300px;
+  height: auto;
+  background-color: transparent;
+  position: relative;
+  margin: 0 auto;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Open Sans', sans-serif;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.dw-widget a {
+  text-decoration: none;
+  outline: 0;
+  cursor: pointer;
+}
+
+.dw-widget a:hover {
+  text-decoration: none;
+}
+
+
+
+.widget-sixteen-nine {
+  position: relative;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 100%;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.widget-sixteen-nine:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+.widget-sixteen-nine>img {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 100%;
+}
+
+.widget-sixteen-nine>img:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+.widget-main-art {
+  height: 350px;
+  box-shadow: 0 0 0 1px #b7b7b7 inset;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  position:relative;
+}
+
+.widget-main-nav {
+  color: #005baf;
+  display: inline-block;
+  font-size: 24px;
+  text-align: center;
+  width: 100%;
+}
+
+.widget-main-thumb {
+  align-items: center;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  padding-top: 20px;
+}
+
+.widget-main-car {
+  -webkit-flex: 0 0 83.33333%;
+  -ms-flex: 0 0 83.33333%;
+  flex: 0 0 83.33333%;
+  max-width: 83.33333%;
+}
+
+.widget-main-title {
+  color: #333;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+  margin: 8px 25px;
+  overflow: hidden;
+}
+
+.widget-main-teaser {
+  color: #333;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 22px;
+  margin: 0 25px 14px 25px;
+  overflow: hidden;
+}
+
+.widget-mainTextUrl{
+  position: absolute;
+  bottom:15px;
+  right:15px;
+}
+
+.widget-main-btn {
+  color: #fff;
+  border-radius: 4px;
+  display: inline-block;
+  float: right;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 28px;
+  padding: 0 16px 0 16px;
+  background: #3879CD;
+  /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#3879CD, #005CB0);
+  /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#3879CD, #005CB0);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#3879CD, #005CB0);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#3879CD, #005CB0);
+  /* Standard syntax */
+}
+
+.widget-main-btn:hover {
+  background: #3879CD;
+  /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#3879CD, #3879CD);
+  /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#3879CD, #3879CD);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#3879CD, #3879CD);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#3879CD, #3879CD);
+  /* Standard syntax */
+}
+
+.widget-main-ad {
+  align-items: flex-end;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+}
+
+.widget-main-ad-txt {
+  color: #ccc;
+  font-size: 10px;
+  padding: 5px 10px 0 0;
+  text-decoration: none;
+}
+
+.adSpot {
+  background: #d3d3d3;
+  width: 300px;
+  height: 250px;
+}

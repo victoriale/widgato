@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background: linear-gradient(to right, #1e3b6f 0, #2989d8 25%, #207cca 75%, #1e3b6f 100%);
+}
+
+.test_site {
+  max-width: 1280px;
+  display: flex;
+  flex-flow: row nowrap;
+  margin: auto;
+  box-sizing: border-box;
+  background-color: #ffffff;
+}
+
+.main-content {
+  width: 100%;
+  padding: 0 20px;
+  text-align: justify;
+  box-sizing: border-box;
+}
+
+.main-img {
+  width: 100%;
+  height: 0px;
+  padding-top: 56.25%;
+  position: relative;
+  background-image: url("https://i.pinimg.com/736x/da/32/00/da3200028bcab94ac98d50111bf2c208--know-your-meme-rick-and-morty.jpg");
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+
+.side-content {
+  width: 340px;
+  max-width: 340px;
+  min-width: 340px;
+  padding: 20px 20px 0;
+  flex: none;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1080px) {
+  .side-content {
+    display: none;
+  }
+}

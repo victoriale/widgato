@@ -1,0 +1,180 @@
+.dw-trending {
+  background-color: #fff;
+  height: auto;
+  margin: 0 auto;
+  position: relative;
+  width: 600px;
+  /*fixed width for kbb*/
+  font-family: 'Open Sans', sans-serif;
+  box-sizing: border-box;
+  text-align: left;
+}
+
+.dw-trending div {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.dw-trending a {
+  text-decoration: none;
+  outline: 0;
+  cursor: pointer;
+}
+
+.dw-trending a:hover {
+  text-decoration: none;
+}
+
+.dw-trending i {
+  font-style: normal;
+  margin-left: 5px;
+  font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  vertical-align: top;
+}
+
+.trending-sixteen-nine {
+  position: relative;
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 41.666667%;
+  -ms-flex: 0 0 41.666667%;
+  flex: 0 0 41.666667%;
+  max-width: 41.666667%;
+  overflow: hidden;
+}
+
+.trending-sixteen-nine:before {
+  display: block;
+  content: "";
+  width: 100%;
+  padding-top: 56.25%;
+}
+
+.trending-sixteen-nine>img {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 100%;
+}
+
+.headline {
+  font-weight: 700;
+  font-size: 28px;
+  color: #333;
+  line-height: 32px;
+  margin-bottom: 10px;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dw-trend {
+  width: 100%;
+  height: auto;
+}
+
+
+.dw-trend-arList {
+  border-bottom: 1px solid #ccc;
+  margin-top: 20px;
+  padding-bottom: 20px;
+  height:200px;
+}
+
+.dw-trend-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height:150px;
+}
+
+.dw-trend-ar {
+  -webkit-box-flex: 0;
+  -webkit-flex: 0 0 58.333333%;
+  -ms-flex: 0 0 58.333333%;
+  flex: 0 0 58.333333%;
+  color: #333;
+  max-width: 58.333333%;
+  padding-left: 15px;
+  width: 100%;
+}
+
+.dw-trend-arList:first-child {
+  margin-top: 0;
+}
+
+.dw-trend-ar-title {
+  color: #333;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 22px;
+  display:block;
+}
+
+.dw-trend-ar-title:hover {
+  color: #005cb0;
+}
+
+.dw-trend-ar-posted {
+  color: #7e8b98;
+  font-size: 11px;
+  font-weight: normal;
+  line-height: 14px;
+  margin-bottom: 5px;
+}
+
+.dw-trend-ar-teaser {
+  color: #333;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 18px;
+  margin-bottom: 12px;
+}
+
+.dw-trend-btn{
+  width:100%;
+  display:inline-block;
+}
+
+.dw-trend-ar-btn {
+  background: #fff;
+  /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#fff, #edf3f9);
+  /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#fff, #edf3f9);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#fff, #edf3f9);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#fff, #edf3f9);
+  /* Standard syntax */
+  border: 1px solid #bec8d3;
+  border-radius: 4px;
+  color: #005cb0;
+  line-height: 28px;
+  float: right;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 0 16px 0 16px;
+  text-decoration: none;
+}
+
+.dw-trend-ar-btn:hover {
+  background-color: #f4f4f4;
+  background: -webkit-linear-gradient(#f4f4f4, #e1e1e1);
+  /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#f4f4f4, #e1e1e1);
+  /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#f4f4f4, #e1e1e1);
+  /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#f4f4f4, #e1e1e1);
+  /* Standard syntax */
+}
+
+.disabled-button {
+  opacity: 0.3;
+  pointer-events: none;
+}
